@@ -9,7 +9,7 @@ namespace Hardware
     public interface IChannel
     {
         /// <summary>
-        /// The value of the <see cref="IChannel"/>
+        /// The <see cref="IChannel"/> code
         /// </summary>
         double Value
         { 
