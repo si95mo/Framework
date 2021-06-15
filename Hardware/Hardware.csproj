@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Channel.cs" />
     <Compile Include="IChannel.cs" />
     <Compile Include="IResource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

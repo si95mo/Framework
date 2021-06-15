@@ -11,7 +11,7 @@ namespace Hardware
         /// <summary>
         /// The <see cref="IChannel"/> code
         /// </summary>
-        double Value
+        object Value
         { 
             get; 
             set; 
