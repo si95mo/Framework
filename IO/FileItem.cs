@@ -14,7 +14,7 @@ namespace IO
         public string Key { get; set; }
 
         /// <summary>
-        /// value feature, file icon
+        /// Value feature, file icon
         /// </summary>
         public Image Value { get; set; }
     }
