@@ -1,0 +1,78 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Core
+{
+    class Failure : IFailure
+    {
+        private string description;
+        private DateTime timestamp;
+
+        /// <summary>
+        /// The <see cref="Failure"/> description
+        /// </summary>
+        public string Description
+        {
+            get => description;
+            set => description = value;
+        }
+
+        /// <summary>
+        /// The <see cref="Failure"/> timestamp
+        /// </summary>
+        public DateTime Timestamp
+        {
+            get => timestamp;
+            set => timestamp = value;
+        }
+
+        /// <summary>
+        /// Create a new instance of <see cref="Failure"/>
+        /// </summary>
+        public Failure()
+        {
+            description = "";
+            timestamp = new DateTime();
+        }
+
+        /// <summary>
+        /// Create a new instance of <see cref="Failure"/>
+        /// </summary>
+        /// <param name="description">The description</param>
+        /// <param name="timestamp">The timestamp</param>
+        public Failure(string description, DateTime timestamp)
+        {
+            this.description = description;
+            this.timestamp = timestamp;
+        }
+
+        /// <summary>
+        /// Create a new instance of <see cref="Failure"/>
+        /// </summary>
+        /// <param name="description">The description</param>
+        public Failure(string description) : this(description, DateTime.Now)
+        { }
+
+        public void Clear()
+        {
+            description = "";
+            timestamp = new DateTime();
+        }
+
+        /// <summary>
+        /// Return a description of the object
+        /// See also <see cref="object.ToString()"/>
+        /// </summary>
+        /// <returns>The description of the object</returns>
+        override
+        public string ToString()
+        {
+            string description = $"{timestamp.ToString("yyyy/MM/dd-HH:mm:ss:fff")}; {this.description}";
+
+            return description;
+        }
+    }
+}
