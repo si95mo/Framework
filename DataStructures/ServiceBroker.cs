@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace DataStructures
 {
-    interface IBag<TKey, TValue> : IDictionary<TKey, TValue>
+    class ServiceBroker
     {
-
     }
 }
