@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -45,6 +46,12 @@ namespace Hardware
         /// The <see cref="IResource"/> status
         /// </summary>
         ResourceStatus Status
+        { get; }
+
+        /// <summary>
+        /// The last <see cref="IFailure"/>
+        /// </summary>
+        IFailure LastFailure
         { get; }
 
         /// <summary>
