@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hardware", "Hardware\Hardwa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructures", "DataStructures\DataStructures.csproj", "{1967AA9E-7FB5-4B63-AD7B-8394D65B6E8F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hardware.Serial", "Hardware.Serial\Hardware.Serial.csproj", "{2DD453BC-D187-4023-9222-48DDF02BA689}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{1967AA9E-7FB5-4B63-AD7B-8394D65B6E8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1967AA9E-7FB5-4B63-AD7B-8394D65B6E8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1967AA9E-7FB5-4B63-AD7B-8394D65B6E8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DD453BC-D187-4023-9222-48DDF02BA689}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DD453BC-D187-4023-9222-48DDF02BA689}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DD453BC-D187-4023-9222-48DDF02BA689}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DD453BC-D187-4023-9222-48DDF02BA689}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
