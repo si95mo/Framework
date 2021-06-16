@@ -62,14 +62,14 @@ namespace Hardware.Resources
         /// <param name="e">The <see cref="SerialErrorReceivedEventArgs"/></param>
         private void SerialResource_ErrorReceived(object sender, SerialErrorReceivedEventArgs e)
         {
-            status = ResourceStatus.FAILURE;
+            status = ResourceStatus.Failure;
 
             SerialError error = e.EventType;
            
             failure.Description = error.ToString();
             failure.Timestamp = DateTime.Now;
 
-            Logger.Log(failure.Description, SeverityType.DEBUG);
+            Logger.Log(failure.Description, SeverityType.Debug);
         }
 
         /// <summary>
@@ -79,11 +79,11 @@ namespace Hardware.Resources
         {
             failure.Clear();
 
-            status = ResourceStatus.STARTING;
+            status = ResourceStatus.Starting;
             Open();
-            status = IsOpen ? ResourceStatus.EXECUTING : ResourceStatus.FAILURE;
+            status = IsOpen ? ResourceStatus.Executing : ResourceStatus.Failure;
 
-            if (status == ResourceStatus.FAILURE)
+            if (status == ResourceStatus.Failure)
                 failure = new Failure("Error occurred while opening the port!", DateTime.Now);
         }
 
@@ -92,11 +92,11 @@ namespace Hardware.Resources
         /// </summary>
         public void Stop()
         {
-            status = ResourceStatus.STOPPING;
+            status = ResourceStatus.Stopping;
             Close();
-            status = !IsOpen ? ResourceStatus.STOPPED : ResourceStatus.FAILURE;
+            status = !IsOpen ? ResourceStatus.Stopped : ResourceStatus.Failure;
 
-            if (status == ResourceStatus.FAILURE)
+            if (status == ResourceStatus.Failure)
                 failure = new Failure("Error occurred while closing the port!", DateTime.Now);
         }
 

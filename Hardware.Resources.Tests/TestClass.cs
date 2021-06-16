@@ -19,7 +19,7 @@ namespace Hardware.Resources.Tests
             resource.Start();
 
             resource.IsOpen.Should().BeTrue();
-            resource.Status.Should().Be(ResourceStatus.EXECUTING);
+            resource.Status.Should().Be(ResourceStatus.Executing);
         }
 
         [OneTimeTearDown]
@@ -28,7 +28,7 @@ namespace Hardware.Resources.Tests
             resource.Stop();
 
             resource.IsOpen.Should().BeFalse();
-            resource.Status.Should().Be(ResourceStatus.STOPPED);
+            resource.Status.Should().Be(ResourceStatus.Stopped);
         }
 
         [Test]
@@ -38,7 +38,7 @@ namespace Hardware.Resources.Tests
         {
             resource.Send(message);
 
-            resource.Status.Should().Be(ResourceStatus.EXECUTING);
+            resource.Status.Should().Be(ResourceStatus.Executing);
         }
     }
 }

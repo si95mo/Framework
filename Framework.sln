@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31402.337
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hardware", "Hardware\Hardware.csproj", "{C0F5ECDE-B7AD-42B3-ACF8-D5486B0E4C44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructures", "DataStructures\DataStructures.csproj", "{1967AA9E-7FB5-4B63-AD7B-8394D65B6E8F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.DataStructures", "Core.DataStructures\Core.DataStructures.csproj", "{1967AA9E-7FB5-4B63-AD7B-8394D65B6E8F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hardware.Resources", "Hardware.Resources\Hardware.Resources.csproj", "{2DD453BC-D187-4023-9222-48DDF02BA689}"
 EndProject
@@ -18,6 +18,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hadware.Tests", "Hadware.Tests\Hadware.Tests.csproj", "{99A5662C-2D88-40D4-A8CC-FDFA65964AFF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hardware.Resources.Tests", "Hardware.Resources.Tests\Hardware.Resources.Tests.csproj", "{5F25ACCA-8DA7-4F88-B326-8FC931E23E85}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Threading", "Core.Threading\Core.Threading.csproj", "{E5630A9F-E4FA-477E-9821-8565812E2C6F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{5F25ACCA-8DA7-4F88-B326-8FC931E23E85}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F25ACCA-8DA7-4F88-B326-8FC931E23E85}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F25ACCA-8DA7-4F88-B326-8FC931E23E85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5630A9F-E4FA-477E-9821-8565812E2C6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5630A9F-E4FA-477E-9821-8565812E2C6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5630A9F-E4FA-477E-9821-8565812E2C6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5630A9F-E4FA-477E-9821-8565812E2C6F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

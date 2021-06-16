@@ -17,19 +17,19 @@ namespace Diagnostic
         /// <summary>
         /// An info type entry
         /// </summary>
-        INFO,
+        Info = 0,
         /// <summary>
         /// A debug type entry
         /// </summary>
-        DEBUG,
+        Debug = 1,
         /// <summary>
         /// A warn type entry
         /// </summary>
-        WARN,
+        Warn = 2,
         /// <summary>
         /// An error type entry
         /// </summary>
-        ERROR
+        Error = 3
     }
 
     /// <summary>
@@ -256,7 +256,7 @@ namespace Diagnostic
                 int line = frame.GetFileLineNumber();
 
                 var entry = CreateEntry(
-                    SeverityType.ERROR, 
+                    SeverityType.Error, 
                     $"{source} - {type} on line {line}", 
                     message, 
                     stackTrace
@@ -272,7 +272,7 @@ namespace Diagnostic
         /// </summary>
         /// <param name="text"> The text to append </param>
         private static void AppendText(string text)
-            => Save(text, path, MODE.APPEND);
+            => Save(text, path, MODE.Append);
 
         /// <summary>
         /// Append a tuple to the log file as
@@ -318,16 +318,16 @@ namespace Diagnostic
 
             switch (severity)
             {
-                case SeverityType.DEBUG:
+                case SeverityType.Debug:
                     severityAsString = "DEBUG";
                     break;
-                case SeverityType.ERROR:
+                case SeverityType.Error:
                     severityAsString = "ERROR";
                     break;
-                case SeverityType.INFO:
+                case SeverityType.Info:
                     severityAsString = "INFO "; // Five letters for align!
                     break;
-                case SeverityType.WARN:
+                case SeverityType.Warn:
                     severityAsString = "WARN "; // Five letters for align!
                     break;
             }

@@ -60,7 +60,7 @@ namespace Hardware.Resources
 
             tcp = new TcpClient();
 
-            status = ResourceStatus.STOPPED;
+            status = ResourceStatus.Stopped;
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Hardware.Resources
 
             tcp = new TcpClient();
 
-            status = ResourceStatus.STOPPED;
+            status = ResourceStatus.Stopped;
         }
 
         /// <summary>
@@ -128,11 +128,11 @@ namespace Hardware.Resources
         {
             failure.Clear();
 
-            status = ResourceStatus.STARTING;
+            status = ResourceStatus.Starting;
             tcp.Connect(ipAddress, port);
-            status = IsOpen ? ResourceStatus.EXECUTING : ResourceStatus.FAILURE;
+            status = IsOpen ? ResourceStatus.Executing : ResourceStatus.Failure;
 
-            if (status == ResourceStatus.FAILURE)
+            if (status == ResourceStatus.Failure)
                 failure = new Failure("Error occurred while opening the port!", DateTime.Now);
         }
 
@@ -141,11 +141,11 @@ namespace Hardware.Resources
         /// </summary>
         public void Stop()
         {
-            status = ResourceStatus.STOPPING;
+            status = ResourceStatus.Stopping;
             tcp.Close();
-            status = !IsOpen ? ResourceStatus.STOPPED : ResourceStatus.FAILURE;
+            status = !IsOpen ? ResourceStatus.Stopped : ResourceStatus.Failure;
 
-            if (status == ResourceStatus.FAILURE)
+            if (status == ResourceStatus.Failure)
                 failure = new Failure("Error occurred while closing the port!", DateTime.Now);
         }
     }

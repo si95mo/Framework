@@ -15,23 +15,23 @@ namespace Hardware
         /// <summary>
         /// The <see cref="IResource"/> is stopped
         /// </summary>
-        STOPPED,
+        Stopped = 0,
         /// <summary>
         /// The <see cref="IResource"/> is starting
         /// </summary>
-        STARTING,
+        Starting = 1,
         /// <summary>
         /// The <see cref="IResource"/> is executing
         /// </summary>
-        EXECUTING,
+        Executing = 2,
         /// <summary>
         /// The <see cref="IResource"/> is stopping
         /// </summary>
-        STOPPING,
+        Stopping = 3,
         /// <summary>
         /// The <see cref="IResource"/> is in failure
         /// </summary>
-        FAILURE
+        Failure = 5
     }
 
     /// <summary>

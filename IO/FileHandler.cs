@@ -21,11 +21,11 @@ namespace IO
             /// <summary>
             /// Specify the overwrite mode for writing
             /// </summary>
-            OVERWRITE,
+            Overwrite = 0,
             /// <summary>
             /// Specify the append mode for writing
             /// </summary>
-            APPEND
+            Append = 1
         };
 
         protected static StreamWriter sw;
@@ -37,19 +37,19 @@ namespace IO
         /// <param name="text"> The text to be saved </param>
         /// <param name="path"> Path to the file </param>
         /// <param name="mode"> Write mode, overwrite or append <see cref="MODE"/></param>
-        public static void Save(string text, string path, MODE mode = MODE.OVERWRITE)
+        public static void Save(string text, string path, MODE mode = MODE.Overwrite)
         {
             try
             {
                 switch (mode)
                 {
-                    case MODE.OVERWRITE:
+                    case MODE.Overwrite:
                         using (sw = File.CreateText(path))
                         {
                             sw.WriteLine(text);
                         }
                         break;
-                    case MODE.APPEND:
+                    case MODE.Append:
                         using (sw = File.AppendText(path))
                         {
                             sw.WriteLine(text);
