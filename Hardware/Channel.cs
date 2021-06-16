@@ -33,30 +33,43 @@ namespace Hardware
         }
     }
 
-    public abstract class Channel : IChannel
+    /// <summary>
+    /// Describe a generic channel.
+    /// See also <see cref="IChannel{T}"/>
+    /// </summary>
+    /// <typeparam name="T">The type of the <see cref="Channel{T}"/></typeparam>
+    public abstract class Channel<T> : IChannel<T>
     {
-        protected object value;
-        protected List<IChannel> subscribedChannels;
+        protected string code;
+        protected T value;
+        protected List<IChannel<T>> subscribedChannels;
 
         /// <summary>
         /// Initialize the class attributes with 
         /// default parameters
         /// </summary>
-        protected Channel()
+        protected Channel(string code)
         {
-            subscribedChannels = new List<IChannel>();
+            this.code = code;
+
+            subscribedChannels = new List<IChannel<T>>();
             ValueChanged += PropagateValues;
         }
 
         /// <summary>
+        /// The <see cref="Channel"/> code
+        /// </summary>
+        public string Code => Code;
+
+        /// <summary>
         /// The <see cref="Channel"/> value
         /// </summary>
-        public object Value 
+        public virtual T Value
         {
             get => value;
             set
             {
-                if (value != this.value)
+                if (!value.Equals(this.value))
                 {
                     object oldValue = this.value;
                     this.value = value;
@@ -71,6 +84,10 @@ namespace Hardware
         /// </summary>
         public event EventHandler<ValueChangedEventArgs> ValueChanged;
 
+        /// <summary>
+        /// On value changed event
+        /// </summary>
+        /// <param name="e">The <see cref="ValueChangedEventArgs"/></param>
         protected virtual void OnValueChanged(ValueChangedEventArgs e)
         {
             if (ValueChanged != null)
@@ -82,8 +99,11 @@ namespace Hardware
         /// in order to propagate its value;
         /// </summary>
         /// <param name="channel">The destination <see cref="IChannel"/></param>
-        public void ConnectTo(IChannel channel)
-            => subscribedChannels.Add(channel);
+        public void ConnectTo(IChannel<T> channel)
+        {
+            channel.Value = value;
+            subscribedChannels.Add(channel);
+        }
 
         /// <summary>
         /// <see cref="ValueChanged"/> event handler that manages

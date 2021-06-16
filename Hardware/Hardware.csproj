@@ -41,6 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DigitalInput.cs" />
+    <Compile Include="AnalogInput.cs" />
+    <Compile Include="DigitalOutput.cs" />
+    <Compile Include="AnalogOutput.cs" />
     <Compile Include="Channel.cs" />
     <Compile Include="IChannel.cs" />
     <Compile Include="IResource.cs" />

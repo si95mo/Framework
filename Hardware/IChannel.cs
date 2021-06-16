@@ -6,12 +6,20 @@ using System.Threading.Tasks;
 
 namespace Hardware
 {
-    public interface IChannel
+    public interface IChannel<T>
     {
         /// <summary>
         /// The <see cref="IChannel"/> code
         /// </summary>
-        object Value
+        string Code
+        {
+            get;
+        }
+
+        /// <summary>
+        /// The <see cref="IChannel"/> code
+        /// </summary>
+        T Value
         { 
             get; 
             set; 
@@ -22,6 +30,6 @@ namespace Hardware
         /// in order to propagate its value;
         /// </summary>
         /// <param name="channel">The destination <see cref="IChannel"/></param>
-        void ConnectTo(IChannel channel);
+        void ConnectTo(IChannel<T> channel);
     }
 }
