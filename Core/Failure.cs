@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Core
 {
-    class Failure : IFailure
+    /// <summary>
+    /// Describve a generic failure.
+    /// See also <see cref="IFailure"/>
+    /// </summary>
+    public class Failure : IFailure
     {
         private string description;
         private DateTime timestamp;
@@ -56,6 +60,10 @@ namespace Core
         public Failure(string description) : this(description, DateTime.Now)
         { }
 
+        /// <summary>
+        /// Clear the <see cref="Failure"/>, 
+        /// resetting it to default values
+        /// </summary>
         public void Clear()
         {
             description = "";

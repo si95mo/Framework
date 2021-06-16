@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Core
 {
+    /// <summary>
+    /// Interface that describe a generic failure.
+    /// </summary>
     public interface IFailure
     {
         /// <summary>
@@ -20,6 +23,10 @@ namespace Core
         DateTime Timestamp
         { get; set; }
 
+        /// <summary>
+        /// Clear the <see cref="IFailure"/>, 
+        /// resetting it to default values
+        /// </summary>
         void Clear();
     }
 }
