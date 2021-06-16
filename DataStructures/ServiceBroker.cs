@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace DataStructures
 {
+    /// <summary>
+    /// Implements a service broker
+    /// </summary>
     public class ServiceBroker
     {
         private static Dictionary<string, IResource> resources;
