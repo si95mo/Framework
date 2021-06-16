@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Diagnostic")]
-[assembly: AssemblyDescription("Contain classes to diagnose the state of the application")]
+[assembly: AssemblyTitle("Core.Threading")]
+[assembly: AssemblyDescription("Contains threading-related classes, along with associated functionalities")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("HP Inc.")]
-[assembly: AssemblyProduct("Diagnostic")]
+[assembly: AssemblyProduct("Core.Threading")]
 [assembly: AssemblyCopyright("Copyright © HP Inc. 2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("7deb54d9-b9f1-4b05-8d81-d7b4f77631d1")]
+[assembly: Guid("e5630a9f-e4fa-477e-9821-8565812e2c6f")]
 
 // Version information for an assembly consists of the following four values:
 //
