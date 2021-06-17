@@ -55,6 +55,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Core.DataStructures\Core.DataStructures.csproj">
+      <Project>{1967AA9E-7FB5-4B63-AD7B-8394D65B6E8F}</Project>
+      <Name>Core.DataStructures</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{75dfacf6-e820-4e3f-83d5-1e21fbc92385}</Project>
       <Name>Core</Name>

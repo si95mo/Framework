@@ -47,6 +47,14 @@ namespace Hardware
         /// Initialize the class attributes with 
         /// default parameters
         /// </summary>
+        protected Channel() : this(Guid.NewGuid().ToString())
+        { }
+
+        /// <summary>
+        /// Initialize the class attributes with 
+        /// default parameters
+        /// </summary>
+        /// <param name="code">The code</param>
         protected Channel(string code)
         {
             this.code = code;

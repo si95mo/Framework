@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.DataStructures;
 
 namespace Hardware
 {
@@ -38,6 +39,9 @@ namespace Hardware
         /// The <see cref="IResource"/> operating state
         /// </summary>
         bool IsOpen
+        { get; }
+
+        Bag<IChannel> Channels
         { get; }
 
         /// <summary>

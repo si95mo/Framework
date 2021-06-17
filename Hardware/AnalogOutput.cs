@@ -8,9 +8,6 @@ namespace Hardware
     /// </summary>
     public class AnalogOutput : Channel<double>, IAnalogOutput
     {
-        private string measureUnit;
-        private string format;
-
         /// <summary>
         /// The <see cref="AnalogInput"/> value;
         /// </summary>
