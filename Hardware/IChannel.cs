@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,16 +7,8 @@ using System.Threading.Tasks;
 
 namespace Hardware
 {
-    public interface IChannel<T>
+    public interface IChannel<T> : IProperty
     {
-        /// <summary>
-        /// The <see cref="IChannel"/> code
-        /// </summary>
-        string Code
-        {
-            get;
-        }
-
         /// <summary>
         /// The <see cref="IChannel"/> code
         /// </summary>
