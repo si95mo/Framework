@@ -39,6 +39,8 @@ namespace Hardware
     {
         protected string code;
         protected T value;
+        protected string measureUnit;
+        protected string format;
         protected List<IChannel<T>> subscribedChannels;
 
         /// <summary>
@@ -73,6 +75,17 @@ namespace Hardware
                     OnValueChanged(new ValueChangedEventArgs(oldValue, this.value));
                 }
             }
+        }
+
+        public string MeasureUnit 
+        { 
+            get => measureUnit; 
+            set => measureUnit = value; 
+        }
+        public string Format 
+        {
+            get => format; 
+            set => format = value; 
         }
 
         /// <summary>

@@ -4,9 +4,10 @@ namespace Hardware
 {
     /// <summary>
     /// Describe a generic (hardware) channel
+    /// with a defined type of value
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public interface IChannel<T> : IProperty
+    /// <typeparam name="T">The type of value</typeparam>
+    public interface IChannel<T> : IChannel
     {
         /// <summary>
         /// The <see cref="IChannel"/> code
@@ -23,5 +24,23 @@ namespace Hardware
         /// </summary>
         /// <param name="channel">The destination <see cref="IChannel"/></param>
         void ConnectTo(IChannel<T> channel);
+    }
+
+    /// <summary>
+    /// Describe a generic (hardware) channel
+    /// </summary>
+    public interface IChannel : IProperty
+    {
+        /// <summary>
+        /// The <see cref="IChannel"/> measure unit
+        /// </summary>
+        string MeasureUnit
+        { get; set; }
+
+        /// <summary>
+        /// The <see cref="IChannel"/> format
+        /// </summary>
+        string Format
+        { get; set; }
     }
 }

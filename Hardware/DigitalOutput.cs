@@ -6,7 +6,7 @@ namespace Hardware
     /// Implement a digital output channel.
     /// See also <see cref="Channel{T}"/> and <see cref="IChannel{T}"/>
     /// </summary>
-    public class DigitalOutput : Channel<bool>
+    public class DigitalOutput : Channel<bool>, IDigitalOutput
     {
         /// <summary>
         /// The <see cref="AnalogInput"/> value;

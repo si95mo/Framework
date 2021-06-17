@@ -6,7 +6,7 @@ namespace Hardware
     /// Implement an analog input channel.
     /// See also <see cref="Channel{T}"/> and <see cref="IChannel{T}"/>
     /// </summary>
-    public class AnalogOutput : Channel<double>
+    public class AnalogOutput : Channel<double>, IAnalogOutput
     {
         private string measureUnit;
         private string format;
