@@ -1,4 +1,6 @@
-﻿namespace Hardware
+﻿using System;
+
+namespace Hardware
 {
     /// <summary>
     /// Implement an analog input channel.
@@ -25,6 +27,12 @@
                 }
             }
         }
+
+        /// <summary>
+        /// Create a new instance of <see cref="AnalogOutput"/>
+        /// </summary>
+        public AnalogOutput() : this(Guid.NewGuid().ToString())
+        { }
 
         /// <summary>
         /// Create a new instance of <see cref="AnalogOutput"/>

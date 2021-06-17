@@ -1,4 +1,6 @@
-﻿namespace Hardware
+﻿using System;
+
+namespace Hardware
 {
     /// <summary>
     /// Implement a digital output channel.
@@ -22,6 +24,12 @@
                 }
             }
         }
+
+        /// <summary>
+        /// Create a new instance of <see cref="DigitalOutput"/>
+        /// </summary>
+        public DigitalOutput() : this(Guid.NewGuid().ToString())
+        { }
 
         /// <summary>
         /// Create a new instance of <see cref="DigitalOutput"/>

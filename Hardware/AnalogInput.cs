@@ -1,4 +1,6 @@
-﻿namespace Hardware
+﻿using System;
+
+namespace Hardware
 {
     /// <summary>
     /// Implement an analog input channel.
@@ -13,6 +15,12 @@
         /// The <see cref="AnalogInput"/> value;
         /// </summary>
         public override double Value => value;
+
+        /// <summary>
+        /// Create a new instance of <see cref="AnalogInput"/>
+        /// </summary>
+        public AnalogInput() : this(Guid.NewGuid().ToString())
+        { }
 
         /// <summary>
         /// Create a new instance of <see cref="AnalogInput"/>
