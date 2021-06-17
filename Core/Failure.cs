@@ -30,6 +30,11 @@ namespace Core
         }
 
         /// <summary>
+        /// The <see cref="Failure"/> default value
+        /// </summary>
+        public IFailure Default => new Failure();
+
+        /// <summary>
         /// Create a new instance of <see cref="Failure"/>
         /// </summary>
         public Failure()

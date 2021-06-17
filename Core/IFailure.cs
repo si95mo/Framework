@@ -20,6 +20,12 @@ namespace Core
         { get; set; }
 
         /// <summary>
+        /// The <see cref="IFailure"/> default value
+        /// </summary>
+        IFailure Default
+        { get; }
+
+        /// <summary>
         /// Clear the <see cref="IFailure"/>, 
         /// resetting it to default values
         /// </summary>
