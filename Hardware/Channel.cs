@@ -8,7 +8,7 @@ namespace Hardware
 {
     /// <summary>
     /// Handles the property value changed event.
-    /// See alse <see cref="EventArgs"/>
+    /// See also <see cref="EventArgs"/>
     /// </summary>
     public class ValueChangedEventArgs : EventArgs
     {
@@ -59,7 +59,7 @@ namespace Hardware
         /// <summary>
         /// The <see cref="Channel"/> code
         /// </summary>
-        public string Code => Code;
+        public string Code => code;
 
         /// <summary>
         /// The <see cref="Channel"/> value
