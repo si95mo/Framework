@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.DataStructures;
 using Diagnostic;
 using System;
 using System.IO.Ports;
@@ -12,6 +13,7 @@ namespace Hardware.Resources
     public class SerialResource : SerialPort, IResource
     {
         private string code;
+        private Bag<IChannel> channels;
         private ResourceStatus status;
         private IFailure failure;
 
@@ -19,6 +21,12 @@ namespace Hardware.Resources
         /// The <see cref="SerialResource"/> code
         /// </summary>
         public string Code => code;
+
+        /// <summary>
+        /// The <see cref="SerialResource"/> <see cref="Bag{IProperty}"/>
+        /// of <see cref="IChannel"/>
+        /// </summary>
+        public Bag<IChannel> Channels => channels;
 
         /// <summary>
         /// The <see cref="SerialResource"/> status
@@ -36,6 +44,18 @@ namespace Hardware.Resources
         public SerialResource() : base()
         {
             code = Guid.NewGuid().ToString();
+            failure = new Failure();
+
+            ErrorReceived += SerialResource_ErrorReceived;
+        }
+
+        /// <summary>
+        /// Create a new instance of <see cref="SerialResource"/>
+        /// </summary>
+        /// <param name="code">The code</param>
+        public SerialResource(string code) : base()
+        {
+            this.code = code;
             failure = new Failure();
 
             ErrorReceived += SerialResource_ErrorReceived;

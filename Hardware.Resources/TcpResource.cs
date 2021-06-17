@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.DataStructures;
 using System;
 using System.Linq;
 using System.Net.NetworkInformation;
@@ -11,11 +12,12 @@ namespace Hardware.Resources
     /// Implement a resource that communicates via the tcp protocol.
     /// See also <see cref="IResource"/>
     /// </summary>
-    class TcpResource : IResource
+    public class TcpResource : IResource
     {
         private string code;
         private ResourceStatus status;
         private IFailure failure;
+        private Bag<IChannel> channels;
 
         private string ipAddress;
         private int port;
@@ -26,6 +28,12 @@ namespace Hardware.Resources
         /// The <see cref="TcpResource"/> code
         /// </summary>
         public string Code => code;
+
+        /// <summary>
+        /// The <see cref="TcpResource"/> <see cref="Bag{IProperty}"/> of 
+        /// <see cref="IChannel"/>;
+        /// </summary>
+        public Bag<IChannel> Channels => channels;
 
         /// <summary>
         /// The <see cref="TcpResource"/> status
@@ -58,9 +66,16 @@ namespace Hardware.Resources
         /// <summary>
         /// Create a new instance of <see cref="TcpResource"/>
         /// </summary>
-        public TcpResource()
+        public TcpResource() : this(Guid.NewGuid().ToString())
+        { }
+
+        /// <summary>
+        /// Create a new instance of <see cref="TcpResource"/>
+        /// </summary>
+        /// <param name="code">The code</param>
+        public TcpResource(string code)
         {
-            code = Guid.NewGuid().ToString();
+            this.code = code;
             ipAddress = "";
             port = 0;
             failure = new Failure();
