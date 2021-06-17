@@ -2,27 +2,27 @@
 using System;
 using System.Collections.Generic;
 
-namespace DataStructures
+namespace Core.DataStructures
 {
     /// <summary>
     /// Implements a service broker
     /// </summary>
     public class ServiceBroker
     {
-        private static Dictionary<string, IResource> resources;
+        private static Bag<IResource> resources;
 
         /// <summary>
         /// The set of all the <see cref="IResource"/> subscribed
         /// to the <see cref="ServiceBroker"/>
         /// </summary>
-        public static Dictionary<string, IResource> Resources => resources;
+        public static Bag<IResource> Resources => resources;
 
         /// <summary>
         /// Initialize the <see cref="ServiceBroker"/>
         /// </summary>
         public static void Init()
         {
-            resources = new Dictionary<string, IResource>();
+            resources = new Bag<IResource>();
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace DataStructures
         public static void Add(IResource resource)
         {
             if (!resources.ContainsKey(resource.Code))
-                resources.Add(resource.Code, resource);
+                resources.Add(resource);
             else
                 throw new ArgumentException("The given key was already in the collection!");
         }
@@ -46,7 +46,7 @@ namespace DataStructures
         /// <returns>The <see cref="IResource"/> if present in the collection, <see langword="null"/> otherwise</returns>
         public static IResource Get<IResource>(string code)
         {
-            Hardware.IResource resource = null;
+            IProperty resource = null;
             resources.TryGetValue(code, out resource);
 
             return (IResource)resource;
