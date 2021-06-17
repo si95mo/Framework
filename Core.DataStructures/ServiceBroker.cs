@@ -1,5 +1,4 @@
-﻿using Hardware;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Core.DataStructures
@@ -9,47 +8,48 @@ namespace Core.DataStructures
     /// </summary>
     public class ServiceBroker
     {
-        private static Bag<IResource> resources;
-
-        /// <summary>
-        /// The set of all the <see cref="IResource"/> subscribed
-        /// to the <see cref="ServiceBroker"/>
-        /// </summary>
-        public static Bag<IResource> Resources => resources;
+        private static Bag<IProperty> subscribers;
 
         /// <summary>
         /// Initialize the <see cref="ServiceBroker"/>
         /// </summary>
         public static void Init()
         {
-            resources = new Bag<IResource>();
+            subscribers = new Bag<IProperty>();
         }
 
         /// <summary>
-        /// Add an <see cref="IResource"/> to 
-        /// the <see cref="ServiceBroker"/>
+        /// Clear the <see cref="ServiceBroker"/> collection.
         /// </summary>
-        /// <param name="resource">The <see cref="IResource"/></param>
-        public static void Add(IResource resource)
-        {
-            if (!resources.ContainsKey(resource.Code))
-                resources.Add(resource);
-            else
-                throw new ArgumentException("The given key was already in the collection!");
-        }
+        public static void Clear() => Init();
 
         /// <summary>
-        /// Get an <see cref="IResource"/> from the collection.
+        /// Add an item to the <see cref="ServiceBroker"/>
         /// </summary>
-        /// <typeparam name="IResource">The type of the item to retrieve</typeparam>
-        /// <param name="code">The <see cref="IResource"/> code to fetch</param>
-        /// <returns>The <see cref="IResource"/> if present in the collection, <see langword="null"/> otherwise</returns>
-        public static IResource Get<IResource>(string code)
-        {
-            IProperty resource = null;
-            resources.TryGetValue(code, out resource);
+        /// <typeparam name="T">The type of the item</typeparam>
+        /// <param name="item">The item to add</param>
+        /// <returns><see langword="true"/> if the item is added,
+        /// <see langword="false"/> otherwise</returns>
+        public static bool Add<T>(IProperty item) => subscribers.Add(item);
 
-            return (IResource)resource;
+        /// <summary>
+        /// Get the collection relative to the specified type
+        /// </summary>
+        /// <typeparam name="T">The type of the collection to return</typeparam>
+        /// <returns>The <see cref="Bag{T}"/> containing the item retrieved 
+        /// from the <see cref="ServiceBroker"/></returns>
+        public static Bag<T> Get<T>() where T : class
+        {
+            Bag<T> returnCollection = new Bag<T>();
+
+            var sublist = subscribers.ToList();
+            foreach(var item in sublist)
+            {
+                if (item is T)
+                    returnCollection.Add(item);
+            }
+
+            return returnCollection;
         }
     }
 }

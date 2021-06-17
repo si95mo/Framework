@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Core.DataStructures
 {
@@ -24,14 +25,14 @@ namespace Core.DataStructures
         }
     }
 
-    public class Bag<IProperty> : Dictionary<string, Core.IProperty>
+    public class Bag<T> : Dictionary<string, IProperty>
     {
         // public delegate void BagChanged(object sender, BagChangedEventArgs<T> e);
 
-        public event EventHandler<BagChangedEventArgs<Core.IProperty>> ItemAdded;
-        public event EventHandler<BagChangedEventArgs<Core.IProperty>> ItemRemoved;
+        public event EventHandler<BagChangedEventArgs<IProperty>> ItemAdded;
+        public event EventHandler<BagChangedEventArgs<IProperty>> ItemRemoved;
 
-        private Dictionary<string, Core.IProperty> set;
+        private Dictionary<string, IProperty> set;
 
         /// <summary>
         /// The number of items in the <see cref="Bag{IProperty}"/>
@@ -39,18 +40,18 @@ namespace Core.DataStructures
         public new int Count => set.Count;
 
         /// <summary>
-        /// Create a new instance of <see cref="Bag{Core.IProperty}"/>
+        /// Create a new instance of <see cref="Bag{IProperty}"/>
         /// </summary>
         public Bag()
         {
-            set = new Dictionary<string, Core.IProperty>();
+            set = new Dictionary<string, IProperty>();
         }
 
         /// <summary>
         /// On item added event
         /// </summary>
         /// <param name="e">The <see cref="BagChangedEventArgs{T}"/></param>
-        protected virtual void OnItemAdded(BagChangedEventArgs<Core.IProperty> e)
+        protected virtual void OnItemAdded(BagChangedEventArgs<IProperty> e)
         {
             if (ItemAdded != null)
                 ItemAdded(this, e);
@@ -60,7 +61,7 @@ namespace Core.DataStructures
         /// On item removed event
         /// </summary>
         /// <param name="e">The <see cref="BagChangedEventArgs{T}"/></param>
-        protected virtual void OnItemRemoved(BagChangedEventArgs<Core.IProperty> e)
+        protected virtual void OnItemRemoved(BagChangedEventArgs<IProperty> e)
         {
             if (ItemRemoved != null)
                 ItemRemoved(this, e);
@@ -68,29 +69,39 @@ namespace Core.DataStructures
 
         /// <summary>
         /// Add an item to the <see cref="Bag"/>.
-        /// See also <see cref="HashSet{T}.Add(Core.IProperty)"/>
+        /// See also <see cref="HashSet{T}.Add(IProperty)"/>
         /// </summary>
         /// <param name="item">The item to be added</param>
-        public void Add(Core.IProperty item)
+        /// <returns><see langword="true"/> if the item is added,
+        /// <see langword="false"/> otherwise</returns>
+        public bool Add(IProperty item)
         {
-            set.Add(item.Code, item);
+            bool added = false;
 
-            OnItemAdded(new BagChangedEventArgs<Core.IProperty>(item));
+            if (!set.ContainsKey(item.Code))
+            {
+                set.Add(item.Code, item);
+                added = true;
+            }
+
+            OnItemAdded(new BagChangedEventArgs<IProperty>(item));
+
+            return added;
         }
 
         /// <summary>
         /// Remove an item to the <see cref="Bag"/>.
-        /// See <see cref="Remove(Core.IProperty)"/> and also 
+        /// See <see cref="Remove(IProperty)"/> and also 
         /// <see cref="Dictionary{TKey, TValue}.Remove(TKey)"/>
         /// </summary>
         /// <param name="item">The item to be removed</param>
         /// <returns><see langword="true"/> if the item is removed,
         /// <see langword="false"/> otherwise</returns>
-        public bool Remove(Core.IProperty item) => Remove(item.Code);
+        public bool Remove(IProperty item) => Remove(item.Code);
 
         /// <summary>
         /// Remove an item to the <see cref="Bag"/> given its code.
-        /// See <see cref="Remove(Core.IProperty)"/> and also 
+        /// See <see cref="Remove(IProperty)"/> and also 
         /// <see cref="Dictionary{TKey, TValue}.Remove(TKey)"/>
         /// </summary>
         /// <param name="item">The item code to be removed</param>
@@ -98,7 +109,7 @@ namespace Core.DataStructures
         /// <see langword="false"/> otherwise</returns>
         public new bool Remove(string code)
         {
-            Core.IProperty itemRemoved = null;
+            IProperty itemRemoved = null;
 
             if (set.ContainsKey(code))
                 itemRemoved = set[code];
@@ -106,7 +117,7 @@ namespace Core.DataStructures
             bool removed = set.Remove(code);
 
             if (removed)
-                OnItemRemoved(new BagChangedEventArgs<Core.IProperty>(itemRemoved));
+                OnItemRemoved(new BagChangedEventArgs<IProperty>(itemRemoved));
 
             return removed;
         }
@@ -117,11 +128,21 @@ namespace Core.DataStructures
         /// <param name="code">The code</param>
         /// <returns>The <see cref="Core.IProperty"/> if the code is found
         ///  n the <see cref="Bag{IProperty}"/>, <see langword="null"/> otherwise</returns>
-        public Core.IProperty Get(string code)
+        public IProperty Get(string code)
         {
-            Core.IProperty item = set.ContainsKey(code) ? set[code] : null;
+            IProperty item = set.ContainsKey(code) ? set[code] : null;
 
             return item;
+        }
+
+        /// <summary>
+        /// Convert the <see cref="Bag{T}"/>
+        /// into a <see cref="List{IProperty}"/>
+        /// </summary>
+        /// <returns>The converted <see cref="List{IProperty}"/></returns>
+        public List<IProperty> ToList()
+        {
+            return set.Values.ToList();
         }
     }
 }

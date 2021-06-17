@@ -50,10 +50,6 @@
       <Project>{75dfacf6-e820-4e3f-83d5-1e21fbc92385}</Project>
       <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Hardware\Hardware.csproj">
-      <Project>{C0F5ECDE-B7AD-42B3-ACF8-D5486B0E4C44}</Project>
-      <Name>Hardware</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
