@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Hardware.Resources.Tests
 {
-    public class TestClass
+    public class SerialResourceTestClass
     {
         private SerialResource resource;
 

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Core.DataStructures.Tests
 {
-    public class TestClass
+    public class BagTestClass
     {
         private Bag<IChannel<double>> bag;
 
