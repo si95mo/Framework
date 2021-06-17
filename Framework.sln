@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Threading", "Core.Thre
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.DataStructures.Tests", "Core.DataStructures.Tests\Core.DataStructures.Tests.csproj", "{7C81EA22-4F72-4411-82A8-8CEA9FF41AB3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Devices", "Devices\Devices.csproj", "{15F9B789-4478-4B0A-9A2A-C2B78F21CF47}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{7C81EA22-4F72-4411-82A8-8CEA9FF41AB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C81EA22-4F72-4411-82A8-8CEA9FF41AB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C81EA22-4F72-4411-82A8-8CEA9FF41AB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15F9B789-4478-4B0A-9A2A-C2B78F21CF47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15F9B789-4478-4B0A-9A2A-C2B78F21CF47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15F9B789-4478-4B0A-9A2A-C2B78F21CF47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15F9B789-4478-4B0A-9A2A-C2B78F21CF47}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
