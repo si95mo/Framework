@@ -34,7 +34,12 @@ namespace Hardware.Resources
         /// Create a new instance of <see cref="SerialResource"/>
         /// </summary>
         public SerialResource() : base()
-        { }
+        {
+            code = Guid.NewGuid().ToString();
+            failure = new Failure();
+
+            ErrorReceived += SerialResource_ErrorReceived;
+        }
 
         /// <summary>
         /// Create a new instance of <see cref="SerialResource"/>
