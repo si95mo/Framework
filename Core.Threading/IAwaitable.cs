@@ -32,6 +32,9 @@ namespace Core.Threading
         Failure = 3
     }
 
+    /// <summary>
+    /// Describe an awaitable task
+    /// </summary>
     public interface IAwaitable
     {
         /// <summary>

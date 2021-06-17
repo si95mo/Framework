@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace Hardware
 {
+    /// <summary>
+    /// Describe a generic (hardware) channel
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public interface IChannel<T> : IProperty
     {
         /// <summary>
