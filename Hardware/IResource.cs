@@ -32,14 +32,8 @@ namespace Hardware
     /// <summary>
     /// Describe a generic hardware resource
     /// </summary>
-    public interface IResource
+    public interface IResource : IProperty
     {
-        /// <summary>
-        /// The <see cref="IResource"/> code
-        /// </summary>
-        string Code
-        { get; }
-
         /// <summary>
         /// The <see cref="IResource"/> operating state
         /// </summary>
