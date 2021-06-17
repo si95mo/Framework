@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="BagTestClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceBrokerTestClass.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -71,6 +72,10 @@
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{75DFACF6-E820-4E3F-83D5-1E21FBC92385}</Project>
       <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Hardware.Resources\Hardware.Resources.csproj">
+      <Project>{2DD453BC-D187-4023-9222-48DDF02BA689}</Project>
+      <Name>Hardware.Resources</Name>
     </ProjectReference>
     <ProjectReference Include="..\Hardware\Hardware.csproj">
       <Project>{C0F5ECDE-B7AD-42B3-ACF8-D5486B0E4C44}</Project>

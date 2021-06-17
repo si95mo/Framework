@@ -56,7 +56,7 @@ namespace Core.DataStructures.Tests
         [TestCase("AoSecond")]
         public void GetItem(string code)
         {
-            var channel = bag.Get(code);
+            IChannel channel = bag.Get(code) as IChannel;
 
             channel.Code.Should().Be(code);
         }
