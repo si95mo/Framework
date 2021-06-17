@@ -1,5 +1,7 @@
 ﻿using Core;
 using System;
+using System.Linq;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
 
@@ -45,15 +47,23 @@ namespace Hardware.Resources
         /// </summary>
         public string IpAddress => ipAddress;
 
+        /// <summary>
+        /// The <see cref="TcpResource"/> port number
+        /// </summary>
         public int Port => port;
+
+        IPGlobalProperties ipProperties;
+        TcpConnectionInformation[] tcpConnections;
 
         /// <summary>
         /// Create a new instance of <see cref="TcpResource"/>
         /// </summary>
         public TcpResource()
         {
+            code = Guid.NewGuid().ToString();
             ipAddress = "";
             port = 0;
+            failure = new Failure();
 
             tcp = new TcpClient();
 
@@ -65,10 +75,12 @@ namespace Hardware.Resources
         /// </summary>
         /// <param name="ipAddress">The ip address</param>
         /// <param name="port">The port number</param>
-        public TcpResource(string ipAddress, int port)
+        public TcpResource(string code, string ipAddress, int port)
         {
+            this.code = code;
             this.ipAddress = ipAddress;
             this.port = port;
+            failure = new Failure();
 
             tcp = new TcpClient();
 
@@ -124,10 +136,15 @@ namespace Hardware.Resources
         public void Start()
         {
             failure.Clear();
-
             status = ResourceStatus.Starting;
-            tcp.Connect(ipAddress, port);
-            status = IsOpen ? ResourceStatus.Executing : ResourceStatus.Failure;
+
+            if (TestConnection())
+            {
+                tcp.Connect(ipAddress, port);
+                status = ResourceStatus.Executing;
+            }
+            else
+                status = ResourceStatus.Failure;
 
             if (status == ResourceStatus.Failure)
                 failure = new Failure("Error occurred while opening the port!", DateTime.Now);
@@ -139,11 +156,46 @@ namespace Hardware.Resources
         public void Stop()
         {
             status = ResourceStatus.Stopping;
-            tcp.Close();
-            status = !IsOpen ? ResourceStatus.Stopped : ResourceStatus.Failure;
+
+            if (TestConnection())
+            {
+                tcp.Close();
+                status = ResourceStatus.Stopped;
+            }
+            else
+                status = ResourceStatus.Failure;
 
             if (status == ResourceStatus.Failure)
                 failure = new Failure("Error occurred while closing the port!", DateTime.Now);
+        }
+
+        /// <summary>
+        /// Test for active tcp connection ad the 
+        /// specified <see cref="IpAddress"/> and 
+        /// <see cref="Port"/>
+        /// </summary>
+        /// <returns><see langword="true"/> if there is an active connection,
+        /// <see langword="false"/> otherwise</returns>
+        private bool TestConnection()
+        {
+            bool result = false;
+
+            ipProperties = IPGlobalProperties.GetIPGlobalProperties();
+            tcpConnections = ipProperties.GetActiveTcpConnections().Where(
+                x =>
+                    x.LocalEndPoint.Equals(tcp.Client.LocalEndPoint) &&
+                    x.RemoteEndPoint.Equals(tcp.Client.RemoteEndPoint)
+            ).ToArray();
+
+            if (tcpConnections != null && tcpConnections.Length > 0)
+            {
+                TcpState stateOfConnection = tcpConnections.First().State;
+
+                if (stateOfConnection == TcpState.Established)
+                    result = true;
+            }
+
+            return result;
         }
     }
 }
