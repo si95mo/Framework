@@ -53,10 +53,10 @@ namespace Diagnostic
         /// <summary>
         /// Initialize the logger.
         /// </summary>
-        /// <param name="logPath"> The path of the log file </param>
+        /// <param name="logPath">The path of the log file </param>
         /// <param name="timeSpanAsDays"> The number of daily logs to keep saved.
         /// If the parameter value is equal to -1 no log file will be deleted (i.e. all
-        /// the logs will be kept saved in the disk). </param>
+        /// the logs will be kept saved in the disk).</param>
         public static void Init(string logPath = "logs\\", int timeSpanAsDays = -1)
         {
             string now = DateTime.Now.ToString("yyyy-MM-dd");
@@ -122,8 +122,8 @@ namespace Diagnostic
         /// <summary>
         /// Deletes old log files saved in disk
         /// </summary>
-        /// <param name="timeSpanAsDays"> The time span of file that has to be keep saved </param>
-        /// <param name="files"> The <see cref="string"/> array containing the log files path </param>
+        /// <param name="timeSpanAsDays">The time span of file that has to be keep saved</param>
+        /// <param name="files">The <see cref="string"/> array containing the log files path</param>
         private static void DeleteOldLogs(int timeSpanAsDays, string[] files)
         {
             foreach (string file in files)
@@ -145,48 +145,13 @@ namespace Diagnostic
         }
 
         /// <summary>
-        /// Create an header as a <see cref="Tuple"/>
-        /// </summary>
-        /// <returns>The <see cref="IEnumerable{T}"/> <see cref="Tuple"/></returns>
-        private IEnumerable<Tuple<string, string, string, string>> CreateHeader()
-        {
-            var header = new[]{
-                Tuple.Create("Timestamp", "Severity", "Source", "Message")
-            };
-
-            return header;
-        }
-
-        /// <summary>
-        /// Create an entry as a <see cref="Tuple"/>
-        /// </summary>
-        /// <param name="timestamp">The timestamp</param>
-        /// <param name="severity">The <see cref="SeverityType"/></param>
-        /// <param name="source">The source</param>
-        /// <param name="message">The message</param>
-        /// <returns>The <see cref="IEnumerable{T}"/> <see cref="Tuple"/></returns>
-        private static IEnumerable<Tuple<string, string, string, string>> CreateEntry
-            (string timestamp, SeverityType severity, string source, string message)
-        {
-            string severityAsString = GetSeverityAsString(severity);
-
-            string now = GetDateTime();
-
-            var entry = new[]{
-                Tuple.Create(now, severityAsString, source, message)
-            };
-
-            return entry;
-        }
-
-        /// <summary>
         /// Create an entry as a <see cref="Tuple"/>
         /// </summary>
         /// <param name="severity">The <see cref="SeverityType"/></param>
         /// <param name="source">The source</param>
         /// <param name="message">The message</param>
         /// <param name="stackTrace">The <see cref="StackTrace"/> (as <see cref="string"/>)</param>
-        /// <returns></returns>
+        /// <returns>The <see cref="Tuple"/> containing the entry</returns>
         private static Tuple<string, string, string, string, string> CreateEntry
             (SeverityType severity, string source, string message, string stackTrace)
         {
@@ -203,7 +168,7 @@ namespace Diagnostic
         /// Save the text specified as parameter in the log file.
         /// <see cref="Path"/>
         /// </summary>
-        /// <param name="text"> The text to be saved </param>
+        /// <param name="text">The text to be saved</param>
         /// <param name="severity">The <see cref="SeverityType"/></param>
         public static void Log(string text, SeverityType severity)
         {
@@ -220,12 +185,12 @@ namespace Diagnostic
         }
 
         /// <summary>
-        /// Append to the log file a description of the exception occurred.
+        /// Append to the log file a description of the <see cref="Exception"/> occurred.
         /// The entry will be saved <b>only</b> if its a different one
         /// respect the last one saved in the log file (i.e. different type <b>and</b> 
         /// different message <b>and</b> different stack trace)!
         /// </summary>
-        /// <param name="ex"> The exception to log </param>
+        /// <param name="ex">The exception to log</param>
         public static void Log(Exception ex)
         {
             bool negatedFlag;
@@ -270,30 +235,15 @@ namespace Diagnostic
         /// Append text on the log file. 
         /// See <see cref="FileHandler.Save(string, string, MODE)"/>.
         /// </summary>
-        /// <param name="text"> The text to append </param>
+        /// <param name="text">The text to append</param>
         private static void AppendText(string text)
             => Save(text, path, MODE.Append);
 
         /// <summary>
-        /// Append a tuple to the log file as
-        /// (timestamp; type of log entry; source; message).
-        /// See <see cref="AppendText(string)"/>
-        /// </summary>
-        /// <param name="entry"> The tuple containing the elements to append </param>
-        private static void AppendText(Tuple<string, string, string, string> entry)
-        {
-            string text = $"{entry.Item1} | {entry.Item2} | {entry.Item3} | {entry.Item4}" +
-                $"{Environment.NewLine}";
-
-            AppendText(text);
-            AppendText(ENTRY_SEPARATOR + Environment.NewLine);
-        }
-
-        /// <summary>
-        /// Append a tupe to the log file as
+        /// Append a <see cref="Tuple"/> to the log file as
         /// (timestamp; type of log entry; source; message; stack-trace)
         /// </summary>
-        /// <param name="entry"> The tuple containing the element to append </param>
+        /// <param name="entry">The <see cref="Tuple"/> containing the element to append</param>
         private static void AppendText(Tuple<string, string, string, string, string> entry)
         {
             string text = $"{entry.Item1} | {entry.Item2} | {entry.Item3} | {entry.Item4}" +
@@ -311,7 +261,7 @@ namespace Diagnostic
         /// Convert the <see cref="SeverityType"/> of the entry to lo in a <see cref="string""/>
         /// </summary>
         /// <param name="severity"> The severity (<see cref="SeverityType"/>) of the entry </param>
-        /// <returns></returns>
+        /// <returns>The <see cref="string"/> result of the conversion</returns>
         private static string GetSeverityAsString(SeverityType severity)
         {
             string severityAsString = "";
@@ -339,7 +289,7 @@ namespace Diagnostic
         /// Get the date time in the format "yyyy/MM/dd-HH:mm:ss:fff".
         /// For example: 2021/02/25-09:32:44:000.
         /// </summary>
-        /// <returns> The string representing the date time </returns>
+        /// <returns>The string representing the date time</returns>
         private static string GetDateTime()
         {
             string now = DateTime.Now.ToString("yyyy/MM/dd-HH:mm:ss:fff");
@@ -352,9 +302,9 @@ namespace Diagnostic
         /// i.e. they are of the same <see cref="Type"/>, they have the same <see cref="Exception.Message"/>
         /// and have the same <see cref="StackTrace"/>
         /// </summary>
-        /// <param name="ex"> The <see cref="Exception"/> to test </param>
-        /// <returns> <see langword="true"/> if is the same as the last one, 
-        /// <see langword="false"/> otherwise</returns>
+        /// <param name="ex">The <see cref="Exception"/>to test </param>
+        /// <returns><see langword="true"/> if is the same as the last one, 
+        /// <see langword="false"/>otherwise</returns>
         private static bool IsSameExceptionAsTheLast(Exception ex)
         {
             bool isSameException = ex.GetType() == lastException.GetType();
