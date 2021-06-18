@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Converters
 {
@@ -14,7 +10,7 @@ namespace Core.Converters
     public class GenericConverter<TIn, TOut> : AbstractConverter<TIn, TOut>
     {
         /// <summary>
-        /// The <see cref="GenericConverter"/> <see cref="Func{T, TResult}"/>
+        /// The <see cref="GenericConverter{TIn, TOut}"/> <see cref="Func{T, TResult}"/>
         /// used in conversion
         /// </summary>
         public override Func<TIn, TOut> Converter 
