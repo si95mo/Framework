@@ -1,35 +1,10 @@
-﻿using System;
+﻿using Core;
+using Core.Converters;
+using System;
 using System.Collections.Generic;
 
 namespace Hardware
 {
-    /// <summary>
-    /// Handles the property value changed event.
-    /// See also <see cref="EventArgs"/>
-    /// </summary>
-    public class ValueChangedEventArgs : EventArgs
-    {
-        /// <summary>
-        /// The old value
-        /// </summary>
-        public readonly object OldValue;
-        /// <summary>
-        /// The new value
-        /// </summary>
-        public readonly object NewValue;
-
-        /// <summary>
-        /// Create a new instance of <see cref="ValueChangedEventArgs"/>
-        /// </summary>
-        /// <param name="oldValue">The old value</param>
-        /// <param name="newValue">The new value</param>
-        public ValueChangedEventArgs(object oldValue, object newValue)
-        {
-            this.OldValue = oldValue;
-            this.NewValue = newValue;
-        }
-    }
-
     /// <summary>
     /// Describe a generic channel.
     /// See also <see cref="IChannel{T}"/>
@@ -41,7 +16,11 @@ namespace Hardware
         protected T value;
         protected string measureUnit;
         protected string format;
-        protected List<IChannel<T>> subscribers;
+
+        protected List<IProperty<T>> subscribers;
+
+        protected object objectLock = new object();
+        protected EventHandler<ValueChangedEventArgs> ValueChangedHandler;
 
         /// <summary>
         /// Initialize the class attributes with 
@@ -59,8 +38,31 @@ namespace Hardware
         {
             this.code = code;
 
-            subscribers = new List<IChannel<T>>();
+            subscribers = new List<IProperty<T>>();
             ValueChanged += PropagateValues;
+        }
+
+        /// <summary>
+        /// The <see cref="ValueChanged"/> event handler
+        /// for the <see cref="Value"/> property
+        /// </summary>
+        public event EventHandler<ValueChangedEventArgs> ValueChanged
+        {
+            add
+            {
+                lock (objectLock)
+                {
+                    ValueChangedHandler += value;
+                }
+            }
+
+            remove
+            {
+                lock (objectLock)
+                {
+                    ValueChangedHandler -= value;
+                }
+            }
         }
 
         /// <summary>
@@ -96,11 +98,6 @@ namespace Hardware
             set => format = value; 
         }
 
-        /// <summary>
-        /// The <see cref="ValueChanged"/> event handler
-        /// for the <see cref="Value"/> property
-        /// </summary>
-        public event EventHandler<ValueChangedEventArgs> ValueChanged;
 
         /// <summary>
         /// On value changed event
@@ -108,8 +105,7 @@ namespace Hardware
         /// <param name="e">The <see cref="ValueChangedEventArgs"/></param>
         protected virtual void OnValueChanged(ValueChangedEventArgs e)
         {
-            if (ValueChanged != null)
-                ValueChanged(this, e);
+            ValueChangedHandler?.Invoke(this, e);
         }
 
         /// <summary>
@@ -117,10 +113,22 @@ namespace Hardware
         /// in order to propagate its value;
         /// </summary>
         /// <param name="channel">The destination <see cref="IChannel"/></param>
-        public void ConnectTo(IChannel<T> channel)
+        public void ConnectTo(IProperty<T> channel)
         {
             channel.Value = value;
             subscribers.Add(channel);
+        }
+
+        /// <summary>
+        /// Connects an <see cref="IChannel"/> to another
+        /// in order to propagate its value converted. 
+        /// See also <see cref="ConnectTo(IChannel{T})"/>
+        /// </summary>
+        /// <param name="channel">The destination <see cref="IChannel"/></param>
+        /// <param name="converter">The <see cref="IConverter{TIn, TOut}"/></param>
+        public void ConnectTo(IProperty<T> channel, IConverter<T, T> converter)
+        {
+            converter.Connect(this, channel);
         }
 
         /// <summary>
