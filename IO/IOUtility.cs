@@ -9,7 +9,7 @@ namespace IO
     /// Static class that adds extra functions to IO operation.
     /// <see cref="FileHandler"/>
     /// </summary>
-    public class Utility
+    public class IOUtility
     {
         /// <summary>
         /// Get to desktop folder.

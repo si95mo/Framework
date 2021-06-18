@@ -4,7 +4,7 @@ using System.Linq;
 
 /// <summary>
 /// Static class that handles IO operations.
-/// <see cref="IO.Utility"/>
+/// <see cref="IO.IOUtility"/>
 /// </summary>
 namespace IO
 {
