@@ -41,7 +41,7 @@ namespace Hardware
         protected T value;
         protected string measureUnit;
         protected string format;
-        protected List<IChannel<T>> subscribedChannels;
+        protected List<IChannel<T>> subscribers;
 
         /// <summary>
         /// Initialize the class attributes with 
@@ -59,7 +59,7 @@ namespace Hardware
         {
             this.code = code;
 
-            subscribedChannels = new List<IChannel<T>>();
+            subscribers = new List<IChannel<T>>();
             ValueChanged += PropagateValues;
         }
 
@@ -85,12 +85,12 @@ namespace Hardware
             }
         }
 
-        public string MeasureUnit 
+        protected virtual string MeasureUnit 
         { 
             get => measureUnit; 
             set => measureUnit = value; 
         }
-        public string Format 
+        protected virtual string Format 
         {
             get => format; 
             set => format = value; 
@@ -120,7 +120,7 @@ namespace Hardware
         public void ConnectTo(IChannel<T> channel)
         {
             channel.Value = value;
-            subscribedChannels.Add(channel);
+            subscribers.Add(channel);
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace Hardware
         /// <param name="e">The <see cref="ValueChangedEventArgs"/></param>
         private void PropagateValues(object sender, ValueChangedEventArgs e)
         {
-            subscribedChannels.ForEach(x => x.Value = Value);
+            subscribers.ForEach(x => x.Value = Value);
         }
     }
 }

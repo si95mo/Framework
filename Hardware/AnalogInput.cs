@@ -8,9 +8,6 @@ namespace Hardware
     /// </summary>
     public class AnalogInput : Channel<double>, IAnalogInput
     {
-        private string measureUnit;
-        private string format;
-
         /// <summary>
         /// The <see cref="AnalogInput"/> value;
         /// </summary>
@@ -32,6 +29,24 @@ namespace Hardware
         {
             this.measureUnit = measureUnit;
             this.format = format;
+        }
+
+        /// <summary>
+        /// The <see cref="AnalogOutput"/> measure unit
+        /// </summary>
+        public new string MeasureUnit
+        {
+            get => measureUnit;
+            set => measureUnit = value;
+        }
+
+        /// <summary>
+        /// The <see cref="AnalogOutput"/> format
+        /// </summary>
+        public new string Format
+        {
+            get => format;
+            set => format = value;
         }
 
         /// <summary>

@@ -44,6 +44,24 @@ namespace Hardware
         }
 
         /// <summary>
+        /// The <see cref="AnalogOutput"/> measure unit
+        /// </summary>
+        public new string MeasureUnit
+        {
+            get => measureUnit;
+            set => measureUnit = value;
+        }
+
+        /// <summary>
+        /// The <see cref="AnalogOutput"/> format
+        /// </summary>
+        public new string Format
+        {
+            get => format;
+            set => format = value;
+        }
+
+        /// <summary>
         /// Return a description of the object
         /// See also <see cref="object.ToString()"/>
         /// </summary>
