@@ -11,6 +11,7 @@ namespace Core
     /// </summary>
     public interface IParameter : IProperty
     {
+        
     }
 
     /// <summary>
@@ -18,7 +19,7 @@ namespace Core
     /// with a defined type of value
     /// </summary>
     /// <typeparam name="T">The type of value</typeparam>
-    public interface IParameter<T> : IParameter
+    public interface IParameter<T> : IProperty<T>, IParameter
     {
         /// <summary>
         /// The <see cref="IParameter"/> code
@@ -34,6 +35,6 @@ namespace Core
         /// in order to propagate its value;
         /// </summary>
         /// <param name="channel">The destination <see cref="IParameter"/></param>
-        void ConnectTo(IParameter<T> channel);
+        void ConnectTo(IProperty<T> channel);
     }
 }
