@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using Core.Parameters;
+using FluentAssertions;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
