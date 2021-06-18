@@ -69,7 +69,7 @@ namespace Diagnostic
                 DeleteOldLogs(timeSpanAsDays, files);
 
             path = logPath + $"{now}.log";
-            Utility.CreateDirectoryIfNotExists(logPath);
+            IOUtility.CreateDirectoryIfNotExists(logPath);
 
             string data = null;
             if (File.Exists(Path))
