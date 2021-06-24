@@ -12,17 +12,19 @@ namespace Core.Converters.Tests
     class MovingAverageTestClass
     {
         public AnalogInput ai = new AnalogInput("AnalogInput");
-        public NumericParameter np = new NumericParameter("NumericParameter");
+        public NumericParameter npSimple = new NumericParameter("NumericParameterSimple");
+        public NumericParameter npExponential = new NumericParameter("NumericParameterExponential");
 
         [OneTimeSetUp]
         public void Setup()
         {
-            np.Value = 0;
-            ai.ConnectTo(np, new SimpleMovingAverage(8));
+            npSimple.Value = 0;
+            ai.ConnectTo(npSimple, new SimpleMovingAverage(8));
+            ai.ConnectTo(npExponential, new ExponentialMovingAverage(0.75));
 
             ServiceBroker.Init();
             ServiceBroker.Add<IChannel>(ai);
-            ServiceBroker.Add<IParameter>(np);
+            ServiceBroker.Add<IParameter>(npSimple);
         }
 
         [OneTimeTearDown]
@@ -33,21 +35,45 @@ namespace Core.Converters.Tests
 
         [Test]
         [TestCase(1000)]
-        public void TestMovingAverage(int interval)
+        public void TestSimpleMovingAverage(int interval)
         {
             Stopwatch sw = Stopwatch.StartNew();
             do
             {
-                double number = 10 + new Random(Guid.NewGuid().GetHashCode()).NextDouble();
+                int sign = new Random(Guid.NewGuid().GetHashCode()).NextDouble() > 0.5 ? 1 : -1;
+                double number = 10 + sign * new Random(Guid.NewGuid().GetHashCode()).NextDouble();
                 ai.Value = number;
-                np.Value.Should().NotBe(0);
+                npSimple.Value.Should().NotBe(0);
 
                 FileHandler.Save(
-                    $"{ai.Value:F6}", IOUtility.GetDesktopFolder() + @"\raw.log", 
+                    $"{ai.Value:F6}", IOUtility.GetDesktopFolder() + @"\raw_simple.log", 
                     FileHandler.MODE.Append
                 );
                 FileHandler.Save(
-                    $"{np.Value:F6}", IOUtility.GetDesktopFolder() + @"\filtered.log",
+                    $"{npSimple.Value:F6}", IOUtility.GetDesktopFolder() + @"\filtered_simple.log",
+                    FileHandler.MODE.Append
+                );
+            } while (sw.Elapsed.TotalMilliseconds <= interval);
+        }
+
+        [Test]
+        [TestCase(1000)]
+        public void TestExponentialMovingAverage(int interval)
+        {
+            Stopwatch sw = Stopwatch.StartNew();
+            do
+            {
+                int sign = new Random(Guid.NewGuid().GetHashCode()).NextDouble() > 0.5 ? 1 : -1;
+                double number = 10 + sign * new Random(Guid.NewGuid().GetHashCode()).NextDouble();
+                ai.Value = number;
+                npExponential.Value.Should().NotBe(0);
+
+                FileHandler.Save(
+                    $"{ai.Value:F6}", IOUtility.GetDesktopFolder() + @"\raw_exp.log",
+                    FileHandler.MODE.Append
+                );
+                FileHandler.Save(
+                    $"{npExponential.Value:F6}", IOUtility.GetDesktopFolder() + @"\filtered_exp.log",
                     FileHandler.MODE.Append
                 );
             } while (sw.Elapsed.TotalMilliseconds <= interval);
