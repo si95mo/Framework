@@ -17,7 +17,11 @@ namespace Core.Converters
         public int Period
         {
             get => period;
-            set => period = value;
+            set 
+            { 
+                period = value; 
+                converter = MovingAverage(period); 
+            }
         }
 
         /// <summary>
@@ -26,7 +30,8 @@ namespace Core.Converters
         /// <param name="period">The period</param>
         public SimpleMovingAverage(int period) : base()
         {
-            converter = MovingAverage(period);
+            this.period = period;
+            converter = MovingAverage(this.period);
         }
 
         /// <summary>
