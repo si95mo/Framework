@@ -8,7 +8,7 @@ namespace Diagnostic
     /// <summary>
     /// Represent the severity of the entry to log
     /// </summary>
-    public enum SeverityType
+    public enum Severity
     {
         /// <summary>
         /// An info type entry
@@ -19,13 +19,17 @@ namespace Diagnostic
         /// </summary>
         Debug = 1,
         /// <summary>
+        /// A trace type entry
+        /// </summary>
+        Trace = 2,
+        /// <summary>
         /// A warn type entry
         /// </summary>
-        Warn = 2,
+        Warn = 3,
         /// <summary>
         /// An error type entry
         /// </summary>
-        Error = 3
+        Error = 4
     }
 
     /// <summary>
@@ -41,10 +45,16 @@ namespace Diagnostic
         private static string path = "log.txt";
         private static Exception lastException = null;
 
+        private static Severity minimumSeverityLevel = Severity.Info;
+
         /// <summary>
-        /// Getter for the log file path
+        /// The minimum <see cref="Severity"/> level of the entry to log
+        public static Severity MinimumSeverityLevel => minimumSeverityLevel;
+
+        /// <summary>
+        /// The log file path
         /// </summary>
-        public static string Path { get => path; }
+        public static string Path => path;
 
         /// <summary>
         /// Initialize the logger.
@@ -102,7 +112,10 @@ namespace Diagnostic
                     lineLogEntryDescription
                 );
                 header += Environment.NewLine;
-                header += string.Format("{0, 23} | {1, 5} | {2, 40}", "TIMESTAMP", "TYPE", "LOG ENTRY DESCRIPTION");
+                header += string.Format(
+                    "{0, 23} | {1, 5} | {2, 40}", 
+                    "TIMESTAMP", "TYPE", "LOG ENTRY DESCRIPTION"
+                );
                 header += Environment.NewLine;
                 header += string.Format(
                     "{0, 23}|{1, 5}|{2, 70}",
@@ -143,13 +156,13 @@ namespace Diagnostic
         /// <summary>
         /// Create an entry as a <see cref="Tuple"/>
         /// </summary>
-        /// <param name="severity">The <see cref="SeverityType"/></param>
+        /// <param name="severity">The <see cref="Severity"/></param>
         /// <param name="source">The source</param>
         /// <param name="message">The message</param>
         /// <param name="stackTrace">The <see cref="StackTrace"/> (as <see cref="string"/>)</param>
         /// <returns>The <see cref="Tuple"/> containing the entry</returns>
         private static Tuple<string, string, string, string, string> CreateEntry
-            (SeverityType severity, string source, string message, string stackTrace)
+            (Severity severity, string source, string message, string stackTrace)
         {
             string severityAsString = GetSeverityAsString(severity);
             string now = GetDateTime();
@@ -165,19 +178,22 @@ namespace Diagnostic
         /// <see cref="Path"/>
         /// </summary>
         /// <param name="text">The text to be saved</param>
-        /// <param name="severity">The <see cref="SeverityType"/></param>
-        public static void Log(string text, SeverityType severity)
+        /// <param name="severity">The <see cref="Severity"/></param>
+        public static void Log(string text, Severity severity = Severity.Info)
         {
-            string log = $"{GetDateTime()} | {GetSeverityAsString(severity)} | {text}";
+            if (HasHigherSeverityLevel(severity))
+            {
+                string log = $"{GetDateTime()} | {GetSeverityAsString(severity)} | {text}";
 
-            string line = "";
+                string line = "";
 
-            for (int i = 0; i < log.Length; i++)
-                line += "-";
+                for (int i = 0; i < log.Length; i++)
+                    line += "-";
 
-            log += Environment.NewLine + line;
+                log += Environment.NewLine + line;
 
-            AppendText(log);
+                AppendText(log);
+            }
         }
 
         /// <summary>
@@ -217,7 +233,7 @@ namespace Diagnostic
                 int line = frame.GetFileLineNumber();
 
                 var entry = CreateEntry(
-                    SeverityType.Error, 
+                    Severity.Error, 
                     $"{source} - {type} on line {line}", 
                     message, 
                     stackTrace
@@ -254,27 +270,30 @@ namespace Diagnostic
         }
 
         /// <summary>
-        /// Convert the <see cref="SeverityType"/> of the entry to lo in a <see cref="string""/>
+        /// Convert the <see cref="Severity"/> of the entry to lo in a <see cref="string""/>
         /// </summary>
-        /// <param name="severity"> The severity (<see cref="SeverityType"/>) of the entry </param>
+        /// <param name="severity"> The severity (<see cref="Severity"/>) of the entry </param>
         /// <returns>The <see cref="string"/> result of the conversion</returns>
-        private static string GetSeverityAsString(SeverityType severity)
+        private static string GetSeverityAsString(Severity severity)
         {
             string severityAsString = "";
 
             switch (severity)
             {
-                case SeverityType.Debug:
+                case Severity.Debug:
                     severityAsString = "DEBUG";
                     break;
-                case SeverityType.Error:
+                case Severity.Error:
                     severityAsString = "ERROR";
                     break;
-                case SeverityType.Info:
+                case Severity.Info:
                     severityAsString = "INFO "; // Five letters for align!
                     break;
-                case SeverityType.Warn:
+                case Severity.Warn:
                     severityAsString = "WARN "; // Five letters for align!
+                    break;
+                case Severity.Trace:
+                    severityAsString = "TRACE";
                     break;
             }
 
@@ -308,6 +327,39 @@ namespace Diagnostic
             isSameException &= ex.StackTrace == lastException.StackTrace;
 
             return isSameException;
+        }
+
+        /// <summary>
+        /// Set the <see cref="MinimumSeverityLevel"/> <see cref="Severity"/> to log.
+        /// (i.e. all the entry with a lower severity will not be logged).
+        /// Note that the minimum level of the logged entry can't be 
+        /// higher than <see cref="Severity.Trace"/> (i.e. entry of level
+        /// <see cref="Severity.Warn"/> and <see cref="Severity.Error"/> will
+        /// always be logged.
+        /// The <see cref="Severity"/> level is defined as follows (from lower to higher):
+        /// <see cref="Severity.Info"/>, <see cref="Severity.Debug"/>,
+        /// <see cref="Severity.Trace"/>, <see cref="Severity.Warn"/>,
+        /// <see cref="Severity.Error"/>.
+        /// </summary>
+        /// <param name="level"></param>
+        public static void SetMinimumSeverityLevel(Severity level)
+        {
+            if ((int)level < (int)Severity.Warn)
+                minimumSeverityLevel = level;
+            else
+                minimumSeverityLevel = Severity.Warn;
+        }
+
+        /// <summary>
+        /// Test if the entry to log has an higher (or equal) <see cref="Severity"/>
+        /// level than the <see cref="MinimumSeverityLevel"/> set
+        /// </summary>
+        /// <param name="level">The <see cref="Severity"/> level to test</param>
+        /// <returns><see langword="true"/> of the level to test is higher (or equals)
+        /// to <see cref="MinimumSeverityLevel"/>, <see langword="false"/> otherwise</returns>
+        private static bool HasHigherSeverityLevel(Severity level)
+        {
+            return (int)minimumSeverityLevel <= (int)level;
         }
     }
 }
