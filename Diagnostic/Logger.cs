@@ -42,6 +42,10 @@ namespace Diagnostic
         private const string ENTRY_SEPARATOR = "----------------------------------------------------" +
             "----------------------------------------------------";
 
+        private const int ENTRY_DESCRITPION_LENGTH = 70; // Header entry description length
+        private const int LINE_TYPE_LEGNTH = 6;          // Header type length
+        private const int LINE_TIMESTAMP_LENGTH = 23;    // Header timestamp length
+
         private static string path = "log.txt";
         private static Exception lastException = null;
 
@@ -94,17 +98,20 @@ namespace Diagnostic
                 AppendText(DAILY_SEPARATOR);
 
                 string lineTimestamp = "", lineType = "", lineLogEntryDescription = "";
-                for(int i = 0; i <= 70; i++)
+                for(int i = 0; i <= ENTRY_DESCRITPION_LENGTH; i++)
                 {
-                    if (i <= 6)
+                    if (i <= LINE_TYPE_LEGNTH)
                         lineType += "*";
 
-                    if (i <= 23)
+                    if (i <= LINE_TIMESTAMP_LENGTH)
                         lineTimestamp += "*";
 
                     lineLogEntryDescription += "*";
                 }
 
+                // 23 = LINE_TIMESTAMP_LENGTH
+                // 5  = LINE_TYPE_LENGTH - 1
+                // 70 = ENTRY_DESCRIPTION_LENGTH
                 header = string.Format(
                     "{0, 23}|{1, 5}|{2, 70}", 
                     lineTimestamp, 
