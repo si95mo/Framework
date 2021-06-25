@@ -8,8 +8,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Signal.Processing.Tests
 {
@@ -27,7 +27,6 @@ namespace Signal.Processing.Tests
 
             nfi = new NumberFormatInfo();
             nfi.NumberDecimalSeparator = ".";
-
         }
 
         private double BytesToDouble(byte firstByte, byte secondByte)
@@ -96,11 +95,11 @@ namespace Signal.Processing.Tests
         }
 
         [Test]
-        [TestCase(100, false)]
-        [TestCase(250.0, false)]
-        [TestCase(440.0, false)]
-        [TestCase(1000.0, false)]
-        [TestCase(10000.0, false)]
+        [TestCase(100,     true)]
+        [TestCase(250.0,   true)]
+        [TestCase(440.0,   true)]
+        [TestCase(1000.0,  true)]
+        [TestCase(10000.0, true)]
         public void CalculateFFT(double f, bool saveToFile) // f is the signal frequency
         {
             UnmanagedMemoryStream[] streams = new UnmanagedMemoryStream[]
@@ -135,191 +134,58 @@ namespace Signal.Processing.Tests
             UnmanagedMemoryStream stream = streams[i];
             samples = LoadResource(stream);
 
-            Complex[] fft = Fourier.FFT(samples);
+            double samplingFrequency = 44100.0;
+            (Complex[] fft, double[] magnitude, double[] frequencies, double fundamental, double dcValue) = 
+                Fourier.FFT(samples, samplingFrequency);
+            Console.WriteLine($"\t >> Fundamental frequency: {fundamental:F2}Hz");
 
             int n = fft.Length;
-            double[] magnitude = Fourier.NormalizeMagnitude(fft);
-            double[] phase = new double[n];
 
             double max = magnitude.Max();
-            int indexMax = magnitude.ToList().IndexOf(max);
+            max.Should().NotBe(0);
 
-            indexMax.Should().NotBe(0);
-            max.Should().Be(
-                fft[Fourier.GetFundamentalIndex(fft)].Magnitude * (double)(2m / n)
-            );
+            double threshold = 0.01;
+            (dcValue - threshold).Should().BeLessThan(0.0).And.BeGreaterThan(-threshold);
 
-            double samplingFrequency = 44100.0;
-            double scalingFactor = (double)(44100m / n); // 44100: sampling frequency
-            double fundamental = indexMax * scalingFactor;
-            double threshold = 4.0;
+            threshold = 4.0;
             switch (i)
             {
                 case 0:
-                    (Fourier.GetFundamental(fft, samplingFrequency) - 98.0).
-                        Should().BeGreaterThan(0.0).And.BeLessThan(threshold);
+                    (fundamental - 98.0).Should().BeGreaterThan(0.0).And.BeLessThan(threshold);
                     break;
                 case 1:
-                    (Fourier.GetFundamental(fft, samplingFrequency) - 248.0)
-                        .Should().BeGreaterThan(0.0).And.BeLessThan(threshold);
+                    (fundamental - 248.0).Should().BeGreaterThan(0.0).And.BeLessThan(threshold);
                     break;
                 case 2:
-                    (Fourier.GetFundamental(fft, samplingFrequency) - 438.0)
-                        .Should().BeGreaterThan(0.0).And.BeLessThan(threshold);
+                    (fundamental - 438.0).Should().BeGreaterThan(0.0).And.BeLessThan(threshold);
                     break;
                 case 3:
-                    (Fourier.GetFundamental(fft, samplingFrequency) - 998.0)
-                        .Should().BeGreaterThan(0.0).And.BeLessThan(threshold);
+                    (fundamental - 998.0).Should().BeGreaterThan(0.0).And.BeLessThan(threshold);
                     break;
                 case 4:
-                    (Fourier.GetFundamental(fft, samplingFrequency) - 9998.0)
-                        .Should().BeGreaterThan(0.0).And.BeLessThan(threshold);
+                    (fundamental - 9998.0).Should().BeGreaterThan(0.0).And.BeLessThan(threshold);
                     break;
             }
 
             if (saveToFile)
             {
+                double[] phase = Mathematics.Mathematics.Phases(fft);
+
                 var csv = new StringBuilder();
                 for (int j = 0; j < n; j++)
                 {
-                    string line = string.Format("{0},{1},{2}",
-                        fft[j].Magnitude.ToString(nfi), magnitude[j].ToString(nfi), phase[j].ToString(nfi)
+                    string line = string.Format("{0},{1}",
+                        magnitude[j].ToString(nfi), frequencies[j].ToString(nfi)
                     );
                     csv.AppendLine(line);
                 }
 
                 string path = Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
-                    @"fft\" + DateTime.Now.ToString("ffff") + "_" + f + ".csv"
+                    @"fft\" + "_" + f + ".csv"
                 );
                 File.WriteAllText(path, csv.ToString());
             }
-        }
-
-        [Test]
-        [TestCase(100, 1.0, false)]
-        [TestCase(250.0, 1.0, false)]
-        [TestCase(440.0, 1.0, false)]
-        [TestCase(1000.0, 1.0, false)]
-        [TestCase(10000.0, 1.0, false)]
-        public void CalculateFFT(double f, double offset, bool saveToFile) // f is the signal frequency
-        {
-            UnmanagedMemoryStream[] streams = new UnmanagedMemoryStream[]
-            {
-                Resources.Sine100Hz,
-                Resources.Sine250Hz,
-                Resources.Sine440Hz,
-                Resources.Sine1000Hz,
-                Resources.Sine10000Hz
-            };
-
-            int i = 0;
-            switch (f)
-            {
-                case 100.0:
-                    i = 0;
-                    break;
-                case 250.0:
-                    i = 1;
-                    break;
-                case 440.0:
-                    i = 2;
-                    break;
-                case 1000.0:
-                    i = 3;
-                    break;
-                case 10000.0:
-                    i = 4;
-                    break;
-            }
-
-            UnmanagedMemoryStream stream = streams[i];
-            samples = LoadResourceAndAddOffset(stream, offset);
-
-            Complex[] fft = Fourier.FFT(samples);
-
-            int n = fft.Length;
-            double[] magnitude = Fourier.NormalizeMagnitude(fft);
-            double[] phase = new double[n];
-
-            double samplingFrequency = 44100.0;
-            double scalingFactor = (double)(44100m / n); // 44100: sampling frequency
-            double threshold = 4.0;
-            switch (i)
-            {
-                case 0:
-                    (Fourier.GetFundamental(fft, samplingFrequency) - 98.0).
-                        Should().BeGreaterThan(0.0).And.BeLessThan(threshold);
-                    break;
-                case 1:
-                    (Fourier.GetFundamental(fft, samplingFrequency) - 248.0)
-                        .Should().BeGreaterThan(0.0).And.BeLessThan(threshold);
-                    break;
-                case 2:
-                    (Fourier.GetFundamental(fft, samplingFrequency) - 438.0)
-                        .Should().BeGreaterThan(0.0).And.BeLessThan(threshold);
-                    break;
-                case 3:
-                    (Fourier.GetFundamental(fft, samplingFrequency) - 998.0)
-                        .Should().BeGreaterThan(0.0).And.BeLessThan(threshold);
-                    break;
-                case 4:
-                    (Fourier.GetFundamental(fft, samplingFrequency) - 9998.0)
-                        .Should().BeGreaterThan(0.0).And.BeLessThan(threshold);
-                    break;
-            }
-
-            if (saveToFile)
-            {
-                var csv = new StringBuilder();
-                for (int j = 0; j < n; j++)
-                {
-                    string line = string.Format("{0},{1},{2}",
-                        fft[j].Magnitude.ToString(nfi), magnitude[j].ToString(nfi), phase[j].ToString(nfi)
-                    );
-                    csv.AppendLine(line);
-                }
-
-                string path = Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
-                    @"fft\" + DateTime.Now.ToString("ffff") + "_" + f + ".csv"
-                );
-                File.WriteAllText(path, csv.ToString());
-            }
-        }
-
-        [Test]
-        public void Acquisitions()
-        {
-            List<double> data = new List<double>();
-
-            var path = @"C:\Users\simod\Desktop\acq\new_acquisitions.csv"; 
-            using (TextFieldParser csvParser = new TextFieldParser(path))
-            {
-                csvParser.CommentTokens = new string[] { "#" };
-                csvParser.SetDelimiters(new string[] { "," });
-                csvParser.HasFieldsEnclosedInQuotes = true;
-
-                // Skip the row with the column names
-                csvParser.ReadLine();
-
-                while (!csvParser.EndOfData)
-                {
-                    // Read current line fields, pointer moves to the next line.
-                    string[] fields = csvParser.ReadFields();
-                    data.Add(double.Parse(fields[0], nfi));
-                }
-            }
-
-            var fft = Fourier.FFT(data.ToArray());
-
-            int n = fft.Length;
-            double[] magnitude = Fourier.NormalizeMagnitude(fft);
-            double[] phase = new double[n];
-
-            double samplingFrequency = 500;
-
-            double fundamental = Fourier.GetFundamental(fft, samplingFrequency, 50);
         }
     }
 }

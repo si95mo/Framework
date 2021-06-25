@@ -1,280 +1,154 @@
-﻿using Mathematics;
+﻿using FFTWSharp;
+using Mathematics;
 using System;
 using System.Linq;
+using System.Numerics;
+using System.Runtime.InteropServices;
 
 namespace Signal.Processing
 {
     /// <summary>
     /// Class that calculate the Fourier transform.
-    /// See <see href="https://www.egr.msu.edu/classes/ece480/capstone/fall11/group06/style/Application_Note_ChrisOakley.pdf"/>
     /// </summary>
     public class Fourier
     {
         /// <summary>
-        /// Discrete Fourier Transform (DFT)
+        /// Compute the Fast Fourier Transform.
+        /// See also <see cref="FFT(double[], double)"/>
         /// </summary>
-        /// <param name="x">The array of <see cref="Complex"/> number to transform</param>
-        /// <returns>The result of the transformation</returns>
-        public static Complex[] DFT(Complex[] x)
+        /// <param name="data">The data to transform</param>
+        /// <returns>The data transformed in the frequency domain</returns>
+        public static Complex[] FFT(double[] data)
         {
-            int n = x.Length;
-            Complex[] X = new Complex[n];
+            (Complex[] fft, _, _, _, _) = FFT(data, 0);
 
-            for (int k = 0; k < n; k++)
-            {
-                X[k] = new Complex(0, 0);
-
-                for (int h = 0; h < n; h++)
-                {
-                    Complex tmp = Complex.PolarToRectangular(1, -2 * Math.PI * h * k / n);
-                    tmp *= x[h];
-                    X[k] += tmp;
-                }
-            }
-
-            return X;
+            return fft;
         }
 
         /// <summary>
-        /// Discrete Fourier Transform (DFT)
+        /// Compute the Fast Fourier Transform.
         /// </summary>
-        /// <param name="x">The array of <see cref="double"/> number to transform</param>
-        /// <returns>The result of the transformation</returns>
-        public static Complex[] DFT(double[] x)
+        /// <param name="data">The data to transform</param>
+        /// <param name="samplingFrequency">The sampling frequency in Hz</param>
+        /// <returns>The data in the frequency domain, the array with the magnitude (dB)
+        /// and frequencies (Hz), the fundamental frequency and the DC value, in this order</returns>
+        public static (Complex[], double[], double[], double, double) FFT(double[] data, double samplingFrequency)
         {
-            Complex[] xc = new Complex[x.Length];
+            Complex[] fft = ToNumericComplex(CalculateFFT(data));
 
-            for (int i = 0; i < x.Length; i++)
-            {
-                xc[i] = new Complex(x[i], 0);
-            }
-
-            return DFT(xc);
-        }
-
-        /// <summary>
-        /// Fast Fourier Transform (FFT)
-        /// </summary>
-        /// <param name="x">The array of <see cref="Complex"/> number to transform</param>
-        /// <returns>The result of the transformation</returns>
-        public static Complex[] FFT(Complex[] x)
-        {
-            if (!IsPowerOfTwo(x.Length))
-                x = DoZeroPadding(x);
-
-            int n = x.Length;
-            Complex[] X = new Complex[n];
-
-            Complex[] d, D, e, E;
-
-            // Base case
-            if (n == 1)
-            {
-                X[0] = x[0];
-                return X;
-            }
-
-            int k;
-
-            e = new Complex[n / 2];
-            d = new Complex[n / 2];
-
-            for (k = 0; k < n / 2; k++)
-            {
-                e[k] = x[2 * k];
-                d[k] = x[2 * k + 1];
-            }
-
-            D = FFT(d);
-            E = FFT(e);
-
-            for (k = 0; k < n / 2; k++)
-            {
-                Complex tmp = Complex.PolarToRectangular(1, -2 * Math.PI * k / n);
-                D[k] *= tmp;
-            }
-
-            for (k = 0; k < n / 2; k++)
-            {
-                X[k] = E[k] + D[k];
-                X[k + n / 2] = E[k] - D[k];
-            }
-
-            return X;
-        }
-
-        /// <summary>
-        /// Discrete Fourier Transform (FFT)
-        /// </summary>
-        /// <param name="x">The array of <see cref="double"/> number to transform</param>
-        /// <returns>The result of the transformation</returns>
-        public static Complex[] FFT(double[] x)
-        {
-            Complex[] xc = new Complex[x.Length];
-
-            for (int i = 0; i < x.Length; i++)
-            {
-                xc[i] = new Complex(x[i], 0);
-            }
-
-            return FFT(xc);
-        }
-
-        /// <summary>
-        /// Determines whether the input is a power of 2
-        /// </summary>
-        /// <param name="n">The number to test</param>
-        /// <returns><see langword="true"/> if the input is a power of 2,
-        /// <see langword="false"/> otherwise</returns>
-        private static bool IsPowerOfTwo(int n)
-        {
-            bool isPower = n > 0 && (n & (n - 1)) == 0;
-            return isPower;
-        }
-
-        /// <summary>
-        /// Perform a zero-padding operation
-        /// </summary>
-        /// <param name="x">The array to fill with zeros</param>
-        /// <returns>The padded array</returns>
-        private static Complex[] DoZeroPadding(Complex[] x)
-        {
-            int size = (int)Math.Round(
-                Math.Pow(
-                    2,
-                    Math.Ceiling(
-                        Math.Log(
-                            x.Length,
-                            2
-                        )
-                    )
-                )
-            );
-            Complex[] xPadded = new Complex[size];
-
-            for (int i = 0; i < size; i++)
-            {
-                if (i < x.Length)
-                    xPadded[i] = x[i];
-                else
-                    xPadded[i] = new Complex(0, 0);
-            }
-
-            return xPadded;
-        }
-
-        /// <summary>
-        /// Perform a magnitude normalization of the output of 
-        /// a <see cref="FFT(Complex[])"/>
-        /// </summary>
-        /// <param name="fft">The transformed array</param>
-        /// <returns>The normalized magnitude array</returns>
-        public static double[] NormalizeMagnitude(Complex[] fft)
-        {
-            int n = fft.Length;
-            double[] magnitudeNormalized = new double[n];
-
-            double scalingFactor = (double)(n);
-            double tmp, magnitude;
-            for (int i = 0; i < n; i++)
-            {
-                magnitude = fft[i].Magnitude;
-                tmp = magnitude * 1 / scalingFactor;
-                magnitudeNormalized[i] = tmp;
-            }
-
-            return magnitudeNormalized;
-        }
-
-        /// <summary>
-        /// Calculate the corresponding frequency for each
-        /// element of the output of an <see cref="FFT(Complex[])"/>
-        /// </summary>
-        /// <param name="fft">The transformed array</param>
-        /// <param name="samplingFrequency">The sampling frequency (in Hz)</param>
-        /// <returns>The array with all the frequencies</returns>
-        public static double[] GetFrequencies(Complex[] fft, double samplingFrequency)
-        {
-            int n = fft.Length;
-            double[] frequency = new double[n];
-            double scalingFactor = samplingFrequency / n;
-
-            for (int i = 0; i < n; i++)
-                frequency[i] = i * scalingFactor;
-
-            return frequency;
-        }
-
-        /// <summary>
-        /// Retrieve the index relative to the fundamental frequency
-        /// in the output of an <see cref="FFT(Complex[])"/>
-        /// </summary>
-        /// <param name="fft">The transformed array</param>
-        /// <returns>The fundamental index</returns>
-        public static int GetFundamentalIndex(Complex[] fft)
-        {
-            int n = fft.Length;
-
-            if (n == 0) // base case
-                return 0;
-
-            int frequencyIndex;
-
-            double[] magnitude = NormalizeMagnitude(fft);
-
+            double[] magnitude = Mathematics.Mathematics.Magnitudes(fft, true);
             double max = magnitude.Max();
-            frequencyIndex = magnitude.ToList().IndexOf(max);
+            double indexOfMax = magnitude.ToList().IndexOf(max);
 
-            if (frequencyIndex == 0)
-            {
-                var tmp = new Complex[n - 1];
-                Array.Copy(fft, 1, tmp, 0, n - 1);
+            double scalingFactor = samplingFrequency / (2 * fft.Length);
+            double fundamentalFrequency = indexOfMax * scalingFactor;
 
-                frequencyIndex = GetFundamentalIndex(tmp);
-            }
+            double[] frequencies = new double[magnitude.Length];
+            for (int i = 0; i < frequencies.Length; i++)
+                frequencies[i] = i * scalingFactor;
 
-            return frequencyIndex;
+            double dcValue = magnitude[0];
+
+            return (fft, magnitude, frequencies, fundamentalFrequency, dcValue);
         }
 
         /// <summary>
-        /// Calculate the fundamental frequency of a transformed signal
+        /// Compute the FFT of an array of real data
         /// </summary>
-        /// <param name="fft">The transformed array</param>
-        /// <param name="samplingFrequency">The sampling frequency (in Hz)</param>
-        /// <returns>The fundamental frequency (in Hz)</returns>
-        public static double GetFundamental(Complex[] fft, double samplingFrequency)
+        /// <param name="data">The data</param>
+        /// <returns>The transformed data in the frequency domain</returns>
+        private static double[] CalculateFFT(double[] data)
         {
-            int n = fft.Length;
-            double frequency;
+            // Convert real data to complex
+            data = ToComplex(data);
+            int n = data.Length;
 
-            int fundamentalIndex = GetFundamentalIndex(fft);
-            double scalingFactor = samplingFrequency / n;
+            // Allocate memory for input and output
+            IntPtr ptr = fftw.malloc(n * sizeof(double));
+            Marshal.Copy(data, 0, ptr, n);
 
-            frequency = fundamentalIndex * scalingFactor;
+            // Plan FFT and execute it
+            IntPtr plan = fftw.dft_1d(n / 2, ptr, ptr, fftw_direction.Forward, fftw_flags.Estimate);
+            fftw.execute(plan);
 
-            return frequency;
+            // Output
+            double[] fft = new double[n / 2];
+            Marshal.Copy(ptr, fft, 0, n / 2);
+
+            // Clean-up
+            fftw.destroy_plan(plan);
+            fftw.free(ptr);
+            fftw.cleanup();
+
+            return fft;
         }
 
         /// <summary>
-        /// Calculate the fundamental frequency of a transformed signal
-        /// acquired via oversampling
+        /// Compute the IFFT  of the data
         /// </summary>
-        /// <param name="fft">The transformed array</param>
-        /// <param name="samplingFrequency">The sampling frequency (in Hz)</param>
-        /// <param name="samplingFactor">The sampling factor (N)</param>
-        /// <returns>The fundamental frequency (in Hz)</returns>
-        public static double GetFundamental(Complex[] fft, double samplingFrequency, double samplingFactor)
+        /// <param name="data">The data to transform</param>
+        /// <returns>The transformed in the time domain</returns>
+        public static double[] IFFT(double[] data)
         {
-            int n = fft.Length;
-            double frequency;
+            int n = data.Length;
 
-            int fundamentalIndex = GetFundamentalIndex(fft);
-            // d = 2M * f / N
-            double scalingFactor = 2d * samplingFactor * samplingFrequency / n;
+            // Allocate memory for input and output
+            IntPtr ptr = fftw.malloc(n * sizeof(double));
+            Marshal.Copy(data, 0, ptr, n);
 
-            frequency = fundamentalIndex * scalingFactor;
+            // Plan IFFT and execute it
+            IntPtr plan = fftw.dft_1d(n / 2, ptr, ptr, fftw_direction.Backward, fftw_flags.Estimate);
+            fftw.execute(plan);
 
-            return frequency;
+            // Output
+            double[] ifft = new double[n];
+            Marshal.Copy(ptr, ifft, 0, n);
+
+            // Clean-up
+            fftw.destroy_plan(plan);
+            fftw.free(ptr);
+            fftw.cleanup();
+
+            // Scale the output
+            for (int i = 0, nh = n / 2; i < n; i++)
+                ifft[i] /= nh;
+
+            return ifft;
         }
-    }
+
+        /// <summary>
+        /// Transform and array of real data in an 
+        /// array of complex data (with respect to FFTW
+        /// representation standard of complex numbers).
+        /// </summary>
+        /// <param name="real">The array to convert</param>
+        /// <returns>The converted array</returns>
+		private static double[] ToComplex(double[] real)
+        {
+            int n = real.Length;
+            double[] complex = new double[2 * n];
+
+            for(int i = 0; i < n; i++)
+                complex[2 * i] = real[i];
+
+            return complex;
+        }
+
+        /// <summary>
+        /// Transform and array of complex data (FFTW representation
+        /// in an array of <see cref="Complex"/>.
+        /// </summary>
+        /// <param name="real">The array to convert</param>
+        /// <returns>The converted array</returns>
+        private static Complex[] ToNumericComplex(double[] data)
+        {
+            int n = data.Length;
+            Complex[] complex = new Complex[n / 2];
+
+            for(int i = 0; i < n/2; i++)
+                complex[i] = new Complex(data[2 * i], data[2 * i + 1]);
+
+            return complex;
+        }
+	}
 }
