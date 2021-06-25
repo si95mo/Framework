@@ -94,7 +94,7 @@ namespace Hardware.Resources
             failure.Description = error.ToString();
             failure.Timestamp = DateTime.Now;
 
-            Logger.Log(failure.Description, SeverityType.Debug);
+            Logger.Log(failure.Description, Severity.Warn);
         }
 
         /// <summary>
