@@ -1,5 +1,4 @@
 ﻿using FFTWSharp;
-using Mathematics;
 using System;
 using System.Linq;
 using System.Numerics;

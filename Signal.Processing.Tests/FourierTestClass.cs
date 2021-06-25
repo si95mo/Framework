@@ -1,10 +1,7 @@
 ﻿using FluentAssertions;
-using Mathematics;
-using Microsoft.VisualBasic.FileIO;
 using NUnit.Framework;
 using Signal.Processing.Tests.Properties;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
