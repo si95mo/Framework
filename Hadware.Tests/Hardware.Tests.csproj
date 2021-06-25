@@ -8,8 +8,8 @@
     <ProjectGuid>{99A5662C-2D88-40D4-A8CC-FDFA65964AFF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Hadware.Tests</RootNamespace>
-    <AssemblyName>Hadware.Tests</AssemblyName>
+    <RootNamespace>Hardware.Tests</RootNamespace>
+    <AssemblyName>Hardware.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

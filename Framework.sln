@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IO", "IO\IO.csproj", "{6553
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{75DFACF6-E820-4E3F-83D5-1E21FBC92385}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hadware.Tests", "Hadware.Tests\Hadware.Tests.csproj", "{99A5662C-2D88-40D4-A8CC-FDFA65964AFF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hardware.Tests", "Hadware.Tests\Hardware.Tests.csproj", "{99A5662C-2D88-40D4-A8CC-FDFA65964AFF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hardware.Resources.Tests", "Hardware.Resources.Tests\Hardware.Resources.Tests.csproj", "{5F25ACCA-8DA7-4F88-B326-8FC931E23E85}"
 EndProject

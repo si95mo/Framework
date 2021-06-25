@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Core.Converters")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Define conversion methods that can be applied when propagating values")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("HP Inc.")]
 [assembly: AssemblyProduct("Core.Converters")]

@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Core.Parameters")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Defines the framework version of a parameter")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("HP Inc.")]
 [assembly: AssemblyProduct("Core.Parameters")]

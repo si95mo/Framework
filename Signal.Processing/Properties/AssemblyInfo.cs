@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Signal.Processing")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Contains DSP-related functionalities")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("HP Inc.")]
 [assembly: AssemblyProduct("Signal.Processing")]
