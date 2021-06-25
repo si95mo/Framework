@@ -1,7 +1,4 @@
-﻿using Core;
-using System;
-
-namespace Hardware
+﻿namespace Core
 {
     /// <summary>
     /// Describe a generic (hardware) channel

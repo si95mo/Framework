@@ -1,5 +1,5 @@
-﻿using Core.DataStructures;
-using Hardware;
+﻿using Core;
+using Core.DataStructures;
 using System;
 
 namespace Devices
