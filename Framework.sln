@@ -31,7 +31,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Parameters", "Core.Par
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Converters.Tests", "Core.Converters.Tests\Core.Converters.Tests.csproj", "{2B7099E9-BA1C-4DB0-A4FB-96C121031060}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mathematics", "Math\Mathematics.csproj", "{CFE7C7F0-3A06-42EC-905B-4B9DB2358BC1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mathematics", "Mathematics\Mathematics.csproj", "{CFE7C7F0-3A06-42EC-905B-4B9DB2358BC1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Signal.Processing", "Signal.Processing\Signal.Processing.csproj", "{55CB7D92-F9F3-43B8-8A82-D886FC194106}"
 EndProject
@@ -43,7 +43,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Scheduling.Tests", "Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IO.File", "IO.File\IO.File.csproj", "{38B143CC-9481-468A-88AF-48DEDBC36C96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Scheduling.Wrapper", "Wrapper\Core.Scheduling.Wrapper.csproj", "{7EDD29C2-D0C7-4990-BDEE-117EBC9DEB72}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Scheduling.Wrapper", "Core.Scheduling.Wrapper\Core.Scheduling.Wrapper.csproj", "{7EDD29C2-D0C7-4990-BDEE-117EBC9DEB72}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserInterface.Controls", "UserInterface.Components\UserInterface.Controls.csproj", "{4944754E-8566-44D6-933F-38F8DDC98F55}"
 EndProject
