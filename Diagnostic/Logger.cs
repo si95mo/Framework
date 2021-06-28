@@ -87,7 +87,7 @@ namespace Diagnostic
             IOUtility.CreateDirectoryIfNotExists(logPath);
 
             string data = null;
-            if (File.Exists(Path))
+            if (File.Exists(path))
                 data = Read(path);
 
             if (data == null || data?.CompareTo("") == 0)

@@ -67,9 +67,9 @@ namespace Core.Threading
         bool NotSucceded { get; }
 
         /// <summary>
-        /// The <see cref="IAwaitable"/> task reason of failure
+        /// The <see cref="IAwaitable"/> task <see cref="IFailure"/>
         /// </summary>
-        string ReasonOfFailure { get; }
+        IFailure Failure { get; }
 
         /// <summary>
         /// Get the <see cref="IAwaitable"/> task 
@@ -78,5 +78,11 @@ namespace Core.Threading
         /// <returns>The <see cref="TaskAwaiter"/> of the 
         /// <see cref="IAwaitable"/> task</returns>
         TaskAwaiter<TaskResult> GetAwaiter();
+
+        /// <summary>
+        /// Execute the awaitable task
+        /// </summary>
+        /// <returns>The <see cref="IAwaitable"/> task </returns>
+        IAwaitable Execute();
     }
 }
