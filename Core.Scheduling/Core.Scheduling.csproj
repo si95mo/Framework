@@ -58,6 +58,10 @@
       <Project>{1967AA9E-7FB5-4B63-AD7B-8394D65B6E8F}</Project>
       <Name>Core.DataStructures</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Core.Scheduling.Wrapper\Core.Scheduling.Wrapper.csproj">
+      <Project>{7edd29c2-d0c7-4990-bdee-117ebc9deb72}</Project>
+      <Name>Core.Scheduling.Wrapper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Diagnostic\Diagnostic.csproj">
       <Project>{7DEB54D9-B9F1-4B05-8D81-D7B4F77631D1}</Project>
       <Name>Diagnostic</Name>
@@ -65,10 +69,6 @@
     <ProjectReference Include="..\IO\IO.csproj">
       <Project>{65535B13-4850-4EC8-893D-58F3BC49C457}</Project>
       <Name>IO</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Wrapper\Core.Scheduling.Wrapper.csproj">
-      <Project>{7EDD29C2-D0C7-4990-BDEE-117EBC9DEB72}</Project>
-      <Name>Core.Scheduling.Wrapper</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

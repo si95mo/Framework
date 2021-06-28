@@ -101,6 +101,10 @@
       <Project>{1967AA9E-7FB5-4B63-AD7B-8394D65B6E8F}</Project>
       <Name>Core.DataStructures</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Core.Scheduling.Wrapper\Core.Scheduling.Wrapper.csproj">
+      <Project>{7edd29c2-d0c7-4990-bdee-117ebc9deb72}</Project>
+      <Name>Core.Scheduling.Wrapper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core.Scheduling\Core.Scheduling.csproj">
       <Project>{9f1eabb2-f717-46a7-a46c-ce773d25a1ae}</Project>
       <Name>Core.Scheduling</Name>
@@ -120,10 +124,6 @@
     <ProjectReference Include="..\UserInterface.Components\UserInterface.Controls.csproj">
       <Project>{4944754E-8566-44D6-933F-38F8DDC98F55}</Project>
       <Name>UserInterface.Controls</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Wrapper\Core.Scheduling.Wrapper.csproj">
-      <Project>{7EDD29C2-D0C7-4990-BDEE-117EBC9DEB72}</Project>
-      <Name>Core.Scheduling.Wrapper</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
