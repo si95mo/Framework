@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace Diagnostic
 {
@@ -277,7 +278,7 @@ namespace Diagnostic
         }
 
         /// <summary>
-        /// Convert the <see cref="Severity"/> of the entry to lo in a <see cref="string""/>
+        /// Convert the <see cref="Severity"/> of the entry to log in a <see cref="string""/>
         /// </summary>
         /// <param name="severity"> The severity (<see cref="Severity"/>) of the entry </param>
         /// <returns>The <see cref="string"/> result of the conversion</returns>
@@ -305,6 +306,24 @@ namespace Diagnostic
             }
 
             return severityAsString;
+        }
+
+        /// <summary>
+        /// Convert the <see cref="Severity"/> of the entry to log in a readable <see cref="string""/>
+        /// (i.e. removing all unnecessary characters as white spaces)
+        /// </summary>
+        /// <param name="severity"> The severity (<see cref="Severity"/>) of the entry </param>
+        /// <returns>The <see cref="string"/> result of the conversion</returns>
+        private static string GetReadableSeverityAsString(Severity severity)
+        {
+            string str = GetSeverityAsString(severity);
+            str = new string(
+                str.ToCharArray().Where(
+                    c => !char.IsWhiteSpace(c)
+                ).ToArray()
+            );
+
+            return str;
         }
 
         /// <summary>
@@ -351,10 +370,21 @@ namespace Diagnostic
         /// <param name="level"></param>
         public static void SetMinimumSeverityLevel(Severity level)
         {
+            Severity oldSeverity = minimumSeverityLevel;
+
             if ((int)level < (int)Severity.Warn)
                 minimumSeverityLevel = level;
             else
                 minimumSeverityLevel = Severity.Warn;
+
+            if (oldSeverity != minimumSeverityLevel)
+            {
+                Log(
+                    $"Minimum level set from {GetReadableSeverityAsString(oldSeverity)} " +
+                        $"to {GetReadableSeverityAsString(minimumSeverityLevel)}.",
+                    severity: Severity.Warn
+                );
+            }
         }
 
         /// <summary>
