@@ -13,7 +13,7 @@ namespace Core.Scheduling
 
         /// <summary>
         /// The <see cref="MethodQueue{T}"/> of all the
-        /// <see cref="Method"/> subscribed to the <see cref="SimpleScheduler"/>
+        /// <see cref="Method"/> subscribed to the <see cref="Scheduler"/>
         /// </summary>
         [field: NonSerialized()]
         public MethodQueue<Method> SubscribedMethods => subscribedMethods;
@@ -54,7 +54,7 @@ namespace Core.Scheduling
                 Stream openFileStream = File.OpenRead(fileName);
                 BinaryFormatter deserializer = new BinaryFormatter();
 
-                subscribedMethods = (deserializer.Deserialize(openFileStream) as SimpleScheduler)
+                subscribedMethods = (deserializer.Deserialize(openFileStream) as Scheduler)
                     .PersistentSubscribedMethods;
 
                 openFileStream.Close();
@@ -75,7 +75,7 @@ namespace Core.Scheduling
 
         /// <summary>
         /// Save the last execution list of <see cref="Method"/>
-        /// performed by the <see cref="SimpleScheduler"/>.
+        /// performed by the <see cref="Scheduler"/>.
         /// </summary>
         /// <param name="fileName">The file name in which save the list</param>
         public void SaveExecutionList(string fileName)
