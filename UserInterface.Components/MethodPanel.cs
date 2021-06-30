@@ -16,7 +16,7 @@ namespace UserInterface.Controls
     /// </summary>
     public partial class MethodContainer : UserControl
     {
-        private const int controlLocationOffset = 4;
+        private const int controlLocationOffset = 6;
         private const int textBoxSize = 25;
 
         private Size size;
@@ -71,7 +71,7 @@ namespace UserInterface.Controls
                         var txtCtrl = new TextControl();
                         txtCtrl.Location = new Point(
                             lblMethodName.Location.X,
-                            lblParam.Location.Y
+                            lblParam.Location.Y - 4
                         );
 
                         AddElementToCollection(lblParam, txtCtrl);
@@ -81,7 +81,7 @@ namespace UserInterface.Controls
                         var diCtrl = new DigitalControl();
                         diCtrl.Location = new Point(
                             lblMethodName.Location.X,
-                            lblParam.Location.Y
+                            lblParam.Location.Y - 4
                         );
 
                         AddElementToCollection(lblParam, diCtrl);
