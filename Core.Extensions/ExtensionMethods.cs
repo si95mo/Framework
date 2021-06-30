@@ -1,0 +1,42 @@
+﻿using System;
+using System.Linq;
+
+namespace Core.Extensions
+{
+    /// <summary>
+    /// Class that provides useful extension methods
+    /// </summary>
+    public static class ExtensionMethods
+    {
+        /// <summary>
+        /// Determine whether an item is contained in a collection of elements
+        /// </summary>
+        /// <typeparam name="T">The type of the item and the collection</typeparam>
+        /// <param name="item">The item to check</param>
+        /// <param name="collection">The collection</param>
+        /// <returns><see langword="true"/> if the item is contained in the collection,
+        /// <see langword="false"/> otherwise</returns>
+        public static bool IsIn<T>(this T item, params T[] collection)
+        {
+            if (item == null)
+                throw new ArgumentNullException("The source parameter cannot be null!");
+
+            bool result = collection.Contains(item);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Format a <see cref="string"/>.
+        /// See also <see cref="string.Format(string, object[])"/>
+        /// </summary>
+        /// <param name="s">The <see cref="string"/> to format</param>
+        /// <param name="args">The arguments</param>
+        /// <returns>The formatted <see cref="string"/></returns>
+        public static string With(this string s, params object[] args)
+        {
+            string result = string.Format(s, args);
+            return result;
+        }
+    }
+}
