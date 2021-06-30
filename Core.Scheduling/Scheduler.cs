@@ -1,4 +1,5 @@
 ﻿using Core.DataStructures;
+using Core.Extensions;
 using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;

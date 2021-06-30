@@ -1,46 +1,9 @@
 ﻿using Core.DataStructures;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Scheduling
 {
-    /// <summary>
-    /// Provides a method for performing a deep copy of an object.
-    /// Binary Serialization is used to perform the copy.
-    /// </summary>
-    // Reference Article http://www.codeproject.com/KB/tips/SerializedObjectCloner.aspx
-    public static class SystemExtension
-    {
-        /// <summary>
-        /// Perform a deep copy of the object via serialization.
-        /// </summary>
-        /// <typeparam name="T">The type of object being copied.</typeparam>
-        /// <param name="source">The object instance to copy.</param>
-        /// <returns>A deep copy of the object.</returns>
-        public static T Clone<T>(this T source)
-        {
-            if (!typeof(T).IsSerializable)
-                throw new ArgumentException("The type must be serializable.", nameof(source));
-
-            // Don't serialize a null object, simply return the default for that object
-            if (ReferenceEquals(source, null))
-                return default;
-
-            Stream stream = new MemoryStream();
-            IFormatter formatter = new BinaryFormatter();
-            formatter.Serialize(stream, source);
-            stream.Seek(0, SeekOrigin.Begin);
-
-            return (T)formatter.Deserialize(stream);
-        }
-    }
-
     /// <summary>
     /// A <see cref="MethodQueue{T}"/> with Equeued and Dequeued event handler.
     /// See <see cref="Queue{T}"/>.

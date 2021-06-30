@@ -9,7 +9,7 @@ namespace Core.Scheduling
     ///  <b>Note</b> that each class that will have methods subscribed to the <see cref="SimpleScheduler"/>
     /// <b>must</b> be serializable in order to perform a deep copy of the objects and
     /// have the <see cref="SimpleScheduler"/> work!
-    /// See <see cref="SystemExtension.Clone{T}(T)"/>, <see cref="SerializableAttribute"/> and
+    /// See <see cref="Core.Extensions.SystemExtension.Clone{T}(T)"/>, <see cref="SerializableAttribute"/> and
     /// also <see cref="SerializableAttribute.SerializableAttribute"/>
     /// </summary>
     [Serializable]

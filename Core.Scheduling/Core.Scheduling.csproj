@@ -58,6 +58,10 @@
       <Project>{1967AA9E-7FB5-4B63-AD7B-8394D65B6E8F}</Project>
       <Name>Core.DataStructures</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Core.Extensions\Core.Extensions.csproj">
+      <Project>{9A12DE29-C4AD-42CE-AB4B-88EBC819E83A}</Project>
+      <Name>Core.Extensions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core.Scheduling.Wrapper\Core.Scheduling.Wrapper.csproj">
       <Project>{7edd29c2-d0c7-4990-bdee-117ebc9deb72}</Project>
       <Name>Core.Scheduling.Wrapper</Name>
