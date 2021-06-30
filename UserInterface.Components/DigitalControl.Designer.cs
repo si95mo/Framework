@@ -43,6 +43,7 @@ namespace UserInterface.Controls
             this.panel.Name = "panel";
             this.panel.Size = new System.Drawing.Size(150, 25);
             this.panel.TabIndex = 0;
+            this.panel.Click += new System.EventHandler(this.Control_Cick);
             // 
             // btnValue
             // 
@@ -54,7 +55,7 @@ namespace UserInterface.Controls
             this.btnValue.TabIndex = 1;
             this.btnValue.Text = "False";
             this.btnValue.UseVisualStyleBackColor = false;
-            this.btnValue.Click += new System.EventHandler(this.ButtonValue_Click);
+            this.btnValue.Click += new System.EventHandler(this.Control_Cick);
             // 
             // DigitalControl
             // 

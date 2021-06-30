@@ -11,7 +11,7 @@ namespace UserInterface.Controls
     /// <summary>
     /// An user control to graphically visualize an instance
     /// of <see cref="Method"/> and eventually add it
-    /// to a <see cref="SimpleScheduler"/>.
+    /// to a <see cref="Scheduler"/>.
     /// See also <see cref="UserControl"/>.
     /// </summary>
     public partial class MethodContainer : UserControl
@@ -22,15 +22,15 @@ namespace UserInterface.Controls
         private Size size;
 
         private Method method;
-        private SimpleScheduler scheduler;
+        private Scheduler scheduler;
         private List<BaseControl> values = new List<BaseControl>();
 
         /// <summary>
         /// Create a new instance of the class <see cref="MethodContainer"/>
         /// </summary>
         /// <param name="method">The <see cref="Method"/></param>
-        /// <param name="scheduler">The <see cref="SimpleScheduler"/></param>
-        public MethodContainer(Method method, SimpleScheduler scheduler)
+        /// <param name="scheduler">The <see cref="Scheduler"/></param>
+        public MethodContainer(Method method, Scheduler scheduler)
         {
             InitializeComponent();
 
@@ -99,7 +99,7 @@ namespace UserInterface.Controls
         }
 
         /// <summary>
-        /// Add a <see cref="Method"/> to the <see cref="SimpleScheduler"/>
+        /// Add a <see cref="Method"/> to the <see cref="Scheduler"/>
         /// <see cref="MethodQueue{T}"/>
         /// </summary>
         /// <param name="sender">The sender</param>

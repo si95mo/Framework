@@ -5,13 +5,10 @@ using System.Windows.Forms;
 namespace UserInterface.Controls
 {
     public partial class DigitalControl : BaseControl
-    {
-        private readonly Color onColor = Color.LightGreen;
-        private readonly Color offColor = Color.DarkSlateGray;
-
+    {     
         public override object Value
         {
-            get => value;
+            get => (bool)value;
             set => this.value = (bool)value;
         }
 
@@ -19,34 +16,37 @@ namespace UserInterface.Controls
         {
             InitializeComponent();
 
-            btnValue.FlatAppearance.BorderColor = offColor;
+            value = false;
+
+            // panel.BackColor = Colors.BackgroundColor;
+
+            // btnValue.BackColor = Colors.BackgroundColor;
+            // btnValue.ForeColor = Colors.TextColorLight;
+            btnValue.FlatAppearance.BorderColor = Colors.OffColor;            
+            btnValue.FlatAppearance.MouseOverBackColor = Colors.Transparent;            
         }
 
-        private void ButtonValue_Click(object sender, EventArgs e)
+        private void Control_Cick(object sender, EventArgs e)
         {
             Point p;
-            Color c;
             string text;
 
             if (btnValue.Location.X == 0)
             {
                 p = new Point(75, 0);
                 text = "True";
-                c = onColor;
-
-                value = true;
+                btnValue.FlatAppearance.BorderColor = Colors.OnColor;
             }
             else
             {
                 p = new Point(0, 0);
                 text = "False";
-                c = offColor;
-
-                value = false;
+                btnValue.FlatAppearance.BorderColor = Colors.OffColor;
             }
 
+            value = !(bool)value;
+
             btnValue.Location = p;
-            btnValue.FlatAppearance.BorderColor = c;
             btnValue.Text = text;
         }
 

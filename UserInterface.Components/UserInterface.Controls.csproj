@@ -49,6 +49,7 @@
     <Compile Include="BaseControl.Designer.cs">
       <DependentUpon>BaseControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Colors.cs" />
     <Compile Include="DigitalControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
