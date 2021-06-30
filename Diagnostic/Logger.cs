@@ -99,7 +99,7 @@ namespace Diagnostic
                 AppendText(DAILY_SEPARATOR);
 
                 string lineTimestamp = "", lineType = "", lineLogEntryDescription = "";
-                for(int i = 0; i <= ENTRY_DESCRITPION_LENGTH; i++)
+                for (int i = 0; i <= ENTRY_DESCRITPION_LENGTH; i++)
                 {
                     if (i <= LINE_TYPE_LEGNTH)
                         lineType += "*";
@@ -114,14 +114,14 @@ namespace Diagnostic
                 // 5  = LINE_TYPE_LENGTH - 1
                 // 70 = ENTRY_DESCRIPTION_LENGTH
                 header = string.Format(
-                    "{0, 23}|{1, 5}|{2, 70}", 
-                    lineTimestamp, 
+                    "{0, 23}|{1, 5}|{2, 70}",
+                    lineTimestamp,
                     lineType,
                     lineLogEntryDescription
                 );
                 header += Environment.NewLine;
                 header += string.Format(
-                    "{0, 23} | {1, 5} | {2, 40}", 
+                    "{0, 23} | {1, 5} | {2, 40}",
                     "TIMESTAMP", "TYPE", "LOG ENTRY DESCRIPTION"
                 );
                 header += Environment.NewLine;
@@ -134,6 +134,8 @@ namespace Diagnostic
 
                 AppendText(header);
             }
+            else
+                AppendText($"{Environment.NewLine}{DAILY_SEPARATOR}{Environment.NewLine}");
         }
 
         /// <summary>
