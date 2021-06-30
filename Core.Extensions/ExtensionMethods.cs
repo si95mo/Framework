@@ -73,5 +73,98 @@ namespace Core.Extensions
 
             return result;
         }
+
+        /// <summary>
+        /// Perform a <see cref="Func{T, TResult}"/> if <paramref name="value"/> is <see langword="true"/>
+        /// </summary>
+        /// <typeparam name="T">The type of the value to test</typeparam>
+        /// <param name="value">The value</param>
+        /// <param name="function">The <see cref="Func{T, TResult}"/></param>
+        /// <returns>The result of the <see cref="Func{T, TResult}"/></returns>
+        public static T IfTrue<T>(this bool value, Func<T> function)
+        {
+            if (value)
+                return (T)function();
+            else
+                return default(T);
+        }
+
+        /// <summary>
+        /// Perform an <see cref="Action"/> if <paramref name="value"/> is <see langword="true"/>
+        /// </summary>
+        /// <typeparam name="T">The type of the value to test</typeparam>
+        /// <param name="value">The value</param>
+        /// <param name="action">The <see cref="Action"/></param>
+        /// <returns>The result of the <see cref="Action"/></returns>
+        public static void IfTrue(this bool value, Action action)
+        {
+            if (value)
+                action();
+        }
+
+        /// <summary>
+        /// Perform a <see cref="Func{T, TResult}"/> if <paramref name="value"/> is <see langword="false"/>
+        /// </summary>
+        /// <typeparam name="T">The type of the value to test</typeparam>
+        /// <param name="value">The value</param>
+        /// <param name="function">The <see cref="Func{T, TResult}"/></param>
+        /// <returns>The result of the <see cref="Func{T, TResult}"/></returns>
+        public static T IfFalse<T>(this bool value, Func<T> function)
+        {
+            if (!value)
+                return (T)function();
+            else
+                return default(T);
+        }
+
+        /// <summary>
+        /// Perform an <see cref="Action"/> if <paramref name="value"/> is <see langword="false"/>
+        /// </summary>
+        /// <typeparam name="T">The type of the value to test</typeparam>
+        /// <param name="value">The value</param>
+        /// <param name="action">The <see cref="Action"/></param>
+        /// <returns>The result of the <see cref="Action"/></returns>
+        public static void IfFalse(this bool value, Action action)
+        {
+            if (!value)
+                action();
+        }
+
+        /// <summary>
+        /// Perform a <see cref="Func{T, TResult}"/> based on <paramref name="value"/>
+        /// </summary>
+        /// <typeparam name="T">The type of the value to test</typeparam>
+        /// <param name="value">The value</param>
+        /// <param name="trueFunction">The <see cref="Func{T, TResult}"/> to execute
+        /// if <paramref name="value"/> is <see langword="true"/></param>
+        /// <param name="falseFunction">The <see cref="Func{T, TResult}"/> to execute
+        /// if <paramref name="value"/> is <see langword="false"/></param>
+        /// <returns>The result of the <see cref="Func{T, TResult}"/></returns>
+        public static T IfTrueIfFalse<T>(this bool value, Func<T> trueFunction, Func<T> falseFunction)
+        {
+            if (value)
+                return (T)trueFunction();
+            else
+                return (T)falseFunction();
+        }
+
+        /// <summary>
+        /// Perform an <see cref="Action"/> if <paramref name="value"/> is <see langword="false"/>
+        /// </summary>
+        /// <typeparam name="T">The type of the value to test</typeparam>
+        /// <param name="value">The value</param>
+        /// <param name="trueAction">The <see cref="Action"/> to execute
+        /// if <paramref name="value"/> is <see langword="true"/></param>
+        /// <param name="falseAction">The <see cref="Action"/> to execute
+        /// if <paramref name="value"/> is <see langword="false"/></param>
+        /// <returns>The result of the <see cref="Action"/></returns>
+        public static void IfTrueIfFalse(this bool value, Action trueAction, Action falseAction)
+        {
+            if (value)
+                trueAction();
+            else
+                falseAction();
+        }
     }
 }
+

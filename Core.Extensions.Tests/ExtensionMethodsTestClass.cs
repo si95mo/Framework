@@ -7,6 +7,7 @@ namespace Core.Extensions.Tests
     {
         private int item;
         private string text;
+        bool itWorks = false;
 
         [OneTimeSetUp]
         public void Setup()
@@ -44,6 +45,30 @@ namespace Core.Extensions.Tests
 
             item.BetweenInclusive(0, 10).Should().BeTrue();
             item.BetweenExclusive(0, 10).Should().BeFalse();
+        }
+
+        [Test]
+        public void TestifTrue()
+        {
+
+            itWorks = (true.IfTrue(() => true));
+            Assert.IsTrue(itWorks);
+        }
+        [Test]
+        public void TestifFalse()
+        {
+            itWorks = (false.IfFalse(() => true));
+            Assert.IsTrue(itWorks);
+        }
+
+        [Test]
+        public void TestifTrueifFalse()
+        {
+            itWorks = false.IfTrueIfFalse(() => false, () => true);
+            Assert.IsTrue(itWorks);
+            itWorks = false;
+            itWorks = true.IfTrueIfFalse(() => true, () => false);
+            Assert.IsTrue(itWorks);
         }
     }
 }
