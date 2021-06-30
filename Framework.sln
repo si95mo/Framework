@@ -47,6 +47,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Scheduling.Wrapper", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserInterface.Controls", "UserInterface.Components\UserInterface.Controls.csproj", "{4944754E-8566-44D6-933F-38F8DDC98F55}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Threading.Tests", "Core.Threading.Tests\Core.Threading.Tests.csproj", "{9BAE02F8-17B1-4DBD-BAB5-9387981AD393}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -141,6 +143,10 @@ Global
 		{4944754E-8566-44D6-933F-38F8DDC98F55}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4944754E-8566-44D6-933F-38F8DDC98F55}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4944754E-8566-44D6-933F-38F8DDC98F55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BAE02F8-17B1-4DBD-BAB5-9387981AD393}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BAE02F8-17B1-4DBD-BAB5-9387981AD393}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BAE02F8-17B1-4DBD-BAB5-9387981AD393}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BAE02F8-17B1-4DBD-BAB5-9387981AD393}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -12,9 +12,9 @@ namespace UserInterface.Controls
     /// An user control to graphically visualize an instance
     /// of <see cref="Method"/> and eventually add it
     /// to a <see cref="Scheduler"/>.
-    /// See also <see cref="UserControl"/>.
+    /// See also <see cref="UserControl"/> 
     /// </summary>
-    public partial class MethodContainer : UserControl
+    public partial class MethodControl : UserControl
     {
         private const int controlLocationOffset = 6;
         private const int textBoxSize = 25;
@@ -26,11 +26,11 @@ namespace UserInterface.Controls
         private List<BaseControl> values = new List<BaseControl>();
 
         /// <summary>
-        /// Create a new instance of the class <see cref="MethodContainer"/>
+        /// Create a new instance of the class <see cref="MethodControl"/>
         /// </summary>
         /// <param name="method">The <see cref="Method"/></param>
         /// <param name="scheduler">The <see cref="Scheduler"/></param>
-        public MethodContainer(Method method, Scheduler scheduler)
+        public MethodControl(Method method, Scheduler scheduler)
         {
             InitializeComponent();
 
@@ -90,6 +90,11 @@ namespace UserInterface.Controls
             }
         }
 
+        /// <summary>
+        /// Add an element to the collection
+        /// </summary>
+        /// <param name="lblParam">The <see cref="Label"/></param>
+        /// <param name="control">The <see cref="BaseControl"/></param>
         private void AddElementToCollection(Label lblParam, BaseControl control)
         {
             Controls.Add(lblParam);

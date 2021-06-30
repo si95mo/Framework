@@ -1,7 +1,7 @@
 ﻿
 namespace UserInterface.Controls
 {
-    partial class MethodContainer
+    partial class MethodControl
     {
         /// <summary> 
         /// Required designer variable.

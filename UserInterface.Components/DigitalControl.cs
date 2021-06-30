@@ -4,6 +4,10 @@ using System.Windows.Forms;
 
 namespace UserInterface.Controls
 {
+    /// <summary>
+    /// Define a control for handling digital inputs.
+    /// See <see cref="BaseControl"/>
+    /// </summary>
     public partial class DigitalControl : BaseControl
     {     
         public override object Value
@@ -12,20 +16,24 @@ namespace UserInterface.Controls
             set => this.value = (bool)value;
         }
 
+        /// <summary>
+        /// Create a new instance of <see cref="DigitalControl"/>
+        /// </summary>
         public DigitalControl()
         {
             InitializeComponent();
 
             value = false;
 
-            // panel.BackColor = Colors.BackgroundColor;
-
-            // btnValue.BackColor = Colors.BackgroundColor;
-            // btnValue.ForeColor = Colors.TextColorLight;
-            btnValue.FlatAppearance.BorderColor = Colors.OffColor;            
+            btnValue.FlatAppearance.BorderColor = Colors.Black;            
             btnValue.FlatAppearance.MouseOverBackColor = Colors.Transparent;            
         }
 
+        /// <summary>
+        /// Handle the click event
+        /// </summary>
+        /// <param name="sender">The sender</param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void Control_Cick(object sender, EventArgs e)
         {
             Point p;
@@ -35,13 +43,13 @@ namespace UserInterface.Controls
             {
                 p = new Point(75, 0);
                 text = "True";
-                btnValue.FlatAppearance.BorderColor = Colors.OnColor;
+                btnValue.FlatAppearance.BorderColor = Colors.Green;
             }
             else
             {
                 p = new Point(0, 0);
                 text = "False";
-                btnValue.FlatAppearance.BorderColor = Colors.OffColor;
+                btnValue.FlatAppearance.BorderColor = Colors.Black;
             }
 
             value = !(bool)value;
@@ -50,6 +58,10 @@ namespace UserInterface.Controls
             btnValue.Text = text;
         }
 
+        /// <summary>
+        /// The on paint event handler
+        /// </summary>
+        /// <param name="e">THe <see cref="PaintEventArgs"/></param>
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
