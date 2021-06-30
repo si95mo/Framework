@@ -24,10 +24,26 @@ namespace Core.Extensions.Tests
 
         [Test]
         [TestCase("A", "B", "C")]
-        public void FormatWith(string first, string second, string third)
+        public void FormatWithTest(string first, string second, string third)
         {
             string tmp = text;
             text.With(first, second, third).Should().Be(string.Format(tmp, first, second, third));
+        }
+
+        [Test]
+        public void BetweenTest()
+        {
+            item.BetweenInclusive(0, 100).Should().BeTrue();
+            item.BetweenExclusive(0, 100).Should().BeTrue();
+
+            item.BetweenInclusive(10, 100).Should().BeTrue();
+            item.BetweenExclusive(10, 100).Should().BeFalse();
+
+            item.BetweenInclusive(0, 9).Should().BeFalse();
+            item.BetweenExclusive(0, 9).Should().BeFalse();
+
+            item.BetweenInclusive(0, 10).Should().BeTrue();
+            item.BetweenExclusive(0, 10).Should().BeFalse();
         }
     }
 }
