@@ -35,13 +35,13 @@ namespace Core.Scheduling.Tests
             var methods = MethodWrapper.Wrap(testObject);
             foreach (var method in methods)
             {
-                panelMethods.Controls.Add(new MethodContainer(method, scheduler));
+                panelMethods.Controls.Add(new MethodControl(method, scheduler));
             }
 
             methods = MethodWrapper.Wrap(dummyObject);
             foreach (var method in methods)
             {
-                panelMethods.Controls.Add(new MethodContainer(method, scheduler));
+                panelMethods.Controls.Add(new MethodControl(method, scheduler));
             }
         }
 
