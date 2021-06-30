@@ -129,13 +129,8 @@ namespace Core.DataStructures
         private void ExtractParameterValue(string[] values)
         {
             if (values != null)
-            {
                 for (int i = 0; i < Parameters.Count; i++)
-                {
-                    Parameter p = Parameters[i];
-                    p.Value = values[i];
-                }
-            }
+                    parameters[i].Value = values[i];
         }
 
         /// <summary>
