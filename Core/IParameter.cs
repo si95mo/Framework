@@ -15,7 +15,7 @@
     public interface IParameter<T> : IProperty<T>, IParameter
     {
         /// <summary>
-        /// The <see cref="IParameter"/> code
+        /// The <see cref="IParameter"/> value
         /// </summary>
         T Value
         {

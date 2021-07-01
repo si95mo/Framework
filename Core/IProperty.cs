@@ -50,7 +50,7 @@ namespace Core
     public interface IProperty<T> : IProperty
     {
         /// <summary>
-        /// The <see cref="IProperty"/> code
+        /// The <see cref="IProperty"/> value
         /// </summary>
         T Value
         {
