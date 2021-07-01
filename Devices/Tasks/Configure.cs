@@ -8,10 +8,10 @@ namespace Devices.Tasks
 {
     internal class Configure<TChannel, TParameter>
     {
-        List<IChannel> channels;
-        List<IParameter> parameters;
+        private List<IChannel> channels;
+        private List<IParameter> parameters;
 
-        Device<TChannel, TParameter> device;
+        private Device<TChannel, TParameter> device;
 
         /// <summary>
         /// Create a new instance of <see cref="Configure"/>

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Devices.Template
+﻿namespace Devices.Template
 {
     public class NewDevice : Device<Channels.Channels, Parameters.Parameters>
     {
@@ -13,7 +7,7 @@ namespace Devices.Template
         /// </summary>
         /// <param name="code">The code</param>
         public NewDevice(string code) : base(code)
-        { 
+        {
             // Add stuff here
         }
     }

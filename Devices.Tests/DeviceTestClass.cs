@@ -6,7 +6,7 @@ namespace Devices.Tests
 {
     public class DeviceTestClass
     {
-        NewDevice device;
+        private NewDevice device;
 
         [OneTimeSetUp]
         public void Setup()

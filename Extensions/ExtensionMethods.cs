@@ -51,8 +51,8 @@ namespace Extensions
         /// <param name="actual">The value to check</param>
         /// <param name="lower">The lower limit</param>
         /// <param name="upper">The upper limit</param>
-        /// <returns><see langword="true"/> if <paramref name="actual"/> is greater or equal to 
-        /// <paramref name="lower"/> and lesser or equal to <paramref name="upper"/>, 
+        /// <returns><see langword="true"/> if <paramref name="actual"/> is greater or equal to
+        /// <paramref name="lower"/> and lesser or equal to <paramref name="upper"/>,
         /// <see langword="false"/> otherwise</returns>
         public static bool BetweenInclusive<T>(this T actual, T lower, T upper) where T : IComparable<T>
         {
@@ -69,8 +69,8 @@ namespace Extensions
         /// <param name="actual">The value to check</param>
         /// <param name="lower">The lower limit</param>
         /// <param name="upper">The upper limit</param>
-        /// <returns><see langword="true"/> if <paramref name="actual"/> is greater than 
-        /// <paramref name="lower"/> and lesser than <paramref name="upper"/>, 
+        /// <returns><see langword="true"/> if <paramref name="actual"/> is greater than
+        /// <paramref name="lower"/> and lesser than <paramref name="upper"/>,
         /// <see langword="true"/> otherwise</returns>
         public static bool BetweenExclusive<T>(this T actual, T lower, T upper) where T : IComparable<T>
         {
