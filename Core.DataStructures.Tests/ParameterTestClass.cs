@@ -1,6 +1,7 @@
 ﻿using Core.Parameters;
 using FluentAssertions;
 using NUnit.Framework;
+using System;
 
 namespace Core.DataStructures.Tests
 {
@@ -9,6 +10,7 @@ namespace Core.DataStructures.Tests
         private NumericParameter firstNumericParameter, secondNumericParameter;
         private BooleanParameter firstBooleanParameter, secondBooleanParameter;
         private StringParameter firstStringParameter, secondStringParameter;
+        private TimeSpanParameter timeSpanParameter;
 
         [OneTimeSetUp]
         public void Setup()
@@ -22,6 +24,8 @@ namespace Core.DataStructures.Tests
             firstStringParameter = new StringParameter(nameof(firstStringParameter));
             secondStringParameter = new StringParameter(nameof(secondStringParameter));
 
+            timeSpanParameter = new TimeSpanParameter(nameof(timeSpanParameter));
+
             firstNumericParameter.ConnectTo(secondNumericParameter);
             firstBooleanParameter.ConnectTo(secondBooleanParameter);
             firstStringParameter.ConnectTo(secondStringParameter);
@@ -33,6 +37,7 @@ namespace Core.DataStructures.Tests
             ServiceBroker.Add<IParameter>(secondBooleanParameter);
             ServiceBroker.Add<IParameter>(firstStringParameter);
             ServiceBroker.Add<IParameter>(secondStringParameter);
+            ServiceBroker.Add<IParameter>(timeSpanParameter);
         }
 
         [OneTimeTearDown]
@@ -57,6 +62,10 @@ namespace Core.DataStructures.Tests
 
             firstStringParameter.Value = "Hello world!";
             secondStringParameter.Value.Should().Be(firstStringParameter.Value);
+
+            TimeSpan span = new TimeSpan(0, 0, 0, 1, 1000);
+            timeSpanParameter.Value = span;
+            timeSpanParameter.Value.Should().Be(span);
         }
     }
 }
