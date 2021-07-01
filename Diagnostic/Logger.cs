@@ -72,7 +72,7 @@ namespace Diagnostic
         {
             string now = DateTime.Now.ToString("yyyy-MM-dd");
             string[] files;
-            if(Directory.Exists(logPath))
+            if (Directory.Exists(logPath))
                 files = Directory.GetFiles(logPath);
             else
             {
@@ -134,8 +134,6 @@ namespace Diagnostic
 
                 AppendText(header);
             }
-            else
-                AppendText($"{Environment.NewLine}{DAILY_SEPARATOR}{Environment.NewLine}");
         }
 
         /// <summary>
