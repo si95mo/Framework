@@ -55,7 +55,7 @@ namespace IO
         {
             bool directoryCreated = false;
 
-            if(!DoesDirectoryExists(path))
+            if (!DoesDirectoryExists(path))
             {
                 Directory.CreateDirectory(path);
                 directoryCreated = true;
@@ -68,7 +68,7 @@ namespace IO
         /// Extract the icon from all files contained in the folder specified
         /// </summary>
         /// <param name="path"> The folder path </param>
-        /// <returns> A <see cref="List{T}"/> of <see cref="FileItem"/> 
+        /// <returns> A <see cref="List{T}"/> of <see cref="FileItem"/>
         /// containing the name and the icon of each file </returns>
         public static List<FileItem> GetFileIcon(string path)
         {

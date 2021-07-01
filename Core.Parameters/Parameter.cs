@@ -23,14 +23,14 @@ namespace Core.Parameters
         protected EventHandler<ValueChangedEventArgs> ValueChangedHandler;
 
         /// <summary>
-        /// Initialize the class attributes with 
+        /// Initialize the class attributes with
         /// default parameters
         /// </summary>
         protected Parameter() : this(Guid.NewGuid().ToString())
         { }
 
         /// <summary>
-        /// Initialize the class attributes with 
+        /// Initialize the class attributes with
         /// default parameters
         /// </summary>
         /// <param name="code">The code</param>
@@ -62,7 +62,7 @@ namespace Core.Parameters
         /// <summary>
         /// The <see cref="Parameter{T}"/> measure unit
         /// </summary>
-        protected virtual string MeasureUnit 
+        protected virtual string MeasureUnit
         {
             get => measureUnit;
             set => measureUnit = value;
@@ -127,7 +127,7 @@ namespace Core.Parameters
 
         /// <summary>
         /// Connects an <see cref="IParameter"/> to another
-        /// in order to propagate its value converted. 
+        /// in order to propagate its value converted.
         /// See also <see cref="ConnectTo(IParameter{T})"/>
         /// </summary>
         /// <param name="channel">The destination <see cref="IParameter"/></param>

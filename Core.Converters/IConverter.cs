@@ -19,7 +19,7 @@ namespace Core.Converters
         TOut Execute(TIn arg);
 
         /// <summary>
-        /// Connect two <see cref="IProperty"/> in order to 
+        /// Connect two <see cref="IProperty"/> in order to
         /// propagate the converted value
         /// </summary>
         /// <param name="sourceParameter">The source <see cref="IParameter"/></param>

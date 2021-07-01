@@ -9,9 +9,10 @@ namespace Mathematics
     public class Mathematics
     {
         /// <summary>
-        /// Pi Greek 
+        /// Pi Greek
         /// </summary>
         public double PI => Math.PI;
+
         /// <summary>
         /// Euler's number
         /// </summary>
@@ -23,12 +24,12 @@ namespace Mathematics
         public Complex I => Complex.ImaginaryOne;
 
         /// <summary>
-        /// Calculate the magnitude of each element 
+        /// Calculate the magnitude of each element
         /// in an array of <see cref="Complex"/>.
         /// See <see cref="Complex.Magnitude"/>
         /// </summary>
         /// <param name="data">The data of which calculate the magnitude</param>
-        /// <param name="normalized">Specifies whether the magnitude has to 
+        /// <param name="normalized">Specifies whether the magnitude has to
         /// be normalized (<see langword="true"/>) or not (<see langword="false"/>)</param>
         /// <returns>The array of magnitudes</returns>
         public static double[] Magnitudes(Complex[] data, bool normalized = false)
@@ -47,7 +48,7 @@ namespace Mathematics
         }
 
         /// <summary>
-        /// Calculate the phase of each element 
+        /// Calculate the phase of each element
         /// in an array of <see cref="Complex"/>.
         /// See <see cref="Complex.Phase"/>
         /// </summary>

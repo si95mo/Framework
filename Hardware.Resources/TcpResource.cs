@@ -30,7 +30,7 @@ namespace Hardware.Resources
         public string Code => code;
 
         /// <summary>
-        /// The <see cref="TcpResource"/> <see cref="Bag{IProperty}"/> of 
+        /// The <see cref="TcpResource"/> <see cref="Bag{IProperty}"/> of
         /// <see cref="IChannel"/>;
         /// </summary>
         public Bag<IChannel> Channels => channels;
@@ -60,8 +60,8 @@ namespace Hardware.Resources
         /// </summary>
         public int Port => port;
 
-        IPGlobalProperties ipProperties;
-        TcpConnectionInformation[] tcpConnections;
+        private IPGlobalProperties ipProperties;
+        private TcpConnectionInformation[] tcpConnections;
 
         /// <summary>
         /// Create a new instance of <see cref="TcpResource"/>
@@ -185,8 +185,8 @@ namespace Hardware.Resources
         }
 
         /// <summary>
-        /// Test for active tcp connection ad the 
-        /// specified <see cref="IpAddress"/> and 
+        /// Test for active tcp connection ad the
+        /// specified <see cref="IpAddress"/> and
         /// <see cref="Port"/>
         /// </summary>
         /// <returns><see langword="true"/> if there is an active connection,

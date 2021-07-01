@@ -102,7 +102,7 @@ namespace Core.DataStructures
 
         /// <summary>
         /// Initialize a new <see cref="Method"/> object with default values
-        /// and assign it a name. 
+        /// and assign it a name.
         /// Also see <see cref="Method.Method"/>.
         /// </summary>
         /// <param name="name">The <see cref="Method"/> name</param>
@@ -122,7 +122,7 @@ namespace Core.DataStructures
         }
 
         /// <summary>
-        /// Extract the parameters' value from a <see cref="string"/> array 
+        /// Extract the parameters' value from a <see cref="string"/> array
         /// containing all the parameters.
         /// </summary>
         /// <param name="values">The <see cref="string"/> array of parameters</param>

@@ -12,6 +12,7 @@ namespace Core
         /// The old value
         /// </summary>
         public readonly object OldValue;
+
         /// <summary>
         /// The new value
         /// </summary>

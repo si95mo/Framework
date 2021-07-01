@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace Core.DataStructures.Tests
 {
-    class ServiceBrokerTestClass
+    internal class ServiceBrokerTestClass
     {
         [OneTimeSetUp]
         public void Setup()

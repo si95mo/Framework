@@ -15,7 +15,7 @@ namespace Signal.Processing.Tests
         private const int N = 1024;
         private double[] signal;
         private NumberFormatInfo nfi;
-        double[] samples;
+        private double[] samples;
 
         [OneTimeSetUp]
         public void Setup()
@@ -48,7 +48,7 @@ namespace Signal.Processing.Tests
         {
             BinaryReader reader = new BinaryReader(stream);
 
-            //Read the wave file header from the buffer. 
+            //Read the wave file header from the buffer.
 
             int chunkID = reader.ReadInt32();
             int fileSize = reader.ReadInt32();
@@ -72,8 +72,7 @@ namespace Signal.Processing.Tests
             int dataID = reader.ReadInt32();
             int dataSize = reader.ReadInt32();
 
-
-            // Store the audio data of the wave file to a byte array. 
+            // Store the audio data of the wave file to a byte array.
 
             byte[] byteArray = reader.ReadBytes(dataSize);
 
@@ -92,10 +91,10 @@ namespace Signal.Processing.Tests
         }
 
         [Test]
-        [TestCase(100,     true)]
-        [TestCase(250.0,   true)]
-        [TestCase(440.0,   true)]
-        [TestCase(1000.0,  true)]
+        [TestCase(100, true)]
+        [TestCase(250.0, true)]
+        [TestCase(440.0, true)]
+        [TestCase(1000.0, true)]
         [TestCase(10000.0, true)]
         public void CalculateFFT(double f, bool saveToFile) // f is the signal frequency
         {
@@ -114,15 +113,19 @@ namespace Signal.Processing.Tests
                 case 100.0:
                     i = 0;
                     break;
+
                 case 250.0:
                     i = 1;
                     break;
+
                 case 440.0:
                     i = 2;
                     break;
+
                 case 1000.0:
                     i = 3;
                     break;
+
                 case 10000.0:
                     i = 4;
                     break;
@@ -132,7 +135,7 @@ namespace Signal.Processing.Tests
             samples = LoadResource(stream);
 
             double samplingFrequency = 44100.0;
-            (Complex[] fft, double[] magnitude, double[] frequencies, double fundamental, double dcValue) = 
+            (Complex[] fft, double[] magnitude, double[] frequencies, double fundamental, double dcValue) =
                 Fourier.FFT(samples, samplingFrequency);
             Console.WriteLine($"\t >> Fundamental frequency: {fundamental:F2}Hz");
 
@@ -150,15 +153,19 @@ namespace Signal.Processing.Tests
                 case 0:
                     (fundamental - 98.0).Should().BeGreaterThan(0.0).And.BeLessThan(threshold);
                     break;
+
                 case 1:
                     (fundamental - 248.0).Should().BeGreaterThan(0.0).And.BeLessThan(threshold);
                     break;
+
                 case 2:
                     (fundamental - 438.0).Should().BeGreaterThan(0.0).And.BeLessThan(threshold);
                     break;
+
                 case 3:
                     (fundamental - 998.0).Should().BeGreaterThan(0.0).And.BeLessThan(threshold);
                     break;
+
                 case 4:
                     (fundamental - 9998.0).Should().BeGreaterThan(0.0).And.BeLessThan(threshold);
                     break;

@@ -45,7 +45,7 @@ namespace Core.Scheduling.Wrapper
             method.Object = obj;
 
             var paramters = methodInfo.GetParameters().ToList();
-            foreach(var param in paramters)
+            foreach (var param in paramters)
             {
                 method.Parameters.Add(new Parameter(param));
             }

@@ -116,7 +116,7 @@ namespace Signal.Processing
         }
 
         /// <summary>
-        /// Transform and array of real data in an 
+        /// Transform and array of real data in an
         /// array of complex data (with respect to FFTW
         /// representation standard of complex numbers).
         /// </summary>
@@ -127,7 +127,7 @@ namespace Signal.Processing
             int n = real.Length;
             double[] complex = new double[2 * n];
 
-            for(int i = 0; i < n; i++)
+            for (int i = 0; i < n; i++)
                 complex[2 * i] = real[i];
 
             return complex;
@@ -144,10 +144,10 @@ namespace Signal.Processing
             int n = data.Length;
             Complex[] complex = new Complex[n / 2];
 
-            for(int i = 0; i < n/2; i++)
+            for (int i = 0; i < n / 2; i++)
                 complex[i] = new Complex(data[2 * i], data[2 * i + 1]);
 
             return complex;
         }
-	}
+    }
 }

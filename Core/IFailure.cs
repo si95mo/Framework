@@ -26,7 +26,7 @@ namespace Core
         { get; }
 
         /// <summary>
-        /// Clear the <see cref="IFailure"/>, 
+        /// Clear the <see cref="IFailure"/>,
         /// resetting it to default values
         /// </summary>
         void Clear();

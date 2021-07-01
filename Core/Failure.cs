@@ -62,7 +62,7 @@ namespace Core
         { }
 
         /// <summary>
-        /// Clear the <see cref="Failure"/>, 
+        /// Clear the <see cref="Failure"/>,
         /// resetting it to default values
         /// </summary>
         public void Clear()

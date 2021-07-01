@@ -13,8 +13,8 @@ namespace Core.Converters
         /// The <see cref="GenericConverter{TIn, TOut}"/> <see cref="Func{T, TResult}"/>
         /// used in conversion
         /// </summary>
-        public override Func<TIn, TOut> Converter 
-        { 
+        public override Func<TIn, TOut> Converter
+        {
             get => converter;
             set => converter = value;
         }

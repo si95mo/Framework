@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace Core.Scheduling.Tests
 {
-    class Program
+    internal class Program
     {
         [STAThread]
         public static void Main()

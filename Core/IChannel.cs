@@ -18,9 +18,9 @@
         /// The <see cref="IChannel"/> code
         /// </summary>
         new T Value
-        { 
-            get; 
-            set; 
+        {
+            get;
+            set;
         }
 
         /// <summary>

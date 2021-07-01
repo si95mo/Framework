@@ -1,12 +1,6 @@
-﻿using System;
-using System.Net;
-using System.Text;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Runtime.Serialization.Json;
-using System.Xml.Linq;
-using System.Xml.XPath;
 using System.IO;
-using Newtonsoft.Json;
 
 namespace IO.File
 {
@@ -33,7 +27,7 @@ namespace IO.File
         /// <param name="obj">The object to serialize and save to file</param>
         /// <param name="path">The file path</param>
         public static void SaveJSON(object obj, string path)
-        { 
+        {
             System.IO.File.WriteAllText(path, JsonConvert.SerializeObject(obj));
 
             // serialize JSON directly to a file

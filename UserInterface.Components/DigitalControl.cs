@@ -9,7 +9,7 @@ namespace UserInterface.Controls
     /// See <see cref="BaseControl"/>
     /// </summary>
     public partial class DigitalControl : BaseControl
-    {     
+    {
         public override object Value
         {
             get => (bool)value;
@@ -25,8 +25,8 @@ namespace UserInterface.Controls
 
             value = false;
 
-            btnValue.FlatAppearance.BorderColor = Colors.Black;            
-            btnValue.FlatAppearance.MouseOverBackColor = Colors.Transparent;            
+            btnValue.FlatAppearance.BorderColor = Colors.Black;
+            btnValue.FlatAppearance.MouseOverBackColor = Colors.Transparent;
         }
 
         /// <summary>

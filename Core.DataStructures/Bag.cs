@@ -30,6 +30,7 @@ namespace Core.DataStructures
         // public delegate void BagChanged(object sender, BagChangedEventArgs<T> e);
 
         public event EventHandler<BagChangedEventArgs<IProperty>> ItemAdded;
+
         public event EventHandler<BagChangedEventArgs<IProperty>> ItemRemoved;
 
         private Dictionary<string, IProperty> set;
@@ -91,7 +92,7 @@ namespace Core.DataStructures
 
         /// <summary>
         /// Remove an item to the <see cref="Bag"/>.
-        /// See <see cref="Remove(IProperty)"/> and also 
+        /// See <see cref="Remove(IProperty)"/> and also
         /// <see cref="Dictionary{TKey, TValue}.Remove(TKey)"/>
         /// </summary>
         /// <param name="item">The item to be removed</param>
@@ -101,7 +102,7 @@ namespace Core.DataStructures
 
         /// <summary>
         /// Remove an item to the <see cref="Bag"/> given its code.
-        /// See <see cref="Remove(IProperty)"/> and also 
+        /// See <see cref="Remove(IProperty)"/> and also
         /// <see cref="Dictionary{TKey, TValue}.Remove(TKey)"/>
         /// </summary>
         /// <param name="item">The item code to be removed</param>

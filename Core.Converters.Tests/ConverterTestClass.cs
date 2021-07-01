@@ -11,9 +11,9 @@ namespace Core.Converters.Tests
     {
         private double conversionFactor = 0.5;
 
-        AnalogInput ai = new AnalogInput("AnalogInput");
-        AnalogOutput ao = new AnalogOutput("AnalogOutput");
-        NumericParameter np = new NumericParameter("NumericParameter");
+        private AnalogInput ai = new AnalogInput("AnalogInput");
+        private AnalogOutput ao = new AnalogOutput("AnalogOutput");
+        private NumericParameter np = new NumericParameter("NumericParameter");
 
         [OneTimeSetUp]
         public void Setup()

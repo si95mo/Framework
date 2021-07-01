@@ -1,6 +1,5 @@
 ﻿using Core;
 using Core.DataStructures;
-using Hardware;
 
 namespace Devices
 {

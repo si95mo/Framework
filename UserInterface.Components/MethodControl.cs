@@ -12,7 +12,7 @@ namespace UserInterface.Controls
     /// An user control to graphically visualize an instance
     /// of <see cref="Method"/> and eventually add it
     /// to a <see cref="Scheduler"/>.
-    /// See also <see cref="UserControl"/> 
+    /// See also <see cref="UserControl"/>
     /// </summary>
     public partial class MethodControl : UserControl
     {
@@ -50,7 +50,7 @@ namespace UserInterface.Controls
                 Size = size;
             }
 
-            int index = 1;         
+            int index = 1;
             Label lblParam;
             if (pars != null)
             {
@@ -111,24 +111,24 @@ namespace UserInterface.Controls
         /// <param name="e"><The <see cref="EventArgs"/></param>
         private void BtnAdd_Click(object sender, EventArgs e)
         {
-            for(int i = 0; i < method.ParametersCount; i++)
+            for (int i = 0; i < method.ParametersCount; i++)
                 method.Parameters.ElementAt(i).Value = values.ElementAt(i).Value;
 
             scheduler.AddElement(method);
         }
-	}
+    }
 }
 
 // TODO
 /* Add new UserControls in order to have a better UI in respect to the type of the parameter, e.g.
- * - A "MyUserComponent" that inherit from UserComponent and add a Value property 
+ * - A "MyUserComponent" that inherit from UserComponent and add a Value property
  *   with the actual value
  * All the other new UserComponents will inherit from "MyUserComponent".
  * - A "DigitalButton" for boolean parameters
  * - A "NumericTextBox" for integer and real numbers (the UserControl may have a format
  *   to distinguish between the type of the number?)
  * - A "StringComponent" for string parameters (inherit from TextBox and unify its style?)
- * 
+ *
  * With all the new UserComponents (with a Value property with the actual value inserted by
  * the user), txbValues should become a list of "MyUserComponent" and then:
  * components?.ElementAt(i)?.Value

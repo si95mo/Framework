@@ -49,7 +49,7 @@ namespace Core.Converters
         }
 
         /// <summary>
-        /// Connect two <see cref="IParameter"/> in order to 
+        /// Connect two <see cref="IParameter"/> in order to
         /// propagate the converted value
         /// </summary>
         /// <param name="sourceParameter">The source <see cref="IParameter"/></param>

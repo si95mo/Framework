@@ -43,7 +43,7 @@ namespace Core.Scheduling
         }
 
         /// <summary>
-        /// Load a <see cref="MethodQueue{T}"/> with 
+        /// Load a <see cref="MethodQueue{T}"/> with
         /// a previous iteration performed by the
         /// <see cref="SimpleScheduler"/>.
         /// </summary>

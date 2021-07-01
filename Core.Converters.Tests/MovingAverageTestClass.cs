@@ -9,7 +9,7 @@ using System.Diagnostics;
 
 namespace Core.Converters.Tests
 {
-    class MovingAverageTestClass
+    internal class MovingAverageTestClass
     {
         public AnalogInput ai = new AnalogInput("AnalogInput");
         public NumericParameter npSimple = new NumericParameter("NumericParameterSimple");
@@ -46,7 +46,7 @@ namespace Core.Converters.Tests
                 npSimple.Value.Should().NotBe(0);
 
                 FileHandler.Save(
-                    $"{ai.Value:F6}", IOUtility.GetDesktopFolder() + @"\raw_simple.log", 
+                    $"{ai.Value:F6}", IOUtility.GetDesktopFolder() + @"\raw_simple.log",
                     FileHandler.MODE.Append
                 );
                 FileHandler.Save(

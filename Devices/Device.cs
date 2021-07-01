@@ -8,13 +8,13 @@ namespace Devices
     /// Describe a generic device.
     /// See also <see cref="IDevice"/>
     /// </summary>
-    class Device : IDevice
+    internal class Device : IDevice
     {
         private string code;
         private Bag<IChannel> channels;
 
         /// <summary>
-        /// The <see cref="Device"/> <see cref="Bag{IProperty}"/> of 
+        /// The <see cref="Device"/> <see cref="Bag{IProperty}"/> of
         /// <see cref="IChannel"/>
         /// </summary>
         public Bag<IChannel> Channels => channels;
@@ -25,14 +25,14 @@ namespace Devices
         public string Code => code;
 
         /// <summary>
-        /// Initialize the class attributes with 
+        /// Initialize the class attributes with
         /// default parameters
         /// </summary>
         protected Device() : this(Guid.NewGuid().ToString())
         { }
 
         /// <summary>
-        /// Initialize the class attributes with 
+        /// Initialize the class attributes with
         /// default parameters
         /// </summary>
         /// <param name="code">The code</param>

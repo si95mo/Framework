@@ -2,19 +2,14 @@
 using Core.Scheduling.Wrapper;
 using Diagnostic;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Scheduling.Tests
 {
-    class AsyncSchedulerTestClass
+    internal class AsyncSchedulerTestClass
     {
         private DummyClass dummy;
-        AsyncScheduler scheduler;
+        private AsyncScheduler scheduler;
 
         [OneTimeSetUp]
         public void Setup()

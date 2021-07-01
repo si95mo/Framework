@@ -23,14 +23,14 @@ namespace Hardware
         protected EventHandler<ValueChangedEventArgs> ValueChangedHandler;
 
         /// <summary>
-        /// Initialize the class attributes with 
+        /// Initialize the class attributes with
         /// default parameters
         /// </summary>
         protected Channel() : this(Guid.NewGuid().ToString())
         { }
 
         /// <summary>
-        /// Initialize the class attributes with 
+        /// Initialize the class attributes with
         /// default parameters
         /// </summary>
         /// <param name="code">The code</param>
@@ -87,17 +87,17 @@ namespace Hardware
             }
         }
 
-        protected virtual string MeasureUnit 
-        { 
-            get => measureUnit; 
-            set => measureUnit = value; 
-        }
-        protected virtual string Format 
+        protected virtual string MeasureUnit
         {
-            get => format; 
-            set => format = value; 
+            get => measureUnit;
+            set => measureUnit = value;
         }
 
+        protected virtual string Format
+        {
+            get => format;
+            set => format = value;
+        }
 
         /// <summary>
         /// On value changed event
@@ -121,7 +121,7 @@ namespace Hardware
 
         /// <summary>
         /// Connects an <see cref="IChannel"/> to another
-        /// in order to propagate its value converted. 
+        /// in order to propagate its value converted.
         /// See also <see cref="ConnectTo(IChannel{T})"/>
         /// </summary>
         /// <param name="channel">The destination <see cref="IChannel"/></param>

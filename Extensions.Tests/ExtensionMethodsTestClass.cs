@@ -7,7 +7,7 @@ namespace Extensions.Tests
     {
         private int item;
         private string text;
-        bool itWorks = false;
+        private bool itWorks = false;
 
         [OneTimeSetUp]
         public void Setup()
@@ -15,7 +15,7 @@ namespace Extensions.Tests
             item = 10;
             text = "First: {0}. Second: {1}. Third: {2}";
         }
-        
+
         [Test]
         public void IsInTest()
         {
@@ -50,10 +50,10 @@ namespace Extensions.Tests
         [Test]
         public void TestifTrue()
         {
-
             itWorks = (true.IfTrue(() => true));
             itWorks.Should().BeTrue();
         }
+
         [Test]
         public void TestifFalse()
         {

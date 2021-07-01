@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace Core.DataStructures.Tests
 {
-    class ParameterTestClass
+    internal class ParameterTestClass
     {
         private NumericParameter firstNumericParameter, secondNumericParameter;
         private BooleanParameter firstBooleanParameter, secondBooleanParameter;

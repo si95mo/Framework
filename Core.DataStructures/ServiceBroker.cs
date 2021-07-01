@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Core.DataStructures
+﻿namespace Core.DataStructures
 {
     /// <summary>
     /// Implements a service broker
@@ -36,14 +33,14 @@ namespace Core.DataStructures
         /// Get the collection relative to the specified type
         /// </summary>
         /// <typeparam name="T">The type of the collection to return</typeparam>
-        /// <returns>The <see cref="Bag{T}"/> containing the item retrieved 
+        /// <returns>The <see cref="Bag{T}"/> containing the item retrieved
         /// from the <see cref="ServiceBroker"/></returns>
         public static Bag<T> Get<T>() where T : class
         {
             Bag<T> returnCollection = new Bag<T>();
 
             var sublist = subscribers.ToList();
-            foreach(var item in sublist)
+            foreach (var item in sublist)
             {
                 if (item is T)
                     returnCollection.Add(item);

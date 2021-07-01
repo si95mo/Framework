@@ -1,11 +1,5 @@
-﻿using Accord.IO;
-using MatFileHandler;
-using System;
-using System.Collections.Generic;
+﻿using MatFileHandler;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IO.File
 {

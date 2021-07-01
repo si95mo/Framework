@@ -71,7 +71,7 @@ namespace Hardware.Resources
         /// <param name="dataBits">Data bits number</param>
         /// <param name="stopbits">Stop bit type</param>
         public SerialResource(string code, string portName, int baudRate = 9600, Parity parity = Parity.None,
-            int dataBits = 8, StopBits stopbits = StopBits.One) 
+            int dataBits = 8, StopBits stopbits = StopBits.One)
             : base(portName, baudRate, parity, dataBits, stopbits)
         {
             this.code = code;
@@ -90,7 +90,7 @@ namespace Hardware.Resources
             status = ResourceStatus.Failure;
 
             SerialError error = e.EventType;
-           
+
             failure.Description = error.ToString();
             failure.Timestamp = DateTime.Now;
 
@@ -113,7 +113,7 @@ namespace Hardware.Resources
                 if (status == ResourceStatus.Failure)
                     failure = new Failure("Error occurred while opening the port!", DateTime.Now);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 failure = new Failure(ex.Message);
                 Logger.Log(ex);

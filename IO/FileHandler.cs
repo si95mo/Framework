@@ -19,6 +19,7 @@ namespace IO
             /// Specify the overwrite mode for writing
             /// </summary>
             Overwrite = 0,
+
             /// <summary>
             /// Specify the append mode for writing
             /// </summary>
@@ -46,6 +47,7 @@ namespace IO
                             sw.WriteLine(text);
                         }
                         break;
+
                     case MODE.Append:
                         using (sw = File.AppendText(path))
                         {
@@ -53,10 +55,10 @@ namespace IO
                         }
                         break;
                 }
-                
+
                 sw.Close();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -72,7 +74,7 @@ namespace IO
             string linesRead = "";
             sr = new StreamReader(path);
 
-            while(!sr.EndOfStream)
+            while (!sr.EndOfStream)
             {
                 linesRead += sr.ReadLine() + Environment.NewLine;
             }
@@ -117,7 +119,7 @@ namespace IO
         /// </summary>
         /// <param name="directoryPath"> The directory path </param>
         /// <param name="newDirectoryPath"> The new directory path </param>
-        /// <param name="extensions"> An array of string containing the extensions 
+        /// <param name="extensions"> An array of string containing the extensions
         /// of the file to be copied (e.g. ".pdf") </param>
         public static void CopyAllFilesInDirectory(string directoryPath, string newDirectoryPath, string[] extensions)
         {
@@ -136,7 +138,7 @@ namespace IO
 
                 if (doCopy)
                 {
-                    if(IsFileModified(file, newFile))
+                    if (IsFileModified(file, newFile))
                         File.Copy(file, newFile, true);
 
                     doCopy = false;
@@ -149,7 +151,7 @@ namespace IO
         /// </summary>
         /// <param name="existingFIle"> The old file path present in disk </param>
         /// <param name="fileToPaste"> The new file path to check if modified </param>
-        /// <returns> true if newFile has been modified and its different from oldFile, 
+        /// <returns> true if newFile has been modified and its different from oldFile,
         /// false otherwise </returns>
         private static bool IsFileModified(string existingFIle, string fileToPaste)
         {

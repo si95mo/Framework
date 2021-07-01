@@ -3,7 +3,7 @@
 namespace UserInterface.Controls
 {
     /// <summary>
-    /// A base control, used as a base class for create 
+    /// A base control, used as a base class for create
     /// more advanced user interface components
     /// </summary>
     public partial class BaseControl : UserControl

@@ -5,7 +5,7 @@ namespace Hardware
     /// <summary>
     /// Define a generic digital output
     /// </summary>
-    public interface  IDigitalOutput : IChannel<bool>
+    public interface IDigitalOutput : IChannel<bool>
     {
     }
 }

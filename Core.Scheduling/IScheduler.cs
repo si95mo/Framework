@@ -16,13 +16,14 @@ namespace Core.Scheduling
         /// The <see cref="Enqueue(T)"/> <see cref="EventHandler"/>
         /// </summary>
         public event EventHandler Enqueued;
+
         /// <summary>
         /// The <see cref="Dequeue"/> <see cref="EventHandler"/>
         /// </summary>
         public event EventHandler Dequeued;
 
         /// <summary>
-        /// Enqueue an element to the collection and 
+        /// Enqueue an element to the collection and
         /// handle the Enqueued <see cref="EventHandler"/>.
         /// Also see <see cref="Queue{T}.Enqueue(T)"/>
         /// </summary>
@@ -33,11 +34,10 @@ namespace Core.Scheduling
 
             if (null != Enqueued)
                 Enqueued(this, null);
-
         }
 
         /// <summary>
-        /// Dequeue an element from the collection and 
+        /// Dequeue an element from the collection and
         /// handle the Dequeued <see cref="EventHandler"/>.
         /// Also see <see cref="Queue{T}.Dequeue(T)"/>
         /// </summary>
@@ -59,9 +59,13 @@ namespace Core.Scheduling
         MethodQueue<Method> SubscribedMethods { get; }
 
         void AddElement(Method method);
+
         void RemoveAll();
+
         Method ExecuteAction();
+
         void SaveExecutionList(string fileName);
+
         void LoadExecutionList(string fileName);
     }
 }

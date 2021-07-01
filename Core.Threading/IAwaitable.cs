@@ -13,15 +13,18 @@ namespace Core.Threading
         /// None, default
         /// </summary>
         None = 0,
+
         /// <summary>
         /// The <see cref="IAwaitable"/> task succeeded
         /// </summary>
         Success = 1,
+
         /// <summary>
-        /// The <see cref="IAwaitable"/> task 
+        /// The <see cref="IAwaitable"/> task
         /// was aborted
         /// </summary>
         Aborted = 2,
+
         /// <summary>
         /// The <see cref="IAwaitable"/> task failed
         /// </summary>
@@ -72,10 +75,10 @@ namespace Core.Threading
         IFailure Failure { get; }
 
         /// <summary>
-        /// Get the <see cref="IAwaitable"/> task 
+        /// Get the <see cref="IAwaitable"/> task
         /// awaiter. See also <see cref="TaskResult"/>
         /// </summary>
-        /// <returns>The <see cref="TaskAwaiter"/> of the 
+        /// <returns>The <see cref="TaskAwaiter"/> of the
         /// <see cref="IAwaitable"/> task</returns>
         TaskAwaiter<TaskResult> GetAwaiter();
 

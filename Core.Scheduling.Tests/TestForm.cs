@@ -1,4 +1,5 @@
-﻿using IO;
+﻿using Core.Scheduling.Wrapper;
+using IO;
 using IO.File;
 using Newtonsoft.Json.Linq;
 using System;
@@ -6,7 +7,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Core.Scheduling.Wrapper;
 using UserInterface.Controls;
 
 namespace Core.Scheduling.Tests
@@ -47,7 +47,6 @@ namespace Core.Scheduling.Tests
 
         private void Element_Dequeued(object sender, EventArgs e)
         {
-
         }
 
         private void Element_Enqueued(object sender, EventArgs e)
@@ -99,7 +98,7 @@ namespace Core.Scheduling.Tests
 
             JObject json = new JObject();
             int index = 0;
-            foreach(var item in lbxInput.Items)
+            foreach (var item in lbxInput.Items)
             {
                 json.Add(new JProperty((index++).ToString(), item));
             }
@@ -118,7 +117,7 @@ namespace Core.Scheduling.Tests
 
             JObject json = JSON.ReadJSON(jsonPath);
 
-            foreach(var item in json.Properties())
+            foreach (var item in json.Properties())
             {
                 string value = item.Value.ToString();
                 lbxInput.Items.Add(value);
@@ -135,7 +134,6 @@ namespace Core.Scheduling.Tests
 
         private void lbxOutput_SelectedIndexChanged(object sender, EventArgs e)
         {
-
         }
     }
 
@@ -167,5 +165,5 @@ namespace Core.Scheduling.Tests
         {
             get { return Encoding.Unicode; }
         }
-	}
+    }
 }

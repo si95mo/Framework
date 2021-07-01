@@ -15,18 +15,22 @@ namespace Diagnostic
         /// An info type entry
         /// </summary>
         Info = 0,
+
         /// <summary>
         /// A debug type entry
         /// </summary>
         Debug = 1,
+
         /// <summary>
         /// A trace type entry
         /// </summary>
         Trace = 2,
+
         /// <summary>
         /// A warn type entry
         /// </summary>
         Warn = 3,
+
         /// <summary>
         /// An error type entry
         /// </summary>
@@ -40,6 +44,7 @@ namespace Diagnostic
     {
         private const string DAILY_SEPARATOR = "****************************************************" +
             "****************************************************";
+
         private const string ENTRY_SEPARATOR = "----------------------------------------------------" +
             "----------------------------------------------------";
 
@@ -181,7 +186,7 @@ namespace Diagnostic
         }
 
         /// <summary>
-        /// Simple log method. 
+        /// Simple log method.
         /// Save the text specified as parameter in the log file.
         /// <see cref="Path"/>
         /// </summary>
@@ -207,7 +212,7 @@ namespace Diagnostic
         /// <summary>
         /// Append to the log file a description of the <see cref="Exception"/> occurred.
         /// The entry will be saved <b>only</b> if its a different one
-        /// respect the last one saved in the log file (i.e. different type <b>and</b> 
+        /// respect the last one saved in the log file (i.e. different type <b>and</b>
         /// different message <b>and</b> different stack trace)!
         /// </summary>
         /// <param name="ex">The exception to log</param>
@@ -215,7 +220,7 @@ namespace Diagnostic
         {
             bool negatedFlag;
 
-            if(lastException == null) // First exception thrown
+            if (lastException == null) // First exception thrown
             {
                 lastException = ex; // lastException == ex -> true
                 negatedFlag = false; // force the next if to be true: IsSameExceptionAsTheLast -> true, flag -> true
@@ -241,9 +246,9 @@ namespace Diagnostic
                 int line = frame.GetFileLineNumber();
 
                 var entry = CreateEntry(
-                    Severity.Error, 
-                    $"{source} - {type} on line {line}", 
-                    message, 
+                    Severity.Error,
+                    $"{source} - {type} on line {line}",
+                    message,
                     stackTrace
                 );
 
@@ -252,7 +257,7 @@ namespace Diagnostic
         }
 
         /// <summary>
-        /// Append text on the log file. 
+        /// Append text on the log file.
         /// See <see cref="FileHandler.Save(string, string, MODE)"/>.
         /// </summary>
         /// <param name="text">The text to append</param>
@@ -291,15 +296,19 @@ namespace Diagnostic
                 case Severity.Debug:
                     severityAsString = "DEBUG";
                     break;
+
                 case Severity.Error:
                     severityAsString = "ERROR";
                     break;
+
                 case Severity.Info:
                     severityAsString = "INFO "; // Five letters for align!
                     break;
+
                 case Severity.Warn:
                     severityAsString = "WARN "; // Five letters for align!
                     break;
+
                 case Severity.Trace:
                     severityAsString = "TRACE";
                     break;
@@ -344,7 +353,7 @@ namespace Diagnostic
         /// and have the same <see cref="StackTrace"/>
         /// </summary>
         /// <param name="ex">The <see cref="Exception"/>to test </param>
-        /// <returns><see langword="true"/> if is the same as the last one, 
+        /// <returns><see langword="true"/> if is the same as the last one,
         /// <see langword="false"/>otherwise</returns>
         private static bool IsSameExceptionAsTheLast(Exception ex)
         {
@@ -358,7 +367,7 @@ namespace Diagnostic
         /// <summary>
         /// Set the <see cref="MinimumSeverityLevel"/> <see cref="Severity"/> to log.
         /// (i.e. all the entry with a lower severity will not be logged).
-        /// Note that the minimum level of the logged entry can't be 
+        /// Note that the minimum level of the logged entry can't be
         /// higher than <see cref="Severity.Trace"/> (i.e. entry of level
         /// <see cref="Severity.Warn"/> and <see cref="Severity.Error"/> will
         /// always be logged.

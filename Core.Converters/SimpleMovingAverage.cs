@@ -5,7 +5,7 @@ using System.Linq;
 namespace Core.Converters
 {
     /// <summary>
-    /// Convert the input by applying a moving average 
+    /// Convert the input by applying a moving average
     /// </summary>
     public class SimpleMovingAverage : AbstractConverter<double, double>
     {
@@ -17,10 +17,10 @@ namespace Core.Converters
         public int Period
         {
             get => period;
-            set 
-            { 
-                period = value; 
-                converter = MovingAverage(period); 
+            set
+            {
+                period = value;
+                converter = MovingAverage(period);
             }
         }
 

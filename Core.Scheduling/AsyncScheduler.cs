@@ -18,7 +18,7 @@ namespace Core.Scheduling
 
         /// <summary>
         /// Executes the <see cref="Action"/> associated with the <see cref="Method"/>
-        /// stored in the <see cref="SubscribedMethods"/>, 
+        /// stored in the <see cref="SubscribedMethods"/>,
         /// and remove it from the <see cref="MethodQueue{T}"/>
         /// </summary>
         /// <returns>The <see cref="Method"/> executed</returns>
@@ -28,7 +28,7 @@ namespace Core.Scheduling
 
             Logger.Log(
                 $"{method.ExtendedToString()} :: " +
-                $"Execution async started at : {DateTime.Now:HH:mm:ss:ffff}", 
+                $"Execution async started at : {DateTime.Now:HH:mm:ss:ffff}",
                 Severity.Debug
             );
 
@@ -50,7 +50,7 @@ namespace Core.Scheduling
             Task task = AsyncTaskWrapper.WrapAndStart(method);
 
             task.Wait();
-            yield return "Waiting...";            
+            yield return "Waiting...";
 
             yield return "Done";
         }

@@ -13,14 +13,17 @@ namespace Core.DataStructures
         /// A <see cref="string"/> type parameter.
         /// </summary>
         String = 0,
+
         /// <summary>
         /// An <see cref="int"/> type parameter.
         /// </summary>
         Int = 1,
+
         /// <summary>
         /// A <see cref="double"/> type parameter.
         /// </summary>
         Double = 2,
+
         /// <summary>
         /// A <see cref="bool"/> type parameter.
         /// </summary>
@@ -82,7 +85,7 @@ namespace Core.DataStructures
         }
 
         /// <summary>
-        /// Convert a general value to the actual one 
+        /// Convert a general value to the actual one
         /// of the <see cref="Parameter"/>.
         /// </summary>
         /// <param name="value">The general value</param>
@@ -94,14 +97,17 @@ namespace Core.DataStructures
                     int.TryParse(value.ToString(), out int toInt);
                     parameter = toInt;
                     break;
+
                 case ParameterType.Double:
                     double.TryParse(value.ToString(), out double toDouble);
                     parameter = toDouble;
                     break;
+
                 case ParameterType.Bool:
                     bool.TryParse(value.ToString(), out bool toBool);
                     parameter = toBool;
                     break;
+
                 case ParameterType.String:
                     parameter = value.ToString();
                     break;
