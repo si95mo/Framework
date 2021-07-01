@@ -32,9 +32,9 @@ namespace IO
         /// <summary>
         /// Save text to a file.
         /// </summary>
-        /// <param name="text"> The text to be saved </param>
-        /// <param name="path"> Path to the file </param>
-        /// <param name="mode"> Write mode, overwrite or append <see cref="MODE"/></param>
+        /// <param name="text">The text to be saved</param>
+        /// <param name="path">Path to the file</param>
+        /// <param name="mode">Write mode, overwrite or append <see cref="MODE"/></param>
         public static void Save(string text, string path, MODE mode = MODE.Overwrite)
         {
             try
@@ -67,7 +67,7 @@ namespace IO
         /// <summary>
         /// Read text from a file.
         /// </summary>
-        /// <param name="path"> The path to the file that contains the text to be read </param>
+        /// <param name="path">The path to the file that contains the text to be read</param>
         /// <returns></returns>
         public static string Read(string path)
         {
@@ -87,8 +87,8 @@ namespace IO
         /// <summary>
         /// Copy a file.
         /// </summary>
-        /// <param name="file"> The path of the file to be copied </param>
-        /// <param name="newFile"> The path in where copy the file </param>
+        /// <param name="file">The path of the file to be copied</param>
+        /// <param name="newFile">The path in where copy the file</param>
         public static void CopyFile(string file, string newFile)
         {
             File.Copy(file, newFile, true);
@@ -97,8 +97,8 @@ namespace IO
         /// <summary>
         /// Copy all files in a directory, overwriting existing modified files.
         /// </summary>
-        /// <param name="directoryPath"> The directory path </param>
-        /// <param name="newDirectoryPath"> The new directory path </param>
+        /// <param name="directoryPath">The directory path</param>
+        /// <param name="newDirectoryPath">The new directory path</param>
         public static void CopyAllFilesInDirectory(string directoryPath, string newDirectoryPath)
         {
             string[] files = Directory.GetFiles(directoryPath);
@@ -117,10 +117,10 @@ namespace IO
         /// Copy all files in a directory with specified extensions,
         /// overwriting existing modified files.
         /// </summary>
-        /// <param name="directoryPath"> The directory path </param>
-        /// <param name="newDirectoryPath"> The new directory path </param>
-        /// <param name="extensions"> An array of string containing the extensions
-        /// of the file to be copied (e.g. ".pdf") </param>
+        /// <param name="directoryPath">The directory path</param>
+        /// <param name="newDirectoryPath">The new directory path</param>
+        /// <param name="extensions">An array of string containing the extensions
+        /// of the file to be copied (e.g. ".pdf")</param>
         public static void CopyAllFilesInDirectory(string directoryPath, string newDirectoryPath, string[] extensions)
         {
             bool doCopy = false;
@@ -149,10 +149,11 @@ namespace IO
         /// <summary>
         /// Check if a file has been modified (i.e. last time it was written).
         /// </summary>
-        /// <param name="existingFIle"> The old file path present in disk </param>
-        /// <param name="fileToPaste"> The new file path to check if modified </param>
-        /// <returns> true if newFile has been modified and its different from oldFile,
-        /// false otherwise </returns>
+        /// <param name="existingFIle">The old file path present in disk</param>
+        /// <param name="fileToPaste">The new file path to check if modified</param>
+        /// <returns><see langword="true"/> if <paramref name="fileToPaste"/> has been modified
+        /// and its different from <paramref name="existingFIle"/>,
+        /// <see langword="false"/>  otherwise</returns>
         private static bool IsFileModified(string existingFIle, string fileToPaste)
         {
             DateTime existingFileLastWrittenTime = File.GetLastWriteTime(existingFIle);
