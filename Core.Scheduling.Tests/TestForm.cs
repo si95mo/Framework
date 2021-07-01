@@ -135,6 +135,12 @@ namespace Core.Scheduling.Tests
         private void lbxOutput_SelectedIndexChanged(object sender, EventArgs e)
         {
         }
+
+        private void BtnClose_Click(object sender, EventArgs e)
+        {
+            Close();
+            Dispose();
+        }
     }
 
     /// <summary>

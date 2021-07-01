@@ -38,16 +38,17 @@ namespace Core.Scheduling.Tests
             this.btnExecute = new System.Windows.Forms.Button();
             this.btnClean = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnClose = new System.Windows.Forms.Button();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // txbConsole
             // 
-            this.txbConsole.Location = new System.Drawing.Point(370, 434);
+            this.txbConsole.Location = new System.Drawing.Point(370, 538);
             this.txbConsole.Multiline = true;
             this.txbConsole.Name = "txbConsole";
             this.txbConsole.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txbConsole.Size = new System.Drawing.Size(506, 202);
+            this.txbConsole.Size = new System.Drawing.Size(632, 530);
             this.txbConsole.TabIndex = 6;
             this.txbConsole.DoubleClick += new System.EventHandler(this.TxbConsole_DoubleClick);
             // 
@@ -57,7 +58,7 @@ namespace Core.Scheduling.Tests
             this.panelMethods.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.panelMethods.Location = new System.Drawing.Point(13, 12);
             this.panelMethods.Name = "panelMethods";
-            this.panelMethods.Size = new System.Drawing.Size(351, 623);
+            this.panelMethods.Size = new System.Drawing.Size(351, 1056);
             this.panelMethods.TabIndex = 12;
             this.panelMethods.WrapContents = false;
             // 
@@ -65,18 +66,18 @@ namespace Core.Scheduling.Tests
             // 
             this.lbxInput.FormattingEnabled = true;
             this.lbxInput.HorizontalScrollbar = true;
-            this.lbxInput.Location = new System.Drawing.Point(370, 49);
+            this.lbxInput.Location = new System.Drawing.Point(370, 50);
             this.lbxInput.Name = "lbxInput";
-            this.lbxInput.Size = new System.Drawing.Size(506, 186);
+            this.lbxInput.Size = new System.Drawing.Size(632, 238);
             this.lbxInput.TabIndex = 0;
             // 
             // lbxOutput
             // 
             this.lbxOutput.FormattingEnabled = true;
             this.lbxOutput.HorizontalScrollbar = true;
-            this.lbxOutput.Location = new System.Drawing.Point(370, 241);
+            this.lbxOutput.Location = new System.Drawing.Point(370, 294);
             this.lbxOutput.Name = "lbxOutput";
-            this.lbxOutput.Size = new System.Drawing.Size(506, 186);
+            this.lbxOutput.Size = new System.Drawing.Size(632, 238);
             this.lbxOutput.TabIndex = 1;
             this.lbxOutput.SelectedIndexChanged += new System.EventHandler(this.lbxOutput_SelectedIndexChanged);
             // 
@@ -126,23 +127,36 @@ namespace Core.Scheduling.Tests
             this.flowLayoutPanel1.Controls.Add(this.btnExecute);
             this.flowLayoutPanel1.Controls.Add(this.btnLoadTest);
             this.flowLayoutPanel1.Controls.Add(this.btnSaveTest);
+            this.flowLayoutPanel1.Controls.Add(this.btnClose);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(370, 12);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(506, 31);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(632, 31);
             this.flowLayoutPanel1.TabIndex = 11;
+            // 
+            // btnClose
+            // 
+            this.btnClose.Location = new System.Drawing.Point(507, 3);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(120, 23);
+            this.btnClose.TabIndex = 10;
+            this.btnClose.Text = "Close";
+            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.BtnClose_Click);
             // 
             // TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(888, 648);
+            this.ClientSize = new System.Drawing.Size(1920, 1080);
             this.Controls.Add(this.panelMethods);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.txbConsole);
             this.Controls.Add(this.lbxOutput);
             this.Controls.Add(this.lbxInput);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "TestForm";
             this.Text = "Test";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -159,5 +173,6 @@ namespace Core.Scheduling.Tests
         private System.Windows.Forms.Button btnExecute;
         private System.Windows.Forms.Button btnClean;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.Button btnClose;
     }
 }
