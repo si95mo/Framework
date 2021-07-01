@@ -41,6 +41,11 @@ namespace Core.DataStructures
         public new int Count => set.Count;
 
         /// <summary>
+        /// The <see cref="Bag{T}"/> collection of keys
+        /// </summary>
+        public new KeyCollection Keys => set.Keys;
+
+        /// <summary>
         /// Create a new instance of <see cref="Bag{IProperty}"/>
         /// </summary>
         public Bag()
@@ -144,6 +149,12 @@ namespace Core.DataStructures
         public List<IProperty> ToList()
         {
             return set.Values.ToList();
+        }
+
+        public override string ToString()
+        {
+            string description = $"Count = {Count}";
+            return description;
         }
     }
 }
