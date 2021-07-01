@@ -44,15 +44,16 @@ namespace Extensions
         }
 
         /// <summary>
-        /// Determine whether a value is in the range
-        /// given (inclusive)
+        /// Determine whether a value is in the given range
+        /// (inclusive)
         /// </summary>
         /// <typeparam name="T">The type of the value and the limits</typeparam>
         /// <param name="actual">The value to check</param>
         /// <param name="lower">The lower limit</param>
         /// <param name="upper">The upper limit</param>
-        /// <returns><see langword="true"/> if <paramref name="lower"/> <= <paramref name="actual"/>
-        /// <= <paramref name="upper"/>, <see langword="true"/> otherwise</returns>
+        /// <returns><see langword="true"/> if <paramref name="actual"/> is greater or equal to 
+        /// <paramref name="lower"/> and lesser or equal to <paramref name="upper"/>, 
+        /// <see langword="false"/> otherwise</returns>
         public static bool BetweenInclusive<T>(this T actual, T lower, T upper) where T : IComparable<T>
         {
             bool result = actual.CompareTo(lower) >= 0 && actual.CompareTo(upper) <= 0;
@@ -61,15 +62,16 @@ namespace Extensions
         }
 
         /// <summary>
-        /// Determine whether a value is in the range
-        /// given (exclusive)
+        /// Determine whether a value is in the given range
+        /// (exclusive)
         /// </summary>
         /// <typeparam name="T">The type of the value and the limits</typeparam>
         /// <param name="actual">The value to check</param>
         /// <param name="lower">The lower limit</param>
         /// <param name="upper">The upper limit</param>
-        /// <returns><see langword="true"/> if <paramref name="lower"/> < <paramref name="actual"/>
-        /// < <paramref name="upper"/>, <see langword="true"/> otherwise</returns>
+        /// <returns><see langword="true"/> if <paramref name="actual"/> is greater than 
+        /// <paramref name="lower"/> and lesser than <paramref name="upper"/>, 
+        /// <see langword="true"/> otherwise</returns>
         public static bool BetweenExclusive<T>(this T actual, T lower, T upper) where T : IComparable<T>
         {
             bool result = actual.CompareTo(lower) > 0 && actual.CompareTo(upper) < 0;
@@ -152,7 +154,7 @@ namespace Extensions
         }
 
         /// <summary>
-        /// Perform an <see cref="Action"/> if <paramref name="value"/> is <see langword="false"/>
+        /// Perform an <see cref="Action"/> based on <paramref name="value"/>
         /// </summary>
         /// <typeparam name="T">The type of the value to test</typeparam>
         /// <param name="value">The value</param>
@@ -173,8 +175,10 @@ namespace Extensions
     /// <summary>
     /// Provides a method for performing a deep copy of an object.
     /// Binary Serialization is used to perform the copy.
+    /// For the reference article, see this
+    /// <see href="Reference Article http://www.codeproject.com/KB/tips/SerializedObjectCloner.aspx"\>
+    /// link</see>
     /// </summary>
-    // Reference Article http://www.codeproject.com/KB/tips/SerializedObjectCloner.aspx
     public static class SystemExtension
     {
         /// <summary>
@@ -182,11 +186,11 @@ namespace Extensions
         /// </summary>
         /// <typeparam name="T">The type of object being copied.</typeparam>
         /// <param name="source">The object instance to copy.</param>
-        /// <returns>A deep copy of the object.</returns>
+        /// <returns>The deep copy of the object.</returns>
         public static T Clone<T>(this T source)
         {
             if (!typeof(T).IsSerializable)
-                throw new ArgumentException("The type must be serializable.", nameof(source));
+                throw new ArgumentException("The type must be serializable!", nameof(source));
 
             // Don't serialize a null object, simply return the default for that object
             if (ReferenceEquals(source, null))
