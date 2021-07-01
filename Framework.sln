@@ -53,6 +53,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extensions", "Extensions\Ex
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extensions.Tests", "Extensions.Tests\Extensions.Tests.csproj", "{80459AAC-6834-4276-A000-ADB9EF874AC9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Devices.Tests", "Devices.Tests\Devices.Tests.csproj", "{A288B86C-BC4E-4502-A88C-DF4A0DFBA7A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Devices.Template", "Devices.Template\Devices.Template.csproj", "{E9679662-FCA3-487B-9431-66620EE23328}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -159,6 +163,14 @@ Global
 		{80459AAC-6834-4276-A000-ADB9EF874AC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80459AAC-6834-4276-A000-ADB9EF874AC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80459AAC-6834-4276-A000-ADB9EF874AC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A288B86C-BC4E-4502-A88C-DF4A0DFBA7A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A288B86C-BC4E-4502-A88C-DF4A0DFBA7A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A288B86C-BC4E-4502-A88C-DF4A0DFBA7A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A288B86C-BC4E-4502-A88C-DF4A0DFBA7A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9679662-FCA3-487B-9431-66620EE23328}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9679662-FCA3-487B-9431-66620EE23328}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9679662-FCA3-487B-9431-66620EE23328}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9679662-FCA3-487B-9431-66620EE23328}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
