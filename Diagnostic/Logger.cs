@@ -70,10 +70,10 @@ namespace Diagnostic
         /// Initialize the logger.
         /// </summary>
         /// <param name="logPath">The path of the log file </param>
-        /// <param name="timeSpanAsDays"> The number of daily logs to keep saved.
+        /// <param name="timespanAsDays"> The number of daily logs to keep saved.
         /// If the parameter value is equal to -1 no log file will be deleted (i.e. all
         /// the logs will be kept saved in the disk).</param>
-        public static void Init(string logPath = "logs\\", int timeSpanAsDays = -1)
+        public static void Init(string logPath = "logs\\", int timespanAsDays = -1)
         {
             string now = DateTime.Now.ToString("yyyy-MM-dd");
             string[] files;
@@ -85,8 +85,8 @@ namespace Diagnostic
                 files = Directory.GetFiles(logPath);
             }
 
-            if (timeSpanAsDays != -1)
-                DeleteOldLogs(timeSpanAsDays, files);
+            if (timespanAsDays != -1)
+                DeleteOldLogs(timespanAsDays, files);
 
             path = logPath + $"{now}.log";
             IOUtility.CreateDirectoryIfNotExists(logPath);
