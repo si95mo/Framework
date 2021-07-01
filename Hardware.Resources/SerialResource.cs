@@ -102,14 +102,22 @@ namespace Hardware.Resources
         /// </summary>
         public void Start()
         {
-            failure.Clear();
+            try
+            {
+                failure.Clear();
 
-            status = ResourceStatus.Starting;
-            Open();
-            status = IsOpen ? ResourceStatus.Executing : ResourceStatus.Failure;
+                status = ResourceStatus.Starting;
+                Open();
+                status = IsOpen ? ResourceStatus.Executing : ResourceStatus.Failure;
 
-            if (status == ResourceStatus.Failure)
-                failure = new Failure("Error occurred while opening the port!", DateTime.Now);
+                if (status == ResourceStatus.Failure)
+                    failure = new Failure("Error occurred while opening the port!", DateTime.Now);
+            }
+            catch(Exception ex)
+            {
+                failure = new Failure(ex.Message);
+                Logger.Log(ex);
+            }
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using Diagnostic;
+using FluentAssertions;
 using NUnit.Framework;
 
 namespace Hardware.Resources.Tests
@@ -10,20 +11,32 @@ namespace Hardware.Resources.Tests
         [OneTimeSetUp]
         public void Init()
         {
+            Logger.Init(IO.IOUtility.GetDesktopFolder() + "\\logs\\");
+
             resource = new SerialResource(nameof(resource), "COM99");
             resource.Start();
 
-            resource.IsOpen.Should().BeTrue();
-            resource.Status.Should().Be(ResourceStatus.Executing);
+            if (resource.LastFailure == resource.LastFailure.Default)
+            {
+                resource.IsOpen.Should().BeTrue();
+                resource.Status.Should().Be(ResourceStatus.Executing);
+            }
+            else
+                resource.LastFailure.Description.Should().NotBe("");
         }
 
         [OneTimeTearDown]
         public void Dispose()
         {
-            resource.Stop();
+            if (resource.LastFailure == resource.LastFailure.Default)
+            {
+                resource.Stop();
 
-            resource.IsOpen.Should().BeFalse();
-            resource.Status.Should().Be(ResourceStatus.Stopped);
+                resource.IsOpen.Should().BeFalse();
+                resource.Status.Should().Be(ResourceStatus.Stopped);
+            }
+            else
+                resource.LastFailure.Description.Should().NotBe("");
         }
 
         [Test]
@@ -31,9 +44,14 @@ namespace Hardware.Resources.Tests
         [TestCase("Hello world!")]
         public void SendMessage(string message)
         {
-            resource.Send(message);
+            if (resource.LastFailure == resource.LastFailure.Default)
+            {
+                resource.Send(message);
 
-            resource.Status.Should().Be(ResourceStatus.Executing);
+                resource.Status.Should().Be(ResourceStatus.Executing);
+            }
+            else
+                resource.LastFailure.Description.Should().NotBe("");
         }
     }
 }
