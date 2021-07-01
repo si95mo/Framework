@@ -149,14 +149,14 @@ namespace IO
         /// <summary>
         /// Check if a file has been modified (i.e. last time it was written).
         /// </summary>
-        /// <param name="existingFIle">The old file path present in disk</param>
+        /// <param name="existingFile">The old file path present in disk</param>
         /// <param name="fileToPaste">The new file path to check if modified</param>
         /// <returns><see langword="true"/> if <paramref name="fileToPaste"/> has been modified
-        /// and its different from <paramref name="existingFIle"/>,
-        /// <see langword="false"/>  otherwise</returns>
-        private static bool IsFileModified(string existingFIle, string fileToPaste)
+        /// and its different from <paramref name="existingFile"/>,
+        /// <see langword="false"/> otherwise</returns>
+        private static bool IsFileModified(string existingFile, string fileToPaste)
         {
-            DateTime existingFileLastWrittenTime = File.GetLastWriteTime(existingFIle);
+            DateTime existingFileLastWrittenTime = File.GetLastWriteTime(existingFile);
             DateTime fileToPasteLastWrittenTime = File.GetLastWriteTime(fileToPaste);
 
             double difference = Math.Abs(existingFileLastWrittenTime.Subtract(fileToPasteLastWrittenTime).TotalSeconds);
