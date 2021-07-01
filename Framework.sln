@@ -49,9 +49,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserInterface.Controls", "U
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Threading.Tests", "Core.Threading.Tests\Core.Threading.Tests.csproj", "{9BAE02F8-17B1-4DBD-BAB5-9387981AD393}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Extensions", "Core.Extensions\Core.Extensions.csproj", "{9A12DE29-C4AD-42CE-AB4B-88EBC819E83A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extensions", "Extensions\Extensions.csproj", "{9A12DE29-C4AD-42CE-AB4B-88EBC819E83A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Extensions.Tests", "Core.Extensions.Tests\Core.Extensions.Tests.csproj", "{80459AAC-6834-4276-A000-ADB9EF874AC9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extensions.Tests", "Extensions.Tests\Extensions.Tests.csproj", "{80459AAC-6834-4276-A000-ADB9EF874AC9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
