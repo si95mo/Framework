@@ -45,10 +45,12 @@
     <Compile Include="IBooleanParameter.cs" />
     <Compile Include="INumericParameter.cs" />
     <Compile Include="IStringParameter.cs" />
+    <Compile Include="ITimeSpanParameter.cs" />
     <Compile Include="NumericParameter.cs" />
     <Compile Include="Parameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringParameter.cs" />
+    <Compile Include="TimeSpanParameter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core.Converters\Core.Converters.csproj">
