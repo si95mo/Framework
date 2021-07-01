@@ -31,6 +31,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Core\bin\Debug\Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Diagnostic, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Diagnostic\bin\Debug\Diagnostic.dll</HintPath>
+    </Reference>
+    <Reference Include="Hardware">
+      <HintPath>..\Hardware\bin\Debug\Hardware.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -48,6 +59,12 @@
     </Compile>
     <Compile Include="BaseControl.Designer.cs">
       <DependentUpon>BaseControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ButtonControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ButtonControl.Designer.cs">
+      <DependentUpon>ButtonControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Colors.cs" />
     <Compile Include="DigitalControl.cs">
@@ -79,6 +96,9 @@
     <EmbeddedResource Include="BaseControl.resx">
       <DependentUpon>BaseControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ButtonControl.resx">
+      <DependentUpon>ButtonControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DigitalControl.resx">
       <DependentUpon>DigitalControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -101,6 +121,10 @@
     <ProjectReference Include="..\Core.Scheduling\Core.Scheduling.csproj">
       <Project>{9F1EABB2-F717-46A7-A46C-CE773D25A1AE}</Project>
       <Name>Core.Scheduling</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Hardware.Resources\Hardware.Resources.csproj">
+      <Project>{2DD453BC-D187-4023-9222-48DDF02BA689}</Project>
+      <Name>Hardware.Resources</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
