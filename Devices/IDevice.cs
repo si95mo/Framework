@@ -15,5 +15,13 @@ namespace Devices
         /// </summary>
         Bag<IChannel> Channels
         { get; }
+
+        /// <summary>
+        /// The <see cref="IDevice"/> collection
+        /// of channels. See <see cref="IParameter"/>
+        /// and <see cref="Bag{T}"/>
+        /// </summary>
+        Bag<IParameter> Parameters
+        { get; }
     }
 }
