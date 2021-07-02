@@ -43,16 +43,12 @@ namespace IO
                 {
                     case MODE.Overwrite:
                         using (sw = File.CreateText(path))
-                        {
                             sw.WriteLine(text);
-                        }
                         break;
 
                     case MODE.Append:
                         using (sw = File.AppendText(path))
-                        {
                             sw.WriteLine(text);
-                        }
                         break;
                 }
 
@@ -75,9 +71,7 @@ namespace IO
             sr = new StreamReader(path);
 
             while (!sr.EndOfStream)
-            {
                 linesRead += sr.ReadLine() + Environment.NewLine;
-            }
 
             sr.Close();
 
