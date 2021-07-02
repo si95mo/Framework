@@ -29,7 +29,7 @@ namespace Core.DataStructures
     /// See also <see cref="MethodParameter"/>.
     /// </summary>
     [Serializable]
-    public class Method
+    public class Method : IProperty
     {
         private ParameterList<MethodParameter> parameters;
         private int parametersCount;
@@ -37,6 +37,11 @@ namespace Core.DataStructures
         private MethodInfo info;
         private string name;
         private object result;
+
+        /// <summary>
+        /// The <see cref="Method"/> code
+        /// </summary>
+        public string Code => name;
 
         /// <summary>
         /// The <see cref="List{T}"/> containing the <see cref="Method"/> <see cref="MethodParameter"/>.
