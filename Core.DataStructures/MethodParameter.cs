@@ -31,42 +31,42 @@ namespace Core.DataStructures
     }
 
     /// <summary>
-    /// Defines a <see cref="Parameter"/> of a method.
+    /// Defines a <see cref="MethodParameter"/> of a method.
     /// See also <see cref="Method"/>.
     /// </summary>
     [Serializable]
-    public class Parameter
+    public class MethodParameter
     {
-        private object parameter;
+        private object value;
         private ParameterType type;
         private string name;
 
         /// <summary>
-        /// The value of the <see cref="Parameter"/>
+        /// The value of the <see cref="MethodParameter"/>
         /// </summary>
         public object Value
         {
-            get => parameter;
+            get => value;
             set => ConvertValue(value);
         }
 
         /// <summary>
-        /// The <see cref="Parameter"/> <see cref="ParameterType"/>
+        /// The <see cref="MethodParameter"/> <see cref="ParameterType"/>
         /// </summary>
         public ParameterType Type => type;
 
         /// <summary>
-        /// The name of the <see cref="Parameter"/>
+        /// The name of the <see cref="MethodParameter"/>
         /// </summary>
         public string Name => name;
 
         /// <summary>
-        /// Instantiate the <see cref="Parameter"/> object
+        /// Instantiate the <see cref="MethodParameter"/> object
         /// </summary>
         /// <param name="parameterInfo">The <see cref="ParameterInfo"/></param>
-        public Parameter(ParameterInfo parameterInfo)
+        public MethodParameter(ParameterInfo parameterInfo)
         {
-            this.parameter = new object();
+            this.value = new object();
             name = parameterInfo.Name;
 
             Type parameterType = parameterInfo.ParameterType;
@@ -86,7 +86,7 @@ namespace Core.DataStructures
 
         /// <summary>
         /// Convert a general value to the actual one
-        /// of the <see cref="Parameter"/>.
+        /// of the <see cref="MethodParameter"/>.
         /// </summary>
         /// <param name="value">The general value</param>
         private void ConvertValue(object value)
@@ -95,32 +95,32 @@ namespace Core.DataStructures
             {
                 case ParameterType.Int:
                     int.TryParse(value.ToString(), out int toInt);
-                    parameter = toInt;
+                    this.value = toInt;
                     break;
 
                 case ParameterType.Double:
                     double.TryParse(value.ToString(), out double toDouble);
-                    parameter = toDouble;
+                    this.value = toDouble;
                     break;
 
                 case ParameterType.Bool:
                     bool.TryParse(value.ToString(), out bool toBool);
-                    parameter = toBool;
+                    this.value = toBool;
                     break;
 
                 case ParameterType.String:
-                    parameter = value.ToString();
+                    this.value = value.ToString();
                     break;
             }
         }
 
         /// <summary>
-        /// Gives an alphabetical description of the <see cref="Parameter"/>
+        /// Gives an alphabetical description of the <see cref="MethodParameter"/>
         /// </summary>
         /// <returns>A description of the object</returns>
         public override string ToString()
         {
-            return Value.ToString();
+            return $"{name} = {value}";
         }
     }
 }

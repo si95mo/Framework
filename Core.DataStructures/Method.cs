@@ -26,12 +26,12 @@ namespace Core.DataStructures
 
     /// <summary>
     /// Class that represent a <see cref="Method"/>.
-    /// See also <see cref="Parameter"/>.
+    /// See also <see cref="MethodParameter"/>.
     /// </summary>
     [Serializable]
     public class Method
     {
-        private ParameterList<Parameter> parameters;
+        private ParameterList<MethodParameter> parameters;
         private int parametersCount;
         private object obj;
         private MethodInfo info;
@@ -39,12 +39,12 @@ namespace Core.DataStructures
         private object result;
 
         /// <summary>
-        /// The <see cref="List{T}"/> containing the <see cref="Method"/> <see cref="Parameter"/>.
+        /// The <see cref="List{T}"/> containing the <see cref="Method"/> <see cref="MethodParameter"/>.
         /// </summary>
-        public ParameterList<Parameter> Parameters => parameters;
+        public ParameterList<MethodParameter> Parameters => parameters;
 
         /// <summary>
-        /// The <see cref="Method"/> <see cref="Parameter"/> count
+        /// The <see cref="Method"/> <see cref="MethodParameter"/> count
         /// </summary>
         public int ParametersCount => parametersCount;
 
@@ -81,20 +81,20 @@ namespace Core.DataStructures
 
         /// <summary>
         /// <see langword="true"/> if the <see cref="Method"/>
-        /// has at least one <see cref="Parameter"/>.
+        /// has at least one <see cref="MethodParameter"/>.
         /// </summary>
         public bool HasParameters => parametersCount > 0;
 
         /// <summary>
         /// Initialize a new <see cref="Method"/> object with default values.
-        /// See also <see cref="Parameter"/>.
+        /// See also <see cref="MethodParameter"/>.
         /// </summary>
         public Method()
         {
             obj = new object();
             result = null;
 
-            parameters = new ParameterList<Parameter>();
+            parameters = new ParameterList<MethodParameter>();
             parametersCount = 0;
 
             parameters.OnAdd += Parameters_OnAdd;
@@ -183,7 +183,7 @@ namespace Core.DataStructures
 
             for (int i = 0; i < Parameters.Count; i++)
             {
-                Parameter parameter = Parameters[i];
+                MethodParameter parameter = Parameters[i];
                 description += parameter.Value;
 
                 if (i < Parameters.Count - 1)
@@ -209,7 +209,7 @@ namespace Core.DataStructures
 
             for (int i = 0; i < Parameters.Count; i++)
             {
-                Parameter parameter = Parameters[i];
+                MethodParameter parameter = Parameters[i];
                 description += parameter.Name + ": " + parameter.Value;
 
                 if (i < Parameters.Count - 1)
