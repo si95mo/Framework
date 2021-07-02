@@ -1,5 +1,6 @@
 ﻿using Core;
 using Devices;
+using Instructions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,22 +8,24 @@ using System.Reflection;
 
 namespace Benches.Tasks
 {
-    internal class Configure<TDevice, TParameter>
+    internal class Configure<TDevice, TParameter, TInstruction>
     {
         private List<IDevice> devices;
         private List<IParameter> parameters;
+        private List<IInstruction> instructions;
 
-        private Bench<TDevice, TParameter> bench;
+        private Bench<TDevice, TParameter, TInstruction> bench;
 
         /// <summary>
         /// Create a new instance of <see cref="Configure"/>
         /// </summary>
         /// <param name="bench">The <see cref="Bench{TDevice, TParameter}"/> to configure</param>
-        public Configure(Bench<TDevice, TParameter> bench)
+        public Configure(Bench<TDevice, TParameter, TInstruction> bench)
         {
             this.bench = bench;
             Type deviceType = typeof(TDevice);
             Type parameterType = typeof(TParameter);
+            Type instructionType = typeof(TInstruction);
 
             BindingFlags flags = BindingFlags.Public | BindingFlags.Instance;
 
@@ -41,10 +44,18 @@ namespace Benches.Tasks
                 .Select(
                     p => (IParameter)p.GetValue(parameter, null)
                 ).ToList();
+
+            ctors = parameterType.GetConstructors(flags);
+            var instruction = ctors[0].Invoke(new object[] { });
+
+            instructions = instructionType.GetProperties(flags)
+                .Select(
+                    p => (IInstruction)p.GetValue(instruction, null)
+                ).ToList();
         }
 
         /// <summary>
-        /// Execute the configuration of the <see cref="Device"/>
+        /// Execute the configuration of the <see cref="Bench{TDevice, TParameter, TInstruction}"/>
         /// </summary>
         public void Execute()
         {

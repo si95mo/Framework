@@ -44,6 +44,7 @@
     <Compile Include="Bench.cs" />
     <Compile Include="Devices\Devices.cs" />
     <Compile Include="IBench.cs" />
+    <Compile Include="Instructions\Instructions.cs" />
     <Compile Include="Parameters\Parameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tasks\Configure.cs" />
@@ -60,6 +61,10 @@
     <ProjectReference Include="..\Devices\Devices.csproj">
       <Project>{15F9B789-4478-4B0A-9A2A-C2B78F21CF47}</Project>
       <Name>Devices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Instructions\Instructions.csproj">
+      <Project>{C8BDFAEE-7C9D-49EB-80BA-7667D4CB0766}</Project>
+      <Name>Instructions</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

@@ -6,12 +6,12 @@ using System;
 
 namespace Benches
 {
-    class Bench<TDevice, TParameter> : IBench
+    internal class Bench<TDevice, TParameter, TInstruction> : IBench
     {
         private string code;
         private Bag<IDevice> devices;
         private Bag<IParameter> parameters;
-        private Configure<TDevice, TParameter> configure;
+        private Configure<TDevice, TParameter, TInstruction> configure;
 
         /// <summary>
         /// The <see cref="Bench"/> code
@@ -48,7 +48,7 @@ namespace Benches
             devices = new Bag<IDevice>();
             parameters = new Bag<IParameter>();
 
-            configure = new Configure<TDevice, TParameter>(this);
+            configure = new Configure<TDevice, TParameter, TInstruction>(this);
             configure.Execute();
         }
 
