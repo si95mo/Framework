@@ -55,9 +55,6 @@ namespace Devices
             configure.Execute();
         }
 
-        public override string ToString()
-        {
-            return code;
-        }
+        public override string ToString() => code;
     }
 }

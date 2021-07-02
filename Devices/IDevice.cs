@@ -18,7 +18,7 @@ namespace Devices
 
         /// <summary>
         /// The <see cref="IDevice"/> collection
-        /// of channels. See <see cref="IParameter"/>
+        /// of parameters. See <see cref="IParameter"/>
         /// and <see cref="Bag{T}"/>
         /// </summary>
         Bag<IParameter> Parameters

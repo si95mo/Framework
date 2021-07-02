@@ -16,7 +16,7 @@ namespace Devices.Tasks
         /// <summary>
         /// Create a new instance of <see cref="Configure"/>
         /// </summary>
-        /// <param name="device">The <see cref="Device"/> to configure</param>
+        /// <param name="device">The <see cref="Device{TChannel, TParameter}"/> to configure</param>
         public Configure(Device<TChannel, TParameter> device)
         {
             this.device = device;
