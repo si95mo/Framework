@@ -33,12 +33,12 @@ namespace Core.Scheduling.Tests
             this.panelMethods = new System.Windows.Forms.FlowLayoutPanel();
             this.lbxInput = new System.Windows.Forms.ListBox();
             this.lbxOutput = new System.Windows.Forms.ListBox();
-            this.btnSaveTest = new System.Windows.Forms.Button();
-            this.btnLoadTest = new System.Windows.Forms.Button();
-            this.btnExecute = new System.Windows.Forms.Button();
-            this.btnClean = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.btnClose = new System.Windows.Forms.Button();
+            this.btnClean = new UserInterface.Controls.ButtonControl();
+            this.btnExecute = new UserInterface.Controls.ButtonControl();
+            this.btnLoadTest = new UserInterface.Controls.ButtonControl();
+            this.btnSaveTest = new UserInterface.Controls.ButtonControl();
+            this.btnClose = new UserInterface.Controls.ButtonControl();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -48,7 +48,7 @@ namespace Core.Scheduling.Tests
             this.txbConsole.Multiline = true;
             this.txbConsole.Name = "txbConsole";
             this.txbConsole.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txbConsole.Size = new System.Drawing.Size(632, 530);
+            this.txbConsole.Size = new System.Drawing.Size(781, 530);
             this.txbConsole.TabIndex = 6;
             this.txbConsole.DoubleClick += new System.EventHandler(this.TxbConsole_DoubleClick);
             // 
@@ -68,7 +68,7 @@ namespace Core.Scheduling.Tests
             this.lbxInput.HorizontalScrollbar = true;
             this.lbxInput.Location = new System.Drawing.Point(370, 50);
             this.lbxInput.Name = "lbxInput";
-            this.lbxInput.Size = new System.Drawing.Size(632, 238);
+            this.lbxInput.Size = new System.Drawing.Size(781, 238);
             this.lbxInput.TabIndex = 0;
             // 
             // lbxOutput
@@ -77,49 +77,8 @@ namespace Core.Scheduling.Tests
             this.lbxOutput.HorizontalScrollbar = true;
             this.lbxOutput.Location = new System.Drawing.Point(370, 294);
             this.lbxOutput.Name = "lbxOutput";
-            this.lbxOutput.Size = new System.Drawing.Size(632, 238);
+            this.lbxOutput.Size = new System.Drawing.Size(781, 238);
             this.lbxOutput.TabIndex = 1;
-            this.lbxOutput.SelectedIndexChanged += new System.EventHandler(this.lbxOutput_SelectedIndexChanged);
-            // 
-            // btnSaveTest
-            // 
-            this.btnSaveTest.Location = new System.Drawing.Point(381, 3);
-            this.btnSaveTest.Name = "btnSaveTest";
-            this.btnSaveTest.Size = new System.Drawing.Size(120, 23);
-            this.btnSaveTest.TabIndex = 8;
-            this.btnSaveTest.Text = "Save test";
-            this.btnSaveTest.UseVisualStyleBackColor = true;
-            this.btnSaveTest.Click += new System.EventHandler(this.BtnSaveTest_Click);
-            // 
-            // btnLoadTest
-            // 
-            this.btnLoadTest.Location = new System.Drawing.Point(255, 3);
-            this.btnLoadTest.Name = "btnLoadTest";
-            this.btnLoadTest.Size = new System.Drawing.Size(120, 23);
-            this.btnLoadTest.TabIndex = 9;
-            this.btnLoadTest.Text = "Load test";
-            this.btnLoadTest.UseVisualStyleBackColor = true;
-            this.btnLoadTest.Click += new System.EventHandler(this.BtnLoadTest_Click);
-            // 
-            // btnExecute
-            // 
-            this.btnExecute.Location = new System.Drawing.Point(129, 3);
-            this.btnExecute.Name = "btnExecute";
-            this.btnExecute.Size = new System.Drawing.Size(120, 23);
-            this.btnExecute.TabIndex = 5;
-            this.btnExecute.Text = "Execute";
-            this.btnExecute.UseVisualStyleBackColor = true;
-            this.btnExecute.Click += new System.EventHandler(this.BtnExecute_Click);
-            // 
-            // btnClean
-            // 
-            this.btnClean.Location = new System.Drawing.Point(3, 3);
-            this.btnClean.Name = "btnClean";
-            this.btnClean.Size = new System.Drawing.Size(120, 23);
-            this.btnClean.TabIndex = 7;
-            this.btnClean.Text = "Clear";
-            this.btnClean.UseVisualStyleBackColor = true;
-            this.btnClean.Click += new System.EventHandler(this.BtnClear_Click);
             // 
             // flowLayoutPanel1
             // 
@@ -130,17 +89,72 @@ namespace Core.Scheduling.Tests
             this.flowLayoutPanel1.Controls.Add(this.btnClose);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(370, 12);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(632, 31);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(781, 31);
             this.flowLayoutPanel1.TabIndex = 11;
+            // 
+            // btnClean
+            // 
+            this.btnClean.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(157)))), ((int)(((byte)(199)))));
+            this.btnClean.FlatAppearance.BorderColor = System.Drawing.Color.DarkSlateGray;
+            this.btnClean.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnClean.Location = new System.Drawing.Point(3, 3);
+            this.btnClean.Name = "btnClean";
+            this.btnClean.Size = new System.Drawing.Size(150, 25);
+            this.btnClean.TabIndex = 11;
+            this.btnClean.Text = "Clear";
+            this.btnClean.UseVisualStyleBackColor = false;
+            this.btnClean.Click += new System.EventHandler(this.BtnClear_Click);
+            // 
+            // btnExecute
+            // 
+            this.btnExecute.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(157)))), ((int)(((byte)(199)))));
+            this.btnExecute.FlatAppearance.BorderColor = System.Drawing.Color.DarkSlateGray;
+            this.btnExecute.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExecute.Location = new System.Drawing.Point(159, 3);
+            this.btnExecute.Name = "btnExecute";
+            this.btnExecute.Size = new System.Drawing.Size(150, 25);
+            this.btnExecute.TabIndex = 12;
+            this.btnExecute.Text = "Execute";
+            this.btnExecute.UseVisualStyleBackColor = false;
+            this.btnExecute.Click += new System.EventHandler(this.BtnExecute_Click);
+            // 
+            // btnLoadTest
+            // 
+            this.btnLoadTest.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(157)))), ((int)(((byte)(199)))));
+            this.btnLoadTest.FlatAppearance.BorderColor = System.Drawing.Color.DarkSlateGray;
+            this.btnLoadTest.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLoadTest.Location = new System.Drawing.Point(315, 3);
+            this.btnLoadTest.Name = "btnLoadTest";
+            this.btnLoadTest.Size = new System.Drawing.Size(150, 25);
+            this.btnLoadTest.TabIndex = 13;
+            this.btnLoadTest.Text = "Load test";
+            this.btnLoadTest.UseVisualStyleBackColor = false;
+            this.btnLoadTest.Click += new System.EventHandler(this.BtnLoadTest_Click);
+            // 
+            // btnSaveTest
+            // 
+            this.btnSaveTest.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(157)))), ((int)(((byte)(199)))));
+            this.btnSaveTest.FlatAppearance.BorderColor = System.Drawing.Color.DarkSlateGray;
+            this.btnSaveTest.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSaveTest.Location = new System.Drawing.Point(471, 3);
+            this.btnSaveTest.Name = "btnSaveTest";
+            this.btnSaveTest.Size = new System.Drawing.Size(150, 25);
+            this.btnSaveTest.TabIndex = 14;
+            this.btnSaveTest.Text = "Save test";
+            this.btnSaveTest.UseVisualStyleBackColor = false;
+            this.btnSaveTest.Click += new System.EventHandler(this.BtnSaveTest_Click);
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(507, 3);
+            this.btnClose.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(157)))), ((int)(((byte)(199)))));
+            this.btnClose.FlatAppearance.BorderColor = System.Drawing.Color.DarkSlateGray;
+            this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnClose.Location = new System.Drawing.Point(627, 3);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(120, 23);
-            this.btnClose.TabIndex = 10;
+            this.btnClose.Size = new System.Drawing.Size(150, 25);
+            this.btnClose.TabIndex = 15;
             this.btnClose.Text = "Close";
-            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.UseVisualStyleBackColor = false;
             this.btnClose.Click += new System.EventHandler(this.BtnClose_Click);
             // 
             // TestForm
@@ -168,11 +182,11 @@ namespace Core.Scheduling.Tests
         private System.Windows.Forms.FlowLayoutPanel panelMethods;
         private System.Windows.Forms.ListBox lbxInput;
         private System.Windows.Forms.ListBox lbxOutput;
-        private System.Windows.Forms.Button btnSaveTest;
-        private System.Windows.Forms.Button btnLoadTest;
-        private System.Windows.Forms.Button btnExecute;
-        private System.Windows.Forms.Button btnClean;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.Button btnClose;
+        private UserInterface.Controls.ButtonControl btnClean;
+        private UserInterface.Controls.ButtonControl btnExecute;
+        private UserInterface.Controls.ButtonControl btnLoadTest;
+        private UserInterface.Controls.ButtonControl btnSaveTest;
+        private UserInterface.Controls.ButtonControl btnClose;
     }
 }

@@ -27,26 +27,17 @@ namespace Core.Scheduling.Tests
 
             scheduler = new SimpleScheduler();
             scheduler.SubscribedMethods.Enqueued += Element_Enqueued;
-            scheduler.SubscribedMethods.Dequeued += Element_Dequeued;
 
             TestClass testObject = new TestClass();
             DummyClass dummyObject = new DummyClass();
 
             var methods = MethodWrapper.Wrap(testObject);
             foreach (var method in methods)
-            {
                 panelMethods.Controls.Add(new MethodControl(method, scheduler));
-            }
 
             methods = MethodWrapper.Wrap(dummyObject);
             foreach (var method in methods)
-            {
                 panelMethods.Controls.Add(new MethodControl(method, scheduler));
-            }
-        }
-
-        private void Element_Dequeued(object sender, EventArgs e)
-        {
         }
 
         private void Element_Enqueued(object sender, EventArgs e)
@@ -56,18 +47,6 @@ namespace Core.Scheduling.Tests
                     scheduler.SubscribedMethods.Count - 1
                 ).ToString()
             );
-        }
-
-        private void BtnAdd_Click(object sender, EventArgs e)
-        {
-            if (lbxInput.SelectedItem != null)
-                lbxOutput.Items.Add(lbxInput.SelectedItem);
-        }
-
-        private void BtnRemove_Click(object sender, EventArgs e)
-        {
-            if (lbxOutput.SelectedItem != null)
-                lbxOutput.Items.Remove(lbxOutput.SelectedItem);
         }
 
         private void BtnExecute_Click(object sender, EventArgs e)
@@ -121,7 +100,6 @@ namespace Core.Scheduling.Tests
             {
                 string value = item.Value.ToString();
                 lbxInput.Items.Add(value);
-                lbxOutput.Items.Add(value);
             }
 
             scheduler.LoadExecutionList(binPath);
@@ -130,10 +108,6 @@ namespace Core.Scheduling.Tests
         private void TxbConsole_DoubleClick(object sender, EventArgs e)
         {
             txbConsole.Text = "";
-        }
-
-        private void lbxOutput_SelectedIndexChanged(object sender, EventArgs e)
-        {
         }
 
         private void BtnClose_Click(object sender, EventArgs e)
