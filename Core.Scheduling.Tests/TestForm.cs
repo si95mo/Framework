@@ -16,7 +16,7 @@ namespace Core.Scheduling.Tests
         private const string jsonPath = @"test/test_program.json";
         private const string binPath = @"test/test_program.bin";
 
-        private SimpleScheduler scheduler;
+        private SimpleMethodScheduler scheduler;
 
         public TestForm()
         {
@@ -25,8 +25,8 @@ namespace Core.Scheduling.Tests
             TextBoxWriter writer = new TextBoxWriter(txbConsole);
             Console.SetOut(writer);
 
-            scheduler = new SimpleScheduler();
-            scheduler.SubscribedMethods.Enqueued += Element_Enqueued;
+            scheduler = new SimpleMethodScheduler();
+            scheduler.Subscribers.Enqueued += Element_Enqueued;
 
             TestClass testObject = new TestClass();
             DummyClass dummyObject = new DummyClass();
@@ -43,18 +43,18 @@ namespace Core.Scheduling.Tests
         private void Element_Enqueued(object sender, EventArgs e)
         {
             lbxInput.Items.Add(
-                scheduler.SubscribedMethods.ElementAt(
-                    scheduler.SubscribedMethods.Count - 1
+                scheduler.Subscribers.ElementAt(
+                    scheduler.Subscribers.Count - 1
                 ).ToString()
             );
         }
 
         private void BtnExecute_Click(object sender, EventArgs e)
         {
-            int n = scheduler.SubscribedMethods.Count;
+            int n = scheduler.Subscribers.Count;
             for (int i = 0; i < n; i++)
             {
-                var method = scheduler.ExecuteAction();
+                var method = scheduler.Execute();
 
                 lbxOutput.Items.Add(
                     method.ToString()

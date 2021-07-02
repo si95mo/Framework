@@ -32,8 +32,8 @@ namespace Core.Scheduling.Tests
             scheduler.AddElement(waitShort);
             scheduler.AddElement(waitLong);
 
-            var shortMethod = scheduler.ExecuteAction();
-            var longMEthod = scheduler.ExecuteAction();
+            var shortMethod = scheduler.Execute();
+            var longMEthod = scheduler.Execute();
         }
     }
 }
