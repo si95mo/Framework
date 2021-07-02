@@ -1,11 +1,15 @@
 ﻿using Core.Scheduling.Wrapper;
 using IO;
 using IO.File;
+using LiveCharts;
+using LiveCharts.Wpf;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using UserInterface.Controls;
 
@@ -18,9 +22,16 @@ namespace Core.Scheduling.Tests
 
         private SimpleMethodScheduler scheduler;
 
+        private LineSeries series = new LineSeries();
+
+        private bool isOpen = true;
+
         public TestForm()
         {
             InitializeComponent();
+
+            series.Title = "A series";
+            series.Values = new ChartValues<double>();
 
             TextBoxWriter writer = new TextBoxWriter(txbConsole);
             Console.SetOut(writer);
@@ -113,7 +124,22 @@ namespace Core.Scheduling.Tests
         private void BtnClose_Click(object sender, EventArgs e)
         {
             Close();
+            isOpen = false;
+
             Dispose();
+        }
+
+        private void UpdateAction()
+        {
+            Stopwatch sw = Stopwatch.StartNew();
+            while (isOpen)
+            {
+                series.Values.Add(new Random(sw.Elapsed.Milliseconds).NextDouble());
+                Thread.Sleep(100);
+
+                if (series.Values.Count > 10)
+                    series.Values.RemoveAt(0);
+            }
         }
     }
 
