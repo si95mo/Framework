@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Core.Scheduling
 {
     [Serializable]
-    public class AsyncScheduler : Scheduler
+    public class AsyncScheduler : MethodScheduler
     {
         /// <summary>
         /// Creates a new instance of the <see cref="AsyncScheduler"/>
@@ -19,10 +19,10 @@ namespace Core.Scheduling
         /// <summary>
         /// Executes the <see cref="Action"/> associated with the <see cref="Method"/>
         /// stored in the <see cref="SubscribedMethods"/>,
-        /// and remove it from the <see cref="MethodQueue{T}"/>
+        /// and remove it from the <see cref="ActionQueue{T}"/>
         /// </summary>
         /// <returns>The <see cref="Method"/> executed</returns>
-        public override Method ExecuteAction()
+        public override Method Execute()
         {
             Method method = subscribedMethods.Dequeue();
 

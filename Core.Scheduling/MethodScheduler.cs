@@ -7,27 +7,27 @@ using System.Runtime.Serialization.Formatters.Binary;
 namespace Core.Scheduling
 {
     [Serializable]
-    public abstract class Scheduler : IScheduler
+    public abstract class MethodScheduler : IScheduler<Method>
     {
         [field: NonSerialized()]
-        protected MethodQueue<Method> subscribedMethods;
+        protected ActionQueue<Method> subscribedMethods;
 
         /// <summary>
-        /// The <see cref="MethodQueue{T}"/> of all the
-        /// <see cref="Method"/> subscribed to the <see cref="Scheduler"/>
+        /// The <see cref="ActionQueue{T}"/> of all the
+        /// <see cref="Method"/> subscribed to the <see cref="MethodScheduler"/>
         /// </summary>
         [field: NonSerialized()]
-        public MethodQueue<Method> SubscribedMethods => subscribedMethods;
+        public ActionQueue<Method> Subscribers => subscribedMethods;
 
-        protected MethodQueue<Method> PersistentSubscribedMethods;
+        protected ActionQueue<Method> PersistentSubscribed;
 
         /// <summary>
         /// Initialize the parameters
         /// </summary>
-        protected Scheduler()
+        protected MethodScheduler()
         {
-            subscribedMethods = new MethodQueue<Method>();
-            PersistentSubscribedMethods = new MethodQueue<Method>();
+            subscribedMethods = new ActionQueue<Method>();
+            PersistentSubscribed = new ActionQueue<Method>();
         }
 
         /// <summary>
@@ -39,25 +39,24 @@ namespace Core.Scheduling
             var item = SystemExtension.Clone(method);
 
             subscribedMethods.Enqueue(item); // Add the method to the queue
-            PersistentSubscribedMethods.Enqueue(item); // Add the method to the persistent queue
+            PersistentSubscribed.Enqueue(item); // Add the method to the persistent queue
         }
 
         /// <summary>
-        /// Load a <see cref="MethodQueue{T}"/> with
+        /// Load a <see cref="ActionQueue{T}"/> with
         /// a previous iteration performed by the
-        /// <see cref="SimpleScheduler"/>.
+        /// <see cref="SimpleMethodScheduler"/>.
         /// </summary>
         /// <param name="fileName">The file name from which read the list</param>
         public void LoadExecutionList(string fileName)
         {
             if (File.Exists(fileName))
             {
-
                 Stream openFileStream = File.OpenRead(fileName);
                 BinaryFormatter deserializer = new BinaryFormatter();
 
-                MethodQueue<Method> methods = (deserializer.Deserialize(openFileStream) as Scheduler)
-                    .PersistentSubscribedMethods;
+                ActionQueue<Method> methods = (deserializer.Deserialize(openFileStream) as MethodScheduler)
+                    .PersistentSubscribed;
                 foreach (Method m in methods)
                     subscribedMethods.Enqueue(m);
 
@@ -69,17 +68,17 @@ namespace Core.Scheduling
 
         /// <summary>
         /// Removes all the <see cref="Method"/> subscribed in
-        /// the <see cref="SubscribedMethods"/>.
+        /// the <see cref="Subscribers"/>.
         /// </summary>
         public void RemoveAll()
         {
             subscribedMethods.Clear();
-            PersistentSubscribedMethods.Clear();
+            PersistentSubscribed.Clear();
         }
 
         /// <summary>
         /// Save the last execution list of <see cref="Method"/>
-        /// performed by the <see cref="Scheduler"/>.
+        /// performed by the <see cref="MethodScheduler"/>.
         /// </summary>
         /// <param name="fileName">The file name in which save the list</param>
         public void SaveExecutionList(string fileName)
@@ -92,6 +91,6 @@ namespace Core.Scheduling
             SaveFileStream.Close();
         }
 
-        public abstract Method ExecuteAction();
+        public abstract Method Execute();
     }
 }

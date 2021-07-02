@@ -1,16 +1,16 @@
-﻿using Core.DataStructures;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Core.Scheduling
 {
     /// <summary>
-    /// A <see cref="MethodQueue{T}"/> with Equeued and Dequeued event handler.
+    /// An <see cref="ActionQueue{T}"/> with <see cref="Enqueued"/> and
+    /// <see cref="Dequeued"/> event handlers.
     /// See <see cref="Queue{T}"/>.
     /// </summary>
-    /// <typeparam name="T">The type of the list items</typeparam>
+    /// <typeparam name="T">The type of the <see cref="Queue{T}"/> items</typeparam>
     [Serializable]
-    public class MethodQueue<T> : Queue<T>
+    public class ActionQueue<T> : Queue<T>
     {
         /// <summary>
         /// The <see cref="Enqueue(T)"/> <see cref="EventHandler"/>
@@ -54,15 +54,15 @@ namespace Core.Scheduling
         }
     }
 
-    public interface IScheduler
+    public interface IScheduler<T>
     {
-        MethodQueue<Method> SubscribedMethods { get; }
+        ActionQueue<T> Subscribers { get; }
 
-        void AddElement(Method method);
+        void AddElement(T method);
 
         void RemoveAll();
 
-        Method ExecuteAction();
+        T Execute();
 
         void SaveExecutionList(string fileName);
 
