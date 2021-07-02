@@ -52,11 +52,14 @@ namespace Core.Scheduling
         {
             if (File.Exists(fileName))
             {
+
                 Stream openFileStream = File.OpenRead(fileName);
                 BinaryFormatter deserializer = new BinaryFormatter();
 
-                subscribedMethods = (deserializer.Deserialize(openFileStream) as Scheduler)
+                MethodQueue<Method> methods = (deserializer.Deserialize(openFileStream) as Scheduler)
                     .PersistentSubscribedMethods;
+                foreach (Method m in methods)
+                    subscribedMethods.Enqueue(m);
 
                 openFileStream.Close();
             }
