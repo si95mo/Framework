@@ -1,27 +1,22 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace UserInterface.Controls
 {
-    public partial class ButtonControl : BaseControl
+    public partial class ButtonControl : Button
     {
-        public override object Value
-        {
-            get => Text;
-            set => Text = (string)value;
-        }
-
-        public override string Text
-        {
-            get => btnControl.Text;
-            set => btnControl.Text = value;
-        }
-
         public EventHandler<MouseEventArgs> ButtonClicked;
 
         public ButtonControl()
         {
             InitializeComponent();
+
+            BackColor = Colors.BackgroundColor;
+            Size = new Size(150, 25);
+
+            FlatStyle = FlatStyle.Flat;
+            FlatAppearance.BorderColor = Colors.Black;
         }
     }
 }

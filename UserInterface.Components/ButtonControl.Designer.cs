@@ -29,32 +29,15 @@ namespace UserInterface.Controls
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnControl = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // 
-            // btnControl
-            // 
-            this.btnControl.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnControl.Location = new System.Drawing.Point(0, -1);
-            this.btnControl.Name = "btnControl";
-            this.btnControl.Size = new System.Drawing.Size(150, 25);
-            this.btnControl.TabIndex = 0;
-            this.btnControl.Text = "Control";
-            this.btnControl.UseVisualStyleBackColor = true;
             // 
             // ButtonControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.btnControl);
             this.Name = "ButtonControl";
             this.Size = new System.Drawing.Size(150, 25);
             this.ResumeLayout(false);
-
         }
 
         #endregion
-
-        private System.Windows.Forms.Button btnControl;
     }
 }
