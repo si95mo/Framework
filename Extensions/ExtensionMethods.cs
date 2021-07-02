@@ -176,13 +176,12 @@ namespace Extensions
     /// Provides a method for performing a deep copy of an object.
     /// Binary Serialization is used to perform the copy.
     /// For the reference article, see this
-    /// <see href="Reference Article http://www.codeproject.com/KB/tips/SerializedObjectCloner.aspx"\>
-    /// link</see>
+    /// <a href="http://www.codeproject.com/KB/tips/SerializedObjectCloner.aspx">link</a>
     /// </summary>
     public static class SystemExtension
     {
         /// <summary>
-        /// Perform a deep copy of the object via serialization.
+        /// Perform a deep copy of the object via serialization
         /// </summary>
         /// <typeparam name="T">The type of object being copied.</typeparam>
         /// <param name="source">The object instance to copy.</param>
