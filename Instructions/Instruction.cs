@@ -72,11 +72,19 @@ namespace Instructions
         public override string ToString()
         {
             string description = code;
-            int i = 0;
-            if(inputParameters.Count != 0)
+
+            int index = 0;
+            while(index < inputParameters.Count)
             {
                 description += Environment.NewLine;
-                description += "\t" + inputParameters.ToList().ElementAt(i++).ToString();
+                description += "\tIn: " + inputParameters.ToList().ElementAt(index++).ToString();
+            }
+
+            index = 0;
+            while (index < outputParameters.Count)
+            {
+                description += Environment.NewLine;
+                description += "\tOut: " + outputParameters.ToList().ElementAt(index++).ToString();
             }
 
             return description;
