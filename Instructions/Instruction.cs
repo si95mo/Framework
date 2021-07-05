@@ -2,12 +2,15 @@
 using Core.DataStructures;
 using Core.Scheduling.Wrapper;
 using Devices;
+using System;
+using System.Linq;
 
 namespace Instructions
 {
     /// <summary>
     /// Basic implementation of a generic instruction
     /// </summary>
+    [Serializable]
     public abstract class Instruction : IInstruction
     {
         protected string code;
@@ -66,6 +69,18 @@ namespace Instructions
                     methods.Add(m);
         }
 
+        public override string ToString()
+        {
+            string description = code;
+            int i = 0;
+            if(inputParameters.Count != 0)
+            {
+                description += Environment.NewLine;
+                description += "\t" + inputParameters.ToList().ElementAt(i++).ToString();
+            }
+
+            return description;
+        }
         /// <summary>
         /// Execute the <see cref="Instruction"/>
         /// </summary>

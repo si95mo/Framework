@@ -7,14 +7,8 @@ namespace Instructions
     /// <summary>
     /// Describe a generic instruction
     /// </summary>
-    public interface IInstruction
+    public interface IInstruction : IProperty
     {
-        /// <summary>
-        /// The <see cref="IInstruction"/> code
-        /// </summary>
-        string Code
-        { get; }
-
         /// <summary>
         /// The <see cref="Bag{T}"/>
         /// containing all the available <see cref="Method"/>
