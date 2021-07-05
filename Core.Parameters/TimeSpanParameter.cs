@@ -6,6 +6,7 @@ namespace Core.Parameters
     /// Implement a time span parameter.
     /// See also <see cref="Parameter{T}"/> and <see cref="IParameter{T}"/>
     /// </summary>
+    [Serializable]
     public class TimeSpanParameter : Parameter<TimeSpan>, ITimeSpanParameter
     {
         /// <summary>

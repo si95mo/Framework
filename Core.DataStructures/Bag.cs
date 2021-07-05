@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Security.Permissions;
 
 namespace Core.DataStructures
 {
@@ -25,7 +27,8 @@ namespace Core.DataStructures
         }
     }
 
-    public class Bag<T> : Dictionary<string, IProperty>
+    [Serializable]
+    public class Bag<T> : Dictionary<string, IProperty>, ISerializable
     {
         // public delegate void BagChanged(object sender, BagChangedEventArgs<T> e);
 
@@ -51,6 +54,22 @@ namespace Core.DataStructures
         public Bag()
         {
             set = new Dictionary<string, IProperty>();
+        }
+
+        protected Bag(SerializationInfo info, StreamingContext context)
+        {
+            set = (Dictionary<string, IProperty>)info.GetValue(
+                nameof(set), 
+                typeof(Dictionary<string, IProperty>)
+            );
+        }
+
+        // The following method serializes the instance.
+        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
+        void ISerializable.GetObjectData(SerializationInfo info,
+           StreamingContext context)
+        {
+            info.AddValue(nameof(set), set);
         }
 
         /// <summary>

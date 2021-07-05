@@ -6,6 +6,7 @@ namespace Core.Parameters
     /// Implement a numeric parameter.
     /// See also <see cref="Parameter{T}"/> and <see cref="IParameter{T}"/>
     /// </summary>
+    [Serializable]
     public class NumericParameter : Parameter<double>, INumericParameter
     {
         /// <summary>

@@ -6,6 +6,7 @@ namespace Core.Parameters
     /// Implement a bool parameter.
     /// See also <see cref="Parameter{T}"/> and <see cref="IParameter{T}"/>
     /// </summary>
+    [Serializable]
     public class BooleanParameter : Parameter<bool>, IBooleanParameter
     {
         /// <summary>

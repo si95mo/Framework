@@ -9,6 +9,7 @@ namespace Core.Parameters
     /// See also <see cref="IParameter{T}"/>
     /// </summary>
     /// <typeparam name="T">The type of the <see cref="Parameter{T}"/></typeparam>
+    [Serializable]
     public abstract class Parameter<T> : IParameter<T>
     {
         protected string code;

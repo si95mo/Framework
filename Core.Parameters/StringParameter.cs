@@ -6,6 +6,7 @@ namespace Core.Parameters
     /// Implement a string parameter.
     /// See also <see cref="Parameter{T}"/> and <see cref="IParameter{T}"/>
     /// </summary>
+    [Serializable]
     public class StringParameter : Parameter<string>, IStringParameter
     {
         /// <summary>
