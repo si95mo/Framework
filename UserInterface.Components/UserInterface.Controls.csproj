@@ -67,7 +67,7 @@
       <DependentUpon>BaseControl.cs</DependentUpon>
     </Compile>
     <Compile Include="ButtonControl.cs">
-      <SubType>UserControl</SubType>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="ButtonControl.Designer.cs">
       <DependentUpon>ButtonControl.cs</DependentUpon>
@@ -78,6 +78,12 @@
     </Compile>
     <Compile Include="DigitalControl.Designer.cs">
       <DependentUpon>DigitalControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InstructionControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="InstructionControl.Designer.cs">
+      <DependentUpon>InstructionControl.cs</DependentUpon>
     </Compile>
     <Compile Include="MethodControl.cs">
       <SubType>UserControl</SubType>
@@ -108,6 +114,9 @@
     <EmbeddedResource Include="DigitalControl.resx">
       <DependentUpon>DigitalControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="InstructionControl.resx">
+      <DependentUpon>InstructionControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MethodControl.resx">
       <DependentUpon>MethodControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -124,6 +133,10 @@
       <Project>{1967aa9e-7fb5-4b63-ad7b-8394d65b6e8f}</Project>
       <Name>Core.DataStructures</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Core.Parameters\Core.Parameters.csproj">
+      <Project>{B0E053BC-1B89-4C83-B819-5EC032B2566F}</Project>
+      <Name>Core.Parameters</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core.Scheduling\Core.Scheduling.csproj">
       <Project>{9F1EABB2-F717-46A7-A46C-CE773D25A1AE}</Project>
       <Name>Core.Scheduling</Name>
@@ -131,6 +144,10 @@
     <ProjectReference Include="..\Hardware.Resources\Hardware.Resources.csproj">
       <Project>{2DD453BC-D187-4023-9222-48DDF02BA689}</Project>
       <Name>Hardware.Resources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Instructions\Instructions.csproj">
+      <Project>{C8BDFAEE-7C9D-49EB-80BA-7667D4CB0766}</Project>
+      <Name>Instructions</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
