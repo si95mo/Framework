@@ -105,9 +105,21 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Benches.Template\Benches.Template.csproj">
+      <Project>{FA2FC7F9-5DDB-4336-B442-330640710794}</Project>
+      <Name>Benches.Template</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Benches\Benches.csproj">
+      <Project>{9BAFBCF6-C1C9-4BCB-8645-CBC055682DD0}</Project>
+      <Name>Benches</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core.DataStructures\Core.DataStructures.csproj">
       <Project>{1967AA9E-7FB5-4B63-AD7B-8394D65B6E8F}</Project>
       <Name>Core.DataStructures</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Core.Parameters\Core.Parameters.csproj">
+      <Project>{B0E053BC-1B89-4C83-B819-5EC032B2566F}</Project>
+      <Name>Core.Parameters</Name>
     </ProjectReference>
     <ProjectReference Include="..\Core.Scheduling.Wrapper\Core.Scheduling.Wrapper.csproj">
       <Project>{7edd29c2-d0c7-4990-bdee-117ebc9deb72}</Project>
@@ -117,9 +129,21 @@
       <Project>{9f1eabb2-f717-46a7-a46c-ce773d25a1ae}</Project>
       <Name>Core.Scheduling</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{75DFACF6-E820-4E3F-83D5-1E21FBC92385}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Devices\Devices.csproj">
+      <Project>{15F9B789-4478-4B0A-9A2A-C2B78F21CF47}</Project>
+      <Name>Devices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Diagnostic\Diagnostic.csproj">
       <Project>{7DEB54D9-B9F1-4B05-8D81-D7B4F77631D1}</Project>
       <Name>Diagnostic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Instructions\Instructions.csproj">
+      <Project>{C8BDFAEE-7C9D-49EB-80BA-7667D4CB0766}</Project>
+      <Name>Instructions</Name>
     </ProjectReference>
     <ProjectReference Include="..\IO.File\IO.File.csproj">
       <Project>{38B143CC-9481-468A-88AF-48DEDBC36C96}</Project>

@@ -39,12 +39,13 @@ namespace Core.Scheduling.Tests
             this.btnLoadTest = new UserInterface.Controls.ButtonControl();
             this.btnSaveTest = new UserInterface.Controls.ButtonControl();
             this.btnClose = new UserInterface.Controls.ButtonControl();
+            this.panelInstructions = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // txbConsole
             // 
-            this.txbConsole.Location = new System.Drawing.Point(370, 538);
+            this.txbConsole.Location = new System.Drawing.Point(727, 537);
             this.txbConsole.Multiline = true;
             this.txbConsole.Name = "txbConsole";
             this.txbConsole.ScrollBars = System.Windows.Forms.ScrollBars.Both;
@@ -66,7 +67,7 @@ namespace Core.Scheduling.Tests
             // 
             this.lbxInput.FormattingEnabled = true;
             this.lbxInput.HorizontalScrollbar = true;
-            this.lbxInput.Location = new System.Drawing.Point(370, 50);
+            this.lbxInput.Location = new System.Drawing.Point(727, 49);
             this.lbxInput.Name = "lbxInput";
             this.lbxInput.Size = new System.Drawing.Size(781, 238);
             this.lbxInput.TabIndex = 0;
@@ -75,7 +76,7 @@ namespace Core.Scheduling.Tests
             // 
             this.lbxOutput.FormattingEnabled = true;
             this.lbxOutput.HorizontalScrollbar = true;
-            this.lbxOutput.Location = new System.Drawing.Point(370, 294);
+            this.lbxOutput.Location = new System.Drawing.Point(727, 293);
             this.lbxOutput.Name = "lbxOutput";
             this.lbxOutput.Size = new System.Drawing.Size(781, 238);
             this.lbxOutput.TabIndex = 1;
@@ -87,7 +88,7 @@ namespace Core.Scheduling.Tests
             this.flowLayoutPanel1.Controls.Add(this.btnLoadTest);
             this.flowLayoutPanel1.Controls.Add(this.btnSaveTest);
             this.flowLayoutPanel1.Controls.Add(this.btnClose);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(370, 12);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(727, 11);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(781, 31);
             this.flowLayoutPanel1.TabIndex = 11;
@@ -157,11 +158,22 @@ namespace Core.Scheduling.Tests
             this.btnClose.UseVisualStyleBackColor = false;
             this.btnClose.Click += new System.EventHandler(this.BtnClose_Click);
             // 
+            // panelInstructions
+            // 
+            this.panelInstructions.AutoScroll = true;
+            this.panelInstructions.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.panelInstructions.Location = new System.Drawing.Point(370, 12);
+            this.panelInstructions.Name = "panelInstructions";
+            this.panelInstructions.Size = new System.Drawing.Size(351, 1056);
+            this.panelInstructions.TabIndex = 13;
+            this.panelInstructions.WrapContents = false;
+            // 
             // TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1920, 1080);
+            this.Controls.Add(this.panelInstructions);
             this.Controls.Add(this.panelMethods);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.txbConsole);
@@ -188,5 +200,6 @@ namespace Core.Scheduling.Tests
         private UserInterface.Controls.ButtonControl btnLoadTest;
         private UserInterface.Controls.ButtonControl btnSaveTest;
         private UserInterface.Controls.ButtonControl btnClose;
+        private System.Windows.Forms.FlowLayoutPanel panelInstructions;
     }
 }

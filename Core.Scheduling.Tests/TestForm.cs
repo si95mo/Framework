@@ -1,4 +1,6 @@
-﻿using Core.Scheduling.Wrapper;
+﻿using Benches.Template;
+using Core.Scheduling.Wrapper;
+using Instructions;
 using IO;
 using IO.File;
 using Newtonsoft.Json.Linq;
@@ -16,7 +18,8 @@ namespace Core.Scheduling.Tests
         private const string jsonPath = @"test/test_program.json";
         private const string binPath = @"test/test_program.bin";
 
-        private SimpleMethodScheduler scheduler;
+        private SimpleInstructionScheduler instructionScheduler;
+        private SimpleMethodScheduler methodScheduler;
 
         private bool isOpen = true;
 
@@ -27,39 +30,70 @@ namespace Core.Scheduling.Tests
             TextBoxWriter writer = new TextBoxWriter(txbConsole);
             Console.SetOut(writer);
 
-            scheduler = new SimpleMethodScheduler();
-            scheduler.Subscribers.Enqueued += Element_Enqueued;
+            instructionScheduler = new SimpleInstructionScheduler();
+            instructionScheduler.Subscribers.Enqueued += Instruction_Enqueued;
+
+            methodScheduler = new SimpleMethodScheduler();
+            methodScheduler.Subscribers.Enqueued += Method_Enqueued;
 
             TestClass testObject = new TestClass();
             DummyClass dummyObject = new DummyClass();
 
+            NewBench bench = new NewBench("DummyBench");
+            foreach (var instruction in bench.Instructions.ToList())
+                panelInstructions.Controls.Add(
+                    new InstructionControl(
+                        instruction as Instruction, 
+                        instructionScheduler
+                    )
+                );
+
             var methods = MethodWrapper.Wrap(testObject);
             foreach (var method in methods)
-                panelMethods.Controls.Add(new MethodControl(method, scheduler));
+                panelMethods.Controls.Add(new MethodControl(method, methodScheduler));
 
             methods = MethodWrapper.Wrap(dummyObject);
             foreach (var method in methods)
-                panelMethods.Controls.Add(new MethodControl(method, scheduler));
+                panelMethods.Controls.Add(new MethodControl(method, methodScheduler));
         }
 
-        private void Element_Enqueued(object sender, EventArgs e)
+        private void Instruction_Enqueued(object sender, EventArgs e)
         {
             lbxInput.Items.Add(
-                scheduler.Subscribers.ElementAt(
-                    scheduler.Subscribers.Count - 1
+                instructionScheduler.Subscribers.ElementAt(
+                    instructionScheduler.Subscribers.Count - 1
+                ).ToString()
+            );
+        }
+
+        private void Method_Enqueued(object sender, EventArgs e)
+        {
+            lbxInput.Items.Add(
+                methodScheduler.Subscribers.ElementAt(
+                    methodScheduler.Subscribers.Count - 1
                 ).ToString()
             );
         }
 
         private void BtnExecute_Click(object sender, EventArgs e)
         {
-            int n = scheduler.Subscribers.Count;
+            int n = methodScheduler.Subscribers.Count;
             for (int i = 0; i < n; i++)
             {
-                var method = scheduler.Execute();
+                var method = methodScheduler.Execute();
 
                 lbxOutput.Items.Add(
                     method.ToString()
+                );
+            }
+
+            n = instructionScheduler.Subscribers.Count;
+            for (int i = 0; i < n; i++)
+            {
+                var instruction = instructionScheduler.Execute();
+
+                lbxOutput.Items.Add(
+                    instruction.ToString()
                 );
             }
         }
@@ -70,7 +104,7 @@ namespace Core.Scheduling.Tests
             lbxOutput.Items.Clear();
             txbConsole.Text = "";
 
-            scheduler.RemoveAll();
+            methodScheduler.RemoveAll();
         }
 
         private void BtnSaveTest_Click(object sender, EventArgs e)
@@ -86,7 +120,8 @@ namespace Core.Scheduling.Tests
 
             JSON.SaveJSON(json, jsonPath);
 
-            scheduler.SaveExecutionList(binPath);
+            methodScheduler.SaveExecutionList(binPath);
+            instructionScheduler.SaveExecutionList(binPath);
         }
 
         private void BtnLoadTest_Click(object sender, EventArgs e)
@@ -94,7 +129,8 @@ namespace Core.Scheduling.Tests
             lbxInput.Items.Clear();
             lbxOutput.Items.Clear();
 
-            scheduler.RemoveAll();
+            methodScheduler.RemoveAll();
+            instructionScheduler.RemoveAll();
 
             JObject json = JSON.ReadJSON(jsonPath);
 
@@ -104,7 +140,8 @@ namespace Core.Scheduling.Tests
                 lbxInput.Items.Add(value);
             }
 
-            scheduler.LoadExecutionList(binPath);
+            methodScheduler.LoadExecutionList(binPath);
+            instructionScheduler.LoadExecutionList(binPath);
         }
 
         private void TxbConsole_DoubleClick(object sender, EventArgs e)
