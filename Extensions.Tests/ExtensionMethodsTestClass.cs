@@ -50,14 +50,14 @@ namespace Extensions.Tests
         [Test]
         public void TestifTrue()
         {
-            itWorks = (true.IfTrue(() => true));
+            itWorks = true.IfTrue(() => true);
             itWorks.Should().BeTrue();
         }
 
         [Test]
         public void TestifFalse()
         {
-            itWorks = (false.IfFalse(() => true));
+            itWorks = false.IfFalse(() => true);
             itWorks.Should().BeTrue();
         }
 

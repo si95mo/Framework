@@ -19,6 +19,19 @@ namespace Extensions
         /// <param name="collection">The collection</param>
         /// <returns><see langword="true"/> if the item is contained in the collection,
         /// <see langword="false"/> otherwise</returns>
+        /// <example>
+        /// <code>
+        /// int item = 10;
+        /// if(item.IsIn(0, 5, 2, 4, -, 10))
+        /// {
+        ///     // Some stuff
+        /// }
+        /// else
+        /// {
+        ///     // Some other stuff
+        /// }
+        /// </code>
+        /// </example>
         public static bool IsIn<T>(this T item, params T[] collection)
         {
             if (item == null)
@@ -36,6 +49,11 @@ namespace Extensions
         /// <param name="s">The <see cref="string"/> to format</param>
         /// <param name="args">The arguments</param>
         /// <returns>The formatted <see cref="string"/></returns>
+        /// <example>
+        /// <code>
+        /// string text = "First: {0}. Second: {1}. Third: {2}".With("1", "2", "3");
+        /// </code>
+        /// </example>
         public static string With(this string s, params object[] args)
         {
             string result = string.Format(s, args);
@@ -54,6 +72,19 @@ namespace Extensions
         /// <returns><see langword="true"/> if <paramref name="actual"/> is greater or equal to
         /// <paramref name="lower"/> and lesser or equal to <paramref name="upper"/>,
         /// <see langword="false"/> otherwise</returns>
+        /// <example>
+        /// <code>
+        /// int item = 10;
+        /// if(item.BetweenInclusive(0, 100))
+        /// {
+        ///     // Some stuff
+        /// }
+        /// else
+        /// {
+        ///     // Some other stuff
+        /// }
+        /// </code>
+        /// </example>
         public static bool BetweenInclusive<T>(this T actual, T lower, T upper) where T : IComparable<T>
         {
             bool result = actual.CompareTo(lower) >= 0 && actual.CompareTo(upper) <= 0;
@@ -72,6 +103,19 @@ namespace Extensions
         /// <returns><see langword="true"/> if <paramref name="actual"/> is greater than
         /// <paramref name="lower"/> and lesser than <paramref name="upper"/>,
         /// <see langword="true"/> otherwise</returns>
+        /// <example>
+        /// <code>
+        /// int item = 10;
+        /// if(item.BetweenExclusive(0, 100))
+        /// {
+        ///     // Some stuff
+        /// }
+        /// else
+        /// {
+        ///     // Some other stuff
+        /// }
+        /// </code>
+        /// </example>
         public static bool BetweenExclusive<T>(this T actual, T lower, T upper) where T : IComparable<T>
         {
             bool result = actual.CompareTo(lower) > 0 && actual.CompareTo(upper) < 0;
@@ -100,7 +144,14 @@ namespace Extensions
         /// <typeparam name="T">The type of the value to test</typeparam>
         /// <param name="value">The value</param>
         /// <param name="action">The <see cref="Action"/></param>
-        /// <returns>The result of the <see cref="Action"/></returns>
+        /// <returns>The result of the <see cref="Action"/></returns>        
+        /// <example>
+        /// <code>
+        /// bool flag = true;
+        /// int x = 0;   
+        /// flag.IfTrue(() => x += 1);
+        /// </code>
+        /// </example>
         public static void IfTrue(this bool value, Action action)
         {
             if (value)
@@ -114,6 +165,13 @@ namespace Extensions
         /// <param name="value">The value</param>
         /// <param name="function">The <see cref="Func{T, TResult}"/></param>
         /// <returns>The result of the <see cref="Func{T, TResult}"/></returns>
+        /// <example>
+        /// <code>
+        /// bool flag = true;
+        /// int x = 0;   
+        /// flag.IfFalse(() => x += 1);
+        /// </code>
+        /// </example>
         public static T IfFalse<T>(this bool value, Func<T> function)
         {
             if (!value)
