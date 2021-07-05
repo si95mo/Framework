@@ -8,7 +8,7 @@ using System.Reflection;
 
 namespace Benches.Tasks
 {
-    internal class Configure<TDevice, TParameter, TInstruction>
+    public class Configure<TDevice, TParameter, TInstruction>
     {
         private List<IDevice> devices;
         private List<IParameter> parameters;
@@ -43,14 +43,6 @@ namespace Benches.Tasks
             parameters = parameterType.GetProperties(flags)
                 .Select(
                     p => (IParameter)p.GetValue(parameter, null)
-                ).ToList();
-
-            ctors = parameterType.GetConstructors(flags);
-            var instruction = ctors[0].Invoke(new object[] { });
-
-            instructions = instructionType.GetProperties(flags)
-                .Select(
-                    p => (IInstruction)p.GetValue(instruction, null)
                 ).ToList();
         }
 

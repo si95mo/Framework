@@ -2,16 +2,18 @@
 using Core;
 using Core.DataStructures;
 using Devices;
+using Instructions;
 using System;
 
 namespace Benches
 {
-    internal class Bench<TDevice, TParameter, TInstruction> : IBench
+    public abstract class Bench<TDevice, TParameter, TInstruction> : IBench
     {
-        private string code;
-        private Bag<IDevice> devices;
-        private Bag<IParameter> parameters;
-        private Configure<TDevice, TParameter, TInstruction> configure;
+        protected string code;
+        protected Bag<IDevice> devices;
+        protected Bag<IParameter> parameters;
+        protected Bag<IInstruction> instructions;
+        protected Configure<TDevice, TParameter, TInstruction> configure;
 
         /// <summary>
         /// The <see cref="Bench"/> code
@@ -31,6 +33,12 @@ namespace Benches
         public Bag<IParameter> Parameters => parameters;
 
         /// <summary>
+        /// The <see cref="Bench"/> <see cref="Bag{T}"/>
+        /// of <see cref="IInstruction"/>
+        /// </summary>
+        public Bag<IInstruction> Instructions => instructions;
+
+        /// <summary>
         /// Initialize the class attributes with
         /// default parameters
         /// </summary>
@@ -38,8 +46,7 @@ namespace Benches
         { }
 
         /// <summary>
-        /// Initialize the class attributes with
-        /// default parameters
+        /// Initialize the class attributes
         /// </summary>
         /// <param name="code">The code</param>
         protected Bench(string code)
@@ -47,6 +54,7 @@ namespace Benches
             this.code = code;
             devices = new Bag<IDevice>();
             parameters = new Bag<IParameter>();
+            instructions = new Bag<IInstruction>();
 
             configure = new Configure<TDevice, TParameter, TInstruction>(this);
             configure.Execute();

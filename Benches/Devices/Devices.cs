@@ -1,5 +1,5 @@
-﻿namespace Benches.Channels
+﻿namespace Benches.Devices
 {
-    internal class Channels
+    public class Devices
     { }
 }
