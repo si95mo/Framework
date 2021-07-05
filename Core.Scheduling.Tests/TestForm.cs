@@ -134,11 +134,11 @@ namespace Core.Scheduling.Tests
 
             JObject json = JSON.ReadJSON(jsonPath);
 
-            foreach (var item in json.Properties())
-            {
-                string value = item.Value.ToString();
-                lbxInput.Items.Add(value);
-            }
+            //foreach (var item in json.Properties())
+            //{
+            //    string value = item.Value.ToString();
+            //    lbxInput.Items.Add(value);
+            //}
 
             methodScheduler.LoadExecutionList(binPath);
             instructionScheduler.LoadExecutionList(binPath);
