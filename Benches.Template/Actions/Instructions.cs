@@ -1,7 +1,4 @@
-﻿using Instructions;
-using System;
-
-namespace Benches.Template.Actions
+﻿namespace Benches.Template.Actions
 {
     public class Instructions
     {

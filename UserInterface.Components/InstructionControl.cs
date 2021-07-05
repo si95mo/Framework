@@ -1,16 +1,11 @@
-﻿using Core;
-using Core.Parameters;
+﻿using Core.Parameters;
 using Core.Scheduling;
 using Extensions;
 using Instructions;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace UserInterface.Controls
@@ -124,12 +119,15 @@ namespace UserInterface.Controls
                     case Type boolType when boolType == typeof(BooleanParameter):
                         (parameters.ElementAt(i) as BooleanParameter).Value = (bool)values.ElementAt(i).Value;
                         break;
+
                     case Type numType when numType == typeof(NumericParameter):
                         (parameters.ElementAt(i) as NumericParameter).Value = (double)values.ElementAt(i).Value;
                         break;
+
                     case Type stringType when stringType == typeof(StringParameter):
                         (parameters.ElementAt(i) as StringParameter).Value = (string)values.ElementAt(i).Value;
                         break;
+
                     case Type timeType when timeType == typeof(TimeSpanParameter):
                         (parameters.ElementAt(i) as TimeSpanParameter).Value = (TimeSpan)values.ElementAt(i).Value;
                         break;
@@ -142,9 +140,9 @@ namespace UserInterface.Controls
         private void InstructionControl_Paint(object sender, PaintEventArgs e)
         {
             ControlPaint.DrawBorder(
-                e.Graphics, 
-                e.ClipRectangle, 
-                Colors.BackgroundColor, 
+                e.Graphics,
+                e.ClipRectangle,
+                Colors.BackgroundColor,
                 ButtonBorderStyle.Solid
             );
         }

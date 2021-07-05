@@ -11,6 +11,7 @@ namespace Core.Scheduling
     {
         [field: NonSerialized()]
         protected ActionQueue<Method> subscribedMethods;
+
         protected ActionQueue<Method> persistentSubscribers;
 
         /// <summary>

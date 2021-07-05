@@ -1,6 +1,4 @@
-﻿using Instructions;
-
-namespace Benches.Actions
+﻿namespace Benches.Actions
 {
     public class Instructions
     { }

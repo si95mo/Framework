@@ -1,13 +1,8 @@
-﻿using Benches;
-using Core.DataStructures;
+﻿using Core.DataStructures;
 using Core.Parameters;
 using Devices;
 using Instructions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Benches.Template.Actions
 {
@@ -34,7 +29,7 @@ namespace Benches.Template.Actions
 
         public override void Invoke()
         {
-            if(Switch.Value)
+            if (Switch.Value)
                 Console.WriteLine($"{Switch} :: {Message.Value}");
             else
                 Console.WriteLine($"{Switch} :: {Message.Value}");

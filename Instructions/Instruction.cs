@@ -74,7 +74,7 @@ namespace Instructions
             string description = code;
 
             int index = 0;
-            while(index < inputParameters.Count)
+            while (index < inputParameters.Count)
             {
                 description += Environment.NewLine;
                 description += "\tIn: " + inputParameters.ToList().ElementAt(index++).ToString();
@@ -89,6 +89,7 @@ namespace Instructions
 
             return description;
         }
+
         /// <summary>
         /// Execute the <see cref="Instruction"/>
         /// </summary>

@@ -59,7 +59,7 @@ namespace Core.DataStructures
         protected Bag(SerializationInfo info, StreamingContext context)
         {
             set = (Dictionary<string, IProperty>)info.GetValue(
-                nameof(set), 
+                nameof(set),
                 typeof(Dictionary<string, IProperty>)
             );
         }

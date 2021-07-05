@@ -43,7 +43,7 @@ namespace Core.Scheduling.Tests
             foreach (var instruction in bench.Instructions.ToList())
                 panelInstructions.Controls.Add(
                     new InstructionControl(
-                        instruction as Instruction, 
+                        instruction as Instruction,
                         instructionScheduler
                     )
                 );

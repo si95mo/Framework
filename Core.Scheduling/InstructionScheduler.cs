@@ -1,6 +1,4 @@
 ﻿using Core.DataStructures;
-using Core.Scheduling.Wrapper;
-using Extensions;
 using Instructions;
 using System;
 using System.IO;
@@ -13,6 +11,7 @@ namespace Core.Scheduling
     {
         [field: NonSerialized()]
         protected ActionQueue<IInstruction> subscribedInstructions;
+
         protected ActionQueue<IInstruction> persistentSubscribers;
 
         /// <summary>
@@ -40,7 +39,7 @@ namespace Core.Scheduling
         public void AddElement(IInstruction instruction)
         {
             subscribedInstructions.Enqueue(instruction);
-            persistentSubscribers.Enqueue(instruction);            
+            persistentSubscribers.Enqueue(instruction);
         }
 
         /// <summary>
@@ -59,7 +58,7 @@ namespace Core.Scheduling
                 Stream openFileStream = File.OpenRead(fileName);
                 BinaryFormatter deserializer = new BinaryFormatter();
 
-                ActionQueue<IInstruction> instructions = (deserializer.Deserialize(openFileStream) 
+                ActionQueue<IInstruction> instructions = (deserializer.Deserialize(openFileStream)
                     as InstructionScheduler)?.PersistentSubscribers;
 
                 if (instructions != null)

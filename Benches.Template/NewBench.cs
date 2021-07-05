@@ -1,9 +1,4 @@
 ﻿using Benches.Template.Actions;
-using Core;
-using Core.DataStructures;
-using Devices;
-using Devices.Template;
-using System;
 
 namespace Benches.Template
 {
