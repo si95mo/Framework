@@ -1,4 +1,6 @@
-﻿using Extensions;
+﻿using Core.DataStructures;
+using Core.Scheduling.Wrapper;
+using Extensions;
 using Instructions;
 using System;
 using System.IO;
@@ -11,6 +13,7 @@ namespace Core.Scheduling
     {
         [field: NonSerialized()]
         protected ActionQueue<IInstruction> subscribedInstructions;
+        protected ActionQueue<IInstruction> persistentSubscribers;
 
         /// <summary>
         /// The <see cref="ActionQueue{T}"/> of all the
@@ -19,7 +22,7 @@ namespace Core.Scheduling
         [field: NonSerialized()]
         public ActionQueue<IInstruction> Subscribers => subscribedInstructions;
 
-        protected ActionQueue<IInstruction> PersistentSubscribers;
+        protected ActionQueue<IInstruction> PersistentSubscribers => persistentSubscribers;
 
         /// <summary>
         /// Initialize the parameters
@@ -27,7 +30,7 @@ namespace Core.Scheduling
         protected InstructionScheduler()
         {
             subscribedInstructions = new ActionQueue<IInstruction>();
-            PersistentSubscribers = new ActionQueue<IInstruction>();
+            persistentSubscribers = new ActionQueue<IInstruction>();
         }
 
         /// <summary>
@@ -36,10 +39,8 @@ namespace Core.Scheduling
         /// <param name="instruction">The <see cref="object"/> (value) to add</param>
         public void AddElement(IInstruction instruction)
         {
-            var item = SystemExtension.Clone(instruction);
-
-            subscribedInstructions.Enqueue(item); // Add the method to the queue
-            PersistentSubscribers.Enqueue(item); // Add the method to the persistent queue
+            subscribedInstructions.Enqueue(instruction);
+            persistentSubscribers.Enqueue(instruction);            
         }
 
         /// <summary>
@@ -50,15 +51,22 @@ namespace Core.Scheduling
         /// <param name="fileName">The file name from which read the list</param>
         public void LoadExecutionList(string fileName)
         {
+            subscribedInstructions.Clear();
+            persistentSubscribers.Clear();
+
             if (File.Exists(fileName))
             {
                 Stream openFileStream = File.OpenRead(fileName);
                 BinaryFormatter deserializer = new BinaryFormatter();
 
-                ActionQueue<IInstruction> instructions = (deserializer.Deserialize(openFileStream) as InstructionScheduler)
-                    .PersistentSubscribers;
-                foreach (Instruction m in instructions)
-                    subscribedInstructions.Enqueue(m);
+                ActionQueue<IInstruction> instructions = (deserializer.Deserialize(openFileStream) 
+                    as InstructionScheduler)?.PersistentSubscribers;
+
+                if (instructions != null)
+                {
+                    foreach (Instruction i in instructions)
+                        subscribedInstructions.Enqueue(i);
+                }
 
                 openFileStream.Close();
             }
@@ -73,7 +81,7 @@ namespace Core.Scheduling
         public void RemoveAll()
         {
             subscribedInstructions.Clear();
-            PersistentSubscribers.Clear();
+            persistentSubscribers.Clear();
         }
 
         /// <summary>

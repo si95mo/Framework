@@ -11,6 +11,7 @@ namespace Core.Scheduling
     {
         [field: NonSerialized()]
         protected ActionQueue<Method> subscribedMethods;
+        protected ActionQueue<Method> persistentSubscribers;
 
         /// <summary>
         /// The <see cref="ActionQueue{T}"/> of all the
@@ -19,7 +20,7 @@ namespace Core.Scheduling
         [field: NonSerialized()]
         public ActionQueue<Method> Subscribers => subscribedMethods;
 
-        protected ActionQueue<Method> PersistentSubscribed;
+        protected ActionQueue<Method> PersistentSubscribers => persistentSubscribers;
 
         /// <summary>
         /// Initialize the parameters
@@ -27,7 +28,7 @@ namespace Core.Scheduling
         protected MethodScheduler()
         {
             subscribedMethods = new ActionQueue<Method>();
-            PersistentSubscribed = new ActionQueue<Method>();
+            persistentSubscribers = new ActionQueue<Method>();
         }
 
         /// <summary>
@@ -39,7 +40,7 @@ namespace Core.Scheduling
             var item = SystemExtension.Clone(method);
 
             subscribedMethods.Enqueue(item); // Add the method to the queue
-            PersistentSubscribed.Enqueue(item); // Add the method to the persistent queue
+            PersistentSubscribers.Enqueue(item); // Add the method to the persistent queue
         }
 
         /// <summary>
@@ -50,15 +51,21 @@ namespace Core.Scheduling
         /// <param name="fileName">The file name from which read the list</param>
         public void LoadExecutionList(string fileName)
         {
+            subscribedMethods.Clear();
+            PersistentSubscribers.Clear();
+
             if (File.Exists(fileName))
             {
                 Stream openFileStream = File.OpenRead(fileName);
                 BinaryFormatter deserializer = new BinaryFormatter();
 
                 ActionQueue<Method> methods = (deserializer.Deserialize(openFileStream) as MethodScheduler)
-                    .PersistentSubscribed;
-                foreach (Method m in methods)
-                    subscribedMethods.Enqueue(m);
+                    ?.PersistentSubscribers;
+                if (methods != null)
+                {
+                    foreach (Method m in methods)
+                        subscribedMethods.Enqueue(m);
+                }
 
                 openFileStream.Close();
             }
@@ -73,7 +80,7 @@ namespace Core.Scheduling
         public void RemoveAll()
         {
             subscribedMethods.Clear();
-            PersistentSubscribed.Clear();
+            PersistentSubscribers.Clear();
         }
 
         /// <summary>

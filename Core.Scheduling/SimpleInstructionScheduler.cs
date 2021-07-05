@@ -1,9 +1,13 @@
-﻿using Instructions;
+﻿using Core.DataStructures;
+using Core.Scheduling.Wrapper;
+using Instructions;
 using System;
+using System.Linq;
 
 namespace Core.Scheduling
 {
-    internal class SimpleInstructionScheduler : InstructionScheduler
+    [Serializable]
+    public class SimpleInstructionScheduler : InstructionScheduler
     {
         /// <summary>
         /// Creates a new instance of the <see cref="SimpleMethodScheduler"/>
