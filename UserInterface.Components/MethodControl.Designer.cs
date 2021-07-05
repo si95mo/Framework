@@ -61,7 +61,7 @@ namespace UserInterface.Controls
             this.btnAdd.UseVisualStyleBackColor = false;
             this.btnAdd.Click += new System.EventHandler(this.BtnAdd_Click);
             // 
-            // MethodContainer
+            // MethodControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -69,8 +69,9 @@ namespace UserInterface.Controls
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.lblMethodName);
             this.Controls.Add(this.lblMethodNamePlaceholder);
-            this.Name = "MethodContainer";
+            this.Name = "MethodControl";
             this.Size = new System.Drawing.Size(305, 60);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.MethodControl_Paint);
             this.ResumeLayout(false);
             this.PerformLayout();
 

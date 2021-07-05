@@ -1,6 +1,7 @@
 ﻿using Core;
 using Core.Parameters;
 using Core.Scheduling;
+using Extensions;
 using Instructions;
 using System;
 using System.Collections.Generic;
@@ -111,7 +112,8 @@ namespace UserInterface.Controls
         /// <param name="e"><The <see cref="EventArgs"/></param>
         private void BtnAdd_Click(object sender, EventArgs e)
         {
-            var parameters = instruction.InputParameters.ToList();
+            IInstruction deepInstructionCopy = instruction.Clone();
+            var parameters = deepInstructionCopy.InputParameters.ToList();
 
             for (int i = 0; i < parameters.Count; i++)
             {
@@ -134,7 +136,17 @@ namespace UserInterface.Controls
                 }
             }
 
-            scheduler.AddElement(instruction);
+            scheduler.AddElement(deepInstructionCopy);
+        }
+
+        private void InstructionControl_Paint(object sender, PaintEventArgs e)
+        {
+            ControlPaint.DrawBorder(
+                e.Graphics, 
+                e.ClipRectangle, 
+                Colors.BackgroundColor, 
+                ButtonBorderStyle.Solid
+            );
         }
     }
 }

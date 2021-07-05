@@ -116,6 +116,16 @@ namespace UserInterface.Controls
 
             scheduler.AddElement(method);
         }
+
+        private void MethodControl_Paint(object sender, PaintEventArgs e)
+        {
+            ControlPaint.DrawBorder(
+                e.Graphics,
+                e.ClipRectangle,
+                Colors.BackgroundColor,
+                ButtonBorderStyle.Solid
+            );
+        }
     }
 }
 

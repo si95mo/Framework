@@ -43,5 +43,11 @@ namespace UserInterface.Controls
         /// defined as 0x2F, 0x4F, 0x4F
         /// </summary>
         public static readonly Color TextColorDark = Color.DarkSlateGray;
+
+        /// <summary>
+        /// The red <see cref="Color"/>
+        /// defined as 0xCD, 0x5C, 0x5C
+        /// </summary>
+        public static readonly Color Red = Color.OrangeRed;
     }
 }

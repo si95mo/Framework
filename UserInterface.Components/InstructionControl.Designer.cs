@@ -37,7 +37,7 @@ namespace UserInterface.Controls
             // btnAdd
             // 
             this.btnAdd.BackColor = System.Drawing.Color.Transparent;
-            this.btnAdd.Location = new System.Drawing.Point(267, 12);
+            this.btnAdd.Location = new System.Drawing.Point(265, 12);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(36, 36);
             this.btnAdd.TabIndex = 5;
@@ -46,7 +46,7 @@ namespace UserInterface.Controls
             // 
             // lblInstructionName
             // 
-            this.lblInstructionName.Location = new System.Drawing.Point(117, 24);
+            this.lblInstructionName.Location = new System.Drawing.Point(115, 24);
             this.lblInstructionName.Name = "lblInstructionName";
             this.lblInstructionName.Size = new System.Drawing.Size(150, 13);
             this.lblInstructionName.TabIndex = 4;
@@ -55,7 +55,7 @@ namespace UserInterface.Controls
             // lblMethodNamePlaceholder
             // 
             this.lblMethodNamePlaceholder.AutoSize = true;
-            this.lblMethodNamePlaceholder.Location = new System.Drawing.Point(2, 24);
+            this.lblMethodNamePlaceholder.Location = new System.Drawing.Point(0, 24);
             this.lblMethodNamePlaceholder.Name = "lblMethodNamePlaceholder";
             this.lblMethodNamePlaceholder.Size = new System.Drawing.Size(88, 13);
             this.lblMethodNamePlaceholder.TabIndex = 3;
@@ -65,11 +65,13 @@ namespace UserInterface.Controls
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.lblInstructionName);
             this.Controls.Add(this.lblMethodNamePlaceholder);
             this.Name = "InstructionControl";
             this.Size = new System.Drawing.Size(305, 60);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.InstructionControl_Paint);
             this.ResumeLayout(false);
             this.PerformLayout();
 
