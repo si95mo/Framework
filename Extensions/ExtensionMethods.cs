@@ -144,11 +144,11 @@ namespace Extensions
         /// <typeparam name="T">The type of the value to test</typeparam>
         /// <param name="value">The value</param>
         /// <param name="action">The <see cref="Action"/></param>
-        /// <returns>The result of the <see cref="Action"/></returns>        
+        /// <returns>The result of the <see cref="Action"/></returns>
         /// <example>
         /// <code>
         /// bool flag = true;
-        /// int x = 0;   
+        /// int x = 0;
         /// flag.IfTrue(() => x += 1);
         /// </code>
         /// </example>
@@ -168,7 +168,7 @@ namespace Extensions
         /// <example>
         /// <code>
         /// bool flag = true;
-        /// int x = 0;   
+        /// int x = 0;
         /// flag.IfFalse(() => x += 1);
         /// </code>
         /// </example>
