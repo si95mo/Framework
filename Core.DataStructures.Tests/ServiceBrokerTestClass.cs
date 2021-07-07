@@ -86,5 +86,22 @@ namespace Core.DataStructures.Tests
             channelStored.Should().NotBeNull();
             channelStored.Code.Should().Be(digitalOut);
         }
+
+        [Test]
+        public void ForeEach()
+        {
+            ServiceBroker.Clear();
+            ServiceBroker.Get<IProperty>().Count.Should().Be(0);
+
+            IChannel channel = new AnalogInput("AnalogIn");
+            ServiceBroker.Add<IChannel>(channel);
+            channel = new AnalogOutput("AnalogOut");
+            ServiceBroker.Add<IChannel>(channel);
+
+            foreach (var item in ServiceBroker.Get<IProperty>())
+            {
+                item.Should().NotBe(null);
+            }
+        }
     }
 }

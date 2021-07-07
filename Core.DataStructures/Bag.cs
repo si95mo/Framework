@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -28,7 +29,7 @@ namespace Core.DataStructures
     }
 
     [Serializable]
-    public class Bag<T> : Dictionary<string, IProperty>, ISerializable
+    public class Bag<T> : IEnumerable<string>, ISerializable
     {
         // public delegate void BagChanged(object sender, BagChangedEventArgs<T> e);
 
@@ -36,30 +37,35 @@ namespace Core.DataStructures
 
         public event EventHandler<BagChangedEventArgs<IProperty>> ItemRemoved;
 
-        private Dictionary<string, IProperty> set;
+        private Dictionary<string, IProperty> bag;
 
         /// <summary>
         /// The number of items in the <see cref="Bag{IProperty}"/>
         /// </summary>
-        public new int Count => set.Count;
+        public int Count => bag.Count;
 
         /// <summary>
-        /// The <see cref="Bag{T}"/> collection of keys
+        /// The keys of the items in the <see cref="Bag{IProperty}"/>
         /// </summary>
-        public new KeyCollection Keys => set.Keys;
+        public List<string> Keys => bag.Keys.ToList();
+
+        /// <summary>
+        /// The values of the items in the <see cref="Bag{IProperty}"/>
+        /// </summary>
+        public List<IProperty> Values => bag.Values.ToList();
 
         /// <summary>
         /// Create a new instance of <see cref="Bag{IProperty}"/>
         /// </summary>
         public Bag()
         {
-            set = new Dictionary<string, IProperty>();
+            bag = new Dictionary<string, IProperty>();
         }
 
         protected Bag(SerializationInfo info, StreamingContext context)
         {
-            set = (Dictionary<string, IProperty>)info.GetValue(
-                nameof(set),
+            bag = (Dictionary<string, IProperty>)info.GetValue(
+                nameof(bag),
                 typeof(Dictionary<string, IProperty>)
             );
         }
@@ -69,7 +75,7 @@ namespace Core.DataStructures
         void ISerializable.GetObjectData(SerializationInfo info,
            StreamingContext context)
         {
-            info.AddValue(nameof(set), set);
+            info.AddValue(nameof(bag), bag);
         }
 
         /// <summary>
@@ -103,9 +109,9 @@ namespace Core.DataStructures
         {
             bool added = false;
 
-            if (!set.ContainsKey(item.Code))
+            if (!bag.ContainsKey(item.Code))
             {
-                set.Add(item.Code, item);
+                bag.Add(item.Code, item);
                 added = true;
             }
 
@@ -122,7 +128,13 @@ namespace Core.DataStructures
         /// <param name="item">The item to be removed</param>
         /// <returns><see langword="true"/> if the item is removed,
         /// <see langword="false"/> otherwise</returns>
-        public bool Remove(IProperty item) => Remove(item.Code);
+        public bool Remove(IProperty item) => bag.Remove(item.Code);
+
+        /// <summary>
+        /// Clear the <see cref="Bag{IProperty}"/>, thus
+        /// removing all of the stored items
+        /// </summary>
+        public void Clear() => bag.Clear();
 
         /// <summary>
         /// Remove an item to the <see cref="Bag"/> given its code.
@@ -136,10 +148,10 @@ namespace Core.DataStructures
         {
             IProperty itemRemoved = null;
 
-            if (set.ContainsKey(code))
-                itemRemoved = set[code];
+            if (bag.ContainsKey(code))
+                itemRemoved = bag[code];
 
-            bool removed = set.Remove(code);
+            bool removed = bag.Remove(code);
 
             if (removed)
                 OnItemRemoved(new BagChangedEventArgs<IProperty>(itemRemoved));
@@ -155,7 +167,7 @@ namespace Core.DataStructures
         ///  n the <see cref="Bag{IProperty}"/>, <see langword="null"/> otherwise</returns>
         public IProperty Get(string code)
         {
-            IProperty item = set.ContainsKey(code) ? set[code] : null;
+            IProperty item = bag.ContainsKey(code) ? bag[code] : null;
 
             return item;
         }
@@ -167,7 +179,7 @@ namespace Core.DataStructures
         /// <returns>The converted <see cref="List{IProperty}"/></returns>
         public List<IProperty> ToList()
         {
-            return set.Values.ToList();
+            return bag.Values.ToList();
         }
 
         public override string ToString()
@@ -175,5 +187,11 @@ namespace Core.DataStructures
             string description = $"Count = {Count}";
             return description;
         }
+
+        public IEnumerator<string> GetEnumerator()
+            => bag.Keys.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator()
+            => GetEnumerator();
     }
 }

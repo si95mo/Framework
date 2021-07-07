@@ -1,9 +1,12 @@
-﻿namespace Core.DataStructures
+﻿using System.Collections;
+using System.Collections.Generic;
+
+namespace Core.DataStructures
 {
     /// <summary>
     /// Implements a service broker
     /// </summary>
-    public class ServiceBroker
+    public class ServiceBroker : IEnumerable<string>
     {
         private static Bag<IProperty> subscribers;
 
@@ -48,5 +51,9 @@
 
             return returnCollection;
         }
+
+        public IEnumerator<string> GetEnumerator() => subscribers.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }
