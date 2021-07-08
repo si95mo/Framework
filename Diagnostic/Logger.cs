@@ -12,29 +12,29 @@ namespace Diagnostic
     public enum Severity
     {
         /// <summary>
-        /// An info type entry
+        /// A trace type entry
         /// </summary>
-        Info = 0,
-
+        Trace = 0,
         /// <summary>
         /// A debug type entry
         /// </summary>
         Debug = 1,
-
         /// <summary>
-        /// A trace type entry
+        /// An info type entry
         /// </summary>
-        Trace = 2,
-
+        Info = 2,
         /// <summary>
         /// A warn type entry
         /// </summary>
         Warn = 3,
-
         /// <summary>
         /// An error type entry
         /// </summary>
-        Error = 4
+        Error = 4,
+        /// <summary>
+        /// A fatal type entry
+        /// </summary>
+        Fatal = 5
     }
 
     /// <summary>
@@ -293,24 +293,23 @@ namespace Diagnostic
 
             switch (severity)
             {
+                case Severity.Trace:
+                    severityAsString = "TRACE";
+                    break;
                 case Severity.Debug:
                     severityAsString = "DEBUG";
                     break;
-
-                case Severity.Error:
-                    severityAsString = "ERROR";
-                    break;
-
                 case Severity.Info:
                     severityAsString = "INFO "; // Five letters for align!
                     break;
-
                 case Severity.Warn:
                     severityAsString = "WARN "; // Five letters for align!
                     break;
-
-                case Severity.Trace:
-                    severityAsString = "TRACE";
+                case Severity.Error:
+                    severityAsString = "ERROR";
+                    break;
+                case Severity.Fatal:
+                    severityAsString = "FATAL";
                     break;
             }
 
@@ -368,15 +367,15 @@ namespace Diagnostic
         /// Set the <see cref="MinimumSeverityLevel"/> <see cref="Severity"/> to log.
         /// (i.e. all the entry with a lower severity will not be logged).
         /// Note that the minimum level of the logged entry can't be
-        /// higher than <see cref="Severity.Trace"/> (i.e. entry of level
-        /// <see cref="Severity.Warn"/> and <see cref="Severity.Error"/> will
-        /// always be logged.
+        /// higher than <see cref="Severity.Info"/> (i.e. entry of level
+        /// <see cref="Severity.Warn"/>, <see cref="Severity.Error"/> and 
+        /// <see cref="Severity.Fatal"/>will always be logged.
         /// The <see cref="Severity"/> level is defined as follows (from lower to higher):
-        /// <see cref="Severity.Info"/>, <see cref="Severity.Debug"/>,
-        /// <see cref="Severity.Trace"/>, <see cref="Severity.Warn"/>,
-        /// <see cref="Severity.Error"/>.
+        /// <see cref="Severity.Trace"/>, <see cref="Severity.Debug"/>,
+        /// <see cref="Severity.Info"/>, <see cref="Severity.Warn"/>,
+        /// <see cref="Severity.Error"/>, <see cref="Severity.Fatal"/>
         /// </summary>
-        /// <param name="level"></param>
+        /// <param name="level">The <see cref="Severity"/> level</param>
         public static void SetMinimumSeverityLevel(Severity level)
         {
             Severity oldSeverity = minimumSeverityLevel;
