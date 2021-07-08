@@ -286,7 +286,7 @@ namespace Diagnostic
         /// <summary>
         /// Convert the <see cref="Severity"/> of the entry to log in a <see cref="string""/>
         /// </summary>
-        /// <param name="severity"> The severity (<see cref="Severity"/>) of the entry </param>
+        /// <param name="severity">The <see cref="Severity"/> of the entry</param>
         /// <returns>The <see cref="string"/> result of the conversion</returns>
         private static string GetSeverityAsString(Severity severity)
         {
