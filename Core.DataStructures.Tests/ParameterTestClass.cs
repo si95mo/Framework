@@ -5,12 +5,21 @@ using System;
 
 namespace Core.DataStructures.Tests
 {
+    internal enum DummyEnum
+    {
+        None = 0,
+        First = 1,
+        Second = 2,
+        Third = 3
+    }
+
     internal class ParameterTestClass
     {
         private NumericParameter firstNumericParameter, secondNumericParameter;
         private BooleanParameter firstBooleanParameter, secondBooleanParameter;
         private StringParameter firstStringParameter, secondStringParameter;
         private TimeSpanParameter timeSpanParameter;
+        private EnumParameter<DummyEnum> enumParameter;
 
         [OneTimeSetUp]
         public void Setup()
@@ -26,6 +35,8 @@ namespace Core.DataStructures.Tests
 
             timeSpanParameter = new TimeSpanParameter(nameof(timeSpanParameter));
 
+            enumParameter = new EnumParameter<DummyEnum>(nameof(enumParameter));
+
             firstNumericParameter.ConnectTo(secondNumericParameter);
             firstBooleanParameter.ConnectTo(secondBooleanParameter);
             firstStringParameter.ConnectTo(secondStringParameter);
@@ -38,6 +49,7 @@ namespace Core.DataStructures.Tests
             ServiceBroker.Add<IParameter>(firstStringParameter);
             ServiceBroker.Add<IParameter>(secondStringParameter);
             ServiceBroker.Add<IParameter>(timeSpanParameter);
+            ServiceBroker.Add<IParameter>(enumParameter);
         }
 
         [OneTimeTearDown]
@@ -66,6 +78,12 @@ namespace Core.DataStructures.Tests
             TimeSpan span = new TimeSpan(0, 0, 0, 1, 1000);
             timeSpanParameter.Value = span;
             timeSpanParameter.Value.Should().Be(span);
+
+            foreach (var item in Enum.GetValues(typeof(DummyEnum)))
+            {
+                enumParameter.Value = (DummyEnum)item;
+                enumParameter.Value.Should().Be((DummyEnum)item);
+            }
         }
     }
 }

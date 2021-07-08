@@ -42,7 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BooleanParameter.cs" />
+    <Compile Include="EnumParameter.cs" />
     <Compile Include="IBooleanParameter.cs" />
+    <Compile Include="IEnumParameter.cs" />
     <Compile Include="INumericParameter.cs" />
     <Compile Include="IStringParameter.cs" />
     <Compile Include="ITimeSpanParameter.cs" />
