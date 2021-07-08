@@ -122,5 +122,14 @@ namespace Core.DataStructures
         {
             return $"{value}";
         }
+
+        /// <summary>
+        /// Gives an extended alphabetical description of the <see cref="MethodParameter"/>
+        /// </summary>
+        /// <returns>An extended description of the object</returns>
+        public string ExtendedToString()
+        {
+            return $"{name} = {value}";
+        }
     }
 }
