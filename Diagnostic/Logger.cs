@@ -59,6 +59,7 @@ namespace Diagnostic
 
         /// <summary>
         /// The minimum <see cref="Severity"/> level of the entry to log
+        /// </summary> 
         public static Severity MinimumSeverityLevel => minimumSeverityLevel;
 
         /// <summary>
