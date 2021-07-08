@@ -38,7 +38,7 @@ namespace Core.Scheduling
         /// <param name="method">The <see cref="object"/> (value) to add</param>
         public void AddElement(Method method)
         {
-            var item = SystemExtension.Clone(method);
+            var item = method.Clone();
 
             subscribedMethods.Enqueue(item); // Add the method to the queue
             PersistentSubscribers.Enqueue(item); // Add the method to the persistent queue
