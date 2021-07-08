@@ -120,7 +120,7 @@ namespace Core.DataStructures
         /// <returns>A description of the object</returns>
         public override string ToString()
         {
-            return $"{name} = {value}";
+            return $"{value}";
         }
     }
 }
