@@ -57,6 +57,8 @@ namespace Diagnostic
 
         private static Severity minimumSeverityLevel = Severity.Info;
 
+        private static bool initialized = false;
+
         /// <summary>
         /// The minimum <see cref="Severity"/> level of the entry to log
         /// </summary> 
@@ -66,6 +68,13 @@ namespace Diagnostic
         /// The log file path
         /// </summary>
         public static string Path => path;
+
+        /// <summary>
+        /// Define whether the <see cref="Logger"/> has been initialized 
+        /// by calling <see cref="Init(string, int)"/> (<see langword="true"/>)
+        /// or not (<see langword="false"/>)
+        /// </summary>
+        public static bool Initialized => initialized;
 
         /// <summary>
         /// Initialize the logger.
@@ -140,6 +149,8 @@ namespace Diagnostic
 
                 AppendText(header);
             }
+
+            initialized = true;
         }
 
         /// <summary>
@@ -244,7 +255,7 @@ namespace Diagnostic
                 StackFrame frame = st.GetFrame(st.FrameCount - 1);
 
                 // Get the line number from the stack frame
-                int line = frame.GetFileLineNumber();
+                int? line = frame?.GetFileLineNumber();
 
                 var entry = CreateEntry(
                     Severity.Error,
