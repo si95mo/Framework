@@ -1,0 +1,46 @@
+﻿using Core.Threading;
+using FluentAssertions;
+using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Diagnostic.Tests
+{
+    public class DiagnosticTestClass
+    {
+        [OneTimeSetUp]
+        public void Setup()
+        {
+            Logger.Init();
+            LogReader.StartReading(Logger.Path);
+
+            Logger.Initialized.Should().BeTrue();
+            LogReader.Reading.Should().BeTrue();
+        }
+
+        [Test]
+        [TestCase(10000d)]
+        public void LogReaderTest(double interval)
+        {
+            string lastLogText = "", lastLastLog = "";
+
+            Stopwatch sw = Stopwatch.StartNew();
+            do
+            {
+                Logger.Log(new Exception(sw.Elapsed.TotalMilliseconds.ToString("0.000")));
+
+                Tasks.NoOperation(2000);
+
+                LogReader.LogText.Should().NotBe("").And.NotBe(lastLogText);
+                LogReader.LastLog.Should().NotBe("").And.NotBe(lastLastLog);
+
+                lastLogText = LogReader.LogText;
+                lastLastLog = LogReader.LastLog;
+            } while (sw.Elapsed.TotalMilliseconds <= interval);
+        }
+    }
+}
