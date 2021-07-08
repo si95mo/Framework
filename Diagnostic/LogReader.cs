@@ -20,6 +20,7 @@ namespace Diagnostic
         /// The full log text with all the entries
         /// </summary>
         public static string LogText => logText;
+
         /// <summary>
         /// The last log entry
         /// </summary>

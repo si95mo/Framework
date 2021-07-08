@@ -15,22 +15,27 @@ namespace Diagnostic
         /// A trace type entry
         /// </summary>
         Trace = 0,
+
         /// <summary>
         /// A debug type entry
         /// </summary>
         Debug = 1,
+
         /// <summary>
         /// An info type entry
         /// </summary>
         Info = 2,
+
         /// <summary>
         /// A warn type entry
         /// </summary>
         Warn = 3,
+
         /// <summary>
         /// An error type entry
         /// </summary>
         Error = 4,
+
         /// <summary>
         /// A fatal type entry
         /// </summary>
@@ -61,7 +66,7 @@ namespace Diagnostic
 
         /// <summary>
         /// The minimum <see cref="Severity"/> level of the entry to log
-        /// </summary> 
+        /// </summary>
         public static Severity MinimumSeverityLevel => minimumSeverityLevel;
 
         /// <summary>
@@ -70,7 +75,7 @@ namespace Diagnostic
         public static string Path => path;
 
         /// <summary>
-        /// Define whether the <see cref="Logger"/> has been initialized 
+        /// Define whether the <see cref="Logger"/> has been initialized
         /// by calling <see cref="Init(string, int)"/> (<see langword="true"/>)
         /// or not (<see langword="false"/>)
         /// </summary>
@@ -308,18 +313,23 @@ namespace Diagnostic
                 case Severity.Trace:
                     severityAsString = "TRACE";
                     break;
+
                 case Severity.Debug:
                     severityAsString = "DEBUG";
                     break;
+
                 case Severity.Info:
                     severityAsString = "INFO "; // Five letters for align!
                     break;
+
                 case Severity.Warn:
                     severityAsString = "WARN "; // Five letters for align!
                     break;
+
                 case Severity.Error:
                     severityAsString = "ERROR";
                     break;
+
                 case Severity.Fatal:
                     severityAsString = "FATAL";
                     break;
@@ -380,7 +390,7 @@ namespace Diagnostic
         /// (i.e. all the entry with a lower severity will not be logged).
         /// Note that the minimum level of the logged entry can't be
         /// higher than <see cref="Severity.Info"/> (i.e. entry of level
-        /// <see cref="Severity.Warn"/>, <see cref="Severity.Error"/> and 
+        /// <see cref="Severity.Warn"/>, <see cref="Severity.Error"/> and
         /// <see cref="Severity.Fatal"/>will always be logged.
         /// The <see cref="Severity"/> level is defined as follows (from lower to higher):
         /// <see cref="Severity.Trace"/>, <see cref="Severity.Debug"/>,
