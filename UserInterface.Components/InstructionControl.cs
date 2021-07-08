@@ -107,7 +107,7 @@ namespace UserInterface.Controls
         /// <param name="e"><The <see cref="EventArgs"/></param>
         private void BtnAdd_Click(object sender, EventArgs e)
         {
-            IInstruction deepInstructionCopy = instruction.Clone();
+            IInstruction deepInstructionCopy = instruction.DeepCopy();
             var parameters = deepInstructionCopy.InputParameters.ToList();
 
             for (int i = 0; i < parameters.Count; i++)

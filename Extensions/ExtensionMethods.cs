@@ -244,7 +244,7 @@ namespace Extensions
         /// <typeparam name="T">The type of object being copied.</typeparam>
         /// <param name="source">The object instance to copy.</param>
         /// <returns>The deep copy of the object.</returns>
-        public static T Clone<T>(this T source)
+        public static T DeepCopy<T>(this T source)
         {
             if (!typeof(T).IsSerializable)
                 throw new ArgumentException("The type must be serializable!", nameof(source));
