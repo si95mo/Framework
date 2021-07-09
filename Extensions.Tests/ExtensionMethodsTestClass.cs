@@ -34,40 +34,40 @@ namespace Extensions.Tests
         [Test]
         public void BetweenTest()
         {
-            item.BetweenInclusive(0, 100).Should().BeTrue();
-            item.BetweenExclusive(0, 100).Should().BeTrue();
+            item.IsBetweenInclusive(0, 100).Should().BeTrue();
+            item.IsBetweenExclusive(0, 100).Should().BeTrue();
 
-            item.BetweenInclusive(10, 100).Should().BeTrue();
-            item.BetweenExclusive(10, 100).Should().BeFalse();
+            item.IsBetweenInclusive(10, 100).Should().BeTrue();
+            item.IsBetweenExclusive(10, 100).Should().BeFalse();
 
-            item.BetweenInclusive(0, 9).Should().BeFalse();
-            item.BetweenExclusive(0, 9).Should().BeFalse();
+            item.IsBetweenInclusive(0, 9).Should().BeFalse();
+            item.IsBetweenExclusive(0, 9).Should().BeFalse();
 
-            item.BetweenInclusive(0, 10).Should().BeTrue();
-            item.BetweenExclusive(0, 10).Should().BeFalse();
+            item.IsBetweenInclusive(0, 10).Should().BeTrue();
+            item.IsBetweenExclusive(0, 10).Should().BeFalse();
         }
 
         [Test]
         public void TestifTrue()
         {
-            itWorks = true.IfTrue(() => true);
+            itWorks = true.DoIfTrue(() => true);
             itWorks.Should().BeTrue();
         }
 
         [Test]
         public void TestifFalse()
         {
-            itWorks = false.IfFalse(() => true);
+            itWorks = false.DoIfFalse(() => true);
             itWorks.Should().BeTrue();
         }
 
         [Test]
         public void TestifTrueifFalse()
         {
-            itWorks = false.IfTrueIfFalse(() => false, () => true);
+            itWorks = false.DoIfTrueIfFalse(() => false, () => true);
             itWorks.Should().BeTrue();
             itWorks = false;
-            itWorks = true.IfTrueIfFalse(() => true, () => false);
+            itWorks = true.DoIfTrueIfFalse(() => true, () => false);
             itWorks.Should().BeTrue();
         }
     }

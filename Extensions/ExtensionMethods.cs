@@ -22,7 +22,7 @@ namespace Extensions
         /// <example>
         /// <code>
         /// int item = 10;
-        /// if(item.IsIn(0, 5, 2, 4, -, 10))
+        /// if(item.IsIn(0, 5, 2, 4, -6, 10))
         /// {
         ///     // Some stuff
         /// }
@@ -75,7 +75,7 @@ namespace Extensions
         /// <example>
         /// <code>
         /// int item = 10;
-        /// if(item.BetweenInclusive(0, 100))
+        /// if(item.IsBetweenInclusive(0, 100))
         /// {
         ///     // Some stuff
         /// }
@@ -85,7 +85,7 @@ namespace Extensions
         /// }
         /// </code>
         /// </example>
-        public static bool BetweenInclusive<T>(this T actual, T lower, T upper) where T : IComparable<T>
+        public static bool IsBetweenInclusive<T>(this T actual, T lower, T upper) where T : IComparable<T>
         {
             bool result = actual.CompareTo(lower) >= 0 && actual.CompareTo(upper) <= 0;
 
@@ -106,7 +106,7 @@ namespace Extensions
         /// <example>
         /// <code>
         /// int item = 10;
-        /// if(item.BetweenExclusive(0, 100))
+        /// if(item.IsBetweenExclusive(0, 100))
         /// {
         ///     // Some stuff
         /// }
@@ -116,7 +116,7 @@ namespace Extensions
         /// }
         /// </code>
         /// </example>
-        public static bool BetweenExclusive<T>(this T actual, T lower, T upper) where T : IComparable<T>
+        public static bool IsBetweenExclusive<T>(this T actual, T lower, T upper) where T : IComparable<T>
         {
             bool result = actual.CompareTo(lower) > 0 && actual.CompareTo(upper) < 0;
 
@@ -130,7 +130,7 @@ namespace Extensions
         /// <param name="value">The value</param>
         /// <param name="function">The <see cref="Func{T, TResult}"/></param>
         /// <returns>The result of the <see cref="Func{T, TResult}"/></returns>
-        public static T IfTrue<T>(this bool value, Func<T> function)
+        public static T DoIfTrue<T>(this bool value, Func<T> function)
         {
             if (value)
                 return (T)function();
@@ -149,10 +149,10 @@ namespace Extensions
         /// <code>
         /// bool flag = true;
         /// int x = 0;
-        /// flag.IfTrue(() => x += 1);
+        /// flag.DoIfTrue(() => x += 1);
         /// </code>
         /// </example>
-        public static void IfTrue(this bool value, Action action)
+        public static void DoIfTrue(this bool value, Action action)
         {
             if (value)
                 action();
@@ -169,10 +169,10 @@ namespace Extensions
         /// <code>
         /// bool flag = true;
         /// int x = 0;
-        /// flag.IfFalse(() => x += 1);
+        /// flag.DoIfFalse(() => x += 1);
         /// </code>
         /// </example>
-        public static T IfFalse<T>(this bool value, Func<T> function)
+        public static T DoIfFalse<T>(this bool value, Func<T> function)
         {
             if (!value)
                 return (T)function();
@@ -187,7 +187,7 @@ namespace Extensions
         /// <param name="value">The value</param>
         /// <param name="action">The <see cref="Action"/></param>
         /// <returns>The result of the <see cref="Action"/></returns>
-        public static void IfFalse(this bool value, Action action)
+        public static void DoIfFalse(this bool value, Action action)
         {
             if (!value)
                 action();
@@ -203,7 +203,7 @@ namespace Extensions
         /// <param name="falseFunction">The <see cref="Func{T, TResult}"/> to execute
         /// if <paramref name="value"/> is <see langword="false"/></param>
         /// <returns>The result of the <see cref="Func{T, TResult}"/></returns>
-        public static T IfTrueIfFalse<T>(this bool value, Func<T> trueFunction, Func<T> falseFunction)
+        public static T DoIfTrueIfFalse<T>(this bool value, Func<T> trueFunction, Func<T> falseFunction)
         {
             if (value)
                 return (T)trueFunction();
@@ -221,7 +221,7 @@ namespace Extensions
         /// <param name="falseAction">The <see cref="Action"/> to execute
         /// if <paramref name="value"/> is <see langword="false"/></param>
         /// <returns>The result of the <see cref="Action"/></returns>
-        public static void IfTrueIfFalse(this bool value, Action trueAction, Action falseAction)
+        public static void DoIfTrueIfFalse(this bool value, Action trueAction, Action falseAction)
         {
             if (value)
                 trueAction();
