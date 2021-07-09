@@ -17,7 +17,7 @@
         /// <summary>
         /// The <see cref="IParameter"/> value
         /// </summary>
-        T Value
+        new T Value
         {
             get;
             set;

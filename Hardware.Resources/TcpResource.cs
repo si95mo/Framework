@@ -55,6 +55,20 @@ namespace Hardware.Resources
         /// </summary>
         public string IpAddress => ipAddress;
 
+        public Type Type => this.GetType();
+
+        /// <summary>
+        /// The <see cref="TcpResource"/> value as <see cref="object"/>
+        /// </summary>
+        public object ValueAsObject
+        {
+            get => code;
+            set
+            {
+                object v = ValueAsObject;
+            }
+        }
+
         /// <summary>
         /// The <see cref="TcpResource"/> port number
         /// </summary>

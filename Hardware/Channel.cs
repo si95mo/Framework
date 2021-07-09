@@ -22,6 +22,8 @@ namespace Hardware
         protected object objectLock = new object();
         protected EventHandler<ValueChangedEventArgs> ValueChangedHandler;
 
+        public Type Type => typeof(T);
+
         /// <summary>
         /// Initialize the class attributes with
         /// default parameters
@@ -85,6 +87,15 @@ namespace Hardware
                     OnValueChanged(new ValueChangedEventArgs(oldValue, this.value));
                 }
             }
+        }
+
+        /// <summary>
+        /// The <see cref="Channel{T}"/> value as <see cref="object"/>
+        /// </summary>
+        public virtual object ValueAsObject
+        {
+            get => value;
+            set => this.value = (T)value;
         }
 
         protected virtual string MeasureUnit

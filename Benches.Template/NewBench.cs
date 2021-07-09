@@ -12,6 +12,8 @@ namespace Benches.Template
         {
             Actions.Instructions.Dummy = new DummyInstruction("DummyInstruction", this);
             Instructions.Add(Actions.Instructions.Dummy);
+            Actions.Instructions.SecondDummy = new SecondDummyInstruction("SecondDummyInstruction", this);
+            Instructions.Add(Actions.Instructions.SecondDummy);
         }
     }
 }

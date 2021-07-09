@@ -40,6 +40,19 @@ namespace Core
         /// </summary>
         string Code
         { get; }
+
+        /// <summary>
+        /// The <see cref="IProperty"/> value as <see cref="object"/>
+        /// </summary>
+        object ValueAsObject
+        { get; set; }
+
+        /// <summary>
+        /// The <see cref="IProperty"/> wrapped
+        /// value <see cref="System.Type"/>
+        /// </summary>
+        Type Type
+        { get; }
     }
 
     /// <summary>

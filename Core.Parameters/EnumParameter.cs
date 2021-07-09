@@ -2,8 +2,15 @@
 
 namespace Core.Parameters
 {
+    /// <summary>
+    /// Implement an enum parameter.
+    /// See also <see cref="Parameter{T}"/>, <see cref="IParameter"/> 
+    /// and <see cref="IEnumParameter{T}"/>
+    /// </summary>
+    /// <typeparam name="T">The <see cref="Enum"/> type of the wrapped parameter</typeparam>
+    [Serializable]
     public class EnumParameter<T> : Parameter<T>, IEnumParameter<T> where T : Enum
-    {
+    {     
         /// <summary>
         /// The <see cref="EnumParameter{T}"/> value
         /// </summary>

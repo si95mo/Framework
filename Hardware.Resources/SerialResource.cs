@@ -38,6 +38,20 @@ namespace Hardware.Resources
         /// </summary>
         public IFailure LastFailure => failure;
 
+        public Type Type => this.GetType();
+
+        /// <summary>
+        /// The <see cref="SerialResource"/> value as <see cref="object"/>
+        /// </summary>
+        public object ValueAsObject
+        {
+            get => code;
+            set
+            {
+                object v = ValueAsObject;
+            }
+        }
+
         /// <summary>
         /// Create a new instance of <see cref="SerialResource"/>
         /// </summary>

@@ -38,6 +38,21 @@ namespace Benches
         /// </summary>
         public Bag<IInstruction> Instructions => instructions;
 
+        public Type Type => this.GetType();
+
+        /// <summary>
+        /// The <see cref="Bench{TDevice, TParameter, TInstruction}"/>
+        /// value as <see cref="object"/>
+        /// </summary>
+        public object ValueAsObject
+        {
+            get => code;
+            set
+            {
+                object v = ValueAsObject;
+            }
+        }
+
         /// <summary>
         /// Initialize the class attributes with
         /// default parameters

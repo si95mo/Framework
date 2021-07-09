@@ -41,6 +41,20 @@ namespace Instructions
         /// </summary>
         public virtual Bag<IParameter> OutputParameters => outputParameters;
 
+        public Type Type => this.GetType();
+
+        /// <summary>
+        /// The <see cref="Instruction"/> value as <see cref="object"/>
+        /// </summary>
+        public object ValueAsObject
+        {
+            get => code;
+            set
+            {
+                object v = ValueAsObject;
+            }
+        }
+
         /// <summary>
         /// The <see cref="Bag{T}"/> of all the <see cref="IDevice"/>
         /// with <see cref="Instruction"/> related methods

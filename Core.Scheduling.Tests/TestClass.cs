@@ -4,6 +4,15 @@ using System.Threading.Tasks;
 namespace Core.Scheduling.Tests
 {
     [Serializable]
+    public enum TestEnum
+    {
+        None = 0,
+        First = 1,
+        Second = 2,
+        Third = 3
+    }
+
+    [Serializable]
     public class TestClass
     {
         public TestClass()
@@ -36,6 +45,9 @@ namespace Core.Scheduling.Tests
 
         public bool Negate(bool value)
             => !value;
+
+        public string EnumToString(TestEnum en)
+            => en.ToString();
     }
 
     [Serializable]

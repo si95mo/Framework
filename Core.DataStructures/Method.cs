@@ -64,6 +64,17 @@ namespace Core.DataStructures
         }
 
         /// <summary>
+        /// The <see cref="Method"/> value as <see cref="object"/>
+        /// </summary>
+        public object ValueAsObject
+        {
+            get => info;
+            set => info = (MethodInfo)value;
+        }
+
+        public Type Type => this.GetType();
+
+        /// <summary>
         /// The <see cref="Method"/> name.
         /// </summary>
         public string Name => name;

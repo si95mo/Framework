@@ -4,41 +4,43 @@ using System.Reflection;
 namespace Core.DataStructures
 {
     /// <summary>
-    /// Defines the parameter type.
+    /// Defines the <see cref="MethodParameter"/> type
     /// </summary>
     [Serializable]
     public enum ParameterType
     {
         /// <summary>
-        /// A <see cref="string"/> type parameter.
+        /// A <see cref="string"/> type parameter
         /// </summary>
         String = 0,
-
         /// <summary>
-        /// An <see cref="int"/> type parameter.
+        /// An <see cref="int"/> type parameter
         /// </summary>
         Int = 1,
-
         /// <summary>
-        /// A <see cref="double"/> type parameter.
+        /// A <see cref="double"/> type parameter
         /// </summary>
         Double = 2,
-
         /// <summary>
-        /// A <see cref="bool"/> type parameter.
+        /// A <see cref="bool"/> type parameter
         /// </summary>
-        Bool = 3
+        Bool = 3,
+        /// <summary>
+        /// An <see cref="Enum"/> type parameter
+        /// </summary>
+        Enum = 4
     }
 
     /// <summary>
-    /// Defines a <see cref="MethodParameter"/> of a method.
-    /// See also <see cref="Method"/>.
+    /// Defines a <see cref="MethodParameter"/> of a <see cref="Method"/>.
+    /// See also <see cref="Method"/>
     /// </summary>
     [Serializable]
     public class MethodParameter
     {
         private object value;
         private ParameterType type;
+        private Type exactType;
         private string name;
 
         /// <summary>
@@ -54,6 +56,12 @@ namespace Core.DataStructures
         /// The <see cref="MethodParameter"/> <see cref="ParameterType"/>
         /// </summary>
         public ParameterType Type => type;
+
+        /// <summary>
+        /// The <see cref="MethodParameter"/> exact <see cref="System.Type"/>
+        /// (i.e. the actual <see cref="System.Type"/> and not the base one)
+        /// </summary>
+        public Type ExactType => exactType;
 
         /// <summary>
         /// The name of the <see cref="MethodParameter"/>
@@ -82,6 +90,11 @@ namespace Core.DataStructures
 
             if (parameterType == typeof(string))
                 type = ParameterType.String;
+
+            if (parameterType.IsEnum)
+                type = ParameterType.Enum;
+
+            exactType = parameterType;
         }
 
         /// <summary>
@@ -110,6 +123,10 @@ namespace Core.DataStructures
 
                 case ParameterType.String:
                     this.value = value.ToString();
+                    break;
+
+                case ParameterType.Enum:
+                    this.value = Enum.Parse(exactType, value.ToString());
                     break;
             }
         }

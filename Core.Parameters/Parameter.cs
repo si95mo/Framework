@@ -61,6 +61,17 @@ namespace Core.Parameters
         }
 
         /// <summary>
+        /// The <see cref="Parameter{T}"/> value as <see cref="object"/>
+        /// </summary>
+        public virtual object ValueAsObject
+        {
+            get => value;
+            set => this.value = (T)value;
+        }
+
+        public virtual Type Type => typeof(T);
+
+        /// <summary>
         /// The <see cref="Parameter{T}"/> measure unit
         /// </summary>
         protected virtual string MeasureUnit
