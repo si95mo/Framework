@@ -12,9 +12,11 @@ namespace Diagnostic
     /// </summary>
     public class LogReader
     {
+        private static string logPath = "";
         private static string logText = "";
         private static string lastLog = "";
         private static bool reading = false;
+        private static int monitoringInterval = 1000; // ms
 
         /// <summary>
         /// The full log text with all the entries
@@ -30,7 +32,10 @@ namespace Diagnostic
         /// The log file path
         /// </summary>
         public static string LogPath
-        { get; private set; }
+        { 
+            get => logPath; 
+            private set => logPath = value; 
+        }
 
         /// <summary>
         /// Define whether the log file is being read (<see langword="true"/>)
@@ -39,15 +44,22 @@ namespace Diagnostic
         public static bool Reading => reading;
 
         /// <summary>
+        /// The monitoring interval in milliseconds
+        /// </summary>
+        public static int MonitoringInterval => monitoringInterval;
+
+        /// <summary>
         /// Start the read of the log file.
         /// </summary>
         /// <param name="logPath">The log file path</param>
+        /// <param name="intervalInMilliseconds">The monitoring interval (in milliseconds)</param>
         /// <remarks>The <see cref="Logger"/> must be <see cref="Logger.Initialized"/></remarks>
-        public static void StartReading(string logPath)
+        public static void StartReading(string logFilePath, int intervalInMilliseconds = 1000)
         {
             if (Logger.Initialized)
             {
-                LogPath = logPath;
+                logPath = logFilePath;
+                monitoringInterval = intervalInMilliseconds;
 
                 if (!reading)
                 {
@@ -63,7 +75,7 @@ namespace Diagnostic
         /// <returns>The monitoring <see cref="Task"/></returns>
         private static Task StartMonitoring()
         {
-            long initialFileSize = new FileInfo(LogPath).Length;
+            long initialFileSize = new FileInfo(logPath).Length;
             long lastReadLength = initialFileSize - 1024;
 
             if (lastReadLength < 0)
@@ -75,10 +87,10 @@ namespace Diagnostic
                     {
                         try
                         {
-                            var fileSize = new FileInfo(LogPath).Length;
+                            var fileSize = new FileInfo(logPath).Length;
                             if (fileSize > lastReadLength)
                             {
-                                using (var fs = new FileStream(LogPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                                using (var fs = new FileStream(logPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                                 {
                                     fs.Seek(lastReadLength, SeekOrigin.Begin);
                                     var buffer = new byte[1024];
@@ -105,7 +117,7 @@ namespace Diagnostic
                             reading = false;
                         }
 
-                        Thread.Sleep(1000);
+                        Thread.Sleep(monitoringInterval);
                     }
                 }
             );
