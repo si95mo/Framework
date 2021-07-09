@@ -33,21 +33,21 @@ namespace UserInterface.Controls
         public static readonly Color Transparent = Color.Transparent;
 
         /// <summary>
-        /// The background <see cref="Color"/>
+        /// The light text color <see cref="Color"/>
         /// defined as 0xFC, 0xEE, 0xDF
         /// </summary>
         public static readonly Color TextColorLight = Color.FromArgb(0xFC, 0xEE, 0xDF);
 
         /// <summary>
-        /// The text dark color <see cref="Color"/>
+        /// The dark text color <see cref="Color"/>
         /// defined as 0x2F, 0x4F, 0x4F
         /// </summary>
         public static readonly Color TextColorDark = Color.DarkSlateGray;
 
         /// <summary>
         /// The red <see cref="Color"/>
-        /// defined as 0xCD, 0x5C, 0x5C
+        /// defined as 0xD2, 0x04, 0x2D
         /// </summary>
-        public static readonly Color Red = Color.OrangeRed;
+        public static readonly Color Red = Color.FromArgb(0xD2, 0x04, 0x2D);
     }
 }
