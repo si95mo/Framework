@@ -62,7 +62,11 @@ namespace UserInterface.Controls
                     );
                     lblParam.Size = lblMethodNamePlaceholder.Size;
 
-                    if (p.GetType() != typeof(BooleanParameter))
+                    if (
+                        p.GetType() == typeof(NumericParameter) || 
+                        p.GetType() == typeof(StringParameter)  || 
+                        p.GetType() == typeof(TimeSpanParameter)
+                    )
                     {
                         var txtCtrl = new TextControl();
                         txtCtrl.Location = new Point(
@@ -74,13 +78,30 @@ namespace UserInterface.Controls
                     }
                     else
                     {
-                        var diCtrl = new DigitalControl();
-                        diCtrl.Location = new Point(
-                            lblInstructionName.Location.X,
-                            lblParam.Location.Y - 4
-                        );
+                        if (p.GetType() == typeof(BooleanParameter))
+                        {
+                            var diCtrl = new DigitalControl();
+                            diCtrl.Location = new Point(
+                                lblInstructionName.Location.X,
+                                lblParam.Location.Y - 4
+                            );
 
-                        AddElementToCollection(lblParam, diCtrl);
+                            AddElementToCollection(lblParam, diCtrl);
+                        }
+                        else
+                        {
+                            var cbxCtrl = new ComboControl();
+                            cbxCtrl.Location = new Point(
+                                lblInstructionName.Location.X,
+                                lblParam.Location.Y - 4
+                            );
+
+                            BindingSource bs = new BindingSource();
+                            bs.DataSource = Enum.GetValues(p.Type);
+                            cbxCtrl.DataSource = bs;
+
+                            AddElementToCollection(lblParam, cbxCtrl);
+                        }
                     }
                 }
             }
@@ -113,8 +134,9 @@ namespace UserInterface.Controls
             for (int i = 0; i < parameters.Count; i++)
             {
                 var p = parameters.ElementAt(i);
+                Type t = p.GetType();
 
-                switch (p.GetType())
+                switch (t)
                 {
                     case Type boolType when boolType == typeof(BooleanParameter):
                         (parameters.ElementAt(i) as BooleanParameter).Value = (bool)values.ElementAt(i).Value;
@@ -130,6 +152,12 @@ namespace UserInterface.Controls
 
                     case Type timeType when timeType == typeof(TimeSpanParameter):
                         (parameters.ElementAt(i) as TimeSpanParameter).Value = (TimeSpan)values.ElementAt(i).Value;
+                        break;
+
+                    default: // EnumParameter<T>
+                        if (t.IsGenericType)
+                            if (t.GetGenericTypeDefinition() == typeof(EnumParameter<>))
+                                parameters.ElementAt(i).ValueAsObject = (Enum)values.ElementAt(i).Value;
                         break;
                 }
             }

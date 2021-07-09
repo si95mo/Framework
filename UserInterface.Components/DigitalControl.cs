@@ -10,6 +10,9 @@ namespace UserInterface.Controls
     /// </summary>
     public partial class DigitalControl : BaseControl
     {
+        /// <summary>
+        /// The <see cref="DigitalControl"/> value
+        /// </summary>
         public override object Value
         {
             get => (bool)value;

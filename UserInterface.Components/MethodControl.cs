@@ -66,7 +66,7 @@ namespace UserInterface.Controls
                     );
                     lblParam.Size = lblMethodNamePlaceholder.Size;
 
-                    if (p.Type != ParameterType.Bool)
+                    if (p.Type != ParameterType.Bool && p.Type != ParameterType.Enum)
                     {
                         var txtCtrl = new TextControl();
                         txtCtrl.Location = new Point(
@@ -78,13 +78,30 @@ namespace UserInterface.Controls
                     }
                     else
                     {
-                        var diCtrl = new DigitalControl();
-                        diCtrl.Location = new Point(
-                            lblMethodName.Location.X,
-                            lblParam.Location.Y - 4
-                        );
+                        if (p.Type == ParameterType.Bool)
+                        {
+                            var diCtrl = new DigitalControl();
+                            diCtrl.Location = new Point(
+                                lblMethodName.Location.X,
+                                lblParam.Location.Y - 4
+                            );
 
-                        AddElementToCollection(lblParam, diCtrl);
+                            AddElementToCollection(lblParam, diCtrl);
+                        }
+                        else
+                        {
+                            var cbxCtrl = new ComboControl();
+                            cbxCtrl.Location = new Point(
+                                lblMethodName.Location.X,
+                                lblParam.Location.Y - 4
+                            );
+
+                            BindingSource bs = new BindingSource();
+                            bs.DataSource = Enum.GetValues(p.ExactType);
+                            cbxCtrl.DataSource = bs;
+
+                            AddElementToCollection(lblParam, cbxCtrl);
+                        }
                     }
                 }
             }
