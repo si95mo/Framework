@@ -3,10 +3,6 @@ using Core.Parameters;
 using Devices;
 using Instructions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Benches.Template.Actions
 {
@@ -34,21 +30,24 @@ namespace Benches.Template.Actions
 
         public override void Invoke()
         {
-            switch(Switch.Value)
+            switch (Switch.Value)
             {
                 case InstructionEnum.None:
                     Console.WriteLine($"{Switch} :: {Switch.Value} (N)");
                     break;
+
                 case InstructionEnum.First:
                     Console.WriteLine($"{Switch} :: {Switch.Value} (F)");
                     break;
+
                 case InstructionEnum.Second:
                     Console.WriteLine($"{Switch} :: {Switch.Value} (S)");
                     break;
+
                 case InstructionEnum.Third:
                     Console.WriteLine($"{Switch} :: {Switch.Value} (T)");
                     break;
-            }    
+            }
         }
     }
 }

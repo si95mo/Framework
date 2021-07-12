@@ -41,9 +41,9 @@ namespace Devices
         public object ValueAsObject
         {
             get => code;
-            set 
-            { 
-                object v = ValueAsObject; 
+            set
+            {
+                object v = ValueAsObject;
             }
         }
 

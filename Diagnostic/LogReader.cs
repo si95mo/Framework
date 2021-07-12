@@ -32,9 +32,9 @@ namespace Diagnostic
         /// The log file path
         /// </summary>
         public static string LogPath
-        { 
-            get => logPath; 
-            private set => logPath = value; 
+        {
+            get => logPath;
+            private set => logPath = value;
         }
 
         /// <summary>

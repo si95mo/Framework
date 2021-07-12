@@ -63,8 +63,8 @@ namespace UserInterface.Controls
                     lblParam.Size = lblMethodNamePlaceholder.Size;
 
                     if (
-                        p.GetType() == typeof(NumericParameter) || 
-                        p.GetType() == typeof(StringParameter)  || 
+                        p.GetType() == typeof(NumericParameter) ||
+                        p.GetType() == typeof(StringParameter) ||
                         p.GetType() == typeof(TimeSpanParameter)
                     )
                     {

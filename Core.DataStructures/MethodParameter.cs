@@ -13,18 +13,22 @@ namespace Core.DataStructures
         /// A <see cref="string"/> type parameter
         /// </summary>
         String = 0,
+
         /// <summary>
         /// An <see cref="int"/> type parameter
         /// </summary>
         Int = 1,
+
         /// <summary>
         /// A <see cref="double"/> type parameter
         /// </summary>
         Double = 2,
+
         /// <summary>
         /// A <see cref="bool"/> type parameter
         /// </summary>
         Bool = 3,
+
         /// <summary>
         /// An <see cref="Enum"/> type parameter
         /// </summary>
