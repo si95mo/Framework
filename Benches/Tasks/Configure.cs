@@ -10,11 +10,11 @@ namespace Benches.Tasks
 {
     public class Configure<TDevice, TParameter, TInstruction>
     {
-        private List<IDevice> devices;
-        private List<IParameter> parameters;
-        private List<IInstruction> instructions;
+        private readonly List<IDevice> devices;
+        private readonly List<IParameter> parameters;
+        private readonly List<IInstruction> instructions;
 
-        private Bench<TDevice, TParameter, TInstruction> bench;
+        private readonly Bench<TDevice, TParameter, TInstruction> bench;
 
         /// <summary>
         /// Create a new instance of <see cref="Configure"/>

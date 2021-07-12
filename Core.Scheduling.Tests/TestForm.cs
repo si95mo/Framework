@@ -18,8 +18,8 @@ namespace Core.Scheduling.Tests
         private const string jsonPath = @"test/test_program.json";
         private const string binPath = @"test/test_program.bin";
 
-        private SimpleInstructionScheduler instructionScheduler;
-        private SimpleMethodScheduler methodScheduler;
+        private readonly SimpleInstructionScheduler instructionScheduler;
+        private readonly SimpleMethodScheduler methodScheduler;
 
         private bool isOpen = true;
 
@@ -165,7 +165,7 @@ namespace Core.Scheduling.Tests
     public class TextBoxWriter : TextWriter
     {
         // The control where we will write text.
-        private Control control;
+        private readonly Control control;
 
         public TextBoxWriter(Control control)
         {

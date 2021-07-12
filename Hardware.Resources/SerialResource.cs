@@ -12,8 +12,8 @@ namespace Hardware.Resources
     /// </summary>
     public class SerialResource : SerialPort, IResource
     {
-        private string code;
-        private Bag<IChannel> channels;
+        private readonly string code;
+        private readonly Bag<IChannel> channels;
         private ResourceStatus status;
         private IFailure failure;
 
@@ -48,7 +48,7 @@ namespace Hardware.Resources
             get => code;
             set
             {
-                object v = ValueAsObject;
+                _ = ValueAsObject;
             }
         }
 

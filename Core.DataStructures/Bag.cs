@@ -37,7 +37,7 @@ namespace Core.DataStructures
 
         public event EventHandler<BagChangedEventArgs<IProperty>> ItemRemoved;
 
-        private Dictionary<string, IProperty> bag;
+        private readonly Dictionary<string, IProperty> bag;
 
         /// <summary>
         /// The number of items in the <see cref="Bag{IProperty}"/>
@@ -84,8 +84,7 @@ namespace Core.DataStructures
         /// <param name="e">The <see cref="BagChangedEventArgs{T}"/></param>
         protected virtual void OnItemAdded(BagChangedEventArgs<IProperty> e)
         {
-            if (ItemAdded != null)
-                ItemAdded(this, e);
+            ItemAdded?.Invoke(this, e);
         }
 
         /// <summary>
@@ -94,8 +93,7 @@ namespace Core.DataStructures
         /// <param name="e">The <see cref="BagChangedEventArgs{T}"/></param>
         protected virtual void OnItemRemoved(BagChangedEventArgs<IProperty> e)
         {
-            if (ItemRemoved != null)
-                ItemRemoved(this, e);
+            ItemRemoved?.Invoke(this, e);
         }
 
         /// <summary>
@@ -144,7 +142,7 @@ namespace Core.DataStructures
         /// <param name="item">The item code to be removed</param>
         /// <returns><see langword="true"/> if the item is removed,
         /// <see langword="false"/> otherwise</returns>
-        public new bool Remove(string code)
+        public bool Remove(string code)
         {
             IProperty itemRemoved = null;
 

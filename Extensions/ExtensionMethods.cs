@@ -135,7 +135,7 @@ namespace Extensions
             if (value)
                 return (T)function();
             else
-                return default(T);
+                return default;
         }
 
         /// <summary>
@@ -177,7 +177,7 @@ namespace Extensions
             if (!value)
                 return (T)function();
             else
-                return default(T);
+                return default;
         }
 
         /// <summary>
@@ -250,7 +250,7 @@ namespace Extensions
                 throw new ArgumentException("The type must be serializable!", nameof(source));
 
             // Don't serialize a null object, simply return the default for that object
-            if (ReferenceEquals(source, null))
+            if (source == null)
                 return default;
 
             Stream stream = new MemoryStream();
