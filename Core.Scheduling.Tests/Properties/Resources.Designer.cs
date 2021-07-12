@@ -61,12 +61,12 @@ namespace Core.Scheduling.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Bitmap ImageAdd {
+        internal static System.Drawing.Icon ImageAdd {
             get {
                 object obj = ResourceManager.GetObject("ImageAdd", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                return ((System.Drawing.Icon)(obj));
             }
         }
     }
