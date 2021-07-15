@@ -74,6 +74,7 @@ namespace Core.DataStructures
         {
             bag = new Dictionary<string, IProperty>();
         }
+
         /// <summary>
         /// Constructor method use d in the serialization
         /// </summary>

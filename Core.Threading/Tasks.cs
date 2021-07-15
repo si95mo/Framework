@@ -39,7 +39,7 @@ namespace Core.Threading
         /// <param name="interval">The interval (in milliseconds)</param>
         /// <param name="clockRate">The Windows interrupt clock rate (in milliseconds)</param>
         /// <remarks>
-        /// The new clock rate is reset at the end of the method 
+        /// The new clock rate is reset at the end of the method
         /// (15.6ms, <see cref="NoOperation(int)"/>)
         /// </remarks>
         public static void NoOperation(int interval, uint clockRate = 15)

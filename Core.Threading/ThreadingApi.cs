@@ -13,11 +13,11 @@ namespace Core.Threading
         /// <param name="uMilliseconds">The new clock rate (in milliseconds)</param>
         /// <returns>The interval</returns>
         /// <remarks>
-        /// This call is not permanent as the clock rate will be set to its default 
+        /// This call is not permanent as the clock rate will be set to its default
         /// value on system start up!
-        /// </remarks> 
+        /// </remarks>
         [
-            SuppressMessage("Microsoft.Interoperability", "CA1401:PInvokesShouldNotBeVisible"), 
+            SuppressMessage("Microsoft.Interoperability", "CA1401:PInvokesShouldNotBeVisible"),
             SuppressMessage("Microsoft.Security", "CA2118:ReviewSuppressUnmanagedCodeSecurityUsage"),
             SuppressUnmanagedCodeSecurity
         ]
@@ -31,12 +31,12 @@ namespace Core.Threading
         /// <param name="uMilliseconds">The clock rate (in milliseconds) to stop</param>
         /// <returns>The interval</returns>
         /// <remarks>
-        /// This call is not permanent as the clock rate will be set to its default 
+        /// This call is not permanent as the clock rate will be set to its default
         /// value on system start up!
-        /// </remarks> 
+        /// </remarks>
         [
-            SuppressMessage("Microsoft.Interoperability", "CA1401:PInvokesShouldNotBeVisible"), 
-            SuppressMessage("Microsoft.Security", "CA2118:ReviewSuppressUnmanagedCodeSecurityUsage"), 
+            SuppressMessage("Microsoft.Interoperability", "CA1401:PInvokesShouldNotBeVisible"),
+            SuppressMessage("Microsoft.Security", "CA2118:ReviewSuppressUnmanagedCodeSecurityUsage"),
             SuppressUnmanagedCodeSecurity
         ]
         [DllImport("winmm.dll", EntryPoint = "timeEndPeriod", SetLastError = true)]

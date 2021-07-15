@@ -4,7 +4,7 @@ using System.IO;
 namespace IO.File
 {
     /// <summary>
-    /// Handle basic IO operation for (Matlab) MAT files. <br/> 
+    /// Handle basic IO operation for (Matlab) MAT files. <br/>
     /// See also <see cref="MatFileHandler"/> and relative data structures
     /// (like <see cref="IStructureArray"/> or <see cref="IArrayOf{T}"/>)
     /// </summary>
@@ -16,13 +16,13 @@ namespace IO.File
         /// <param name="path">The path of the MAT file to read</param>
         /// <param name="structName">The struct name</param>
         /// <returns>The <see cref="IStructureArray"/> with the data</returns>
-        /// <example> 
+        /// <example>
         /// This example show the usage of the method.
         /// <code>
         /// IStructureArray data = MAT.ReadStructFromFile(path, "data");
         /// dynamic dynamicData = new ExpandoObject();
         /// dynamicData.time = data["time"];
-        /// 
+        ///
         /// IArrayOf<double> time = data.time as IArrayOf<double>;
         /// </code>
         /// </example>
