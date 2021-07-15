@@ -11,18 +11,42 @@ namespace Core.Threading
     {
         /// <summary>
         /// Perform no operation for the specified amount of time.
-        /// Please note that this instruction is CPU-consuming, use with caution!
         /// </summary>
-        /// <param name="interval">The time in ms</param>
+        /// <param name="interval">The interval (in milliseconds)</param>
+        /// <remarks>
+        /// This implementation has a precision of about 15.6ms. <br/>
+        /// For a more precise timing, see <see cref="NoOperation(int, uint)"/>
+        /// </remarks>
         public static void NoOperation(int interval)
         {
+            ManualResetEventSlim stopRequest = new ManualResetEventSlim(false);
+
             var durationTicks = Math.Round((double)(interval * Stopwatch.Frequency)) / 1000;
             var sw = Stopwatch.StartNew();
 
-            while (sw.ElapsedTicks < durationTicks)
+            do
             {
-                Thread.Sleep(0);
-            }
+                Thread.Sleep(1);
+            } while (stopRequest.Wait((int)Math.Max(0, interval - sw.ElapsedMilliseconds)));
+        }
+
+        /// <summary>
+        /// Perform no operation for the specified amount of time and, while doing
+        /// no operation, set the internal clock rate  <paramref name="clockRate"/>. <br/>
+        /// See <see cref="ThreadingApi.SetTimeBeginPeriod(uint)"/> and
+        /// <see cref="ThreadingApi.SetTimeEndPeriod(uint)"/>
+        /// </summary>
+        /// <param name="interval">The interval (in milliseconds)</param>
+        /// <param name="clockRate">The Windows interrupt clock rate (in milliseconds)</param>
+        /// <remarks>
+        /// The new clock rate is reset at the end of the method 
+        /// (15.6ms, <see cref="NoOperation(int)"/>)
+        /// </remarks>
+        public static void NoOperation(int interval, uint clockRate = 15)
+        {
+            ThreadingApi.SetTimeBeginPeriod(clockRate);
+            NoOperation(interval);
+            ThreadingApi.SetTimeEndPeriod(clockRate);
         }
     }
 }
