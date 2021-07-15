@@ -12,8 +12,8 @@ namespace IO.File
         /// <summary>
         /// Read a JSON file from disk
         /// </summary>
-        /// <param name="path">The file to read path</param>
-        /// <returns>The <see cref="JObject"/> relative to the read file</returns>
+        /// <param name="path">The path of the file to read</param>
+        /// <returns>The <see cref="JObject"/> with the data</returns>
         public static JObject ReadJSON(string path)
         {
             JObject json = JObject.Parse(System.IO.File.ReadAllText(path));
