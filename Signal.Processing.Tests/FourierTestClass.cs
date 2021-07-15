@@ -91,12 +91,12 @@ namespace Signal.Processing.Tests
         }
 
         [Test]
-        [TestCase(100, true)]
-        [TestCase(250.0, true)]
-        [TestCase(440.0, true)]
-        [TestCase(1000.0, true)]
-        [TestCase(10000.0, true)]
-        public void CalculateFFT(double f, bool saveToFile) // f is the signal frequency
+        [TestCase(100)]
+        [TestCase(250.0)]
+        [TestCase(440.0)]
+        [TestCase(1000.0)]
+        [TestCase(10000.0)]
+        public void CalculateFFT(double f) // f is the signal frequency
         {
             UnmanagedMemoryStream[] streams = new UnmanagedMemoryStream[]
             {
@@ -145,7 +145,7 @@ namespace Signal.Processing.Tests
             max.Should().NotBe(0);
 
             double threshold = 0.01;
-            (dcValue - threshold).Should().BeLessThan(0.0).And.BeGreaterThan(-threshold);
+            (Math.Abs(dcValue) - threshold).Should().BeGreaterThan(-threshold).And.BeLessThan(threshold);
 
             threshold = 4.0;
             switch (i)
@@ -169,26 +169,6 @@ namespace Signal.Processing.Tests
                 case 4:
                     (fundamental - 9998.0).Should().BeGreaterThan(0.0).And.BeLessThan(threshold);
                     break;
-            }
-
-            if (saveToFile)
-            {
-                double[] phase = Mathematics.Mathematics.Phases(fft);
-
-                var csv = new StringBuilder();
-                for (int j = 0; j < n; j++)
-                {
-                    string line = string.Format("{0},{1}",
-                        magnitude[j].ToString(nfi), frequencies[j].ToString(nfi)
-                    );
-                    csv.AppendLine(line);
-                }
-
-                string path = Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
-                    @"fft\" + "_" + f + ".csv"
-                );
-                File.WriteAllText(path, csv.ToString());
             }
         }
     }
