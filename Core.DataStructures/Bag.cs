@@ -7,6 +7,10 @@ using System.Security.Permissions;
 
 namespace Core.DataStructures
 {
+    /// <summary>
+    /// Handle the <see cref="Bag{T}"/> collection change
+    /// </summary>
+    /// <typeparam name="T">The type of the items in the <see cref="Bag{T}"/></typeparam>
     public class BagChangedEventArgs<T> : EventArgs
     {
         /// <summary>
@@ -28,13 +32,22 @@ namespace Core.DataStructures
         }
     }
 
+    /// <summary>
+    /// Class that represent a mathematical set of item,
+    /// i.e. a collection of distinct items
+    /// </summary>
+    /// <typeparam name="T">The type of elements in the <see cref="Bag{T}"/></typeparam>
     [Serializable]
     public class Bag<T> : IEnumerable<string>, ISerializable
     {
-        // public delegate void BagChanged(object sender, BagChangedEventArgs<T> e);
-
+        /// <summary>
+        /// <see cref="EventHandler"/> invoked when an item is added to the <see cref="Bag{T}"/>
+        /// </summary>
         public event EventHandler<BagChangedEventArgs<IProperty>> ItemAdded;
 
+        /// <summary>
+        /// <see cref="EventHandler"/> invoked when an item is removed to the <see cref="Bag{T}"/>
+        /// </summary>
         public event EventHandler<BagChangedEventArgs<IProperty>> ItemRemoved;
 
         private readonly Dictionary<string, IProperty> bag;
@@ -61,7 +74,11 @@ namespace Core.DataStructures
         {
             bag = new Dictionary<string, IProperty>();
         }
-
+        /// <summary>
+        /// Constructor method use d in the serialization
+        /// </summary>
+        /// <param name="info">The <see cref="SerializationInfo"/></param>
+        /// <param name="context">The <see cref="StreamingContext"/></param>
         protected Bag(SerializationInfo info, StreamingContext context)
         {
             bag = (Dictionary<string, IProperty>)info.GetValue(
@@ -70,10 +87,13 @@ namespace Core.DataStructures
             );
         }
 
-        // The following method serializes the instance.
+        /// <summary>
+        /// Serialize the instance of <see cref="Bag{T}"/>
+        /// </summary>
+        /// <param name="info">The <see cref="SerializationInfo"/></param>
+        /// <param name="context">The <see cref="StreamingContext"/></param>
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
-        void ISerializable.GetObjectData(SerializationInfo info,
-           StreamingContext context)
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue(nameof(bag), bag);
         }
