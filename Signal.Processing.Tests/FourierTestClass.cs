@@ -90,7 +90,7 @@ namespace Signal.Processing.Tests
         }
 
         [Test]
-        [TestCase(100)]
+        [TestCase(100.0)]
         [TestCase(250.0)]
         [TestCase(440.0)]
         [TestCase(1000.0)]
@@ -146,7 +146,7 @@ namespace Signal.Processing.Tests
             double threshold = 0.01;
             (Math.Abs(dcValue) - threshold).Should().BeGreaterThan(-threshold).And.BeLessThan(threshold);
 
-            threshold = 4.0;
+            threshold = 4.0; // Hz
             switch (i)
             {
                 case 0:
