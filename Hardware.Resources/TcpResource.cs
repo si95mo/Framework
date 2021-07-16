@@ -65,7 +65,7 @@ namespace Hardware.Resources
             get => code;
             set
             {
-                object v = ValueAsObject;
+                _ = ValueAsObject;
             }
         }
 

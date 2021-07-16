@@ -129,7 +129,9 @@ namespace Hardware.Resources
             }
             catch (Exception ex)
             {
+                status = ResourceStatus.Failure;
                 failure = new Failure(ex.Message);
+
                 Logger.Log(ex);
             }
         }

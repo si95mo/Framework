@@ -22,7 +22,10 @@ namespace Hardware.Resources.Tests
                 resource.Status.Should().Be(ResourceStatus.Executing);
             }
             else
+            {
                 resource.LastFailure.Description.Should().NotBe("");
+                resource.Status.Should().Be(ResourceStatus.Failure);
+            }
         }
 
         [OneTimeTearDown]
