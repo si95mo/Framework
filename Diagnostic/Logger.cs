@@ -364,7 +364,6 @@ namespace Diagnostic
         private static string GetDateTime()
         {
             string now = DateTime.Now.ToString("yyyy/MM/dd-HH:mm:ss:fff");
-
             return now;
         }
 
@@ -411,7 +410,7 @@ namespace Diagnostic
             {
                 Log(
                     $"Minimum level set from {GetReadableSeverityAsString(oldSeverity)} " +
-                        $"to {GetReadableSeverityAsString(minimumSeverityLevel)}.",
+                    $"to {GetReadableSeverityAsString(minimumSeverityLevel)}.",
                     severity: Severity.Warn
                 );
             }
@@ -426,7 +425,8 @@ namespace Diagnostic
         /// to <see cref="MinimumSeverityLevel"/>, <see langword="false"/> otherwise</returns>
         private static bool HasHigherSeverityLevel(Severity level)
         {
-            return (int)minimumSeverityLevel <= (int)level;
+            bool isHigher = (int)minimumSeverityLevel <= (int)level;
+            return isHigher;
         }
     }
 }
