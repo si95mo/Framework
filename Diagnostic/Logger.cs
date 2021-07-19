@@ -368,12 +368,12 @@ namespace Diagnostic
         }
 
         /// <summary>
-        /// Check if the new <see cref="Exception"/> is of the same as the last one,
+        /// Check if the new <see cref="Exception"/> is the same as the last one,
         /// i.e. they are of the same <see cref="Type"/>, they have the same <see cref="Exception.Message"/>
         /// and have the same <see cref="StackTrace"/>
         /// </summary>
         /// <param name="ex">The <see cref="Exception"/>to test </param>
-        /// <returns><see langword="true"/> if is the same as the last one,
+        /// <returns><see langword="true"/> if is the new <see cref="Exception"/> is equal to the last one,
         /// <see langword="false"/>otherwise</returns>
         private static bool IsSameExceptionAsTheLast(Exception ex)
         {
