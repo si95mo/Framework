@@ -49,11 +49,11 @@ namespace Core.Converters.Tests
                 {
                     FileHandler.Save(
                         $"{ai.Value:F6}", IOUtility.GetDesktopFolder() + @"\raw_simple.log",
-                        FileHandler.MODE.Append
+                        FileHandler.SaveMode.Append
                     );
                     FileHandler.Save(
                         $"{npSimple.Value:F6}", IOUtility.GetDesktopFolder() + @"\filtered_simple.log",
-                        FileHandler.MODE.Append
+                        FileHandler.SaveMode.Append
                     );
                 }
             } while (sw.Elapsed.TotalMilliseconds <= interval);
@@ -75,11 +75,11 @@ namespace Core.Converters.Tests
                 {
                     FileHandler.Save(
                         $"{ai.Value:F6}", IOUtility.GetDesktopFolder() + @"\raw_exp.log",
-                        FileHandler.MODE.Append
+                        FileHandler.SaveMode.Append
                     );
                     FileHandler.Save(
                         $"{npExponential.Value:F6}", IOUtility.GetDesktopFolder() + @"\filtered_exp.log",
-                        FileHandler.MODE.Append
+                        FileHandler.SaveMode.Append
                     );
                 }
             } while (sw.Elapsed.TotalMilliseconds <= interval);

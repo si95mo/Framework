@@ -13,7 +13,7 @@ namespace IO
     /// </summary>
     public class FileHandler
     {
-        public enum MODE
+        public enum SaveMode
         {
             /// <summary>
             /// Specify the overwrite mode for writing
@@ -34,19 +34,19 @@ namespace IO
         /// </summary>
         /// <param name="text">The text to be saved</param>
         /// <param name="path">Path to the file</param>
-        /// <param name="mode">Write mode, overwrite or append <see cref="MODE"/></param>
-        public static void Save(string text, string path, MODE mode = MODE.Overwrite)
+        /// <param name="mode">Write mode, overwrite or append <see cref="SaveMode"/></param>
+        public static void Save(string text, string path, SaveMode mode = SaveMode.Overwrite)
         {
             try
             {
                 switch (mode)
                 {
-                    case MODE.Overwrite:
+                    case SaveMode.Overwrite:
                         using (sw = File.CreateText(path))
                             sw.WriteLine(text);
                         break;
 
-                    case MODE.Append:
+                    case SaveMode.Append:
                         using (sw = File.AppendText(path))
                             sw.WriteLine(text);
                         break;

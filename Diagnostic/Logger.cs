@@ -275,11 +275,11 @@ namespace Diagnostic
 
         /// <summary>
         /// Append text on the log file.
-        /// See <see cref="FileHandler.Save(string, string, MODE)"/>.
+        /// See <see cref="FileHandler.Save(string, string, SaveMode)"/>.
         /// </summary>
         /// <param name="text">The text to append</param>
         private static void AppendText(string text)
-            => Save(text, path, MODE.Append);
+            => Save(text, path, SaveMode.Append);
 
         /// <summary>
         /// Append a <see cref="Tuple"/> to the log file as
