@@ -38,13 +38,12 @@ namespace Extensions
                 throw new ArgumentNullException("The source parameter cannot be null!");
 
             bool result = collection.Contains(item);
-
             return result;
         }
 
         /// <summary>
-        /// Format a <see cref="string"/>.
-        /// See also <see cref="string.Format(string, object[])"/>
+        /// Format a <see cref="string"/>. <br/>
+        /// A syntactic sugar of <see cref="string.Format(string, object[])"/>
         /// </summary>
         /// <param name="s">The <see cref="string"/> to format</param>
         /// <param name="args">The arguments</param>
@@ -52,12 +51,12 @@ namespace Extensions
         /// <example>
         /// <code>
         /// string text = "First: {0}. Second: {1}. Third: {2}".With("1", "2", "3");
+        /// // text == "First 1. Second: 2. Third: 3"
         /// </code>
         /// </example>
         public static string With(this string s, params object[] args)
         {
             string result = string.Format(s, args);
-
             return result;
         }
 
@@ -65,7 +64,7 @@ namespace Extensions
         /// Determine whether a value is in the given range
         /// (inclusive)
         /// </summary>
-        /// <typeparam name="T">The type of the value and the limits</typeparam>
+        /// <typeparam name="T">The type of both the value and the limits</typeparam>
         /// <param name="actual">The value to check</param>
         /// <param name="lower">The lower limit</param>
         /// <param name="upper">The upper limit</param>
@@ -75,7 +74,7 @@ namespace Extensions
         /// <example>
         /// <code>
         /// int item = 10;
-        /// if(item.IsBetweenInclusive(0, 100))
+        /// if(item.IsBetweenInclusive(0, 100)) // True
         /// {
         ///     // Some stuff
         /// }
@@ -88,7 +87,6 @@ namespace Extensions
         public static bool IsBetweenInclusive<T>(this T actual, T lower, T upper) where T : IComparable<T>
         {
             bool result = actual.CompareTo(lower) >= 0 && actual.CompareTo(upper) <= 0;
-
             return result;
         }
 
@@ -106,7 +104,7 @@ namespace Extensions
         /// <example>
         /// <code>
         /// int item = 10;
-        /// if(item.IsBetweenExclusive(0, 100))
+        /// if(item.IsBetweenExclusive(0, 100)) // True
         /// {
         ///     // Some stuff
         /// }
@@ -119,7 +117,6 @@ namespace Extensions
         public static bool IsBetweenExclusive<T>(this T actual, T lower, T upper) where T : IComparable<T>
         {
             bool result = actual.CompareTo(lower) > 0 && actual.CompareTo(upper) < 0;
-
             return result;
         }
 
@@ -133,7 +130,7 @@ namespace Extensions
         public static T DoIfTrue<T>(this bool value, Func<T> function)
         {
             if (value)
-                return (T)function();
+                return function();
             else
                 return default;
         }
@@ -175,7 +172,7 @@ namespace Extensions
         public static T DoIfFalse<T>(this bool value, Func<T> function)
         {
             if (!value)
-                return (T)function();
+                return function();
             else
                 return default;
         }
@@ -206,9 +203,9 @@ namespace Extensions
         public static T DoIfTrueIfFalse<T>(this bool value, Func<T> trueFunction, Func<T> falseFunction)
         {
             if (value)
-                return (T)trueFunction();
+                return trueFunction();
             else
-                return (T)falseFunction();
+                return falseFunction();
         }
 
         /// <summary>
