@@ -357,10 +357,10 @@ namespace Diagnostic
         }
 
         /// <summary>
-        /// Get the date time in the format "yyyy/MM/dd-HH:mm:ss:fff".
-        /// For example: 2021/02/25-09:32:44:000.
+        /// Get the <see cref="DateTime"/> in the format "yyyy/MM/dd-HH:mm:ss:fff". <br/>
+        /// For example: 2021/02/25-09:32:44:123.
         /// </summary>
-        /// <returns>The string representing the date time</returns>
+        /// <returns>The <see cref="string"/> representing the <see cref="DateTime"/></returns>
         private static string GetDateTime()
         {
             string now = DateTime.Now.ToString("yyyy/MM/dd-HH:mm:ss:fff");
