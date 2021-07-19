@@ -34,8 +34,8 @@ namespace Core.Converters.Tests
         }
 
         [Test]
-        [TestCase(1000)]
-        public void TestSimpleMovingAverage(int interval)
+        [TestCase(1000, false)]
+        public void TestSimpleMovingAverage(int interval, bool saveFiles)
         {
             Stopwatch sw = Stopwatch.StartNew();
             do
@@ -45,20 +45,23 @@ namespace Core.Converters.Tests
                 ai.Value = number;
                 npSimple.Value.Should().NotBe(0);
 
-                FileHandler.Save(
-                    $"{ai.Value:F6}", IOUtility.GetDesktopFolder() + @"\raw_simple.log",
-                    FileHandler.MODE.Append
-                );
-                FileHandler.Save(
-                    $"{npSimple.Value:F6}", IOUtility.GetDesktopFolder() + @"\filtered_simple.log",
-                    FileHandler.MODE.Append
-                );
+                if (saveFiles)
+                {
+                    FileHandler.Save(
+                        $"{ai.Value:F6}", IOUtility.GetDesktopFolder() + @"\raw_simple.log",
+                        FileHandler.MODE.Append
+                    );
+                    FileHandler.Save(
+                        $"{npSimple.Value:F6}", IOUtility.GetDesktopFolder() + @"\filtered_simple.log",
+                        FileHandler.MODE.Append
+                    );
+                }
             } while (sw.Elapsed.TotalMilliseconds <= interval);
         }
 
         [Test]
-        [TestCase(1000)]
-        public void TestExponentialMovingAverage(int interval)
+        [TestCase(1000, false)]
+        public void TestExponentialMovingAverage(int interval, bool saveFiles)
         {
             Stopwatch sw = Stopwatch.StartNew();
             do
@@ -68,14 +71,17 @@ namespace Core.Converters.Tests
                 ai.Value = number;
                 npExponential.Value.Should().NotBe(0);
 
-                FileHandler.Save(
-                    $"{ai.Value:F6}", IOUtility.GetDesktopFolder() + @"\raw_exp.log",
-                    FileHandler.MODE.Append
-                );
-                FileHandler.Save(
-                    $"{npExponential.Value:F6}", IOUtility.GetDesktopFolder() + @"\filtered_exp.log",
-                    FileHandler.MODE.Append
-                );
+                if (saveFiles)
+                {
+                    FileHandler.Save(
+                        $"{ai.Value:F6}", IOUtility.GetDesktopFolder() + @"\raw_exp.log",
+                        FileHandler.MODE.Append
+                    );
+                    FileHandler.Save(
+                        $"{npExponential.Value:F6}", IOUtility.GetDesktopFolder() + @"\filtered_exp.log",
+                        FileHandler.MODE.Append
+                    );
+                }
             } while (sw.Elapsed.TotalMilliseconds <= interval);
         }
     }

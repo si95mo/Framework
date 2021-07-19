@@ -14,7 +14,7 @@ namespace Core.Threading.Tests
         [TestCase(1000)]
         public void DoNoOperation(int interval)
         {
-            double threshold = 15d; // ms
+            double threshold = 16d; // ms
 
             Stopwatch sw = Stopwatch.StartNew();
             Tasks.NoOperation(interval);

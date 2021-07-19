@@ -11,7 +11,7 @@ namespace Hardware.Resources.Tests
         [OneTimeSetUp]
         public void Init()
         {
-            Logger.Init(IO.IOUtility.GetDesktopFolder() + "\\logs\\");
+            Logger.Init();
 
             resource = new SerialResource(nameof(resource), "COM99");
             resource.Start();
