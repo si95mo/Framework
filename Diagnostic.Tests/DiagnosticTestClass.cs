@@ -12,7 +12,7 @@ namespace Diagnostic.Tests
         public void Setup()
         {
             Logger.Init();
-            LogReader.StartReading(Logger.Path);
+            LogReader.StartReading();
 
             Logger.Initialized.Should().BeTrue();
             LogReader.Reading.Should().BeTrue();
