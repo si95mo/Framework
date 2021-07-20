@@ -3,13 +3,16 @@
 namespace Core
 {
     /// <summary>
-    /// Describve a generic failure.
+    /// Describe a generic failure.
     /// See also <see cref="IFailure"/>
     /// </summary>
     public class Failure : IFailure
     {
         private string description;
         private DateTime timestamp;
+
+        protected object objectLock = new object();
+        protected EventHandler<ValueChangedEventArgs> ValueChangedHandler;
 
         /// <summary>
         /// The <see cref="Failure"/> description
@@ -26,7 +29,15 @@ namespace Core
         public DateTime Timestamp
         {
             get => timestamp;
-            set => timestamp = value;
+            set
+            {
+                if (!value.Equals(timestamp))
+                {
+                    DateTime oldTimestamp = timestamp;
+                    timestamp = value;
+                    OnValueChanged(new ValueChangedEventArgs(oldTimestamp, timestamp));
+                }
+            }
         }
 
         /// <summary>
@@ -60,6 +71,34 @@ namespace Core
         /// <param name="description">The description</param>
         public Failure(string description) : this(description, DateTime.Now)
         { }
+
+        public event EventHandler<ValueChangedEventArgs> ValueChanged
+        {
+            add
+            {
+                lock (objectLock)
+                {
+                    ValueChangedHandler += value;
+                }
+            }
+
+            remove
+            {
+                lock (objectLock)
+                {
+                    ValueChangedHandler -= value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// On value changed event
+        /// </summary>
+        /// <param name="e">The <see cref="ValueChangedEventArgs"/></param>
+        protected virtual void OnValueChanged(ValueChangedEventArgs e)
+        {
+            ValueChangedHandler?.Invoke(this, e);
+        }
 
         /// <summary>
         /// Clear the <see cref="Failure"/>,
