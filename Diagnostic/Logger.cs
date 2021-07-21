@@ -12,33 +12,51 @@ namespace Diagnostic
     public enum Severity
     {
         /// <summary>
-        /// A trace type entry
+        /// A trace type entry. <br/>
+        /// Lowest level of <see cref="Severity"/>
         /// </summary>
         Trace = 0,
 
         /// <summary>
-        /// A debug type entry
+        /// A debug type entry. <br/>
+        /// Higher level of <see cref="Severity"/> than <see cref="Severity.Trace"/>
         /// </summary>
         Debug = 1,
 
         /// <summary>
-        /// An info type entry
+        /// An info type entry. <br/>
+        /// Higher level of <see cref="Severity"/> than <see cref="Severity.Debug"/>
         /// </summary>
         Info = 2,
 
         /// <summary>
-        /// A warn type entry
+        /// A warn type entry. <br/>
+        /// Higher level of <see cref="Severity"/> than <see cref="Severity.Info"/>
         /// </summary>
+        /// <remarks>
+        /// This level of <see cref="Severity"/> cannot be disabled.
+        /// See <see cref="Logger.SetMinimumSeverityLevel(Severity)"/>
+        /// </remarks>
         Warn = 3,
 
         /// <summary>
-        /// An error type entry
+        /// An error type entry. <br/>
+        /// Higher level of <see cref="Severity"/> than <see cref="Severity.Warn"/>
         /// </summary>
+        /// <remarks>
+        /// This level of <see cref="Severity"/> cannot be disabled.
+        /// See <see cref="Logger.SetMinimumSeverityLevel(Severity)"/>
+        /// </remarks>
         Error = 4,
 
         /// <summary>
-        /// A fatal type entry
+        /// A fatal type entry. <br/>
+        /// Highest level of <see cref="Severity"/>
         /// </summary>
+        /// <remarks>
+        /// This level of <see cref="Severity"/> cannot be disabled.
+        /// See <see cref="Logger.SetMinimumSeverityLevel(Severity)"/>
+        /// </remarks>
         Fatal = 5
     }
 
@@ -76,8 +94,8 @@ namespace Diagnostic
 
         /// <summary>
         /// Define whether the <see cref="Logger"/> has been initialized
-        /// by calling <see cref="Init(string, int)"/> (<see langword="true"/>)
-        /// or not (<see langword="false"/>)
+        /// by calling <see cref="Init(string, int)"/> - <see langword="true"/> - 
+        /// or not - <see langword="false"/>
         /// </summary>
         public static bool Initialized => initialized;
 
@@ -374,7 +392,7 @@ namespace Diagnostic
         /// </summary>
         /// <param name="ex">The <see cref="Exception"/>to test </param>
         /// <returns><see langword="true"/> if is the new <see cref="Exception"/> is equal to the last one,
-        /// <see langword="false"/>otherwise</returns>
+        /// <see langword="false"/> otherwise</returns>
         private static bool IsSameExceptionAsTheLast(Exception ex)
         {
             bool isSameException = ex.GetType() == lastException.GetType();

@@ -17,6 +17,7 @@ namespace Diagnostic
         private static string lastLog = "";
         private static bool reading = false;
         private static int monitoringInterval = 1000; // ms
+        private static Task monitoringTask;
 
         /// <summary>
         /// The full log text with all the entries
@@ -53,7 +54,7 @@ namespace Diagnostic
         /// </summary>
         /// <param name="intervalInMilliseconds">The monitoring interval (in milliseconds)</param>
         /// <remarks>The <see cref="Logger"/> must be <see cref="Logger.Initialized"/></remarks>
-        public static void StartReading(int intervalInMilliseconds = 1000)
+        public static void StartRead(int intervalInMilliseconds = 1000)
         {
             if (Logger.Initialized)
             {
@@ -62,7 +63,9 @@ namespace Diagnostic
 
                 if (!reading)
                 {
-                    StartMonitoring().Start();
+                    monitoringTask = CreateMonitoringTask();
+                    monitoringTask.Start();
+
                     reading = true;
                 }
             }
@@ -72,7 +75,7 @@ namespace Diagnostic
         /// Create the log file monitoring <see cref="Task"/>
         /// </summary>
         /// <returns>The monitoring <see cref="Task"/></returns>
-        private static Task StartMonitoring()
+        private static Task CreateMonitoringTask()
         {
             long initialFileSize = new FileInfo(logPath).Length;
             long lastReadLength = initialFileSize - 1024;
