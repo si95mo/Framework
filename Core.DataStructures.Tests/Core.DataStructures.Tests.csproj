@@ -79,9 +79,13 @@
       <Project>{75DFACF6-E820-4E3F-83D5-1E21FBC92385}</Project>
       <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Hardware.Resources\Hardware.Resources.csproj">
+    <ProjectReference Include="..\Hardware.Resources\Hardware.Serial.csproj">
       <Project>{2DD453BC-D187-4023-9222-48DDF02BA689}</Project>
-      <Name>Hardware.Resources</Name>
+      <Name>Hardware.Serial</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Hardware.Tcp\Hardware.Tcp.csproj">
+      <Project>{281409c8-104c-4167-b5e9-da9032034803}</Project>
+      <Name>Hardware.Tcp</Name>
     </ProjectReference>
     <ProjectReference Include="..\Hardware\Hardware.csproj">
       <Project>{C0F5ECDE-B7AD-42B3-ACF8-D5486B0E4C44}</Project>
