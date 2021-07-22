@@ -78,13 +78,17 @@ namespace Diagnostic
         private static string path = "log.txt";
         private static Exception lastException = null;
 
-        private static Severity minimumSeverityLevel = Severity.Info;
+        private static Severity minimumSeverityLevel = Severity.Debug;
 
         private static bool initialized = false;
 
         /// <summary>
         /// The minimum <see cref="Severity"/> level of the entry to log
         /// </summary>
+        /// <remarks>
+        /// Please note that the default minimum level
+        /// is <see cref="Severity.Debug"/>
+        /// </remarks>
         public static Severity MinimumSeverityLevel => minimumSeverityLevel;
 
         /// <summary>
