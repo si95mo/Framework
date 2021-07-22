@@ -73,9 +73,9 @@
       <Project>{7DEB54D9-B9F1-4B05-8D81-D7B4F77631D1}</Project>
       <Name>Diagnostic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Hardware.Resources\Hardware.Resources.csproj">
+    <ProjectReference Include="..\Hardware.Resources\Hardware.Serial.csproj">
       <Project>{2dd453bc-d187-4023-9222-48ddf02ba689}</Project>
-      <Name>Hardware.Resources</Name>
+      <Name>Hardware.Serial</Name>
     </ProjectReference>
     <ProjectReference Include="..\Hardware\Hardware.csproj">
       <Project>{C0F5ECDE-B7AD-42B3-ACF8-D5486B0E4C44}</Project>

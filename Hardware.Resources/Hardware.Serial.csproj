@@ -46,7 +46,6 @@
     <Compile Include="SerialResource.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="TcpResource.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core.DataStructures\Core.DataStructures.csproj">
