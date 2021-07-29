@@ -98,7 +98,7 @@ namespace Diagnostic
 
         /// <summary>
         /// Define whether the <see cref="Logger"/> has been initialized
-        /// by calling <see cref="Init(string, int)"/> - <see langword="true"/> - 
+        /// by calling <see cref="Init(string, int)"/> - <see langword="true"/> -
         /// or not - <see langword="false"/>
         /// </summary>
         public static bool Initialized => initialized;

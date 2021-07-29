@@ -149,7 +149,7 @@ namespace Hardware
         /// </summary>
         /// <param name="sender">The sender</param>
         /// <param name="e">The <see cref="ValueChangedEventArgs"/></param>
-        private void PropagateValues(object sender, ValueChangedEventArgs e)
+        protected virtual void PropagateValues(object sender, ValueChangedEventArgs e)
         {
             subscribers.ForEach(x => x.Value = Value);
         }
