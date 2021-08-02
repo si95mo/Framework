@@ -14,15 +14,15 @@ namespace Hardware.Resources
     /// </summary>
     public class TcpResource : IResource
     {
-        private string code;
-        private ResourceStatus status;
-        private IFailure failure;
-        private Bag<IChannel> channels;
+        protected string code;
+        protected ResourceStatus status;
+        protected IFailure failure;
+        protected Bag<IChannel> channels;
 
-        private string ipAddress;
-        private int port;
+        protected string ipAddress;
+        protected int port;
 
-        private TcpClient tcp;
+        protected TcpClient tcp;
 
         /// <summary>
         /// The <see cref="TcpResource"/> code
@@ -93,6 +93,7 @@ namespace Hardware.Resources
             ipAddress = "";
             port = 0;
             failure = new Failure();
+            channels = new Bag<IChannel>();
 
             tcp = new TcpClient();
 
@@ -110,6 +111,7 @@ namespace Hardware.Resources
             this.ipAddress = ipAddress;
             this.port = port;
             failure = new Failure();
+            channels = new Bag<IChannel>();
 
             tcp = new TcpClient();
 
@@ -117,7 +119,7 @@ namespace Hardware.Resources
         }
 
         /// <summary>
-        /// Send a commend via tcp protocol
+        /// Send a command via tcp protocol
         /// </summary>
         /// <param name="request"> The http request to send </param>
         /// <returns> The response to the request from the server </returns>
@@ -137,7 +139,7 @@ namespace Hardware.Resources
         /// </summary>
         /// <param name="command">The command to send</param>
         /// <param name="response">The response</param>
-        public void Send(string request, out string response)
+        public void SendAndReceive(string request, out string response)
         {
             // Request
             var requestData = Encoding.UTF8.GetBytes(request);
@@ -205,7 +207,7 @@ namespace Hardware.Resources
         /// </summary>
         /// <returns><see langword="true"/> if there is an active connection,
         /// <see langword="false"/> otherwise</returns>
-        private bool TestConnection()
+        protected bool TestConnection()
         {
             bool result = false;
 

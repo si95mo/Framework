@@ -27,6 +27,12 @@
         /// A <see cref="double"/> type of variable
         /// (double precision value - IEEE754 standard for 64 bit)
         /// </summary>
-        Double = 3
+        Double = 3,
+
+        /// <summary>
+        /// A <see cref="bool"/> type of variable
+        /// (<see langword="true"/> or <see langword="false"/> value)
+        /// </summary>
+        Boolean = 4
     }
 }

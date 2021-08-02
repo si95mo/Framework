@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NModbus4, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NModbus4.3.0.0-alpha2\lib\net45\NModbus4.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,7 +44,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DigitalInputModbus.cs" />
+    <Compile Include="ModbusAnalogChannel.cs" />
+    <Compile Include="IModbusChannel.cs" />
+    <Compile Include="ModbusAnalogInput.cs" />
+    <Compile Include="ModbusAnalogOutput.cs" />
+    <Compile Include="ModbusDigitalChannel.cs" />
+    <Compile Include="ModbusDigitalInput.cs" />
+    <Compile Include="ModbusDigitalOutput.cs" />
     <Compile Include="ModbusResource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -54,10 +63,17 @@
       <Project>{75dfacf6-e820-4e3f-83d5-1e21fbc92385}</Project>
       <Name>Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Hardware.Tcp\Hardware.Tcp.csproj">
+      <Project>{281409C8-104C-4167-B5E9-DA9032034803}</Project>
+      <Name>Hardware.Tcp</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Hardware\Hardware.csproj">
       <Project>{c0f5ecde-b7ad-42b3-acf8-d5486b0e4c44}</Project>
       <Name>Hardware</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
