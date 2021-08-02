@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace Hardware.Modbus
@@ -116,7 +115,7 @@ namespace Hardware.Modbus
             this.ipAddress = ipAddress;
             this.port = port;
             failure = new Failure();
-            channels = new Bag<IChannel>(); 
+            channels = new Bag<IChannel>();
 
             tcp = new TcpClient();
 
@@ -169,8 +168,8 @@ namespace Hardware.Modbus
                 }
             }
             else
-                if(channel is ModbusDigitalOutput)
-                    await master.WriteSingleCoilAsync((channel as ModbusDigitalOutput).Address, (channel as ModbusDigitalOutput).Value);
+                if (channel is ModbusDigitalOutput)
+                await master.WriteSingleCoilAsync((channel as ModbusDigitalOutput).Address, (channel as ModbusDigitalOutput).Value);
         }
 
         /// <summary>
@@ -226,7 +225,7 @@ namespace Hardware.Modbus
                 if (channel is ModbusDigitalInput)
                 {
                     bool value = (await master?.ReadCoilsAsync((channel as ModbusDigitalInput).Address, 1))[0];
-                    (channel as ModbusDigitalInput).Value = value;                        
+                    (channel as ModbusDigitalInput).Value = value;
                 }
             }
         }
@@ -255,14 +254,14 @@ namespace Hardware.Modbus
 
                 status = ResourceStatus.Executing;
 
-                foreach(var channelCode in channels)
+                foreach (var channelCode in channels)
                 {
                     var channel = channels.Get(channelCode);
 
                     if (channel is ModbusAnalogInput)
                         (channel as ModbusAnalogInput).PollingTask.Start();
 
-                    if(channel is ModbusDigitalInput)
+                    if (channel is ModbusDigitalInput)
                         (channel as ModbusDigitalInput).PollingTask.Start();
                 }
             }
@@ -306,7 +305,7 @@ namespace Hardware.Modbus
             ushort[] converted = new ushort[4];
             byte[] bytes = BitConverter.GetBytes(x);
 
-            for(int i = 0; i < converted.Length; i++)
+            for (int i = 0; i < converted.Length; i++)
                 converted[i] = BitConverter.ToUInt16(bytes, i * 2);
 
             return converted;
@@ -351,12 +350,12 @@ namespace Hardware.Modbus
             byte[] bytes = new byte[n + diff];
 
             // Padding
-            if(n != 8)
+            if (n != 8)
             {
                 List<ushort> tmp = new List<ushort>();
                 int start = 0, stop = 4 - values.Length;
 
-                if(representation == NumericRepresentation.Int32 || representation == NumericRepresentation.UInt16)
+                if (representation == NumericRepresentation.Int32 || representation == NumericRepresentation.UInt16)
                     tmp.AddRange(values.ToList());
 
                 for (int i = 0; i < 4 - values.Length; i++)
@@ -370,7 +369,7 @@ namespace Hardware.Modbus
 
             Buffer.BlockCopy(values, 0, bytes, 0, n + diff);
 
-            if(representation == NumericRepresentation.Double || representation == NumericRepresentation.Single)
+            if (representation == NumericRepresentation.Double || representation == NumericRepresentation.Single)
                 x = BitConverter.ToDouble(bytes, 0);
             else
             {

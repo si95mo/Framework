@@ -17,7 +17,6 @@ namespace Hardware.Modbus
             set => pollingInterval = value;
         }
 
-
         /// <summary>
         /// The polling <see cref="Task"/>
         /// </summary>

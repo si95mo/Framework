@@ -1,9 +1,5 @@
 ﻿using Core;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Hardware.Modbus
 {
@@ -21,19 +17,19 @@ namespace Hardware.Modbus
             set => address = value;
         }
 
-        public IResource Resource 
+        public IResource Resource
         {
             get => resource;
             set => resource = value;
         }
 
-        public ModbusFunction Function 
+        public ModbusFunction Function
         {
             get => function;
             set => function = value;
         }
 
-        public NumericRepresentation Representation 
+        public NumericRepresentation Representation
         {
             get => representation;
             set => representation = value;

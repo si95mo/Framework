@@ -2,11 +2,6 @@
 using Core.DataStructures;
 using FluentAssertions;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Hardware.Modbus.Tests
@@ -16,13 +11,13 @@ namespace Hardware.Modbus.Tests
         private ModbusResource resource;
 
         private ModbusAnalogOutput doubleAnalogOut;
-        private ModbusAnalogInput  doubleAnalogIn;
+        private ModbusAnalogInput doubleAnalogIn;
         private ModbusAnalogOutput singleAnalogOut;
-        private ModbusAnalogInput  singleAnalogIn;
+        private ModbusAnalogInput singleAnalogIn;
         private ModbusAnalogOutput intAnalogOut;
-        private ModbusAnalogInput  intAnalogIn;
+        private ModbusAnalogInput intAnalogIn;
         private ModbusAnalogOutput uintAnalogOut;
-        private ModbusAnalogInput  uintAnalogIn;
+        private ModbusAnalogInput uintAnalogIn;
 
         private ModbusDigitalOutput digitalOut;
         private ModbusDigitalInput digitalIn;
@@ -33,7 +28,7 @@ namespace Hardware.Modbus.Tests
             resource = new ModbusResource("ModbusResource", "127.0.0.1", 502);
 
             doubleAnalogOut = new ModbusAnalogOutput("ModbusDoubleAnalogOutput", resource, 0, representation: NumericRepresentation.Double);
-            doubleAnalogIn = new ModbusAnalogInput(  "ModbusDoubleAnalogInput",  resource, 0, representation: NumericRepresentation.Double);
+            doubleAnalogIn = new ModbusAnalogInput("ModbusDoubleAnalogInput", resource, 0, representation: NumericRepresentation.Double);
 
             singleAnalogIn = new ModbusAnalogInput("ModbusSingleAnalogInput", resource, 10, representation: NumericRepresentation.Single);
             singleAnalogOut = new ModbusAnalogOutput("ModbusSingleAnalogOutput", resource, 10, representation: NumericRepresentation.Single);
@@ -93,10 +88,10 @@ namespace Hardware.Modbus.Tests
 
             Task.Delay(1000).Wait();
             singleAnalogIn.Value.Should().Be(singleAnalogOut.Value);
-            
+
             Task.Delay(1000).Wait();
             intAnalogIn.Value.Should().Be(intAnalogOut.Value);
-            
+
             Task.Delay(1000).Wait();
             uintAnalogIn.Value.Should().Be(uintAnalogOut.Value);
 
