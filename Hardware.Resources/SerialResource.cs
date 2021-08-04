@@ -176,6 +176,20 @@ namespace Hardware.Resources
         }
 
         /// <summary>
+        /// Receive data via serial protocol
+        /// </summary>
+        /// <returns>The data received</returns>
+        public string Receive()
+        {
+            string data = "";
+
+            if (IsOpen)
+                data = ReadLine();
+
+            return data;
+        }
+
+        /// <summary>
         /// Return a description of the object
         /// See also <see cref="object.ToString()"/>
         /// </summary>

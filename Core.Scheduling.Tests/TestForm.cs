@@ -156,6 +156,22 @@ namespace Core.Scheduling.Tests
 
             Dispose();
         }
+
+        private void lbxOutput_SelectedIndexChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void lbxInput_SelectedIndexChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+        }
+
+        private void txbConsole_TextChanged(object sender, EventArgs e)
+        {
+        }
     }
 
     /// <summary>

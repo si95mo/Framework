@@ -128,13 +128,16 @@ namespace Core.DataStructures
         {
             bool added = false;
 
-            if (!bag.ContainsKey(item.Code))
+            if (item != null)
             {
-                bag.Add(item.Code, item);
-                added = true;
-            }
+                if (!bag.ContainsKey(item.Code))
+                {
+                    bag.Add(item.Code, item);
+                    added = true;
+                }
 
-            OnItemAdded(new BagChangedEventArgs<IProperty>(item));
+                OnItemAdded(new BagChangedEventArgs<IProperty>(item));
+            }
 
             return added;
         }

@@ -42,7 +42,7 @@ namespace Hardware.Modbus.Tests
             digitalOut = new ModbusDigitalOutput("ModbusDigitalOutput", resource, 0);
             digitalIn = new ModbusDigitalInput("ModbusDigitalInput", resource, 0);
 
-            ServiceBroker.Init();
+            ServiceBroker.Initialize();
 
             ServiceBroker.Add<IResource>(resource);
 

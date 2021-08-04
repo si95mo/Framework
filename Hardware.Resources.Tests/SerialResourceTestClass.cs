@@ -11,7 +11,7 @@ namespace Hardware.Resources.Tests
         [OneTimeSetUp]
         public void Init()
         {
-            Logger.Init();
+            Logger.Initialize();
 
             resource = new SerialResource(nameof(resource), "COM99");
             resource.Start();

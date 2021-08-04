@@ -98,7 +98,7 @@ namespace Diagnostic
 
         /// <summary>
         /// Define whether the <see cref="Logger"/> has been initialized
-        /// by calling <see cref="Init(string, int)"/> - <see langword="true"/> -
+        /// by calling <see cref="Initialize(string, int)"/> - <see langword="true"/> -
         /// or not - <see langword="false"/>
         /// </summary>
         public static bool Initialized => initialized;
@@ -110,7 +110,7 @@ namespace Diagnostic
         /// <param name="timeSpanAsDays"> The time span of daily log to keep saved (as days interval).
         /// If the parameter value is equal to -1 no log file will be deleted (i.e. all
         /// the logs will be kept saved in the disk).</param>
-        public static void Init(string logPath = "logs\\", int timeSpanAsDays = -1)
+        public static void Initialize(string logPath = "logs\\", int timeSpanAsDays = -1)
         {
             string now = DateTime.Now.ToString("yyyy-MM-dd");
             string[] files;

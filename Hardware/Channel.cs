@@ -20,6 +20,7 @@ namespace Hardware
         protected List<IProperty<T>> subscribers;
 
         protected object objectLock = new object();
+
         protected EventHandler<ValueChangedEventArgs> ValueChangedHandler;
 
         public Type Type => typeof(T);
@@ -39,6 +40,8 @@ namespace Hardware
         protected Channel(string code)
         {
             this.code = code;
+
+            value = default;
 
             subscribers = new List<IProperty<T>>();
             ValueChanged += PropagateValues;

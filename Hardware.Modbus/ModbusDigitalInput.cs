@@ -37,17 +37,17 @@ namespace Hardware.Modbus
                 {
                     while (resource.Status == ResourceStatus.Executing)
                     {
-                        (resource as ModbusResource).Receive(code);
+                        await (resource as ModbusResource).Receive(code);
                         await Task.Delay(pollingInterval);
                     }
                 }
             );
         }
 
-        protected override void PropagateValues(object sender, ValueChangedEventArgs e)
+        protected override async void PropagateValues(object sender, ValueChangedEventArgs e)
         {
-            subscribers.ForEach(x => x.Value = Value); // Update connected properties value
-            (resource as ModbusResource).Receive(code);
+            await (resource as ModbusResource).Receive(code);
+            base.PropagateValues(sender, e);
         }
     }
 }

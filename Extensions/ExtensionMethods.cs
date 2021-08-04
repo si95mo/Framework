@@ -1,9 +1,7 @@
 ﻿using Diagnostic;
+using OX.Copyable;
 using System;
-using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Extensions
 {
@@ -230,9 +228,7 @@ namespace Extensions
 
     /// <summary>
     /// Provides a method for performing a deep copy of an object.
-    /// Binary Serialization is used to perform the copy.
-    /// For the reference article, see this
-    /// <a href="http://www.codeproject.com/KB/tips/SerializedObjectCloner.aspx">link</a>
+    /// Reflection is used to perform the copy
     /// </summary>
     public static class SystemExtension
     {
@@ -244,19 +240,8 @@ namespace Extensions
         /// <returns>The deep copy of the object.</returns>
         public static T DeepCopy<T>(this T source)
         {
-            if (!typeof(T).IsSerializable)
-                throw new ArgumentException("The type must be serializable!", nameof(source));
-
-            // Don't serialize a null object, simply return the default for that object
-            if (source == null)
-                return default;
-
-            Stream stream = new MemoryStream();
-            IFormatter formatter = new BinaryFormatter();
-            formatter.Serialize(stream, source);
-            stream.Seek(0, SeekOrigin.Begin);
-
-            return (T)formatter.Deserialize(stream);
+            object copy = source.Copy();
+            return (T)copy;
         }
     }
 

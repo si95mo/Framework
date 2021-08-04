@@ -37,7 +37,9 @@ namespace UserInterface.Controls
             // lblMethodNamePlaceholder
             // 
             this.lblMethodNamePlaceholder.AutoSize = true;
-            this.lblMethodNamePlaceholder.Location = new System.Drawing.Point(0, 24);
+            this.lblMethodNamePlaceholder.BackColor = System.Drawing.SystemColors.Control;
+            this.lblMethodNamePlaceholder.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblMethodNamePlaceholder.Location = new System.Drawing.Point(3, 24);
             this.lblMethodNamePlaceholder.Name = "lblMethodNamePlaceholder";
             this.lblMethodNamePlaceholder.Size = new System.Drawing.Size(75, 13);
             this.lblMethodNamePlaceholder.TabIndex = 0;

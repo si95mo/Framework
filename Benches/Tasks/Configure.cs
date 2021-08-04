@@ -3,7 +3,6 @@ using Devices;
 using Instructions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 
 namespace Benches.Tasks
@@ -32,18 +31,18 @@ namespace Benches.Tasks
             var ctors = deviceType.GetConstructors(flags);
             var channel = ctors[0].Invoke(new object[] { });
 
-            devices = deviceType.GetProperties(flags)
-                .Select(
-                    p => (IDevice)p.GetValue(channel, null)
-                ).ToList();
+            //devices = deviceType.GetProperties(flags)
+            //    .Select(
+            //        p => (IDevice)p.GetValue(channel, null)
+            //    ).ToList();
 
-            ctors = parameterType.GetConstructors(flags);
-            var parameter = ctors[0].Invoke(new object[] { });
+            //ctors = parameterType.GetConstructors(flags);
+            //var parameter = ctors[0].Invoke(new object[] { });
 
-            parameters = parameterType.GetProperties(flags)
-                .Select(
-                    p => (IParameter)p.GetValue(parameter, null)
-                ).ToList();
+            //parameters = parameterType.GetProperties(flags)
+            //    .Select(
+            //        p => (IParameter)p.GetValue(parameter, null)
+            //    ).ToList();
         }
 
         /// <summary>
@@ -51,11 +50,11 @@ namespace Benches.Tasks
         /// </summary>
         public void Execute()
         {
-            foreach (IChannel channel in devices)
-                bench.Devices.Add(channel);
+            //foreach (IChannel channel in devices)
+            //    bench.Devices.Add(channel);
 
-            foreach (IParameter parameter in parameters)
-                bench.Parameters.Add(parameter);
+            //foreach (IParameter parameter in parameters)
+            //    bench.Parameters.Add(parameter);
         }
     }
 }

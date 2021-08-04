@@ -11,7 +11,7 @@ namespace Diagnostic.Tests
         [OneTimeSetUp]
         public void Setup()
         {
-            Logger.Init();
+            Logger.Initialize();
             LogReader.StartRead();
 
             Logger.Initialized.Should().BeTrue();

@@ -48,8 +48,8 @@ namespace Hardware.Modbus
 
         protected override async void PropagateValues(object sender, ValueChangedEventArgs e)
         {
-            subscribers.ForEach(x => x.Value = Value); // Update connected properties value
             await (resource as ModbusResource).Receive(code);
+            base.PropagateValues(sender, e);
         }
     }
 }

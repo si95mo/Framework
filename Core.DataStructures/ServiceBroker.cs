@@ -13,7 +13,7 @@ namespace Core.DataStructures
         /// <summary>
         /// Initialize the <see cref="ServiceBroker"/>
         /// </summary>
-        public static void Init()
+        public static void Initialize()
         {
             subscribers = new Bag<IProperty>();
         }
@@ -21,7 +21,7 @@ namespace Core.DataStructures
         /// <summary>
         /// Clear the <see cref="ServiceBroker"/> collection.
         /// </summary>
-        public static void Clear() => Init();
+        public static void Clear() => Initialize();
 
         /// <summary>
         /// Add an item to the <see cref="ServiceBroker"/>

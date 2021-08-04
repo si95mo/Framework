@@ -55,7 +55,7 @@ namespace UserInterface.Controls
             // lblMethodNamePlaceholder
             // 
             this.lblMethodNamePlaceholder.AutoSize = true;
-            this.lblMethodNamePlaceholder.Location = new System.Drawing.Point(0, 24);
+            this.lblMethodNamePlaceholder.Location = new System.Drawing.Point(3, 24);
             this.lblMethodNamePlaceholder.Name = "lblMethodNamePlaceholder";
             this.lblMethodNamePlaceholder.Size = new System.Drawing.Size(88, 13);
             this.lblMethodNamePlaceholder.TabIndex = 3;

@@ -19,8 +19,8 @@ namespace Hardware.Modbus
 
         protected override void PropagateValues(object sender, ValueChangedEventArgs e)
         {
-            subscribers.ForEach(x => x.Value = Value); // Update connected properties value
             (resource as ModbusResource).Send(code);
+            base.PropagateValues(sender, e);
         }
     }
 }

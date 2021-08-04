@@ -39,6 +39,8 @@ namespace Core.Parameters
         {
             this.code = code;
 
+            value = default;
+
             subscribers = new List<IProperty<T>>();
             ValueChanged += PropagateValues;
         }
