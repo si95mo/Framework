@@ -14,7 +14,7 @@ namespace Core.Scheduling.Tests
         [OneTimeSetUp]
         public void Setup()
         {
-            Logger.Init();
+            Logger.Initialize();
 
             dummy = new DummyClass();
             scheduler = new AsyncScheduler();

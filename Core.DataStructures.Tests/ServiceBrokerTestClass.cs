@@ -10,7 +10,7 @@ namespace Core.DataStructures.Tests
         [OneTimeSetUp]
         public void Setup()
         {
-            ServiceBroker.Init();
+            ServiceBroker.Initialize();
             ServiceBroker.Get<IProperty>().Count.Should().Be(0);
         }
 

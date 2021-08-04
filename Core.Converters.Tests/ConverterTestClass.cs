@@ -26,7 +26,7 @@ namespace Core.Converters.Tests
             );
             ai.ConnectTo(ao);
 
-            ServiceBroker.Init();
+            ServiceBroker.Initialize();
             ServiceBroker.Add<IChannel>(ai);
             ServiceBroker.Add<IParameter>(np);
         }

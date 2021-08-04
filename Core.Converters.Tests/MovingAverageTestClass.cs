@@ -22,7 +22,7 @@ namespace Core.Converters.Tests
             ai.ConnectTo(npSimple, new SimpleMovingAverage(8));
             ai.ConnectTo(npExponential, new ExponentialMovingAverage(0.75));
 
-            ServiceBroker.Init();
+            ServiceBroker.Initialize();
             ServiceBroker.Add<IChannel>(ai);
             ServiceBroker.Add<IParameter>(npSimple);
         }

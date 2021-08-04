@@ -41,7 +41,7 @@ namespace Core.DataStructures.Tests
             firstBooleanParameter.ConnectTo(secondBooleanParameter);
             firstStringParameter.ConnectTo(secondStringParameter);
 
-            ServiceBroker.Init();
+            ServiceBroker.Initialize();
             ServiceBroker.Add<IParameter>(firstNumericParameter);
             ServiceBroker.Add<IParameter>(secondNumericParameter);
             ServiceBroker.Add<IParameter>(firstBooleanParameter);
