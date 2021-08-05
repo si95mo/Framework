@@ -17,6 +17,10 @@ namespace Hardware.Resources
         private ResourceStatus status;
         private IFailure failure;
 
+        private object sendLock = new object();
+        private object sendAndReceiveLock = new object();
+        private object receiveLock = new object();
+
         /// <summary>
         /// The <see cref="SerialResource"/> code
         /// </summary>
@@ -55,13 +59,8 @@ namespace Hardware.Resources
         /// <summary>
         /// Create a new instance of <see cref="SerialResource"/>
         /// </summary>
-        public SerialResource() : base()
-        {
-            code = Guid.NewGuid().ToString();
-            failure = new Failure();
-
-            ErrorReceived += SerialResource_ErrorReceived;
-        }
+        public SerialResource() : this(Guid.NewGuid().ToString())
+        { }
 
         /// <summary>
         /// Create a new instance of <see cref="SerialResource"/>
@@ -136,6 +135,12 @@ namespace Hardware.Resources
             }
         }
 
+        public void Flush()
+        {
+            DiscardInBuffer();
+            DiscardOutBuffer();
+        }
+
         /// <summary>
         /// Stop the <see cref="SerialResource"/>
         /// </summary>
@@ -161,7 +166,11 @@ namespace Hardware.Resources
         /// <param name="command">The command to send</param>
         public void Send(string command)
         {
-            WriteLine(command);
+            lock (sendLock)
+            {
+                WriteLine(command);
+                Flush();
+            }
         }
 
         /// <summary>
@@ -171,8 +180,12 @@ namespace Hardware.Resources
         /// <param name="response">The response</param>
         public void Send(string command, out string response)
         {
-            WriteLine(command);
-            response = ReadLine();
+            lock (sendAndReceiveLock)
+            {
+                WriteLine(command);
+                response = ReadLine();
+                Flush();
+            }
         }
 
         /// <summary>
@@ -184,7 +197,13 @@ namespace Hardware.Resources
             string data = "";
 
             if (IsOpen)
-                data = ReadLine();
+            {
+                lock (receiveLock)
+                {
+                    data = ReadLine();
+                    Flush();
+                }
+            }
 
             return data;
         }
@@ -198,7 +217,6 @@ namespace Hardware.Resources
         public string ToString()
         {
             string description = PortName;
-
             return description;
         }
     }

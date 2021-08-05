@@ -1,7 +1,7 @@
 ﻿
 namespace UserInterface.Controls
 {
-    partial class BaseControl
+    partial class PanelControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -31,12 +31,14 @@ namespace UserInterface.Controls
         {
             this.SuspendLayout();
             // 
-            // BaseControl
+            // PanelControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.Name = "BaseControl";
+            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Name = "PanelControl";
+            this.Size = new System.Drawing.Size(1918, 978);
             this.ResumeLayout(false);
 
         }

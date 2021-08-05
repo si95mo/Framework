@@ -77,7 +77,7 @@ namespace Diagnostic
         /// <returns>The monitoring <see cref="Task"/></returns>
         private static Task CreateMonitoringTask()
         {
-            long initialFileSize = new FileInfo(logPath).Length;
+            long initialFileSize = 0;
             long lastReadLength = initialFileSize - 1024;
 
             if (lastReadLength < 0)

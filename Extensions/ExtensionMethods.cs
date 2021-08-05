@@ -240,8 +240,16 @@ namespace Extensions
         /// <returns>The deep copy of the object.</returns>
         public static T DeepCopy<T>(this T source)
         {
-            object copy = source.Copy();
-            return (T)copy;
+            try
+            {
+                object copy = source.Copy();
+                return (T)copy;
+            }
+            catch(Exception ex)
+            {
+                Logger.Log(ex);
+                return default;
+            }
         }
     }
 

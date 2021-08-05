@@ -176,6 +176,8 @@ namespace Diagnostic
 
                 AppendText(header);
             }
+            else
+                AppendText(DAILY_SEPARATOR);
 
             initialized = true;
         }

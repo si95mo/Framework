@@ -1,6 +1,7 @@
 ﻿using Core;
 using Core.DataStructures;
 using Devices;
+using Instructions;
 
 namespace Benches
 {
@@ -20,6 +21,14 @@ namespace Benches
         /// and <see cref="Bag{T}"/>
         /// </summary>
         Bag<IParameter> Parameters
+        { get; }
+
+        /// <summary>
+        /// The <see cref="IBench"/> collection
+        /// of instructions. See <see cref="IInstruction"/>
+        /// and <see cref="Bag{T}"/>
+        /// </summary>
+        Bag<IInstruction> Instructions
         { get; }
     }
 }

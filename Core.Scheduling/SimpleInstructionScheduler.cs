@@ -1,4 +1,5 @@
-﻿using Instructions;
+﻿using Extensions;
+using Instructions;
 using System;
 
 namespace Core.Scheduling
@@ -20,6 +21,21 @@ namespace Core.Scheduling
         /// <returns>The <see cref="Instruction"/> executed</returns>
         public override IInstruction Execute()
         {
+            if (lastExecution.Count == 0 && subscribedInstructions.Count != 0)
+                foreach (IInstruction i in subscribedInstructions)
+                    lastExecution.Enqueue(i.DeepCopy());
+
+            if (subscribedInstructions.Count == 0 && lastExecution.Count != 0)
+            {
+                foreach (IInstruction i in lastExecution)
+                    subscribedInstructions.Enqueue(i.DeepCopy());
+
+                lastExecution.Clear();
+
+                foreach (IInstruction i in subscribedInstructions)
+                    lastExecution.Enqueue(i.DeepCopy());
+            }
+
             Instruction instruction = (Instruction)subscribedInstructions.Dequeue();
             instruction.Invoke();
 

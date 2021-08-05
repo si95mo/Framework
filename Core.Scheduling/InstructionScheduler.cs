@@ -1,4 +1,5 @@
 ﻿using Core.DataStructures;
+using Extensions;
 using Instructions;
 using System;
 using System.IO;
@@ -11,6 +12,8 @@ namespace Core.Scheduling
     {
         [field: NonSerialized()]
         protected ActionQueue<IInstruction> subscribedInstructions;
+        [field: NonSerialized]
+        protected ActionQueue<IInstruction> lastExecution;
 
         protected ActionQueue<IInstruction> persistentSubscribers;
 
@@ -21,6 +24,12 @@ namespace Core.Scheduling
         [field: NonSerialized()]
         public ActionQueue<IInstruction> Subscribers => subscribedInstructions;
 
+        /// <summary>
+        /// The scheduler subscribers number
+        /// </summary>
+        [field: NonSerialized]
+        public int Count => Math.Max(subscribedInstructions.Count, lastExecution.Count);
+
         protected ActionQueue<IInstruction> PersistentSubscribers => persistentSubscribers;
 
         /// <summary>
@@ -29,6 +38,8 @@ namespace Core.Scheduling
         protected InstructionScheduler()
         {
             subscribedInstructions = new ActionQueue<IInstruction>();
+            lastExecution = new ActionQueue<IInstruction>();
+
             persistentSubscribers = new ActionQueue<IInstruction>();
         }
 
@@ -38,6 +49,10 @@ namespace Core.Scheduling
         /// <param name="instruction">The <see cref="object"/> (value) to add</param>
         public void AddElement(IInstruction instruction)
         {
+            if (lastExecution.Count != 0)
+                foreach (IInstruction i in lastExecution)
+                    subscribedInstructions.Enqueue(i.DeepCopy());
+
             subscribedInstructions.Enqueue(instruction);
             persistentSubscribers.Enqueue(instruction);
         }
@@ -51,6 +66,8 @@ namespace Core.Scheduling
         public void LoadExecutionList(string fileName)
         {
             subscribedInstructions.Clear();
+            lastExecution.Clear();
+
             persistentSubscribers.Clear();
 
             if (File.Exists(fileName))
@@ -64,7 +81,10 @@ namespace Core.Scheduling
                 if (instructions != null)
                 {
                     foreach (Instruction i in instructions)
+                    {
                         subscribedInstructions.Enqueue(i);
+                        lastExecution.Enqueue(i);
+                    }
                 }
 
                 openFileStream.Close();
@@ -80,6 +100,7 @@ namespace Core.Scheduling
         public void RemoveAll()
         {
             subscribedInstructions.Clear();
+            lastExecution.Clear();
             persistentSubscribers.Clear();
         }
 

@@ -1,7 +1,7 @@
 ﻿
 namespace UserInterface.Controls
 {
-    partial class BaseControl
+    partial class BaseAutomaticButton
     {
         /// <summary> 
         /// Required designer variable.
@@ -29,18 +29,28 @@ namespace UserInterface.Controls
         /// </summary>
         private void InitializeComponent()
         {
+            this.btnAction = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // BaseControl
+            // btnAction
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Control;
-            this.Name = "BaseControl";
+            this.btnAction.Location = new System.Drawing.Point(0, 0);
+            this.btnAction.Name = "btnAction";
+            this.btnAction.Size = new System.Drawing.Size(100, 100);
+            this.btnAction.TabIndex = 0;
+            this.btnAction.UseVisualStyleBackColor = true;
+            // 
+            // BaseAutomaticButton
+            // 
+            this.Controls.Add(this.btnAction);
+            this.Name = "BaseAutomaticButton";
+            this.Size = new System.Drawing.Size(100, 100);
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private System.Windows.Forms.Button btnAction;
     }
 }
