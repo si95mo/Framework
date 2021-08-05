@@ -6,6 +6,11 @@ using System.IO.Ports;
 
 namespace Hardware.Resources
 {
+    public class DataReceivedArgs : EventArgs
+    {
+        public byte[] Data { get; set; }
+    }
+
     /// <summary>
     /// Implement a resource that communicates via the serial protocol.
     /// See also <see cref="IResource"/>
@@ -56,6 +61,18 @@ namespace Hardware.Resources
             }
         }
 
+        public delegate void DataReceivedEventHandler(object sender, DataReceivedArgs e);
+        public new event EventHandler<DataReceivedArgs> DataReceived;
+
+        public virtual void OnDataReceived(byte[] data)
+        {
+            var handler = DataReceived;
+            if (handler != null)
+            {
+                handler(this, new DataReceivedArgs { Data = data });
+            }
+        }
+
         /// <summary>
         /// Create a new instance of <see cref="SerialResource"/>
         /// </summary>
@@ -82,13 +99,22 @@ namespace Hardware.Resources
         /// <param name="baudRate">The baud rate</param>
         /// <param name="parity">The parity type</param>
         /// <param name="dataBits">Data bits number</param>
-        /// <param name="stopbits">Stop bit type</param>
+        /// <param name="stopBits">Stop bit type</param>
         public SerialResource(string code, string portName, int baudRate = 9600, Parity parity = Parity.None,
-            int dataBits = 8, StopBits stopbits = StopBits.One)
-            : base(portName, baudRate, parity, dataBits, stopbits)
+            int dataBits = 8, StopBits stopBits = StopBits.One)
         {
             this.code = code;
             failure = new Failure();
+
+            PortName = portName;
+            BaudRate = baudRate;
+            DataBits = dataBits;
+            Parity = parity;
+            StopBits = stopBits;
+            Handshake = Handshake.None;
+            DtrEnable = true;
+            NewLine = Environment.NewLine;
+            ReceivedBytesThreshold = 1024;
 
             ErrorReceived += SerialResource_ErrorReceived;
         }
@@ -110,6 +136,35 @@ namespace Hardware.Resources
             Logger.Log(failure.Description, Severity.Warn);
         }
 
+        private void ContinuousRead()
+        {
+            byte[] buffer = new byte[4096];
+            Action kickoffRead = null;
+            kickoffRead = () => 
+                BaseStream.BeginRead(
+                    buffer, 
+                    0, 
+                    buffer.Length, 
+                    delegate (IAsyncResult ar)
+                    {
+                        try
+                        {
+                            int count = BaseStream.EndRead(ar);
+                            byte[] dst = new byte[count];
+                            Buffer.BlockCopy(buffer, 0, dst, 0, count);
+                            OnDataReceived(dst);
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.Log(ex);
+                        }
+                        kickoffRead();
+                    }, 
+                    null
+                ); 
+            kickoffRead();
+        }
+
         /// <summary>
         /// Start the <see cref="SerialResource"/>
         /// </summary>
@@ -125,6 +180,8 @@ namespace Hardware.Resources
 
                 if (status == ResourceStatus.Failure)
                     failure = new Failure("Error occurred while opening the port!", DateTime.Now);
+                else
+                    ContinuousRead();
             }
             catch (Exception ex)
             {
@@ -200,7 +257,7 @@ namespace Hardware.Resources
             {
                 lock (receiveLock)
                 {
-                    data = ReadLine();
+                    data = Data
                     Flush();
                 }
             }

@@ -1,4 +1,5 @@
 ﻿using Core;
+using System.Text;
 
 namespace Hardware.Resources
 {
@@ -29,9 +30,10 @@ namespace Hardware.Resources
             (resource as SerialResource).DataReceived += SerialInput_DataReceived;
         }
 
-        private void SerialInput_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
+        private void SerialInput_DataReceived(object sender, DataReceivedArgs e)
         {
-            Value = (resource as SerialResource).Receive();
+            // Value = (resource as SerialResource).Receive();
+            Value = Encoding.Default.GetString(e.Data);
         }
 
         protected override void PropagateValues(object sender, ValueChangedEventArgs e)
