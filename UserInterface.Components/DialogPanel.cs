@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Diagnostic;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -23,6 +24,7 @@ namespace UserInterface.Controls
         private void BtnYes_Click(object sender, EventArgs e)
         {
             Application.Exit();
+            Logger.Log("Application shutting down...", Severity.Info);
         }
 
         private void BtnNo_Click(object sender, EventArgs e)
