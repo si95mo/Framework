@@ -68,9 +68,7 @@ namespace Hardware.Resources
         {
             var handler = DataReceived;
             if (handler != null)
-            {
                 handler(this, new DataReceivedArgs { Data = data });
-            }
         }
 
         /// <summary>
@@ -257,7 +255,7 @@ namespace Hardware.Resources
             {
                 lock (receiveLock)
                 {
-                    data = Data
+                    data = ReadLine();
                     Flush();
                 }
             }
