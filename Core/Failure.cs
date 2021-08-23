@@ -122,8 +122,7 @@ namespace Core
         override
         public string ToString()
         {
-            string description = $"{timestamp.ToString("yyyy/MM/dd-HH:mm:ss:fff")}; {this.description}";
-
+            string description = $"{timestamp:yyyy/MM/dd-HH:mm:ss:fff}; {this.description}";
             return description;
         }
     }
