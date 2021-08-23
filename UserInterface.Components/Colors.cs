@@ -49,5 +49,17 @@ namespace UserInterface.Controls
         /// defined as 0xD2, 0x04, 0x2D
         /// </summary>
         public static readonly Color Red = Color.FromArgb(0xD2, 0x04, 0x2D);
+
+        /// <summary>
+        /// The light blue <see cref="Color"/>
+        /// defined as 0xDE, 0xE7, 0xF2
+        /// </summary>
+        public static readonly Color LightBlue = Color.FromArgb(0xDE, 0xE7, 0xF2);
+
+        /// <summary>
+        /// The light yellow <see cref="Color"/>
+        /// defined as 0xFF, 0xFe, 0xED
+        /// </summary>
+        public static readonly Color LightYellow = Color.FromArgb(0xFF, 0xFE, 0xED);
     }
 }

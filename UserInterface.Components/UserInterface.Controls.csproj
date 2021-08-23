@@ -43,6 +43,7 @@
     <Reference Include="Hardware">
       <HintPath>..\Hardware\bin\Debug\Hardware.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -110,6 +111,12 @@
     <Compile Include="InstructionControl.Designer.cs">
       <DependentUpon>InstructionControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="LoadTestProgramPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LoadTestProgramPanel.Designer.cs">
+      <DependentUpon>LoadTestProgramPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="MethodControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -133,6 +140,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SaveTestProgramPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SaveTestProgramPanel.Designer.cs">
+      <DependentUpon>SaveTestProgramPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="TextControl.cs">
       <SubType>UserControl</SubType>
@@ -166,6 +179,9 @@
     <EmbeddedResource Include="InstructionControl.resx">
       <DependentUpon>InstructionControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LoadTestProgramPanel.resx">
+      <DependentUpon>LoadTestProgramPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MethodControl.resx">
       <DependentUpon>MethodControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -178,6 +194,9 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SaveTestProgramPanel.resx">
+      <DependentUpon>SaveTestProgramPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TextControl.resx">
       <DependentUpon>TextControl.cs</DependentUpon>
@@ -207,6 +226,14 @@
     <ProjectReference Include="..\Instructions\Instructions.csproj">
       <Project>{C8BDFAEE-7C9D-49EB-80BA-7667D4CB0766}</Project>
       <Name>Instructions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IO.File\IO.File.csproj">
+      <Project>{38B143CC-9481-468A-88AF-48DEDBC36C96}</Project>
+      <Name>IO.File</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IO\IO.csproj">
+      <Project>{65535B13-4850-4EC8-893D-58F3BC49C457}</Project>
+      <Name>IO</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

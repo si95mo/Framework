@@ -21,6 +21,7 @@ namespace UserInterface.Controls
         public TextControl()
         {
             InitializeComponent();
+            txbValue.Text = "";
         }
 
         /// <summary>

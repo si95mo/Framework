@@ -10,7 +10,6 @@ namespace UserInterface.Controls
         public CloseApplicationControl()
         {
             InitializeComponent();
-
             dialogOpen = false;
         }
 
