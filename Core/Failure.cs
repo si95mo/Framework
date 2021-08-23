@@ -72,6 +72,10 @@ namespace Core
         public Failure(string description) : this(description, DateTime.Now)
         { }
 
+        /// <summary>
+        /// The <see cref="EventHandler"/> for the 
+        /// value changed event
+        /// </summary>
         public event EventHandler<ValueChangedEventArgs> ValueChanged
         {
             add
