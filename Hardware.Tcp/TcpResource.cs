@@ -119,19 +119,14 @@ namespace Hardware.Resources
         }
 
         /// <summary>
-        /// Send a command via tcp protocol
+        /// Send a command via tcp protocol, without receiving a response
         /// </summary>
-        /// <param name="request"> The http request to send </param>
-        /// <returns> The response to the request from the server </returns>
+        /// <param name="request">The http request to send</param>
         public void Send(string request)
         {
             // Request
             var requestData = Encoding.UTF8.GetBytes(request);
             tcp.Client.Send(requestData);
-
-            // Response
-            byte[] responseData = new byte[1024];
-            int lengthOfResponse = tcp.Client.Receive(responseData);
         }
 
         /// <summary>
@@ -169,11 +164,10 @@ namespace Hardware.Resources
             failure.Clear();
             status = ResourceStatus.Starting;
 
+            tcp.Connect(ipAddress, port);
+
             if (TestConnection())
-            {
-                tcp.Connect(ipAddress, port);
                 status = ResourceStatus.Executing;
-            }
             else
                 status = ResourceStatus.Failure;
 
@@ -188,11 +182,11 @@ namespace Hardware.Resources
         {
             status = ResourceStatus.Stopping;
 
+            tcp.Close();
+
             if (TestConnection())
-            {
-                tcp.Close();
                 status = ResourceStatus.Stopped;
-            }
+
             else
                 status = ResourceStatus.Failure;
 
@@ -214,8 +208,8 @@ namespace Hardware.Resources
             ipProperties = IPGlobalProperties.GetIPGlobalProperties();
             tcpConnections = ipProperties.GetActiveTcpConnections().Where(
                 x =>
-                    x.LocalEndPoint.Equals(tcp.Client.LocalEndPoint) &&
-                    x.RemoteEndPoint.Equals(tcp.Client.RemoteEndPoint)
+                    x.LocalEndPoint.Equals(tcp.Client?.LocalEndPoint) &&
+                    x.RemoteEndPoint.Equals(tcp.Client?.RemoteEndPoint)
             ).ToArray();
 
             if (tcpConnections != null && tcpConnections.Length > 0)
