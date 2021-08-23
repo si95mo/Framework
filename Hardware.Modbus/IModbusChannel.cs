@@ -2,6 +2,9 @@
 
 namespace Hardware.Modbus
 {
+    /// <summary>
+    /// Represent a basic prototype for a modbus channel
+    /// </summary>
     public interface IModbusChannel : IProperty
     {
         /// <summary>

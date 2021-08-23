@@ -26,5 +26,10 @@ namespace UserInterface.Controls
                 dialogOpen = false;
             }
         }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+
+        }
     }
 }

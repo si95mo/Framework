@@ -2,6 +2,10 @@
 
 namespace Hardware.Resources
 {
+    /// <summary>
+    /// Represent a basic serial channel prototype. <br/>
+    /// See also <see cref="SerialResource"/>
+    /// </summary>
     public interface ISerialChannel : IProperty<string>
     {
         /// <summary>

@@ -81,6 +81,12 @@
     <Compile Include="ButtonControl.Designer.cs">
       <DependentUpon>ButtonControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="ClockControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ClockControl.Designer.cs">
+      <DependentUpon>ClockControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="CloseApplicationControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -164,6 +170,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ButtonControl.resx">
       <DependentUpon>ButtonControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ClockControl.resx">
+      <DependentUpon>ClockControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CloseApplicationControl.resx">
       <DependentUpon>CloseApplicationControl.cs</DependentUpon>

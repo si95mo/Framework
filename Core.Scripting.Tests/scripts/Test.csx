@@ -6,7 +6,7 @@ namespace ScriptTest
 {
     public class Test : Script
     {
-        private string message;
+        private readonly string message;
 
         public Test(string code, string message) : base(code)
         {
