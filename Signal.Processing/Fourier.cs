@@ -116,7 +116,7 @@ namespace Signal.Processing
         }
 
         /// <summary>
-        /// Transform and array of real data in an
+        /// Transform and array of real numbers in an
         /// array of complex data (with respect to FFTW
         /// representation standard of complex numbers).
         /// </summary>
@@ -134,10 +134,10 @@ namespace Signal.Processing
         }
 
         /// <summary>
-        /// Transform and array of complex data (FFTW representation
+        /// Transform and array of complex data (FFTW representation)
         /// in an array of <see cref="Complex"/>.
         /// </summary>
-        /// <param name="real">The array to convert</param>
+        /// <param name="data">The array to convert</param>
         /// <returns>The converted array</returns>
         private static Complex[] ToNumericComplex(double[] data)
         {
