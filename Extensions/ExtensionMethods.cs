@@ -227,9 +227,15 @@ namespace Extensions
     }
 
     /// <summary>
-    /// Provides a method for performing a deep copy of an object.
-    /// Reflection is used to perform the copy
+    /// Provides a method for performing a deep copy of an object. <br/>
+    /// Reflection is used to perform the deep copy
     /// </summary>
+    /// <remarks>
+    /// Reflection is used instead of a binary deep copy
+    /// for security reasons. <br/>
+    /// In fact, the MSDN binary formatter will gradually be 
+    /// removed in following .NET releases
+    /// </remarks>
     public static class SystemExtension
     {
         /// <summary>
