@@ -12,6 +12,7 @@ namespace Core.Scheduling
     {
         [field: NonSerialized()]
         protected ActionQueue<IInstruction> subscribedInstructions;
+
         [field: NonSerialized]
         protected ActionQueue<IInstruction> lastExecution;
 

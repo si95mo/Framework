@@ -53,7 +53,7 @@ namespace Hardware.Resources.Tests
             resource.SendAndReceive(message + " (SendAndReceive)\n", out string response);
             response.Should().NotBe(""); // The response is sent back from Hercules
 
-            for(int i = 1; i <= 4; i++)
+            for (int i = 1; i <= 4; i++)
             {
                 output.Value = i.ToString();
                 await Task.Delay(2000);

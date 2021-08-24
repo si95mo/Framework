@@ -3,13 +3,7 @@ using Diagnostic;
 using IO.File;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace UserInterface.Controls
@@ -62,7 +56,7 @@ namespace UserInterface.Controls
 
                     Logger.Log($"Test program with name \"{fileName}\" save correctly", Severity.Info);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Logger.Log(ex);
                 }

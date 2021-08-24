@@ -22,7 +22,7 @@ namespace IO.File
         ///         IStructureArray data = MAT.ReadStructFromFile(path, "data");
         ///         dynamic dynamicData = new ExpandoObject();
         ///         dynamicData.time = data["time"];
-        ///         
+        ///
         ///         IArrayOf≪double≫ time = data.time as IArrayOf≪double≫;
         ///     </code>
         /// </example>

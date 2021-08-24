@@ -73,7 +73,7 @@ namespace Core
         { }
 
         /// <summary>
-        /// The <see cref="EventHandler"/> for the 
+        /// The <see cref="EventHandler"/> for the
         /// value changed event
         /// </summary>
         public event EventHandler<ValueChangedEventArgs> ValueChanged

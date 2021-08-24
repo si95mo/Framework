@@ -4,7 +4,7 @@ using System;
 namespace Hardware.Modbus
 {
     /// <summary>
-    /// Define a generic analog channel that can be used 
+    /// Define a generic analog channel that can be used
     /// in modbus communication. <br/>
     /// See also <see cref="ModbusResource"/>
     /// </summary>

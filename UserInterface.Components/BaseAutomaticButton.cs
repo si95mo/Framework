@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace UserInterface.Controls
@@ -25,7 +19,7 @@ namespace UserInterface.Controls
 
         public new event EventHandler Click
         {
-            add 
+            add
             {
                 base.Click += value;
                 foreach (Control control in Controls)
