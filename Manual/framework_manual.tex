@@ -77,7 +77,7 @@
 	\maketitle
 	\newpage
 	
-	\section{Introduzione al framework}
+	\section{Introduzione al framework} \label{section:Introduzione}
 		Il framework è composto dai seguenti gruppi logici:
 		
 		\begin{itemize}
@@ -95,10 +95,73 @@
 		\end{itemize}
 		
 		Ognuno di questi gruppi può essere a sua volta suddiviso in dei sottogruppi specializzati nell'implementare una singola funzionalità. In linea di massima il framework cerca di lavorare il più possibile con una logica ad eventi in modo da alleggerire l'overhead richiesto per la scrittura di codice ad alto livello.
+		
+		\paragraph*{}
+		Nelle sezioni seguenti verranno meglio descritti i vari gruppi logici appena riportati e, per ognuno di essi, si scenderò poi nel dettaglio dei vari namespace in essi contenuti, facendo quindi riferimento al codice effettivamente implementato per ogni funzionalità.
+		\par
+		L'ordine con cui verranno esposti (e sono stati riportati in questa sezione) i gruppi e il codice segue un andamento dall'alto verso il basso, ovvero partendo da nucleo del framework (Core), passando l'hardware e funzionalità di input/output (Hardware e IO), fino ad arrivare a dispositivi e banchi (Devices e Benches con le relativi istruzioni, ovvero Instructions), per finere con l'interfaccia grafica (UserInterface).
+		\newline
+		Nel mezzo sono presenti altri gruppi di supporto (quali, ad esempio, Diagnostic piuttosto che Extensions, Mathematics o Signal).
 	\newpage
 	
-	\section{Utilizzo del framework}
-		Per l'utilizzo del framework si può fare riferimento al progetto BaseProject, che contiene lo scheletro di massima dell'applicazione grafica contenente tutti i pannelli generali e l'inizializzazione di alcuni componenti standard del framework (quali, ad esempio, il ServiceBroker o il Logger).
+	\section{Core} \label{section:Core}
+	
+	\newpage
+	
+	\subsection{Parameters} \label{subsection:Parameters}
+		
+	\newpage
+	
+	\subsection{Converters} \label{subsection:Converters}
+	
+	\newpage
+	
+	\subsection{DataStructures} \label{subsection:DataStructures}
+	
+	\newpage
+	
+	\section{Diagnostic} \label{section:Diagnostic}
+	
+	\newpage
+	
+	\section{Extensions} \label{section:Extensions}
+	
+	\newpage
+	
+	\section{Hardware} \label{section:Hardware}
+	
+	\newpage
+	
+	\section{IO} \label{section:IO}
+	
+	\newpage
+	
+	\section{Mathematics} \label{section:Mathematics}
+	
+	\newpage
+	
+	\section{Signal} \label{section:Signal}
+	
+	\newpage
+	
+	\section{Devices} \label{section:Devices}
+	
+	\newpage
+	
+	\section{Benches} \label{section:Benches}
+	
+	\newpage
+	
+	\section{Instructions} \label{section:Instructions}
+	
+	\newpage
+	
+	\section{UserInterface} \label{section:UserInterface}
+		
+	\newpage
+	
+	\section{Utilizzo del framework} \label{section:Utilizzo}
+		Per l'utilizzo del framework si può fare riferimento al progetto BaseProject, che contiene lo scheletro di massima dell'applicazione grafica contenente tutti i pannelli generali e l'inizializzazione di alcuni componenti standard del framework (quali, ad esempio, il ServiceBroker o il Logger). Il progetto GetStarted, invece, fa riferimento ad un esempio di utilizzo del framework con dell'hardware (un Arduino in questo caso per utilizzare la comunicazione seriale e quindi la classe SerialResource) in modo da mostrare l'utilizzo di tutti gli strati messi a disposizione dal framework, anche se in una modalità semplificata e con un hardware minimo
 		\par
 		L'inizializzazione del framework viene fatta all'interno del metodo InitializeFramework, in cui si avrà il seguente codice:
 		
@@ -137,6 +200,8 @@
 			}
 		\end{lstlisting}
 	
+		\newpage
+	
 		Particolare importanza rivestono i metodi InitializeScripting e InitializeUserInterface presenti nel codice appena riportato: nel primo metodo andranno creati tutte le varie classi che derivano da Script da utilizzare nell'applicazione, mentre nel secondo dovranno essere aggiunti tutti i controlli relativi all'interfaccia grafica.
 		\newline
 		Di seguito vengono riportati due esempi di aggiunta di elementi in fase di inizializzazione. Nel primo si fa riferimento al metodo InitializeScripting, in cui viene aggiunto un SerialCatalog alla collezione contente tutti gli oggetti di classi derivanti da Script; nel secondo, invece, viene mostrato il metodo InitializeUserInterface in cui si può vedere come aggiungere un nuovo elemento  all'interfaccia grafica.
@@ -166,7 +231,9 @@
 				controls.Add(new InfoPanel("Info"));
 			}
 		\end{lstlisting}
-	
+		
+		\newpage
+		
 		Per quanto riguarda la creazione di nuovi Script da aggiungere in fase di inizializzazione, di seguito è riportato un esempio:
 		
 		\begin{lstlisting}
@@ -210,6 +277,8 @@
 			}
 		\end{lstlisting}
 		
-		Si può notare come in questo codice di esempio vengono creati il device, il bench e tutti i vari channel necessari all'applicazione e vengono poi aggiunti al ServiceBroker, in modo da poter essere recuperati in seguiti in altre parti del programma in caso di bisogno. Occorre notare che nella classe dell'esempio è presente il metodo Execute (override): tale metodo verrà eseguito dallo ScriptManager (gli script vengono aggiunti in automatico nel metodo costruttore della classe Script, per cui è importante che ogni classe che derivi da questa abbia il riferimento al base(code) nel metodo costruttore, come riportato nell'esempio)
+		Si può notare come in questo codice di esempio vengono creati il device, il bench e tutti i vari channel necessari all'applicazione e vengono poi aggiunti al ServiceBroker, in modo da poter essere recuperati in seguiti in altre parti del programma in caso di bisogno. Occorre notare che nella classe dell'esempio è presente il metodo Execute (override): tale metodo verrà eseguito dallo ScriptManager (gli script vengono aggiunti in automatico nel metodo costruttore della classe Script, per cui è importante che ogni classe che derivi da questa abbia il riferimento al base(code) nel metodo costruttore, come riportato nell'esempio).
+		\newline
+		Per quanto riguarda invece l'interfaccia grafica e l'aggiunta di nuovi pannelli, questo può essere fatto come riportato precedentemente nell'esempio. Per la creazione del singolo pannello, basta derivare dalla classe PanelControl. Al momento della creazione della classe così derivata, è necessario associare al nuovo controllo un codice (univoco) e aggiungere l'oggetto così creato alla lista controls (già dichiarata all'interno del file Program.cs del progetto). Tale collezione di oggetti verrà passato come parametro al costruttore della classe MainForm, che provvederà ad aggiungere tutti i controlli presenti e a visualizzarli nella form principale del programma (i controlli di default quali quello manuale).
 	\newpage
 \end{document}
