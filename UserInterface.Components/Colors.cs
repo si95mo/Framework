@@ -61,5 +61,25 @@ namespace UserInterface.Controls
         /// defined as 0xFF, 0xFe, 0xED
         /// </summary>
         public static readonly Color LightYellow = Color.FromArgb(0xFF, 0xFE, 0xED);
+
+        /// <summary>
+        /// Define the color for success messages
+        /// </summary>
+        public static readonly Color Success = Color.SeaGreen;
+
+        /// <summary>
+        /// Define the color for info messages
+        /// </summary>
+        public static readonly Color Info = Color.RoyalBlue;
+
+        /// <summary>
+        /// Define the color for warning messages
+        /// </summary>
+        public static readonly Color Warning = Color.DarkOrange;
+
+        /// <summary>
+        /// Define the color for error messages
+        /// </summary>
+        public static readonly Color Error = Color.DarkRed;
     }
 }
