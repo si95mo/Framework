@@ -391,3 +391,10 @@ obj
 /Documentation/html
 /Documentation
 /.~lock.framework.odt#
+/Manual/framework_manual.toc
+/Manual/framework_manual.synctex.gz
+/Manual/framework_manual.out
+/Manual/framework_manual.lot
+/Manual/framework_manual.lof
+/Manual/framework_manual.aux
+/Manual/framework_manual.pdf
