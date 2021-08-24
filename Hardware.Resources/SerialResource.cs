@@ -158,11 +158,11 @@ namespace Hardware.Resources
         {
             byte[] buffer = new byte[4096];
             Action kickoffRead = null;
-            kickoffRead = () => 
+            kickoffRead = () =>
                 BaseStream.BeginRead(
-                    buffer, 
-                    0, 
-                    buffer.Length, 
+                    buffer,
+                    0,
+                    buffer.Length,
                     delegate (IAsyncResult ar)
                     {
                         try
@@ -178,9 +178,9 @@ namespace Hardware.Resources
                         }
 
                         kickoffRead();
-                    }, 
+                    },
                     null
-                ); 
+                );
             kickoffRead();
         }
 

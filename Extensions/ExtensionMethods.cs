@@ -245,7 +245,7 @@ namespace Extensions
                 object copy = source.Copy();
                 return (T)copy;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Log(ex);
                 return default;

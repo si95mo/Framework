@@ -61,7 +61,7 @@ namespace Hardware.Modbus
         }
 
         /// <summary>
-        /// Propagate the new value assigned to the 
+        /// Propagate the new value assigned to the
         /// <see cref="ModbusAnalogInput"/>
         /// </summary>
         /// <param name="sender">The sender</param>

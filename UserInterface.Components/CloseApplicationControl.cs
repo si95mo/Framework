@@ -29,7 +29,6 @@ namespace UserInterface.Controls
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-
         }
     }
 }

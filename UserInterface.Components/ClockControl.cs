@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace UserInterface.Controls
 {
@@ -47,7 +40,7 @@ namespace UserInterface.Controls
 
             lblTime.Location = new Point(
                 (controlWidth - timeLabelSize.Width) / 2,
-                (controlHeigth  - timeLabelSize.Height) / 2 - 20
+                (controlHeigth - timeLabelSize.Height) / 2 - 20
             );
 
             lblDate.Location = new Point(

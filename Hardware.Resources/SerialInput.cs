@@ -14,7 +14,7 @@ namespace Hardware.Resources
         private IResource resource;
 
         /// <summary>
-        /// The command to send 
+        /// The command to send
         /// </summary>
         public string Command
         {
@@ -55,7 +55,7 @@ namespace Hardware.Resources
         }
 
         /// <summary>
-        /// Propagate the new value assigned to the 
+        /// Propagate the new value assigned to the
         /// <see cref="SerialInput"/>
         /// </summary>
         /// <param name="sender">The sender</param>

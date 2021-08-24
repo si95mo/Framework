@@ -45,7 +45,7 @@ namespace Hardware.Resources
         }
 
         /// <summary>
-        /// Propagate the new value assigned to the 
+        /// Propagate the new value assigned to the
         /// <see cref="SerialOutput"/>. <br/>
         /// This method is called when the value of the <see cref="SerialOutput"/>
         /// change and. in addition to propagate the new value, send it also

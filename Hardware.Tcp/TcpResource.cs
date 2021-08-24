@@ -135,7 +135,7 @@ namespace Hardware.Resources
                 var requestData = Encoding.UTF8.GetBytes(request);
                 tcp.Client.Send(requestData);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Log(ex);
             }
@@ -175,7 +175,7 @@ namespace Hardware.Resources
                 Send(request);
                 response = Receive();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Log(ex);
             }
@@ -220,7 +220,6 @@ namespace Hardware.Resources
 
             if (TestConnection())
                 status = ResourceStatus.Stopped;
-
             else
                 status = ResourceStatus.Failure;
 

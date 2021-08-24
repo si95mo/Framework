@@ -1,13 +1,10 @@
 ﻿using Core.Scheduling;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace UserInterface.Controls
@@ -64,7 +61,6 @@ namespace UserInterface.Controls
                         lsvTestPrograms.Items[counter - 1].BackColor = Colors.LightYellow;
                 }
             }
-
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)
@@ -85,7 +81,7 @@ namespace UserInterface.Controls
 
                 Dispose();
             }
-            catch(Exception)
+            catch (Exception)
             {
                 btnLoad.FlatAppearance.BorderColor = Colors.Red;
                 lsvTestPrograms.Focus();
