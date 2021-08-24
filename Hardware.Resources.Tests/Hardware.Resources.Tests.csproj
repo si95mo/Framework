@@ -38,10 +38,6 @@
     <Reference Include="FluentAssertions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentAssertions.6.0.0-beta0001\lib\net47\FluentAssertions.dll</HintPath>
     </Reference>
-    <Reference Include="Hardware.Resources, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Hardware.Resources\bin\Debug\Hardware.Resources.dll</HintPath>
-    </Reference>
     <Reference Include="nunit.framework, Version=3.13.2.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.13.2\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
@@ -87,7 +83,7 @@
       <Project>{FA1A2A2F-C31D-4588-AFDD-EFCBE654E93D}</Project>
       <Name>Hardware.Modbus</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Hardware.Resources\Hardware.Serial.csproj">
+    <ProjectReference Include="..\Hardware.Serial\Hardware.Serial.csproj">
       <Project>{2dd453bc-d187-4023-9222-48ddf02ba689}</Project>
       <Name>Hardware.Serial</Name>
     </ProjectReference>

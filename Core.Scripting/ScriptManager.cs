@@ -4,6 +4,9 @@ using System;
 
 namespace Core.Scripting
 {
+    /// <summary>
+    /// The script manager. Handles all the scripting logic
+    /// </summary>
     public class ScriptManager
     {
         private static Bag<IScript> scripts;
@@ -25,6 +28,10 @@ namespace Core.Scripting
             }
         }
 
+        /// <summary>
+        /// Execute all the script contained in the
+        /// <see cref="ScriptManager"/>
+        /// </summary>
         public static void ExecuteScripts()
         {
             if (!initialized)
