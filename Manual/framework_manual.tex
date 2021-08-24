@@ -1,0 +1,215 @@
+% !TeX spellcheck = it_IT
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+%\usepackage[italian]{babel}
+\usepackage[paper = a4paper, margin = 1in]{geometry}
+\usepackage{graphicx}
+\usepackage{amsfonts, epsfig}
+\usepackage[hyphens]{url}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{listings, lstautogobble}
+\usepackage[export]{adjustbox}[2011/08/13]
+\usepackage{verbatim}
+\usepackage{subfig}
+\usepackage{media9}
+\usepackage{graphicx}
+\usepackage{pxfonts}
+\usepackage{tabularx}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{textcomp}
+\usepackage{eurosym}
+
+\lstset{
+	breaklines = true,
+	autogobble = true
+}
+\AtBeginDocument{\AtBeginShipoutNext{\AtBeginShipoutDiscard}}
+
+\lstset{language = C,
+	basicstyle = \ttfamily,
+	keywordstyle = \bfseries,
+	showstringspaces = false,
+	literate = {:=}{$\leftarrow{}$}{1},
+	morekeywords = {foreach, repeat, until, function, return, end, in, do}
+}
+
+\renewcommand*\contentsname{Indice}
+
+\newenvironment{nscenter}
+{\parskip =0 pt\par\nopagebreak\centering}
+{\par\noindent\ignorespacesafterend}
+
+\renewcommand{\listfigurename}{Elenco delle Figure}
+
+\renewcommand{\listtablename}{Elenco delle Tabelle}
+
+\begin{document}
+	\title{
+		\pagenumbering{gobble}	
+		% Frontespizio	
+		\begin{titlepage}
+			\centering
+			
+			{\huge\bfseries \textsc{Manuale} \par}
+			\vspace{2cm}					
+		\end{titlepage}
+	}
+
+	\maketitle
+	
+	% Indice
+	\pagenumbering{roman}
+	
+	\tableofcontents
+	\newpage
+	
+	\listoffigures
+	\newpage
+	
+	\listoftables
+	\newpage
+	
+	\pagenumbering{arabic}
+	
+	\newgeometry{top = 1in, bottom = 1in, right = 0.8in, left = 0.8in}
+	\maketitle
+	\newpage
+	
+	\section{Introduzione al framework}
+		Il framework è composto dai seguenti gruppi logici:
+		
+		\begin{itemize}
+			\item Core
+			\item Diagnostic
+			\item Extensions
+			\item Hardware
+			\item IO
+			\item Mathematics
+			\item Signal
+			\item Devices
+			\item Benches
+			\item Instructions
+			\item User interface
+		\end{itemize}
+		
+		Ognuno di questi gruppi può essere a sua volta suddiviso in dei sottogruppi specializzati nell'implementare una singola funzionalità. In linea di massima il framework cerca di lavorare il più possibile con una logica ad eventi in modo da alleggerire l'overhead richiesto per la scrittura di codice ad alto livello.
+	\newpage
+	
+	\section{Utilizzo del framework}
+		Per l'utilizzo del framework si può fare riferimento al progetto BaseProject, che contiene lo scheletro di massima dell'applicazione grafica contenente tutti i pannelli generali e l'inizializzazione di alcuni componenti standard del framework (quali, ad esempio, il ServiceBroker o il Logger).
+		\par
+		L'inizializzazione del framework viene fatta all'interno del metodo InitializeFramework, in cui si avrà il seguente codice:
+		
+		\begin{lstlisting}
+			private static void InitializeFramework()
+			{
+				// Initialize the logger
+				Logger.Initialize();
+				Logger.SetMinimumSeverityLevel(Severity.Trace);
+				Logger.Log("Logger initialized", Severity.Trace);
+				
+				// Enable the logger to acquire all the generated exceptions
+				AppDomain.CurrentDomain.FirstChanceException += (sender, eventArgs) =>
+				{
+					Logger.Log(eventArgs.Exception);
+				};
+				Logger.Log("Started exception intercept service", Severity.Trace);
+				
+				// Start the log reader
+				LogReader.StartRead();
+				Logger.Log("Log reader started for diagnostic", Severity.Trace);
+				
+				// Initialize the service broker
+				ServiceBroker.Initialize();
+				Logger.Log("ServiceBroker initialized", Severity.Trace);
+				
+				// Initialize the scripting functionalities
+				InitializeScripting();
+				
+				// Initialize the user interface
+				InitializeUserInterface();
+				Logger.Log("User interface initialized", Severity.Trace);
+				
+				Logger.SetMinimumSeverityLevel(Severity.Info);
+				Logger.Log("Framework initialized", Severity.Info);
+			}
+		\end{lstlisting}
+	
+		Particolare importanza rivestono i metodi InitializeScripting e InitializeUserInterface presenti nel codice appena riportato: nel primo metodo andranno creati tutte le varie classi che derivano da Script da utilizzare nell'applicazione, mentre nel secondo dovranno essere aggiunti tutti i controlli relativi all'interfaccia grafica.
+		\newline
+		Di seguito vengono riportati due esempi di aggiunta di elementi in fase di inizializzazione. Nel primo si fa riferimento al metodo InitializeScripting, in cui viene aggiunto un SerialCatalog alla collezione contente tutti gli oggetti di classi derivanti da Script; nel secondo, invece, viene mostrato il metodo InitializeUserInterface in cui si può vedere come aggiungere un nuovo elemento  all'interfaccia grafica.
+		
+		\begin{lstlisting}
+			private static void InitializeScripting()
+			{
+				// Add here all the scripts creation:
+				_ = new SerialCatalog("MainCatalog"); // Example
+				
+				ScriptManager.Initialize();
+				Logger.Log("ScriptManager initialized", Severity.Trace);
+				
+				ScriptManager.ExecuteScripts();
+				Logger.Log("Scripts executed", Severity.Trace);
+			}
+		\end{lstlisting}
+	
+		\begin{lstlisting}
+			private static void InitializeUserInterface()
+			{
+				controls = new List<BaseControl>();
+				
+				controls.Add(new AutomaticPanel("Automatic"));
+				controls.Add(new ManualPanel("Manual"));
+				controls.Add(new DiagnosticPanel("Diagnostic"));
+				controls.Add(new InfoPanel("Info"));
+			}
+		\end{lstlisting}
+	
+		Per quanto riguarda la creazione di nuovi Script da aggiungere in fase di inizializzazione, di seguito è riportato un esempio:
+		
+		\begin{lstlisting}
+			public class SerialCatalog : Script
+			{
+				private SerialResource resource;
+				private SerialOutput output;
+				private SerialInput input;
+				
+				private ArduinoDevice device;
+				
+				private ArduinoBench bench;
+				
+				public SerialCatalog(string code) : base(code)
+				{
+					resource = new SerialResource("SerialResource", "COM3");
+					resource.Start();
+					
+					output = new SerialOutput("SerialOutput", "", resource);
+					input = new SerialInput("SerialInput", "p", resource);
+					
+					device = new ArduinoDevice("ArduinoDevice");
+					
+					ServiceBroker.Add<IResource>(resource);
+					ServiceBroker.Add<IChannel>(output);
+					ServiceBroker.Add<IChannel>(input);
+					ServiceBroker.Add<IDevice>(device);
+					
+					bench = new ArduinoBench("ArduinoBench");
+					
+					StringParameter command = (device.Parameters.Get("Command") as StringParameter);
+					command.ConnectTo(output);
+					StringParameter potentiometer = device.Parameters.Get("Potentiometer") as StringParameter;
+					input.ConnectTo(potentiometer);
+				}
+				
+				public override void Execute()
+				{
+					ServiceBroker.Add<IBench>(bench);
+				}
+			}
+		\end{lstlisting}
+		
+		Si può notare come in questo codice di esempio vengono creati il device, il bench e tutti i vari channel necessari all'applicazione e vengono poi aggiunti al ServiceBroker, in modo da poter essere recuperati in seguiti in altre parti del programma in caso di bisogno. Occorre notare che nella classe dell'esempio è presente il metodo Execute (override): tale metodo verrà eseguito dallo ScriptManager (gli script vengono aggiunti in automatico nel metodo costruttore della classe Script, per cui è importante che ogni classe che derivi da questa abbia il riferimento al base(code) nel metodo costruttore, come riportato nell'esempio)
+	\newpage
+\end{document}
