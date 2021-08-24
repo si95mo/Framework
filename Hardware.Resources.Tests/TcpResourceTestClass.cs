@@ -1,11 +1,9 @@
 ﻿using FluentAssertions;
+using Hardware.Tcp;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Hardware.Resources.Tests
@@ -13,6 +11,8 @@ namespace Hardware.Resources.Tests
     public class TcpResourceTestClass
     {
         private TcpResource resource;
+        private TcpInput input;
+        private TcpOutput output;
 
         [OneTimeSetUp]
         public void Setup()
@@ -21,6 +21,9 @@ namespace Hardware.Resources.Tests
 
             resource.Start();
             resource.Status.Should().Be(ResourceStatus.Executing);
+
+            input = new TcpInput("TcpInput", "Hello IN", resource, 100);
+            output = new TcpOutput("TcpOutput", "Hello OUT", resource);
         }
 
         [OneTimeTearDown]
@@ -43,12 +46,19 @@ namespace Hardware.Resources.Tests
 
         [Test]
         [TestCase("Hello, world!")]
-        public void Test(string message)
+        public async Task Test(string message)
         {
             resource.Send(message + " (Send)\n");
 
             resource.SendAndReceive(message + " (SendAndReceive)\n", out string response);
-            response.Should().Be("Hello!"); // The response is sent back from Hercules
+            response.Should().NotBe(""); // The response is sent back from Hercules
+
+            for(int i = 1; i <= 4; i++)
+            {
+                output.Value = i.ToString();
+                await Task.Delay(2000);
+                Console.WriteLine($"{input.Value} ({i})");
+            }
         }
     }
 }
