@@ -124,7 +124,7 @@ namespace Hardware.Resources
 
                 status = ResourceStatus.Stopped;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 failure = new Failure(ex.Message);
                 Logger.Log(ex);
