@@ -233,7 +233,7 @@ namespace Extensions
     /// <remarks>
     /// Reflection is used instead of a binary deep copy
     /// for security reasons. <br/>
-    /// In fact, the MSDN binary formatter will gradually be 
+    /// In fact, the MSDN binary formatter will gradually be
     /// removed in following .NET releases
     /// </remarks>
     public static class SystemExtension
