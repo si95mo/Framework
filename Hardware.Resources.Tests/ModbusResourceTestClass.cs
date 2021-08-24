@@ -1,12 +1,13 @@
 ﻿using Core;
 using Core.DataStructures;
 using FluentAssertions;
+using Hardware.Modbus;
 using NUnit.Framework;
 using System.Threading.Tasks;
 
-namespace Hardware.Modbus.Tests
+namespace Hardware.Resources.Tests
 {
-    public class ModbusTestClass
+    public class ModbusResourceTestClass
     {
         private ModbusResource resource;
 
