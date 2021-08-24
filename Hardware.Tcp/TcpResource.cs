@@ -110,17 +110,25 @@ namespace Hardware.Resources
         /// <param name="timeout">The timeout (in milliseconds)</param>
         public TcpResource(string code, string ipAddress, int port, int timeout = 5000)
         {
-            this.code = code;
-            this.ipAddress = ipAddress;
-            this.port = port;
-            failure = new Failure();
-            channels = new Bag<IChannel>();
+            try
+            {
+                this.code = code;
+                this.ipAddress = ipAddress;
+                this.port = port;
+                failure = new Failure();
+                channels = new Bag<IChannel>();
 
-            tcp = new TcpClient();
-            tcp.ReceiveTimeout = timeout;
-            tcp.SendTimeout = timeout;
+                tcp = new TcpClient();
+                tcp.ReceiveTimeout = timeout;
+                tcp.SendTimeout = timeout;
 
-            status = ResourceStatus.Stopped;
+                status = ResourceStatus.Stopped;
+            }
+            catch(Exception ex)
+            {
+                failure = new Failure(ex.Message);
+                Logger.Log(ex);
+            }
         }
 
         /// <summary>
