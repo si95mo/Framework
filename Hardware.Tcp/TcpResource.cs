@@ -1,5 +1,6 @@
 ﻿using Core;
 using Core.DataStructures;
+using Diagnostic;
 using System;
 using System.Linq;
 using System.Net.NetworkInformation;
@@ -103,9 +104,11 @@ namespace Hardware.Resources
         /// <summary>
         /// Create a new instance of <see cref="TcpResource"/>
         /// </summary>
+        /// <param name="code">The code</param>
         /// <param name="ipAddress">The ip address</param>
         /// <param name="port">The port number</param>
-        public TcpResource(string code, string ipAddress, int port)
+        /// <param name="timeout">The timeout (in milliseconds)</param>
+        public TcpResource(string code, string ipAddress, int port, int timeout = 5000)
         {
             this.code = code;
             this.ipAddress = ipAddress;
@@ -114,6 +117,8 @@ namespace Hardware.Resources
             channels = new Bag<IChannel>();
 
             tcp = new TcpClient();
+            tcp.ReceiveTimeout = timeout;
+            tcp.SendTimeout = timeout;
 
             status = ResourceStatus.Stopped;
         }
@@ -124,27 +129,56 @@ namespace Hardware.Resources
         /// <param name="request">The http request to send</param>
         public void Send(string request)
         {
-            // Request
-            var requestData = Encoding.UTF8.GetBytes(request);
-            tcp.Client.Send(requestData);
+            try
+            {
+                // Request
+                var requestData = Encoding.UTF8.GetBytes(request);
+                tcp.Client.Send(requestData);
+            }
+            catch(Exception ex)
+            {
+                Logger.Log(ex);
+            }
+        }
+
+        private string Receive()
+        {
+            string response = "";
+
+            try
+            {
+                byte[] responseData = new byte[1024];
+                int lengthOfResponse = tcp.Client.Receive(responseData);
+
+                response = Encoding.UTF8.GetString(responseData, 0, lengthOfResponse);
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Logger.Log(ex);
+                return response;
+            }
         }
 
         /// <summary>
         /// Send a command via serial protocol and receive the response
         /// </summary>
-        /// <param name="command">The command to send</param>
-        /// <param name="response">The response</param>
+        /// <param name="request">The request to send</param>
+        /// <param name="response">The response received</param>
         public void SendAndReceive(string request, out string response)
         {
-            // Request
-            var requestData = Encoding.UTF8.GetBytes(request);
-            tcp.Client.Send(requestData);
+            response = "";
 
-            // Response
-            byte[] responseData = new byte[1024];
-            int lengthOfResponse = tcp.Client.Receive(responseData);
-
-            response = Encoding.UTF8.GetString(responseData, 0, lengthOfResponse);
+            try
+            {
+                Send(request);
+                response = Receive();
+            }
+            catch(Exception ex)
+            {
+                Logger.Log(ex);
+            }
         }
 
         /// <summary>

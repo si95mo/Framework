@@ -6,8 +6,15 @@ using System.IO.Ports;
 
 namespace Hardware.Resources
 {
+    /// <summary>
+    /// Handle the data received in the relative
+    /// <see cref="SerialDataReceivedEventHandler"/>
+    /// </summary>
     public class DataReceivedArgs : EventArgs
     {
+        /// <summary>
+        /// The data received
+        /// </summary>
         public byte[] Data { get; set; }
     }
 
@@ -61,9 +68,22 @@ namespace Hardware.Resources
             }
         }
 
+        /// <summary>
+        /// The data received event handler
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public delegate void DataReceivedEventHandler(object sender, DataReceivedArgs e);
+
+        /// <summary>
+        /// The event handler for the data received
+        /// </summary>
         public new event EventHandler<DataReceivedArgs> DataReceived;
 
+        /// <summary>
+        /// The on data received event handler
+        /// </summary>
+        /// <param name="data"></param>
         public virtual void OnDataReceived(byte[] data)
         {
             var handler = DataReceived;
@@ -156,6 +176,7 @@ namespace Hardware.Resources
                         {
                             Logger.Log(ex);
                         }
+
                         kickoffRead();
                     }, 
                     null
@@ -209,6 +230,9 @@ namespace Hardware.Resources
                 failure = new Failure("Error occurred while closing the port!", DateTime.Now);
         }
 
+        /// <summary>
+        /// Restart the <see cref="SerialResource"/>
+        /// </summary>
         public void Restart()
         {
             Stop();
