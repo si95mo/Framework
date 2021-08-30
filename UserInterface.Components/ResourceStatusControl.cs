@@ -7,7 +7,7 @@ using UserInterface.Controls.Properties;
 namespace UserInterface.Controls
 {
     /// <summary>
-    /// Implement a control to handle the resource status in the 
+    /// Implement a control to handle the resource status in the
     /// user interface
     /// </summary>
     public partial class ResourceStatusControl : BaseControl
@@ -78,7 +78,7 @@ namespace UserInterface.Controls
                     )
                 );
             }
-            catch(Exception)
+            catch (Exception)
             {
                 BackColor = status == ResourceStatus.Failure ?
                             ControlPaint.LightLight(Colors.Error) : ControlPaint.LightLight(Colors.BackgroundColor);
