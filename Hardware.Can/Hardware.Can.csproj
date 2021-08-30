@@ -4,15 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C0F5ECDE-B7AD-42B3-ACF8-D5486B0E4C44}</ProjectGuid>
+    <ProjectGuid>{13A8DF89-915D-4EF8-970E-FE614ABB919A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Hardware</RootNamespace>
-    <AssemblyName>Hardware</AssemblyName>
+    <RootNamespace>Hardware.Can</RootNamespace>
+    <AssemblyName>Hardware.Can</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Hardware.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,6 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Core">
+      <HintPath>..\Devices\bin\Debug\Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Hardware">
+      <HintPath>..\Devices\bin\Debug\Hardware.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,36 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DigitalInput.cs" />
-    <Compile Include="AnalogInput.cs" />
-    <Compile Include="DigitalOutput.cs" />
-    <Compile Include="AnalogOutput.cs" />
-    <Compile Include="Channel.cs" />
-    <Compile Include="IAnalogInput.cs" />
-    <Compile Include="IAnalogOutput.cs" />
-    <Compile Include="IDigitalInput.cs" />
-    <Compile Include="IDigitalOutput.cs" />
-    <Compile Include="IResource.cs" />
+    <Compile Include="ICanResource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resource.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Core.Converters\Core.Converters.csproj">
-      <Project>{7CD54F15-DF6A-4829-8AFD-E714ECF9F505}</Project>
-      <Name>Core.Converters</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Core.DataStructures\Core.DataStructures.csproj">
-      <Project>{1967AA9E-7FB5-4B63-AD7B-8394D65B6E8F}</Project>
-      <Name>Core.DataStructures</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Core.Parameters\Core.Parameters.csproj">
-      <Project>{B0E053BC-1B89-4C83-B819-5EC032B2566F}</Project>
-      <Name>Core.Parameters</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Core\Core.csproj">
-      <Project>{75dfacf6-e820-4e3f-83d5-1e21fbc92385}</Project>
-      <Name>Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

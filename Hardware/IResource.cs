@@ -1,8 +1,37 @@
 ﻿using Core;
 using Core.DataStructures;
+using System;
 
 namespace Hardware
 {
+    /// <summary>
+    /// Handles the property status changed event.
+    /// See also <see cref="EventArgs"/>
+    /// </summary>
+    public class StatusChangedEventArgs : EventArgs
+    {
+        /// <summary>
+        /// The old value
+        /// </summary>
+        public readonly object OldValue;
+
+        /// <summary>
+        /// The new value
+        /// </summary>
+        public readonly object NewValue;
+
+        /// <summary>
+        /// Create a new instance of <see cref="StatusChangedEventArgs"/>
+        /// </summary>
+        /// <param name="oldValue">The old value</param>
+        /// <param name="newValue">The new value</param>
+        public StatusChangedEventArgs(object oldValue, object newValue)
+        {
+            OldValue = oldValue;
+            NewValue = newValue;
+        }
+    }
+
     /// <summary>
     /// Define the <see cref="IResource"/> status
     /// </summary>
@@ -45,6 +74,10 @@ namespace Hardware
         bool IsOpen
         { get; }
 
+        /// <summary>
+        /// The <see cref="IResource"/> <see cref="Bag{T}"/>
+        /// of <see cref="IChannel"/>
+        /// </summary>
         Bag<IChannel> Channels
         { get; }
 
@@ -53,6 +86,12 @@ namespace Hardware
         /// </summary>
         ResourceStatus Status
         { get; }
+
+        /// <summary>
+        /// The <see cref="IResource"/> <see cref="Status"/> value
+        /// changed event listener
+        /// </summary>
+        event EventHandler<StatusChangedEventArgs> StatusChanged;
 
         /// <summary>
         /// The last <see cref="IFailure"/>
