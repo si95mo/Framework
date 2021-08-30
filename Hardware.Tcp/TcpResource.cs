@@ -13,62 +13,22 @@ namespace Hardware.Resources
     /// Implement a resource that communicates via the tcp protocol.
     /// See also <see cref="IResource"/>
     /// </summary>
-    public class TcpResource : IResource
+    public class TcpResource : Resource
     {
-        protected string code;
-        protected ResourceStatus status;
-        protected IFailure failure;
-        protected Bag<IChannel> channels;
-
         protected string ipAddress;
         protected int port;
 
         protected TcpClient tcp;
 
         /// <summary>
-        /// The <see cref="TcpResource"/> code
-        /// </summary>
-        public string Code => code;
-
-        /// <summary>
-        /// The <see cref="TcpResource"/> <see cref="Bag{IProperty}"/> of
-        /// <see cref="IChannel"/>;
-        /// </summary>
-        public Bag<IChannel> Channels => channels;
-
-        /// <summary>
-        /// The <see cref="TcpResource"/> status
-        /// </summary>
-        public ResourceStatus Status => status;
-
-        /// <summary>
-        /// The last <see cref="IFailure"/>
-        /// </summary>
-        public IFailure LastFailure => failure;
-
-        /// <summary>
         /// The <see cref="TcpResource"/> operating state
         /// </summary>
-        public bool IsOpen => tcp.Connected;
+        public override bool IsOpen => tcp.Connected;
 
         /// <summary>
         /// The <see cref="TcpResource"/> ip address
         /// </summary>
         public string IpAddress => ipAddress;
-
-        public Type Type => this.GetType();
-
-        /// <summary>
-        /// The <see cref="TcpResource"/> value as <see cref="object"/>
-        /// </summary>
-        public object ValueAsObject
-        {
-            get => code;
-            set
-            {
-                _ = ValueAsObject;
-            }
-        }
 
         /// <summary>
         /// The <see cref="TcpResource"/> port number
@@ -192,7 +152,7 @@ namespace Hardware.Resources
         /// <summary>
         /// Restart the <see cref="TcpResource"/>
         /// </summary>
-        public void Restart()
+        public override void Restart()
         {
             Stop();
             Start();
@@ -201,7 +161,7 @@ namespace Hardware.Resources
         /// <summary>
         /// Start the <see cref="TcpResource"/>
         /// </summary>
-        public void Start()
+        public override void Start()
         {
             failure.Clear();
             status = ResourceStatus.Starting;
@@ -220,7 +180,7 @@ namespace Hardware.Resources
         /// <summary>
         /// Stop the <see cref="TcpResource"/>
         /// </summary>
-        public void Stop()
+        public override void Stop()
         {
             status = ResourceStatus.Stopping;
 

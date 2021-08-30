@@ -22,8 +22,8 @@ namespace Hardware.Resources.Tests
             resource.Start();
             resource.Status.Should().Be(ResourceStatus.Executing);
 
-            input = new TcpInput("TcpInput", "Hello IN", resource, 100);
-            output = new TcpOutput("TcpOutput", "Hello OUT", resource);
+            input = new TcpInput("TcpInput", $"Hello IN {Environment.NewLine}", resource, 100);
+            output = new TcpOutput("TcpOutput", $"Hello OUT {Environment.NewLine}", resource);
         }
 
         [OneTimeTearDown]
@@ -48,16 +48,19 @@ namespace Hardware.Resources.Tests
         [TestCase("Hello, world!")]
         public async Task Test(string message)
         {
-            resource.Send(message + " (Send)\n");
+            resource.Send($"{message} (Send){Environment.NewLine}");
 
-            resource.SendAndReceive(message + " (SendAndReceive)\n", out string response);
+            resource.SendAndReceive(
+                $"{message} (SendAndReceive){Environment.NewLine}", 
+                out string response
+            );
             response.Should().NotBe(""); // The response is sent back from Hercules
 
             for (int i = 1; i <= 4; i++)
             {
                 output.Value = i.ToString();
                 await Task.Delay(2000);
-                Console.WriteLine($"{input.Value} ({i})");
+                Console.WriteLine($"{DateTime.Now:ss:ffff} - {input.Value} ({i})");
             }
         }
     }

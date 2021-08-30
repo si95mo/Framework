@@ -13,33 +13,20 @@ namespace Hardware.Resources.Tests
         {
             Logger.Initialize();
 
-            resource = new SerialResource(nameof(resource), "COM99");
+            resource = new SerialResource(nameof(resource), "COM3");
             resource.Start();
 
-            if (resource.LastFailure == resource.LastFailure.Default)
-            {
-                resource.IsOpen.Should().BeTrue();
-                resource.Status.Should().Be(ResourceStatus.Executing);
-            }
-            else
-            {
-                resource.LastFailure.Description.Should().NotBe("");
-                resource.Status.Should().Be(ResourceStatus.Failure);
-            }
+            resource.IsOpen.Should().BeTrue();
+            resource.Status.Should().Be(ResourceStatus.Executing);
         }
 
         [OneTimeTearDown]
         public void Dispose()
         {
-            if (resource.LastFailure == resource.LastFailure.Default)
-            {
-                resource.Stop();
+            resource.Stop();
 
-                resource.IsOpen.Should().BeFalse();
-                resource.Status.Should().Be(ResourceStatus.Stopped);
-            }
-            else
-                resource.LastFailure.Description.Should().NotBe("");
+            resource.IsOpen.Should().BeFalse();
+            resource.Status.Should().Be(ResourceStatus.Stopped);
         }
 
         [Test]
@@ -47,11 +34,9 @@ namespace Hardware.Resources.Tests
         [TestCase("Hello world!")]
         public void SendMessage(string message)
         {
-            if (resource.LastFailure == resource.LastFailure.Default)
+            if (resource.Status == ResourceStatus.Executing)
             {
                 resource.Send(message);
-
-                resource.Status.Should().Be(ResourceStatus.Executing);
             }
             else
                 resource.LastFailure.Description.Should().NotBe("");
