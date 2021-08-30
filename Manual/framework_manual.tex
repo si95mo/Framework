@@ -32,7 +32,7 @@
 	keywordstyle = \bfseries,
 	showstringspaces = false,
 	literate = {:=}{$\leftarrow{}$}{1},
-	morekeywords = {foreach, repeat, until, function, return, end, in, do}
+	morekeywords = {foreach, repeat, until, function, return, end, in, do, new, private, public, protected, internal, string, class, overridenu}
 }
 
 \renewcommand*\contentsname{Indice}
@@ -102,6 +102,61 @@
 		L'ordine con cui verranno esposti (e sono stati riportati in questa sezione) i gruppi e il codice segue un andamento dall'alto verso il basso, ovvero partendo da nucleo del framework (Core), passando l'hardware e funzionalità di input/output (Hardware e IO), fino ad arrivare a dispositivi e banchi (Devices e Benches con le relativi istruzioni, ovvero Instructions), per finere con l'interfaccia grafica (UserInterface).
 		\newline
 		Nel mezzo sono presenti altri gruppi di supporto (quali, ad esempio, Diagnostic piuttosto che Extensions, Mathematics o Signal).
+	\newpage
+	
+	\subsection{Schema di massima dell'architettura del framework}
+		I dettagli dei vari e gruppi logici verranno descritti in seguito, mentre in questa sezione viene riportato lo schema logico di massima dell'organizzazione dei vari blocchi che compongono il framework, partendo dal basso verso l'alto e come questi dovrebbero interagire.
+		
+		\begin{figure}[htbp]
+			\includegraphics[width=1\textwidth, center] {img/framework_logic_scheme.png}
+			\caption[Schema logico del funzionamento del framework]
+			{Schema logico di funzionamento di massima del framework, con le varie interazioni di base tra i vari elementi che lo compongono. \label{fig:frameworkLogicScheme}}
+		\end{figure} 
+		
+		\paragraph*{Core}
+		Come si può vedere dall'immagine, il nucleo principale del framework è rappresentato dal namespace Core, che verrà richiamato dai vari altri livelli dell'architettura (se non direttamente come "sotto-namespace" di Core, come ad esempio Core.Scheduling o Core.DataStructures).
+		\newline
+		Mentre una descrizione più approfondita di Core verrà data in seguito, a questo livello basta dire che, ad esempio, in Core (raggruppando in esso anche i namespace derivati) è presente la classe (statica) ServiceBroker, che conterrà, a run-time, la collezione con tutti gli oggetti (o servizi) ad esso aggiunti (quindi, ad esempio, conterrà l'insieme di tutti i canali sottoscritti, in modo da permetterne il recupero e l'utilizzo in modo agevole in tutte le parti del codice).		
+		\par
+		Definito a grandi linee il namespace Core, occorre ora introdurre l'interfaccia (contenuta in Core) IProperty: questa funge da prototipo di base per ogni tipo di classe successiva del framework; ogni classe che fa riferimento, ad esempio, ad un canale o una risorsa, deriverà, in modo diretto o indiretto, da IProperty o eventualmente dalla versione con generics dell'interfaccia IProperty$<$T$>$ (con quest'ultima che comunque a sua volta deriva da IProperty).
+		\newline
+		In altre parole, quindi, si può dire che IProperty è l'elemento più generale del framework.
+		
+		\paragraph*{Hardware}
+		Al livello successivo troviamo il namespace Hardware che conterrà definizioni generiche legate all'hardware (ad esempio si avrà l'interfaccia IResource, che funge da base per le varie risorse fisiche, oltre che la definizione dei vari canali hardware di input/output, sia digitali che analogici), che a sua volta contiene N namespace, ognuno riferito ad una risorsa fisica (come precedentemente accennato) quali ad esempio quella per comunicare tramite protocollo modbus, seriale, tcp, ecc.
+		
+		\paragraph*{Devices}
+		Proseguendo, si avrà il namespace per la gestione dei device (che potrebbero essere, ad esempio, un alimentatore piuttosto che uno strumento di acquisizione). Questo livello si appoggia direttamente sull'hardware per la parte di gestione della comunicazione ed implementerà la logica di gestione dei dispositivo fisico (come ad esempio l'accensione e l'impostazione di una tensione per l'alimentatore).
+		\newline
+		La comunicazione con la risorsa hardware sottostante può avvenire tramite il metodo ConnectTo, definito nella classe generica Channel. Eseguendo ad esempio l'istruzione:
+		
+		\begin{lstlisting}
+			AnalogInput x = new AnalogInput();
+			AnalogInput y = new AnalogOutput();
+			.
+			.
+			.
+			x.ConnectTo(y);
+		\end{lstlisting}
+	
+		ad ogni cambiamento del valore del canale x, questo si propagherà anche al canale y (e a tutti quelli così sottoscritti). In aggiunta, è anche possibile specificare una Action da eseguire in fase di propagazione del valore ed effettuare quindi una conversione (tramite l'oggetto sotto definito di tipo GenericConverter). Ad esempio:
+		
+		\begin{lstlisting}
+			AnalogInput x = new AnalogInput();
+			AnalogInput y = new AnalogOutput();
+			double convertionFactor = 0.5;
+			.
+			.
+			.
+			x.ConnectTo(
+				y,
+				new GenericConverter<double, double>(
+					(x) => x * conversionFactor
+				)
+			);
+		\end{lstlisting}
+		
+		moltiplicherà il valore di x per 0.5 e lo assegnerà ad y (con il valore di x che, in questo processo, non viene modificato: se ad esempio x = 2, alla fine dell'istruzione x sarà ancora uguale a 2, mentre y avrà valore 1).
 	\newpage
 	
 	\section{Core} \label{section:Core}
