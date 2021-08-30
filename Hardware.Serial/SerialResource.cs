@@ -33,6 +33,8 @@ namespace Hardware.Resources
         private object sendAndReceiveLock = new object();
         private object receiveLock = new object();
 
+        private object objectLock = new object();
+
         /// <summary>
         /// The <see cref="SerialResource"/> code
         /// </summary>
@@ -47,14 +49,30 @@ namespace Hardware.Resources
         /// <summary>
         /// The <see cref="SerialResource"/> status
         /// </summary>
-        public ResourceStatus Status => status;
+        public ResourceStatus Status
+        {
+            get => status;
+            protected set
+            {
+                // Eventually trigger the value changed event
+                if (value != status)
+                {
+                    ResourceStatus oldStatus = status;
+                    status = value;
+                    OnStatusChanged(new StatusChangedEventArgs(oldStatus, status));
+                }
+            }
+        }
 
         /// <summary>
         /// The <see cref="SerialResource"/> last <see cref="IFailure"/>
         /// </summary>
         public IFailure LastFailure => failure;
 
-        public Type Type => this.GetType();
+        /// <summary>
+        /// The <see cref="SerialResource"/> <see cref="System.Type"/>
+        /// </summary>
+        public Type Type => GetType();
 
         /// <summary>
         /// The <see cref="SerialResource"/> value as <see cref="object"/>
@@ -66,6 +84,40 @@ namespace Hardware.Resources
             {
                 _ = ValueAsObject;
             }
+        }
+
+        /// <summary>
+        /// The <see cref="SerialResource"/> <see cref="Status"/> value
+        /// changed event handler
+        /// </summary>
+        public EventHandler<StatusChangedEventArgs> StatusChangedHandler;
+
+        /// <summary>
+        /// The <see cref="StatusChangedHandler"/> event handler
+        /// for the <see cref="Status"/> property
+        /// </summary>
+        public event EventHandler<StatusChangedEventArgs> StatusChanged
+        {
+            add
+            {
+                lock (objectLock)
+                    StatusChangedHandler += value;
+            }
+
+            remove
+            {
+                lock (objectLock)
+                    StatusChangedHandler -= value;
+            }
+        }
+
+        /// <summary>
+        /// On status changed event
+        /// </summary>
+        /// <param name="e">The <see cref="StatusChangedEventArgs"/></param>
+        protected virtual void OnStatusChanged(StatusChangedEventArgs e)
+        {
+            StatusChangedHandler?.Invoke(this, e);
         }
 
         /// <summary>
@@ -144,7 +196,7 @@ namespace Hardware.Resources
         /// <param name="e">The <see cref="SerialErrorReceivedEventArgs"/></param>
         private void SerialResource_ErrorReceived(object sender, SerialErrorReceivedEventArgs e)
         {
-            status = ResourceStatus.Failure;
+            Status = ResourceStatus.Failure;
 
             SerialError error = e.EventType;
 
@@ -193,9 +245,9 @@ namespace Hardware.Resources
             {
                 failure.Clear();
 
-                status = ResourceStatus.Starting;
+                Status = ResourceStatus.Starting;
                 Open();
-                status = IsOpen ? ResourceStatus.Executing : ResourceStatus.Failure;
+                Status = IsOpen ? ResourceStatus.Executing : ResourceStatus.Failure;
 
                 if (status == ResourceStatus.Failure)
                     failure = new Failure("Error occurred while opening the port!", DateTime.Now);
@@ -204,13 +256,16 @@ namespace Hardware.Resources
             }
             catch (Exception ex)
             {
-                status = ResourceStatus.Failure;
+                Status = ResourceStatus.Failure;
                 failure = new Failure(ex.Message);
 
                 Logger.Log(ex);
             }
         }
 
+        /// <summary>
+        /// Flush the serial buffer
+        /// </summary>
         public void Flush()
         {
             DiscardInBuffer();
@@ -222,9 +277,9 @@ namespace Hardware.Resources
         /// </summary>
         public void Stop()
         {
-            status = ResourceStatus.Stopping;
+            Status = ResourceStatus.Stopping;
             Close();
-            status = !IsOpen ? ResourceStatus.Stopped : ResourceStatus.Failure;
+            Status = !IsOpen ? ResourceStatus.Stopped : ResourceStatus.Failure;
 
             if (status == ResourceStatus.Failure)
                 failure = new Failure("Error occurred while closing the port!", DateTime.Now);

@@ -65,23 +65,6 @@ namespace Hardware.Modbus
         private ModbusIpMaster master;
 
         /// <summary>
-        /// The <see cref="ModbusResource"/> value as <see cref="object"/>
-        /// </summary>
-        public new object ValueAsObject
-        {
-            get => code;
-            set
-            {
-                _ = ValueAsObject;
-            }
-        }
-
-        /// <summary>
-        /// The <see cref="ModbusResource"/> port number
-        /// </summary>
-        public new int Port => port;
-
-        /// <summary>
         /// Create a new instance of <see cref="ModbusResource"/>
         /// </summary>
         /// <param name="code">The code</param>
@@ -107,6 +90,7 @@ namespace Hardware.Modbus
         /// <summary>
         /// Create a new instance of <see cref="ModbusResource"/>
         /// </summary>
+        /// <param name="code">The code</param>
         /// <param name="ipAddress">The ip address</param>
         /// <param name="port">The port number</param>
         public ModbusResource(string code, string ipAddress, int port = 502)
