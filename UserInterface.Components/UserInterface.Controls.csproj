@@ -148,6 +148,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="ResourceStatusControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ResourceStatusControl.Designer.cs">
+      <DependentUpon>ResourceStatusControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="SaveTestProgramPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -204,6 +210,9 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ResourceStatusControl.resx">
+      <DependentUpon>ResourceStatusControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SaveTestProgramPanel.resx">
       <DependentUpon>SaveTestProgramPanel.cs</DependentUpon>
@@ -266,6 +275,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\clear_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\start_32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
