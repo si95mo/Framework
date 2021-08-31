@@ -262,8 +262,8 @@ namespace Diagnostic
 
         /// <summary>
         /// Append to the log file a description of the <see cref="Exception"/> occurred.
-        /// The entry will be saved <b>only</b> if its a different one
-        /// respect the last one saved in the log file (i.e. different type <b>and</b>
+        /// The entry will be saved <b>only</b> if it differs from 
+        /// the last one saved in the log file (i.e. different type <b>and</b>
         /// different message <b>and</b> different stack trace)!
         /// </summary>
         /// <param name="ex">The exception to log</param>
