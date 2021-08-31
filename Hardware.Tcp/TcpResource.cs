@@ -183,16 +183,10 @@ namespace Hardware.Resources
         public override void Stop()
         {
             status = ResourceStatus.Stopping;
-
             tcp.Close();
+            status = ResourceStatus.Stopped;
 
-            if (TestConnection())
-                status = ResourceStatus.Stopped;
-            else
-                status = ResourceStatus.Failure;
-
-            if (status == ResourceStatus.Failure)
-                failure = new Failure("Error occurred while closing the port!", DateTime.Now);
+            failure = new Failure("Error occurred while closing the port!", DateTime.Now);
         }
 
         /// <summary>

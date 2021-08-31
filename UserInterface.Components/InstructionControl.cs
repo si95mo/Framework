@@ -143,7 +143,15 @@ namespace UserInterface.Controls
                         break;
 
                     case Type numType when numType == typeof(NumericParameter):
-                        (parameters.ElementAt(i) as NumericParameter).Value = (double)values.ElementAt(i).Value;
+                        try
+                        {
+                            (parameters.ElementAt(i) as NumericParameter).Value = (double)values.ElementAt(i).Value;
+                        }
+                        catch(Exception)
+                        {
+                            double.TryParse(values.ElementAt(i).Value as string, out double value);
+                            (parameters.ElementAt(i) as NumericParameter).Value = value;
+                        }
                         break;
 
                     case Type stringType when stringType == typeof(StringParameter):

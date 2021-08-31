@@ -346,7 +346,7 @@ namespace Hardware.Modbus
                     tmp.Add(0);
 
                 if (representation == NumericRepresentation.Double || representation == NumericRepresentation.Single)
-                    tmp.AddRange(values.ToList());
+                    tmp.AddRange(values.ToList().Reverse());
 
                 values = tmp.ToArray();
             }
