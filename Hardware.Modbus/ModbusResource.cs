@@ -93,7 +93,8 @@ namespace Hardware.Modbus
         /// <param name="code">The code</param>
         /// <param name="ipAddress">The ip address</param>
         /// <param name="port">The port number</param>
-        public ModbusResource(string code, string ipAddress, int port = 502)
+        /// <param name="timeout"></param>
+        public ModbusResource(string code, string ipAddress, int port = 502, int timeout = 5000)
         {
             this.code = code;
             this.ipAddress = ipAddress;
@@ -102,15 +103,17 @@ namespace Hardware.Modbus
             channels = new Bag<IChannel>();
 
             tcp = new TcpClient();
+            tcp.ReceiveTimeout = timeout;
+            tcp.SendTimeout = timeout;
 
-            status = ResourceStatus.Stopped;
+            Status = ResourceStatus.Stopped;
         }
 
         /// <summary>
         /// Send an update via the modbus protocol
         /// </summary>
         /// <param name="code">The code of the <see cref="IModbusChannel"/> of which send the value</param>
-        internal new async void Send(string code)
+        internal new void Send(string code)
         {
             var channel = channels.Get(code);
 
@@ -127,7 +130,7 @@ namespace Hardware.Modbus
                         if ((channel as ModbusAnalogChannel).Reverse)
                             Array.Reverse(values);
 
-                        await master.WriteMultipleRegistersAsync((channel as ModbusAnalogOutput).Address, values);
+                        master.WriteMultipleRegisters((channel as ModbusAnalogOutput).Address, values);
                         break;
 
                     case NumericRepresentation.Single:
@@ -135,7 +138,7 @@ namespace Hardware.Modbus
                         if ((channel as ModbusAnalogChannel).Reverse)
                             Array.Reverse(values);
 
-                        await master.WriteMultipleRegistersAsync((channel as ModbusAnalogOutput).Address, values);
+                        master.WriteMultipleRegisters((channel as ModbusAnalogOutput).Address, values);
                         break;
 
                     case NumericRepresentation.Int32:
@@ -143,17 +146,17 @@ namespace Hardware.Modbus
                         if ((channel as ModbusAnalogChannel).Reverse)
                             Array.Reverse(values);
 
-                        await master.WriteMultipleRegistersAsync((channel as ModbusAnalogOutput).Address, values);
+                        master.WriteMultipleRegisters((channel as ModbusAnalogOutput).Address, values);
                         break;
 
                     case NumericRepresentation.UInt16:
-                        await master.WriteSingleRegisterAsync((channel as ModbusAnalogOutput).Address, ConvertFromUInt16ToUInt16(value));
+                        master.WriteSingleRegister((channel as ModbusAnalogOutput).Address, ConvertFromUInt16ToUInt16(value));
                         break;
                 }
             }
             else
                 if (channel is ModbusDigitalOutput)
-                await master.WriteSingleCoilAsync((channel as ModbusDigitalOutput).Address, (channel as ModbusDigitalOutput).Value);
+                master.WriteSingleCoil((channel as ModbusDigitalOutput).Address, (channel as ModbusDigitalOutput).Value);
         }
 
         /// <summary>
@@ -217,67 +220,62 @@ namespace Hardware.Modbus
         /// <summary>
         /// Restart the <see cref="ModbusResource"/>
         /// </summary>
-        public new void Restart()
+        public override async void Restart()
         {
             Stop();
-            Start();
+            await Start();
         }
 
         /// <summary>
         /// Start the <see cref="ModbusResource"/>
         /// </summary>
-        public new async void Start()
+        public override async Task Start()
         {
             failure.Clear();
             status = ResourceStatus.Starting;
+            tcp = new TcpClient();
 
-            if (TestConnection() || ipAddress.CompareTo("127.0.0.1") == 0)
+            try
             {
-                await tcp.ConnectAsync(ipAddress, port);
-                master = ModbusIpMaster.CreateIp(tcp);
-
-                status = ResourceStatus.Executing;
-
-                foreach (var channelCode in channels)
+                if (TestConnection() || ipAddress.CompareTo("127.0.0.1") == 0)
                 {
-                    var channel = channels.Get(channelCode);
+                    await tcp.ConnectAsync(ipAddress, port);
+                    master = ModbusIpMaster.CreateIp(tcp);
 
-                    if (channel is ModbusAnalogInput)
-                        (channel as ModbusAnalogInput).PollingTask.Start();
+                    Status = ResourceStatus.Executing;
 
-                    if (channel is ModbusDigitalInput)
-                        (channel as ModbusDigitalInput).PollingTask.Start();
+                    foreach (var channelCode in channels)
+                    {
+                        var channel = channels.Get(channelCode);
+
+                        if (channel is ModbusAnalogInput)
+                            await Task.Factory.StartNew((channel as ModbusAnalogInput).PollingAction);
+
+                        if (channel is ModbusDigitalInput)
+                            await Task.Factory.StartNew((channel as ModbusDigitalInput).PollingAction);
+                    }
                 }
+                else
+                    Status = ResourceStatus.Failure;
             }
-            else
-                status = ResourceStatus.Failure;
-
-            if (status == ResourceStatus.Failure)
-                failure = new Failure("Error occurred while opening the port!", DateTime.Now);
+            catch(Exception ex)
+            {
+                Status = ResourceStatus.Failure;
+                failure = new Failure(ex.Message, DateTime.Now);
+            }
         }
 
         /// <summary>
         /// Stop the <see cref="ModbusResource"/>
         /// </summary>
-        public new void Stop()
+        public override void Stop()
         {
             status = ResourceStatus.Stopping;
 
             if (TestConnection() || ipAddress.CompareTo("127.0.0.1") == 0)
             {
                 tcp.Close();
-                status = ResourceStatus.Stopped;
-
-                foreach (var channelCode in channels)
-                {
-                    var channel = channels.Get(channelCode);
-
-                    if (channel is ModbusAnalogInput)
-                        (channel as ModbusAnalogInput).PollingTask.Dispose();
-
-                    if (channel is ModbusDigitalInput)
-                        (channel as ModbusDigitalInput).PollingTask.Dispose();
-                }
+                status = ResourceStatus.Stopped;                
             }
 
             if (status == ResourceStatus.Failure)
@@ -337,7 +335,7 @@ namespace Hardware.Modbus
             if (n != 8)
             {
                 List<ushort> tmp = new List<ushort>();
-                int start = 0, stop = 4 - values.Length;
+                int stop = 4 - values.Length;
 
                 if (representation == NumericRepresentation.Int32 || representation == NumericRepresentation.UInt16)
                     tmp.AddRange(values.ToList());
@@ -346,7 +344,7 @@ namespace Hardware.Modbus
                     tmp.Add(0);
 
                 if (representation == NumericRepresentation.Double || representation == NumericRepresentation.Single)
-                    tmp.AddRange(values.ToList().Reverse());
+                    tmp.AddRange(values.ToList());
 
                 values = tmp.ToArray();
             }

@@ -1,4 +1,5 @@
 ﻿using Core;
+using System;
 using System.Threading.Tasks;
 
 namespace Hardware.Modbus
@@ -9,7 +10,7 @@ namespace Hardware.Modbus
     public class ModbusAnalogInput : ModbusAnalogChannel
     {
         private int pollingInterval;
-        private readonly Task pollingTask;
+        private readonly Action pollingAction;
 
         /// <summary>
         /// The polling interval in milliseconds
@@ -21,9 +22,9 @@ namespace Hardware.Modbus
         }
 
         /// <summary>
-        /// The polling <see cref="Task"/>
+        /// The polling <see cref="Action"/>
         /// </summary>
-        internal Task PollingTask => pollingTask;
+        internal Action PollingAction => pollingAction;
 
         /// <summary>
         /// Create a new instance of <see cref="ModbusAnalogInput"/>
@@ -49,15 +50,14 @@ namespace Hardware.Modbus
 
             resource.Channels.Add(this);
 
-            pollingTask = new Task(async () =>
+            pollingAction = async () =>
+            {
+                while (resource.Status == ResourceStatus.Executing)
                 {
-                    while (resource.Status == ResourceStatus.Executing)
-                    {
-                        await (resource as ModbusResource).Receive(code);
-                        await Task.Delay(pollingInterval);
-                    }
+                    await (resource as ModbusResource).Receive(code);
+                    await Task.Delay(pollingInterval);
                 }
-            );
+            };
         }
 
         /// <summary>

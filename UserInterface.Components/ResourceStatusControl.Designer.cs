@@ -54,13 +54,14 @@ namespace UserInterface.Controls
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Transparent;
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.lblCode);
             this.panel1.Controls.Add(this.panel3);
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(585, 80);
+            this.panel1.Size = new System.Drawing.Size(422, 80);
             this.panel1.TabIndex = 0;
             // 
             // lblCode
@@ -119,11 +120,12 @@ namespace UserInterface.Controls
             // panel7
             // 
             this.panel7.BackColor = System.Drawing.Color.Transparent;
+            this.panel7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel7.Controls.Add(this.lblFailure);
             this.panel7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel7.Location = new System.Drawing.Point(895, 0);
+            this.panel7.Location = new System.Drawing.Point(706, 0);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(573, 80);
+            this.panel7.Size = new System.Drawing.Size(822, 80);
             this.panel7.TabIndex = 1;
             // 
             // lblFailure
@@ -139,11 +141,12 @@ namespace UserInterface.Controls
             // panel8
             // 
             this.panel8.BackColor = System.Drawing.Color.Transparent;
+            this.panel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel8.Controls.Add(this.lblTimestamp);
             this.panel8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel8.Location = new System.Drawing.Point(1472, 0);
+            this.panel8.Location = new System.Drawing.Point(1534, 0);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(379, 80);
+            this.panel8.Size = new System.Drawing.Size(317, 80);
             this.panel8.TabIndex = 2;
             // 
             // lblTimestamp
@@ -158,11 +161,12 @@ namespace UserInterface.Controls
             // 
             // panel9
             // 
+            this.panel9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel9.Controls.Add(this.lblStatus);
             this.panel9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel9.Location = new System.Drawing.Point(591, 0);
+            this.panel9.Location = new System.Drawing.Point(428, 0);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(298, 80);
+            this.panel9.Size = new System.Drawing.Size(272, 80);
             this.panel9.TabIndex = 3;
             // 
             // lblStatus
@@ -179,9 +183,9 @@ namespace UserInterface.Controls
             // 
             this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStart.Location = new System.Drawing.Point(1863, 22);
+            this.btnStart.Location = new System.Drawing.Point(1866, 20);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(36, 36);
+            this.btnStart.Size = new System.Drawing.Size(40, 40);
             this.btnStart.TabIndex = 4;
             this.btnStart.UseVisualStyleBackColor = true;
             this.btnStart.Click += new System.EventHandler(this.BtnStart_Click);
@@ -190,13 +194,14 @@ namespace UserInterface.Controls
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.panel9);
             this.Controls.Add(this.panel8);
             this.Controls.Add(this.panel7);
             this.Controls.Add(this.panel1);
             this.Name = "ResourceStatusControl";
-            this.Size = new System.Drawing.Size(1920, 80);
+            this.Size = new System.Drawing.Size(1918, 78);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel3.ResumeLayout(false);

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Hardware.Resources
 {
@@ -161,20 +162,29 @@ namespace Hardware.Resources
         /// <summary>
         /// Start the <see cref="TcpResource"/>
         /// </summary>
-        public override void Start()
+        public override async Task Start()
         {
             failure.Clear();
-            status = ResourceStatus.Starting;
+            Status = ResourceStatus.Starting;
+            tcp = new TcpClient();
 
-            tcp.Connect(ipAddress, port);
+            try
+            {
+                await tcp.ConnectAsync(ipAddress, port);
 
-            if (TestConnection())
-                status = ResourceStatus.Executing;
-            else
-                status = ResourceStatus.Failure;
+                if (TestConnection())
+                    Status = ResourceStatus.Executing;
+                else
+                    Status = ResourceStatus.Failure;
 
-            if (status == ResourceStatus.Failure)
-                failure = new Failure("Error occurred while opening the port!", DateTime.Now);
+                if (status == ResourceStatus.Failure)
+                    failure = new Failure("Error occurred while opening the port!", DateTime.Now);
+            }
+            catch(Exception ex)
+            {
+                Status = ResourceStatus.Failure;
+                failure = new Failure(ex.Message, DateTime.Now);
+            }
         }
 
         /// <summary>

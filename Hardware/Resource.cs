@@ -1,6 +1,7 @@
 ﻿using Core;
 using Core.DataStructures;
 using System;
+using System.Threading.Tasks;
 
 namespace Hardware
 {
@@ -108,7 +109,7 @@ namespace Hardware
         /// <summary>
         /// Start the <see cref="Resource"/>
         /// </summary>
-        public abstract void Start();
+        public abstract Task Start();
 
         /// <summary>
         /// Stop the <see cref="Resource"/>
