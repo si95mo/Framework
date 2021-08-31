@@ -244,8 +244,15 @@ namespace Diagnostic
 
                 string line = "";
 
+                int counter = 0;
                 for (int i = 0; i < log.Length; i++)
-                    line += "-";
+                {
+                    counter++;
+                    if (counter != 25 && counter != 33)
+                        line += "-";
+                    else
+                        line += "|";
+                }
 
                 log += Environment.NewLine + line;
 
