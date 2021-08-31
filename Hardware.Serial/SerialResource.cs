@@ -3,6 +3,7 @@ using Core.DataStructures;
 using Diagnostic;
 using System;
 using System.IO.Ports;
+using System.Threading.Tasks;
 
 namespace Hardware.Resources
 {
@@ -239,14 +240,14 @@ namespace Hardware.Resources
         /// <summary>
         /// Start the <see cref="SerialResource"/>
         /// </summary>
-        public void Start()
+        public async Task Start()
         {
             try
             {
                 failure.Clear();
 
                 Status = ResourceStatus.Starting;
-                Open();
+                await new Task(() => Open());
                 Status = IsOpen ? ResourceStatus.Executing : ResourceStatus.Failure;
 
                 if (status == ResourceStatus.Failure)
