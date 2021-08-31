@@ -249,9 +249,9 @@ namespace Diagnostic
                 {
                     counter++;
                     if (counter != 25 && counter != 33)
-                        line += "-";
+                        line += "-"; // Normal line separator
                     else
-                        line += "|";
+                        line += "|"; // Add this char in these position for a table-like appearance
                 }
 
                 log += Environment.NewLine + line;
