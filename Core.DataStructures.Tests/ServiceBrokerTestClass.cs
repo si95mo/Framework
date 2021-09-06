@@ -98,10 +98,8 @@ namespace Core.DataStructures.Tests
             channel = new AnalogOutput("AnalogOut");
             ServiceBroker.Add<IChannel>(channel);
 
-            foreach (var item in ServiceBroker.Get<IProperty>())
-            {
+            foreach (IProperty item in ServiceBroker.Get<IProperty>())
                 item.Should().NotBe(null);
-            }
         }
     }
 }
