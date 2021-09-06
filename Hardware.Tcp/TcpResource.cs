@@ -180,7 +180,7 @@ namespace Hardware.Resources
                 if (status == ResourceStatus.Failure)
                     failure = new Failure("Error occurred while opening the port!", DateTime.Now);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Status = ResourceStatus.Failure;
                 failure = new Failure(ex.Message, DateTime.Now);

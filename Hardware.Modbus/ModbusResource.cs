@@ -258,7 +258,7 @@ namespace Hardware.Modbus
                 else
                     Status = ResourceStatus.Failure;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Status = ResourceStatus.Failure;
                 failure = new Failure(ex.Message, DateTime.Now);
@@ -275,7 +275,7 @@ namespace Hardware.Modbus
             if (TestConnection() || ipAddress.CompareTo("127.0.0.1") == 0)
             {
                 tcp.Close();
-                status = ResourceStatus.Stopped;                
+                status = ResourceStatus.Stopped;
             }
 
             if (status == ResourceStatus.Failure)

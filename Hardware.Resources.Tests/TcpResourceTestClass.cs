@@ -51,7 +51,7 @@ namespace Hardware.Resources.Tests
             resource.Send($"{message} (Send){Environment.NewLine}");
 
             resource.SendAndReceive(
-                $"{message} (SendAndReceive){Environment.NewLine}", 
+                $"{message} (SendAndReceive){Environment.NewLine}",
                 out string response
             );
             response.Should().NotBe(""); // The response is sent back from Hercules

@@ -3,6 +3,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Diagnostic.Tests
 {
@@ -20,7 +21,7 @@ namespace Diagnostic.Tests
 
         [Test]
         [TestCase(10000d)]
-        public void LogReaderTest(double interval)
+        public async Task LogReaderTest(double interval)
         {
             string lastLogText = "", lastLastLog = "";
 
@@ -29,7 +30,7 @@ namespace Diagnostic.Tests
             {
                 Logger.Log(new Exception(sw.Elapsed.TotalMilliseconds.ToString("0.000")));
 
-                Tasks.NoOperation(2000);
+                await Tasks.NoOperation(2000);
 
                 LogReader.LogText.Should().NotBe("").And.NotBe(lastLogText);
                 LogReader.LastLog.Should().NotBe("").And.NotBe(lastLastLog);
