@@ -147,7 +147,7 @@ namespace UserInterface.Controls
                         {
                             (parameters.ElementAt(i) as NumericParameter).Value = (double)values.ElementAt(i).Value;
                         }
-                        catch(Exception)
+                        catch (Exception)
                         {
                             double.TryParse(values.ElementAt(i).Value as string, out double value);
                             (parameters.ElementAt(i) as NumericParameter).Value = value;
