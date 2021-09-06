@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Core.Threading
 {
@@ -17,7 +18,7 @@ namespace Core.Threading
         /// This implementation has a precision of about 15.6ms. <br/>
         /// For a more precise timing, see <see cref="NoOperation(int, uint)"/>
         /// </remarks>
-        public static void NoOperation(int interval)
+        public static async Task NoOperation(int interval)
         {
             ManualResetEventSlim stopRequest = new ManualResetEventSlim(false);
 
@@ -26,7 +27,7 @@ namespace Core.Threading
 
             do
             {
-                Thread.Sleep(1);
+                await Task.Delay(1);
             } while (stopRequest.Wait((int)Math.Max(0, interval - sw.ElapsedMilliseconds)));
         }
 
@@ -42,10 +43,10 @@ namespace Core.Threading
         /// The new clock rate is reset at the end of the method
         /// (15.6ms, <see cref="NoOperation(int)"/>)
         /// </remarks>
-        public static void NoOperation(int interval, uint clockRate = 15)
+        public static async Task NoOperation(int interval, uint clockRate = 15)
         {
             ThreadingApi.SetTimeBeginPeriod(clockRate);
-            NoOperation(interval);
+            await NoOperation(interval);
             ThreadingApi.SetTimeEndPeriod(clockRate);
         }
     }

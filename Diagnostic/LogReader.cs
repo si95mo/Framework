@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Diagnostic
@@ -83,7 +82,7 @@ namespace Diagnostic
             if (lastReadLength < 0)
                 lastReadLength = 0;
 
-            Task monitoringTask = new Task(() =>
+            Task monitoringTask = new Task(async () =>
                 {
                     while (true)
                     {
@@ -118,7 +117,7 @@ namespace Diagnostic
                             Logger.Log(ex);
                         }
 
-                        Thread.Sleep(monitoringInterval);
+                        await Task.Delay(monitoringInterval);
                     }
                 }
             );
