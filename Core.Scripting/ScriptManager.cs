@@ -38,8 +38,8 @@ namespace Core.Scripting
                 Logger.Log(new Exception("Script manager not initialized!"));
             else
             {
-                foreach (string code in scripts)
-                    (scripts.Get(code) as IScript).Execute();
+                foreach (IScript script in scripts)
+                    script.Execute();
             }
         }
     }
