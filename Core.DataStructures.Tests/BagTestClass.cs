@@ -37,7 +37,6 @@ namespace Core.DataStructures.Tests
         private void Bag_ItemRemoved(object sender, BagChangedEventArgs<IProperty> e)
         {
             bool removed = bag.Remove(e.Item.Code);
-
             removed.Should().BeFalse();
         }
 
@@ -45,7 +44,6 @@ namespace Core.DataStructures.Tests
         public void Dispose()
         {
             bag.Clear();
-
             bag.Count.Should().Be(0);
         }
 
@@ -57,7 +55,6 @@ namespace Core.DataStructures.Tests
         public void GetItem(string code)
         {
             IChannel channel = bag.Get(code) as IChannel;
-
             channel.Code.Should().Be(code);
         }
 
@@ -79,8 +76,14 @@ namespace Core.DataStructures.Tests
             }
 
             bool removed = bag.Remove(channel);
-
             removed.Should().BeTrue();
+        }
+
+        [Test]
+        public void ForeEach()
+        {
+            foreach (IProperty property in bag)
+                property.Code.Should().NotBeNullOrEmpty();
         }
     }
 }
