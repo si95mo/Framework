@@ -38,7 +38,7 @@ namespace Core.DataStructures
     /// </summary>
     /// <typeparam name="T">The type of elements in the <see cref="Bag{T}"/></typeparam>
     [Serializable]
-    public class Bag<T> : IEnumerable<string>, ISerializable
+    public class Bag<T> : IEnumerable<IProperty>, ISerializable
     {
         /// <summary>
         /// <see cref="EventHandler"/> invoked when an item is added to the <see cref="Bag{T}"/>
@@ -163,7 +163,7 @@ namespace Core.DataStructures
         /// See <see cref="Remove(IProperty)"/> and also
         /// <see cref="Dictionary{TKey, TValue}.Remove(TKey)"/>
         /// </summary>
-        /// <param name="item">The item code to be removed</param>
+        /// <param name="code">The item code to be removed</param>
         /// <returns><see langword="true"/> if the item is removed,
         /// <see langword="false"/> otherwise</returns>
         public bool Remove(string code)
@@ -210,8 +210,13 @@ namespace Core.DataStructures
             return description;
         }
 
-        public IEnumerator<string> GetEnumerator()
-            => bag.Keys.GetEnumerator();
+        /// <summary>
+        /// Get the <see cref="IEnumerator{T}"/> used to
+        /// iterate through the <see cref="Bag{T}"/>
+        /// </summary>
+        /// <returns>The <see cref="IEnumerator{T}"/></returns>
+        public IEnumerator<IProperty> GetEnumerator()
+            => bag.Values.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator()
             => GetEnumerator();
