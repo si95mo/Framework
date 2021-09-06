@@ -107,7 +107,7 @@ namespace Core.Scheduling.Tests
             methodScheduler.RemoveAll();
         }
 
-        private void BtnSaveTest_Click(object sender, EventArgs e)
+        private void BtnSaveProgram_Click(object sender, EventArgs e)
         {
             IOUtility.CreateDirectoryIfNotExists("test");
 
@@ -122,9 +122,11 @@ namespace Core.Scheduling.Tests
 
             methodScheduler.SaveExecutionList(binPath);
             instructionScheduler.SaveExecutionList(binPath);
+
+            MessageBox.Show("Program saved", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void BtnLoadTest_Click(object sender, EventArgs e)
+        private void BtnLoadProgram_Click(object sender, EventArgs e)
         {
             lbxInput.Items.Clear();
             lbxOutput.Items.Clear();
@@ -142,6 +144,8 @@ namespace Core.Scheduling.Tests
 
             methodScheduler.LoadExecutionList(binPath);
             instructionScheduler.LoadExecutionList(binPath);
+
+            MessageBox.Show("Program loaded", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void TxbConsole_DoubleClick(object sender, EventArgs e)
