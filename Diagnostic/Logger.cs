@@ -334,7 +334,7 @@ namespace Diagnostic
         }
 
         /// <summary>
-        /// Convert the <see cref="Severity"/> of the entry to log in a <see cref="string""/>
+        /// Convert the <see cref="Severity"/> of the entry to log in a <see cref="string"/>
         /// </summary>
         /// <param name="severity">The <see cref="Severity"/> of the entry</param>
         /// <returns>The <see cref="string"/> result of the conversion</returns>
@@ -373,7 +373,7 @@ namespace Diagnostic
         }
 
         /// <summary>
-        /// Convert the <see cref="Severity"/> of the entry to log in a readable <see cref="string""/>
+        /// Convert the <see cref="Severity"/> of the entry to log in a readable <see cref="string"/>
         /// (i.e. removing all unnecessary characters as white spaces)
         /// </summary>
         /// <param name="severity"> The severity (<see cref="Severity"/>) of the entry </param>

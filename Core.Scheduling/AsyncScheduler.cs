@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Core.Scheduling
 {
+    /// <summary>
+    /// Implement an async <see cref="Method"/> scheduler
+    /// </summary>
     [Serializable]
     public class AsyncScheduler : MethodScheduler
     {
