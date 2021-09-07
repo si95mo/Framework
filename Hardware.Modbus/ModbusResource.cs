@@ -244,10 +244,8 @@ namespace Hardware.Modbus
 
                     Status = ResourceStatus.Executing;
 
-                    foreach (var channelCode in channels)
+                    foreach (IProperty channel in channels)
                     {
-                        var channel = channels.Get(channelCode);
-
                         if (channel is ModbusAnalogInput)
                             await Task.Factory.StartNew((channel as ModbusAnalogInput).PollingAction);
 
