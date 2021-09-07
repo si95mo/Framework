@@ -150,7 +150,6 @@ namespace Hardware.Can
         protected virtual void OnCanFrameChanged(CanFrameChangedEventArgs e)
             => CanFrameChangedHandler?.Invoke(this, e);
 
-
         /// <summary>
         /// The <see cref="CanChannel"/> code
         /// </summary>
