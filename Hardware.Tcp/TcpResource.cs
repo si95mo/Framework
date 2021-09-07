@@ -153,10 +153,10 @@ namespace Hardware.Resources
         /// <summary>
         /// Restart the <see cref="TcpResource"/>
         /// </summary>
-        public override void Restart()
+        public override async void Restart()
         {
             Stop();
-            Start();
+            await Start();
         }
 
         /// <summary>
