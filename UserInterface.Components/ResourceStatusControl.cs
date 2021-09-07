@@ -20,7 +20,15 @@ namespace UserInterface.Controls
         /// The <see cref="StatusChangedEventArgs"/>
         /// handler enabling
         /// </summary>
-        public bool EventEnabled { get => eventEnabled; set => eventEnabled = value; }
+        public bool EventEnabled 
+        { 
+            get => eventEnabled;
+            set
+            {
+                eventEnabled = value;
+                UpdateUserInterface();
+            }
+        }
 
         /// <summary>
         /// Create a new instance of <see cref="ResourceStatusControl"/>
@@ -110,7 +118,7 @@ namespace UserInterface.Controls
                     )
                 );
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 BackColor = status == ResourceStatus.Failure ?
                             ControlPaint.LightLight(Colors.Error) : ControlPaint.LightLight(Colors.BackgroundColor);
