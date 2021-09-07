@@ -210,22 +210,30 @@ namespace Hardware.Resources
         {
             bool result = false;
 
-            ipProperties = IPGlobalProperties.GetIPGlobalProperties();
-            tcpConnections = ipProperties.GetActiveTcpConnections().Where(
-                x =>
-                    x.LocalEndPoint.Equals(tcp.Client?.LocalEndPoint) &&
-                    x.RemoteEndPoint.Equals(tcp.Client?.RemoteEndPoint)
-            ).ToArray();
-
-            if (tcpConnections != null && tcpConnections.Length > 0)
+            try
             {
-                TcpState stateOfConnection = tcpConnections.First().State;
+                ipProperties = IPGlobalProperties.GetIPGlobalProperties();
+                tcpConnections = ipProperties.GetActiveTcpConnections().Where(
+                    x =>
+                        x.LocalEndPoint.Equals(tcp.Client?.LocalEndPoint) &&
+                        x.RemoteEndPoint.Equals(tcp.Client?.RemoteEndPoint)
+                ).ToArray();
 
-                if (stateOfConnection == TcpState.Established)
-                    result = true;
+                if (tcpConnections != null && tcpConnections.Length > 0)
+                {
+                    TcpState stateOfConnection = tcpConnections.First().State;
+
+                    if (stateOfConnection == TcpState.Established)
+                        result = true;
+                }
+
+                return result;
             }
-
-            return result;
+            catch(Exception ex)
+            {
+                Logger.Log(ex);
+                return result;
+            }
         }
     }
 }
