@@ -3,7 +3,6 @@ using Core.DataStructures;
 using Hardware.Can.Peak.Lib;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -403,10 +402,10 @@ namespace Hardware.Can
 
             Status = (uint)PCANBasic.Uninitialize(channelHandle) == 0 ? ResourceStatus.Stopped : ResourceStatus.Failure;
             uint status = (uint)PCANBasic.Initialize(
-                channelHandle, 
-                (TPCANBaudrate)baudRate, 
-                (TPCANType)hwType, 
-                ioPort, 
+                channelHandle,
+                (TPCANBaudrate)baudRate,
+                (TPCANType)hwType,
+                ioPort,
                 interrupt
             );
 
