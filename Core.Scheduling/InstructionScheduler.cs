@@ -7,6 +7,9 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Core.Scheduling
 {
+    /// <summary>
+    /// Implement an <see cref="Instruction"/> scheduler
+    /// </summary>
     [Serializable]
     public abstract class InstructionScheduler : IScheduler<IInstruction>
     {

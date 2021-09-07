@@ -54,6 +54,10 @@ namespace Core.Scheduling
         }
     }
 
+    /// <summary>
+    /// Describe a generic scheduler prototype
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public interface IScheduler<T>
     {
         ActionQueue<T> Subscribers { get; }
