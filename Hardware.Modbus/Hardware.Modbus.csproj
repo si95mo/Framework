@@ -60,9 +60,17 @@
       <Project>{1967aa9e-7fb5-4b63-ad7b-8394d65b6e8f}</Project>
       <Name>Core.DataStructures</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Core.Threading\Core.Threading.csproj">
+      <Project>{E5630A9F-E4FA-477E-9821-8565812E2C6F}</Project>
+      <Name>Core.Threading</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{75dfacf6-e820-4e3f-83d5-1e21fbc92385}</Project>
       <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Diagnostic\Diagnostic.csproj">
+      <Project>{7DEB54D9-B9F1-4B05-8D81-D7B4F77631D1}</Project>
+      <Name>Diagnostic</Name>
     </ProjectReference>
     <ProjectReference Include="..\Hardware.Tcp\Hardware.Tcp.csproj">
       <Project>{281409C8-104C-4167-B5E9-DA9032034803}</Project>
@@ -71,6 +79,10 @@
     <ProjectReference Include="..\Hardware\Hardware.csproj">
       <Project>{c0f5ecde-b7ad-42b3-acf8-d5486b0e4c44}</Project>
       <Name>Hardware</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IO\IO.csproj">
+      <Project>{65535B13-4850-4EC8-893D-58F3BC49C457}</Project>
+      <Name>IO</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
