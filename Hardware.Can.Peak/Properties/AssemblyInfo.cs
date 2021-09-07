@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Hardware.Can")]
-[assembly: AssemblyDescription("Contains general classes to handle a communication via can protocol")]
+[assembly: AssemblyTitle("Hardware.Can.Peak")]
+[assembly: AssemblyDescription("Implement a PEAK-CAN hardware can resource")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("HP Inc.")]
-[assembly: AssemblyProduct("Hardware.Can")]
+[assembly: AssemblyProduct("Hardware.Can.Peak")]
 [assembly: AssemblyCopyright("Copyright © HP Inc. 2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("12360666-20ba-42c9-bc06-5f3766b11bb7")]
+[assembly: Guid("589da018-3b3a-4e20-95c8-3a8f046b598d")]
 
 // Version information for an assembly consists of the following four values:
 //
