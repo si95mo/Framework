@@ -87,15 +87,19 @@ namespace Hardware.Can
         /// <summary>
         /// Create a new instance of <see cref="CanChannel"/>
         /// </summary>
+        /// <param name="code">The code</param>
         /// <param name="canId">The can id</param>
         /// <param name="resource">The <see cref="ICanResource"/></param>
-        public CanChannel(int canId, ICanResource resource)
+        public CanChannel(string code, int canId, ICanResource resource)
         {
+            this.code = code;
             this.canId = canId;
             this.resource = resource;
 
             data = new byte[8];
             canFrame = new CanFrame(canId, data);
+
+            resource.Channels.Add(this);
         }
 
         /// <summary>
