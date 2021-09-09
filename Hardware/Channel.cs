@@ -23,6 +23,9 @@ namespace Hardware
 
         protected EventHandler<ValueChangedEventArgs> ValueChangedHandler;
 
+        /// <summary>
+        /// The <see cref="Type"/>
+        /// </summary>
         public Type Type => typeof(T);
 
         /// <summary>
@@ -71,12 +74,12 @@ namespace Hardware
         }
 
         /// <summary>
-        /// The <see cref="Channel"/> code
+        /// The <see cref="Channel{T}"/> code
         /// </summary>
         public string Code => code;
 
         /// <summary>
-        /// The <see cref="Channel"/> value
+        /// The <see cref="Channel{T}"/> value
         /// </summary>
         public virtual T Value
         {
@@ -101,13 +104,19 @@ namespace Hardware
             set => this.value = (T)value;
         }
 
-        protected virtual string MeasureUnit
+        /// <summary>
+        /// The <see cref="Channel{T}"/> measure unit
+        /// </summary>
+        public virtual string MeasureUnit
         {
             get => measureUnit;
             set => measureUnit = value;
         }
 
-        protected virtual string Format
+        /// <summary>
+        /// The <see cref="Channel{T}"/> format
+        /// </summary>
+        public virtual string Format
         {
             get => format;
             set => format = value;
