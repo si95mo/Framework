@@ -19,6 +19,16 @@ namespace Hardware
         private object objectLock = new object();
 
         /// <summary>
+        /// Create a new instance of <see cref="Resource"/>
+        /// </summary>
+        /// <param name="code"></param>
+        protected Resource(string code)
+        {
+            this.code = code;
+            channels = new Bag<IChannel>();
+        }
+
+        /// <summary>
         /// The <see cref="Resource"/> status
         /// </summary>
         public ResourceStatus Status

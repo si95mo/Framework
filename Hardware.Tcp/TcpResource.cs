@@ -49,9 +49,8 @@ namespace Hardware.Resources
         /// Create a new instance of <see cref="TcpResource"/>
         /// </summary>
         /// <param name="code">The code</param>
-        public TcpResource(string code)
+        public TcpResource(string code) : base(code)
         {
-            this.code = code;
             ipAddress = "";
             port = 0;
             failure = new Failure();
@@ -69,11 +68,10 @@ namespace Hardware.Resources
         /// <param name="ipAddress">The ip address</param>
         /// <param name="port">The port number</param>
         /// <param name="timeout">The timeout (in milliseconds)</param>
-        public TcpResource(string code, string ipAddress, int port, int timeout = 5000)
+        public TcpResource(string code, string ipAddress, int port, int timeout = 5000) : base(code)
         {
             try
             {
-                this.code = code;
                 this.ipAddress = ipAddress;
                 this.port = port;
                 failure = new Failure();

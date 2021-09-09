@@ -156,10 +156,10 @@ namespace Hardware.Can
         /// <summary>
         /// Create a new instance of <see cref="PeakCanResource"/>
         /// and perform an attribute initialization. <br/>
-        /// For a full initialization, use <see cref="PeakCanResource(ushort, BaudRate)"/>
-        /// or <see cref="PeakCanResource(ushort, BaudRate, byte, uint, ushort)"/>
+        /// For a full initialization, use <see cref="PeakCanResource(string, ushort, BaudRate)"/>
+        /// or <see cref="PeakCanResource(string, ushort, BaudRate, byte, uint, ushort)"/>
         /// </summary>
-        public PeakCanResource()
+        public PeakCanResource(string code) : base(code)
         {
             channels = new Bag<IChannel>(); ;
 
@@ -189,9 +189,9 @@ namespace Hardware.Can
         /// <remarks>
         /// This constructor should only be called for the non plug-and-play hardware
         /// (such as PCAN-Dongle or PCAN-ISA). <br/>
-        /// For plug-and-play hardware see <see cref="PeakCanResource(ushort, BaudRate)"/>
+        /// For plug-and-play hardware see <see cref="PeakCanResource(string, ushort, BaudRate)"/>
         /// </remarks>
-        public PeakCanResource(ushort hwChannel, BaudRate baudRate, byte hwType, uint ioPort, ushort interrupt) : this()
+        public PeakCanResource(string code, ushort hwChannel, BaudRate baudRate, byte hwType, uint ioPort, ushort interrupt) : this(code)
         {
             channelHandle = hwChannel;
             this.hwType = hwType;
@@ -203,16 +203,16 @@ namespace Hardware.Can
         /// <summary>
         /// Create a new instance of <see cref="PeakCanResource"/>
         /// for plug-and-play hardware. <br/>
-        /// See also <see cref="PeakCanResource(ushort, BaudRate, byte, uint, ushort)"/>
+        /// See also <see cref="PeakCanResource(string, ushort, BaudRate, byte, uint, ushort)"/>
         /// </summary>
         /// <param name="hwChannel">The channel handle</param>
         /// <param name="baudRate">The <see cref="BaudRate"/></param>
         /// <remarks>
         /// This constructor should only be called for the plug-and-play hardware
         /// (such as PCAN-USB, PCAN-USB Pro or PCAN-PCI). <br/>
-        /// For non plug-and-play hardware see <see cref="PeakCanResource(ushort, BaudRate, byte, uint, ushort)"/>
+        /// For non plug-and-play hardware see <see cref="PeakCanResource(string, ushort, BaudRate, byte, uint, ushort)"/>
         /// </remarks>
-        public PeakCanResource(ushort hwChannel, BaudRate baudRate) : this(hwChannel, baudRate, 0, 0, 0)
+        public PeakCanResource(string code, ushort hwChannel, BaudRate baudRate) : this(code, hwChannel, baudRate, 0, 0, 0)
         { }
 
         /// <summary>
