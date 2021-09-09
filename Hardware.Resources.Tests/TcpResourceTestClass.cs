@@ -15,11 +15,11 @@ namespace Hardware.Resources.Tests
         private TcpOutput output;
 
         [OneTimeSetUp]
-        public void Setup()
+        public async Task Setup()
         {
             resource = new TcpResource("TcpResource", GetLocalIp(), 10000);
 
-            resource.Start();
+            await resource.Start();
             resource.Status.Should().Be(ResourceStatus.Executing);
 
             input = new TcpInput("TcpInput", $"Hello IN {Environment.NewLine}", resource, 100);

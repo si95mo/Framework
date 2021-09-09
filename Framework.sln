@@ -85,6 +85,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Control.PID.Tests", "Contro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Control", "Control\Control.csproj", "{C52AC350-467D-4937-813F-6E382808424F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hardware.Opc.Ua", "Hardware.Opc.Ua\Hardware.Opc.Ua.csproj", "{EB596D39-A488-4C33-9760-04C4AD3CD6D6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -255,6 +257,10 @@ Global
 		{C52AC350-467D-4937-813F-6E382808424F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C52AC350-467D-4937-813F-6E382808424F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C52AC350-467D-4937-813F-6E382808424F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB596D39-A488-4C33-9760-04C4AD3CD6D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB596D39-A488-4C33-9760-04C4AD3CD6D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB596D39-A488-4C33-9760-04C4AD3CD6D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB596D39-A488-4C33-9760-04C4AD3CD6D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

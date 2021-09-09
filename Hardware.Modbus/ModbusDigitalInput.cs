@@ -46,7 +46,7 @@ namespace Hardware.Modbus
 
             pollingAction = async () =>
             {
-                while (resource.Status == ResourceStatus.Executing)
+                while (true)
                 {
                     await (resource as ModbusResource).Receive(code);
                     await Task.Delay(pollingInterval);

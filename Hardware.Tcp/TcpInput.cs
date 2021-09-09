@@ -59,7 +59,7 @@ namespace Hardware.Tcp
 
             pollingTask = new Task(async () =>
                 {
-                    while (resource.Status == ResourceStatus.Executing)
+                    while (true)
                     {
                         (resource as TcpResource).SendAndReceive(request, out response);
                         value = response;
