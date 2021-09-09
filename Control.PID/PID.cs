@@ -10,13 +10,10 @@ namespace Control.PID
     /// <summary>
     /// Implement a (P)roportional (I)ntegrative (D)erivative controller
     /// </summary>
-    public class PID : IProperty
+    public class PID : Controller
     {
-        private string code;
-
         private double kp, ki, kd;
         private double upperLimit, lowerLimit;
-        private double setPoint;
         private double cycleTime;
 
         private TimeSpan timeSinceLastUpdate;
@@ -25,31 +22,9 @@ namespace Control.PID
         private double proportionalTerm;
         private double derivativeTerm;
 
-        private readonly AnalogOutput output;
-        private readonly Channel<double> u;
-
         private double lastControlledValue;
 
         private Task controlTask;
-
-        /// <summary>
-        /// The code
-        /// </summary>
-        public string Code => code;
-
-        /// <summary>
-        /// The value as <see cref="object"/>
-        /// </summary>
-        public object ValueAsObject
-        {
-            get => this;
-            set => _ = value;
-        }
-
-        /// <summary>
-        /// The <see cref="PID"/> <see cref="System.Type"/>
-        /// </summary>
-        public Type Type => typeof(PID);
 
         /// <summary>
         /// The proportional gain
@@ -87,15 +62,6 @@ namespace Control.PID
         public Channel<double> U => u;
 
         /// <summary>
-        /// The actual set point
-        /// </summary>
-        public double SetPoint
-        {
-            get => setPoint;
-            set => setPoint = value;
-        }
-
-        /// <summary>
         /// The cycle time of the controller (in milliseconds)
         /// </summary>
         public double CycleTime
@@ -105,33 +71,26 @@ namespace Control.PID
         }
 
         /// <summary>
-        /// PID Constructor
+        /// Create a new instance of <see cref="PID"/>
         /// </summary>
         /// <param name="code">The code</param>
         /// <param name="u">The controlled variable</param>
-        /// <param name="kp">The proportional Gain</param>
-        /// <param name="ki">The integral Gain</param>
-        /// <param name="kd">The derivative Gain</param>
+        /// <param name="kp">The proportional gain</param>
+        /// <param name="ki">The integral gain</param>
+        /// <param name="kd">The derivative gain</param>
         /// <param name="upperLimit">The upper limit (for clamping)</param>
         /// <param name="lowerLimit">The lower limit (for clamping)</param>
-        /// <param name="setPoint">The cycle time (in milliseconds)</param>
+        /// <param name="setPoint">The desired set point</param>
         public PID(string code, Channel<double> u, double kp, double ki, double kd, 
-            double upperLimit, double lowerLimit, double setPoint)
+            double upperLimit, double lowerLimit, double setPoint) : base(code, u, setPoint)
         {
-            this.code = code;
-
             this.kp = kp;
             this.ki = ki;
             this.kd = kd;
             this.upperLimit = upperLimit;
             this.lowerLimit = lowerLimit;
 
-            controlTask = null;
-
-            output = new AnalogOutput($"Y.{code}", measureUnit: u.MeasureUnit, format: u.Format);
-            this.u = u;
-
-            this.setPoint = setPoint;
+            controlTask = null;            
 
             this.u.ValueChanged += ControlledVariable_ValueChanged;
         }
@@ -143,7 +102,7 @@ namespace Control.PID
         /// Create a new controlling <see cref="Task"/>
         /// </summary>
         /// <returns>The controlling <see cref="Task"/></returns>
-        private Task CreateTask() => new Task(async () =>
+        private Task CreateControlTask() => new Task(async () =>
                 {
                     Stopwatch sw;
                     int timeToWait;
@@ -168,11 +127,11 @@ namespace Control.PID
         /// <summary>
         /// Start the PID controller (or restart it if already started)
         /// </summary>
-        public void Start()
+        public override void Start()
         {
             if(controlTask == null)
             {
-                controlTask = CreateTask();
+                controlTask = CreateControlTask();
                 controlTask.Start();
             }
             else
@@ -180,7 +139,7 @@ namespace Control.PID
                 controlTask.Wait((int)cycleTime);
                 controlTask.Dispose();
 
-                controlTask = CreateTask();
+                controlTask = CreateControlTask();
                 controlTask.Start();
             }
         }
@@ -203,6 +162,7 @@ namespace Control.PID
             // Proportional term
             proportionalTerm = kp * error;
 
+            // Output update
             output.Value = proportionalTerm + integralTerm - derivativeTerm;
             output.Value = Clamp(output.Value);
         }
