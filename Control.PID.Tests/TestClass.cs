@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using Hardware;
+﻿using Hardware;
 using NUnit.Framework;
 using System;
 using System.Diagnostics;
@@ -14,9 +13,9 @@ namespace Control.PID.Tests
         private double c = 1.0; // 1 F
         private Stopwatch t;
 
-        PID pid;
+        private PID pid;
 
-        AnalogInput u;
+        private AnalogInput u;
 
         private double CalculateVoltage()
         {
@@ -31,13 +30,13 @@ namespace Control.PID.Tests
 
             u = new AnalogInput("U", "V", "0.000");
             pid = new PID(
-                code: "PID", 
-                u: u, 
-                kp: 0.0001, 
-                ki: 8, 
-                kd: 0.00001, 
-                upperLimit: 10, 
-                lowerLimit: 0, 
+                code: "PID",
+                u: u,
+                kp: 0.0001,
+                ki: 8,
+                kd: 0.00001,
+                upperLimit: 10,
+                lowerLimit: 0,
                 setPoint: 5.0
             );
 

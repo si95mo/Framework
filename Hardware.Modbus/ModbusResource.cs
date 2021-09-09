@@ -168,7 +168,7 @@ namespace Hardware.Modbus
 
                 writing = false;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 writing = false;
                 Logger.Log(ex);
@@ -238,7 +238,7 @@ namespace Hardware.Modbus
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Log(ex);
             }
