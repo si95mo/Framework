@@ -5,17 +5,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7C81EA22-4F72-4411-82A8-8CEA9FF41AB3}</ProjectGuid>
+    <ProjectGuid>{A4232BF0-D141-40DD-80BD-77F3948C5E7B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Core.DataStructures.Tests</RootNamespace>
-    <AssemblyName>Core.DataStructures.Tests</AssemblyName>
+    <RootNamespace>Control.PID.Tests</RootNamespace>
+    <AssemblyName>Control.PID.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -58,34 +57,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BagTestClass.cs" />
-    <Compile Include="ParameterTestClass.cs" />
+    <Compile Include="TestClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServiceBrokerTestClass.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core.DataStructures\Core.DataStructures.csproj">
-      <Project>{1967aa9e-7fb5-4b63-ad7b-8394d65b6e8f}</Project>
-      <Name>Core.DataStructures</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Core.Parameters\Core.Parameters.csproj">
-      <Project>{B0E053BC-1B89-4C83-B819-5EC032B2566F}</Project>
-      <Name>Core.Parameters</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Core\Core.csproj">
-      <Project>{75DFACF6-E820-4E3F-83D5-1E21FBC92385}</Project>
-      <Name>Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Hardware.Serial\Hardware.Serial.csproj">
-      <Project>{2dd453bc-d187-4023-9222-48ddf02ba689}</Project>
-      <Name>Hardware.Serial</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Hardware.Tcp\Hardware.Tcp.csproj">
-      <Project>{281409c8-104c-4167-b5e9-da9032034803}</Project>
-      <Name>Hardware.Tcp</Name>
+    <ProjectReference Include="..\Control.PID\Control.PID.csproj">
+      <Project>{38b8b17b-720b-4c82-982d-b9935f372934}</Project>
+      <Name>Control.PID</Name>
     </ProjectReference>
     <ProjectReference Include="..\Hardware\Hardware.csproj">
       <Project>{C0F5ECDE-B7AD-42B3-ACF8-D5486B0E4C44}</Project>
