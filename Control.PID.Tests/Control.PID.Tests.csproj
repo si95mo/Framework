@@ -68,6 +68,10 @@
       <Project>{38b8b17b-720b-4c82-982d-b9935f372934}</Project>
       <Name>Control.PID</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Control\Control.csproj">
+      <Project>{C52AC350-467D-4937-813F-6E382808424F}</Project>
+      <Name>Control</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Hardware\Hardware.csproj">
       <Project>{C0F5ECDE-B7AD-42B3-ACF8-D5486B0E4C44}</Project>
       <Name>Hardware</Name>
