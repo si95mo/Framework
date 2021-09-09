@@ -1,21 +1,14 @@
-﻿using Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Hardware.Opc.Ua
+﻿namespace Hardware.Opc.Ua
 {
     public class OpcUaChannel : Channel<double>, IOpcUaChannel
     {
         protected string namespaceConfiguration;
         protected IResource resource;
 
-        public string NamespaceConfiguration 
+        public string NamespaceConfiguration
         {
-            get => namespaceConfiguration; 
-            set => namespaceConfiguration = value; 
+            get => namespaceConfiguration;
+            set => namespaceConfiguration = value;
         }
 
         /// <summary>

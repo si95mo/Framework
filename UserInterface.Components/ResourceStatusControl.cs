@@ -20,8 +20,8 @@ namespace UserInterface.Controls
         /// The <see cref="StatusChangedEventArgs"/>
         /// handler enabling
         /// </summary>
-        public bool EventEnabled 
-        { 
+        public bool EventEnabled
+        {
             get => eventEnabled;
             set
             {

@@ -1,9 +1,4 @@
 ﻿using Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Hardware.Opc.Ua
 {
@@ -14,6 +9,5 @@ namespace Hardware.Opc.Ua
         /// (e.g. ns=2;s=Temperature)
         /// </summary>
         string NamespaceConfiguration { get; set; }
-            
     }
 }

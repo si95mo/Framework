@@ -81,7 +81,7 @@ namespace Control.PID
         /// <param name="upperLimit">The upper limit (for clamping)</param>
         /// <param name="lowerLimit">The lower limit (for clamping)</param>
         /// <param name="setPoint">The desired set point</param>
-        public PID(string code, Channel<double> u, double kp, double ki, double kd, 
+        public PID(string code, Channel<double> u, double kp, double ki, double kd,
             double upperLimit, double lowerLimit, double setPoint) : base(code, u, setPoint)
         {
             this.kp = kp;
@@ -90,7 +90,7 @@ namespace Control.PID
             this.upperLimit = upperLimit;
             this.lowerLimit = lowerLimit;
 
-            controlTask = null;            
+            controlTask = null;
 
             this.u.ValueChanged += ControlledVariable_ValueChanged;
         }
@@ -129,7 +129,7 @@ namespace Control.PID
         /// </summary>
         public override void Start()
         {
-            if(controlTask == null)
+            if (controlTask == null)
             {
                 controlTask = CreateControlTask();
                 controlTask.Start();

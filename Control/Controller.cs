@@ -1,9 +1,5 @@
 ﻿using Hardware;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Control
 {
@@ -22,10 +18,10 @@ namespace Control
         /// <summary>
         /// The value as object
         /// </summary>
-        public object ValueAsObject 
-        { 
-            get => this; 
-            set => _ = value; 
+        public object ValueAsObject
+        {
+            get => this;
+            set => _ = value;
         }
 
         /// <summary>

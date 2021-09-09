@@ -227,7 +227,7 @@ namespace Hardware.Resources
 
                 return result;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Log(ex);
                 return result;

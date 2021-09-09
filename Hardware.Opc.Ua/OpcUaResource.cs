@@ -3,8 +3,6 @@ using Core.DataStructures;
 using Diagnostic;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Workstation.ServiceModel.Ua;
 using Workstation.ServiceModel.Ua.Channels;
@@ -31,7 +29,7 @@ namespace Hardware.Opc.Ua
         /// <param name="code">The code</param>
         /// <param name="applicationName">The application name</param>
         /// <param name="serverAddress">The server address</param>
-        public OpcUaResource (string code, string serverAddress) : base(code)
+        public OpcUaResource(string code, string serverAddress) : base(code)
         {
             this.serverAddress = serverAddress;
 
@@ -143,7 +141,7 @@ namespace Hardware.Opc.Ua
             {
                 status = ResourceStatus.Failure;
                 failure = new Failure($"Unable to connect to {serverAddress}");
-            }    
+            }
         }
 
         public override async void Stop()
