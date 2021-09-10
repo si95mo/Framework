@@ -23,5 +23,12 @@
 
             resource.Channels.Add(this);
         }
+
+        public override string ToString()
+        {
+            string description = $"{value.ToString(format)}{measureUnit}";
+
+            return description;
+        }
     }
 }
