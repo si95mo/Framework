@@ -1,7 +1,6 @@
 ﻿using Core;
 using Core.DataStructures;
 using Core.Parameters;
-using System;
 using System.Threading.Tasks;
 
 namespace Hardware

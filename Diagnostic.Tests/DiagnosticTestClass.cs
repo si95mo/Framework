@@ -3,6 +3,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Diagnostic.Tests
@@ -12,7 +13,12 @@ namespace Diagnostic.Tests
         [OneTimeSetUp]
         public void Setup()
         {
-            Logger.Initialize();
+            string path = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                @"test_logs\"
+            );
+
+            Logger.Initialize(path);
             LogReader.StartRead();
 
             Logger.Initialized.Should().BeTrue();
@@ -28,7 +34,15 @@ namespace Diagnostic.Tests
             Stopwatch sw = Stopwatch.StartNew();
             do
             {
-                Logger.Log(new Exception(sw.Elapsed.TotalMilliseconds.ToString("0.000")));
+                try
+                {
+                    File.ReadAllText("dummy path");
+                }
+                catch (Exception ex)
+                {
+                    Logger.Log($"Exception throw at {sw.Elapsed.TotalMilliseconds:HH:mm:ss:fff}", Severity.Info);
+                    Logger.Log(ex);
+                }
 
                 await Tasks.NoOperation(2000);
 

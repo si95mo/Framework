@@ -1,10 +1,5 @@
 ﻿using Diagnostic;
-using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Database
@@ -33,7 +28,7 @@ namespace Database
             SqlCommand command = new SqlCommand("SELECT @@VERSION", connection);
             string version = command.ExecuteScalar().ToString();
 
-            Logger.Log($"Version: {version}", Severity.Info);            
+            Logger.Log($"Version: {version}", Severity.Info);
         }
 
         /// <summary>
@@ -48,7 +43,7 @@ namespace Database
         /// <param name="where">Where select (the table name)</param>
         /// <param name="other">Other parameters (e.g. ORDER BY ones)</param>
         /// <returns>
-        /// The <see cref="SqlDataReader"/>, in which data can be accessed 
+        /// The <see cref="SqlDataReader"/>, in which data can be accessed
         /// with the relative column name
         /// </returns>
         /// <remarks>
@@ -86,7 +81,7 @@ namespace Database
         public static async Task<bool> InsertInto(string where, string what, params (string Name, object Value)[] values)
         {
             string valueNames = "";
-            for(int i = 0; i < values.Length; i++)
+            for (int i = 0; i < values.Length; i++)
             {
                 valueNames += values[i].Name;
 

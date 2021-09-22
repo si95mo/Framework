@@ -1,10 +1,7 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Database.Tests
@@ -33,7 +30,7 @@ namespace Database.Tests
 
             string key, description, timestamp, id, flag;
             int counter = 0;
-            while(reader.Read())
+            while (reader.Read())
             {
                 key = reader["key"].ToString();
                 description = reader["description"].ToString();

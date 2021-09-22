@@ -18,10 +18,10 @@ namespace Hardware.Resources.Tests
         [OneTimeSetUp]
         public async Task Setup()
         {
-            resource    = new OpcUaResource("OpcUaResource", "opc.tcp://localhost:4840/");
+            resource = new OpcUaResource("OpcUaResource", "opc.tcp://localhost:4840/");
 
             temperature = new OpcUaInput("AiTemperature", "ns=2;s=Temperature", resource, "°C");
-            pressure    = new OpcUaInput("AiPressure",    "ns=2;s=Pressure",    resource, "Pa");
+            pressure = new OpcUaInput("AiPressure", "ns=2;s=Pressure", resource, "Pa");
 
             output = new OpcUaOutput("AoTemperature", "ns=2;s=Temperature", resource, "°C");
 
