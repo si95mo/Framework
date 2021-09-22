@@ -51,6 +51,10 @@
       <Project>{1967AA9E-7FB5-4B63-AD7B-8394D65B6E8F}</Project>
       <Name>Core.DataStructures</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Core.Parameters\Core.Parameters.csproj">
+      <Project>{B0E053BC-1B89-4C83-B819-5EC032B2566F}</Project>
+      <Name>Core.Parameters</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{75DFACF6-E820-4E3F-83D5-1E21FBC92385}</Project>
       <Name>Core</Name>

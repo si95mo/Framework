@@ -26,7 +26,7 @@ namespace Hardware.Resources.Tests
             output = new OpcUaOutput("AoTemperature", "ns=2;s=Temperature", resource, "°C");
 
             await resource.Start();
-            resource.Status.Should().Be(ResourceStatus.Executing);
+            resource.Status.Value.Should().Be(ResourceStatus.Executing);
         }
 
         [OneTimeTearDown]

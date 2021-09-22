@@ -81,7 +81,7 @@ namespace Hardware.Modbus
 
             tcp = new TcpClient();
 
-            status = ResourceStatus.Stopped;
+            Status.Value = ResourceStatus.Stopped;
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace Hardware.Modbus
             tcp.ReceiveTimeout = timeout;
             tcp.SendTimeout = timeout;
 
-            Status = ResourceStatus.Stopped;
+            Status.Value = ResourceStatus.Stopped;
 
             writing = false;
         }
@@ -259,7 +259,7 @@ namespace Hardware.Modbus
         public override async Task Start()
         {
             failure.Clear();
-            status = ResourceStatus.Starting;
+            Status.Value = ResourceStatus.Starting;
             tcp = new TcpClient();
 
             try
@@ -269,7 +269,7 @@ namespace Hardware.Modbus
                     await tcp.ConnectAsync(ipAddress, port);
                     master = ModbusIpMaster.CreateIp(tcp);
 
-                    Status = ResourceStatus.Executing;
+                    Status.Value = ResourceStatus.Executing;
 
                     foreach (IProperty channel in channels)
                     {
@@ -281,11 +281,11 @@ namespace Hardware.Modbus
                     }
                 }
                 else
-                    Status = ResourceStatus.Failure;
+                    Status.Value = ResourceStatus.Failure;
             }
             catch (Exception ex)
             {
-                Status = ResourceStatus.Failure;
+                Status.Value = ResourceStatus.Failure;
                 failure = new Failure(ex.Message, DateTime.Now);
             }
         }
@@ -295,15 +295,15 @@ namespace Hardware.Modbus
         /// </summary>
         public override void Stop()
         {
-            status = ResourceStatus.Stopping;
+            Status.Value = ResourceStatus.Stopping;
 
             if (TestConnection() || ipAddress.CompareTo("127.0.0.1") == 0)
             {
                 tcp.Close();
-                status = ResourceStatus.Stopped;
+                Status.Value = ResourceStatus.Stopped;
             }
 
-            if (status == ResourceStatus.Failure)
+            if (status.Value == ResourceStatus.Failure)
                 failure = new Failure("Error occurred while closing the port!", DateTime.Now);
         }
 

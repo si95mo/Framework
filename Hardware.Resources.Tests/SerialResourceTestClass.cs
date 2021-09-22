@@ -1,6 +1,7 @@
 ﻿using Diagnostic;
 using FluentAssertions;
 using NUnit.Framework;
+using System.Threading.Tasks;
 
 namespace Hardware.Resources.Tests
 {
@@ -9,15 +10,15 @@ namespace Hardware.Resources.Tests
         private SerialResource resource;
 
         [OneTimeSetUp]
-        public void Init()
+        public async Task Setup()
         {
             Logger.Initialize();
 
             resource = new SerialResource(nameof(resource), "COM3");
-            resource.Start();
+            await resource.Start();
 
             resource.IsOpen.Should().BeTrue();
-            resource.Status.Should().Be(ResourceStatus.Executing);
+            resource.Status.Value.Should().Be(ResourceStatus.Executing);
         }
 
         [OneTimeTearDown]
@@ -26,7 +27,7 @@ namespace Hardware.Resources.Tests
             resource.Stop();
 
             resource.IsOpen.Should().BeFalse();
-            resource.Status.Should().Be(ResourceStatus.Stopped);
+            resource.Status.Value.Should().Be(ResourceStatus.Stopped);
         }
 
         [Test]
@@ -34,7 +35,7 @@ namespace Hardware.Resources.Tests
         [TestCase("Hello world!")]
         public void SendMessage(string message)
         {
-            if (resource.Status == ResourceStatus.Executing)
+            if (resource.Status.Value == ResourceStatus.Executing)
             {
                 resource.Send(message);
             }

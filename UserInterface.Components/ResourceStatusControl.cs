@@ -51,9 +51,9 @@ namespace UserInterface.Controls
         public ResourceStatusControl(IResource resource) : this()
         {
             this.resource = resource;
-            this.resource.StatusChanged += Resource_StatusChanged;
+            this.resource.Status.ValueChanged += Status_ValueChanged;
 
-            if (resource.Status == ResourceStatus.Executing || resource.Status == ResourceStatus.Starting)
+            if (resource.Status.Value == ResourceStatus.Executing || resource.Status.Value == ResourceStatus.Starting)
                 btnStart.Image = Resources.ImageStop;
             else
                 btnStart.Image = Resources.ImageStart;
@@ -61,7 +61,7 @@ namespace UserInterface.Controls
             UpdateUserInterface();
         }
 
-        private void Resource_StatusChanged(object sender, StatusChangedEventArgs e)
+        private void Status_ValueChanged(object sender, ValueChangedEventArgs e)
         {
             if (eventEnabled)
                 UpdateUserInterface();
@@ -75,7 +75,7 @@ namespace UserInterface.Controls
         {
             Image img;
 
-            if (resource.Status == ResourceStatus.Executing || resource.Status == ResourceStatus.Starting)
+            if (resource.Status.Value == ResourceStatus.Executing || resource.Status.Value == ResourceStatus.Starting)
                 img = Resources.ImageStop;
             else
                 img = Resources.ImageStart;
@@ -90,7 +90,7 @@ namespace UserInterface.Controls
         private void UpdateUserInterface()
         {
             string code = resource.Code;
-            ResourceStatus status = resource.Status;
+            ResourceStatus status = resource.Status.Value;
             IFailure failure = resource.LastFailure;
 
             try
@@ -132,7 +132,7 @@ namespace UserInterface.Controls
 
         private async void BtnStart_Click(object sender, EventArgs e)
         {
-            if (resource.Status != ResourceStatus.Executing && resource.Status != ResourceStatus.Starting)
+            if (resource.Status.Value != ResourceStatus.Executing && resource.Status.Value != ResourceStatus.Starting)
                 await resource.Start();
             else
                 resource.Stop();

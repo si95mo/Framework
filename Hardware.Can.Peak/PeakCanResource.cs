@@ -151,7 +151,7 @@ namespace Hardware.Can
         /// <summary>
         /// The open status of the <see cref="PeakCanResource"/>
         /// </summary>
-        public override bool IsOpen => Status != ResourceStatus.Failure;
+        public override bool IsOpen => Status.Value != ResourceStatus.Failure;
 
         /// <summary>
         /// Create a new instance of <see cref="PeakCanResource"/>
@@ -159,6 +159,7 @@ namespace Hardware.Can
         /// For a full initialization, use <see cref="PeakCanResource(string, ushort, BaudRate)"/>
         /// or <see cref="PeakCanResource(string, ushort, BaudRate, byte, uint, ushort)"/>
         /// </summary>
+        /// <param name="code">The code</param>
         public PeakCanResource(string code) : base(code)
         {
             channels = new Bag<IChannel>(); ;
@@ -179,8 +180,9 @@ namespace Hardware.Can
         /// <summary>
         /// Create a new instance of <see cref="PeakCanResource"/>
         /// for non plug-and-play hardware. <br/>
-        /// See also <see cref="PeakCanResource(ushort, BaudRate)"/>
+        /// See also <see cref="PeakCanResource(string, ushort, BaudRate)"/>
         /// </summary>
+        /// <param name="code">The code</param>
         /// <param name="hwChannel">The channel handle</param>
         /// <param name="baudRate">The <see cref="BaudRate"/></param>
         /// <param name="hwType">The hardware type</param>
@@ -222,7 +224,7 @@ namespace Hardware.Can
         {
             if (!started)
             {
-                Status = ResourceStatus.Starting;
+                Status.Value = ResourceStatus.Starting;
 
                 uint status = (uint)PCANBasic.Initialize(
                     channelHandle,
@@ -232,7 +234,7 @@ namespace Hardware.Can
                     interrupt
                 );
 
-                Status = status == 0 ? ResourceStatus.Executing : ResourceStatus.Failure;
+                Status.Value = status == 0 ? ResourceStatus.Executing : ResourceStatus.Failure;
 
                 if (rxTask == default || rxTask.IsCompleted)
                 {
@@ -251,11 +253,11 @@ namespace Hardware.Can
         {
             if (started)
             {
-                Status = ResourceStatus.Stopping;
+                Status.Value = ResourceStatus.Stopping;
 
                 uint status = (uint)PCANBasic.Uninitialize(channelHandle);
 
-                Status = status == 0 ? ResourceStatus.Stopped : ResourceStatus.Failure;
+                Status.Value = status == 0 ? ResourceStatus.Stopped : ResourceStatus.Failure;
 
                 if (rxTask != default && !rxTask.IsCompleted)
                     rxTask.Wait(100);
@@ -297,7 +299,7 @@ namespace Hardware.Can
                 uint status = (uint)PCANBasic.Write(channelHandle, ref msg);
                 succeeded = status == (uint)TPCANStatus.PCAN_ERROR_OK;
 
-                Status = succeeded ? ResourceStatus.Executing : ResourceStatus.Failure;
+                Status.Value = succeeded ? ResourceStatus.Executing : ResourceStatus.Failure;
             }
 
             return succeeded;
@@ -311,7 +313,6 @@ namespace Hardware.Can
         private void ReadMessages()
         {
             TPCANStatus readResult;
-            bool channelFound = false;
             CanFrame canFrame;
 
             do
@@ -350,7 +351,7 @@ namespace Hardware.Can
                     {
                         if ((channel as ICanChannel).CanId == message.ID)
                         {
-                            channelFound = true;
+                            bool channelFound = true;
                             (channel as ICanChannel).Data = canFrame.Data;
                             (channel as ICanChannel).CanFrame = canFrame;
                         }
@@ -376,7 +377,7 @@ namespace Hardware.Can
                     );
 
                     if (setValueResult != TPCANStatus.PCAN_ERROR_OK)
-                        Status = (uint)setValueResult == 0 ? ResourceStatus.Executing : ResourceStatus.Failure;
+                        Status.Value = (uint)setValueResult == 0 ? ResourceStatus.Executing : ResourceStatus.Failure;
 
                     while (started)
                     {
@@ -400,7 +401,7 @@ namespace Hardware.Can
         {
             bool succeeded = true;
 
-            Status = (uint)PCANBasic.Uninitialize(channelHandle) == 0 ? ResourceStatus.Stopped : ResourceStatus.Failure;
+            Status.Value = (uint)PCANBasic.Uninitialize(channelHandle) == 0 ? ResourceStatus.Stopped : ResourceStatus.Failure;
             uint status = (uint)PCANBasic.Initialize(
                 channelHandle,
                 (TPCANBaudrate)baudRate,
@@ -410,7 +411,7 @@ namespace Hardware.Can
             );
 
             succeeded &= status == (uint)TPCANStatus.PCAN_ERROR_OK;
-            Status = status == 0 ? ResourceStatus.Executing : ResourceStatus.Failure;
+            Status.Value = status == 0 ? ResourceStatus.Executing : ResourceStatus.Failure;
 
             return succeeded;
         }
