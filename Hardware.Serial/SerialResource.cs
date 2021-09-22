@@ -1,5 +1,6 @@
 ﻿using Core;
 using Core.DataStructures;
+using Core.Parameters;
 using Diagnostic;
 using System;
 using System.IO.Ports;
@@ -27,7 +28,7 @@ namespace Hardware.Resources
     {
         private readonly string code;
         private readonly Bag<IChannel> channels;
-        private ResourceStatus status;
+        private EnumParameter<ResourceStatus> status;
         private IFailure failure;
 
         private object sendLock = new object();
@@ -50,19 +51,10 @@ namespace Hardware.Resources
         /// <summary>
         /// The <see cref="SerialResource"/> status
         /// </summary>
-        public ResourceStatus Status
+        public EnumParameter<ResourceStatus> Status
         {
             get => status;
-            protected set
-            {
-                // Eventually trigger the value changed event
-                if (value != status)
-                {
-                    ResourceStatus oldStatus = status;
-                    status = value;
-                    OnStatusChanged(new StatusChangedEventArgs(oldStatus, status));
-                }
-            }
+            protected set => status = value;
         }
 
         /// <summary>
@@ -85,40 +77,6 @@ namespace Hardware.Resources
             {
                 _ = ValueAsObject;
             }
-        }
-
-        /// <summary>
-        /// The <see cref="SerialResource"/> <see cref="Status"/> value
-        /// changed event handler
-        /// </summary>
-        public EventHandler<StatusChangedEventArgs> StatusChangedHandler;
-
-        /// <summary>
-        /// The <see cref="StatusChangedHandler"/> event handler
-        /// for the <see cref="Status"/> property
-        /// </summary>
-        public event EventHandler<StatusChangedEventArgs> StatusChanged
-        {
-            add
-            {
-                lock (objectLock)
-                    StatusChangedHandler += value;
-            }
-
-            remove
-            {
-                lock (objectLock)
-                    StatusChangedHandler -= value;
-            }
-        }
-
-        /// <summary>
-        /// On status changed event
-        /// </summary>
-        /// <param name="e">The <see cref="StatusChangedEventArgs"/></param>
-        protected virtual void OnStatusChanged(StatusChangedEventArgs e)
-        {
-            StatusChangedHandler?.Invoke(this, e);
         }
 
         /// <summary>
@@ -157,7 +115,10 @@ namespace Hardware.Resources
         public SerialResource(string code) : base()
         {
             this.code = code;
+
             failure = new Failure();
+            channels = new Bag<IChannel>();
+            status = new EnumParameter<ResourceStatus>(nameof(status));
 
             ErrorReceived += SerialResource_ErrorReceived;
         }
@@ -172,11 +133,8 @@ namespace Hardware.Resources
         /// <param name="dataBits">Data bits number</param>
         /// <param name="stopBits">Stop bit type</param>
         public SerialResource(string code, string portName, int baudRate = 9600, Parity parity = Parity.None,
-            int dataBits = 8, StopBits stopBits = StopBits.One)
+            int dataBits = 8, StopBits stopBits = StopBits.One) : this(code)
         {
-            this.code = code;
-            failure = new Failure();
-
             PortName = portName;
             BaudRate = baudRate;
             DataBits = dataBits;
@@ -186,8 +144,6 @@ namespace Hardware.Resources
             DtrEnable = true;
             NewLine = Environment.NewLine;
             ReceivedBytesThreshold = 1024;
-
-            ErrorReceived += SerialResource_ErrorReceived;
         }
 
         /// <summary>
@@ -197,7 +153,7 @@ namespace Hardware.Resources
         /// <param name="e">The <see cref="SerialErrorReceivedEventArgs"/></param>
         private void SerialResource_ErrorReceived(object sender, SerialErrorReceivedEventArgs e)
         {
-            Status = ResourceStatus.Failure;
+            Status.Value = ResourceStatus.Failure;
 
             SerialError error = e.EventType;
 
@@ -212,28 +168,33 @@ namespace Hardware.Resources
             byte[] buffer = new byte[4096];
             Action kickoffRead = null;
             kickoffRead = () =>
-                BaseStream.BeginRead(
-                    buffer,
-                    0,
-                    buffer.Length,
-                    delegate (IAsyncResult ar)
-                    {
-                        try
+            {
+                if (IsOpen)
+                {
+                    BaseStream.BeginRead(
+                        buffer,
+                        0,
+                        buffer.Length,
+                        delegate (IAsyncResult ar)
                         {
-                            int count = BaseStream.EndRead(ar);
-                            byte[] dst = new byte[count];
-                            Buffer.BlockCopy(buffer, 0, dst, 0, count);
-                            OnDataReceived(dst);
-                        }
-                        catch (Exception ex)
-                        {
-                            Logger.Log(ex);
-                        }
+                            try
+                            {
+                                int count = BaseStream.EndRead(ar);
+                                byte[] dst = new byte[count];
+                                Buffer.BlockCopy(buffer, 0, dst, 0, count);
+                                OnDataReceived(dst);
+                            }
+                            catch (Exception ex)
+                            {
+                                Logger.Log(ex);
+                            }
 
-                        kickoffRead();
-                    },
-                    null
-                );
+                            kickoffRead();
+                        },
+                        null
+                    );
+                }
+            };
             kickoffRead();
         }
 
@@ -246,18 +207,18 @@ namespace Hardware.Resources
             {
                 failure.Clear();
 
-                Status = ResourceStatus.Starting;
-                await new Task(() => Open());
-                Status = IsOpen ? ResourceStatus.Executing : ResourceStatus.Failure;
+                Status.Value = ResourceStatus.Starting;
+                await Task.Run(() => Open());
+                Status.Value = IsOpen ? ResourceStatus.Executing : ResourceStatus.Failure;
 
-                if (status == ResourceStatus.Failure)
+                if (status.Value == ResourceStatus.Failure)
                     failure = new Failure("Error occurred while opening the port!", DateTime.Now);
                 else
                     ContinuousRead();
             }
             catch (Exception ex)
             {
-                Status = ResourceStatus.Failure;
+                Status.Value = ResourceStatus.Failure;
                 failure = new Failure(ex.Message);
 
                 Logger.Log(ex);
@@ -278,11 +239,11 @@ namespace Hardware.Resources
         /// </summary>
         public void Stop()
         {
-            Status = ResourceStatus.Stopping;
+            Status.Value = ResourceStatus.Stopping;
             Close();
-            Status = !IsOpen ? ResourceStatus.Stopped : ResourceStatus.Failure;
+            Status.Value = !IsOpen ? ResourceStatus.Stopped : ResourceStatus.Failure;
 
-            if (status == ResourceStatus.Failure)
+            if (status.Value == ResourceStatus.Failure)
                 failure = new Failure("Error occurred while closing the port!", DateTime.Now);
         }
 

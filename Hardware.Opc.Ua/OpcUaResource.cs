@@ -80,7 +80,7 @@ namespace Hardware.Opc.Ua
         /// <param name="code">The <see cref="OpcUaChannel"/> code</param>
         internal async void Receive(string code)
         {
-            if (status == ResourceStatus.Executing)
+            if (status.Value == ResourceStatus.Executing)
             {
                 try
                 {
@@ -103,7 +103,7 @@ namespace Hardware.Opc.Ua
 
         internal async void Send(string code)
         {
-            if (status == ResourceStatus.Executing)
+            if (status.Value == ResourceStatus.Executing)
             {
                 try
                 {
@@ -132,28 +132,28 @@ namespace Hardware.Opc.Ua
 
         public override async Task Start()
         {
-            status = ResourceStatus.Starting;
+            Status.Value = ResourceStatus.Starting;
             await channel.OpenAsync();
 
             if (channel.State == CommunicationState.Opened)
-                status = ResourceStatus.Executing;
+                Status.Value = ResourceStatus.Executing;
             else
             {
-                status = ResourceStatus.Failure;
+                Status.Value = ResourceStatus.Failure;
                 failure = new Failure($"Unable to connect to {serverAddress}");
             }
         }
 
         public override async void Stop()
         {
-            status = ResourceStatus.Stopping;
+            Status.Value = ResourceStatus.Stopping;
             await channel.CloseAsync();
 
             if (channel.State == CommunicationState.Closed)
-                status = ResourceStatus.Stopped;
+                Status.Value = ResourceStatus.Stopped;
             else
             {
-                status = ResourceStatus.Failure;
+                Status.Value = ResourceStatus.Failure;
                 failure = new Failure($"Unable to disconnect to {serverAddress}");
             }
         }

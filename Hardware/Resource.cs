@@ -1,5 +1,6 @@
 ﻿using Core;
 using Core.DataStructures;
+using Core.Parameters;
 using System;
 using System.Threading.Tasks;
 
@@ -12,7 +13,7 @@ namespace Hardware
     public abstract class Resource : IResource
     {
         protected string code;
-        protected ResourceStatus status;
+        protected EnumParameter<ResourceStatus> status;
         protected IFailure failure;
         protected Bag<IChannel> channels;
 
@@ -26,57 +27,17 @@ namespace Hardware
         {
             this.code = code;
             channels = new Bag<IChannel>();
+            status = new EnumParameter<ResourceStatus>(nameof(status));
         }
 
         /// <summary>
         /// The <see cref="Resource"/> status
         /// </summary>
-        public ResourceStatus Status
+        public EnumParameter<ResourceStatus> Status
         {
             get => status;
-            protected set
-            {
-                // Eventually trigger the value changed event
-                if (value != status)
-                {
-                    ResourceStatus oldStatus = status;
-                    status = value;
-                    OnStatusChanged(new StatusChangedEventArgs(oldStatus, status));
-                }
-            }
+            protected set => status = value;
         }
-
-        /// <summary>
-        /// The <see cref="Resource"/> <see cref="Status"/> value
-        /// changed event handler
-        /// </summary>
-        public EventHandler<StatusChangedEventArgs> StatusChangedHandler;
-
-        /// <summary>
-        /// The <see cref="StatusChangedHandler"/> event handler
-        /// for the <see cref="Status"/> property
-        /// </summary>
-        public event EventHandler<StatusChangedEventArgs> StatusChanged
-        {
-            add
-            {
-                lock (objectLock)
-                    StatusChangedHandler += value;
-            }
-
-            remove
-            {
-                lock (objectLock)
-                    StatusChangedHandler -= value;
-            }
-        }
-
-        /// <summary>
-        /// On status changed event
-        /// </summary>
-        /// <param name="e">The <see cref="StatusChangedEventArgs"/></param>
-        protected virtual void OnStatusChanged(StatusChangedEventArgs e)
-            => StatusChangedHandler?.Invoke(this, e);
 
         /// <summary>
         /// The <see cref="Resource"/> last <see cref="IFailure"/>

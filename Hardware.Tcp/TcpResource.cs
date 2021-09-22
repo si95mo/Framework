@@ -58,7 +58,7 @@ namespace Hardware.Resources
 
             tcp = new TcpClient();
 
-            status = ResourceStatus.Stopped;
+            status.Value = ResourceStatus.Stopped;
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace Hardware.Resources
                 tcp.ReceiveTimeout = timeout;
                 tcp.SendTimeout = timeout;
 
-                status = ResourceStatus.Stopped;
+                status.Value = ResourceStatus.Stopped;
             }
             catch (Exception ex)
             {
@@ -163,7 +163,7 @@ namespace Hardware.Resources
         public override async Task Start()
         {
             failure.Clear();
-            Status = ResourceStatus.Starting;
+            Status.Value = ResourceStatus.Starting;
             tcp = new TcpClient();
 
             try
@@ -171,16 +171,16 @@ namespace Hardware.Resources
                 await tcp.ConnectAsync(ipAddress, port);
 
                 if (TestConnection())
-                    Status = ResourceStatus.Executing;
+                    Status.Value = ResourceStatus.Executing;
                 else
-                    Status = ResourceStatus.Failure;
+                    Status.Value = ResourceStatus.Failure;
 
-                if (status == ResourceStatus.Failure)
+                if (status.Value == ResourceStatus.Failure)
                     failure = new Failure("Error occurred while opening the port!", DateTime.Now);
             }
             catch (Exception ex)
             {
-                Status = ResourceStatus.Failure;
+                Status.Value = ResourceStatus.Failure;
                 failure = new Failure(ex.Message, DateTime.Now);
             }
         }
@@ -190,9 +190,9 @@ namespace Hardware.Resources
         /// </summary>
         public override void Stop()
         {
-            status = ResourceStatus.Stopping;
+            Status.Value = ResourceStatus.Stopping;
             tcp.Close();
-            status = ResourceStatus.Stopped;
+            Status.Value = ResourceStatus.Stopped;
 
             failure = new Failure("Error occurred while closing the port!", DateTime.Now);
         }
