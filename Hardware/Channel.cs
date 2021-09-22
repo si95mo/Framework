@@ -165,5 +165,22 @@ namespace Hardware
         {
             subscribers.ForEach(x => x.Value = Value);
         }
+
+        /// <summary>
+        /// Give a textual description of the <see cref="Channel{T}"/>
+        /// </summary>
+        /// <returns>The textual description</returns>
+        public override string ToString()
+        {
+            string description = "";
+            string valueAsString = value.ToString();
+
+            if (double.TryParse(valueAsString, out double result))
+                description = $"{result.ToString(format)}{measureUnit}";
+            else
+                description = $"{value}{measureUnit}";
+
+            return description;
+        }
     }
 }
