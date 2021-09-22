@@ -293,12 +293,16 @@ namespace Diagnostic
                 StackTrace st = new StackTrace(ex, true);
                 StackFrame frame = st.GetFrame(st.FrameCount - 1);
 
+                // Get the file name in which the exception was thrown
+                string fileName = frame?.GetFileName();
+                // Get the method name
+                string methodName = frame?.GetMethod().Name;
                 // Get the line number from the stack frame
                 int? line = frame?.GetFileLineNumber();
 
                 var entry = CreateEntry(
                     Severity.Error,
-                    $"{source} - {type} on line {line}",
+                    $"{source} - {type} on line {line} (method: {methodName}, file: {fileName})",
                     message,
                     stackTrace
                 );
@@ -322,10 +326,11 @@ namespace Diagnostic
         /// <param name="entry">The <see cref="Tuple"/> containing the element to append</param>
         private static void AppendText(Tuple<string, string, string, string, string> entry)
         {
-            string text = $"{entry.Item1} | {entry.Item2} | {entry.Item3} | {entry.Item4}" +
-                $"{Environment.NewLine}";
-
+            string text = $"{entry.Item1} | {entry.Item2} | {entry.Item3}{Environment.NewLine}";
             AppendText(text);
+
+            string message = $"\t\tException message: { entry.Item4}{Environment.NewLine}";
+            AppendText(message);
 
             string stackTrace = $"\t\tStack-trace: {entry.Item5}{Environment.NewLine}";
             AppendText(stackTrace);
