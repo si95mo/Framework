@@ -407,9 +407,16 @@ namespace Diagnostic
         }
 
         /// <summary>
-        /// Check if the new <see cref="Exception"/> is the same as the last one,
-        /// i.e. they are of the same <see cref="Type"/>, they have the same <see cref="Exception.Message"/>
-        /// and have the same <see cref="StackTrace"/>
+        /// Check if the new <see cref="Exception"/> is the same as the last one, in other words:
+        /// <list type="bullet">
+        /// <term>they are of the same <see cref="Type"/></term> <br/>
+        /// </list>
+        /// <list type="bullet">
+        /// <term>they have the same <see cref="Exception.Message"/></term>  <br/>
+        /// </list>
+        /// <list type="bullet">
+        /// <term>and have the same <see cref="StackTrace"/></term>  <br/>
+        /// </list>
         /// </summary>
         /// <param name="ex">The <see cref="Exception"/>to test </param>
         /// <returns><see langword="true"/> if is the new <see cref="Exception"/> is equal to the last one,
