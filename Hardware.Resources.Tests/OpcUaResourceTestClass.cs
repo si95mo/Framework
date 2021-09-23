@@ -43,6 +43,8 @@ namespace Hardware.Resources.Tests
 
             await Task.Delay(1000);
 
+            temperature.Value.Should().BeApproximately(output.Value, 2d);
+
             do
             {
                 temperature.Value.Should().NotBe(0.0);
