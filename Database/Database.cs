@@ -39,9 +39,10 @@ namespace Database
         /// <summary>
         /// Execute a select query
         /// </summary>
-        /// <param name="what">What select (the columns name)</param>
-        /// <param name="where">Where select (the table name)</param>
-        /// <param name="other">Other parameters (e.g. ORDER BY ones)</param>
+        /// <param name="select">The select parameter of the query (columns name)</param>
+        /// <param name="from">The from parameter of the query (table name)</param>
+        /// <param name="where">The where parameter of the query (conditions)</param>
+        /// <param name="other">Other parameters (e.g. "ORDER BY id DESC")</param>
         /// <returns>
         /// The <see cref="SqlDataReader"/>, in which data can be accessed
         /// with the relative column name
@@ -51,9 +52,13 @@ namespace Database
         /// named, for example, description, as: <br/>
         /// descriptionValue = sqlReader["description"].ToString();
         /// </remarks>
-        public static async Task<SqlDataReader> Select(string what, string where, string other = "")
+        public static async Task<SqlDataReader> Select(string select, string from, string where = "", string other = "")
         {
-            string query = $"SELECT {what} FROM {where}";
+            string query = $"SELECT {select} FROM {from}";
+
+            if (where.CompareTo("") == 0)
+                query += $" WHERE {where}";
+
             if (other.CompareTo("") != 0)
                 query += $" {other}";
 
