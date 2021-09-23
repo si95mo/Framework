@@ -25,17 +25,5 @@ namespace Hardware
         /// <param name="code">The code</param>
         public DigitalInput(string code) : base(code)
         { }
-
-        /// <summary>
-        /// Return a description of the object
-        /// See also <see cref="object.ToString()"/>
-        /// </summary>
-        /// <returns>The description of the object</returns>
-        public override string ToString()
-        {
-            string description = $"{value}";
-
-            return description;
-        }
     }
 }
