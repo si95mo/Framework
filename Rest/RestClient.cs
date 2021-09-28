@@ -27,10 +27,10 @@ namespace Rest
         /// <summary>
         /// The <see cref="RestClient"/> value as <see cref="object"/>
         /// </summary>
-        public object ValueAsObject 
-        { 
-            get => throw new NotImplementedException(); 
-            set => throw new NotImplementedException(); 
+        public object ValueAsObject
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace Rest
         }
 
         /// <summary>
-        /// Perform and async POST with the actual 
+        /// Perform and async POST with the actual
         /// <see cref="Request"/>
         /// </summary>
         /// <param name="data">The data to send (as json)</param>

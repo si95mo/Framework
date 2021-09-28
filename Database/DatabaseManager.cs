@@ -7,7 +7,7 @@ namespace Database
     /// <summary>
     /// Implement database-related functionalities
     /// </summary>
-    public static class Database
+    public class DatabaseManager
     {
         private static SqlConnection connection;
 
@@ -17,7 +17,7 @@ namespace Database
         public static bool IsConnectionOpen => connection.State == System.Data.ConnectionState.Open;
 
         /// <summary>
-        /// Initialize the <see cref="Database"/> connection
+        /// Initialize the <see cref="DatabaseManager"/> connection
         /// </summary>
         /// <param name="connectionString">The connection string</param>
         public static async Task Initialize(string connectionString)
@@ -28,11 +28,11 @@ namespace Database
             SqlCommand command = new SqlCommand("SELECT @@VERSION", connection);
             string version = command.ExecuteScalar().ToString();
 
-            Logger.Log($"Version: {version}", Severity.Info);
+            Logger.Log($"Database connection initialized. Version: {version}", Severity.Info);
         }
 
         /// <summary>
-        /// Close the <see cref="Database"/> connection
+        /// Close the <see cref="DatabaseManager"/> connection
         /// </summary>
         public static void Close() => connection.Close();
 
@@ -106,7 +106,7 @@ namespace Database
         }
 
         /// <summary>
-        /// Execute e generic query to the <see cref="Database"/>. <br/>
+        /// Execute e generic query to the <see cref="DatabaseManager"/>. <br/>
         /// See also <see cref="SqlCommand.ExecuteNonQuery"/> and
         /// <see cref="SqlCommand.ExecuteNonQueryAsync(System.Threading.CancellationToken)"/>
         /// </summary>

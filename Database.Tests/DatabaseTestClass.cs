@@ -12,20 +12,20 @@ namespace Database.Tests
         [OneTimeSetUp]
         public async Task Setup()
         {
-            await Database.Initialize(@"Server=localhost\SQLEXPRESS;Database=dummy;Trusted_Connection=True;MultipleActiveResultSets=True");
-            Database.IsConnectionOpen.Should().BeTrue();
+            await DatabaseManager.Initialize(@"Server=localhost\SQLEXPRESS;Database=dummy;Trusted_Connection=True;MultipleActiveResultSets=True");
+            DatabaseManager.IsConnectionOpen.Should().BeTrue();
         }
 
         [OneTimeTearDown]
         public void TearDown()
         {
-            Database.Close();
+            DatabaseManager.Close();
         }
 
         [Test]
         public async Task TestSelect()
         {
-            SqlDataReader reader = await Database.Select("*", "DummyTable");
+            SqlDataReader reader = await DatabaseManager.Select("*", "DummyTable");
             reader.FieldCount.Should().NotBe(0);
 
             string key, description, timestamp, id, flag;
@@ -54,7 +54,7 @@ namespace Database.Tests
         public async Task TestInsertIntoAndQuery()
         {
             // First add
-            bool recordAdded = await Database.InsertInto(
+            bool recordAdded = await DatabaseManager.InsertInto(
                 "dbo.DummyTable",
                 "id, description, timestamp, flag",
                 new (string Name, object Value)[]
@@ -69,15 +69,15 @@ namespace Database.Tests
 
             // Then delete, if the insert into worked,
             // at least one row should be stored in the db
-            int deletedRows = await Database.Query("DELETE FROM DummyTable");
+            int deletedRows = await DatabaseManager.Query("DELETE FROM DummyTable");
             deletedRows.Should().NotBe(0);
 
             // Special query test
-            int rows = await Database.Query("DBCC CHECKIDENT (DummyTable, RESEED, 0)");
+            int rows = await DatabaseManager.Query("DBCC CHECKIDENT (DummyTable, RESEED, 0)");
             rows.Should().Be(-1); // Default value
 
             // Leave the DB with at least one record
-            recordAdded = await Database.InsertInto(
+            recordAdded = await DatabaseManager.InsertInto(
                 "dbo.DummyTable",
                 "id, description, timestamp, flag",
                 new (string Name, object Value)[]
