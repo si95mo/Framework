@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 /// <summary>
 /// Static class that handles IO operations.
@@ -42,12 +43,12 @@ namespace IO
                 switch (mode)
                 {
                     case SaveMode.Overwrite:
-                        using (sw = File.CreateText(path))
+                        using (sw = new StreamWriter(path, false, Encoding.UTF8))
                             sw.WriteLine(text);
                         break;
 
                     case SaveMode.Append:
-                        using (sw = File.AppendText(path))
+                        using (sw = new StreamWriter(path, true, Encoding.UTF8))
                             sw.WriteLine(text);
                         break;
                 }
@@ -68,7 +69,7 @@ namespace IO
         public static string Read(string path)
         {
             string linesRead = "";
-            sr = new StreamReader(path);
+            sr = new StreamReader(path, Encoding.UTF8);
 
             while (!sr.EndOfStream)
                 linesRead += sr.ReadLine() + Environment.NewLine;
