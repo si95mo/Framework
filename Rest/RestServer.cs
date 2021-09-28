@@ -40,6 +40,8 @@ namespace Rest
         /// <param name="uri">The server <see cref="System.Uri"/></param>
         public RestServer(string code, Uri uri)
         {
+            status = new EnumParameter<ResourceStatus>(); 
+
             configuration = new HostConfiguration();
             configuration.UrlReservations.CreateAutomatically = true;
 
@@ -48,9 +50,19 @@ namespace Rest
 
             host = new NancyHost(uri, new DefaultNancyBootstrapper(), configuration);
             host.Start();
-            Logger.Log($"{code} self-hosting on {uri}", Severity.Info);
+            Logger.Log($"{code} self-hosting on {uri}:{uri.Port}", Severity.Info);
 
             status.Value = ResourceStatus.Executing;
         }
+
+        /// <summary>
+        /// Start the <see cref="RestServer"/>
+        /// </summary>
+        public void Start() => host.Start();
+
+        /// <summary>
+        /// Stop the <see cref="RestServer"/>
+        /// </summary>
+        public void Stop() => host.Stop();
     }
 }
