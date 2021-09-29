@@ -287,6 +287,8 @@ namespace Hardware.Modbus
             {
                 Status.Value = ResourceStatus.Failure;
                 failure = new Failure(ex.Message, DateTime.Now);
+
+                Logger.Log(ex);
             }
         }
 
