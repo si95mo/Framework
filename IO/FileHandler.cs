@@ -27,6 +27,8 @@ namespace IO
             Append = 1
         };
 
+        private static object writeLock = new object();
+
         protected static StreamWriter sw;
         protected static StreamReader sr;
 
@@ -38,7 +40,7 @@ namespace IO
         /// <param name="mode">Write mode, overwrite or append <see cref="SaveMode"/></param>
         public static void Save(string text, string path, SaveMode mode = SaveMode.Overwrite)
         {
-            try
+            lock (writeLock)
             {
                 switch (mode)
                 {
@@ -54,10 +56,6 @@ namespace IO
                 }
 
                 sw.Close();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
             }
         }
 
