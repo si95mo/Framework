@@ -1,6 +1,7 @@
 ﻿using Core;
 using Newtonsoft.Json;
 using System;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -115,7 +116,6 @@ namespace Rest
             string json = JsonConvert.SerializeObject(data);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            string actualRequest = $"{uri}/{await content.ReadAsStringAsync()}";
             response = await client.PostAsync(uri, content);
 
             result = await response.Content.ReadAsStringAsync();

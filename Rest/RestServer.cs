@@ -3,6 +3,7 @@ using Diagnostic;
 using Hardware;
 using Nancy;
 using Nancy.Hosting.Self;
+using Nancy.Testing;
 using System;
 
 namespace Rest
@@ -37,10 +38,11 @@ namespace Rest
         /// <summary>
         /// Create a new instance of <see cref="RestServer"/>
         /// </summary>
+        /// <param name="code">The code</param>
         /// <param name="uri">The server <see cref="System.Uri"/></param>
         public RestServer(string code, Uri uri)
         {
-            status = new EnumParameter<ResourceStatus>(); 
+            status = new EnumParameter<ResourceStatus>();
 
             configuration = new HostConfiguration();
             configuration.UrlReservations.CreateAutomatically = true;
@@ -49,6 +51,38 @@ namespace Rest
             this.uri = uri;
 
             host = new NancyHost(uri, new DefaultNancyBootstrapper(), configuration);
+
+            Start();
+        }
+
+        /// <summary>
+        /// Create a new instance of <see cref="RestServer"/>
+        /// </summary>
+        /// <param name="code">The code</param>
+        /// <param name="uri">The server <see cref="System.Uri"/></param>
+        /// <param name="bootstrapper">The bootstrapper</param>
+        public RestServer(string code, Uri uri, ConfigurableBootstrapper bootstrapper)
+        {
+            status = new EnumParameter<ResourceStatus>();
+
+            configuration = new HostConfiguration();
+            configuration.UrlReservations.CreateAutomatically = true;
+
+            this.code = code;
+            this.uri = uri;
+
+            host = new NancyHost(uri, bootstrapper, configuration);
+
+            Start();
+        }
+
+        /// <summary>
+        /// Start the <see cref="RestServer"/>
+        /// </summary>
+        public void Start()
+        {
+            status.Value = ResourceStatus.Starting;
+
             host.Start();
             Logger.Log($"{code} self-hosting on {uri}:{uri.Port}", Severity.Info);
 
@@ -56,13 +90,16 @@ namespace Rest
         }
 
         /// <summary>
-        /// Start the <see cref="RestServer"/>
-        /// </summary>
-        public void Start() => host.Start();
-
-        /// <summary>
         /// Stop the <see cref="RestServer"/>
         /// </summary>
-        public void Stop() => host.Stop();
+        public void Stop()
+        {
+            status.Value = ResourceStatus.Stopping;
+
+            host.Stop();
+            Logger.Log($"{code} stopped self-hosting on {uri}:{uri.Port}", Severity.Info);
+
+            status.Value = ResourceStatus.Stopped;
+        }
     }
 }
