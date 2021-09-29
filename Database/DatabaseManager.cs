@@ -56,7 +56,7 @@ namespace Database
         {
             string query = $"SELECT {select} FROM {from}";
 
-            if (where.CompareTo("") == 0)
+            if (where.CompareTo("") != 0)
                 query += $" WHERE {where}";
 
             if (other.CompareTo("") != 0)
