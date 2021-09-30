@@ -13,7 +13,7 @@ namespace Configuration
         /// Initialize the <see cref="ConfigurationHandler"/>
         /// </summary>
         /// <param name="path">The configuration file path</param>
-        public static void Initialize(string path= "config/config.ini")
+        public static void Initialize(string path = "config/config.ini")
         {
             items = new Dictionary<string, ConfigurationItem>();
             configPath = path;
@@ -33,7 +33,7 @@ namespace Configuration
 
             ConfigurationItem item;
             string name, value;
-            foreach(string line in lines)
+            foreach (string line in lines)
             {
                 if (line.CompareTo("") != 0)
                 {
