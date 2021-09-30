@@ -1,6 +1,7 @@
 ﻿using Core;
 using Core.DataStructures;
 using Core.Parameters;
+using Diagnostic;
 using System;
 using System.Threading.Tasks;
 
@@ -28,6 +29,34 @@ namespace Hardware
             this.code = code;
             channels = new Bag<IChannel>();
             status = new EnumParameter<ResourceStatus>(nameof(status));
+
+            Status.ValueChanged += Status_ValueChanged;
+        }
+
+        private void Status_ValueChanged(object sender, ValueChangedEventArgs e)
+        {
+            switch(status.Value)
+            {
+                case ResourceStatus.Starting:
+                    Logger.Log($"{code} starting", Severity.Info);
+                    break;
+
+                case ResourceStatus.Executing:
+                    Logger.Log($"{code} executing", Severity.Info);
+                    break;
+
+                case ResourceStatus.Stopping:
+                    Logger.Log($"{code} stopping", Severity.Info);
+                    break;
+
+                case ResourceStatus.Stopped:
+                    Logger.Log($"{code} stopped", Severity.Info);
+                    break;
+
+                case ResourceStatus.Failure:
+                    Logger.Log($"{code} failure", Severity.Info);
+                    break;
+            }
         }
 
         /// <summary>

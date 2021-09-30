@@ -307,8 +307,6 @@ namespace Hardware.Modbus
 
             if (status.Value == ResourceStatus.Failure)
                 failure = new Failure("Error occurred while closing the port!", DateTime.Now);
-
-            Logger.Log($"{code} stopped", Severity.Info);
         }
 
         private ushort[] ConvertFromDoubleToUInt16(double x)
