@@ -35,7 +35,7 @@ namespace Hardware
 
         private void Status_ValueChanged(object sender, ValueChangedEventArgs e)
         {
-            switch(status.Value)
+            switch (status.Value)
             {
                 case ResourceStatus.Starting:
                     Logger.Log($"{code} starting", Severity.Info);
