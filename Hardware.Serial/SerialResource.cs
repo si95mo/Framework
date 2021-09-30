@@ -121,6 +121,7 @@ namespace Hardware.Resources
             status = new EnumParameter<ResourceStatus>(nameof(status));
 
             ErrorReceived += SerialResource_ErrorReceived;
+            Status.ValueChanged += Status_ValueChanged;
         }
 
         /// <summary>
@@ -161,6 +162,32 @@ namespace Hardware.Resources
             failure.Timestamp = DateTime.Now;
 
             Logger.Log(failure.Description, Severity.Warn);
+        }
+
+        private void Status_ValueChanged(object sender, ValueChangedEventArgs e)
+        {
+            switch (status.Value)
+            {
+                case ResourceStatus.Starting:
+                    Logger.Log($"{code} starting", Severity.Info);
+                    break;
+
+                case ResourceStatus.Executing:
+                    Logger.Log($"{code} executing", Severity.Info);
+                    break;
+
+                case ResourceStatus.Stopping:
+                    Logger.Log($"{code} stopping", Severity.Info);
+                    break;
+
+                case ResourceStatus.Stopped:
+                    Logger.Log($"{code} stopped", Severity.Info);
+                    break;
+
+                case ResourceStatus.Failure:
+                    Logger.Log($"{code} failure", Severity.Info);
+                    break;
+            }
         }
 
         private void ContinuousRead()
