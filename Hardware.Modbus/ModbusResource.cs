@@ -71,16 +71,8 @@ namespace Hardware.Modbus
         /// Create a new instance of <see cref="ModbusResource"/>
         /// </summary>
         /// <param name="code">The code</param>
-        public ModbusResource(string code)
+        public ModbusResource(string code) : base(code)
         {
-            this.code = code;
-            ipAddress = "";
-            port = 0;
-            failure = new Failure();
-            channels = new Bag<IChannel>();
-
-            tcp = new TcpClient();
-
             Status.Value = ResourceStatus.Stopped;
         }
 
@@ -97,15 +89,8 @@ namespace Hardware.Modbus
         /// <param name="ipAddress">The ip address</param>
         /// <param name="port">The port number</param>
         /// <param name="timeout"></param>
-        public ModbusResource(string code, string ipAddress, int port = 502, int timeout = 5000)
+        public ModbusResource(string code, string ipAddress, int port = 502, int timeout = 5000) : base(code, ipAddress, port)
         {
-            this.code = code;
-            this.ipAddress = ipAddress;
-            this.port = port;
-            failure = new Failure();
-            channels = new Bag<IChannel>();
-
-            tcp = new TcpClient();
             tcp.ReceiveTimeout = timeout;
             tcp.SendTimeout = timeout;
 
@@ -281,12 +266,15 @@ namespace Hardware.Modbus
                     }
                 }
                 else
+                {
+                    failure = new Failure($"Unable to connect to modbus server at {ipAddress}:{port}", DateTime.Now);
                     Status.Value = ResourceStatus.Failure;
+                }
             }
             catch (Exception ex)
             {
-                Status.Value = ResourceStatus.Failure;
                 failure = new Failure(ex.Message, DateTime.Now);
+                Status.Value = ResourceStatus.Failure;
 
                 Logger.Log(ex);
             }
