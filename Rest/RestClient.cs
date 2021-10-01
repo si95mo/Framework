@@ -1,4 +1,5 @@
 ﻿using Core;
+using Diagnostic;
 using Newtonsoft.Json;
 using System;
 using System.Net.Http;
@@ -97,8 +98,15 @@ namespace Rest
         {
             string actualRequest = $"{uri}/{request}";
 
-            response = await client.GetAsync(actualRequest);
-            result = await response.Content.ReadAsStringAsync();
+            try
+            {
+                response = await client.GetAsync(actualRequest);
+                result = await response.Content.ReadAsStringAsync();
+            }
+            catch (Exception ex)
+            {
+                Logger.Log(ex);
+            }
 
             return result;
         }
@@ -114,8 +122,15 @@ namespace Rest
             string json = JsonConvert.SerializeObject(data);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            response = await client.PostAsync(uri, content);
-            result = await response.Content.ReadAsStringAsync();
+            try
+            {
+                response = await client.PostAsync(uri, content);
+                result = await response.Content.ReadAsStringAsync();
+            }
+            catch (Exception ex)
+            {
+                Logger.Log(ex);
+            }
 
             return result;
         }
