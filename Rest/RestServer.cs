@@ -46,6 +46,7 @@ namespace Rest
 
             configuration = new HostConfiguration();
             configuration.UrlReservations.CreateAutomatically = true;
+            configuration.RewriteLocalhost = false;
 
             this.code = code;
             this.uri = uri;
@@ -84,7 +85,7 @@ namespace Rest
             status.Value = ResourceStatus.Starting;
 
             host.Start();
-            Logger.Log($"{code} self-hosting on {uri}:{uri.Port}", Severity.Info);
+            Logger.Log($"{code} self-hosting on {uri}", Severity.Info);
 
             status.Value = ResourceStatus.Executing;
         }
