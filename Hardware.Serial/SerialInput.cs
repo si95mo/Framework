@@ -62,7 +62,7 @@ namespace Hardware.Resources
         /// <param name="e">The <see cref="ValueChangedEventArgs"/></param>
         protected override void PropagateValues(object sender, ValueChangedEventArgs e)
         {
-            subscribers.ForEach(x => x.Value = Value);
+            subscribers.ForEach(x => x.ValueAsObject = Value);
         }
     }
 }

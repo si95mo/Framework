@@ -1,6 +1,7 @@
-﻿using Core;
-using Core.DataStructures;
+﻿using Core.DataStructures;
+using Core.Parameters;
 using Devices.Tasks;
+using Hardware;
 using System;
 
 namespace Devices

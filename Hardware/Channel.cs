@@ -17,7 +17,7 @@ namespace Hardware
         protected string measureUnit;
         protected string format;
 
-        protected List<IProperty<T>> subscribers;
+        protected List<IProperty> subscribers;
 
         protected object objectLock = new object();
 
@@ -46,7 +46,7 @@ namespace Hardware
 
             value = default;
 
-            subscribers = new List<IProperty<T>>();
+            subscribers = new List<IProperty>();
             ValueChanged += PropagateValues;
         }
 
@@ -136,9 +136,9 @@ namespace Hardware
         /// in order to propagate its value;
         /// </summary>
         /// <param name="channel">The destination <see cref="IChannel"/></param>
-        public void ConnectTo(IProperty<T> channel)
+        public void ConnectTo(IProperty channel)
         {
-            channel.Value = value;
+            channel.ValueAsObject = value;
             subscribers.Add(channel);
         }
 
@@ -149,7 +149,7 @@ namespace Hardware
         /// </summary>
         /// <param name="channel">The destination <see cref="IChannel"/></param>
         /// <param name="converter">The <see cref="IConverter{TIn, TOut}"/></param>
-        public void ConnectTo(IProperty<T> channel, IConverter<T, T> converter)
+        public void ConnectTo(IProperty channel, IConverter converter)
         {
             converter.Connect(this, channel);
         }
@@ -163,7 +163,7 @@ namespace Hardware
         /// <param name="e">The <see cref="ValueChangedEventArgs"/></param>
         protected virtual void PropagateValues(object sender, ValueChangedEventArgs e)
         {
-            subscribers.ForEach(x => x.Value = Value);
+            subscribers.ForEach(x => x.ValueAsObject = Value);
         }
 
         /// <summary>

@@ -118,6 +118,9 @@
     <Compile Include="InstructionControl.Designer.cs">
       <DependentUpon>InstructionControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="LedControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="LoadTestProgramPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>

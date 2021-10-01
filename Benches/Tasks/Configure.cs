@@ -1,4 +1,4 @@
-﻿using Core;
+﻿using Core.Parameters;
 using Devices;
 using Instructions;
 using System;

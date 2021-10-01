@@ -1,6 +1,6 @@
 ﻿using Benches.Tasks;
-using Core;
 using Core.DataStructures;
+using Core.Parameters;
 using Devices;
 using Instructions;
 using System;
