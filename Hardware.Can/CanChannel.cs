@@ -63,16 +63,13 @@ namespace Hardware.Can
     /// Define a channel to handle the can communication. <br/>
     /// See also <see cref="ICanResource"/> for the protocol handling
     /// </summary>
-    public class CanChannel : ICanChannel
+    public class CanChannel : Channel<byte[]>, ICanChannel
     {
-        private string code;
         private int canId;
         private byte[] data;
         private CanFrame canFrame;
 
         private ICanResource resource;
-
-        private object objectLock = new object();
 
         /// <summary>
         /// The <see cref="DataChanged"/> handler

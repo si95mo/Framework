@@ -1,10 +1,18 @@
-﻿namespace Core
+﻿using Core;
+
+namespace Hardware
 {
     /// <summary>
     /// Describe a generic (hardware) channel
     /// </summary>
     public interface IChannel : IProperty
     {
+        /// <summary>
+        /// Connect a <see cref="IProperty"/> to propagate the value
+        /// </summary>
+        /// <param name="property">The <see cref="IProperty"/> to connect</param>
+        /// <param name="converter">The <see cref="IConverter"/></param>
+        void ConnectTo(IProperty property, IConverter converter);
     }
 
     /// <summary>
@@ -22,12 +30,5 @@
             get;
             set;
         }
-
-        /// <summary>
-        /// Connects an <see cref="IChannel"/> to another
-        /// in order to propagate its value;
-        /// </summary>
-        /// <param name="channel">The destination <see cref="IChannel"/></param>
-        new void ConnectTo(IProperty<T> channel);
     }
 }

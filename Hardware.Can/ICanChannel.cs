@@ -1,6 +1,4 @@
-﻿using Core;
-
-namespace Hardware.Can
+﻿namespace Hardware.Can
 {
     /// <summary>
     /// Define a basic prototype for a can channel

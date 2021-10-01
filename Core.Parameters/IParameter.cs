@@ -1,10 +1,16 @@
-﻿namespace Core
+﻿namespace Core.Parameters
 {
     /// <summary>
     /// Describe a generic parameter
     /// </summary>
     public interface IParameter : IProperty
     {
+        /// <summary>
+        /// Connect a <see cref="IProperty"/> to propagate the value
+        /// </summary>
+        /// <param name="property">The <see cref="IProperty"/> to connect</param>
+        /// <param name="converter">The <see cref="IConverter"/></param>
+        void ConnectTo(IProperty property, IConverter converter);
     }
 
     /// <summary>

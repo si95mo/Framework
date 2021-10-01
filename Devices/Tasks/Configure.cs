@@ -1,4 +1,5 @@
-﻿using Core;
+﻿using Core.Parameters;
+using Hardware;
 using System;
 using System.Collections.Generic;
 using System.Linq;

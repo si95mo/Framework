@@ -17,7 +17,7 @@ namespace Core.Parameters
         protected string measureUnit;
         protected string format;
 
-        protected List<IProperty<T>> subscribers;
+        protected List<IProperty> subscribers;
         protected IConverter<T, T> converter;
 
         protected object objectLock = new object();
@@ -41,7 +41,7 @@ namespace Core.Parameters
 
             value = default;
 
-            subscribers = new List<IProperty<T>>();
+            subscribers = new List<IProperty>();
             ValueChanged += PropagateValues;
         }
 
@@ -133,9 +133,9 @@ namespace Core.Parameters
         /// in order to propagate its value;
         /// </summary>
         /// <param name="channel">The destination <see cref="IProperty{T}"/></param>
-        public void ConnectTo(IProperty<T> channel)
+        public void ConnectTo(IProperty channel)
         {
-            channel.Value = value;
+            channel.ValueAsObject = value;
             subscribers.Add(channel);
         }
 
@@ -145,10 +145,10 @@ namespace Core.Parameters
         /// See also <see cref="ConnectTo(IParameter{T})"/>
         /// </summary>
         /// <param name="channel">The destination <see cref="IParameter"/></param>
-        /// <param name="converter">The <see cref="IConverter{TIn, TOut}"/></param>
-        public void ConnectTo(IProperty<T> channel, IConverter<T, T> converter)
+        /// <param name="converter">The <see cref="IConverter"/></param>
+        public void ConnectTo(IProperty channel, IConverter converter)
         {
-            converter.Connect(this as IProperty<T>, channel);
+            converter.Connect(this, channel);
         }
 
         /// <summary>
@@ -160,7 +160,7 @@ namespace Core.Parameters
         /// <param name="e">The <see cref="ValueChangedEventArgs"/></param>
         private void PropagateValues(object sender, ValueChangedEventArgs e)
         {
-            subscribers.ForEach(x => x.Value = Value);
+            subscribers.ForEach(x => x.ValueAsObject = Value);
         }
     }
 }

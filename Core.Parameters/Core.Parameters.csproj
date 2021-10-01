@@ -48,6 +48,7 @@
     <Compile Include="IBooleanParameter.cs" />
     <Compile Include="IEnumParameter.cs" />
     <Compile Include="INumericParameter.cs" />
+    <Compile Include="IParameter.cs" />
     <Compile Include="IStringParameter.cs" />
     <Compile Include="ITimeSpanParameter.cs" />
     <Compile Include="NumericParameter.cs" />

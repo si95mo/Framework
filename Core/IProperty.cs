@@ -78,10 +78,10 @@ namespace Core
         event EventHandler<ValueChangedEventArgs> ValueChanged;
 
         /// <summary>
-        /// Connects an <see cref="IParameter"/> to another
-        /// in order to propagate its value;
+        /// Connects an <see cref="IProperty"/> to another
+        /// in order to propagate its value
         /// </summary>
-        /// <param name="channel">The destination <see cref="IParameter"/></param>
-        void ConnectTo(IProperty<T> channel);
+        /// <param name="property">The destination <see cref="IProperty"/></param>
+        void ConnectTo(IProperty property);
     }
 }

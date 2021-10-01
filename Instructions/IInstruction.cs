@@ -1,5 +1,6 @@
 ﻿using Core;
 using Core.DataStructures;
+using Core.Parameters;
 using Devices;
 
 namespace Instructions

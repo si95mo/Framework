@@ -44,9 +44,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Failure.cs" />
-    <Compile Include="IChannel.cs" />
+    <Compile Include="IConverter.cs" />
     <Compile Include="IFailure.cs" />
-    <Compile Include="IParameter.cs" />
     <Compile Include="IProperty.cs" />
     <Compile Include="NumericRepresentation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
