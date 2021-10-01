@@ -96,9 +96,8 @@ namespace Rest
         public async Task<string> Get()
         {
             string actualRequest = $"{uri}/{request}";
-            response = await client.GetAsync(actualRequest);
-            response.EnsureSuccessStatusCode();
 
+            response = await client.GetAsync(actualRequest);
             result = await response.Content.ReadAsStringAsync();
 
             return result;
@@ -116,7 +115,6 @@ namespace Rest
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
             response = await client.PostAsync(uri, content);
-
             result = await response.Content.ReadAsStringAsync();
 
             return result;
