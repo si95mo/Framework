@@ -21,8 +21,6 @@ namespace Core.Scheduling.Tests
         private readonly SimpleInstructionScheduler instructionScheduler;
         private readonly SimpleMethodScheduler methodScheduler;
 
-        private bool isOpen = true;
-
         public TestForm()
         {
             InitializeComponent();
@@ -156,8 +154,6 @@ namespace Core.Scheduling.Tests
         private void BtnClose_Click(object sender, EventArgs e)
         {
             Close();
-            isOpen = false;
-
             Dispose();
         }
 

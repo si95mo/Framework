@@ -31,24 +31,19 @@ namespace Core.Scheduling
         public new void Enqueue(T item)
         {
             base.Enqueue(item);
-
-            if (null != Enqueued)
-                Enqueued(this, null);
+            Enqueued?.Invoke(this, null);
         }
 
         /// <summary>
         /// Dequeue an element from the collection and
         /// handle the Dequeued <see cref="EventHandler"/>.
-        /// Also see <see cref="Queue{T}.Dequeue(T)"/>
+        /// Also see <see cref="Queue{T}.Dequeue()"/>
         /// </summary>
-        /// <param name="item">The item to dequeue</param>
         /// <returns>The item dequeued</returns>
         public new T Dequeue()
         {
             T item = base.Dequeue();
-
-            if (null != Dequeued)
-                Dequeued(this, null);
+            Dequeued?.Invoke(this, null);
 
             return item;
         }
@@ -60,16 +55,38 @@ namespace Core.Scheduling
     /// <typeparam name="T"></typeparam>
     public interface IScheduler<T>
     {
+        /// <summary>
+        /// The subscribers
+        /// </summary>
         ActionQueue<T> Subscribers { get; }
 
+        /// <summary>
+        /// Add an element to the scheduler
+        /// </summary>
+        /// <param name="method">The element to add</param>
         void AddElement(T method);
 
+        /// <summary>
+        /// Remove all elements from the <see cref="IScheduler{T}"/>
+        /// </summary>
         void RemoveAll();
 
+        /// <summary>
+        /// Execute the item stored
+        /// </summary>
+        /// <returns>The item executed</returns>
         T Execute();
 
+        /// <summary>
+        /// Save the execution list
+        /// </summary>
+        /// <param name="fileName">The file path</param>
         void SaveExecutionList(string fileName);
 
+        /// <summary>
+        /// Load the execution list
+        /// </summary>
+        /// <param name="fileName">The file path</param>
         void LoadExecutionList(string fileName);
     }
 }

@@ -8,6 +8,9 @@ using System.Windows.Forms;
 
 namespace UserInterface.Controls
 {
+    /// <summary>
+    /// Implement a save test program panel
+    /// </summary>
     public partial class SaveTestProgramPanel : UserControl
     {
         private const string filePath = @"test\";
@@ -15,6 +18,12 @@ namespace UserInterface.Controls
         private JObject jsonToSave;
         private InstructionScheduler scheduler;
 
+        /// <summary>
+        /// Create a new instance of <see cref="SaveTestProgramPanel"/>
+        /// </summary>
+        /// <param name="jsonToSave">The <see cref="JObject"/> to save</param>
+        /// <param name="scheduler">The <see cref="InstructionScheduler"/></param>
+        /// <param name="parent">The <see cref="BaseControl"/> panel</param>
         public SaveTestProgramPanel(JObject jsonToSave, InstructionScheduler scheduler, BaseControl parent)
         {
             InitializeComponent();

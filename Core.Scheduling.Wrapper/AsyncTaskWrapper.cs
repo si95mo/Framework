@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 
 namespace Core.Scheduling.Wrapper
 {
+    /// <summary>
+    /// Implements a wrapper for <see cref="Method"/> objects
+    /// </summary>
     public class AsyncTaskWrapper
     {
         /// <summary>

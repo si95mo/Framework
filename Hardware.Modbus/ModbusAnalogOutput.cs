@@ -30,6 +30,11 @@ namespace Hardware.Modbus
             resource.Channels.Add(this);
         }
 
+        /// <summary>
+        /// Propagate the value change event
+        /// </summary>
+        /// <param name="sender">The sender</param>
+        /// <param name="e">The <see cref="ValueChangedEventArgs"/></param>
         protected override void PropagateValues(object sender, ValueChangedEventArgs e)
         {
             (resource as ModbusResource).Send(code);

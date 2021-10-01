@@ -10,6 +10,9 @@ using System.Windows.Forms;
 
 namespace UserInterface.Controls
 {
+    /// <summary>
+    /// Define an instruction control
+    /// </summary>
     public partial class InstructionControl : UserControl
     {
         private const int controlLocationOffset = 6;
@@ -121,11 +124,11 @@ namespace UserInterface.Controls
         }
 
         /// <summary>
-        /// Add a <see cref="Method"/> to the <see cref="MethodScheduler"/>
+        /// Add a <see cref="Instruction"/> to the <see cref="InstructionScheduler"/>
         /// <see cref="ActionQueue{T}"/>
         /// </summary>
         /// <param name="sender">The sender</param>
-        /// <param name="e"><The <see cref="EventArgs"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void BtnAdd_Click(object sender, EventArgs e)
         {
             IInstruction deepInstructionCopy = instruction.DeepCopy();

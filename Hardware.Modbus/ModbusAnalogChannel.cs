@@ -10,10 +10,29 @@ namespace Hardware.Modbus
     /// </summary>
     public class ModbusAnalogChannel : Channel<double>, IModbusChannel
     {
+        /// <summary>
+        /// The address
+        /// </summary>
         protected ushort address;
+
+        /// <summary>
+        /// The <see cref="IResource"/>
+        /// </summary>
         protected IResource resource;
+
+        /// <summary>
+        /// The <see cref="ModbusFunction"/>
+        /// </summary>
         protected ModbusFunction function;
+
+        /// <summary>
+        /// The <see cref="NumericRepresentation"/>
+        /// </summary>
         protected NumericRepresentation representation;
+
+        /// <summary>
+        /// The reverse option
+        /// </summary>
         protected bool reverse;
 
         /// <summary>

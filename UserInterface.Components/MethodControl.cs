@@ -125,7 +125,7 @@ namespace UserInterface.Controls
         /// <see cref="ActionQueue{T}"/>
         /// </summary>
         /// <param name="sender">The sender</param>
-        /// <param name="e"><The <see cref="EventArgs"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void BtnAdd_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < method.ParametersCount; i++)

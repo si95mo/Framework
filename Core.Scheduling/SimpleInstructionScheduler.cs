@@ -4,6 +4,9 @@ using System;
 
 namespace Core.Scheduling
 {
+    /// <summary>
+    /// Implement a simple <see cref="Instruction"/> scheduler
+    /// </summary>
     [Serializable]
     public class SimpleInstructionScheduler : InstructionScheduler
     {
@@ -15,7 +18,7 @@ namespace Core.Scheduling
 
         /// <summary>
         /// Executes the <see cref="Action"/> associated with the <see cref="Instruction"/>
-        /// stored in the <see cref="Subscribers"/>,
+        /// stored in the subscriber ones,
         /// and remove it from the <see cref="ActionQueue{T}"/>
         /// </summary>
         /// <returns>The <see cref="Instruction"/> executed</returns>

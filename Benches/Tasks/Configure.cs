@@ -16,9 +16,9 @@ namespace Benches.Tasks
         private readonly Bench<TDevice, TParameter, TInstruction> bench;
 
         /// <summary>
-        /// Create a new instance of <see cref="Configure"/>
+        /// Create a new instance of <see cref="Tasks.Configure{TDevice, TParameter, TInstruction}"/>
         /// </summary>
-        /// <param name="bench">The <see cref="Bench{TDevice, TParameter}"/> to configure</param>
+        /// <param name="bench">The <see cref="Bench{TDevice, TParameter, TInstruction}"/> to configure</param>
         public Configure(Bench<TDevice, TParameter, TInstruction> bench)
         {
             this.bench = bench;

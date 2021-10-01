@@ -8,6 +8,9 @@ namespace UserInterface.Controls
     /// </summary>
     public partial class BaseControl : UserControl
     {
+        /// <summary>
+        /// The value
+        /// </summary>
         protected object value;
 
         /// <summary>

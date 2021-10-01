@@ -14,7 +14,7 @@ namespace Core.DataStructures
     public class BagChangedEventArgs<T> : EventArgs
     {
         /// <summary>
-        /// The <see cref="T"/> item
+        /// The item
         /// </summary>
         public T Item
         {
@@ -118,8 +118,7 @@ namespace Core.DataStructures
         }
 
         /// <summary>
-        /// Add an item to the <see cref="Bag"/>.
-        /// See also <see cref="HashSet{T}.Add(IProperty)"/>
+        /// Add an item to the <see cref="Bag{T}"/>
         /// </summary>
         /// <param name="item">The item to be added</param>
         /// <returns><see langword="true"/> if the item is added,
@@ -143,7 +142,7 @@ namespace Core.DataStructures
         }
 
         /// <summary>
-        /// Remove an item to the <see cref="Bag"/>.
+        /// Remove an item to the <see cref="Bag{T}"/>.
         /// See <see cref="Remove(IProperty)"/> and also
         /// <see cref="Dictionary{TKey, TValue}.Remove(TKey)"/>
         /// </summary>
@@ -159,7 +158,7 @@ namespace Core.DataStructures
         public void Clear() => bag.Clear();
 
         /// <summary>
-        /// Remove an item to the <see cref="Bag"/> given its code.
+        /// Remove an item to the <see cref="Bag{T}"/> given its code.
         /// See <see cref="Remove(IProperty)"/> and also
         /// <see cref="Dictionary{TKey, TValue}.Remove(TKey)"/>
         /// </summary>
@@ -185,7 +184,7 @@ namespace Core.DataStructures
         /// Retrieve an item from the <see cref="Bag{IProperty}"/>
         /// </summary>
         /// <param name="code">The code</param>
-        /// <returns>The <see cref="T"/> object if the code is found
+        /// <returns>The object if the code is found
         ///  in the <see cref="Bag{T}"/>, <see langword="default"/> otherwise</returns>
         public T Get(string code)
         {

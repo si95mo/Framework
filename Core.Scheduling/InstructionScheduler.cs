@@ -13,12 +13,21 @@ namespace Core.Scheduling
     [Serializable]
     public abstract class InstructionScheduler : IScheduler<IInstruction>
     {
+        /// <summary>
+        /// The subscribed instructions
+        /// </summary>
         [field: NonSerialized()]
         protected ActionQueue<IInstruction> subscribedInstructions;
 
+        /// <summary>
+        /// The last instruction
+        /// </summary>
         [field: NonSerialized]
         protected ActionQueue<IInstruction> lastExecution;
 
+        /// <summary>
+        /// The persistent subscribers
+        /// </summary>
         protected ActionQueue<IInstruction> persistentSubscribers;
 
         /// <summary>
@@ -34,6 +43,9 @@ namespace Core.Scheduling
         [field: NonSerialized]
         public int Count => Math.Max(subscribedInstructions.Count, lastExecution.Count);
 
+        /// <summary>
+        /// The persisten subscribers
+        /// </summary>
         protected ActionQueue<IInstruction> PersistentSubscribers => persistentSubscribers;
 
         /// <summary>
@@ -123,6 +135,10 @@ namespace Core.Scheduling
             SaveFileStream.Close();
         }
 
+        /// <summary>
+        /// Execute the instructions
+        /// </summary>
+        /// <returns>The <see cref="IInstruction"/> executed</returns>
         public abstract IInstruction Execute();
     }
 }

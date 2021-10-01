@@ -9,10 +9,18 @@ using System.Windows.Forms;
 
 namespace UserInterface.Controls
 {
+    /// <summary>
+    /// Implement a load test program panel
+    /// </summary>
     public partial class LoadTestProgramPanel : UserControl
     {
         private InstructionScheduler scheduler;
 
+        /// <summary>
+        /// Create a new instance of <see cref="LoadTestProgramPanel"/>
+        /// </summary>
+        /// <param name="scheduler">The <see cref="InstructionScheduler"/></param>
+        /// <param name="parent">The <see cref="BaseControl"/> parent</param>
         public LoadTestProgramPanel(InstructionScheduler scheduler, BaseControl parent)
         {
             InitializeComponent();

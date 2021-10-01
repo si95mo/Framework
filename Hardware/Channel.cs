@@ -12,15 +12,39 @@ namespace Hardware
     /// <typeparam name="T">The type of the <see cref="Channel{T}"/></typeparam>
     public abstract class Channel<T> : IChannel<T>
     {
+        /// <summary>
+        /// The code
+        /// </summary>
         protected string code;
+
+        /// <summary>
+        /// The value
+        /// </summary>
         protected T value;
+
+        /// <summary>
+        /// The measure unit
+        /// </summary>
         protected string measureUnit;
+
+        /// <summary>
+        /// The format
+        /// </summary>
         protected string format;
 
+        /// <summary>
+        /// The subscribers
+        /// </summary>
         protected List<IProperty> subscribers;
 
+        /// <summary>
+        /// The object lock
+        /// </summary>
         protected object objectLock = new object();
 
+        /// <summary>
+        /// The value changed <see cref="EventHandler"/>
+        /// </summary>
         protected EventHandler<ValueChangedEventArgs> ValueChangedHandler;
 
         /// <summary>
@@ -145,7 +169,7 @@ namespace Hardware
         /// <summary>
         /// Connects an <see cref="IChannel"/> to another
         /// in order to propagate its value converted.
-        /// See also <see cref="ConnectTo(IChannel{T})"/>
+        /// See also <see cref="ConnectTo(IProperty)"/>
         /// </summary>
         /// <param name="channel">The destination <see cref="IChannel"/></param>
         /// <param name="converter">The <see cref="IConverter{TIn, TOut}"/></param>
@@ -157,7 +181,7 @@ namespace Hardware
         /// <summary>
         /// <see cref="ValueChanged"/> event handler that manages
         /// the propagation of the values to subscribers.
-        /// See <see cref="ConnectTo(IChannel)"/>
+        /// See <see cref="ConnectTo(IProperty)"/>
         /// </summary>
         /// <param name="sender">The sender</param>
         /// <param name="e">The <see cref="ValueChangedEventArgs"/></param>

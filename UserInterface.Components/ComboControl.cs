@@ -2,6 +2,9 @@
 
 namespace UserInterface.Controls
 {
+    /// <summary>
+    /// Implement a combo boc control
+    /// </summary>
     public partial class ComboControl : BaseControl
     {
         /// <summary>

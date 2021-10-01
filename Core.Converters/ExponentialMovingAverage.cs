@@ -25,7 +25,7 @@ namespace Core.Converters
         /// <summary>
         /// Initialize a new instance of <see cref="ExponentialMovingAverage"/>
         /// </summary>
-        /// <param name="period">The period</param>
+        /// <param name="forgettingFactor">The forgetting factor</param>
         public ExponentialMovingAverage(double forgettingFactor) : base()
         {
             this.forgettingFactor = forgettingFactor;
