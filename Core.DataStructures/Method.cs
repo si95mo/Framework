@@ -13,13 +13,18 @@ namespace Core.DataStructures
     [Serializable]
     public class ParameterList<T> : List<T>
     {
+        /// <summary>
+        /// The on add <see cref="EventHandler"/>
+        /// </summary>
         public event EventHandler OnAdd;
 
+        /// <summary>
+        /// Add an elemtnthe the <see cref="ParameterList{T}"/>
+        /// </summary>
+        /// <param name="item"></param>
         public new void Add(T item)
         {
-            if (null != OnAdd)
-                OnAdd(this, null);
-
+            OnAdd?.Invoke(this, null);
             base.Add(item);
         }
     }
@@ -72,6 +77,9 @@ namespace Core.DataStructures
             set => info = (MethodInfo)value;
         }
 
+        /// <summary>
+        /// The <see cref="Type"/>
+        /// </summary>
         public Type Type => this.GetType();
 
         /// <summary>
@@ -119,7 +127,7 @@ namespace Core.DataStructures
         /// <summary>
         /// Initialize a new <see cref="Method"/> object with default values
         /// and assign it a name.
-        /// Also see <see cref="Method.Method"/>.
+        /// Also see <see cref="Method()"/>.
         /// </summary>
         /// <param name="name">The <see cref="Method"/> name</param>
         public Method(string name) : this()

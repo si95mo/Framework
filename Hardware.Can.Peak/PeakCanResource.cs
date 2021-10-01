@@ -206,6 +206,7 @@ namespace Hardware.Can
         /// for plug-and-play hardware. <br/>
         /// See also <see cref="PeakCanResource(string, ushort, BaudRate, byte, uint, ushort)"/>
         /// </summary>
+        /// <param name="code">The code</param>
         /// <param name="hwChannel">The channel handle</param>
         /// <param name="baudRate">The <see cref="BaudRate"/></param>
         /// <remarks>
@@ -307,7 +308,7 @@ namespace Hardware.Can
         /// <summary>
         /// Read the can messages and store them
         /// in the relative <see cref="ICanChannel"/> subscribed
-        /// in <see cref="Channels"/>
+        /// in channels
         /// </summary>
         private void ReadMessages()
         {
@@ -350,7 +351,6 @@ namespace Hardware.Can
                     {
                         if ((channel as ICanChannel).CanId == message.ID)
                         {
-                            bool channelFound = true;
                             (channel as ICanChannel).Data = canFrame.Data;
                             (channel as ICanChannel).CanFrame = canFrame;
                         }

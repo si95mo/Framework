@@ -3,6 +3,9 @@ using System.Windows.Forms;
 
 namespace UserInterface.Controls
 {
+    /// <summary>
+    /// Implement a button control
+    /// </summary>
     public partial class ButtonControl : Button
     {
         /// <summary>

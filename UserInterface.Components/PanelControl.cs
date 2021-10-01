@@ -3,8 +3,14 @@ using System.Drawing;
 
 namespace UserInterface.Controls
 {
+    /// <summary>
+    /// Implement a panel control
+    /// </summary>
     public partial class PanelControl : BaseControl
     {
+        /// <summary>
+        /// The code
+        /// </summary>
         protected string code;
 
         /// <summary>

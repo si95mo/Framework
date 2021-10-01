@@ -6,12 +6,21 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Core.Scheduling
 {
+    /// <summary>
+    /// Implement a <see cref="Method"/> scheduler
+    /// </summary>
     [Serializable]
     public abstract class MethodScheduler : IScheduler<Method>
     {
+        /// <summary>
+        /// The subscribed methods
+        /// </summary>
         [field: NonSerialized()]
         protected ActionQueue<Method> subscribedMethods;
 
+        /// <summary>
+        /// The persistent subscribed methods
+        /// </summary>
         protected ActionQueue<Method> persistentSubscribers;
 
         /// <summary>
@@ -21,6 +30,9 @@ namespace Core.Scheduling
         [field: NonSerialized()]
         public ActionQueue<Method> Subscribers => subscribedMethods;
 
+        /// <summary>
+        /// The persistent subscribers
+        /// </summary>
         protected ActionQueue<Method> PersistentSubscribers => persistentSubscribers;
 
         /// <summary>
@@ -99,6 +111,10 @@ namespace Core.Scheduling
             SaveFileStream.Close();
         }
 
+        /// <summary>
+        /// Execute a <see cref="Method"/>
+        /// </summary>
+        /// <returns>The executed <see cref="Method"/></returns>
         public abstract Method Execute();
     }
 }

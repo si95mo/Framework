@@ -4,11 +4,29 @@ using System.Windows.Forms;
 
 namespace UserInterface.Controls
 {
+    /// <summary>
+    /// Define the type of the <see cref="Image"/>
+    /// </summary>
     public enum AutomaticActionImage
     {
+        /// <summary>
+        /// Execute image
+        /// </summary>
         Execute = 0,
+
+        /// <summary>
+        /// Save image
+        /// </summary>
         Save = 1,
+
+        /// <summary>
+        /// Load image
+        /// </summary>
         Load = 2,
+
+        /// <summary>
+        /// Clear image
+        /// </summary>
         Clear = 3
     }
 
@@ -17,6 +35,9 @@ namespace UserInterface.Controls
         private Image image;
         private AutomaticActionImage buttonImage;
 
+        /// <summary>
+        /// The click <see cref="EventHandler"/>
+        /// </summary>
         public new event EventHandler Click
         {
             add
@@ -33,6 +54,9 @@ namespace UserInterface.Controls
             }
         }
 
+        /// <summary>
+        /// The <see cref="AutomaticActionImage"/>
+        /// </summary>
         public AutomaticActionImage ButtonImage
         {
             get => buttonImage;
@@ -66,6 +90,9 @@ namespace UserInterface.Controls
             }
         }
 
+        /// <summary>
+        /// Create a new instance of <see cref="BaseAutomaticButton"/>
+        /// </summary>
         public BaseAutomaticButton()
         {
             InitializeComponent();

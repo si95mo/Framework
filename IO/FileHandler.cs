@@ -3,10 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-/// <summary>
-/// Static class that handles IO operations.
-/// <see cref="IO.IOUtility"/>
-/// </summary>
 namespace IO
 {
     /// <summary>
@@ -14,6 +10,9 @@ namespace IO
     /// </summary>
     public class FileHandler
     {
+        /// <summary>
+        /// Define the save mode
+        /// </summary>
         public enum SaveMode
         {
             /// <summary>
@@ -29,7 +28,14 @@ namespace IO
 
         private static object writeLock = new object();
 
+        /// <summary>
+        /// The <see cref="StreamWriter"/>
+        /// </summary>
         protected static StreamWriter sw;
+
+        /// <summary>
+        /// The <see cref="StreamReader"/>
+        /// </summary>
         protected static StreamReader sr;
 
         /// <summary>

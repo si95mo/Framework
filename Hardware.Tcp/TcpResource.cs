@@ -16,9 +16,19 @@ namespace Hardware.Resources
     /// </summary>
     public class TcpResource : Resource
     {
+        /// <summary>
+        /// The ip address
+        /// </summary>
         protected string ipAddress;
+
+        /// <summary>
+        /// The port number
+        /// </summary>
         protected int port;
 
+        /// <summary>
+        /// The underling <see cref="TcpClient"/>
+        /// </summary>
         protected TcpClient tcp;
 
         /// <summary>

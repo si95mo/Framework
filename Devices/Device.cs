@@ -18,23 +18,23 @@ namespace Devices
         private Configure<TChannel, TParameter> configure;
 
         /// <summary>
-        /// The <see cref="Device"/> <see cref="Bag{T}"/> of
+        /// The <see cref="Device{TChannel, TParameter}"/> <see cref="Bag{T}"/> of
         /// <see cref="IChannel"/>
         /// </summary>
         public Bag<IChannel> Channels => channels;
 
         /// <summary>
-        /// The <see cref="Device"/> <see cref="Bag{T}"/> of
+        /// The <see cref="Device{TChannel, TParameter}"/> <see cref="Bag{T}"/> of
         /// <see cref="IParameter"/>
         /// </summary>
         public Bag<IParameter> Parameters => parameters;
 
         /// <summary>
-        /// The <see cref="Device"/> code
+        /// The <see cref="Device{TChannel, TParameter}"/> code
         /// </summary>
         public string Code => code;
 
-        public Type Type => this.GetType();
+        public Type Type => GetType();
 
         /// <summary>
         /// The <see cref="Device{TChannel, TParameter}"/> value as <see cref="object"/>
@@ -44,7 +44,7 @@ namespace Devices
             get => code;
             set
             {
-                object v = ValueAsObject;
+                _ = ValueAsObject;
             }
         }
 

@@ -6,6 +6,9 @@ using Instructions;
 
 namespace Benches
 {
+    /// <summary>
+    /// Define a bench general prototype
+    /// </summary>
     public interface IBench : IProperty
     {
         /// <summary>

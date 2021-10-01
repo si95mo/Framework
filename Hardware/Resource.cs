@@ -13,9 +13,24 @@ namespace Hardware
     /// </summary>
     public abstract class Resource : IResource
     {
+        /// <summary>
+        /// The code
+        /// </summary>
         protected string code;
+
+        /// <summary>
+        /// The status
+        /// </summary>
         protected EnumParameter<ResourceStatus> status;
+
+        /// <summary>
+        /// The failure
+        /// </summary>
         protected IFailure failure;
+
+        /// <summary>
+        /// The channels
+        /// </summary>
         protected Bag<IChannel> channels;
 
         private object objectLock = new object();

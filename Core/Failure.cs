@@ -11,7 +11,14 @@ namespace Core
         private string description;
         private DateTime timestamp;
 
+        /// <summary>
+        /// The object lock
+        /// </summary>
         protected object objectLock = new object();
+
+        /// <summary>
+        /// The value changed <see cref="EventHandler"/>
+        /// </summary>
         protected EventHandler<ValueChangedEventArgs> ValueChangedHandler;
 
         /// <summary>

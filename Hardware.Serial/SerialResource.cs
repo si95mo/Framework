@@ -97,9 +97,7 @@ namespace Hardware.Resources
         /// <param name="data"></param>
         public virtual void OnDataReceived(byte[] data)
         {
-            var handler = DataReceived;
-            if (handler != null)
-                handler(this, new DataReceivedArgs { Data = data });
+            DataReceived?.Invoke(this, new DataReceivedArgs { Data = data });
         }
 
         /// <summary>
@@ -193,8 +191,7 @@ namespace Hardware.Resources
         private void ContinuousRead()
         {
             byte[] buffer = new byte[4096];
-            Action kickoffRead = null;
-            kickoffRead = () =>
+            void kickoffRead()
             {
                 if (IsOpen)
                 {
@@ -221,7 +218,8 @@ namespace Hardware.Resources
                         null
                     );
                 }
-            };
+            }
+
             kickoffRead();
         }
 
@@ -277,10 +275,10 @@ namespace Hardware.Resources
         /// <summary>
         /// Restart the <see cref="SerialResource"/>
         /// </summary>
-        public void Restart()
+        public async void Restart()
         {
             Stop();
-            Start();
+            await Start();
         }
 
         /// <summary>

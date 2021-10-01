@@ -3,12 +3,17 @@ using System.Linq;
 
 namespace Hardware
 {
+    /// <summary>
+    /// Implement a multi sample analo input
+    /// </summary>
     public class MultiSampleAnalogInput : Channel<double[]>
     {
         /// <summary>
         /// Create a new instance of <see cref="MultiSampleAnalogInput"/>
         /// </summary>
         /// <param name="code">The code</param>
+        /// <param name="measureUnit">The measure unit</param>
+        /// <param name="format">The format</param>
         public MultiSampleAnalogInput(string code, string measureUnit = "", string format = "") : base(code)
         {
             value = default;

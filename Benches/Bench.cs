@@ -16,29 +16,29 @@ namespace Benches
         protected Configure<TDevice, TParameter, TInstruction> configure;
 
         /// <summary>
-        /// The <see cref="Bench"/> code
+        /// The <see cref="Bench{TDevice, TParameter, TInstruction}"/> code
         /// </summary>
         public string Code => code;
 
         /// <summary>
-        /// The <see cref="Bench"/> <see cref="Bag{T}"/>
+        /// The <see cref="Bench{TDevice, TParameter, TInstruction}"/> <see cref="Bag{T}"/>
         /// of <see cref="IDevice"/>
         /// </summary>
         public Bag<IDevice> Devices => devices;
 
         /// <summary>
-        /// The <see cref="Bench"/> <see cref="Bag{T}"/>
+        /// The <see cref="Bench{TDevice, TParameter, TInstruction}"/> <see cref="Bag{T}"/>
         /// of <see cref="IParameter"/>
         /// </summary>
         public Bag<IParameter> Parameters => parameters;
 
         /// <summary>
-        /// The <see cref="Bench"/> <see cref="Bag{T}"/>
+        /// The <see cref="Bench{TDevice, TParameter, TInstruction}"/> <see cref="Bag{T}"/>
         /// of <see cref="IInstruction"/>
         /// </summary>
         public Bag<IInstruction> Instructions => instructions;
 
-        public Type Type => this.GetType();
+        public Type Type => GetType();
 
         /// <summary>
         /// The <see cref="Bench{TDevice, TParameter, TInstruction}"/>
@@ -49,7 +49,7 @@ namespace Benches
             get => code;
             set
             {
-                object v = ValueAsObject;
+                _ = ValueAsObject;
             }
         }
 

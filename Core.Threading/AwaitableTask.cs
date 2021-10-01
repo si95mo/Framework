@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 
 namespace Core.Threading
 {
+    /// <summary>
+    /// Define an awaitable task
+    /// </summary>
     public class AwaitableTask : IAwaitable
     {
         private string code;
@@ -13,18 +16,39 @@ namespace Core.Threading
         private TaskResult result;
         private Task executionTask;
 
+        /// <summary>
+        /// The code
+        /// </summary>
         public string Code => code;
 
+        /// <summary>
+        /// The <see cref="TaskStatus"/>
+        /// </summary>
         public TaskStatus Status => status;
 
+        /// <summary>
+        /// The <see cref="TaskResult"/>
+        /// </summary>
         public TaskResult Result => result;
 
+        /// <summary>
+        /// The running state
+        /// </summary>
         public bool Running => running;
 
+        /// <summary>
+        /// The succeeded state
+        /// </summary>
         public bool Succeded => succeded;
 
+        /// <summary>
+        /// The not succeded state
+        /// </summary>
         public bool NotSucceded => notSucceded;
 
+        /// <summary>
+        /// The <see cref="IFailure"/>
+        /// </summary>
         public IFailure Failure => failure;
 
         /// <summary>

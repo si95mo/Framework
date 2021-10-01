@@ -32,7 +32,7 @@ namespace Core.Converters
         public virtual TOut Execute(TIn arg) => converter.Invoke(arg);
 
         /// <summary>
-        /// Connects an <see cref="IParameter"/> to another
+        /// Connects an <see cref="IProperty"/> to another
         /// in order to propagate its value;
         /// </summary>
         /// <param name="sourceParameter">The source <see cref="IProperty"/></param>
@@ -52,8 +52,7 @@ namespace Core.Converters
         }
 
         /// <summary>
-        /// Connect two <see cref="IParameter"/> in order to
-        /// propagate the converted value
+        /// Connect two objects in order to propagate the converted value
         /// </summary>
         /// <param name="sender">The sender</param>
         /// <param name="e">The <see cref="ValueChangedEventArgs"/></param>

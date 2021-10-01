@@ -152,19 +152,9 @@ namespace Hardware.Can
             => CanFrameChangedHandler?.Invoke(this, e);
 
         /// <summary>
-        /// The <see cref="CanChannel"/> code
-        /// </summary>
-        public string Code => code;
-
-        /// <summary>
-        /// The <see cref="CanChannel"/> type
-        /// </summary>
-        public Type Type => typeof(CanChannel);
-
-        /// <summary>
         /// The <see cref="CanChannel"/> value as <see cref="object"/>
         /// </summary>
-        public virtual object ValueAsObject
+        public new object ValueAsObject
         {
             get => data;
             set => data = (byte[])value;

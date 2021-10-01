@@ -9,6 +9,9 @@ namespace UserInterface.Controls
     /// </summary>
     public partial class TextControl : BaseControl
     {
+        /// <summary>
+        /// The value
+        /// </summary>
         public override object Value
         {
             get => txbValue.Text;

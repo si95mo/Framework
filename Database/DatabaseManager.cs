@@ -97,8 +97,8 @@ namespace Database
             string query = $"INSERT INTO {where} ({what}) VALUES ({valueNames})";
             SqlCommand command = new SqlCommand(query, connection);
 
-            foreach ((string Name, object Value) v in values)
-                command.Parameters.AddWithValue(v.Name, v.Value);
+            foreach ((string Name, object Value) in values)
+                command.Parameters.AddWithValue(Name, Value);
 
             int affectedRows = await command.ExecuteNonQueryAsync();
 

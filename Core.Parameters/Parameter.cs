@@ -12,15 +12,44 @@ namespace Core.Parameters
     [Serializable]
     public abstract class Parameter<T> : IParameter<T>
     {
+        /// <summary>
+        /// The code
+        /// </summary>
         protected string code;
+
+        /// <summary>
+        /// The value
+        /// </summary>
         protected T value;
+
+        /// <summary>
+        /// The measure unit
+        /// </summary>
         protected string measureUnit;
+
+        /// <summary>
+        /// The format
+        /// </summary>
         protected string format;
 
+        /// <summary>
+        /// The subscribers
+        /// </summary>
         protected List<IProperty> subscribers;
+
+        /// <summary>
+        /// The converter
+        /// </summary>
         protected IConverter<T, T> converter;
 
+        /// <summary>
+        /// The object lock
+        /// </summary>
         protected object objectLock = new object();
+
+        /// <summary>
+        /// The value changed event handler
+        /// </summary>
         protected EventHandler<ValueChangedEventArgs> ValueChangedHandler;
 
         /// <summary>
@@ -71,6 +100,9 @@ namespace Core.Parameters
             set => this.value = (T)value;
         }
 
+        /// <summary>
+        /// The <see cref="System.Type"/>
+        /// </summary>
         public virtual Type Type => typeof(T);
 
         /// <summary>
@@ -142,7 +174,7 @@ namespace Core.Parameters
         /// <summary>
         /// Connects an <see cref="IParameter"/> to another
         /// in order to propagate its value converted.
-        /// See also <see cref="ConnectTo(IParameter{T})"/>
+        /// See also <see cref="ConnectTo(IProperty)"/>
         /// </summary>
         /// <param name="channel">The destination <see cref="IParameter"/></param>
         /// <param name="converter">The <see cref="IConverter"/></param>
@@ -154,7 +186,7 @@ namespace Core.Parameters
         /// <summary>
         /// <see cref="ValueChanged"/> event handler that manages
         /// the propagation of the values to subscribers.
-        /// See <see cref="ConnectTo(IChannel)"/>
+        /// See <see cref="ConnectTo(IProperty)"/>
         /// </summary>
         /// <param name="sender">The sender</param>
         /// <param name="e">The <see cref="ValueChangedEventArgs"/></param>

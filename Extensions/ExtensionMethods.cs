@@ -1,7 +1,9 @@
 ﻿using Diagnostic;
 using OX.Copyable;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Extensions
 {
@@ -10,6 +12,15 @@ namespace Extensions
     /// </summary>
     public static class ExtensionMethods
     {
+        /// <summary>
+        /// Perform an async parallel foreach
+        /// </summary>
+        /// <param name="source">The source collection</param>
+        /// <param name="function">The <see cref="Func{T, TResult}"/> to execute</param>
+        /// <returns></returns>
+        public static async Task ParallelForEachAsync(this IEnumerable<object> source, Func<object, Task> function)
+            => await source.ParallelForEachAsync(function);
+
         /// <summary>
         /// Determine whether an item is contained in a collection of elements
         /// </summary>
@@ -137,7 +148,6 @@ namespace Extensions
         /// <summary>
         /// Perform an <see cref="Action"/> if <paramref name="value"/> is <see langword="true"/>
         /// </summary>
-        /// <typeparam name="T">The type of the value to test</typeparam>
         /// <param name="value">The value</param>
         /// <param name="action">The <see cref="Action"/></param>
         /// <returns>The result of the <see cref="Action"/></returns>
@@ -179,7 +189,6 @@ namespace Extensions
         /// <summary>
         /// Perform an <see cref="Action"/> if <paramref name="value"/> is <see langword="false"/>
         /// </summary>
-        /// <typeparam name="T">The type of the value to test</typeparam>
         /// <param name="value">The value</param>
         /// <param name="action">The <see cref="Action"/></param>
         /// <returns>The result of the <see cref="Action"/></returns>
@@ -210,7 +219,6 @@ namespace Extensions
         /// <summary>
         /// Perform an <see cref="Action"/> based on <paramref name="value"/>
         /// </summary>
-        /// <typeparam name="T">The type of the value to test</typeparam>
         /// <param name="value">The value</param>
         /// <param name="trueAction">The <see cref="Action"/> to execute
         /// if <paramref name="value"/> is <see langword="true"/></param>
