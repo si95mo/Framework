@@ -185,11 +185,11 @@ namespace Core.DataStructures
         /// Retrieve an item from the <see cref="Bag{IProperty}"/>
         /// </summary>
         /// <param name="code">The code</param>
-        /// <returns>The <see cref="Core.IProperty"/> if the code is found
-        ///  n the <see cref="Bag{IProperty}"/>, <see langword="null"/> otherwise</returns>
-        public IProperty Get(string code)
+        /// <returns>The <see cref="T"/> object if the code is found
+        ///  in the <see cref="Bag{T}"/>, <see langword="default"/> otherwise</returns>
+        public T Get(string code)
         {
-            IProperty item = bag.ContainsKey(code) ? bag[code] : null;
+            T item = bag.ContainsKey(code) ? (T)bag[code] : default;
 
             return item;
         }
