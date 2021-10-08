@@ -96,8 +96,8 @@ namespace Core.Parameters
         /// </summary>
         public virtual object ValueAsObject
         {
-            get => value;
-            set => this.value = (T)value;
+            get => Value;
+            set => Value = (T)value;
         }
 
         /// <summary>

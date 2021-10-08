@@ -44,9 +44,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractConverter.cs" />
+    <Compile Include="BitExtractorConverter.cs" />
     <Compile Include="ExponentialMovingAverage.cs" />
     <Compile Include="GenericConverter.cs" />
     <Compile Include="IConverter.cs" />
+    <Compile Include="OnlineMeanConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleMovingAverage.cs" />
   </ItemGroup>
