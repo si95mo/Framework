@@ -32,15 +32,18 @@ namespace Hardware.Modbus
         /// <param name="code">The code</param>
         /// <param name="resource">The <see cref="IResource"/></param>
         /// <param name="address">The address</param>
+        /// <param name="function">The <see cref="ModbusFunction"/></param>
         /// <param name="pollingInterval">The polling interval (in milliseconds)</param>
         /// <param name="measureUnit">The measure unit</param>
         /// <param name="format">The format</param>
         /// <param name="representation">The <see cref="NumericRepresentation"/></param>
         /// <param name="reverse">The reverse bytes option</param>
-        public ModbusAnalogInput(string code, IResource resource, ushort address, int pollingInterval = 100, string measureUnit = "", string format = "0.000",
+        public ModbusAnalogInput(string code, IResource resource, ushort address, ModbusFunction function = ModbusFunction.ReadHoldingRegisters,
+            int pollingInterval = 100, string measureUnit = "", string format = "0.000",
             NumericRepresentation representation = NumericRepresentation.Single, bool reverse = false) : base(code)
         {
             this.resource = resource;
+            this.function = function;
             this.measureUnit = measureUnit;
             this.format = format;
             this.representation = representation;

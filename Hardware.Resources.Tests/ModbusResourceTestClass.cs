@@ -28,8 +28,20 @@ namespace Hardware.Resources.Tests
         {
             resource = new ModbusResource("ModbusResource", "127.0.0.1", 502);
 
-            doubleAnalogOut = new ModbusAnalogOutput("ModbusDoubleAnalogOutput", resource, 0, representation: NumericRepresentation.Double);
-            doubleAnalogIn = new ModbusAnalogInput("ModbusDoubleAnalogInput", resource, 0, representation: NumericRepresentation.Double);
+            doubleAnalogOut = new ModbusAnalogOutput(
+                "ModbusDoubleAnalogOutput",
+                resource, 
+                0, 
+                ModbusFunction.WriteSingleHoldingRegister, 
+                representation: NumericRepresentation.Double
+            );
+            doubleAnalogIn = new ModbusAnalogInput(
+                "ModbusDoubleAnalogInput", 
+                resource, 
+                0, 
+                ModbusFunction.ReadHoldingRegisters, 
+                representation: NumericRepresentation.Double
+            );
 
             singleAnalogIn = new ModbusAnalogInput("ModbusSingleAnalogInput", resource, 10, representation: NumericRepresentation.Single);
             singleAnalogOut = new ModbusAnalogOutput("ModbusSingleAnalogOutput", resource, 10, representation: NumericRepresentation.Single);

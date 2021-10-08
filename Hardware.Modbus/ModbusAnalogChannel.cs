@@ -56,11 +56,7 @@ namespace Hardware.Modbus
         /// <summary>
         /// The <see cref="ModbusFunction"/>
         /// </summary>
-        public ModbusFunction Function
-        {
-            get => function;
-            set => function = value;
-        }
+        public ModbusFunction Function => function;
 
         /// <summary>
         /// The <see cref="NumericRepresentation"/>

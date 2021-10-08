@@ -16,27 +16,20 @@ namespace Hardware.Modbus
         /// <param name="measureUnit">The measure unit</param>
         /// <param name="format">The format</param>
         /// <param name="representation">The <see cref="NumericRepresentation"/></param>
-        public ModbusDigitalOutput(string code, IResource resource, ushort address, string measureUnit = "", string format = "0.000",
-            NumericRepresentation representation = NumericRepresentation.Single) : base(code)
+        public ModbusDigitalOutput(string code, IResource resource, ushort address) : base(code)
         {
             this.resource = resource;
-            this.measureUnit = measureUnit;
-            this.format = format;
-            this.representation = representation;
             this.address = address;
+            function = ModbusFunction.WriteSingleCoil;
 
             resource.Channels.Add(this);
+
+            ValueChanged += ModbusDigitalOutput_ValueChanged;
         }
 
-        /// <summary>
-        /// Propagate the value changed event
-        /// </summary>
-        /// <param name="sender">The sender</param>
-        /// <param name="e">The <see cref="ValueChangedEventArgs"/></param>
-        protected override void PropagateValues(object sender, ValueChangedEventArgs e)
+        private async void ModbusDigitalOutput_ValueChanged(object sender, ValueChangedEventArgs e)
         {
-            (resource as ModbusResource).Send(code);
-            base.PropagateValues(sender, e);
+            await(resource as ModbusResource).Send(code);
         }
     }
 }
