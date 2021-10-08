@@ -25,6 +25,6 @@ namespace Hardware.Modbus
         /// <summary>
         /// The modbus register <see cref="ModbusFunction"/>
         /// </summary>
-        ModbusFunction Function { get; set; }
+        ModbusFunction Function { get; }
     }
 }
