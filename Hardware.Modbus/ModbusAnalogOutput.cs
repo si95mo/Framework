@@ -18,8 +18,8 @@ namespace Hardware.Modbus
         /// <param name="format">The format</param>
         /// <param name="representation">The <see cref="NumericRepresentation"/></param>
         /// <param name="reverse">The reverse option</param>
-        public ModbusAnalogOutput(string code, IResource resource, ushort address, ModbusFunction function = ModbusFunction.WriteSingleHoldingRegister, 
-            string measureUnit = "", string format = "0.000", NumericRepresentation representation = NumericRepresentation.Single, bool reverse = false) 
+        public ModbusAnalogOutput(string code, IResource resource, ushort address, ModbusFunction function = ModbusFunction.WriteSingleHoldingRegister,
+            string measureUnit = "", string format = "0.000", NumericRepresentation representation = NumericRepresentation.Single, bool reverse = false)
             : base(code)
         {
             this.resource = resource;

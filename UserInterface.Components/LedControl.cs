@@ -35,10 +35,10 @@ namespace UserInterface.Controls
         public bool On
         {
             get => on;
-            set 
-            { 
-                on = value; 
-                Invalidate(); 
+            set
+            {
+                on = value;
+                Invalidate();
             }
         }
 
