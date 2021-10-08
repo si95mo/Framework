@@ -30,16 +30,16 @@ namespace Hardware.Resources.Tests
 
             doubleAnalogOut = new ModbusAnalogOutput(
                 "ModbusDoubleAnalogOutput",
-                resource, 
-                0, 
-                ModbusFunction.WriteSingleHoldingRegister, 
+                resource,
+                0,
+                ModbusFunction.WriteSingleHoldingRegister,
                 representation: NumericRepresentation.Double
             );
             doubleAnalogIn = new ModbusAnalogInput(
-                "ModbusDoubleAnalogInput", 
-                resource, 
-                0, 
-                ModbusFunction.ReadHoldingRegisters, 
+                "ModbusDoubleAnalogInput",
+                resource,
+                0,
+                ModbusFunction.ReadHoldingRegisters,
                 representation: NumericRepresentation.Double
             );
 

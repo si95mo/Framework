@@ -29,7 +29,7 @@ namespace Hardware.Modbus
 
         private async void ModbusDigitalOutput_ValueChanged(object sender, ValueChangedEventArgs e)
         {
-            await(resource as ModbusResource).Send(code);
+            await (resource as ModbusResource).Send(code);
         }
     }
 }

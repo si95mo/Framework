@@ -181,7 +181,7 @@ namespace Hardware.Modbus
                     switch (representation)
                     {
                         case NumericRepresentation.Double:
-                            switch((channel as IModbusChannel).Function)
+                            switch ((channel as IModbusChannel).Function)
                             {
                                 case ModbusFunction.ReadHoldingRegisters:
                                     values = await master?.ReadHoldingRegistersAsync((channel as ModbusAnalogInput).Address, 4);
@@ -258,7 +258,7 @@ namespace Hardware.Modbus
                     if (channel is ModbusDigitalInput)
                     {
                         bool value = false;
-                        switch((channel as IModbusChannel).Function)
+                        switch ((channel as IModbusChannel).Function)
                         {
                             case ModbusFunction.ReadCoil:
                                 value = (await master?.ReadCoilsAsync((channel as ModbusDigitalInput).Address, 1))[0];
