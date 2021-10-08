@@ -45,7 +45,7 @@ namespace Core.Converters
             (sourceParameter as IProperty<TIn>).ConnectTo(this.sourceParameter);
             this.destinationParameter.ConnectTo(destinationParameter as IProperty<TOut>);
 
-            (destinationParameter as IProperty<TOut>).Value =
+            this.destinationParameter.Value =
                 converter.Invoke((sourceParameter as IProperty<TIn>).Value);
 
             this.sourceParameter.ValueChanged += PropagateValues;

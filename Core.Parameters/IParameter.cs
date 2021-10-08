@@ -11,6 +11,12 @@
         /// <param name="property">The <see cref="IProperty"/> to connect</param>
         /// <param name="converter">The <see cref="IConverter"/></param>
         void ConnectTo(IProperty property, IConverter converter);
+
+        /// <summary>
+        /// Connect a <see cref="IProperty"/> to propagate the value
+        /// </summary>
+        /// <param name="property">The <see cref="IProperty"/> to connect</param>
+        void ConnectTo(IProperty property);
     }
 
     /// <summary>
