@@ -59,7 +59,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EnumParameter.cs" />
     <Compile Include="RestClient.cs" />
     <Compile Include="RestServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
