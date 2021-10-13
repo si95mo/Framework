@@ -398,10 +398,8 @@ namespace Hardware.Modbus
 
         private ushort ConvertFromUInt16ToUInt16(double x)
         {
-            ushort converted = 0;
             byte[] bytes = BitConverter.GetBytes((short)x);
-
-            converted = BitConverter.ToUInt16(bytes, 0);
+            ushort converted = BitConverter.ToUInt16(bytes, 0);
 
             return converted;
         }
@@ -416,7 +414,7 @@ namespace Hardware.Modbus
             if (n != 8)
             {
                 List<ushort> tmp = new List<ushort>();
-                int stop = 4 - values.Length;
+                // int stop = 4 - values.Length;
 
                 if (representation == NumericRepresentation.Int32 || representation == NumericRepresentation.UInt16)
                     tmp.AddRange(values.ToList());

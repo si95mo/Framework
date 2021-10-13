@@ -13,9 +13,6 @@ namespace Hardware.Modbus
         /// <param name="code">The code</param>
         /// <param name="resource">The <see cref="IResource"/></param>
         /// <param name="address">The address</param>
-        /// <param name="measureUnit">The measure unit</param>
-        /// <param name="format">The format</param>
-        /// <param name="representation">The <see cref="NumericRepresentation"/></param>
         public ModbusDigitalOutput(string code, IResource resource, ushort address) : base(code)
         {
             this.resource = resource;

@@ -16,6 +16,7 @@
         /// </summary>
         /// <param name="code">THe code</param>
         /// <param name="namespaceConfiguration">The namespace configuration</param>
+        /// <param name="resource">The <see cref="IResource"/></param>
         protected OpcUaChannel(string code, string namespaceConfiguration, IResource resource) : base(code)
         {
             this.namespaceConfiguration = namespaceConfiguration;

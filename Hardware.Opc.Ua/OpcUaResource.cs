@@ -27,7 +27,6 @@ namespace Hardware.Opc.Ua
         /// Create a new instance of <see cref="OpcUaResource"/>
         /// </summary>
         /// <param name="code">The code</param>
-        /// <param name="applicationName">The application name</param>
         /// <param name="serverAddress">The server address</param>
         public OpcUaResource(string code, string serverAddress) : base(code)
         {
