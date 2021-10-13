@@ -69,7 +69,7 @@ namespace Hardware
                     break;
 
                 case ResourceStatus.Failure:
-                    Logger.Log($"{code} failure: {LastFailure}", Severity.Info);
+                    Logger.Log($"{code} failure: {LastFailure}", Severity.Error);
                     break;
             }
         }

@@ -65,6 +65,7 @@ namespace Hardware.Modbus
     {
         private ModbusIpMaster master;
         private bool writing;
+        private bool started;
 
         /// <summary>
         /// Create a new instance of <see cref="ModbusResource"/>
@@ -73,6 +74,7 @@ namespace Hardware.Modbus
         public ModbusResource(string code) : base(code)
         {
             Status.Value = ResourceStatus.Stopped;
+            started = false;
         }
 
         /// <summary>
@@ -104,58 +106,65 @@ namespace Hardware.Modbus
         /// <param name="code">The code of the <see cref="IModbusChannel"/> of which send the value</param>
         internal new async Task Send(string code)
         {
-            try
+            if (started)
             {
-                writing = true;
-                var channel = channels.Get(code);
-
-                if (channel is ModbusAnalogOutput)
+                try
                 {
-                    NumericRepresentation representation = (channel as ModbusAnalogOutput).Representation;
-                    double value = (channel as ModbusAnalogOutput).Value;
-                    ushort[] values;
+                    writing = true;
+                    var channel = channels.Get(code);
 
-                    switch (representation)
+                    if (channel is ModbusAnalogOutput)
                     {
-                        case NumericRepresentation.Double:
-                            values = ConvertFromDoubleToUInt16(value);
-                            if ((channel as ModbusAnalogChannel).Reverse)
-                                Array.Reverse(values);
+                        NumericRepresentation representation = (channel as ModbusAnalogOutput).Representation;
+                        double value = (channel as ModbusAnalogOutput).Value;
+                        ushort[] values;
 
-                            await master.WriteMultipleRegistersAsync((channel as ModbusAnalogOutput).Address, values);
-                            break;
+                        switch (representation)
+                        {
+                            case NumericRepresentation.Double:
+                                values = ConvertFromDoubleToUInt16(value);
+                                if ((channel as ModbusAnalogChannel).Reverse)
+                                    Array.Reverse(values);
 
-                        case NumericRepresentation.Single:
-                            values = ConvertFromSingleToUInt16(value);
-                            if ((channel as ModbusAnalogChannel).Reverse)
-                                Array.Reverse(values);
+                                await master.WriteMultipleRegistersAsync((channel as ModbusAnalogOutput).Address, values);
+                                break;
 
-                            await master.WriteMultipleRegistersAsync((channel as ModbusAnalogOutput).Address, values);
-                            break;
+                            case NumericRepresentation.Single:
+                                values = ConvertFromSingleToUInt16(value);
+                                if ((channel as ModbusAnalogChannel).Reverse)
+                                    Array.Reverse(values);
 
-                        case NumericRepresentation.Int32:
-                            values = ConvertFromInt32ToUInt16(value);
-                            if ((channel as ModbusAnalogChannel).Reverse)
-                                Array.Reverse(values);
+                                await master.WriteMultipleRegistersAsync((channel as ModbusAnalogOutput).Address, values);
+                                break;
 
-                            await master.WriteMultipleRegistersAsync((channel as ModbusAnalogOutput).Address, values);
-                            break;
+                            case NumericRepresentation.Int32:
+                                values = ConvertFromInt32ToUInt16(value);
+                                if ((channel as ModbusAnalogChannel).Reverse)
+                                    Array.Reverse(values);
 
-                        case NumericRepresentation.UInt16:
-                            await master.WriteSingleRegisterAsync((channel as ModbusAnalogOutput).Address, ConvertFromUInt16ToUInt16(value));
-                            break;
+                                await master.WriteMultipleRegistersAsync((channel as ModbusAnalogOutput).Address, values);
+                                break;
+
+                            case NumericRepresentation.UInt16:
+                                await master.WriteSingleRegisterAsync((channel as ModbusAnalogOutput).Address, ConvertFromUInt16ToUInt16(value));
+                                break;
+                        }
                     }
-                }
-                else
-                    if (channel is ModbusDigitalOutput)
-                    master.WriteSingleCoil((channel as ModbusDigitalOutput).Address, (channel as ModbusDigitalOutput).Value);
+                    else
+                        if (channel is ModbusDigitalOutput)
+                        master.WriteSingleCoil((channel as ModbusDigitalOutput).Address, (channel as ModbusDigitalOutput).Value);
 
-                writing = false;
-            }
-            catch (Exception ex)
-            {
-                writing = false;
-                Logger.Log(ex);
+                    writing = false;
+                }
+                catch (Exception ex)
+                {
+                    failure = new Failure(ex.Message);
+                    Status.Value = ResourceStatus.Failure;
+                    Logger.Log(ex);
+
+                    writing = false;
+                    started = false;
+                }
             }
         }
 
@@ -165,113 +174,120 @@ namespace Hardware.Modbus
         /// <param name="code">The code of the <see cref="IModbusChannel"/> in which store the value</param>
         internal async Task Receive(string code)
         {
-            try
+            if (started)
             {
-                int counter = 0;
-                while (writing && ++counter < 100)
-                    await Tasks.NoOperation(1);
-
-                var channel = channels.Get(code);
-
-                if (channel is ModbusAnalogInput)
+                try
                 {
-                    NumericRepresentation representation = (channel as ModbusAnalogInput).Representation;
-                    ushort[] values = null;
+                    int counter = 0;
+                    while (writing && ++counter < 100)
+                        await Tasks.NoOperation(1);
 
-                    switch (representation)
+                    var channel = channels.Get(code);
+
+                    if (channel is ModbusAnalogInput)
                     {
-                        case NumericRepresentation.Double:
-                            switch ((channel as IModbusChannel).Function)
-                            {
-                                case ModbusFunction.ReadHoldingRegisters:
-                                    values = await master?.ReadHoldingRegistersAsync((channel as ModbusAnalogInput).Address, 4);
-                                    break;
+                        NumericRepresentation representation = (channel as ModbusAnalogInput).Representation;
+                        ushort[] values = null;
 
-                                case ModbusFunction.ReadInputRegisters:
-                                    values = await master?.ReadInputRegistersAsync((channel as ModbusAnalogChannel).Address, 4);
-                                    break;
-                            }
-
-                            if ((channel as ModbusAnalogInput).Reverse)
-                                Array.Reverse(values);
-
-                            (channel as ModbusAnalogInput).Value = ConvertFromUInt16ToDouble(values, (channel as ModbusAnalogInput).Representation);
-                            break;
-
-                        case NumericRepresentation.Int32:
-                            switch ((channel as IModbusChannel).Function)
-                            {
-                                case ModbusFunction.ReadHoldingRegisters:
-                                    values = await master?.ReadHoldingRegistersAsync((channel as ModbusAnalogInput).Address, 2);
-                                    break;
-
-                                case ModbusFunction.ReadInputRegisters:
-                                    values = await master?.ReadInputRegistersAsync((channel as ModbusAnalogChannel).Address, 2);
-                                    break;
-                            }
-
-                            if ((channel as ModbusAnalogInput).Reverse)
-                                Array.Reverse(values);
-
-                            (channel as ModbusAnalogInput).Value = ConvertFromUInt16ToDouble(values, (channel as ModbusAnalogInput).Representation);
-                            break;
-
-                        case NumericRepresentation.Single:
-                            switch ((channel as IModbusChannel).Function)
-                            {
-                                case ModbusFunction.ReadHoldingRegisters:
-                                    values = await master?.ReadHoldingRegistersAsync((channel as ModbusAnalogInput).Address, 2);
-                                    break;
-
-                                case ModbusFunction.ReadInputRegisters:
-                                    values = await master?.ReadInputRegistersAsync((channel as ModbusAnalogChannel).Address, 2);
-                                    break;
-                            }
-
-                            if ((channel as ModbusAnalogInput).Reverse)
-                                Array.Reverse(values);
-
-                            (channel as ModbusAnalogInput).Value = ConvertFromUInt16ToDouble(values, (channel as ModbusAnalogInput).Representation);
-                            break;
-
-                        case NumericRepresentation.UInt16:
-                            switch ((channel as IModbusChannel).Function)
-                            {
-                                case ModbusFunction.ReadHoldingRegisters:
-                                    values = await master?.ReadHoldingRegistersAsync((channel as ModbusAnalogInput).Address, 1);
-                                    break;
-
-                                case ModbusFunction.ReadInputRegisters:
-                                    values = await master?.ReadInputRegistersAsync((channel as ModbusAnalogChannel).Address, 1);
-                                    break;
-                            }
-
-                            if ((channel as ModbusAnalogInput).Reverse)
-                                Array.Reverse(values);
-
-                            (channel as ModbusAnalogInput).Value = ConvertFromUInt16ToDouble(values, (channel as ModbusAnalogInput).Representation);
-                            break;
-                    }
-                }
-                else
-                {
-                    if (channel is ModbusDigitalInput)
-                    {
-                        bool value = false;
-                        switch ((channel as IModbusChannel).Function)
+                        switch (representation)
                         {
-                            case ModbusFunction.ReadCoil:
-                                value = (await master?.ReadCoilsAsync((channel as ModbusDigitalInput).Address, 1))[0];
+                            case NumericRepresentation.Double:
+                                switch ((channel as IModbusChannel).Function)
+                                {
+                                    case ModbusFunction.ReadHoldingRegisters:
+                                        values = await master?.ReadHoldingRegistersAsync((channel as ModbusAnalogInput).Address, 4);
+                                        break;
+
+                                    case ModbusFunction.ReadInputRegisters:
+                                        values = await master?.ReadInputRegistersAsync((channel as ModbusAnalogChannel).Address, 4);
+                                        break;
+                                }
+
+                                if ((channel as ModbusAnalogInput).Reverse)
+                                    Array.Reverse(values);
+
+                                (channel as ModbusAnalogInput).Value = ConvertFromUInt16ToDouble(values, (channel as ModbusAnalogInput).Representation);
+                                break;
+
+                            case NumericRepresentation.Int32:
+                                switch ((channel as IModbusChannel).Function)
+                                {
+                                    case ModbusFunction.ReadHoldingRegisters:
+                                        values = await master?.ReadHoldingRegistersAsync((channel as ModbusAnalogInput).Address, 2);
+                                        break;
+
+                                    case ModbusFunction.ReadInputRegisters:
+                                        values = await master?.ReadInputRegistersAsync((channel as ModbusAnalogChannel).Address, 2);
+                                        break;
+                                }
+
+                                if ((channel as ModbusAnalogInput).Reverse)
+                                    Array.Reverse(values);
+
+                                (channel as ModbusAnalogInput).Value = ConvertFromUInt16ToDouble(values, (channel as ModbusAnalogInput).Representation);
+                                break;
+
+                            case NumericRepresentation.Single:
+                                switch ((channel as IModbusChannel).Function)
+                                {
+                                    case ModbusFunction.ReadHoldingRegisters:
+                                        values = await master?.ReadHoldingRegistersAsync((channel as ModbusAnalogInput).Address, 2);
+                                        break;
+
+                                    case ModbusFunction.ReadInputRegisters:
+                                        values = await master?.ReadInputRegistersAsync((channel as ModbusAnalogChannel).Address, 2);
+                                        break;
+                                }
+
+                                if ((channel as ModbusAnalogInput).Reverse)
+                                    Array.Reverse(values);
+
+                                (channel as ModbusAnalogInput).Value = ConvertFromUInt16ToDouble(values, (channel as ModbusAnalogInput).Representation);
+                                break;
+
+                            case NumericRepresentation.UInt16:
+                                switch ((channel as IModbusChannel).Function)
+                                {
+                                    case ModbusFunction.ReadHoldingRegisters:
+                                        values = await master?.ReadHoldingRegistersAsync((channel as ModbusAnalogInput).Address, 1);
+                                        break;
+
+                                    case ModbusFunction.ReadInputRegisters:
+                                        values = await master?.ReadInputRegistersAsync((channel as ModbusAnalogChannel).Address, 1);
+                                        break;
+                                }
+
+                                if ((channel as ModbusAnalogInput).Reverse)
+                                    Array.Reverse(values);
+
+                                (channel as ModbusAnalogInput).Value = ConvertFromUInt16ToDouble(values, (channel as ModbusAnalogInput).Representation);
                                 break;
                         }
+                    }
+                    else
+                    {
+                        if (channel is ModbusDigitalInput)
+                        {
+                            bool value = false;
+                            switch ((channel as IModbusChannel).Function)
+                            {
+                                case ModbusFunction.ReadCoil:
+                                    value = (await master?.ReadCoilsAsync((channel as ModbusDigitalInput).Address, 1))[0];
+                                    break;
+                            }
 
-                        (channel as ModbusDigitalInput).Value = value;
+                            (channel as ModbusDigitalInput).Value = value;
+                        }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                Logger.Log(ex);
+                catch (Exception ex)
+                {
+                    failure = new Failure(ex.Message);
+                    Status.Value = ResourceStatus.Failure;
+                    Logger.Log(ex);
+
+                    started = false;
+                }
             }
         }
 
@@ -301,6 +317,7 @@ namespace Hardware.Modbus
                     master = ModbusIpMaster.CreateIp(tcp);
 
                     Status.Value = ResourceStatus.Executing;
+                    started = true;
 
                     foreach (IProperty channel in channels)
                     {
@@ -322,6 +339,7 @@ namespace Hardware.Modbus
                 failure = new Failure(ex.Message, DateTime.Now);
                 Status.Value = ResourceStatus.Failure;
 
+                started = false;
                 Logger.Log(ex);
             }
         }
@@ -341,6 +359,8 @@ namespace Hardware.Modbus
 
             if (status.Value == ResourceStatus.Failure)
                 failure = new Failure("Error occurred while closing the port!", DateTime.Now);
+
+            started = false;
         }
 
         private ushort[] ConvertFromDoubleToUInt16(double x)
