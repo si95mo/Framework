@@ -11,7 +11,7 @@ namespace Configuration
 
         /// <summary>
         /// The collection of <see cref="ConfigurationItem"/>
-        /// stored in <see cref="ConfigurationB"/>
+        /// stored in <see cref="Configuration"/>
         /// </summary>
         public Dictionary<string, ConfigurationItem> Items => items;
 
