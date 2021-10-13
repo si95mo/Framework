@@ -96,6 +96,7 @@ namespace Hardware.Resources
             catch (Exception ex)
             {
                 failure = new Failure(ex.Message);
+                Status.Value = ResourceStatus.Failure;
                 Logger.Log(ex);
             }
         }
@@ -114,6 +115,7 @@ namespace Hardware.Resources
             }
             catch (Exception ex)
             {
+                Status.Value = ResourceStatus.Failure;
                 Logger.Log(ex);
             }
         }
@@ -133,6 +135,7 @@ namespace Hardware.Resources
             }
             catch (Exception ex)
             {
+                Status.Value = ResourceStatus.Failure;
                 Logger.Log(ex);
                 return response;
             }
@@ -154,6 +157,7 @@ namespace Hardware.Resources
             }
             catch (Exception ex)
             {
+                Status.Value = ResourceStatus.Failure;
                 Logger.Log(ex);
             }
         }
@@ -203,8 +207,6 @@ namespace Hardware.Resources
             Status.Value = ResourceStatus.Stopping;
             tcp.Close();
             Status.Value = ResourceStatus.Stopped;
-
-            failure = new Failure("Error occurred while closing the port!", DateTime.Now);
         }
 
         /// <summary>
