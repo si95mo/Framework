@@ -96,6 +96,8 @@ namespace Hardware.Opc.Ua
                 }
                 catch (Exception ex)
                 {
+                    failure = new Failure(ex.Message);
+                    Status.Value = ResourceStatus.Failure;
                     Logger.Log(ex);
                 }
             }
@@ -119,6 +121,8 @@ namespace Hardware.Opc.Ua
                 }
                 catch (Exception ex)
                 {
+                    failure = new Failure(ex.Message);
+                    Status.Value = ResourceStatus.Failure;
                     Logger.Log(ex);
                 }
             }
