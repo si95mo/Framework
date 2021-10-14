@@ -5,6 +5,9 @@
         protected string namespaceConfiguration;
         protected IResource resource;
 
+        /// <summary>
+        /// The namespace configuration
+        /// </summary>
         public string NamespaceConfiguration
         {
             get => namespaceConfiguration;
