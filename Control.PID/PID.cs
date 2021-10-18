@@ -12,6 +12,7 @@ namespace Control.PID
     /// </summary>
     public class PID : Controller
     {
+        private int n;
         private double kp, ki, kd;
         private double upperLimit, lowerLimit;
         private double cycleTime;
@@ -25,6 +26,11 @@ namespace Control.PID
         private double lastControlledValue;
 
         private Task controlTask;
+
+        /// <summary>
+        /// The filter coefficient
+        /// </summary>
+        public int N { get => n; set => n = value; }
 
         /// <summary>
         /// The proportional gain
@@ -81,9 +87,10 @@ namespace Control.PID
         /// <param name="upperLimit">The upper limit (for clamping)</param>
         /// <param name="lowerLimit">The lower limit (for clamping)</param>
         /// <param name="setPoint">The desired set point</param>
-        public PID(string code, Channel<double> u, double kp, double ki, double kd,
+        public PID(string code, Channel<double> u, int n, double kp, double ki, double kd,
             double upperLimit, double lowerLimit, double setPoint) : base(code, u, setPoint)
         {
+            this.n = n;
             this.kp = kp;
             this.ki = ki;
             this.kd = kd;
@@ -156,8 +163,8 @@ namespace Control.PID
             integralTerm = Clamp(integralTerm);
 
             // Derivative term
-            double dInput = u.Value - lastControlledValue;
-            derivativeTerm = kd * (dInput / timeSinceLastUpdate.TotalSeconds);
+            // double dInput = u.Value - lastControlledValue;
+            derivativeTerm = kd * (n / (1 + n * integralTerm));
 
             // Proportional term
             proportionalTerm = kp * error;

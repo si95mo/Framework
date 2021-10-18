@@ -311,28 +311,43 @@ namespace Hardware.Modbus
 
             try
             {
-                if (TestConnection() || ipAddress.CompareTo("127.0.0.1") == 0)
+                await tcp.ConnectAsync(ipAddress, port);
+                master = ModbusIpMaster.CreateIp(tcp);
+
+                Status.Value = ResourceStatus.Executing;
+                started = true;
+
+                foreach (IProperty channel in channels)
                 {
-                    await tcp.ConnectAsync(ipAddress, port);
-                    master = ModbusIpMaster.CreateIp(tcp);
+                    if (channel is ModbusAnalogInput)
+                        await Task.Factory.StartNew((channel as ModbusAnalogInput).PollingAction);
 
-                    Status.Value = ResourceStatus.Executing;
-                    started = true;
-
-                    foreach (IProperty channel in channels)
-                    {
-                        if (channel is ModbusAnalogInput)
-                            await Task.Factory.StartNew((channel as ModbusAnalogInput).PollingAction);
-
-                        if (channel is ModbusDigitalInput)
-                            await Task.Factory.StartNew((channel as ModbusDigitalInput).PollingAction);
-                    }
+                    if (channel is ModbusDigitalInput)
+                        await Task.Factory.StartNew((channel as ModbusDigitalInput).PollingAction);
                 }
-                else
-                {
-                    failure = new Failure($"Unable to connect to modbus server at {ipAddress}:{port}", DateTime.Now);
-                    Status.Value = ResourceStatus.Failure;
-                }
+
+            //    if (TestConnection() || ipAddress.CompareTo("127.0.0.1") == 0)
+            //    {
+            //        await tcp.ConnectAsync(ipAddress, port);
+            //        master = ModbusIpMaster.CreateIp(tcp);
+
+            //        Status.Value = ResourceStatus.Executing;
+            //        started = true;
+
+            //        foreach (IProperty channel in channels)
+            //        {
+            //            if (channel is ModbusAnalogInput)
+            //                await Task.Factory.StartNew((channel as ModbusAnalogInput).PollingAction);
+
+            //            if (channel is ModbusDigitalInput)
+            //                await Task.Factory.StartNew((channel as ModbusDigitalInput).PollingAction);
+            //        }
+            //    }
+            //    else
+            //    {
+            //        failure = new Failure($"Unable to connect to modbus server at {ipAddress}:{port}", DateTime.Now);
+            //        Status.Value = ResourceStatus.Failure;
+            //    }
             }
             catch (Exception ex)
             {
