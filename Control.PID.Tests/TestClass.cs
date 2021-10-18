@@ -32,8 +32,9 @@ namespace Control.PID.Tests
             pid = new PID(
                 code: "PID",
                 u: u,
-                kp: 0.0001,
-                ki: 8,
+                n: 100,
+                kp: 0.00001,
+                ki: 10,
                 kd: 0.00001,
                 upperLimit: 10,
                 lowerLimit: 0,
@@ -75,7 +76,7 @@ namespace Control.PID.Tests
                     if (printToStandardOutput)
                         Console.WriteLine(text);
 
-                    if (time >= 33000 && time <= 66000)
+                    if (time >= 33333 && time <= 66666)
                         pid.SetPoint = 3.3;
                     else
                     {
