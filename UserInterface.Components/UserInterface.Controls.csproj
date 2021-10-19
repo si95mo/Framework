@@ -44,11 +44,15 @@
     <Reference Include="Hardware">
       <HintPath>..\Hardware\bin\Debug\Hardware.dll</HintPath>
     </Reference>
+    <Reference Include="MetroSet UI, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroSet_UI.2.0.0\lib\net45\MetroSet UI.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
@@ -81,6 +85,12 @@
     <Compile Include="ButtonControl.Designer.cs">
       <DependentUpon>ButtonControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="CircularProgressBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CircularProgressBar.Designer.cs">
+      <DependentUpon>CircularProgressBar.cs</DependentUpon>
+    </Compile>
     <Compile Include="ClockControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -100,6 +110,12 @@
     <Compile Include="ComboControl.Designer.cs">
       <DependentUpon>ComboControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="CustomForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomForm.Designer.cs">
+      <DependentUpon>CustomForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="DialogPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -117,6 +133,9 @@
     </Compile>
     <Compile Include="InstructionControl.Designer.cs">
       <DependentUpon>InstructionControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LabelControl.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="LedControl.cs">
       <SubType>Component</SubType>
@@ -164,7 +183,7 @@
       <DependentUpon>SaveTestProgramPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="TextControl.cs">
-      <SubType>UserControl</SubType>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="TextControl.Designer.cs">
       <DependentUpon>TextControl.cs</DependentUpon>
@@ -188,6 +207,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ComboControl.resx">
       <DependentUpon>ComboControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomForm.resx">
+      <DependentUpon>CustomForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DialogPanel.resx">
       <DependentUpon>DialogPanel.cs</DependentUpon>
@@ -260,6 +282,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="packages.config" />
     <None Include="Resources\ImageAdd.bmp" />
   </ItemGroup>
   <ItemGroup>

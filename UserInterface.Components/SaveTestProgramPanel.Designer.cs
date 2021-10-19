@@ -73,7 +73,7 @@ namespace UserInterface.Controls
             this.txbTestProgramName.Name = "txbTestProgramName";
             this.txbTestProgramName.Size = new System.Drawing.Size(150, 25);
             this.txbTestProgramName.TabIndex = 6;
-            this.txbTestProgramName.Value = "";
+            this.txbTestProgramName.Text = "";
             // 
             // btnSave
             // 

@@ -33,7 +33,7 @@ namespace UserInterface.Controls
             // 
             // ButtonControl
             // 
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Size = new System.Drawing.Size(150, 25);
             this.ResumeLayout(false);
 

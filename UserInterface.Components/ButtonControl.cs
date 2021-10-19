@@ -19,7 +19,10 @@ namespace UserInterface.Controls
             Size = new Size(150, 32);
 
             FlatStyle = FlatStyle.Flat;
-            FlatAppearance.BorderColor = Colors.Black;
+            FlatAppearance.BorderColor = Colors.Grey;
+
+            ForeColor = Colors.TextColor;
+            BackColor = Colors.Grey;
         }
     }
 }

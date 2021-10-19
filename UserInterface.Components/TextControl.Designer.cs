@@ -29,31 +29,16 @@ namespace UserInterface.Controls
         /// </summary>
         private void InitializeComponent()
         {
-            this.txbValue = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
-            // 
-            // txbValue
-            // 
-            this.txbValue.Location = new System.Drawing.Point(0, 1);
-            this.txbValue.Multiline = true;
-            this.txbValue.Name = "txbValue";
-            this.txbValue.Size = new System.Drawing.Size(150, 23);
-            this.txbValue.TabIndex = 0;
             // 
             // TextControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.txbValue);
-            this.Name = "TextControl";
-            this.Size = new System.Drawing.Size(150, 25);
+            this.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Size = new System.Drawing.Size(150, 32);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.TextBox txbValue;
     }
 }

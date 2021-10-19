@@ -18,7 +18,7 @@ namespace UserInterface.Controls
         /// The green <see cref="Color"/>
         /// defined as 0xB8, 0xF2, 0x94
         /// </summary>
-        public static readonly Color Green = Color.FromArgb(0xB8, 0xF2, 0x94);
+        public static readonly Color Green = Color.FromArgb(189, 220, 4);
 
         /// <summary>
         /// The black <see cref="Color"/>
@@ -43,6 +43,10 @@ namespace UserInterface.Controls
         /// defined as 0x2F, 0x4F, 0x4F
         /// </summary>
         public static readonly Color TextColorDark = Color.DarkSlateGray;
+
+        public static readonly Color TextColor = Color.FromArgb(51, 51, 51);
+
+        public static readonly Color Grey = Color.FromArgb(200, 200, 200);
 
         /// <summary>
         /// The red <see cref="Color"/>
