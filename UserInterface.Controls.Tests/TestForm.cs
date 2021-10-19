@@ -48,7 +48,7 @@ namespace UserInterface.Controls.Tests
                             ledControl.Color = offColor;
                     }
                 )
-            );            
+            );
         }
     }
 }

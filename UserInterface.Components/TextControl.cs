@@ -19,7 +19,7 @@ namespace UserInterface.Controls
 
         protected override void OnParentChanged(EventArgs e)
         {
-            if (Parent != null) 
+            if (Parent != null)
                 BackColor = Parent.BackColor;
 
             base.OnParentChanged(e);
