@@ -229,7 +229,7 @@ public class CircularProgressBar : UserControl
                 {
                     graphics.FillEllipse(
                         mBackColor,
-                        18, 
+                        18,
                         18,
                         (Width - 0x30) + 12,
                         (Height - 0x30) + 12
@@ -249,7 +249,7 @@ public class CircularProgressBar : UserControl
                 }
 
                 // Progress bar
-                using (LinearGradientBrush brush =  
+                using (LinearGradientBrush brush =
                     new LinearGradientBrush(ClientRectangle, firstProgressColor, secondProgressColor, GradientMode))
                 {
                     using (Pen pen = new Pen(brush, BarWidth))
@@ -305,8 +305,8 @@ public class CircularProgressBar : UserControl
 
                         // Text effects
                         graphics.DrawString(
-                            Text, 
-                            Font, 
+                            Text,
+                            Font,
                             shadowBrush,
                             Convert.ToInt32(Width / 2 - MS.Width / 2) + ShadowOffset,
                             Convert.ToInt32(Height / 2 - MS.Height / 2) + ShadowOffset
@@ -314,8 +314,8 @@ public class CircularProgressBar : UserControl
 
                         // Text
                         graphics.DrawString(
-                            Text, 
-                            Font, 
+                            Text,
+                            Font,
                             FontColor,
                             Convert.ToInt32(Width / 2 - MS.Width / 2),
                             Convert.ToInt32(Height / 2 - MS.Height / 2)
