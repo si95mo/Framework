@@ -47,7 +47,7 @@ namespace UserInterface.Controls
 
         private void BtnSaveClick(object sender, EventArgs e)
         {
-            if (txbTestProgramName.Value.ToString().CompareTo("") == 0)
+            if (txbTestProgramName.Text.ToString().CompareTo("") == 0)
             {
                 btnSave.FlatAppearance.BorderColor = Colors.Red;
                 txbTestProgramName.Focus();
@@ -56,7 +56,7 @@ namespace UserInterface.Controls
             {
                 btnSave.FlatAppearance.BorderColor = Colors.Black;
 
-                string fileName = $"{filePath}{txbTestProgramName.Value}";
+                string fileName = $"{filePath}{txbTestProgramName.Text}";
 
                 try
                 {

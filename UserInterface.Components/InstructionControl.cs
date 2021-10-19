@@ -77,7 +77,7 @@ namespace UserInterface.Controls
                             lblParam.Location.Y - 4
                         );
 
-                        AddElementToCollection(lblParam, txtCtrl);
+                        // AddElementToCollection(lblParam, txtCtrl);
                     }
                     else
                     {
