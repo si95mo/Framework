@@ -16,14 +16,29 @@ namespace UserInterface.Controls.Tests
 
             ledControl.Blink(1000);
 
-            Timer timer = new Timer();
-            timer.Interval = 10000;
-            timer.Tick += Timer_Tick;
+            Timer ledTimer = new Timer
+            {
+                Interval = 10000
+            };
+            ledTimer.Tick += LedTimer_Tick;
 
-            timer.Start();
+            ledTimer.Start();
+
+            Timer progressTimer = new Timer
+            {
+                Interval = 1000
+            };
+            progressTimer.Tick += ProgressTimer_Tick;
+
+            progressTimer.Start();
         }
 
-        private void Timer_Tick(object sender, EventArgs e)
+        private void ProgressTimer_Tick(object sender, EventArgs e)
+        {
+            progressBar.Invoke(new MethodInvoker(() => progressBar.Value += 1));
+        }
+
+        private void LedTimer_Tick(object sender, EventArgs e)
         {
             ledControl.Invoke(new MethodInvoker(() =>
                     {
@@ -33,7 +48,7 @@ namespace UserInterface.Controls.Tests
                             ledControl.Color = offColor;
                     }
                 )
-            );
+            );            
         }
     }
 }
