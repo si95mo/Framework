@@ -311,19 +311,32 @@ namespace Hardware.Modbus
 
             try
             {
-                await tcp.ConnectAsync(ipAddress, port);
-                master = ModbusIpMaster.CreateIp(tcp);
+                IAsyncResult result = tcp.BeginConnect(ipAddress, port, null, null);
+                bool success = result.AsyncWaitHandle.WaitOne(5000);
 
-                Status.Value = ResourceStatus.Executing;
-                started = true;
-
-                foreach (IProperty channel in channels)
+                if (success)
                 {
-                    if (channel is ModbusAnalogInput)
-                        await Task.Factory.StartNew((channel as ModbusAnalogInput).PollingAction);
+                    master = ModbusIpMaster.CreateIp(tcp);
 
-                    if (channel is ModbusDigitalInput)
-                        await Task.Factory.StartNew((channel as ModbusDigitalInput).PollingAction);
+                    Status.Value = ResourceStatus.Executing;
+                    started = true;
+
+                    foreach (IProperty channel in channels)
+                    {
+                        if (channel is ModbusAnalogInput)
+                            await Task.Factory.StartNew((channel as ModbusAnalogInput).PollingAction);
+
+                        if (channel is ModbusDigitalInput)
+                            await Task.Factory.StartNew((channel as ModbusDigitalInput).PollingAction);
+                    }
+                }
+                else
+                {
+                    failure = new Failure($"Unable to connect to {ipAddress}:{port}", DateTime.Now);
+                    Status.Value = ResourceStatus.Failure;
+
+                    started = false;
+                    Logger.Log(failure.Description);
                 }
 
             //    if (TestConnection() || ipAddress.CompareTo("127.0.0.1") == 0)
