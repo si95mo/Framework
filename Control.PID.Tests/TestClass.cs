@@ -34,7 +34,7 @@ namespace Control.PID.Tests
                 u: u,
                 n: 100,
                 kp: 0.00001,
-                ki: 10,
+                ki: 1,
                 kd: 0.00001,
                 upperLimit: 10,
                 lowerLimit: 0,

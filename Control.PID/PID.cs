@@ -160,12 +160,12 @@ namespace Control.PID
             double error = setPoint - u.Value;
 
             // Integral term
-            integralTerm += (ki * error * timeSinceLastUpdate.TotalSeconds);
+            integralTerm += ki * error * timeSinceLastUpdate.TotalSeconds;
             integralTerm = Clamp(integralTerm);
 
             // Derivative term
             // double dInput = u.Value - lastControlledValue;
-            derivativeTerm = kd * (n / (1 + n * integralTerm));
+            derivativeTerm = kd * (n / (1 + n * integralTerm / ki));
 
             // Proportional term
             proportionalTerm = kp * error;
