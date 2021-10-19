@@ -81,6 +81,7 @@ namespace Control.PID
         /// </summary>
         /// <param name="code">The code</param>
         /// <param name="u">The controlled variable</param>
+        /// <param name="n">The derivative filter coefficient</param>
         /// <param name="kp">The proportional gain</param>
         /// <param name="ki">The integral gain</param>
         /// <param name="kd">The derivative gain</param>
