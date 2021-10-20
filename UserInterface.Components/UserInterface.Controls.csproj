@@ -116,6 +116,18 @@
     <Compile Include="CustomForm.Designer.cs">
       <DependentUpon>CustomForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="CustomMessageBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomMessageBox.Designer.cs">
+      <DependentUpon>CustomMessageBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataGridControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DataGridControl.Designer.cs">
+      <DependentUpon>DataGridControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="DialogPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -211,6 +223,12 @@
     <EmbeddedResource Include="CustomForm.resx">
       <DependentUpon>CustomForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="CustomMessageBox.resx">
+      <DependentUpon>CustomMessageBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataGridControl.resx">
+      <DependentUpon>DataGridControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DialogPanel.resx">
       <DependentUpon>DialogPanel.cs</DependentUpon>
     </EmbeddedResource>
@@ -219,6 +237,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="InstructionControl.resx">
       <DependentUpon>InstructionControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LabelControl.resx">
+      <DependentUpon>LabelControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoadTestProgramPanel.resx">
       <DependentUpon>LoadTestProgramPanel.cs</DependentUpon>

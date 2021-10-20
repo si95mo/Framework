@@ -27,7 +27,7 @@ namespace UserInterface.Controls
         /// </summary>
         /// <param name="sender">The sender</param>
         /// <param name="e">The <see cref="MouseEventArgs"/></param>
-        private void Form_MouseDown(object sender, MouseEventArgs e)
+        protected void Form_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
@@ -40,5 +40,13 @@ namespace UserInterface.Controls
         {
             lblFormName.Text = Text;
         }
+
+        /// <summary>
+        /// Show an alert message
+        /// </summary>
+        /// <param name="title">The title</param>
+        /// <param name="message">The message</param>
+        protected void ShowAlert(string title = "Attenzione", string message = "Inserire prima un valore valido!")
+            => CustomMessageBox.Show(this, title, message);
     }
 }

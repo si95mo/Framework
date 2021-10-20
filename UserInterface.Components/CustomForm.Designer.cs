@@ -30,7 +30,7 @@ namespace UserInterface.Controls
         private void InitializeComponent()
         {
             this.lblFormName = new System.Windows.Forms.Label();
-            this.metroSetControlBox1 = new MetroSet_UI.Controls.MetroSetControlBox();
+            this.controlBox = new MetroSet_UI.Controls.MetroSetControlBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
@@ -45,32 +45,32 @@ namespace UserInterface.Controls
             this.lblFormName.TabIndex = 9;
             this.lblFormName.Text = "----";
             // 
-            // metroSetControlBox1
+            // controlBox
             // 
-            this.metroSetControlBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.metroSetControlBox1.CloseHoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(183)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.metroSetControlBox1.CloseHoverForeColor = System.Drawing.Color.White;
-            this.metroSetControlBox1.CloseNormalForeColor = System.Drawing.Color.Gray;
-            this.metroSetControlBox1.DisabledForeColor = System.Drawing.Color.DimGray;
-            this.metroSetControlBox1.IsDerivedStyle = true;
-            this.metroSetControlBox1.Location = new System.Drawing.Point(687, 14);
-            this.metroSetControlBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.metroSetControlBox1.MaximizeBox = false;
-            this.metroSetControlBox1.MaximizeHoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
-            this.metroSetControlBox1.MaximizeHoverForeColor = System.Drawing.Color.Gray;
-            this.metroSetControlBox1.MaximizeNormalForeColor = System.Drawing.Color.Gray;
-            this.metroSetControlBox1.MinimizeBox = true;
-            this.metroSetControlBox1.MinimizeHoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
-            this.metroSetControlBox1.MinimizeHoverForeColor = System.Drawing.Color.Gray;
-            this.metroSetControlBox1.MinimizeNormalForeColor = System.Drawing.Color.Gray;
-            this.metroSetControlBox1.Name = "metroSetControlBox1";
-            this.metroSetControlBox1.Size = new System.Drawing.Size(100, 25);
-            this.metroSetControlBox1.Style = MetroSet_UI.Enums.Style.Light;
-            this.metroSetControlBox1.StyleManager = null;
-            this.metroSetControlBox1.TabIndex = 10;
-            this.metroSetControlBox1.Text = "metroSetControlBox1";
-            this.metroSetControlBox1.ThemeAuthor = "Narwin";
-            this.metroSetControlBox1.ThemeName = "MetroLite";
+            this.controlBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.controlBox.CloseHoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(183)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.controlBox.CloseHoverForeColor = System.Drawing.Color.White;
+            this.controlBox.CloseNormalForeColor = System.Drawing.Color.Gray;
+            this.controlBox.DisabledForeColor = System.Drawing.Color.DimGray;
+            this.controlBox.IsDerivedStyle = true;
+            this.controlBox.Location = new System.Drawing.Point(286, 13);
+            this.controlBox.Margin = new System.Windows.Forms.Padding(4);
+            this.controlBox.MaximizeBox = false;
+            this.controlBox.MaximizeHoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.controlBox.MaximizeHoverForeColor = System.Drawing.Color.Gray;
+            this.controlBox.MaximizeNormalForeColor = System.Drawing.Color.Gray;
+            this.controlBox.MinimizeBox = true;
+            this.controlBox.MinimizeHoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.controlBox.MinimizeHoverForeColor = System.Drawing.Color.Gray;
+            this.controlBox.MinimizeNormalForeColor = System.Drawing.Color.Gray;
+            this.controlBox.Name = "controlBox";
+            this.controlBox.Size = new System.Drawing.Size(100, 25);
+            this.controlBox.Style = MetroSet_UI.Enums.Style.Light;
+            this.controlBox.StyleManager = null;
+            this.controlBox.TabIndex = 10;
+            this.controlBox.Text = "metroSetControlBox1";
+            this.controlBox.ThemeAuthor = "Narwin";
+            this.controlBox.ThemeName = "MetroLite";
             // 
             // panel1
             // 
@@ -85,12 +85,14 @@ namespace UserInterface.Controls
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(399, 261);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.metroSetControlBox1);
+            this.Controls.Add(this.controlBox);
             this.Controls.Add(this.lblFormName);
             this.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "CustomForm";
             this.Text = "CustomForm";
             this.Load += new System.EventHandler(this.Form_Load);
@@ -101,8 +103,8 @@ namespace UserInterface.Controls
         }
 
         #endregion
-        private MetroSet_UI.Controls.MetroSetControlBox metroSetControlBox1;
         private System.Windows.Forms.Panel panel1;
         protected System.Windows.Forms.Label lblFormName;
+        protected MetroSet_UI.Controls.MetroSetControlBox controlBox;
     }
 }
