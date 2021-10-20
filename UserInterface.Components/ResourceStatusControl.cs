@@ -39,6 +39,7 @@ namespace UserInterface.Controls
             btnStart.Text = "";
             btnStart.Image = Resources.ImageStart;
             btnStart.BackColor = Colors.Transparent;
+            btnStart.FlatAppearance.MouseOverBackColor = Color.Transparent;
 
             eventEnabled = false;
         }
@@ -88,45 +89,50 @@ namespace UserInterface.Controls
         /// </summary>
         private void UpdateUserInterface()
         {
-            string code = resource.Code;
-            ResourceStatus status = resource.Status.Value;
-            IFailure failure = resource.LastFailure;
-
             try
             {
-                Invoke(new MethodInvoker(() =>
-                        BackColor = status == ResourceStatus.Failure ?
-                            ControlPaint.LightLight(Colors.Error) : ControlPaint.LightLight(Colors.BackgroundColor)
-                    )
-                );
+                string code = resource.Code;
+                ResourceStatus status = resource.Status.Value;
+                IFailure failure = resource.LastFailure;
 
-                lblCode.Invoke(new MethodInvoker(() =>
-                        lblCode.Text = code
-                    )
-                );
-                lblStatus.Invoke(new MethodInvoker(() =>
-                        lblStatus.Text = status.ToString()
-                    )
-                );
-                lblFailure.Invoke(new MethodInvoker(() =>
-                        lblFailure.Text = failure.Description
-                    )
-                );
-                lblCode.Invoke(new MethodInvoker(() =>
-                        lblTimestamp.Text = failure.Timestamp.ToString("yyyy/MM/dd - HH:mm:ss")
-                    )
-                );
+                try
+                {
+                    Invoke(new MethodInvoker(() =>
+                            BackColor = status == ResourceStatus.Failure ?
+                                ControlPaint.LightLight(Colors.Error) : ControlPaint.LightLight(Colors.BackgroundColor)
+                        )
+                    );
+
+                    lblCode.Invoke(new MethodInvoker(() =>
+                            lblCode.Text = code
+                        )
+                    );
+                    lblStatus.Invoke(new MethodInvoker(() =>
+                            lblStatus.Text = status.ToString()
+                        )
+                    );
+                    lblFailure.Invoke(new MethodInvoker(() =>
+                            lblFailure.Text = failure.Description
+                        )
+                    );
+                    lblCode.Invoke(new MethodInvoker(() =>
+                            lblTimestamp.Text = failure.Timestamp.ToString("yyyy/MM/dd - HH:mm:ss")
+                        )
+                    );
+                }
+                catch (Exception)
+                {
+                    BackColor = status == ResourceStatus.Failure ?
+                                ControlPaint.LightLight(Colors.Error) : ControlPaint.LightLight(Colors.BackgroundColor);
+
+                    lblCode.Text = code;
+                    lblStatus.Text = status.ToString();
+                    lblFailure.Text = failure.Description;
+                    lblTimestamp.Text = failure.Timestamp.ToString("yyyy/MM/dd - HH:mm:ss");
+                }
             }
             catch (Exception)
-            {
-                BackColor = status == ResourceStatus.Failure ?
-                            ControlPaint.LightLight(Colors.Error) : ControlPaint.LightLight(Colors.BackgroundColor);
-
-                lblCode.Text = code;
-                lblStatus.Text = status.ToString();
-                lblFailure.Text = failure.Description;
-                lblTimestamp.Text = failure.Timestamp.ToString("yyyy/MM/dd - HH:mm:ss");
-            }
+            { }
         }
 
         private async void BtnStart_Click(object sender, EventArgs e)
