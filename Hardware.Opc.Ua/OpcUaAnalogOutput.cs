@@ -19,9 +19,9 @@
             ValueChanged += OpcUaOutput_ValueChanged;
         }
 
-        private void OpcUaOutput_ValueChanged(object sender, Core.ValueChangedEventArgs e)
+        private async void OpcUaOutput_ValueChanged(object sender, Core.ValueChangedEventArgs e)
         {
-            (resource as OpcUaResource).Send(code);
+            await (resource as OpcUaResource).Send(code);
         }
     }
 }

@@ -76,8 +76,8 @@ namespace Hardware.Opc.Ua
         /// <summary>
         /// Receive a value through the <see cref="OpcUaResource"/>
         /// </summary>
-        /// <param name="code">The <see cref="OpcUaAnalogChannel"/> code</param>
-        internal async void Receive(string code)
+        /// <param name="code">The <see cref="IOpcUaChannel"/> code</param>
+        internal async Task Receive(string code)
         {
             if (status.Value == ResourceStatus.Executing)
             {
@@ -102,7 +102,11 @@ namespace Hardware.Opc.Ua
             }
         }
 
-        internal async void Send(string code)
+        /// <summary>
+        /// Send a value through the <see cref="OpcUaResource"/>
+        /// </summary>
+        /// <param name="code">The <see cref="IOpcUaChannel"/> code</param>
+        internal async Task Send(string code)
         {
             if (status.Value == ResourceStatus.Executing)
             {
