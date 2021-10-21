@@ -9,7 +9,7 @@ using System;
 namespace Rest
 {
     /// <summary>
-    /// Implement a REST server using <see cref="Nancy"/>
+    /// Implement a REST server using <see cref="NancyHost"/>
     /// </summary>
     public class RestServer
     {

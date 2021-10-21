@@ -23,7 +23,7 @@ namespace Hardware.Opc.Ua
         /// <param name="namespaceConfiguration">The namespace configuration</param>
         /// <param name="resource">The <see cref="IResource"/></param>
         /// <param name="pollingInterval">The polling interval (in milliseconds)</param>
-        public OpcUaDigitalInput(string code, string namespaceConfiguration, IResource resource, int pollingInterval = 100) 
+        public OpcUaDigitalInput(string code, string namespaceConfiguration, IResource resource, int pollingInterval = 100)
             : base(code, namespaceConfiguration, resource)
         {
             this.pollingInterval = pollingInterval;

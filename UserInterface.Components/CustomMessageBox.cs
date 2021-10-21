@@ -5,7 +5,7 @@ using System.Windows.Forms;
 namespace UserInterface.Controls
 {
     /// <summary>
-    /// Implement a custom message box compliant with the 
+    /// Implement a custom message box compliant with the
     /// user interface general style
     /// </summary>
     public partial class CustomMessageBox : CustomForm
@@ -46,7 +46,7 @@ namespace UserInterface.Controls
         }
 
         /// <summary>
-        /// Show the <see cref="CustomMessageBox"/> 
+        /// Show the <see cref="CustomMessageBox"/>
         /// (in a modal way)
         /// </summary>
         /// <param name="container">The <see cref="Form"/> container (i.e. parent)</param>
