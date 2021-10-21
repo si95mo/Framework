@@ -432,11 +432,11 @@ namespace Diagnostic
 
         /// <summary>
         /// Set the <see cref="MinimumSeverityLevel"/> <see cref="Severity"/> to log.
-        /// (i.e. all the entry with a lower severity will not be logged).
+        /// (i.e. all the entry with a lower severity will not be logged). <br/>
         /// Note that the minimum level of the logged entry can't be
         /// higher than <see cref="Severity.Info"/> (i.e. entry of level
         /// <see cref="Severity.Warn"/>, <see cref="Severity.Error"/> and
-        /// <see cref="Severity.Fatal"/>will always be logged.
+        /// <see cref="Severity.Fatal"/> will always be logged.
         /// The <see cref="Severity"/> level is defined as follows (from lower to higher):
         /// <see cref="Severity.Trace"/>, <see cref="Severity.Debug"/>,
         /// <see cref="Severity.Info"/>, <see cref="Severity.Warn"/>,
