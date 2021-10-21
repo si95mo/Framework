@@ -1,16 +1,16 @@
 ﻿namespace Hardware.Opc.Ua
 {
-    public class OpcUaOutput : OpcUaChannel
+    public class OpcUaAnalogOutput : OpcUaAnalogChannel
     {
         /// <summary>
-        /// Create a new instance of <see cref="OpcUaOutput"/>
+        /// Create a new instance of <see cref="OpcUaAnalogOutput"/>
         /// </summary>
         /// <param name="code">The code</param>
         /// <param name="namespaceConfiguration">The namespace configuration</param>
         /// <param name="resource">The <see cref="IResource"/></param>
         /// <param name="measureUnit">The measure unit</param>
         /// <param name="format">The format</param>
-        public OpcUaOutput(string code, string namespaceConfiguration, IResource resource, string measureUnit = "",
+        public OpcUaAnalogOutput(string code, string namespaceConfiguration, IResource resource, string measureUnit = "",
             string format = "0.000") : base(code, namespaceConfiguration, resource)
         {
             this.measureUnit = measureUnit;

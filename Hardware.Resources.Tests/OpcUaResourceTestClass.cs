@@ -10,20 +10,20 @@ namespace Hardware.Resources.Tests
     public class OpcUaResourceTestClass
     {
         private OpcUaResource resource;
-        private OpcUaInput temperature;
-        private OpcUaInput pressure;
+        private OpcUaAnalogInput temperature;
+        private OpcUaAnalogInput pressure;
 
-        private OpcUaOutput output;
+        private OpcUaAnalogOutput output;
 
         [OneTimeSetUp]
         public async Task Setup()
         {
             resource = new OpcUaResource("OpcUaResource", "opc.tcp://localhost:4840/");
 
-            temperature = new OpcUaInput("AiTemperature", "ns=2;s=Temperature", resource, "°C");
-            pressure = new OpcUaInput("AiPressure", "ns=2;s=Pressure", resource, "Pa");
+            temperature = new OpcUaAnalogInput("AiTemperature", "ns=2;s=Temperature", resource, "°C");
+            pressure = new OpcUaAnalogInput("AiPressure", "ns=2;s=Pressure", resource, "Pa");
 
-            output = new OpcUaOutput("AoTemperature", "ns=2;s=Temperature", resource, "°C");
+            output = new OpcUaAnalogOutput("AoTemperature", "ns=2;s=Temperature", resource, "°C");
 
             await resource.Start();
             resource.Status.Value.Should().Be(ResourceStatus.Executing);
