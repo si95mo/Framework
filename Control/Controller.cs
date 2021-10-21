@@ -6,8 +6,8 @@ namespace Control
     public abstract class Controller : IController
     {
         protected string code;
-        protected Channel<double> u;
-        protected AnalogOutput output;
+        protected Channel<double> rk;
+        protected AnalogOutput uk;
         protected double setPoint;
 
         /// <summary>
@@ -47,8 +47,8 @@ namespace Control
         protected Controller(string code, Channel<double> u, double setPoint)
         {
             this.code = code;
-            output = new AnalogOutput($"Y.{code}", measureUnit: u.MeasureUnit, format: u.Format);
-            this.u = u;
+            uk = new AnalogOutput($"Y.{code}", measureUnit: u.MeasureUnit, format: u.Format);
+            this.rk = u;
             this.setPoint = setPoint;
         }
 

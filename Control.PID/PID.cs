@@ -58,14 +58,16 @@ namespace Control.PID
         public double LowerLimit { get => lowerLimit; set => lowerLimit = value; }
 
         /// <summary>
-        /// The controller output (as an <see cref="AnalogOutput"/>
+        /// The controller output (as an <see cref="AnalogOutput"/>). <br/>
+        /// In the block diagram this variable represents u(k)
         /// </summary>
-        public AnalogOutput Output => output;
+        public AnalogOutput Uk => uk;
 
         /// <summary>
-        /// The controlled variable (as a generic <see cref="Channel{T}"/>
+        /// The controlled variable (as a generic <see cref="Channel{T}"/>). <br/>
+        /// In the block diagram this variable represents r(k)
         /// </summary>
-        public Channel<double> U => u;
+        public Channel<double> Rk => rk;
 
         /// <summary>
         /// The cycle time of the controller (in milliseconds)
@@ -80,7 +82,7 @@ namespace Control.PID
         /// Create a new instance of <see cref="PID"/>
         /// </summary>
         /// <param name="code">The code</param>
-        /// <param name="u">The controlled variable</param>
+        /// <param name="rk">The controlled variable</param>
         /// <param name="n">The derivative filter coefficient</param>
         /// <param name="kp">The proportional gain</param>
         /// <param name="ki">The integral gain</param>
@@ -88,8 +90,8 @@ namespace Control.PID
         /// <param name="upperLimit">The upper limit (for clamping)</param>
         /// <param name="lowerLimit">The lower limit (for clamping)</param>
         /// <param name="setPoint">The desired set point</param>
-        public PID(string code, Channel<double> u, int n, double kp, double ki, double kd,
-            double upperLimit, double lowerLimit, double setPoint) : base(code, u, setPoint)
+        public PID(string code, Channel<double> rk, int n, double kp, double ki, double kd,
+            double upperLimit, double lowerLimit, double setPoint) : base(code, rk, setPoint)
         {
             this.n = n;
             this.kp = kp;
@@ -100,7 +102,7 @@ namespace Control.PID
 
             controlTask = null;
 
-            this.u.ValueChanged += ControlledVariable_ValueChanged;
+            this.rk.ValueChanged += ControlledVariable_ValueChanged;
         }
 
         private void ControlledVariable_ValueChanged(object sender, ValueChangedEventArgs e)
@@ -157,7 +159,7 @@ namespace Control.PID
         /// </summary>
         private void Iterate()
         {
-            double error = setPoint - u.Value;
+            double error = setPoint - rk.Value;
 
             // Integral term
             integralTerm += ki * error * timeSinceLastUpdate.TotalSeconds;
@@ -171,8 +173,8 @@ namespace Control.PID
             proportionalTerm = kp * error;
 
             // Output update
-            output.Value = proportionalTerm + integralTerm - derivativeTerm;
-            output.Value = Clamp(output.Value);
+            uk.Value = proportionalTerm + integralTerm - derivativeTerm;
+            uk.Value = Clamp(uk.Value);
         }
 
         /// <summary>
