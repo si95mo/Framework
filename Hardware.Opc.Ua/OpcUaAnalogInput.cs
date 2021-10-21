@@ -31,8 +31,7 @@ namespace Hardware.Opc.Ua
 
             pollingTask = new Task(async () =>
                 {
-                    while (true
-                    )
+                    while (true)
                     {
                         await (resource as OpcUaResource).Receive(code);
                         await Task.Delay(pollingInterval);
