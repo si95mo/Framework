@@ -3,8 +3,15 @@ using System.Windows.Forms;
 
 namespace UserInterface.Controls
 {
+    /// <summary>
+    /// Implement a visual form with a predefined user interface style.
+    /// See also <see cref="Form"/>
+    /// </summary>
     public partial class CustomForm : Form
     {
+        /// <summary>
+        /// Create a new instance of <see cref="CustomForm"/>
+        /// </summary>
         public CustomForm()
         {
             InitializeComponent();
@@ -36,6 +43,11 @@ namespace UserInterface.Controls
             }
         }
 
+        /// <summary>
+        /// Handle the on load event (set the form name)
+        /// </summary>
+        /// <param name="sender">The sender</param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void Form_Load(object sender, EventArgs e)
         {
             lblFormName.Text = Text;
@@ -46,7 +58,7 @@ namespace UserInterface.Controls
         /// </summary>
         /// <param name="title">The title</param>
         /// <param name="message">The message</param>
-        protected void ShowAlert(string title = "Info", string message = "Message")
+        protected void ShowAlert(string title = "Attention", string message = "Attention message")
             => CustomMessageBox.Show(this, title, message);
     }
 }
