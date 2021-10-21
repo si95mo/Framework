@@ -91,7 +91,11 @@ namespace Hardware.Opc.Ua
                     readRequests[code].NodesToRead = new[] { rv };
 
                     ReadResponse readResult = await channel.ReadAsync(readRequests[code]);
-                    (channels.Get(code) as OpcUaAnalogChannel).Value = (double)readResult.Results[0].Value;
+
+                    if (channels.Get(code) is OpcUaAnalogInput) // Analog channel
+                        (channels.Get(code) as OpcUaAnalogInput).Value = (double)readResult.Results[0].Value;
+                    else // Digital channel
+                        (channels.Get(code) as OpcUaDigitalInput).Value = (bool)readResult.Results[0].Value;
                 }
                 catch (Exception ex)
                 {
