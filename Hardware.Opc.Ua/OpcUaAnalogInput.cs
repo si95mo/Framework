@@ -34,7 +34,7 @@ namespace Hardware.Opc.Ua
                     while (true
                     )
                     {
-                        (resource as OpcUaResource).Receive(code);
+                        await (resource as OpcUaResource).Receive(code);
                         await Task.Delay(pollingInterval);
                     }
                 }
