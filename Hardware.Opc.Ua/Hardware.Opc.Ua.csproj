@@ -112,10 +112,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IOpcUaAnalogChannel.cs" />
+    <Compile Include="IOpcUaChannel.cs" />
     <Compile Include="OpcUaAnalogChannel.cs" />
     <Compile Include="OpcUaAnalogInput.cs" />
     <Compile Include="OpcUaAnalogOutput.cs" />
+    <Compile Include="OpcUaDigitalChannel.cs" />
+    <Compile Include="OpcUaDigitalInput.cs" />
+    <Compile Include="OpcUaDigitalOutput.cs" />
     <Compile Include="OpcUaResource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
