@@ -189,6 +189,7 @@
   <ItemGroup>
     <Compile Include="Fourier.cs" />
     <Compile Include="Interop.cs" />
+    <Compile Include="Kalman.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
