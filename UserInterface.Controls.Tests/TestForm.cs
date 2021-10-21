@@ -54,10 +54,10 @@ namespace UserInterface.Controls.Tests
 
         private void TestForm_Load(object sender, EventArgs e)
         {
-            dgvControl.DataSource = new List<List<string>> 
-            { 
-                new List<string>{ "AAA", "BBB", "CCC" }, 
-                new List<string>{ "111", "222", "333", "444", "555" } 
+            dgvControl.DataSource = new List<List<string>>
+            {
+                new List<string>{ "AAA", "BBB", "CCC" },
+                new List<string>{ "111", "222", "333", "444", "555" }
             };
         }
 
