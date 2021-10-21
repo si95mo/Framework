@@ -4,12 +4,16 @@ using System.Windows.Forms;
 
 namespace UserInterface.Controls
 {
+    /// <summary>
+    /// Implement a custom message box compliant with the 
+    /// user interface general style
+    /// </summary>
     public partial class CustomMessageBox : CustomForm
     {
         /// <summary>
         /// Create a new instance of <see cref="CustomMessageBox"/>
         /// </summary>
-        /// <param name="container">The <see cref="Form"/> container</param>
+        /// <param name="container">The <see cref="Form"/> container (i.e. the parent)</param>
         /// <param name="title">The title</param>
         /// <param name="message">The message</param>
         protected CustomMessageBox(Form container, string title, string message) : base()
@@ -42,11 +46,12 @@ namespace UserInterface.Controls
         }
 
         /// <summary>
-        /// Show the message box
+        /// Show the <see cref="CustomMessageBox"/> 
+        /// (in a modal way)
         /// </summary>
-        /// <param name="container"></param>
-        /// <param name="title"></param>
-        /// <param name="message"></param>
+        /// <param name="container">The <see cref="Form"/> container (i.e. parent)</param>
+        /// <param name="title">The title</param>
+        /// <param name="message">The message</param>
         public static void Show(Form container, string title, string message)
             => (new CustomMessageBox(container, title, message)).ShowDialog();
     }
