@@ -1,4 +1,5 @@
-﻿using Diagnostic;
+﻿using Dasync.Collections;
+using Diagnostic;
 using OX.Copyable;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace Extensions
         /// <param name="source">The source collection</param>
         /// <param name="function">The <see cref="Func{T, TResult}"/> to execute</param>
         /// <returns></returns>
-        public static async Task ParallelForEachAsync(this IEnumerable<object> source, Func<object, Task> function)
+        public static async Task ParallelForeachAsync(this IEnumerable<object> source, Func<object, Task> function)
             => await source.ParallelForEachAsync(function);
 
         /// <summary>
