@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace UserInterface.Controls.Tests
 {
-    public partial class TestForm : Form
+    public partial class TestForm : CustomForm
     {
         private int counter = 0;
         private Color onColor = Color.Green;
@@ -59,6 +59,11 @@ namespace UserInterface.Controls.Tests
                 new List<string>{ "AAA", "BBB", "CCC" }, 
                 new List<string>{ "111", "222", "333", "444", "555" } 
             };
+        }
+
+        private void BtnShowCustomMessageBox_Click(object sender, EventArgs e)
+        {
+            ShowAlert(title: "Debug test", message: $"Clicked on: {DateTime.Now}");
         }
     }
 }
