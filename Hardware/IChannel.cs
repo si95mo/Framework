@@ -1,4 +1,5 @@
 ﻿using Core;
+using System;
 
 namespace Hardware
 {
@@ -19,6 +20,11 @@ namespace Hardware
         /// </summary>
         /// <param name="property">The <see cref="IProperty"/> to connect</param>
         void ConnectTo(IProperty property);
+
+        /// <summary>
+        /// The value changed event. See <see cref="ValueChangedEventArgs"/>
+        /// </summary>
+        event EventHandler<ValueChangedEventArgs> ValueChanged;
     }
 
     /// <summary>
