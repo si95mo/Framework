@@ -46,7 +46,7 @@ namespace UserInterface.Controls
         /// </summary>
         /// <param name="title">The title</param>
         /// <param name="message">The message</param>
-        protected void ShowAlert(string title = "Attenzione", string message = "Inserire prima un valore valido!")
+        protected void ShowAlert(string title = "Info", string message = "Message")
             => CustomMessageBox.Show(this, title, message);
     }
 }

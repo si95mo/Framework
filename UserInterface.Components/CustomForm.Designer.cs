@@ -29,6 +29,7 @@ namespace UserInterface.Controls
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CustomForm));
             this.lblFormName = new System.Windows.Forms.Label();
             this.controlBox = new MetroSet_UI.Controls.MetroSetControlBox();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -92,6 +93,7 @@ namespace UserInterface.Controls
             this.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "CustomForm";
             this.Text = "CustomForm";
