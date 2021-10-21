@@ -1,6 +1,6 @@
 ﻿namespace Hardware.Opc.Ua
 {
-    public class OpcUaChannel : Channel<double>, IOpcUaChannel
+    public class OpcUaAnalogChannel : Channel<double>, IOpcUaAnalogChannel
     {
         protected string namespaceConfiguration;
         protected IResource resource;
@@ -15,12 +15,12 @@
         }
 
         /// <summary>
-        /// Create a new instance of <see cref="OpcUaChannel"/>
+        /// Create a new instance of <see cref="OpcUaAnalogChannel"/>
         /// </summary>
         /// <param name="code">THe code</param>
         /// <param name="namespaceConfiguration">The namespace configuration</param>
         /// <param name="resource">The <see cref="IResource"/></param>
-        protected OpcUaChannel(string code, string namespaceConfiguration, IResource resource) : base(code)
+        protected OpcUaAnalogChannel(string code, string namespaceConfiguration, IResource resource) : base(code)
         {
             this.namespaceConfiguration = namespaceConfiguration;
             this.resource = resource;

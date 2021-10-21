@@ -59,7 +59,7 @@ namespace Hardware.Opc.Ua
 
         private void Channels_ItemAdded(object sender, BagChangedEventArgs<IProperty> e)
         {
-            if (e.Item is OpcUaInput)
+            if (e.Item is OpcUaAnalogInput)
                 readRequests.Add(e.Item.Code, new ReadRequest());
             else
                 writeRequests.Add(e.Item.Code, new WriteRequest());
@@ -67,7 +67,7 @@ namespace Hardware.Opc.Ua
 
         private void Channels_ItemRemoved(object sender, BagChangedEventArgs<IProperty> e)
         {
-            if (e.Item is OpcUaInput)
+            if (e.Item is OpcUaAnalogInput)
                 readRequests.Remove(e.Item.Code);
             else
                 writeRequests.Remove(e.Item.Code);
@@ -76,7 +76,7 @@ namespace Hardware.Opc.Ua
         /// <summary>
         /// Receive a value through the <see cref="OpcUaResource"/>
         /// </summary>
-        /// <param name="code">The <see cref="OpcUaChannel"/> code</param>
+        /// <param name="code">The <see cref="OpcUaAnalogChannel"/> code</param>
         internal async void Receive(string code)
         {
             if (status.Value == ResourceStatus.Executing)
@@ -85,13 +85,13 @@ namespace Hardware.Opc.Ua
                 {
                     ReadValueId rv = new ReadValueId
                     {
-                        NodeId = NodeId.Parse((channels.Get(code) as OpcUaChannel).NamespaceConfiguration),
+                        NodeId = NodeId.Parse((channels.Get(code) as OpcUaAnalogChannel).NamespaceConfiguration),
                         AttributeId = AttributeIds.Value
                     };
                     readRequests[code].NodesToRead = new[] { rv };
 
                     ReadResponse readResult = await channel.ReadAsync(readRequests[code]);
-                    (channels.Get(code) as OpcUaChannel).Value = (double)readResult.Results[0].Value;
+                    (channels.Get(code) as OpcUaAnalogChannel).Value = (double)readResult.Results[0].Value;
                 }
                 catch (Exception ex)
                 {
@@ -110,9 +110,9 @@ namespace Hardware.Opc.Ua
                 {
                     WriteValue wv = new WriteValue
                     {
-                        NodeId = NodeId.Parse((channels.Get(code) as OpcUaChannel).NamespaceConfiguration),
+                        NodeId = NodeId.Parse((channels.Get(code) as OpcUaAnalogChannel).NamespaceConfiguration),
                         AttributeId = AttributeIds.Value,
-                        Value = new DataValue((channels.Get(code) as OpcUaChannel).Value)
+                        Value = new DataValue((channels.Get(code) as OpcUaAnalogChannel).Value)
                     };
                     writeRequests[code].NodesToWrite = new[] { wv };
 

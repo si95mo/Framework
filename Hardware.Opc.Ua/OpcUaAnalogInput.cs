@@ -2,7 +2,7 @@
 
 namespace Hardware.Opc.Ua
 {
-    public class OpcUaInput : OpcUaChannel
+    public class OpcUaAnalogInput : OpcUaAnalogChannel
     {
         private int pollingInterval;
         private Task pollingTask;
@@ -14,7 +14,7 @@ namespace Hardware.Opc.Ua
         }
 
         /// <summary>
-        /// Create a new instance of <see cref="OpcUaInput"/>
+        /// Create a new instance of <see cref="OpcUaAnalogInput"/>
         /// </summary>
         /// <param name="code">The code</param>
         /// <param name="namespaceConfiguration">The namespace configuration</param>
@@ -22,7 +22,7 @@ namespace Hardware.Opc.Ua
         /// <param name="measureUnit">The measure unit</param>
         /// <param name="format">The format</param>
         /// <param name="pollingInterval">The polling interval (in milliseconds)</param>
-        public OpcUaInput(string code, string namespaceConfiguration, IResource resource, string measureUnit = "",
+        public OpcUaAnalogInput(string code, string namespaceConfiguration, IResource resource, string measureUnit = "",
             string format = "0.000", int pollingInterval = 100) : base(code, namespaceConfiguration, resource)
         {
             this.measureUnit = measureUnit;
