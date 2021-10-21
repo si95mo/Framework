@@ -19,7 +19,7 @@ namespace Control.PID.Tests
 
         private double CalculateVoltage()
         {
-            double vc = pid.Output.Value * (1 - Math.Exp(-t.Elapsed.TotalSeconds / (r * c)));
+            double vc = pid.Uk.Value * (1 - Math.Exp(-t.Elapsed.TotalSeconds / (r * c)));
             return vc;
         }
 
@@ -31,11 +31,11 @@ namespace Control.PID.Tests
             u = new AnalogInput("U", "V", "0.000");
             pid = new PID(
                 code: "PID",
-                u: u,
+                rk: u,
                 n: 100,
-                kp: 0.00001,
-                ki: 1,
-                kd: 0.00001,
+                kp: 0.01,
+                ki: 4,
+                kd: 0.0001,
                 upperLimit: 10,
                 lowerLimit: 0,
                 setPoint: 5.0
@@ -68,7 +68,8 @@ namespace Control.PID.Tests
                     time = t.Elapsed.TotalMilliseconds;
                     text = $"{time.ToString("F3").Replace(',', '.')}; " +
                         $"{pid.SetPoint.ToString("F3").Replace(',', '.')}; " +
-                        $"{pid.Output.Value.ToString("F3").Replace(',', '.')}; " +
+                        $"{pid.Rk.Value.ToString("F3").Replace(',', '.')}; " +
+                        $"{pid.Uk.Value.ToString("F3").Replace(',', '.')}; " +
                         $"{u.Value.ToString("F3").Replace(',', '.')}";
 
                     writer.WriteLine(text);
