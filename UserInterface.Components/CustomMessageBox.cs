@@ -16,6 +16,9 @@ namespace UserInterface.Controls
         {
             InitializeComponent();
 
+            ShowInTaskbar = false;
+            Owner = container;
+
             Size = new Size(container.Size.Width, Size.Height);
             Location = new Point(container.Location.X, (container.Location.Y + Size.Height / 2));
             StartPosition = FormStartPosition.Manual;
@@ -24,7 +27,7 @@ namespace UserInterface.Controls
             lblMessage.Text = message;
 
             int labelVerticalLocation = (Size.Height - lblMessage.Size.Height) / 2;
-            lblMessage.Location = new Point(lblMessage.Location.X, labelVerticalLocation);
+            lblMessage.Location = new Point(lblFormName.Location.X, labelVerticalLocation);
 
             controlBox.Visible = false;
             controlBox.Enabled = false;
