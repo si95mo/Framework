@@ -1,4 +1,6 @@
-﻿using FluentAssertions;
+﻿using Core.Converters;
+using FluentAssertions;
+using Hardware;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -12,14 +14,38 @@ namespace Signal.Processing.Tests
     [TestFixture]
     public class KalmanTestClass
     {
-        private Kalman kalman;
-        private List<double> x;
+        private Kalman filteredKalman;
+        private Kalman rawKalman;
+
+        private AnalogInput x = new AnalogInput("X", format: "0.000");
+        private AnalogInput lowPassFiltered = new AnalogInput("Xf", format: "0.000");
+
+        private List<double> data;
+        private List<double> filteredData;
 
         [OneTimeSetUp]
         public void Setup()
         {
-            kalman = new Kalman(1, 1, 0.125, 1, 0.1, 0d);
-            x = new List<double>();
+            x.ConnectTo(lowPassFiltered, new SimpleMovingAverage(4));
+            filteredKalman = new Kalman(
+                1, // A
+                1, // H
+                2.8, // Q
+                1.7, // R
+                0.5, // P
+                lowPassFiltered // X
+            );
+            rawKalman = new Kalman(
+                1, // A
+                1, // H
+                2.8, // Q
+                1.7, // R
+                0.5, // P
+                x // X
+            );
+
+            data = new List<double>();
+            filteredData = new List<double>();
         }
 
         [Test]
@@ -33,42 +59,45 @@ namespace Signal.Processing.Tests
             );
 
             Stopwatch t = Stopwatch.StartNew();
-            double data;
-            bool sign;
-            double noise;
 
             do
             {
-                sign = new Random(Guid.NewGuid().GetHashCode()).NextDouble() > 0.5;
+                await GenerateSignal(t.Elapsed.TotalMilliseconds);
+            } while (t.Elapsed.TotalMilliseconds <= 1000); // 10s
 
-                if (sign)
-                    data = Math.Sin(t.Elapsed.TotalMilliseconds) +
-                        (new Random(Guid.NewGuid().GetHashCode()).NextDouble() / 100d);
-                else
-                    data = Math.Sin(t.Elapsed.TotalMilliseconds) -
-                        (new Random(Guid.NewGuid().GetHashCode()).NextDouble() / 100d);
-
-                x.Add(data);
-
-                await Task.Delay(10);
-            } while (t.Elapsed.TotalMilliseconds <= 10000);
-
-            List<double> filteredData = new List<double>();
             using (StreamWriter writer = File.CreateText(path))
             {
-                double filtered;
-                for (int i = 0; i < x.Count; i++)
+                uint counter = 0;
+                for (int i = 0; i < data.Count; i++)
                 {
-                    filtered = kalman.Filter(x.ElementAt(i));
-                    filteredData.Add(filtered);
-
-                    text = $"{x.ElementAt(i).ToString().Replace(',', '.')}; " +
-                        $"{filtered.ToString().Replace(',', '.')}";
+                    text = $"{data.ElementAt(i).ToString().Replace(',', '.')}; " +
+                        $"{filteredData.ElementAt(i).ToString().Replace(',', '.')}; " +
+                        $"{filteredKalman.Filtered.ElementAt(i).ToString().Replace(',', '.')}; " +
+                        $"{rawKalman.Filtered.ElementAt(i).ToString().Replace(',', '.')}";
                     writer.WriteLine(text);
-                }
-            };
 
-            filteredData.Should().NotBeEquivalentTo(x);
+                    if (data.ElementAt(i) == filteredKalman.Filtered.ElementAt(i))
+                        counter++;
+                }
+
+                counter.Should().BeLessOrEqualTo((uint)(data.Count / 100)); // Different values
+            };
+        }
+
+        private async Task GenerateSignal(double t)
+        {
+            bool sign = new Random(Guid.NewGuid().GetHashCode()).NextDouble() > 0.5;
+            double noise = new Random(Guid.NewGuid().GetHashCode()).NextDouble() / 10d; // 10%
+
+            if (sign) // Positive
+                x.Value = Math.Sin(t) + noise;
+            else // Negative
+                x.Value = Math.Sin(t) - noise;
+
+            data.Add(x.Value);
+            filteredData.Add(lowPassFiltered.Value);
+
+            await Task.Delay(10);
         }
     }
 }
