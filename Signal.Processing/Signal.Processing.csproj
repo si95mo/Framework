@@ -202,6 +202,18 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Core.Converters\Core.Converters.csproj">
+      <Project>{7cd54f15-df6a-4829-8afd-e714ecf9f505}</Project>
+      <Name>Core.Converters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{75DFACF6-E820-4E3F-83D5-1E21FBC92385}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Hardware\Hardware.csproj">
+      <Project>{C0F5ECDE-B7AD-42B3-ACF8-D5486B0E4C44}</Project>
+      <Name>Hardware</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mathematics\Mathematics.csproj">
       <Project>{cfe7c7f0-3a06-42ec-905b-4b9db2358bc1}</Project>
       <Name>Mathematics</Name>
