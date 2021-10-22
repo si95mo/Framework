@@ -19,8 +19,8 @@ namespace Core.Converters.Tests
         public void Setup()
         {
             npSimple.Value = 0;
-            ai.ConnectTo(npSimple, new SimpleMovingAverage(8));
-            ai.ConnectTo(npExponential, new ExponentialMovingAverage(0.75));
+            ai.ConnectTo(npSimple, new SimpleMovingAverageConverter(8));
+            ai.ConnectTo(npExponential, new ExponentialMovingAverageConverter(0.75));
 
             ServiceBroker.Initialize();
             ServiceBroker.Add<IChannel>(ai);

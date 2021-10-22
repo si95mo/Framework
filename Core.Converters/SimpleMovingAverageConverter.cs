@@ -7,12 +7,12 @@ namespace Core.Converters
     /// <summary>
     /// Convert the input by applying a moving average
     /// </summary>
-    public class SimpleMovingAverage : AbstractConverter<double, double>
+    public class SimpleMovingAverageConverter : AbstractConverter<double, double>
     {
         private int period;
 
         /// <summary>
-        /// The <see cref="SimpleMovingAverage"/> period
+        /// The <see cref="SimpleMovingAverageConverter"/> period
         /// </summary>
         public int Period
         {
@@ -25,17 +25,17 @@ namespace Core.Converters
         }
 
         /// <summary>
-        /// Initialize a new instance of <see cref="SimpleMovingAverage"/>
+        /// Initialize a new instance of <see cref="SimpleMovingAverageConverter"/>
         /// </summary>
         /// <param name="period">The period</param>
-        public SimpleMovingAverage(int period) : base()
+        public SimpleMovingAverageConverter(int period) : base()
         {
             this.period = period;
             converter = MovingAverage(this.period);
         }
 
         /// <summary>
-        /// Calculate the <see cref="SimpleMovingAverage"/>
+        /// Calculate the <see cref="SimpleMovingAverageConverter"/>
         /// </summary>
         /// <param name="period">The period</param>
         /// <returns>The converted value</returns>
