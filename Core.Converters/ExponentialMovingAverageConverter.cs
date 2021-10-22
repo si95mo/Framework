@@ -5,12 +5,12 @@ namespace Core.Converters
     /// <summary>
     /// Convert the input by applying an exponential moving average
     /// </summary>
-    public class ExponentialMovingAverage : AbstractConverter<double, double>
+    public class ExponentialMovingAverageConverter : AbstractConverter<double, double>
     {
         private double forgettingFactor;
 
         /// <summary>
-        /// The <see cref="ExponentialMovingAverage"/> forgetting factor
+        /// The <see cref="ExponentialMovingAverageConverter"/> forgetting factor
         /// </summary>
         public double ForgettingFactor
         {
@@ -23,17 +23,17 @@ namespace Core.Converters
         }
 
         /// <summary>
-        /// Initialize a new instance of <see cref="ExponentialMovingAverage"/>
+        /// Initialize a new instance of <see cref="ExponentialMovingAverageConverter"/>
         /// </summary>
         /// <param name="forgettingFactor">The forgetting factor</param>
-        public ExponentialMovingAverage(double forgettingFactor) : base()
+        public ExponentialMovingAverageConverter(double forgettingFactor) : base()
         {
             this.forgettingFactor = forgettingFactor;
             converter = MovingAverage(this.forgettingFactor);
         }
 
         /// <summary>
-        /// Calculate the <see cref="ExponentialMovingAverage"/>
+        /// Calculate the <see cref="ExponentialMovingAverageConverter"/>
         /// </summary>
         /// <param name="lambda">The forgetting factor</param>
         /// <returns>The converted value</returns>

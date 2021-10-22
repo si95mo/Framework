@@ -26,7 +26,7 @@ namespace Signal.Processing.Tests
         [OneTimeSetUp]
         public void Setup()
         {
-            x.ConnectTo(lowPassFiltered, new SimpleMovingAverage(4));
+            x.ConnectTo(lowPassFiltered, new SimpleMovingAverageConverter(4));
             filteredKalman = new Kalman(
                 "FilteredKalman",
                 1, // A
@@ -65,7 +65,7 @@ namespace Signal.Processing.Tests
             do
             {
                 await GenerateSignal(t.Elapsed.TotalMilliseconds);
-            } while (t.Elapsed.TotalMilliseconds <= 1000); // 10s
+            } while (t.Elapsed.TotalMilliseconds <= 2000); // 2s
 
             using (StreamWriter writer = File.CreateText(path))
             {
@@ -82,7 +82,7 @@ namespace Signal.Processing.Tests
                         counter++;
                 }
 
-                counter.Should().BeLessOrEqualTo((uint)(data.Count / 100)); // Different values
+                counter.Should().BeLessOrEqualTo((uint)(data.Count * 0.1)); // Different values
             };
         }
 
