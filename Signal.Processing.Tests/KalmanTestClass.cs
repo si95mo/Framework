@@ -28,6 +28,7 @@ namespace Signal.Processing.Tests
         {
             x.ConnectTo(lowPassFiltered, new SimpleMovingAverage(4));
             filteredKalman = new Kalman(
+                "FilteredKalman",
                 1, // A
                 1, // H
                 2.8, // Q
@@ -36,6 +37,7 @@ namespace Signal.Processing.Tests
                 lowPassFiltered // X
             );
             rawKalman = new Kalman(
+                "RawKalman",
                 1, // A
                 1, // H
                 2.8, // Q
