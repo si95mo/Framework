@@ -1,5 +1,6 @@
 ﻿using Core;
 using Hardware;
+using System;
 using System.Collections.Generic;
 
 namespace Signal.Processing
@@ -7,8 +8,10 @@ namespace Signal.Processing
     /// <summary>
     /// Implement Kalman filtering
     /// </summary>
-    public class Kalman
+    public class Kalman : IProperty
     {
+        private string code;
+
         private double a, h, q, r, p;
         private AnalogOutput x;
         private List<double> filtered;
@@ -23,17 +26,30 @@ namespace Signal.Processing
         /// </summary>
         public AnalogOutput X => x;
 
+        public string Code => code;
+
+        public object ValueAsObject 
+        { 
+            get => x.Value; 
+            set => x.Value = (double)value; 
+        }
+
+        public Type Type => typeof(Kalman);
+
         /// <summary>
         /// Create a new instance of <see cref="Kalman"/>
         /// </summary>
+        /// <param name="code">The code</param>
         /// <param name="a">The process state matrix (scalar in this case)</param>
         /// <param name="h">The process output matrix (scalar in this case</param>
         /// <param name="q">The covariance of the process noise</param>
         /// <param name="r">The covariance of the observation noise</param>
         /// <param name="p">The error covariance</param>
         /// <param name="x">The initial input</param>
-        public Kalman(double a, double h, double q, double r, double p, Channel<double> x)
+        public Kalman(string code, double a, double h, double q, double r, 
+            double p, Channel<double> x)
         {
+            this.code = code;
             this.a = a;
             this.h = h;
             this.q = q;
@@ -55,7 +71,8 @@ namespace Signal.Processing
         /// <summary>
         /// Filter the input
         /// </summary>
-        /// <param name="newInput">The input</param>
+        /// <param name="newInput">The new input value</param>
+        /// <param name="oldInput">The old input value</param>
         /// <returns>The filtered output</returns>
         private double Filter(double newInput, double oldInput)
         {
