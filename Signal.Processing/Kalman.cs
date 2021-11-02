@@ -28,10 +28,10 @@ namespace Signal.Processing
 
         public string Code => code;
 
-        public object ValueAsObject 
-        { 
-            get => x.Value; 
-            set => x.Value = (double)value; 
+        public object ValueAsObject
+        {
+            get => x.Value;
+            set => x.Value = (double)value;
         }
 
         public Type Type => typeof(Kalman);
@@ -46,7 +46,7 @@ namespace Signal.Processing
         /// <param name="r">The covariance of the observation noise</param>
         /// <param name="p">The error covariance</param>
         /// <param name="x">The initial input</param>
-        public Kalman(string code, double a, double h, double q, double r, 
+        public Kalman(string code, double a, double h, double q, double r,
             double p, Channel<double> x)
         {
             this.code = code;
