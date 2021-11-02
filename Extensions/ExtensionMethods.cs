@@ -18,7 +18,7 @@ namespace Extensions
         /// </summary>
         /// <param name="source">The source collection</param>
         /// <param name="function">The <see cref="Func{T, TResult}"/> to execute</param>
-        /// <returns></returns>
+        /// <returns>The async <see cref="Task"/></returns>
         public static async Task AsyncParallelForEach(this IEnumerable<object> source, Func<object, Task> function)
             => await source.ParallelForEachAsync(function);
 
