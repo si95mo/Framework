@@ -29,13 +29,13 @@ namespace Hardware.Opc.Ua
             this.pollingInterval = pollingInterval;
 
             pollingTask = new Task(async () =>
-            {
-                while (true)
                 {
-                    await (resource as OpcUaResource).Receive(code);
-                    await Task.Delay(pollingInterval);
+                    while (true)
+                    {
+                        await (resource as OpcUaResource).Receive(code);
+                        await Task.Delay(pollingInterval);
+                    }
                 }
-            }
             );
             pollingTask.Start();
         }
