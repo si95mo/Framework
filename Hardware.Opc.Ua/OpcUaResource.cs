@@ -59,7 +59,7 @@ namespace Hardware.Opc.Ua
 
         private void Channels_ItemAdded(object sender, BagChangedEventArgs<IProperty> e)
         {
-            if (e.Item is OpcUaAnalogInput)
+            if (e.Item is OpcUaAnalogInput || e.Item is OpcUaDigitalInput)
                 readRequests.Add(e.Item.Code, new ReadRequest());
             else
                 writeRequests.Add(e.Item.Code, new WriteRequest());
@@ -67,7 +67,7 @@ namespace Hardware.Opc.Ua
 
         private void Channels_ItemRemoved(object sender, BagChangedEventArgs<IProperty> e)
         {
-            if (e.Item is OpcUaAnalogInput)
+            if (e.Item is OpcUaAnalogInput || e.Item is OpcUaDigitalInput)
                 readRequests.Remove(e.Item.Code);
             else
                 writeRequests.Remove(e.Item.Code);
