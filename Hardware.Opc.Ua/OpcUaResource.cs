@@ -83,19 +83,20 @@ namespace Hardware.Opc.Ua
             {
                 try
                 {
+                    IOpcUaChannel ch = channels.Get(code) as IOpcUaChannel;
                     ReadValueId rv = new ReadValueId
                     {
-                        NodeId = NodeId.Parse((channels.Get(code) as OpcUaAnalogChannel).NamespaceConfiguration),
+                        NodeId = NodeId.Parse(ch.NamespaceConfiguration),
                         AttributeId = AttributeIds.Value
                     };
                     readRequests[code].NodesToRead = new[] { rv };
 
                     ReadResponse readResult = await channel.ReadAsync(readRequests[code]);
 
-                    if (channels.Get(code) is OpcUaAnalogInput) // Analog channel
-                        (channels.Get(code) as OpcUaAnalogInput).Value = (double)readResult.Results[0].Value;
+                    if (ch is OpcUaAnalogInput) // Analog channel
+                        (ch as OpcUaAnalogInput).Value = (double)readResult.Results[0].Value;
                     else // Digital channel
-                        (channels.Get(code) as OpcUaDigitalInput).Value = (bool)readResult.Results[0].Value;
+                        (ch as OpcUaDigitalInput).Value = (bool)readResult.Results[0].Value;
                 }
                 catch (Exception ex)
                 {
@@ -116,11 +117,18 @@ namespace Hardware.Opc.Ua
             {
                 try
                 {
+                    IOpcUaChannel ch = channels.Get(code) as IOpcUaChannel;
+                    DataValue value;
+                    if (ch is OpcUaAnalogOutput)
+                        value = new DataValue((ch as OpcUaAnalogOutput).Value);
+                    else
+                        value = new DataValue((ch as OpcUaDigitalOutput).Value);
+
                     WriteValue wv = new WriteValue
                     {
-                        NodeId = NodeId.Parse((channels.Get(code) as OpcUaAnalogChannel).NamespaceConfiguration),
+                        NodeId = NodeId.Parse(ch.NamespaceConfiguration),
                         AttributeId = AttributeIds.Value,
-                        Value = new DataValue((channels.Get(code) as OpcUaAnalogChannel).Value)
+                        Value = value
                     };
                     writeRequests[code].NodesToWrite = new[] { wv };
 
