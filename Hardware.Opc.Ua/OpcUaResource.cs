@@ -9,6 +9,10 @@ using Workstation.ServiceModel.Ua.Channels;
 
 namespace Hardware.Opc.Ua
 {
+    /// <summary>
+    /// Implement a resource that perform communication 
+    /// with the hardware through the OPC UA protocol
+    /// </summary>
     public class OpcUaResource : Resource
     {
         private string applicationName;
