@@ -294,7 +294,7 @@ namespace Hardware.Modbus
         /// <summary>
         /// Restart the <see cref="ModbusResource"/>
         /// </summary>
-        public override async void Restart()
+        public override async Task Restart()
         {
             Stop();
             await Start();

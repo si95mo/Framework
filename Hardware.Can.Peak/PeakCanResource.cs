@@ -270,7 +270,7 @@ namespace Hardware.Can
         /// <summary>
         /// Restart the <see cref="PeakCanResource"/>
         /// </summary>
-        public override async void Restart()
+        public override async Task Restart()
         {
             Stop();
             await Start();

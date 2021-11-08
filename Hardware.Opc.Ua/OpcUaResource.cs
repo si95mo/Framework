@@ -147,7 +147,7 @@ namespace Hardware.Opc.Ua
             }
         }
 
-        public override async void Restart()
+        public override async Task Restart()
         {
             Stop();
             await Start();
