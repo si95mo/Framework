@@ -134,6 +134,6 @@ namespace Hardware
         /// <summary>
         /// Restart the <see cref="Resource"/>
         /// </summary>
-        public abstract void Restart();
+        public abstract Task Restart();
     }
 }

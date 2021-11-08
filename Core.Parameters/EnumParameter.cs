@@ -28,7 +28,7 @@ namespace Core.Parameters
         /// <param name="code">The code</param>
         public EnumParameter(string code) : base(code)
         {
-            value = default(T);
+            value = default;
         }
 
         /// <summary>

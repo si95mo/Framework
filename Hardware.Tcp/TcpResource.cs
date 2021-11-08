@@ -87,9 +87,11 @@ namespace Hardware.Resources
                 failure = new Failure();
                 channels = new Bag<IChannel>();
 
-                tcp = new TcpClient();
-                tcp.ReceiveTimeout = timeout;
-                tcp.SendTimeout = timeout;
+                tcp = new TcpClient
+                {
+                    ReceiveTimeout = timeout,
+                    SendTimeout = timeout
+                };
 
                 status.Value = ResourceStatus.Stopped;
             }
@@ -165,7 +167,7 @@ namespace Hardware.Resources
         /// <summary>
         /// Restart the <see cref="TcpResource"/>
         /// </summary>
-        public override async void Restart()
+        public override async Task Restart()
         {
             Stop();
             await Start();

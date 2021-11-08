@@ -79,6 +79,6 @@ namespace Hardware
         /// <summary>
         /// Restart the <see cref="IResource"/>
         /// </summary>
-        void Restart();
+        Task Restart();
     }
 }

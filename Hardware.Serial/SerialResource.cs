@@ -275,7 +275,7 @@ namespace Hardware.Resources
         /// <summary>
         /// Restart the <see cref="SerialResource"/>
         /// </summary>
-        public async void Restart()
+        public async Task Restart()
         {
             Stop();
             await Start();
