@@ -58,7 +58,7 @@ namespace Core
         public Failure()
         {
             description = "";
-            timestamp = new DateTime();
+            Timestamp = new DateTime();
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Core
         public Failure(string description, DateTime timestamp)
         {
             this.description = description;
-            this.timestamp = timestamp;
+            Timestamp = timestamp;
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace Core
         public void Clear()
         {
             description = "";
-            timestamp = new DateTime();
+            Timestamp = new DateTime();
         }
 
         /// <summary>
