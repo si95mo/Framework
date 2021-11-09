@@ -126,8 +126,7 @@ namespace Core
         /// See also <see cref="object.ToString()"/>
         /// </summary>
         /// <returns>The description of the object</returns>
-        override
-        public string ToString()
+        public override string ToString()
         {
             string description = $"{timestamp:yyyy/MM/dd-HH:mm:ss:fff}; {this.description}";
             return description;

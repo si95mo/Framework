@@ -334,8 +334,7 @@ namespace Hardware.Resources
         /// See also <see cref="object.ToString()"/>
         /// </summary>
         /// <returns>The description of the object</returns>
-        override
-        public string ToString()
+        public override string ToString()
         {
             string description = PortName;
             return description;
