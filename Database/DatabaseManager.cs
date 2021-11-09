@@ -1,5 +1,6 @@
 ﻿using Diagnostic;
 using System.Data.SqlClient;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Database
@@ -121,6 +122,51 @@ namespace Database
             int affectedRows = await command.ExecuteNonQueryAsync();
 
             return affectedRows;
+        }
+
+        /// <summary>
+        /// Execute a generic query by reading the SQL file from disk. <br/>
+        /// See also <see cref="Query(string)"/>
+        /// </summary>
+        /// <param name="path">The file path</param>
+        /// <returns>The number of affected rows</returns>
+        /// <remarks>
+        /// If the query does not strictly affect any rows, the returned value is -1
+        /// </remarks>
+        public static async Task<int> ExcuteQueryFromPath(string path)
+        {
+            int affectedRows = -1;
+
+            if (File.Exists(path))
+            {
+                string query = File.ReadAllText(path);
+                affectedRows = await Query(query);
+            }
+
+            return affectedRows;
+        }
+
+        /// <summary>
+        /// Check if a database exists in the system ones 
+        /// </summary>
+        /// <param name="databaseName">The database name to check</param>
+        /// <returns><see langword="true"/> if the database exists, <see langword="false"/> otherwise</returns>
+        public static async Task<bool> CheckIfDatabaseExists(string databaseName)
+        {
+            string query = string.Format("SELECT database_id FROM sys.databases WHERE Name='{0}'", databaseName);
+
+            SqlCommand command = new SqlCommand(query, connection);
+            object result = await command.ExecuteScalarAsync();
+
+            int affectedRows;
+            if (result != null)
+                int.TryParse(result.ToString(), out affectedRows);
+            else
+                affectedRows = -1;
+
+            bool exists = affectedRows > 0;
+
+            return exists;
         }
     }
 }
