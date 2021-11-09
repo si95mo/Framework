@@ -147,7 +147,7 @@ namespace Database
         }
 
         /// <summary>
-        /// Check if a database exists in the system ones 
+        /// Check if a database exists in the system ones
         /// </summary>
         /// <param name="databaseName">The database name to check</param>
         /// <returns><see langword="true"/> if the database exists, <see langword="false"/> otherwise</returns>
