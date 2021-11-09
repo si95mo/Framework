@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -10,14 +11,29 @@ namespace UserInterface.Controls
     /// </summary>
     public partial class DigitalControl : BaseControl
     {
+        private object objectLock = new object();
+
         /// <summary>
         /// The <see cref="DigitalControl"/> value
         /// </summary>
         public override object Value
         {
             get => (bool)value;
-            set => this.value = (bool)value;
+            set
+            {
+                if (!value.Equals(this.value))
+                {
+                    object oldValue = this.value;
+                    this.value = value;
+                    OnValueChanged(new ValueChangedEventArgs(oldValue, this.value));
+                }
+            }
         }
+
+        /// <summary>
+        /// The value changed event handler
+        /// </summary>
+        protected EventHandler<ValueChangedEventArgs> ValueChangedHandler;
 
         /// <summary>
         /// Create a new instance of <see cref="DigitalControl"/>
@@ -28,8 +44,8 @@ namespace UserInterface.Controls
 
             value = false;
 
-            btnValue.FlatAppearance.BorderColor = Colors.Black;
-            btnValue.FlatAppearance.MouseOverBackColor = Colors.Transparent;
+            btnValue.BackColor = Colors.TextColor;
+            btnValue.ForeColor = Colors.Grey;
         }
 
         /// <summary>
@@ -42,20 +58,23 @@ namespace UserInterface.Controls
             Point p;
             string text;
 
-            if (btnValue.Location.X == 0)
+            if (btnValue.Location.X == -1)
             {
-                p = new Point(75, 0);
+                p = new Point(panel.Size.Width - btnValue.Size.Width, -1);
                 text = "True";
-                btnValue.FlatAppearance.BorderColor = Colors.Green;
+                panel.BackColor = Colors.Green;
+                btnValue.ForeColor = Colors.Green;
             }
             else
             {
-                p = new Point(0, 0);
+                p = new Point(-1, -1);
                 text = "False";
-                btnValue.FlatAppearance.BorderColor = Colors.Black;
+                panel.BackColor = Colors.Grey;
+                btnValue.ForeColor = Colors.Grey;
             }
 
-            value = !(bool)value;
+            // Trigger the value changed event
+            Value = !(bool)value;
 
             btnValue.Location = p;
             btnValue.Text = text;
@@ -68,6 +87,38 @@ namespace UserInterface.Controls
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
+        }
+
+        /// <summary>
+        /// On value changed event
+        /// </summary>
+        /// <param name="e">The <see cref="ValueChangedEventArgs"/></param>
+        protected virtual void OnValueChanged(ValueChangedEventArgs e)
+        {
+            ValueChangedHandler?.Invoke(this, e);
+        }
+
+        /// <summary>
+        /// The <see cref="ValueChanged"/> event handler
+        /// for the <see cref="Value"/> property
+        /// </summary>
+        public event EventHandler<ValueChangedEventArgs> ValueChanged
+        {
+            add
+            {
+                lock (objectLock)
+                {
+                    ValueChangedHandler += value;
+                }
+            }
+
+            remove
+            {
+                lock (objectLock)
+                {
+                    ValueChangedHandler -= value;
+                }
+            }
         }
     }
 }

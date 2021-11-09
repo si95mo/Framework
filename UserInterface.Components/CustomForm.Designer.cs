@@ -79,7 +79,7 @@ namespace UserInterface.Controls
             this.panel1.Location = new System.Drawing.Point(-2, -2);
             this.panel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1343, 15);
+            this.panel1.Size = new System.Drawing.Size(1920, 15);
             this.panel1.TabIndex = 11;
             // 
             // CustomForm

@@ -30,7 +30,7 @@ namespace UserInterface.Controls
         private void InitializeComponent()
         {
             this.panel = new System.Windows.Forms.Panel();
-            this.btnValue = new System.Windows.Forms.Button();
+            this.btnValue = new UserInterface.Controls.ButtonControl();
             this.panel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -41,18 +41,21 @@ namespace UserInterface.Controls
             this.panel.Controls.Add(this.btnValue);
             this.panel.Location = new System.Drawing.Point(0, 0);
             this.panel.Name = "panel";
-            this.panel.Size = new System.Drawing.Size(150, 25);
+            this.panel.Size = new System.Drawing.Size(150, 40);
             this.panel.TabIndex = 0;
             this.panel.Click += new System.EventHandler(this.Control_Cick);
             // 
             // btnValue
             // 
-            this.btnValue.BackColor = System.Drawing.SystemColors.Control;
+            this.btnValue.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.btnValue.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
             this.btnValue.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnValue.Location = new System.Drawing.Point(0, 0);
+            this.btnValue.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnValue.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
+            this.btnValue.Location = new System.Drawing.Point(-1, -1);
             this.btnValue.Name = "btnValue";
-            this.btnValue.Size = new System.Drawing.Size(75, 23);
-            this.btnValue.TabIndex = 1;
+            this.btnValue.Size = new System.Drawing.Size(75, 40);
+            this.btnValue.TabIndex = 0;
             this.btnValue.Text = "False";
             this.btnValue.UseVisualStyleBackColor = false;
             this.btnValue.Click += new System.EventHandler(this.Control_Cick);
@@ -63,7 +66,7 @@ namespace UserInterface.Controls
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.panel);
             this.Name = "DigitalControl";
-            this.Size = new System.Drawing.Size(150, 25);
+            this.Size = new System.Drawing.Size(150, 40);
             this.panel.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -72,6 +75,6 @@ namespace UserInterface.Controls
         #endregion
 
         private System.Windows.Forms.Panel panel;
-        private System.Windows.Forms.Button btnValue;
+        private ButtonControl btnValue;
     }
 }
