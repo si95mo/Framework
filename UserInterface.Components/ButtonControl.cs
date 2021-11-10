@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace UserInterface.Controls
@@ -23,6 +24,11 @@ namespace UserInterface.Controls
 
             ForeColor = Colors.TextColor;
             BackColor = Colors.Grey;
+
+            EnabledChanged += ButtonControl_EnabledChanged;
         }
+
+        private void ButtonControl_EnabledChanged(object sender, System.EventArgs e)
+            => BackColor = Enabled ? Colors.Grey : ControlPaint.Dark(Colors.Grey);
     }
 }
