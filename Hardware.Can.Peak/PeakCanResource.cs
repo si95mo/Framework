@@ -85,34 +85,6 @@ namespace Hardware.Can
     }
 
     /// <summary>
-    /// Handles the property status changed event.
-    /// See also <see cref="EventArgs"/>
-    /// </summary>
-    public class StatusChangedEventArgs : EventArgs
-    {
-        /// <summary>
-        /// The old value
-        /// </summary>
-        public readonly object OldValue;
-
-        /// <summary>
-        /// The new value
-        /// </summary>
-        public readonly object NewValue;
-
-        /// <summary>
-        /// Create a new instance of <see cref="StatusChangedEventArgs"/>
-        /// </summary>
-        /// <param name="oldValue">The old value</param>
-        /// <param name="newValue">The new value</param>
-        public StatusChangedEventArgs(object oldValue, object newValue)
-        {
-            OldValue = oldValue;
-            NewValue = newValue;
-        }
-    }
-
-    /// <summary>
     /// Implements the <see cref="ICanResource"/> interface in order to
     /// communicate with PEAK-CAN hardware
     /// </summary>
@@ -548,9 +520,7 @@ namespace Hardware.Can
             TPCANDevice devDevice;
             byte byChannel;
 
-            // Gets the owner device and channel for a
-            // PCAN-Basic handle
-            //
+            // Gets the owner device and channel for a PCAN-Basic handle
             if (handle < 0x100)
             {
                 devDevice = (TPCANDevice)(handle >> 4);
