@@ -158,11 +158,9 @@ namespace Database
             SqlCommand command = new SqlCommand(query, connection);
             object result = await command.ExecuteScalarAsync();
 
-            int affectedRows;
+            int affectedRows = -1;
             if (result != null)
                 int.TryParse(result.ToString(), out affectedRows);
-            else
-                affectedRows = -1;
 
             bool exists = affectedRows > 0;
 

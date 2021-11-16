@@ -19,6 +19,7 @@ namespace Rest
         private string result;
         private Uri uri;
         private HttpClient client;
+        private bool connected;
 
         /// <summary>
         /// The <see cref="RestClient"/> code
@@ -72,6 +73,11 @@ namespace Rest
         }
 
         /// <summary>
+        /// The connection status
+        /// </summary>
+        public bool Connected => connected;
+
+        /// <summary>
         /// Create a new instance of <see cref="RestClient"/>
         /// </summary>
         /// <param name="code">The code</param>
@@ -102,10 +108,13 @@ namespace Rest
             {
                 response = await client.GetAsync(actualRequest);
                 result = await response.Content.ReadAsStringAsync();
+
+                connected = true;
             }
             catch (Exception ex)
             {
                 Logger.Log(ex);
+                connected = false;
             }
 
             return result;
@@ -126,10 +135,13 @@ namespace Rest
             {
                 response = await client.PostAsync(uri, content);
                 result = await response.Content.ReadAsStringAsync();
+
+                connected = true;
             }
             catch (Exception ex)
             {
                 Logger.Log(ex);
+                connected = false;
             }
 
             return result;
