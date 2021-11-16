@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LibnodaveResourceTestClass.cs" />
     <Compile Include="ModbusResourceTestClass.cs" />
     <Compile Include="OpcUaResourceTestClass.cs" />
     <Compile Include="SerialResourceTestClass.cs" />
@@ -81,6 +82,10 @@
     <ProjectReference Include="..\Diagnostic\Diagnostic.csproj">
       <Project>{7DEB54D9-B9F1-4B05-8D81-D7B4F77631D1}</Project>
       <Name>Diagnostic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Hardware.Libnodave\Hardware.Libnodave.csproj">
+      <Project>{9FEC93E8-0769-4C30-AEC8-BAAB81B7FC83}</Project>
+      <Name>Hardware.Libnodave</Name>
     </ProjectReference>
     <ProjectReference Include="..\Hardware.Modbus\Hardware.Modbus.csproj">
       <Project>{FA1A2A2F-C31D-4588-AFDD-EFCBE654E93D}</Project>
