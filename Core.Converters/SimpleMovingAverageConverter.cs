@@ -9,47 +9,52 @@ namespace Core.Converters
     /// </summary>
     public class SimpleMovingAverageConverter : AbstractConverter<double, double>
     {
-        private int period;
+        private int windowSize;
 
         /// <summary>
         /// The <see cref="SimpleMovingAverageConverter"/> period
         /// </summary>
-        public int Period
+        public int WindowSize
         {
-            get => period;
+            get => windowSize;
             set
             {
-                period = value;
-                converter = MovingAverage(period);
+                windowSize = value;
+                converter = MovingAverage(windowSize);
             }
         }
 
         /// <summary>
         /// Initialize a new instance of <see cref="SimpleMovingAverageConverter"/>
         /// </summary>
-        /// <param name="period">The period</param>
-        public SimpleMovingAverageConverter(int period) : base()
+        /// <param name="windowSize">The moving average window size</param>
+        public SimpleMovingAverageConverter(int windowSize) : base()
         {
-            this.period = period;
-            converter = MovingAverage(this.period);
+            this.windowSize = windowSize;
+            converter = MovingAverage(this.windowSize);
         }
 
         /// <summary>
         /// Calculate the <see cref="SimpleMovingAverageConverter"/>
         /// </summary>
-        /// <param name="period">The period</param>
+        /// <param name="windowSize">The window size</param>
         /// <returns>The converted value</returns>
-        private Func<double, double> MovingAverage(int period)
+        private Func<double, double> MovingAverage(int windowSize)
         {
-            Queue<double> s = new Queue<double>(period);
+            // Create a queue with the last [window size] samples
+            Queue<double> s = new Queue<double>(windowSize);
 
             return (x) =>
             {
-                if (s.Count >= period)
-                    s.Dequeue();
+                // If the queue has reached its max capacity
+                if (s.Count >= windowSize)
+                    s.Dequeue(); // Dequeue the first element stored
 
+                // Enqueue the new element
                 s.Enqueue(x);
 
+                // In the queue are present only the last [window size] element, 
+                // so the SMA is simply the average of the stored elements
                 return s.Average();
             };
         }
