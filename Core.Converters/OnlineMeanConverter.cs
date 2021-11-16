@@ -2,6 +2,10 @@
 
 namespace Core.Converters
 {
+    /// <summary>
+    /// Implement an <see cref="AbstractConverter{TIn, TOut}"/> that perform 
+    /// an online mean based on the input values
+    /// </summary>
     public class OnlineMeanConverter : AbstractConverter<double, double>
     {
         private int n;
