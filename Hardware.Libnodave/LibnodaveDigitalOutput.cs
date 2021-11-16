@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Hardware.Libnodave
+﻿namespace Hardware.Libnodave
 {
     /// <summary>
     /// Implememt a digital output channel for the <see cref="LibnodaveResource"/>

@@ -53,7 +53,7 @@ namespace Core.Converters
                 // Enqueue the new element
                 s.Enqueue(x);
 
-                // In the queue are present only the last [window size] element, 
+                // In the queue are present only the last [window size] element,
                 // so the SMA is simply the average of the stored elements
                 return s.Average();
             };

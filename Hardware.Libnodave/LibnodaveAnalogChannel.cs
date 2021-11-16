@@ -14,7 +14,7 @@ namespace Hardware.Libnodave
 
         public int MemoryAddress { get => memoryAddress; set => memoryAddress = value; }
 
-        public RepresentationBytes RepresentationBytes 
+        public RepresentationBytes RepresentationBytes
         {
             get => bytes;
             set => bytes = value;

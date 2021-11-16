@@ -1,8 +1,5 @@
 ﻿using Core;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Hardware.Libnodave
@@ -40,8 +37,8 @@ namespace Hardware.Libnodave
         /// <param name="representation">The numeric representation</param>
         /// <param name="measureUnit">The measure unit</param>
         /// <param name="format">The format</param>
-        public LibnodaveAnalogInput(string code, int memoryAddress, IResource resource, RepresentationBytes bytes, 
-            NumericRepresentation representation, int pollingInterval = 100, string measureUnit = "", string format = "0.000") 
+        public LibnodaveAnalogInput(string code, int memoryAddress, IResource resource, RepresentationBytes bytes,
+            NumericRepresentation representation, int pollingInterval = 100, string measureUnit = "", string format = "0.000")
             : base(code, memoryAddress, resource, bytes, representation, measureUnit, format)
         {
             this.pollingInterval = pollingInterval;
