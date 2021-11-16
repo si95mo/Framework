@@ -16,7 +16,7 @@ namespace UserInterface.Controls
 
         /// <summary>
         /// The green <see cref="Color"/>
-        /// defined as 0xB8, 0xF2, 0x94
+        /// defined as 0xBD, 0xDC, 0x04
         /// </summary>
         public static readonly Color Green = Color.FromArgb(189, 220, 4);
 
