@@ -44,6 +44,7 @@ namespace Hardware
             this.code = code;
             channels = new Bag<IChannel>();
             status = new EnumParameter<ResourceStatus>(nameof(status));
+            failure = new Failure();
 
             Status.ValueChanged += Status_ValueChanged;
         }
