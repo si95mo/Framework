@@ -10,9 +10,14 @@ namespace Core.Parameters
     public class TimeSpanParameter : Parameter<TimeSpan>, ITimeSpanParameter
     {
         /// <summary>
-        /// The <see cref="TimeSpanParameter"/> value
+        /// Represent the current <see cref="TimeSpan"/> stored in 
+        /// <see cref="Parameter{T}.Value"/> as seconds
         /// </summary>
-        public override TimeSpan Value => value;
+        public double ValueAsSeconds
+        {
+            get => value.TotalSeconds;
+            set => this.value = TimeSpan.FromSeconds(value);
+        }
 
         /// <summary>
         /// Create a new instance of <see cref="TimeSpanParameter"/>
