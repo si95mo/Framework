@@ -261,6 +261,53 @@ namespace Diagnostic
         }
 
         /// <summary>
+        /// Save the text specified as <see cref="Severity.Trace"/>
+        /// in the log file. <br/>
+        /// See also <see cref="Log(string, Severity)"/>
+        /// </summary>
+        /// <param name="text">The text to log</param>
+        public static void Trace(string text)
+            => Log(text, Severity.Trace);
+
+        /// <summary>
+        /// Save the text specified as <see cref="Severity.Debug"/>
+        /// in the log file. <br/>
+        /// See also <see cref="Log(string, Severity)"/>
+        /// </summary>
+        /// <param name="text">The text to log</param>
+        public static void Debug(string text)
+            => Log(text, Severity.Debug);
+
+        /// <summary>
+        /// Save the text specified as <see cref="Severity.Info"/>
+        /// in the log file. <br/>
+        /// See also <see cref="Log(string, Severity)"/>
+        /// </summary>
+        /// <param name="text">The text to log</param>
+        public static void Info(string text)
+            => Log(text, Severity.Info);
+
+        /// <summary>
+        /// Save the text specified as <see cref="Severity.Warn"/>
+        /// in the log file. <br/>
+        /// See also <see cref="Log(string, Severity)"/>
+        /// </summary>
+        /// <param name="text">The text to log</param>
+        public static void Warn(string text)
+            => Log(text, Severity.Warn);
+
+        /// <summary>
+        /// Save the text specified as <see cref="Severity.Error"/>
+        /// in the log file. <br/>
+        /// See also <see cref="Log(string, Severity)"/>
+        /// </summary>
+        /// <remarks>If the log is required after an <see cref="Exception"/>
+        /// occurred, consider using the method <see cref="Log(Exception)"/> instead!</remarks>
+        /// <param name="text">The text to log</param>
+        public static void Error(string text)
+            => Log(text, Severity.Error);
+
+        /// <summary>
         /// Append to the log file a description of the <see cref="Exception"/> occurred.
         /// The entry will be saved <b>only</b> if it differs from
         /// the last one saved in the log file (i.e. different type <b>and</b>
