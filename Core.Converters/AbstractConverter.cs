@@ -2,6 +2,11 @@
 
 namespace Core.Converters
 {
+    /// <summary>
+    /// Define a basic structure for a converter
+    /// </summary>
+    /// <typeparam name="TIn">The input type of the value to convert</typeparam>
+    /// <typeparam name="TOut">The output type of the conversion</typeparam>
     public abstract class AbstractConverter<TIn, TOut> : IConverter<TIn, TOut>
     {
         protected Func<TIn, TOut> converter;
@@ -18,6 +23,9 @@ namespace Core.Converters
             set => converter = value;
         }
 
+        /// <summary>
+        /// Create a new isntance of <see cref="AbstractConverter{TIn, TOut}"/>
+        /// </summary>
         protected AbstractConverter()
         {
             sourceParameter = null;

@@ -2,6 +2,10 @@
 
 namespace Core.Converters
 {
+    /// <summary>
+    /// Implement an <see cref="AbstractConverter{TIn, TOut}"/> that
+    /// extract a single bit from a <see cref="double"/>
+    /// </summary>
     public class BitExtractorConverter : AbstractConverter<double, bool>
     {
         /// <summary>
