@@ -4,7 +4,7 @@ namespace Core.Converters
 {
     /// <summary>
     /// Convert the input by applying an exponential moving average. <br/>
-    /// For reference, see: 
+    /// For reference, see:
     /// <see href="https://it.mathworks.com/help/dsp/ug/sliding-window-method-and-exponential-weighting-method.html"/>
     /// </summary>
     public class ExponentialMovingAverageConverter : AbstractConverter<double, double>
@@ -26,7 +26,7 @@ namespace Core.Converters
         /// <summary>
         /// Initialize a new instance of <see cref="ExponentialMovingAverageConverter"/>
         /// </summary>
-        /// <remarks>If <paramref name="lambda"/> is not between 0 and 1, a value of 0.5 is assigned by default</remarks> 
+        /// <remarks>If <paramref name="lambda"/> is not between 0 and 1, a value of 0.5 is assigned by default</remarks>
         /// <param name="lambda">The forgetting factor (in 0 and 1, inclusive)</param>
         public ExponentialMovingAverageConverter(double lambda) : base()
         {

@@ -1,9 +1,4 @@
 ﻿using Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Hardware.Libnodave
 {
@@ -22,8 +17,8 @@ namespace Hardware.Libnodave
         /// <param name="representation">The <see cref="NumericRepresentation"/></param>
         /// <param name="measureUnit">The measure unit</param>
         /// <param name="format">The format</param>
-        public LibnodaveAnalogOutput(string code, int memoryAddress, IResource resource, RepresentationBytes bytes, 
-            NumericRepresentation representation, string measureUnit = "", string format = "0.000") 
+        public LibnodaveAnalogOutput(string code, int memoryAddress, IResource resource, RepresentationBytes bytes,
+            NumericRepresentation representation, string measureUnit = "", string format = "0.000")
             : base(code, memoryAddress, resource, bytes, representation, measureUnit, format)
         {
             ValueChanged += LibnodaveAnalogOutput_ValueChanged;

@@ -166,19 +166,19 @@ namespace Hardware.Libnodave
                     {
                         int res = connection.readBytes(daveInputs, 0, 0, bufferSize, buffer); // Read the memory buffer
 
-                    if (res == 0) // Read ok
-                    {
+                        if (res == 0) // Read ok
+                        {
                             if (channel is LibnodaveDigitalInput)
                                 (channel as LibnodaveDigitalInput).Value = Convert.ToBoolean(buffer[channel.MemoryAddress]);
                             else
                             {
-                            // Memory buffer manipulation - get only the elements of interest
-                            int n = ExtractNumberOfBytes(channel);
+                                // Memory buffer manipulation - get only the elements of interest
+                                int n = ExtractNumberOfBytes(channel);
                                 byte[] array = new byte[n];
                                 Array.Copy(buffer, channel.MemoryAddress, array, 0, n);
 
-                            // Channel value assignment
-                            switch (channel.RepresentationBytes)
+                                // Channel value assignment
+                                switch (channel.RepresentationBytes)
                                 {
                                     case RepresentationBytes.Eight:
                                         (channel as LibnodaveAnalogInput).Value = BitConverter.ToDouble(array, 0);
@@ -208,7 +208,7 @@ namespace Hardware.Libnodave
                             }
                         }
                         else // Error during read
-                    {
+                        {
                             Logger.Log("Unable to perform the read operation!", Severity.Error);
                             failure = new Failure("Unable to perform the read operation!");
                         }

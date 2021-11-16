@@ -33,7 +33,7 @@ namespace Hardware.Libnodave
         /// <param name="memoryAddress">The memory address</param>
         /// <param name="resource">The <see cref="IResource"/></param>
         /// <param name="pollingInterval">The polling interval (in milliseconds)</param>
-        public LibnodaveDigitalInput(string code, int memoryAddress, IResource resource, int pollingInterval = 100) 
+        public LibnodaveDigitalInput(string code, int memoryAddress, IResource resource, int pollingInterval = 100)
             : base(code, memoryAddress, resource)
         {
             this.pollingInterval = pollingInterval;

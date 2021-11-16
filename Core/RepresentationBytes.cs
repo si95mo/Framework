@@ -1,7 +1,7 @@
 ﻿namespace Core
 {
     /// <summary>
-    /// The number of bytes relative to the 
+    /// The number of bytes relative to the
     /// numeric representation of the value in the memory buffer
     /// </summary>
     public enum RepresentationBytes

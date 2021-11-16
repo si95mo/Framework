@@ -11,10 +11,11 @@ namespace Hardware.Libnodave
         protected IResource resource;
 
         public int MemoryAddress { get => memoryAddress; set => memoryAddress = value; }
-        public RepresentationBytes RepresentationBytes 
-        { 
-            get => RepresentationBytes.One; 
-            set => _ = value; 
+
+        public RepresentationBytes RepresentationBytes
+        {
+            get => RepresentationBytes.One;
+            set => _ = value;
         }
 
         /// <summary>
