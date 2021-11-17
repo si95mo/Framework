@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Hardware.Modbus;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -52,13 +53,24 @@ namespace UserInterface.Controls.Tests
             );
         }
 
-        private void TestForm_Load(object sender, EventArgs e)
+        private async void TestForm_Load(object sender, EventArgs e)
         {
             dgvControl.DataSource = new List<List<string>>
             {
                 new List<string>{ "AAA", "BBB", "CCC" },
                 new List<string>{ "111", "222", "333", "444", "555" }
             };
+
+            Invoke(new MethodInvoker(async () =>
+                    {
+                        ModbusResource resource = new ModbusResource("ModbusResource", "localhost");
+                        await resource.Start();
+
+                        ResourceControl control = new ResourceControl(resource);
+                        panelControl.Controls.Add(control);
+                    }
+                )
+            );
         }
 
         private void BtnShowCustomMessageBox_Click(object sender, EventArgs e)

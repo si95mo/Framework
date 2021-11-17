@@ -85,6 +85,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Hardware.Modbus\Hardware.Modbus.csproj">
+      <Project>{FA1A2A2F-C31D-4588-AFDD-EFCBE654E93D}</Project>
+      <Name>Hardware.Modbus</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Hardware.Tcp\Hardware.Tcp.csproj">
+      <Project>{281409C8-104C-4167-B5E9-DA9032034803}</Project>
+      <Name>Hardware.Tcp</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UserInterface.Components\UserInterface.Controls.csproj">
       <Project>{4944754E-8566-44D6-933F-38F8DDC98F55}</Project>
       <Name>UserInterface.Controls</Name>

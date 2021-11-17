@@ -80,6 +80,13 @@ namespace Core
         { }
 
         /// <summary>
+        /// Create a new instance of <see cref="Failure"/>
+        /// </summary>
+        /// <param name="ex">The <see cref="Exception"/> occurred</param>
+        public Failure(Exception ex) : this(ex.Message, DateTime.Now)
+        { }
+
+        /// <summary>
         /// The <see cref="EventHandler"/> for the
         /// value changed event
         /// </summary>

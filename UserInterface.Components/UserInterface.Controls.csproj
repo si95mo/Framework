@@ -182,11 +182,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ResourceStatusControl.cs">
+    <Compile Include="ResourceControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ResourceStatusControl.Designer.cs">
-      <DependentUpon>ResourceStatusControl.cs</DependentUpon>
+    <Compile Include="ResourceControl.Designer.cs">
+      <DependentUpon>ResourceControl.cs</DependentUpon>
     </Compile>
     <Compile Include="SaveTestProgramPanel.cs">
       <SubType>UserControl</SubType>
@@ -257,8 +257,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="ResourceStatusControl.resx">
-      <DependentUpon>ResourceStatusControl.cs</DependentUpon>
+    <EmbeddedResource Include="ResourceControl.resx">
+      <DependentUpon>ResourceControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SaveTestProgramPanel.resx">
       <DependentUpon>SaveTestProgramPanel.cs</DependentUpon>
