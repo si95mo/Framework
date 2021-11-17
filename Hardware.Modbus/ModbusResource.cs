@@ -158,9 +158,7 @@ namespace Hardware.Modbus
                 }
                 catch (Exception ex)
                 {
-                    failure = new Failure(ex.Message);
-                    Status.Value = ResourceStatus.Failure;
-                    Logger.Log(ex);
+                    HandleException(ex);
 
                     writing = false;
                     started = false;
@@ -282,9 +280,7 @@ namespace Hardware.Modbus
                 }
                 catch (Exception ex)
                 {
-                    failure = new Failure(ex.Message);
-                    Status.Value = ResourceStatus.Failure;
-                    Logger.Log(ex);
+                    HandleException(ex);
 
                     started = false;
                 }
@@ -338,37 +334,12 @@ namespace Hardware.Modbus
                     started = false;
                     Logger.Log(failure.Description);
                 }
-
-                //    if (TestConnection() || ipAddress.CompareTo("127.0.0.1") == 0)
-                //    {
-                //        await tcp.ConnectAsync(ipAddress, port);
-                //        master = ModbusIpMaster.CreateIp(tcp);
-
-                //        Status.Value = ResourceStatus.Executing;
-                //        started = true;
-
-                //        foreach (IProperty channel in channels)
-                //        {
-                //            if (channel is ModbusAnalogInput)
-                //                await Task.Factory.StartNew((channel as ModbusAnalogInput).PollingAction);
-
-                //            if (channel is ModbusDigitalInput)
-                //                await Task.Factory.StartNew((channel as ModbusDigitalInput).PollingAction);
-                //        }
-                //    }
-                //    else
-                //    {
-                //        failure = new Failure($"Unable to connect to modbus server at {ipAddress}:{port}", DateTime.Now);
-                //        Status.Value = ResourceStatus.Failure;
-                //    }
             }
             catch (Exception ex)
             {
-                failure = new Failure(ex.Message, DateTime.Now);
-                Status.Value = ResourceStatus.Failure;
+                HandleException(ex);
 
                 started = false;
-                Logger.Log(ex);
             }
         }
 

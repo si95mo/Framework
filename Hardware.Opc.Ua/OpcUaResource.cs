@@ -104,9 +104,7 @@ namespace Hardware.Opc.Ua
                 }
                 catch (Exception ex)
                 {
-                    failure = new Failure(ex.Message);
-                    Status.Value = ResourceStatus.Failure;
-                    Logger.Log(ex);
+                    HandleException(ex);
                 }
             }
         }
@@ -156,28 +154,44 @@ namespace Hardware.Opc.Ua
         public override async Task Start()
         {
             Status.Value = ResourceStatus.Starting;
-            await channel.OpenAsync();
 
-            if (channel.State == CommunicationState.Opened)
-                Status.Value = ResourceStatus.Executing;
-            else
+            try
             {
-                Status.Value = ResourceStatus.Failure;
-                failure = new Failure($"Unable to connect to {serverAddress}");
+                await channel.OpenAsync();
+
+                if (channel.State == CommunicationState.Opened)
+                    Status.Value = ResourceStatus.Executing;
+                else
+                {
+                    Status.Value = ResourceStatus.Failure;
+                    failure = new Failure($"Unable to connect to {serverAddress}");
+                }
+            }
+            catch(Exception ex)
+            {
+                HandleException(ex);
             }
         }
 
         public override async void Stop()
         {
             Status.Value = ResourceStatus.Stopping;
-            await channel.CloseAsync();
 
-            if (channel.State == CommunicationState.Closed)
-                Status.Value = ResourceStatus.Stopped;
-            else
+            try
             {
-                Status.Value = ResourceStatus.Failure;
-                failure = new Failure($"Unable to disconnect to {serverAddress}");
+                await channel.CloseAsync();
+
+                if (channel.State == CommunicationState.Closed)
+                    Status.Value = ResourceStatus.Stopped;
+                else
+                {
+                    Status.Value = ResourceStatus.Failure;
+                    failure = new Failure($"Unable to disconnect to {serverAddress}");
+                }
+            }
+            catch(Exception ex)
+            {
+                HandleException(ex);
             }
         }
     }

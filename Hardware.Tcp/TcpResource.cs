@@ -97,9 +97,7 @@ namespace Hardware.Resources
             }
             catch (Exception ex)
             {
-                failure = new Failure(ex.Message);
-                Status.Value = ResourceStatus.Failure;
-                Logger.Log(ex);
+                HandleException(ex);
             }
         }
 
@@ -137,8 +135,8 @@ namespace Hardware.Resources
             }
             catch (Exception ex)
             {
-                Status.Value = ResourceStatus.Failure;
-                Logger.Log(ex);
+                HandleException(ex);
+
                 return response;
             }
         }
@@ -159,8 +157,7 @@ namespace Hardware.Resources
             }
             catch (Exception ex)
             {
-                Status.Value = ResourceStatus.Failure;
-                Logger.Log(ex);
+                HandleException(ex);
             }
         }
 
@@ -196,8 +193,7 @@ namespace Hardware.Resources
             }
             catch (Exception ex)
             {
-                Status.Value = ResourceStatus.Failure;
-                failure = new Failure(ex.Message, DateTime.Now);
+                HandleException(ex);
             }
         }
 
@@ -243,7 +239,8 @@ namespace Hardware.Resources
             }
             catch (Exception ex)
             {
-                Logger.Log(ex);
+                HandleException(ex);
+
                 return result;
             }
         }

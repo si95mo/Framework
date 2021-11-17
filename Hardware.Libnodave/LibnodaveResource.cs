@@ -56,34 +56,31 @@ namespace Hardware.Libnodave
             await Start();
         }
 
-        public override async Task Start()
+        public override Task Start()
         {
-            int res = 0;
-            await Task.Run(() =>
-                {
-                    Status.Value = ResourceStatus.Starting;
+            Status.Value = ResourceStatus.Starting;
 
-                    connectionType.rfd = openSocket(port, ipAddress);
-                    connectionType.wfd = connectionType.rfd;
-                    connectionInterface = new daveInterface(connectionType, code, 0, daveProtoISOTCP, daveSpeed187k);
+            connectionType.rfd = openSocket(port, ipAddress);
+            connectionType.wfd = connectionType.rfd;
+            connectionInterface = new daveInterface(connectionType, code, 0, daveProtoISOTCP, daveSpeed187k);
 
-                    res = connectionInterface.initAdapter();
-                    connection = new daveConnection(connectionInterface, 0, rack, slot);
-                    res = connection.connectPLC();
+            connectionInterface.initAdapter();
+            connection = new daveConnection(connectionInterface, 0, rack, slot);
+            int res = connection.connectPLC();
 
-                    if (res == 0)
-                    {
-                        isOpen = res == 0;
-                        Status.Value = ResourceStatus.Executing;
-                    }
-                    else
-                    {
-                        Status.Value = ResourceStatus.Failure;
-                        Logger.Log($"Unable to connect to the PLC at {ipAddress}! (Error code: {res})", Severity.Error);
-                        failure = new Failure($"Unable to connect to the PLC at {ipAddress}! (Error code: {res})");
-                    }
-                }
-            );
+            if (res == 0)
+            {
+                isOpen = res == 0;
+                Status.Value = ResourceStatus.Executing;
+            }
+            else
+            {
+                Status.Value = ResourceStatus.Failure;
+                Logger.Log($"Unable to connect to the PLC at {ipAddress}! (Error code: {res})", Severity.Error);
+                failure = new Failure($"Unable to connect to the PLC at {ipAddress}! (Error code: {res})");
+            }
+
+            return Task.CompletedTask;
         }
 
         public override void Stop()
