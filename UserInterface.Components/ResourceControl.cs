@@ -6,6 +6,11 @@ using UserInterface.Controls.Properties;
 
 namespace UserInterface.Controls
 {
+    /// <summary>
+    /// Implement an <see cref="UserControl"/> to handle a <see cref="Resource"/>
+    /// <see cref="Resource.Start"/> and <see cref="Resource.Stop"/> method
+    /// (to modify the <see cref="Resource.Status"/> accordingly)
+    /// </summary>
     public partial class ResourceControl : UserControl
     {
         private readonly Color notExecuting = ControlPaint.LightLight(Color.Gold);
@@ -15,6 +20,7 @@ namespace UserInterface.Controls
         private readonly IResource resource;
 
         private readonly ToolTip tip;
+        private readonly Panel parent;
 
         private readonly bool initialized = false;
 
@@ -33,10 +39,15 @@ namespace UserInterface.Controls
         /// <summary>
         /// Create a new instance of <see cref="ResourceControl"/>
         /// </summary>
+        /// <remarks>It's necessary to pass the <paramref name="parent"/> container as a parameter
+        /// in order to correctly resize the <see cref="ResourceControl"/>!</remarks>
         /// <param name="resource">The <see cref="IResource"/></param>
-        public ResourceControl(IResource resource) : this()
+        /// <param name="parent">The <see cref="ResourceControl"/> parent <see cref="Panel"/></param>
+        public ResourceControl(IResource resource, Panel parent = null) : this()
         {
             this.resource = resource;
+            this.parent = parent;
+
             Load += ResourceControl_Load;
 
             tip = new ToolTip();
@@ -57,6 +68,13 @@ namespace UserInterface.Controls
         /// <param name="e">The <see cref="EventArgs"/></param>
         private void ResourceControl_Load(object sender, EventArgs e)
         {
+            if (parent != null)
+            {
+                int width = parent.Size.Width - SystemInformation.VerticalScrollBarWidth - 4;
+                int heigth = Size.Height;
+                Size = new Size(width, heigth);
+            }
+
             UpdateControls();
 
             resource.Status.ValueChanged += ResourceStatus_ValueChanged;

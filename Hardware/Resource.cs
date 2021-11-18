@@ -95,7 +95,7 @@ namespace Hardware
         public Type Type => GetType();
 
         /// <summary>
-        /// The <see cref="Resource"/> value as <see cref="object"/>
+        /// The <see cref="Resource"/> value (<see cref="Code"/>) as <see cref="object"/>
         /// </summary>
         public object ValueAsObject
         {

@@ -314,8 +314,8 @@ namespace Hardware.Modbus
                 {
                     master = ModbusIpMaster.CreateIp(tcp);
 
-                    Status.Value = ResourceStatus.Executing;
-                    started = true;
+                    started = tcp.Connected;
+                    Status.Value = started ? ResourceStatus.Executing : ResourceStatus.Failure;
 
                     foreach (IProperty channel in channels)
                     {

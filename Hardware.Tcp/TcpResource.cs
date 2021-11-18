@@ -102,7 +102,7 @@ namespace Hardware.Resources
         }
 
         /// <summary>
-        /// Send a command via tcp protocol, without receiving a response
+        /// Send a command via the <see cref="TcpResource"/>, without receiving a response
         /// </summary>
         /// <param name="request">The http request to send</param>
         public void Send(string request)
@@ -120,6 +120,10 @@ namespace Hardware.Resources
             }
         }
 
+        /// <summary>
+        /// Receive data via the <see cref="TcpResource"/>
+        /// </summary>
+        /// <returns></returns>
         private string Receive()
         {
             string response = "";
@@ -142,7 +146,7 @@ namespace Hardware.Resources
         }
 
         /// <summary>
-        /// Send a command via serial protocol and receive the response
+        /// Send a command via the <see cref="TcpResource"/> and receive the response
         /// </summary>
         /// <param name="request">The request to send</param>
         /// <param name="response">The response received</param>
