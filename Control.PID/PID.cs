@@ -195,5 +195,15 @@ namespace Control.PID
 
             return result;
         }
+
+        /// <summary>
+        /// Reset the <see cref="PID"/> controller by setting the 
+        /// integral term to 0 and the last update time to now
+        /// </summary>
+        public void Reset()
+        {
+            integralTerm = 0;
+            timeSinceLastUpdate = new TimeSpan(0);
+        }
     }
 }
