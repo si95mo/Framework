@@ -31,7 +31,7 @@ namespace Control.PID.Tests
             u = new AnalogInput("U", "V", "0.000");
             pid = new PID(
                 code: "PID",
-                rk: u,
+                controlledVariable: u,
                 n: 100,
                 kp: 0.01,
                 ki: 4,
