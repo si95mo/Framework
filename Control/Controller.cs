@@ -3,10 +3,13 @@ using System;
 
 namespace Control
 {
+    /// <summary>
+    /// Define a basic controller
+    /// </summary>
     public abstract class Controller : IController
     {
         protected string code;
-        protected Channel<double> rk;
+        protected Channel<double> controlledVariable;
         protected AnalogOutput uk;
         protected double setPoint;
 
@@ -42,19 +45,16 @@ namespace Control
         /// Create a new instance of <see cref="Controller"/>
         /// </summary>
         /// <param name="code">The code</param>
-        /// <param name="u">The controlled variable</param>
+        /// <param name="controlledVariable">The controlled variable</param>
         /// <param name="setPoint">The desired set point</param>
-        protected Controller(string code, Channel<double> u, double setPoint)
+        protected Controller(string code, Channel<double> controlledVariable, double setPoint)
         {
             this.code = code;
-            uk = new AnalogOutput($"Y.{code}", measureUnit: u.MeasureUnit, format: u.Format);
-            this.rk = u;
+            uk = new AnalogOutput($"Y.{code}", measureUnit: controlledVariable.MeasureUnit, format: controlledVariable.Format);
+            this.controlledVariable = controlledVariable;
             this.setPoint = setPoint;
         }
 
-        /// <summary>
-        /// Start the control algorithm
-        /// </summary>
         public abstract void Start();
     }
 }
