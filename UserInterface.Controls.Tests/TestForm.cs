@@ -53,7 +53,7 @@ namespace UserInterface.Controls.Tests
             );
         }
 
-        private async void TestForm_Load(object sender, EventArgs e)
+        private void TestForm_Load(object sender, EventArgs e)
         {
             dgvControl.DataSource = new List<List<string>>
             {
@@ -61,16 +61,8 @@ namespace UserInterface.Controls.Tests
                 new List<string>{ "111", "222", "333", "444", "555" }
             };
 
-            Invoke(new MethodInvoker(async () =>
-                    {
-                        ModbusResource resource = new ModbusResource("ModbusResource", "localhost");
-                        await resource.Start();
-
-                        ResourceControl control = new ResourceControl(resource);
-                        panelControl.Controls.Add(control);
-                    }
-                )
-            );
+            ResourceTestForm form = new ResourceTestForm();
+            form.Show();
         }
 
         private void BtnShowCustomMessageBox_Click(object sender, EventArgs e)
