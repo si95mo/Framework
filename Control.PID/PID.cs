@@ -67,7 +67,7 @@ namespace Control.PID
         /// The controlled variable (as a generic <see cref="Channel{T}"/>). <br/>
         /// In the block diagram this variable represents r(k)
         /// </summary>
-        public Channel<double> Rk => rk;
+        public Channel<double> Rk => controlledVariable;
 
         /// <summary>
         /// The cycle time of the controller (in milliseconds)
@@ -82,7 +82,7 @@ namespace Control.PID
         /// Create a new instance of <see cref="PID"/>
         /// </summary>
         /// <param name="code">The code</param>
-        /// <param name="rk">The controlled variable</param>
+        /// <param name="controlledVariable">The controlled variable</param>
         /// <param name="n">The derivative filter coefficient</param>
         /// <param name="kp">The proportional gain</param>
         /// <param name="ki">The integral gain</param>
@@ -90,8 +90,8 @@ namespace Control.PID
         /// <param name="upperLimit">The upper limit (for clamping)</param>
         /// <param name="lowerLimit">The lower limit (for clamping)</param>
         /// <param name="setPoint">The desired set point</param>
-        public PID(string code, Channel<double> rk, int n, double kp, double ki, double kd,
-            double upperLimit, double lowerLimit, double setPoint) : base(code, rk, setPoint)
+        public PID(string code, Channel<double> controlledVariable, int n, double kp, double ki, double kd,
+            double upperLimit, double lowerLimit, double setPoint) : base(code, controlledVariable, setPoint)
         {
             this.n = n;
             this.kp = kp;
@@ -101,9 +101,9 @@ namespace Control.PID
             this.lowerLimit = lowerLimit;
 
             controlTask = null;
-            lastControlledValue = rk.Value;
+            lastControlledValue = controlledVariable.Value;
 
-            this.rk.ValueChanged += ControlledVariable_ValueChanged;
+            this.controlledVariable.ValueChanged += ControlledVariable_ValueChanged;
         }
 
         private void ControlledVariable_ValueChanged(object sender, ValueChangedEventArgs e)
@@ -114,26 +114,25 @@ namespace Control.PID
         /// </summary>
         /// <returns>The controlling <see cref="Task"/></returns>
         private Task CreateControlTask() => new Task(async () =>
+            {
+                Stopwatch sw;
+                int timeToWait;
+
+                timeSinceLastUpdate = new TimeSpan(0);
+                while (true)
                 {
-                    Stopwatch sw;
-                    int timeToWait;
+                    sw = Stopwatch.StartNew();
 
-                    timeSinceLastUpdate = new TimeSpan(0);
-                    while (true)
-                    {
-                        sw = Stopwatch.StartNew();
+                    Iterate();
 
-                        Iterate();
+                    timeToWait = (int)(cycleTime - sw.Elapsed.TotalMilliseconds);
+                    if (timeToWait > 0)
+                        await Tasks.NoOperation(timeToWait, 1);
 
-                        timeToWait = (int)(cycleTime - sw.Elapsed.TotalMilliseconds);
-
-                        if (timeToWait > 0)
-                            await Tasks.NoOperation(timeToWait, 1);
-
-                        timeSinceLastUpdate = new TimeSpan(sw.Elapsed.Ticks).Subtract(timeSinceLastUpdate);
-                    }
+                    timeSinceLastUpdate = new TimeSpan(sw.Elapsed.Ticks).Subtract(timeSinceLastUpdate);
                 }
-            );
+            }
+        );
 
         /// <summary>
         /// Start the PID controller (or restart it if already started)
@@ -160,7 +159,7 @@ namespace Control.PID
         /// </summary>
         private void Iterate()
         {
-            double error = setPoint - rk.Value;
+            double error = setPoint - controlledVariable.Value;
 
             // Integral term
             integralTerm += ki * error * timeSinceLastUpdate.TotalSeconds;
