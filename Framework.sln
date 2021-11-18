@@ -104,6 +104,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserInterface.Controls.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hardware.Libnodave", "Hardware.Libnodave\Hardware.Libnodave.csproj", "{9FEC93E8-0769-4C30-AEC8-BAAB81B7FC83}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArtificialIntelligence", "ArtificialIntelligence\ArtificialIntelligence.csproj", "{EA07A9D7-5652-48F4-84A5-496CBF3E1966}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArtificialIntelligence.Tests", "ArtificialIntelligence.Tests\ArtificialIntelligence.Tests.csproj", "{091B78FE-311A-46B4-A70C-DDAD0C7AC35D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -302,6 +306,14 @@ Global
 		{9FEC93E8-0769-4C30-AEC8-BAAB81B7FC83}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FEC93E8-0769-4C30-AEC8-BAAB81B7FC83}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9FEC93E8-0769-4C30-AEC8-BAAB81B7FC83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA07A9D7-5652-48F4-84A5-496CBF3E1966}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA07A9D7-5652-48F4-84A5-496CBF3E1966}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA07A9D7-5652-48F4-84A5-496CBF3E1966}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA07A9D7-5652-48F4-84A5-496CBF3E1966}.Release|Any CPU.Build.0 = Release|Any CPU
+		{091B78FE-311A-46B4-A70C-DDAD0C7AC35D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{091B78FE-311A-46B4-A70C-DDAD0C7AC35D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{091B78FE-311A-46B4-A70C-DDAD0C7AC35D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{091B78FE-311A-46B4-A70C-DDAD0C7AC35D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
