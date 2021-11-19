@@ -3,6 +3,9 @@ using System.Windows.Forms;
 
 namespace UserInterface.Controls
 {
+    /// <summary>
+    /// Implement useful extension methods for <see cref="UserControl"/> objects
+    /// </summary>
     public static class UserControlExtensions
     {
         /// <summary>
