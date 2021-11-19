@@ -76,8 +76,10 @@ namespace Hardware.Libnodave
             else
             {
                 Status.Value = ResourceStatus.Failure;
-                Logger.Log($"Unable to connect to the PLC at {ipAddress}! (Error code: {res})", Severity.Error);
-                failure = new Failure($"Unable to connect to the PLC at {ipAddress}! (Error code: {res})");
+
+                string message = $"Unable to connect to the PLC at {ipAddress}! (Error code: {res})";
+                Logger.Log(message, Severity.Error);
+                failure = new Failure(message);
             }
 
             return Task.CompletedTask;
@@ -140,8 +142,11 @@ namespace Hardware.Libnodave
                         int res = connection.writeBytes(daveInputs, 0, 0, bufferSize, buffer);
                         if (res != 0)
                         {
-                            Logger.Log($"Unable the perform the write operation! (Error code: {res})", Severity.Error);
-                            failure = new Failure($"Unable to perform the write operation! (Error code: {res})");
+                            Status.Value = ResourceStatus.Failure;
+
+                            string message = $"Unable the perform the write operation! (Error code: {res})";
+                            Logger.Log(message, Severity.Error);
+                            failure = new Failure(message);
                         }
                     }
                 );
@@ -206,8 +211,11 @@ namespace Hardware.Libnodave
                         }
                         else // Error during read
                         {
-                            Logger.Log("Unable to perform the read operation!", Severity.Error);
-                            failure = new Failure("Unable to perform the read operation!");
+                            Status.Value = ResourceStatus.Failure;
+
+                            string message = $"Unable to perform the read operation! (Error code: {res})";
+                            Logger.Log(message, Severity.Error);
+                            failure = new Failure(message);
                         }
                     }
                 );
