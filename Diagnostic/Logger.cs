@@ -106,13 +106,13 @@ namespace Diagnostic
         /// <summary>
         /// Initialize the logger with the specified parameters
         /// </summary>
-        /// <param name="logPath">The path of the log file </param>
-        /// <param name="timeSpanAsDays">The time span of daily logs to keep saved (expressed in days). <br/>
-        /// If the parameter value is equal to -1 no log file will be deleted (i.e. all
+        /// <remarks>If the <paramref name="timeSpanAsDays"/> is equal to -1 no log file will be deleted (i.e. all
         /// the logs will be kept saved in the disk), otherwise logs older than the actual day
         /// minus the time span specified will be deleted (e.g. if today is 10/01/2021 and
         /// <paramref name="timeSpanAsDays"/> is 10, then all the logs up to
-        /// 30/12/2020 will be deleted)</param>
+        /// 30/12/2020 will be deleted)</remarks>
+        /// <param name="logPath">The path of the log file </param>
+        /// <param name="timeSpanAsDays">The time span of daily logs to keep saved (expressed in days)</param>
         public static void Initialize(string logPath = "logs\\", int timeSpanAsDays = -1)
         {
             string now = DateTime.Now.ToString("yyyy-MM-dd");
