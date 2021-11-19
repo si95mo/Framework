@@ -66,13 +66,12 @@ namespace Hardware.Libnodave
 
             connectionInterface.initAdapter();
             connection = new daveConnection(connectionInterface, 0, rack, slot);
+
             int res = connection.connectPLC();
+            isOpen = res == 0;
 
             if (res == 0)
-            {
-                isOpen = res == 0;
                 Status.Value = ResourceStatus.Executing;
-            }
             else
             {
                 Status.Value = ResourceStatus.Failure;
