@@ -200,6 +200,7 @@
     <Compile Include="TextControl.Designer.cs">
       <DependentUpon>TextControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControlExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="BaseAutomaticButton.resx">
