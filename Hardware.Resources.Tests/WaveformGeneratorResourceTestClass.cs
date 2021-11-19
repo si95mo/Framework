@@ -27,7 +27,7 @@ namespace Hardware.Resources.Tests
         [TestCase(WaveformType.Sawtooth)]
         public async Task Test(WaveformType type)
         {
-            resource = new WaveformGeneratorResource("WaveformResource", type, 1, 100, output);
+            resource = new WaveformGeneratorResource("WaveformResource", type, 1, 10, output);
             await resource.Start();
 
             string str = "";
@@ -43,7 +43,7 @@ namespace Hardware.Resources.Tests
             do
             {
                 await Task.Delay(0);
-            } while (sw.Elapsed.TotalMilliseconds <= 100000); // 100 seconds
+            } while (sw.Elapsed.TotalMilliseconds <= 2000); // 10 seconds
             update = false;
 
             string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), $"waveform_test//{type}_test.csv");

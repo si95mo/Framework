@@ -48,8 +48,6 @@ namespace Hardware.WaveformGenerator
         private double offset;
         private double phase;
 
-        private long startTime;
-
         private AnalogOutput output;
 
         private Task generationTask;
@@ -77,7 +75,6 @@ namespace Hardware.WaveformGenerator
 
             period = 1000 / frequency; // In milliseconds
             generationTask = default;
-            startTime = 0;
 
             this.output = new AnalogOutput($"{output.Code}.{Code}", output.MeasureUnit, output.Format);
             this.output.ConnectTo(output);
@@ -129,20 +126,21 @@ namespace Hardware.WaveformGenerator
                 {
                     double time = 0d;
                     double t = 0d;
+                    double startTime = Stopwatch.GetTimestamp() / Stopwatch.Frequency;
 
                     while (Status.Value == ResourceStatus.Executing)
                     {
-                        time = (Stopwatch.GetTimestamp() - startTime) / Stopwatch.Frequency;
-                        t = frequency * time + phase;
+                        time = (Stopwatch.GetTimestamp() - startTime) / Stopwatch.Frequency - startTime;
+                        t = 2 * Math.PI * frequency * time + phase;
 
                         switch (waveformType)
                         {
                             case WaveformType.Sine: // sin(2 * pi * t)
-                                output.Value = amplitude * Math.Sin(2 * Math.PI * t) + offset;
+                                output.Value = amplitude * Math.Sin(t) + offset;
                                 break;
 
                             case WaveformType.Square: // sign(sin(2 * pi * t))
-                                output.Value = amplitude * Math.Sign(Math.Sin(2 * Math.PI * t)) + offset;
+                                output.Value = amplitude * Math.Sign(Math.Sin(t)) + offset;
                                 break;
 
                             case WaveformType.Triangular: // 2 * abs(t - 2 * floor(t / 2) - 1) - 1
@@ -154,7 +152,7 @@ namespace Hardware.WaveformGenerator
                                 break;
                         }
 
-                        await Tasks.NoOperation(1, 1);
+                        await Task.Delay(0);
                     }
                 }
             );
