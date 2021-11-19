@@ -4,7 +4,7 @@ using MathNet.Filtering;
 namespace Signal.Processing
 {
     /// <summary>
-    /// Implement a class with filtering functionalitiesB
+    /// Implement a class with filtering functionalities
     /// </summary>
     public class Filter
     {
