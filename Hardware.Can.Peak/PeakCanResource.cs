@@ -435,8 +435,9 @@ namespace Hardware.Can
             {
                 lock (logLock)
                 {
-                    foreach (CanFrame canFrame in logQueue)
-                        log += $"{canFrame}{Environment.NewLine}";
+                    log = string.Join(Environment.NewLine, logQueue);
+                    //foreach (CanFrame canFrame in logQueue)
+                    //    log += $"{canFrame}{Environment.NewLine}";
 
                     logQueue.Clear();
                 }
