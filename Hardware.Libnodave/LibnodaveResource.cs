@@ -74,11 +74,8 @@ namespace Hardware.Libnodave
                 Status.Value = ResourceStatus.Executing;
             else
             {
-                Status.Value = ResourceStatus.Failure;
-
                 string message = $"Unable to connect to the PLC at {ipAddress}! (Error code: {res})";
-                Logger.Log(message, Severity.Error);
-                failure = new Failure(message);
+                HandleException(message);
             }
 
             return Task.CompletedTask;
@@ -141,11 +138,8 @@ namespace Hardware.Libnodave
                         int res = connection.writeBytes(daveInputs, 0, 0, bufferSize, buffer);
                         if (res != 0)
                         {
-                            Status.Value = ResourceStatus.Failure;
-
                             string message = $"Unable the perform the write operation! (Error code: {res})";
-                            Logger.Log(message, Severity.Error);
-                            failure = new Failure(message);
+                            HandleException(message);
                         }
                     }
                 );
@@ -210,11 +204,8 @@ namespace Hardware.Libnodave
                         }
                         else // Error during read
                         {
-                            Status.Value = ResourceStatus.Failure;
-
                             string message = $"Unable to perform the read operation! (Error code: {res})";
-                            Logger.Log(message, Severity.Error);
-                            failure = new Failure(message);
+                            HandleException(message);
                         }
                     }
                 );

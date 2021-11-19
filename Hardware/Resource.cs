@@ -140,14 +140,31 @@ namespace Hardware
         /// <summary>
         /// Handle the operations to perform in case of an <see cref="Exception"/>
         /// </summary>
-        /// <remarks>This method should be called inside each try-catch block in each concrete classes
-        /// that inherits from <see cref="Resource"/></remarks>
+        /// <remarks>
+        /// This method should be called inside each try-catch block in each concrete classes
+        /// that inherits from <see cref="Resource"/>
+        /// </remarks>
         /// <param name="ex">The <see cref="Exception"/> occurred</param>
         protected void HandleException(Exception ex)
         {
             failure = new Failure(ex);
             Status.Value = ResourceStatus.Failure;
             Logger.Log(ex);
+        }
+
+        /// <summary>
+        /// Handle the operations to perform in case of a generic <see cref="Resource"/> failure
+        /// </summary>
+        /// <remarks>
+        /// This method should be called inside each if-else block in each concrete classes
+        /// that inherits from <see cref="Resource"/>
+        /// </remarks>
+        /// <param name="message">The error message</param>
+        protected void HandleException(string message)
+        {
+            failure = new Failure(message);
+            Status.Value = ResourceStatus.Failure;
+            Logger.Log(message, Severity.Error);
         }
     }
 }
