@@ -430,7 +430,7 @@ namespace Hardware.Can
         {
             string log = "";
 
-            // EnableLog(int) should has been called at least once
+            // EnableLog(int) should have been called at least once
             if (logQueue != null)
             {
                 lock (logLock)
