@@ -10,7 +10,7 @@ namespace Core.Parameters
     public class TimeSpanParameter : Parameter<TimeSpan>, ITimeSpanParameter
     {
         /// <summary>
-        /// Represent the current <see cref="TimeSpan"/> stored in 
+        /// Represent the current <see cref="TimeSpan"/> stored in
         /// <see cref="Parameter{T}.Value"/> as seconds
         /// </summary>
         public double ValueAsSeconds

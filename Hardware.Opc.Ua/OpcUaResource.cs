@@ -167,7 +167,7 @@ namespace Hardware.Opc.Ua
                     failure = new Failure($"Unable to connect to {serverAddress}");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 HandleException(ex);
             }
@@ -189,7 +189,7 @@ namespace Hardware.Opc.Ua
                     failure = new Failure($"Unable to disconnect to {serverAddress}");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 HandleException(ex);
             }
