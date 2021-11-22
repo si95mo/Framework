@@ -9,6 +9,9 @@ using TwinCAT.Ads;
 
 namespace Hardware.Twincat
 {
+    /// <summary>
+    /// Implement a resource that communicate with TwinCAT via the Ads protocol
+    /// </summary>
     public class TwincatResource : Resource, IResource
     {
         private bool isOpen;
