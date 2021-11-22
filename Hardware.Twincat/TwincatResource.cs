@@ -36,6 +36,12 @@ namespace Hardware.Twincat
         /// </summary>
         public int Port => port;
 
+        /// <summary>
+        /// Create a new instance of <see cref="TwincatResource"/>
+        /// </summary>
+        /// <param name="code">The code</param>
+        /// <param name="amsNetAddress">The PLC ams net address</param>
+        /// <param name="port">The port number</param>
         public TwincatResource(string code, string amsNetAddress, int port) : base(code)
         {
             this.amsNetAddress = amsNetAddress;
@@ -95,9 +101,7 @@ namespace Hardware.Twincat
                 isOpen = true;
             }    
             else
-            {
                 HandleException($"{code}- Unable to connect to {amsNetAddress}:{port}");
-            }
         }
 
         public override void Stop()
@@ -111,9 +115,7 @@ namespace Hardware.Twincat
                 isOpen = false;
             }
             else
-            {
                 HandleException($"{code}- Unable to disconnect to {amsNetAddress}:{port}");
-            }
         }
 
         /// <summary>
