@@ -8,7 +8,7 @@
         /// <param name="code">The code</param>
         /// <param name="variableName">The variable name in Twincat</param>
         /// <param name="resource">The <see cref="IResource"/></param>
-        public TwincatDigitalOutput(string code, string variableName, IResource resource) 
+        public TwincatDigitalOutput(string code, string variableName, IResource resource)
             : base(code, variableName, resource, measureUnit: "", format: "0")
         {
             ValueChanged += TwincatAnalogOutput_ValueChanged;

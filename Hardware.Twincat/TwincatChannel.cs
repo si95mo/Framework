@@ -6,7 +6,7 @@
     /// <typeparam name="T"></typeparam>
     public class TwincatChannel<T> : Channel<T>, ITwincatChannel
     {
-        string variableName;
+        private string variableName;
         protected IResource resource;
 
         public string VariableName => variableName;
