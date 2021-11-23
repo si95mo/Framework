@@ -12,10 +12,10 @@ namespace Hardware.Twincat
         /// <summary>
         /// The polling interval (in milliseconds)
         /// </summary>
-        public int PollingInterval 
-        { 
+        public int PollingInterval
+        {
             get => pollingInterval;
-            set => pollingInterval = value; 
+            set => pollingInterval = value;
         }
 
         /// <summary>

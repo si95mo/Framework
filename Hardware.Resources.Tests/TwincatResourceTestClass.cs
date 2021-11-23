@@ -9,26 +9,24 @@ namespace Hardware.Resources.Tests
     [TestFixture]
     public class TwincatResourceTestClass
     {
-        private string amsNetAddress = "LocalAddress";
-        private int port = 801;
+        private string amsNetAddress = "MyTestAdsServer";
+        private int port = 12345;
         private TwincatResource resource;
-        Mock server;
+        private Mock server;
 
         [OneTimeSetUp]
-        public async Task Setup()
+        public void Setup()
         {
-            server = new Mock((ushort)port, amsNetAddress);
-
-            resource = new TwincatResource("TwincatResource", amsNetAddress, port);
-            await resource.Start();
-
-            resource.Status.Value.Should().Be(ResourceStatus.Executing);
+            // server = new Mock((ushort)port, amsNetAddress);
+            // The mock server only specify a valid port number
+            resource = new TwincatResource("TwincatResource", port);
         }
 
         [Test]
-        public void Test()
+        public async Task StartTest()
         {
-
+            await resource.Start();
+            resource.Status.Value.Should().Be(ResourceStatus.Executing);
         }
     }
 }

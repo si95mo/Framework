@@ -24,6 +24,8 @@ namespace Hardware.Twincat
 
         private Dictionary<string, uint> variableHandles;
 
+        private bool initializedWithAddress;
+
         public override bool IsOpen => isOpen;
 
         /// <summary>
@@ -38,6 +40,7 @@ namespace Hardware.Twincat
 
         /// <summary>
         /// Create a new instance of <see cref="TwincatResource"/>
+        /// by specifying both the ams net address and the port of the Ads server
         /// </summary>
         /// <param name="code">The code</param>
         /// <param name="amsNetAddress">The PLC ams net address</param>
@@ -47,9 +50,36 @@ namespace Hardware.Twincat
             this.amsNetAddress = amsNetAddress;
             this.port = port;
 
+            initializedWithAddress = true;
+
             address = new AmsAddress(amsNetAddress, port);
             client = new AdsClient();
 
+            InitializeResource();
+        }
+
+        /// <summary>
+        /// Initialize a new instance of <see cref="TwincatResource"/>
+        /// by specifying only the port number of the Ads server
+        /// </summary>
+        /// <param name="code">The code</param>
+        /// <param name="port">The port number</param>
+        public TwincatResource(string code, int port) : base(code)
+        {
+            this.port = port;
+            amsNetAddress = "";
+
+            initializedWithAddress = false;
+
+            client = new AdsClient();
+            InitializeResource();
+        }
+
+        /// <summary>
+        /// Initialize the <see cref="TwincatResource"/> status
+        /// </summary>
+        private void InitializeResource()
+        {
             client.AdsNotificationError += (object _, AdsNotificationErrorEventArgs e) =>
             {
                 Logger.Error($"Ads error. Recevied: {e.Exception.Message}");
@@ -93,15 +123,32 @@ namespace Hardware.Twincat
         public override async Task Start()
         {
             Status.Value = ResourceStatus.Starting;
-            await client.ConnectAndWaitAsync(address, CancellationToken.None);
 
-            if(client.Session.IsConnected)
-            {
-                Status.Value = ResourceStatus.Executing;
-                isOpen = true;
-            }    
+            if (initializedWithAddress)
+                await client.ConnectAndWaitAsync(address, CancellationToken.None);
             else
-                HandleException($"{code}- Unable to connect to {amsNetAddress}:{port}");
+                await Task.Run(() => client.Connect(port));
+
+            if (client.Session != null)
+            {
+                if (client.Session.IsConnected)
+                {
+                    Status.Value = ResourceStatus.Executing;
+                    isOpen = true;
+                }
+                else
+                    HandleException($"{code} - Unable to connect to {amsNetAddress}:{port}");
+            }
+            else
+            {
+                if (client.IsConnected)
+                {
+                    Status.Value = ResourceStatus.Executing;
+                    isOpen = true;
+                }
+                else
+                    HandleException($"{code} - Unable to connect to {amsNetAddress}:{port}");
+            }
         }
 
         public override void Stop()
@@ -125,7 +172,7 @@ namespace Hardware.Twincat
         /// <returns>The async <see cref="Task"/></returns>
         internal async Task Receive(string code)
         {
-            if(Status.Value == ResourceStatus.Executing)
+            if (Status.Value == ResourceStatus.Executing)
             {
                 ITwincatChannel channel = channels.Get(code) as ITwincatChannel;
                 uint handle = variableHandles[channel.Code];
