@@ -15,7 +15,7 @@ namespace Diagnostic.Tests
         {
             string path = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
-                @"test_logs\"
+                @"test_results//test_logs//"
             );
 
             Logger.Initialize(path);

@@ -83,7 +83,7 @@ namespace Signal.Processing.Tests
             string str = "";
             a.ToList().ForEach(x => str += $"{x.ToString("F16", CultureInfo.InvariantCulture)}{Environment.NewLine}");
 
-            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), $"filter_test//{name}");
+            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), $"test_results//filter_test//{name}");
             string folder = Path.GetDirectoryName(path);
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
