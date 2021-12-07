@@ -85,6 +85,7 @@ namespace Hardware.Twincat
                 Logger.Error($"Ads error. Recevied: {e.Exception.Message}");
                 Status.Value = ResourceStatus.Failure;
             };
+            client.Timeout = 5000;
 
             variableHandles = new Dictionary<string, uint>();
             channels.ItemAdded += Channels_ItemAdded;
@@ -124,30 +125,37 @@ namespace Hardware.Twincat
         {
             Status.Value = ResourceStatus.Starting;
 
+            Task timeoutTask = new Task(async () => await Task.Delay(client.Timeout));
+            Task t;
             if (initializedWithAddress)
-                await client.ConnectAndWaitAsync(address, CancellationToken.None);
+                t = Task.WhenAny(client.ConnectAndWaitAsync(address, CancellationToken.None), timeoutTask);
             else
-                await Task.Run(() => client.Connect(port));
+                t = Task.WhenAny(Task.Run(() => client.Connect(port)), timeoutTask);
 
-            if (client.Session != null)
-            {
-                if (client.Session.IsConnected)
-                {
-                    Status.Value = ResourceStatus.Executing;
-                    isOpen = true;
-                }
-                else
-                    HandleException($"{code} - Unable to connect to {amsNetAddress}:{port}");
-            }
+            if (t == timeoutTask)
+                HandleException($"{code} - Unable to connect to {amsNetAddress}:{port}");
             else
             {
-                if (client.IsConnected)
+                if (client.Session != null)
                 {
-                    Status.Value = ResourceStatus.Executing;
-                    isOpen = true;
+                    if (client.Session.IsConnected)
+                    {
+                        Status.Value = ResourceStatus.Executing;
+                        isOpen = true;
+                    }
+                    else
+                        HandleException($"{code} - Unable to connect to {amsNetAddress}:{port}");
                 }
                 else
-                    HandleException($"{code} - Unable to connect to {amsNetAddress}:{port}");
+                {
+                    if (client.IsConnected)
+                    {
+                        Status.Value = ResourceStatus.Executing;
+                        isOpen = true;
+                    }
+                    else
+                        HandleException($"{code} - Unable to connect to {amsNetAddress}:{port}");
+                }
             }
         }
 
