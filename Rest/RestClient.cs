@@ -31,8 +31,8 @@ namespace Rest
         /// </summary>
         public object ValueAsObject
         {
-            get => throw new NotImplementedException();
-            set => throw new NotImplementedException();
+            get => result;
+            set => _ = value;
         }
 
         /// <summary>

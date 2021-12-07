@@ -23,8 +23,6 @@ namespace Control.PID
         private double proportionalTerm;
         private double derivativeTerm;
 
-        private double lastControlledValue;
-
         private Task controlTask;
 
         /// <summary>
@@ -101,37 +99,32 @@ namespace Control.PID
             this.lowerLimit = lowerLimit;
 
             controlTask = null;
-            lastControlledValue = controlledVariable.Value;
-
-            this.controlledVariable.ValueChanged += ControlledVariable_ValueChanged;
         }
 
-        private void ControlledVariable_ValueChanged(object sender, ValueChangedEventArgs e)
-            => lastControlledValue = (double)e.OldValue;
 
         /// <summary>
         /// Create a new controlling <see cref="Task"/>
         /// </summary>
         /// <returns>The controlling <see cref="Task"/></returns>
         private Task CreateControlTask() => new Task(async () =>
+            {
+                Stopwatch sw;
+                int timeToWait;
+
+                timeSinceLastUpdate = new TimeSpan(0);
+                while (true) 
                 {
-                    Stopwatch sw;
-                    int timeToWait;
+                    sw = Stopwatch.StartNew();
 
-                    timeSinceLastUpdate = new TimeSpan(0);
-                    while (true)
-                    {
-                        sw = Stopwatch.StartNew();
+                    Iterate();
 
-                        Iterate();
+                    timeToWait = (int)(cycleTime - sw.Elapsed.TotalMilliseconds);
+                    if (timeToWait > 0)
+                        await Tasks.NoOperation(timeToWait, 1);
 
-                        timeToWait = (int)(cycleTime - sw.Elapsed.TotalMilliseconds);
-                        if (timeToWait > 0)
-                            await Tasks.NoOperation(timeToWait, 1);
-
-                        timeSinceLastUpdate = new TimeSpan(sw.Elapsed.Ticks).Subtract(timeSinceLastUpdate);
-                    }
+                    timeSinceLastUpdate = new TimeSpan(sw.Elapsed.Ticks).Subtract(timeSinceLastUpdate);
                 }
+            }
         );
 
         /// <summary>
