@@ -56,7 +56,7 @@ namespace Signal.Processing.Tests
             string text;
             string path = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
-                "kalman_logs",
+                "test_results//kalman_logs",
                 "kalman_log.csv"
             );
 

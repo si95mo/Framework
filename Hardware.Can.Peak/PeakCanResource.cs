@@ -359,6 +359,7 @@ namespace Hardware.Can
                     }
                 }
             );
+
             return rx;
         }
 

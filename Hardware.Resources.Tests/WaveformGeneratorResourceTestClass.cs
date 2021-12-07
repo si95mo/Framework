@@ -46,7 +46,7 @@ namespace Hardware.Resources.Tests
             } while (sw.Elapsed.TotalMilliseconds <= 2000); // 10 seconds
             update = false;
 
-            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), $"waveform_test//{type}_test.csv");
+            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), $"test_results//waveform_test//{type}_test.csv");
             string folder = Path.GetDirectoryName(path);
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
