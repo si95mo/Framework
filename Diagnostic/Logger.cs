@@ -112,7 +112,7 @@ namespace Diagnostic
         /// <paramref name="timeSpanAsDays"/> is 10, then all the logs up to
         /// 30/12/2020 will be deleted)</remarks>
         /// <param name="logPath">The path of the log file </param>
-        /// <param name="timeSpanAsDays">The time span of daily logs to keep saved (expressed in days)</param>
+        /// <param name="timeSpanAsDays">The time span of daily logs to keep saved (expressed in days); -1 equals no file deleted</param>
         public static void Initialize(string logPath = "logs\\", int timeSpanAsDays = -1)
         {
             string now = DateTime.Now.ToString("yyyy-MM-dd");
