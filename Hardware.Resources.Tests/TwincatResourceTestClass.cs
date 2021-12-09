@@ -10,8 +10,10 @@ namespace Hardware.Resources.Tests
     public class TwincatResourceTestClass
     {
         private string amsNetAddress = "1.1.1.1.1.1"; // To check which is correct for the local ads server
+
         // private int port = 12345; // Mock server - only this parameter in the constructor of the resource
         private int port = 851; // TwinCAT - local ads server
+
         private TwincatResource resource;
         private Mock server;
 
