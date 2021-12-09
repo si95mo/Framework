@@ -1,5 +1,4 @@
-﻿using Core;
-using Core.Threading;
+﻿using Core.Threading;
 using Hardware;
 using System;
 using System.Diagnostics;
@@ -101,30 +100,29 @@ namespace Control.PID
             controlTask = null;
         }
 
-
         /// <summary>
         /// Create a new controlling <see cref="Task"/>
         /// </summary>
         /// <returns>The controlling <see cref="Task"/></returns>
         private Task CreateControlTask() => new Task(async () =>
-            {
-                Stopwatch sw;
-                int timeToWait;
+             {
+                 Stopwatch sw;
+                 int timeToWait;
 
-                timeSinceLastUpdate = new TimeSpan(0);
-                while (true) 
-                {
-                    sw = Stopwatch.StartNew();
+                 timeSinceLastUpdate = new TimeSpan(0);
+                 while (true)
+                 {
+                     sw = Stopwatch.StartNew();
 
-                    Iterate();
+                     Iterate();
 
-                    timeToWait = (int)(cycleTime - sw.Elapsed.TotalMilliseconds);
-                    if (timeToWait > 0)
-                        await Tasks.NoOperation(timeToWait, 1);
+                     timeToWait = (int)(cycleTime - sw.Elapsed.TotalMilliseconds);
+                     if (timeToWait > 0)
+                         await Tasks.NoOperation(timeToWait, 1);
 
-                    timeSinceLastUpdate = new TimeSpan(sw.Elapsed.Ticks).Subtract(timeSinceLastUpdate);
-                }
-            }
+                     timeSinceLastUpdate = new TimeSpan(sw.Elapsed.Ticks).Subtract(timeSinceLastUpdate);
+                 }
+             }
         );
 
         /// <summary>
