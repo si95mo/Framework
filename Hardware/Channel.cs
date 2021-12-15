@@ -75,6 +75,30 @@ namespace Hardware
         }
 
         /// <summary>
+        /// Initialize the class attributes
+        /// </summary>
+        /// <param name="code">The code</param>
+        /// <param name="measureUnit">The measure unit</param>
+        /// <param name="format">The format</param>
+        protected Channel(string code, string measureUnit, string format) : this(code)
+        {
+            this.measureUnit = measureUnit;
+            this.format = format;
+        }
+
+        /// <summary>
+        /// Initialize the class attributes
+        /// </summary>
+        /// <param name="code">The code</param>
+        /// <param name="measureUnit">The measure unit</param>
+        /// <param name="format">The format</param>
+        /// <param name="resource">The <see cref="IResource"/></param>
+        protected Channel(string code, string measureUnit, string format, IResource resource) : this(code, measureUnit, format)
+        {
+            resource.Channels.Add(this);
+        }
+
+        /// <summary>
         /// The <see cref="ValueChanged"/> event handler
         /// for the <see cref="Value"/> property
         /// </summary>
