@@ -11,22 +11,22 @@ namespace Hardware.Snap7
         private RepresentationBytes representationBytes;
         private int memoryAddress;
 
-        public NumericRepresentation NumericRepresentation 
-        { 
+        public NumericRepresentation NumericRepresentation
+        {
             get => numericRepresentation;
-            set => _ = value; 
+            set => _ = value;
         }
 
-        public RepresentationBytes RepresentationBytes 
-        { 
+        public RepresentationBytes RepresentationBytes
+        {
             get => representationBytes;
-            set => _ = value; 
+            set => _ = value;
         }
 
-        public int MemoryAddress 
-        { 
-            get => memoryAddress; 
-            set => memoryAddress = value; 
+        public int MemoryAddress
+        {
+            get => memoryAddress;
+            set => memoryAddress = value;
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Hardware.Snap7
         /// <param name="code">The code</param>
         /// <param name="memoryAddress">The memory address</param>
         /// <param name="resource">The <see cref="IResource"/></param>
-        protected Snap7DigitalChannel(string code, int memoryAddress,IResource resource)
+        protected Snap7DigitalChannel(string code, int memoryAddress, IResource resource)
             : base(code)
         {
             this.memoryAddress = memoryAddress;

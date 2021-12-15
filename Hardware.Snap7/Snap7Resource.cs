@@ -79,7 +79,6 @@ namespace Hardware.Snap7
         /// <returns></returns>
         internal async Task Receive(string code)
         {
-
         }
 
         /// <summary>
@@ -88,7 +87,6 @@ namespace Hardware.Snap7
         /// <param name="code">The channel code</param>
         internal void Send(string code)
         {
-
         }
     }
 }
