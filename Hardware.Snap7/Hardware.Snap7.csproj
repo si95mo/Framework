@@ -41,14 +41,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ISnap7Channel.cs" />
     <Compile Include="Sharp7.cs" />
+    <Compile Include="Snap7AnalogChannel.cs" />
+    <Compile Include="Snap7DigitalChannel.cs" />
     <Compile Include="Snap7Resource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Core.DataStructures\Core.DataStructures.csproj">
+      <Project>{1967AA9E-7FB5-4B63-AD7B-8394D65B6E8F}</Project>
+      <Name>Core.DataStructures</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core.Parameters\Core.Parameters.csproj">
       <Project>{B0E053BC-1B89-4C83-B819-5EC032B2566F}</Project>
       <Name>Core.Parameters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{75DFACF6-E820-4E3F-83D5-1E21FBC92385}</Project>
+      <Name>Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Hardware\Hardware.csproj">
       <Project>{c0f5ecde-b7ad-42b3-acf8-d5486b0e4c44}</Project>
