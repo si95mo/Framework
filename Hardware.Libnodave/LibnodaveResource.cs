@@ -115,6 +115,10 @@ namespace Hardware.Libnodave
 
                             switch (analogChannel.Representation)
                             {
+                                case NumericRepresentation.Byte:
+                                    array = BitConverter.GetBytes((byte)analogChannel.Value);
+                                    break;
+
                                 case NumericRepresentation.UInt16:
                                     array = BitConverter.GetBytes((ushort)analogChannel.Value);
                                     break;
