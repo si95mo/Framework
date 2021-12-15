@@ -112,6 +112,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hardware.WaveformGenerator"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hardware.Twincat", "Hardware.Twincat\Hardware.Twincat.csproj", "{6123D049-DC7C-4AF1-8D69-B50A2E524528}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hardware.Snap7", "Hardware.Snap7\Hardware.Snap7.csproj", "{E30DE686-EC0A-4D26-BD11-0215237333A8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -326,6 +328,10 @@ Global
 		{6123D049-DC7C-4AF1-8D69-B50A2E524528}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6123D049-DC7C-4AF1-8D69-B50A2E524528}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6123D049-DC7C-4AF1-8D69-B50A2E524528}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E30DE686-EC0A-4D26-BD11-0215237333A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E30DE686-EC0A-4D26-BD11-0215237333A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E30DE686-EC0A-4D26-BD11-0215237333A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E30DE686-EC0A-4D26-BD11-0215237333A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
