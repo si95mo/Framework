@@ -42,9 +42,9 @@ namespace Rest
 
             // Cannot await in the constructor!
             // Because this call is not awaited, execution of the current method continues before the call is completed
-#pragma warning disable CS4014
+            #pragma warning disable CS4014
             Start();
-#pragma warning restore CS4014
+            #pragma warning restore CS4014
         }
 
         /// <summary>
