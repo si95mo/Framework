@@ -2,6 +2,7 @@
 using FluentAssertions;
 using Hardware.Libnodave;
 using NUnit.Framework;
+using System;
 using System.Threading.Tasks;
 
 namespace Hardware.Resources.Tests
@@ -20,29 +21,19 @@ namespace Hardware.Resources.Tests
         [OneTimeSetUp]
         public async Task Setup()
         {
-            resource = new LibnodaveResource("LibnodaveResource", "localhost", 80, 10, 0, 2);
-
-            digitalInput = new LibnodaveDigitalInput("DigitalInput", 0, resource);
-            digitalOutput = new LibnodaveDigitalOutput("DigitalOutput", 0, resource);
-
-            analogInput = new LibnodaveAnalogInput("AnalogInput", 1, resource, RepresentationBytes.Four, NumericRepresentation.Single);
-            analogOutput = new LibnodaveAnalogOutput("AnalogOutput", 1, resource, RepresentationBytes.Four, NumericRepresentation.Int32);
+            resource = new LibnodaveResource("LibnodaveResource", "192.168.0.1", 102, 16, 0, 1);
 
             await resource.Start();
-            resource.Status.Value.Should().Be(ResourceStatus.Failure); // No PLC connected
+            resource.Status.Value.Should().Be(ResourceStatus.Executing); // No PLC connected
+
+            analogInput = new LibnodaveAnalogInput("AnalogInput", 1, resource, RepresentationBytes.One, NumericRepresentation.UInt16);
         }
 
         [Test]
         public async Task Test()
         {
             await Task.Delay(1000);
-
-            // No PLC connected
-            digitalInput.Value.Should().Be(default);
-            digitalOutput.Value.Should().Be(default);
-
-            analogInput.Value.Should().Be(default);
-            analogOutput.Value.Should().Be(default);
+            Console.WriteLine(analogInput.ToString());
         }
     }
 }
