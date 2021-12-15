@@ -51,6 +51,7 @@ namespace Hardware.Libnodave
                     await Task.Delay(pollingInterval);
                 }
             };
+            pollingAction();
         }
 
         /// <summary>

@@ -73,7 +73,8 @@ namespace Hardware.Libnodave
                 Status.Value = ResourceStatus.Executing;
             else
             {
-                string message = $"Unable to connect to the PLC at {ipAddress}! (Error code: {res})";
+                string message = $"Unable to connect to the PLC at {ipAddress}! (Error code: {res}){Environment.NewLine}" +
+                    $"Description: {daveStrerror(res)}";
                 HandleException(message);
             }
 
