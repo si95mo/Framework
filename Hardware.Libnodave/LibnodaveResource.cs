@@ -66,15 +66,15 @@ namespace Hardware.Libnodave
             connectionInterface.initAdapter();
             connection = new daveConnection(connectionInterface, 0, rack, slot);
 
-            int res = connection.connectPLC();
-            isOpen = res == 0;
+            int result = connection.connectPLC();
+            isOpen = result == 0;
 
-            if (res == 0)
+            if (result == 0)
                 Status.Value = ResourceStatus.Executing;
             else
             {
-                string message = $"Unable to connect to the PLC at {ipAddress}! (Error code: {res}){Environment.NewLine}" +
-                    $"Description: {daveStrerror(res)}";
+                string message = $"Unable to connect to the PLC at {ipAddress}! (Error code: {result}){Environment.NewLine}" +
+                    $"\tDescription: {daveStrerror(result)}";
                 HandleException(message);
             }
 
@@ -85,8 +85,15 @@ namespace Hardware.Libnodave
         {
             Status.Value = ResourceStatus.Stopping;
 
-            int res = connection.disconnectPLC();
-            isOpen = res == 0;
+            int result = connection.disconnectPLC();
+            isOpen = result == 0;
+
+            if(!IsOpen)
+            {
+                string message = $"Unable to disconnect to the PLC! (Error code: {result}){Environment.NewLine}" +
+                    $"\tDescription: {daveStrerror(result)}";
+                HandleException(message);
+            }
 
             Status.Value = !isOpen ? ResourceStatus.Stopped : ResourceStatus.Failure;
         }
@@ -139,10 +146,11 @@ namespace Hardware.Libnodave
                             Array.Copy(array, 0, buffer, channel.MemoryAddress, n);
                         }
 
-                        int res = connection.writeBytes(daveInputs, 0, 0, bufferSize, buffer);
-                        if (res != 0)
+                        int result = connection.writeBytes(daveInputs, 0, 0, bufferSize, buffer);
+                        if (result != 0)
                         {
-                            string message = $"Unable the perform the write operation! (Error code: {res})";
+                            string message = $"Unable the perform the write operation! (Error code: {result}){Environment.NewLine}" +
+                                $"\tDescription: {daveStrerror(result)}";
                             HandleException(message);
                         }
                     }
@@ -163,9 +171,9 @@ namespace Hardware.Libnodave
             {
                 await Task.Run(() =>
                     {
-                        int res = connection.readBytes(daveInputs, 0, 0, bufferSize, buffer); // Read the memory buffer
+                        int result = connection.readBytes(daveInputs, 0, 0, bufferSize, buffer); // Read the memory buffer
 
-                        if (res == 0) // Read ok
+                        if (result == 0) // Read ok
                         {
                             if (channel is LibnodaveDigitalInput)
                                 (channel as LibnodaveDigitalInput).Value = Convert.ToBoolean(buffer[channel.MemoryAddress]);
@@ -208,7 +216,8 @@ namespace Hardware.Libnodave
                         }
                         else // Error during read
                         {
-                            string message = $"Unable to perform the read operation! (Error code: {res})";
+                            string message = $"Unable to perform the read operation! (Error code: {result}){Environment.NewLine}" +
+                                $"\tDescription: {daveStrerror(result)}";
                             HandleException(message);
                         }
                     }
