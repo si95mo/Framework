@@ -131,6 +131,7 @@
     <Compile Include="OpcUaResourceTestClass.cs" />
     <Compile Include="SerialResourceTestClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Snap7ResourceTestClass.cs" />
     <Compile Include="TcpResourceTestClass.cs" />
     <Compile Include="TwincatResourceTestClass.cs" />
     <Compile Include="WaveformGeneratorResourceTestClass.cs" />
@@ -171,6 +172,10 @@
     <ProjectReference Include="..\Hardware.Serial\Hardware.Serial.csproj">
       <Project>{2dd453bc-d187-4023-9222-48ddf02ba689}</Project>
       <Name>Hardware.Serial</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Hardware.Snap7\Hardware.Snap7.csproj">
+      <Project>{E30DE686-EC0A-4D26-BD11-0215237333A8}</Project>
+      <Name>Hardware.Snap7</Name>
     </ProjectReference>
     <ProjectReference Include="..\Hardware.Tcp\Hardware.Tcp.csproj">
       <Project>{281409c8-104c-4167-b5e9-da9032034803}</Project>
