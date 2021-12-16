@@ -22,7 +22,7 @@ namespace Hardware.Resources.Tests
         [Timeout(10000)]
         public async Task Setup()
         {
-            resource = new LibnodaveResource("LibnodaveResource", "192.168.0.1", 102, 16, 0, 1);
+            resource = new LibnodaveResource("LibnodaveResource", "192.168.0.1", 102, 16, 0, 1, 1000);
 
             await resource.Start();
             resource.Status.Value.Should().Be(ResourceStatus.Executing); // No PLC connected

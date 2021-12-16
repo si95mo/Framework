@@ -1,5 +1,6 @@
 ﻿using Core;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using static libnodave;
 
@@ -22,6 +23,8 @@ namespace Hardware.Libnodave
         private int rack;
         private int slot;
 
+        private int timeout;
+
         private bool isOpen;
 
         public override bool IsOpen => isOpen;
@@ -35,7 +38,8 @@ namespace Hardware.Libnodave
         /// <param name="bufferSize">The buffer size (memory bytes to read)</param>
         /// <param name="rack">The rack number</param>
         /// <param name="slot">The slot number</param>
-        public LibnodaveResource(string code, string ipAddress, int port, int bufferSize, int rack, int slot) : base(code)
+        /// <param name="timeout">The connection timeout (in milliseconds)</param>
+        public LibnodaveResource(string code, string ipAddress, int port, int bufferSize, int rack, int slot, int timeout = 5000) : base(code)
         {
             this.ipAddress = ipAddress;
             this.port = port;
@@ -46,6 +50,8 @@ namespace Hardware.Libnodave
             this.rack = rack;
             this.slot = slot;
 
+            this.timeout = timeout;
+
             isOpen = false;
         }
 
@@ -55,29 +61,47 @@ namespace Hardware.Libnodave
             await Start();
         }
 
-        public override Task Start()
+        public override async Task Start()
         {
-            Status.Value = ResourceStatus.Starting;
+            CancellationTokenSource tokenSource = new CancellationTokenSource();
+            CancellationToken token = tokenSource.Token;
 
-            connectionType.rfd = openSocket(port, ipAddress);
-            connectionType.wfd = connectionType.rfd;
-            connectionInterface = new daveInterface(connectionType, code, 0, daveProtoISOTCP, daveSpeed187k);
+            Task connectionTask = new Task(() =>
+                {
+                    Status.Value = ResourceStatus.Starting;
 
-            connectionInterface.initAdapter();
-            connection = new daveConnection(connectionInterface, 0, rack, slot);
+                    connectionType.rfd = openSocket(port, ipAddress);
+                    connectionType.wfd = connectionType.rfd;
+                    connectionInterface = new daveInterface(connectionType, code, 0, daveProtoISOTCP, daveSpeed187k);
 
-            int result = connection.connectPLC();
-            isOpen = result == 0;
+                    connectionInterface.initAdapter();
+                    connection = new daveConnection(connectionInterface, 0, rack, slot);
 
-            if (result == 0)
-                Status.Value = ResourceStatus.Executing;
-            else
+                    int result = connection.connectPLC();
+                    isOpen = result == 0;
+
+                    if (result == 0)
+                        Status.Value = ResourceStatus.Executing;
+                    else
+                    {
+                        string message = FormatErrorMessage(result);
+                        HandleException(message);
+                    }
+                },
+                token
+            );
+
+            Task waitingTask = new Task(() => Task.Delay(timeout));
+
+            connectionTask.Start();
+            waitingTask.Start();
+            Task completedTask = await Task.WhenAny(connectionTask, waitingTask);
+
+            if(completedTask == waitingTask)
             {
-                string message = FormatErrorMessage(result);
-                HandleException(message);
+                tokenSource.Cancel();
+                HandleException("Unable to connect to the PLC, timeout elapsed!");
             }
-
-            return Task.CompletedTask;
         }
 
         public override void Stop()
