@@ -49,8 +49,7 @@ namespace Hardware.Snap7
                 Status.Value = ResourceStatus.Executing;
             else
             {
-                string message = $"Unable to connect to the Siemens PLC at {ipAddress}! Error code: {result}.{Environment.NewLine}" +
-                    $"\tDescription: {client.ErrorText(result)}";
+                string message = FormatErrorMessage(result);
                 HandleException(message);
             }
 
@@ -66,8 +65,7 @@ namespace Hardware.Snap7
                 Status.Value = ResourceStatus.Stopped;
             else
             {
-                string message = $"Unable to disconnect to the Siemens PLC at {ipAddress}! (Error code: {result}){Environment.NewLine}" +
-                    $"Description: {client.ErrorText(result)}";
+                string message = FormatErrorMessage(result);
                 HandleException(message);
             }
         }
@@ -87,6 +85,19 @@ namespace Hardware.Snap7
         /// <param name="code">The channel code</param>
         internal void Send(string code)
         {
+        }
+
+        /// <summary>
+        /// Format an error code into a readable message
+        /// </summary>
+        /// <param name="errorCode">The error code</param>
+        /// <returns>The formatted message</returns>
+        private string FormatErrorMessage(int errorCode)
+        {
+            string message = $"Unable to disconnect to the Siemens PLC at {ipAddress}! Error code: 0x{errorCode:X}{Environment.NewLine}" +
+                $"Description: {client.ErrorText(errorCode)}";
+
+            return message;
         }
     }
 }

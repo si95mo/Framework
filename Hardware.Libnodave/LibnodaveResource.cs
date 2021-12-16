@@ -73,8 +73,7 @@ namespace Hardware.Libnodave
                 Status.Value = ResourceStatus.Executing;
             else
             {
-                string message = $"Unable to connect to the PLC at {ipAddress}! (Error code: {result}){Environment.NewLine}" +
-                    $"\tDescription: {daveStrerror(result)}";
+                string message = FormatErrorMessage(result);
                 HandleException(message);
             }
 
@@ -90,8 +89,7 @@ namespace Hardware.Libnodave
 
             if (result != 0)
             {
-                string message = $"Unable to disconnect to the PLC at {ipAddress}! (Error code: {result}){Environment.NewLine}" +
-                    $"\tDescription: {daveStrerror(result)}";
+                string message = FormatErrorMessage(result);
                 HandleException(message);
             }
             else
@@ -149,8 +147,7 @@ namespace Hardware.Libnodave
                         int result = connection.writeBytes(daveInputs, 0, 0, bufferSize, buffer);
                         if (result != 0)
                         {
-                            string message = $"Unable the perform the write operation! (Error code: {result}){Environment.NewLine}" +
-                                $"\tDescription: {daveStrerror(result)}";
+                            string message = FormatErrorMessage(result);
                             HandleException(message);
                         }
                     }
@@ -216,8 +213,7 @@ namespace Hardware.Libnodave
                         }
                         else // Error during read
                         {
-                            string message = $"Unable to perform the read operation! (Error code: {result}){Environment.NewLine}" +
-                                $"\tDescription: {daveStrerror(result)}";
+                            string message = FormatErrorMessage(result);
                             HandleException(message);
                         }
                     }
@@ -258,6 +254,19 @@ namespace Hardware.Libnodave
             }
 
             return numberOfBytes;
+        }
+
+        /// <summary>
+        /// Format an error code into a readable message
+        /// </summary>
+        /// <param name="errorCode">The error code</param>
+        /// <returns>The formatted message</returns>
+        private string FormatErrorMessage(int errorCode)
+        {
+            string message = $"Unable to perform the read operation! Error code: 0x{errorCode:X}{Environment.NewLine}" +
+                $"\tDescription: {daveStrerror(errorCode)}";
+
+            return message;
         }
     }
 }
