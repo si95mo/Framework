@@ -49,8 +49,8 @@ namespace Hardware.Snap7
                 Status.Value = ResourceStatus.Executing;
             else
             {
-                string message = $"Unable to connect to the Siemens PLC! Error code: {result}.{Environment.NewLine}" +
-                    $"Description: {client.ErrorText(result)}";
+                string message = $"Unable to connect to the Siemens PLC at {ipAddress}! Error code: {result}.{Environment.NewLine}" +
+                    $"\tDescription: {client.ErrorText(result)}";
                 HandleException(message);
             }
 
