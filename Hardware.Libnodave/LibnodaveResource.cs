@@ -88,14 +88,14 @@ namespace Hardware.Libnodave
             int result = connection.disconnectPLC();
             isOpen = result == 0;
 
-            if(!IsOpen)
+            if (result != 0)
             {
                 string message = $"Unable to disconnect to the PLC at {ipAddress}! (Error code: {result}){Environment.NewLine}" +
                     $"\tDescription: {daveStrerror(result)}";
                 HandleException(message);
             }
-
-            Status.Value = !isOpen ? ResourceStatus.Stopped : ResourceStatus.Failure;
+            else
+                Status.Value = ResourceStatus.Stopped;
         }
 
         /// <summary>
