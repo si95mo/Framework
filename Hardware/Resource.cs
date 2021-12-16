@@ -142,7 +142,9 @@ namespace Hardware
         /// </summary>
         /// <remarks>
         /// This method should be called inside each try-catch block in each concrete classes
-        /// that inherits from <see cref="Resource"/>
+        /// that inherits from <see cref="Resource"/>. <br/>
+        /// This method set the <see cref="Status"/> to <see cref="ResourceStatus.Failure"/>, 
+        /// set the <see cref="LastFailure"/> accordingly and log the <paramref name="ex"/>
         /// </remarks>
         /// <param name="ex">The <see cref="Exception"/> occurred</param>
         protected void HandleException(Exception ex)
@@ -157,7 +159,9 @@ namespace Hardware
         /// </summary>
         /// <remarks>
         /// This method should be called inside each if-else block in each concrete classes
-        /// that inherits from <see cref="Resource"/>
+        /// that inherits from <see cref="Resource"/>. <br/>
+        /// This method set the <see cref="Status"/> to <see cref="ResourceStatus.Failure"/>, 
+        /// set the <see cref="LastFailure"/> accordingly and log the <paramref name="message"/>
         /// </remarks>
         /// <param name="message">The error message</param>
         protected void HandleException(string message)
