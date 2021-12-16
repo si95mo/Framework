@@ -19,6 +19,7 @@ namespace Hardware.Resources.Tests
         private LibnodaveAnalogOutput analogOutput;
 
         [OneTimeSetUp]
+        [Timeout(10000)]
         public async Task Setup()
         {
             resource = new LibnodaveResource("LibnodaveResource", "192.168.0.1", 102, 16, 0, 1);
