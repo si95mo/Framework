@@ -90,7 +90,7 @@ namespace Hardware.Libnodave
 
             if(!IsOpen)
             {
-                string message = $"Unable to disconnect to the PLC! (Error code: {result}){Environment.NewLine}" +
+                string message = $"Unable to disconnect to the PLC at {ipAddress}! (Error code: {result}){Environment.NewLine}" +
                     $"\tDescription: {daveStrerror(result)}";
                 HandleException(message);
             }
