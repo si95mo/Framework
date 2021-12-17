@@ -9,12 +9,12 @@ namespace Hardware.Snap7
     public interface ISnap7Channel : IProperty
     {
         /// <summary>
-        /// The <see cref="ISnap7Channel"/> <see cref="Core.NumericRepresentation"/>
+        /// The <see cref="ISnap7Channel"/> associated <see cref="Core.NumericRepresentation"/>
         /// </summary>
         NumericRepresentation NumericRepresentation { get; set; }
 
         /// <summary>
-        /// The <see cref="ISnap7Channel"/> <see cref="Core.RepresentationBytes"/>
+        /// The <see cref="ISnap7Channel"/> associated <see cref="Core.RepresentationBytes"/>
         /// </summary>
         RepresentationBytes RepresentationBytes { get; set; }
 
