@@ -114,6 +114,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hardware.Twincat", "Hardwar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hardware.Snap7", "Hardware.Snap7\Hardware.Snap7.csproj", "{E30DE686-EC0A-4D26-BD11-0215237333A8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mathematics.FuzzyLogic", "Mathematics.FuzzyLogic\Mathematics.FuzzyLogic.csproj", "{2209EE15-FE0C-4641-A0B4-F16E3A5FD742}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mathematics.FuzzyLogic.Tests", "Mathematics.FuzzyLogic.Tests\Mathematics.FuzzyLogic.Tests.csproj", "{A72EE1C3-0A75-4202-A2AF-16154A72566B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -332,6 +336,14 @@ Global
 		{E30DE686-EC0A-4D26-BD11-0215237333A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E30DE686-EC0A-4D26-BD11-0215237333A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E30DE686-EC0A-4D26-BD11-0215237333A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2209EE15-FE0C-4641-A0B4-F16E3A5FD742}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2209EE15-FE0C-4641-A0B4-F16E3A5FD742}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2209EE15-FE0C-4641-A0B4-F16E3A5FD742}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2209EE15-FE0C-4641-A0B4-F16E3A5FD742}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A72EE1C3-0A75-4202-A2AF-16154A72566B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A72EE1C3-0A75-4202-A2AF-16154A72566B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A72EE1C3-0A75-4202-A2AF-16154A72566B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A72EE1C3-0A75-4202-A2AF-16154A72566B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
