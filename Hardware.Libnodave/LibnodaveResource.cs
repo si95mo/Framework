@@ -91,6 +91,7 @@ namespace Hardware.Libnodave
                 token
             );
 
+            // Connection timeout handling
             Task waitingTask = new Task(() => Task.Delay(timeout));
 
             connectionTask.Start();
@@ -142,7 +143,7 @@ namespace Hardware.Libnodave
                             int n = ExtractNumberOfBytes(channel);
                             byte[] array = new byte[n];
 
-                            switch (analogChannel.Representation)
+                            switch (analogChannel.NumericRepresentation)
                             {
                                 case NumericRepresentation.Byte:
                                     array = BitConverter.GetBytes((byte)analogChannel.Value);
@@ -213,7 +214,7 @@ namespace Hardware.Libnodave
                                         break;
 
                                     case RepresentationBytes.Four:
-                                        switch ((channel as LibnodaveAnalogChannel).Representation)
+                                        switch ((channel as LibnodaveAnalogChannel).NumericRepresentation)
                                         {
                                             case NumericRepresentation.Single:
                                                 (channel as LibnodaveAnalogInput).Value = BitConverter.ToSingle(array, 0);
