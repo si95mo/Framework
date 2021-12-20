@@ -86,14 +86,14 @@ namespace Hardware.Snap7
         {
             ISnap7Channel channel = Channels.Get(code) as ISnap7Channel;
 
-            if(Status.Value == ResourceStatus.Executing)
+            if (Status.Value == ResourceStatus.Executing)
             {
                 await Task.Run(() =>
                     {
                         int size = ExtractNumberOfBytes(channel);
                         int result = client.DBRead(channel.DataBlock, channel.MemoryAddress, size, buffer);
 
-                        if(result == 0)
+                        if (result == 0)
                         {
                             if (channel is Snap7DigitalInput)
                                 (channel as Snap7DigitalInput).Value = Convert.ToBoolean(buffer[channel.MemoryAddress]);

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Variable = AI.Fuzzy.Library.FuzzyVariable;
+﻿using Variable = AI.Fuzzy.Library.FuzzyVariable;
 
 namespace Mathematics.FuzzyLogic
 {
@@ -45,7 +40,6 @@ namespace Mathematics.FuzzyLogic
         /// </summary>
         internal string MeasureUnit => measureUnit;
 
-
         /// <summary>
         /// The format
         /// </summary>
@@ -69,7 +63,7 @@ namespace Mathematics.FuzzyLogic
         }
 
         /// <summary>
-        /// Add a new <see cref="LinguisticTerm"/> to the 
+        /// Add a new <see cref="LinguisticTerm"/> to the
         /// <see cref="FuzzyVariable"/>
         /// </summary>
         /// <param name="linguisticTerm">The <see cref="LinguisticTerm"/> to add</param>

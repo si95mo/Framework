@@ -55,7 +55,6 @@ namespace Hardware.Snap7
             pollingAction();
         }
 
-
         /// <summary>
         /// Propagate the new value assigned to the
         /// <see cref="Snap7AnalogInput"/>
