@@ -21,9 +21,9 @@ namespace Hardware.Libnodave
         }
 
         /// <summary>
-        /// The <see cref="LibnodaveAnalogChannel"/> <see cref="NumericRepresentation"/>
+        /// The <see cref="LibnodaveAnalogChannel"/> <see cref="Core.NumericRepresentation"/>
         /// </summary>
-        public NumericRepresentation Representation
+        public NumericRepresentation NumericRepresentation
         {
             get => representation;
             set => representation = value;
@@ -35,8 +35,8 @@ namespace Hardware.Libnodave
         /// <param name="code">The code</param>
         /// <param name="memoryAddress">The memory address</param>
         /// <param name="resource">The <see cref="IResource"/></param>
-        /// <param name="bytes">The <see cref="RepresentationBytes"/></param>
-        /// <param name="representation">The <see cref="NumericRepresentation"/></param>
+        /// <param name="bytes">The <see cref="Core.RepresentationBytes"/></param>
+        /// <param name="representation">The <see cref="Core.NumericRepresentation"/></param>
         /// <param name="measureUnit">The measure unit</param>
         /// <param name="format">The format</param>
         protected LibnodaveAnalogChannel(string code, int memoryAddress, IResource resource, RepresentationBytes bytes,
