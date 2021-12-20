@@ -25,7 +25,8 @@ namespace UpdateAssemblyInfo
 
             for(int i = 0; i < directories.Length; i++)
             {
-                Console.WriteLine($"Updating file number {i + 1} of {directories.Length} ({((double)(i + 1) / directories.Length * 100d):0.0}%)");
+                double percentage = (double)(i + 1) / directories.Length * 100d;
+                Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} - Updating file number {i + 1} of {directories.Length} ({percentage:0.0}%)");
 
                 string assemblyInfoPath = ConbinePath(globalPath, directories[i], assemblyInfoSubPath);
                 string assemblyInfoText = GetAsseblyInfoText(assemblyInfoPath);
