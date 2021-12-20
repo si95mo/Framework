@@ -118,6 +118,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mathematics.FuzzyLogic", "M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mathematics.FuzzyLogic.Tests", "Mathematics.FuzzyLogic.Tests\Mathematics.FuzzyLogic.Tests.csproj", "{A72EE1C3-0A75-4202-A2AF-16154A72566B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UpdateAssemblyInfo", "UpdateAssemblyInfo\UpdateAssemblyInfo.csproj", "{56A892A9-B798-4A71-AD01-35F505F60F1D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -344,6 +346,10 @@ Global
 		{A72EE1C3-0A75-4202-A2AF-16154A72566B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A72EE1C3-0A75-4202-A2AF-16154A72566B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A72EE1C3-0A75-4202-A2AF-16154A72566B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56A892A9-B798-4A71-AD01-35F505F60F1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56A892A9-B798-4A71-AD01-35F505F60F1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56A892A9-B798-4A71-AD01-35F505F60F1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56A892A9-B798-4A71-AD01-35F505F60F1D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

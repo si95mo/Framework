@@ -1,14 +1,15 @@
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Hardware.Modbus.Tests")]
+[assembly: AssemblyTitle("UpdateAssemblyInfo")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("HP Inc.")]
-[assembly: AssemblyProduct("Hardware.Modbus.Tests")]
+[assembly: AssemblyProduct("UpdateAssemblyInfo")]
 [assembly: AssemblyCopyright("Copyright © HP Inc. 2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("3103205a-c90d-49fd-ae96-d2d14003aa40")]
+[assembly: Guid("56a892a9-b798-4a71-ad01-35f505f60f1d")]
 
 // Version information for an assembly consists of the following four values:
 //
