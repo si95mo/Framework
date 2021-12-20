@@ -12,7 +12,7 @@
         /// <param name="memoryAddress">The memory address</param>
         /// <param name="dataBlock">The data block number</param>
         /// <param name="resource">The <see cref="IResource"/></param>
-        public Snap7DigitalOutput(string code, int memoryAddress, int dataBlock, IResource resource) 
+        public Snap7DigitalOutput(string code, int memoryAddress, int dataBlock, IResource resource)
             : base(code, memoryAddress, dataBlock, resource)
         {
             ValueChanged += Snap7DigitalOutput_ValueChanged;

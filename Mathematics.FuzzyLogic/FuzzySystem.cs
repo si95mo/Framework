@@ -11,7 +11,7 @@ namespace Mathematics.FuzzyLogic
     /// </summary>
     public class FuzzySystem : IProperty
     {
-        MamdaniFuzzySystem fuzzySystem;
+        private MamdaniFuzzySystem fuzzySystem;
         private string code;
         private Dictionary<Variable, double> inputs;
         private Dictionary<string, FuzzyVariable> outputVariables;
@@ -36,7 +36,7 @@ namespace Mathematics.FuzzyLogic
         }
 
         /// <summary>
-        /// Add a <see cref="FuzzyVariable"/> to the 
+        /// Add a <see cref="FuzzyVariable"/> to the
         /// <see cref="FuzzySystem"/> inputs
         /// </summary>
         /// <param name="variable">The <see cref="FuzzyVariable"/></param>
@@ -48,7 +48,7 @@ namespace Mathematics.FuzzyLogic
         }
 
         /// <summary>
-        /// Add a <see cref="FuzzyVariable"/> to the 
+        /// Add a <see cref="FuzzyVariable"/> to the
         /// <see cref="FuzzySystem"/> outputs
         /// </summary>
         /// <param name="variable">The <see cref="FuzzyVariable"/></param>

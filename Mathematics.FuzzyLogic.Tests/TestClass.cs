@@ -8,8 +8,8 @@ namespace Mathematics.FuzzyLogic.Tests
     [TestFixture]
     public class TestClass
     {
-        FuzzySystem fuzzySystem;
-        FuzzyVariable service, food, tip;
+        private FuzzySystem fuzzySystem;
+        private FuzzyVariable service, food, tip;
 
         [OneTimeSetUp]
         public void Setup()

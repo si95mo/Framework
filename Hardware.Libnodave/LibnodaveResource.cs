@@ -98,7 +98,7 @@ namespace Hardware.Libnodave
             waitingTask.Start();
             Task completedTask = await Task.WhenAny(connectionTask, waitingTask);
 
-            if(completedTask == waitingTask)
+            if (completedTask == waitingTask)
             {
                 tokenSource.Cancel();
                 HandleException("Unable to connect to the PLC, timeout elapsed!");
