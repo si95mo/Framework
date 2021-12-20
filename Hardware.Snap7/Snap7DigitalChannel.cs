@@ -10,6 +10,9 @@ namespace Hardware.Snap7
         private NumericRepresentation numericRepresentation;
         private RepresentationBytes representationBytes;
         private int memoryAddress;
+        private int dataBlock;
+
+        protected IResource resource;
 
         public NumericRepresentation NumericRepresentation
         {
@@ -29,20 +32,29 @@ namespace Hardware.Snap7
             set => memoryAddress = value;
         }
 
+        public int DataBlock
+        {
+            get => dataBlock;
+            set => dataBlock = value;
+        }
+
         /// <summary>
         /// Initialize the <see cref="Snap7DigitalChannel"/> attributes
         /// </summary>
         /// <param name="code">The code</param>
         /// <param name="memoryAddress">The memory address</param>
+        /// <param name="dataBlock">The data block number</param>
         /// <param name="resource">The <see cref="IResource"/></param>
-        protected Snap7DigitalChannel(string code, int memoryAddress, IResource resource)
+        protected Snap7DigitalChannel(string code, int memoryAddress, int dataBlock, IResource resource)
             : base(code)
         {
             this.memoryAddress = memoryAddress;
+            this.dataBlock = dataBlock;
 
             numericRepresentation = NumericRepresentation.Boolean;
             representationBytes = RepresentationBytes.One;
 
+            this.resource = resource;
             resource.Channels.Add(this);
         }
     }

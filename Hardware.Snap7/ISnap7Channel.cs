@@ -22,5 +22,10 @@ namespace Hardware.Snap7
         /// The <see cref="ISnap7Channel"/> memory address (starting from 0)
         /// </summary>
         int MemoryAddress { get; set; }
+
+        /// <summary>
+        /// The <see cref="ISnap7Channel"/> associated data block number
+        /// </summary>
+        int DataBlock { get; set; }
     }
 }
