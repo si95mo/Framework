@@ -15,7 +15,7 @@ namespace Hardware.Resources.Tests
         [OneTimeSetUp]
         public async Task Setup()
         {
-            resource = new Snap7Resource("Snap7Resource", ipAddress, 0, 0);
+            resource = new Snap7Resource("Snap7Resource", ipAddress, 0, 0, 32);
 
             await resource.Start();
             resource.Status.Value.Should().Be(ResourceStatus.Executing);
