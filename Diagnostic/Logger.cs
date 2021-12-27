@@ -405,11 +405,11 @@ namespace Diagnostic
                     break;
 
                 case Severity.Info:
-                    severityAsString = "INFO "; // Five letters for align!
+                    severityAsString = "INFO "; // Five letters for alignment!
                     break;
 
                 case Severity.Warn:
-                    severityAsString = "WARN "; // Five letters for align!
+                    severityAsString = "WARN "; // Five letters for alignment!
                     break;
 
                 case Severity.Error:
@@ -524,9 +524,6 @@ namespace Diagnostic
             return isHigher;
         }
 
-        // TODO: 
-        // Add an async version of all the saving methods of the Logger class
-        // LogAsync, TraceAsync, DebugAsync, WarnAsync, ErrorAsync, ...
-        // The basic method that should be added is AppendTextAsync
+        // TODO: Add an async version of all the saving methods of the Logger class. The basic method that should be added is AppendTextAsync
     }
 }
