@@ -20,6 +20,7 @@ namespace Diagnostic.Tests
 
             Logger.Initialize(path);
             LogReader.StartRead();
+            Timer.Initialize();
 
             Logger.Initialized.Should().BeTrue();
             LogReader.Reading.Should().BeTrue();
@@ -52,6 +53,20 @@ namespace Diagnostic.Tests
                 lastLogText = LogReader.LogText;
                 lastLastLog = LogReader.LastLog;
             } while (sw.Elapsed.TotalMilliseconds <= interval);
+        }
+
+        [Test]
+        [TestCase(10)]
+        [TestCase(100)]
+        [TestCase(1000)]
+        [TestCase(10000)]
+        public async Task TimerTest(int interval)
+        {
+            Timer.Start();
+            await Task.Delay(interval);
+            double elapsed = Timer.GetElapsedTime();
+
+            elapsed.Should().BeApproximately(interval, 16);
         }
     }
 }
