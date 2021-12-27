@@ -52,6 +52,7 @@ namespace Control.PID.Tests
             string text;
             string path = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                "test_results",
                 "pid_logs",
                 "pid_log.csv"
             );
