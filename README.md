@@ -13,3 +13,19 @@
  A logger and, at an higher level, UI componenents and a basic common UI interface are available. <br/>
  In addition to this, the framework offers other functionalities such as a database connection (tested only with Microsoft SQL Management Studio, at this stage). <br/>
  Also, some extension methods are provided (like system methods, collection methods, async/await and parallel loops, ecc...) and some task implementation (like a more precise versione of Task.Delay)
+
+__________________________________________________________________
+
+The tested (with real hardware) and working classes are:
+- Bag
+- ServiceBroker (these two are contained in Core.DataStructures)
+- Channels and converters
+- Modbus resource
+- PCanResource
+- Logger and (basic) IO
+
+Other tested (without any hardware) classes are:
+- Mathematics
+- Parameters
+- Signal.Processing
+- Some functionalities in Core.Threading
