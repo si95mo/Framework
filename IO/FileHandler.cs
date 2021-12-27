@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace IO
 {
@@ -41,7 +42,7 @@ namespace IO
         /// <summary>
         /// Save text to a file.
         /// </summary>
-        /// <param name="text">The text to be saved</param>
+        /// <param name="text">The text to save</param>
         /// <param name="path">Path to the file</param>
         /// <param name="mode">Write mode, overwrite or append <see cref="SaveMode"/></param>
         public static void Save(string text, string path, SaveMode mode = SaveMode.Overwrite)
@@ -62,6 +63,24 @@ namespace IO
                 }
 
                 sw.Close();
+            }
+        }
+
+        /// <summary>
+        /// Save text to a file asynchronously
+        /// </summary>
+        /// <param name="text">The text to save</param>
+        /// <param name="path">Path to the file</param>
+        /// <param name="mode">Write mode, overwrite or append <see cref="SaveMode"/></param>
+        /// <returns>The async <see cref="Task"/></returns>
+        public static async Task SaveAsync(string text, string path, SaveMode mode = SaveMode.Overwrite)
+        {
+            byte[] encodedText = Encoding.UTF8.GetBytes(text);
+            FileMode fileMode = mode == SaveMode.Overwrite ? FileMode.Create : FileMode.Append;
+
+            using (FileStream stream = new FileStream(path, fileMode, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true))
+            {
+                await stream.WriteAsync(encodedText, offset: 0, count: encodedText.Length);
             }
         }
 
