@@ -62,11 +62,17 @@ namespace Diagnostic.Tests
         [TestCase(10000)]
         public async Task TimerTest(int interval)
         {
-            Timer.Start();
-            await Task.Delay(interval);
-            double elapsed = Timer.GetElapsedTime();
+            Timer.Start(); // await for interval ms
+            Timer.Start(); // await for (2 * interval + interval) ms
 
-            elapsed.Should().BeApproximately(interval, 16);
+            await Task.Delay(interval);
+            double firstElapsed = Timer.GetElapsedTime();
+
+            await Task.Delay(2 * interval);
+            double secondElapsed = Timer.GetElapsedTime();
+
+            firstElapsed.Should().BeApproximately(interval, 16);
+            secondElapsed.Should().BeApproximately(3 * interval, 2 * 16);
         }
     }
 }
