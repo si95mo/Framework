@@ -128,9 +128,9 @@ namespace Hardware.Twincat
             Task timeoutTask = new Task(async () => await Task.Delay(client.Timeout));
             Task t;
             if (initializedWithAddress)
-                t = Task.WhenAny(client.ConnectAndWaitAsync(address, CancellationToken.None), timeoutTask);
+                t = await Task.WhenAny(client.ConnectAndWaitAsync(address, CancellationToken.None), timeoutTask);
             else
-                t = Task.WhenAny(Task.Run(() => client.Connect(port)), timeoutTask);
+                t = await Task.WhenAny(Task.Run(() => client.Connect(port)), timeoutTask);
 
             if (t == timeoutTask)
                 HandleException($"{code} - Unable to connect to {amsNetAddress}:{port}");
