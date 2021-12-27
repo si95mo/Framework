@@ -66,10 +66,10 @@ namespace Diagnostic.Tests
             Timer.Start(); // await for (2 * interval + interval) ms
 
             await Task.Delay(interval);
-            double firstElapsed = Timer.GetElapsedTime();
+            double firstElapsed = Timer.GetElapsedTime(); // Stop the first enqueued timer and retrieve its timestamp
 
             await Task.Delay(2 * interval);
-            double secondElapsed = Timer.GetElapsedTime();
+            double secondElapsed = Timer.GetElapsedTime(); // Stop the second enqueued timer and retrieve its timestamp
 
             firstElapsed.Should().BeApproximately(interval, 16);
             secondElapsed.Should().BeApproximately(3 * interval, 2 * 16);
