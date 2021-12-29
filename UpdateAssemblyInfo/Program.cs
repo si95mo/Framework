@@ -23,7 +23,7 @@ namespace UpdateAssemblyInfo
             foreach (string directory in directories)
                 Console.WriteLine($"\t- {directory}");
 
-            for(int i = 0; i < directories.Length; i++)
+            for (int i = 0; i < directories.Length; i++)
             {
                 double percentage = (double)(i + 1) / directories.Length * 100d;
                 Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} - Updating file number {i + 1} of {directories.Length} ({percentage:0.0}%)");
@@ -86,9 +86,9 @@ namespace UpdateAssemblyInfo
 
             string[] lines = text.Split(Environment.NewLine.ToCharArray());
 
-            for(int i = 0; i < lines.Length; i++)
+            for (int i = 0; i < lines.Length; i++)
             {
-                if(lines[i].Contains("AssemblyCompany"))
+                if (lines[i].Contains("AssemblyCompany"))
                     lines[i] = $"[assembly: AssemblyCompany({companyName})]";
                 else
                 {

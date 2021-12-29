@@ -63,7 +63,7 @@ namespace Diagnostic
         }
 
         /// <summary>
-        /// Stop the first active time counter and retrieve its elapsed time 
+        /// Stop the first active time counter and retrieve its elapsed time
         /// </summary>
         /// <returns>The elapsed time (in milliseconds)</returns>
         /// <remarks>
