@@ -88,7 +88,7 @@ namespace Diagnostic.Tests
             byte[] buffer;
             for (int i = 0; i < 100; i++)
             {
-                await Logger.LogAsync((i + 1).ToString());
+                await Logger.InfoAsync((i + 1).ToString());
 
                 buffer = File.ReadAllBytes(Logger.Path);
                 buffer.Length.Should().NotBe(n);
@@ -99,6 +99,46 @@ namespace Diagnostic.Tests
             await Logger.LogAsync(new Exception("Test Exception message"));
             buffer = File.ReadAllBytes(Logger.Path);
             buffer.Length.Should().NotBe(n);
+        }
+
+        [Test]
+        public async Task ConcurrencyTest()
+        {
+            string path = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                @"test_results//test_logs_async//"
+            );
+            Logger.Initialize(path);
+            Logger.SetMinimumSeverityLevel(Severity.Trace);
+
+            int initialSize = File.ReadAllBytes(Logger.Path).Length;
+
+            Action firstAction = new Action(async () =>
+                {
+                    for (int i = 1; i <= 10; i++)
+                        await Logger.DebugAsync(i.ToString());
+                }
+            );
+
+            Action secondAction = new Action(async () =>
+                {
+                    for (int i = 10; i >= 1; i--)
+                        await Logger.TraceAsync(i.ToString());
+                }
+            );
+
+            Parallel.Invoke(
+                () => firstAction(),
+                () => secondAction()
+            );
+
+            await Task.Delay(1000); // await some time
+
+            byte[] buffer = File.ReadAllBytes(Logger.Path);
+
+            // Each of the 20 lines is 74 bytes, if the number is single digit.
+            // There are 2 double digit numbers saved, plus 2 '-' character saved, thus 4 bytes in total
+            buffer.Length.Should().Be(20 * 74 + initialSize + 4); 
         }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Diagnostic
@@ -82,6 +83,8 @@ namespace Diagnostic
         private static Severity minimumSeverityLevel = Severity.Debug;
 
         private static bool initialized = false;
+
+        private static readonly SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
 
         /// <summary>
         /// The minimum <see cref="Severity"/> level of the entry to log
@@ -289,7 +292,7 @@ namespace Diagnostic
 
                 log += Environment.NewLine + line + Environment.NewLine;
 
-                await AppendTextAsync(log);
+                await AppendTextAsync(log, hasToAwait: true);
             }
         }
 
@@ -522,9 +525,19 @@ namespace Diagnostic
         /// See <see cref="FileHandler.SaveAsync(string, string, SaveMode)"/>
         /// </summary>
         /// <param name="text">The text to append</param>
+        /// <param name="hasToAwait"><see langword="true"/> if the task has to await
+        /// for a semaphore, <see langword="false"/> otherwise</param>
         /// <returns>The async <see cref="Task"/></returns>
-        private static async Task AppendTextAsync(string text)
-            => await SaveAsync(text, path, SaveMode.Append);
+        private static async Task AppendTextAsync(string text, bool hasToAwait = true)
+        {
+            if (hasToAwait)
+                await semaphore.WaitAsync();
+
+            await SaveAsync(text, path, SaveMode.Append);
+
+            if (hasToAwait)
+                semaphore.Release();
+        }
 
         /// <summary>
         /// Append a <see cref="Tuple"/> to the log file as
@@ -553,16 +566,20 @@ namespace Diagnostic
         /// <returns>The async <see cref="Task"/></returns>
         private static async Task AppendTextAsync(Tuple<string, string, string, string, string> entry)
         {
+            await semaphore.WaitAsync();
+
             string text = $"{entry.Item1} | {entry.Item2} | {entry.Item3}{Environment.NewLine}";
-            await AppendTextAsync(text);
+            await AppendTextAsync(text, hasToAwait: false);
 
             string message = $"\t\tException message: { entry.Item4}{Environment.NewLine}";
-            await AppendTextAsync(message);
+            await AppendTextAsync(message, hasToAwait: false);
 
             string stackTrace = $"\t\tStack-trace: {entry.Item5}{Environment.NewLine}";
-            await AppendTextAsync(stackTrace);
+            await AppendTextAsync(stackTrace, hasToAwait: false);
 
-            await AppendTextAsync(ENTRY_SEPARATOR + Environment.NewLine);
+            await AppendTextAsync(ENTRY_SEPARATOR + Environment.NewLine, hasToAwait: false);
+
+            semaphore.Release();
         }
 
         /// <summary>
