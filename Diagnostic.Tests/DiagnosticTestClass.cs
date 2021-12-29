@@ -74,5 +74,31 @@ namespace Diagnostic.Tests
             firstElapsed.Should().BeApproximately(interval, 16);
             secondElapsed.Should().BeApproximately(3 * interval, 2 * 16);
         }
+
+        [Test]
+        public async Task LogAsyncTest()
+        {
+            string path = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                @"test_results//test_logs_async//"
+            );
+            Logger.Initialize(path);
+
+            int n = 0;
+            byte[] buffer;
+            for (int i = 0; i < 100; i++)
+            {
+                await Logger.LogAsync((i + 1).ToString());
+
+                buffer = File.ReadAllBytes(Logger.Path);
+                buffer.Length.Should().NotBe(n);
+
+                n = buffer.Length;
+            }
+
+            await Logger.LogAsync(new Exception("Test Exception message"));
+            buffer = File.ReadAllBytes(Logger.Path);
+            buffer.Length.Should().NotBe(n);
+        }
     }
 }
