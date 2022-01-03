@@ -32,7 +32,7 @@ namespace Mathematics
         /// <param name="normalized">Specifies whether the magnitude has to
         /// be normalized (<see langword="true"/>) or not (<see langword="false"/>)</param>
         /// <returns>The array of magnitudes</returns>
-        public static double[] Magnitudes(Complex[] data, bool normalized = false)
+        public static double[] CalculateMagnitudes(Complex[] data, bool normalized = false)
         {
             int n = data.Length;
             double[] magnitude = new double[n];
