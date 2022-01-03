@@ -234,6 +234,67 @@ namespace Diagnostic
         }
 
         /// <summary>
+        /// Build a new log entry
+        /// </summary>
+        /// <param name="text">The text to log</param>
+        /// <param name="severity">The <see cref="Severity"/> of the entry</param>
+        /// <returns>The new entry to log</returns>
+        private static string BuildLogEntry(string text, Severity severity)
+        {
+            string log = $"{GetDateTime()} | {GetSeverityAsString(severity)} | {text}";
+
+            string line = "";
+
+            int counter = 0;
+            for (int i = 0; i < log.Length; i++)
+            {
+                counter++;
+                if (counter != 25 && counter != 33)
+                    line += "-"; // Normal line separator
+                else
+                    line += "|"; // Add this char in these position for a table-like appearance
+            }
+
+            log += Environment.NewLine + line;
+
+            return log;
+        }
+
+        /// <summary>
+        /// Build a new log entry
+        /// </summary>
+        /// <param name="ex">The <see cref="Exception"/> to log</param>
+        /// <returns>A <see cref="Tuple{T1, T2, T3, T4, T5}"/> containing the new entry</returns>
+        private static Tuple<string, string, string, string, string> BuildLogEntry(Exception ex)
+        {
+            lastException = ex;
+
+            string message = ex.Message;
+            string stackTrace = ex.StackTrace;
+            string source = ex.Source;
+            string type = ex.GetType().ToString();
+
+            StackTrace st = new StackTrace(ex, true);
+            StackFrame frame = st.GetFrame(st.FrameCount - 1);
+
+            // Get the file name in which the exception was thrown
+            string fileName = frame?.GetFileName();
+            // Get the method name
+            string methodName = frame?.GetMethod().Name;
+            // Get the line number from the stack frame
+            int? line = frame?.GetFileLineNumber();
+
+            var entry = CreateEntry(
+                Severity.Error,
+                $"{source} - {type} on line {line} (method: {methodName}, file: {fileName})",
+                message,
+                stackTrace
+            );
+
+            return entry;
+        }
+
+        /// <summary>
         /// Simple log method.
         /// Save the text specified as parameter in the log file.
         /// <see cref="Path"/>
@@ -244,22 +305,7 @@ namespace Diagnostic
         {
             if (HasHigherSeverityLevel(severity))
             {
-                string log = $"{GetDateTime()} | {GetSeverityAsString(severity)} | {text}";
-
-                string line = "";
-
-                int counter = 0;
-                for (int i = 0; i < log.Length; i++)
-                {
-                    counter++;
-                    if (counter != 25 && counter != 33)
-                        line += "-"; // Normal line separator
-                    else
-                        line += "|"; // Add this char in these position for a table-like appearance
-                }
-
-                log += Environment.NewLine + line;
-
+                string log = BuildLogEntry(text, severity);
                 AppendText(log);
             }
         }
@@ -276,22 +322,7 @@ namespace Diagnostic
         {
             if (HasHigherSeverityLevel(severity))
             {
-                string log = $"{GetDateTime()} | {GetSeverityAsString(severity)} | {text}";
-
-                string line = "";
-
-                int counter = 0;
-                for (int i = 0; i < log.Length; i++)
-                {
-                    counter++;
-                    if (counter != 25 && counter != 33)
-                        line += "-"; // Normal line separator
-                    else
-                        line += "|"; // Add this char in these position for a table-like appearance
-                }
-
-                log += Environment.NewLine + line + Environment.NewLine;
-
+                string log = BuildLogEntry(text, severity) + Environment.NewLine;
                 await AppendTextAsync(log, hasToAwait: true);
             }
         }
@@ -410,13 +441,12 @@ namespace Diagnostic
             => await LogAsync(ex);
 
         /// <summary>
-        /// Append to the log file a description of the <see cref="Exception"/> occurred.
-        /// The entry will be saved <b>only</b> if it differs from
-        /// the last one saved in the log file (i.e. different type <b>and</b>
-        /// different message <b>and</b> different stack trace)!
+        /// Check if an <see cref="Exception"/> has already been logged
         /// </summary>
-        /// <param name="ex">The exception to log</param>
-        public static void Log(Exception ex)
+        /// <param name="ex">The <see cref="Exception"/> to check</param>
+        /// <returns><see langword="false"/> if an <see cref="Exception"/> has not yet been logged, 
+        /// <see langword="true"/> otherwise (negated logic)</returns>
+        private static bool CheckException(Exception ex)
         {
             bool negatedFlag;
 
@@ -430,32 +460,23 @@ namespace Diagnostic
                 negatedFlag = lastException != null; // If lastException != null -> true
             }
 
+            return negatedFlag;
+        }
+
+        /// <summary>
+        /// Append to the log file a description of the <see cref="Exception"/> occurred.
+        /// The entry will be saved <b>only</b> if it differs from
+        /// the last one saved in the log file (i.e. different type <b>and</b>
+        /// different message <b>and</b> different stack trace)!
+        /// </summary>
+        /// <param name="ex">The exception to log</param>
+        public static void Log(Exception ex)
+        {
+            bool negatedFlag = CheckException(ex);
+
             if (!negatedFlag || !IsSameExceptionAsTheLast(ex))
             {
-                lastException = ex;
-
-                string message = ex.Message;
-                string stackTrace = ex.StackTrace;
-                string source = ex.Source;
-                string type = ex.GetType().ToString();
-
-                StackTrace st = new StackTrace(ex, true);
-                StackFrame frame = st.GetFrame(st.FrameCount - 1);
-
-                // Get the file name in which the exception was thrown
-                string fileName = frame?.GetFileName();
-                // Get the method name
-                string methodName = frame?.GetMethod().Name;
-                // Get the line number from the stack frame
-                int? line = frame?.GetFileLineNumber();
-
-                var entry = CreateEntry(
-                    Severity.Error,
-                    $"{source} - {type} on line {line} (method: {methodName}, file: {fileName})",
-                    message,
-                    stackTrace
-                );
-
+                Tuple<string, string, string, string, string> entry = BuildLogEntry(ex);
                 AppendText(entry);
             }
         }
@@ -470,44 +491,11 @@ namespace Diagnostic
         /// <returns>The async <see cref="Task"/></returns>
         public static async Task LogAsync(Exception ex)
         {
-            bool negatedFlag;
-
-            if (lastException == null) // First exception thrown
-            {
-                lastException = ex; // lastException == ex -> true
-                negatedFlag = false; // force the next if to be true: IsSameExceptionAsTheLast -> true, flag -> true
-            }
-            else
-            {
-                negatedFlag = lastException != null; // If lastException != null -> true
-            }
+            bool negatedFlag = CheckException(ex);
 
             if (!negatedFlag || !IsSameExceptionAsTheLast(ex))
             {
-                lastException = ex;
-
-                string message = ex.Message;
-                string stackTrace = ex.StackTrace;
-                string source = ex.Source;
-                string type = ex.GetType().ToString();
-
-                StackTrace st = new StackTrace(ex, true);
-                StackFrame frame = st.GetFrame(st.FrameCount - 1);
-
-                // Get the file name in which the exception was thrown
-                string fileName = frame?.GetFileName();
-                // Get the method name
-                string methodName = frame?.GetMethod().Name;
-                // Get the line number from the stack frame
-                int? line = frame?.GetFileLineNumber();
-
-                var entry = CreateEntry(
-                    Severity.Error,
-                    $"{source} - {type} on line {line} (method: {methodName}, file: {fileName})",
-                    message,
-                    stackTrace
-                );
-
+                Tuple<string, string, string, string, string> entry = BuildLogEntry(ex);
                 await AppendTextAsync(entry);
             }
         }
