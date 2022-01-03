@@ -77,6 +77,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -118,6 +119,14 @@
     <ProjectReference Include="..\Hardware.Tcp\Hardware.Tcp.csproj">
       <Project>{281409C8-104C-4167-B5E9-DA9032034803}</Project>
       <Name>Hardware.Tcp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mathematics\Mathematics.csproj">
+      <Project>{CFE7C7F0-3A06-42EC-905B-4B9DB2358BC1}</Project>
+      <Name>Mathematics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Signal.Processing\Signal.Processing.csproj">
+      <Project>{55CB7D92-F9F3-43B8-8A82-D886FC194106}</Project>
+      <Name>Signal.Processing</Name>
     </ProjectReference>
     <ProjectReference Include="..\UserInterface.Components\UserInterface.Controls.csproj">
       <Project>{4944754E-8566-44D6-933F-38F8DDC98F55}</Project>
