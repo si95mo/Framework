@@ -1,12 +1,9 @@
 ﻿using Hardware;
 using LiveCharts;
 using LiveCharts.Wpf;
-using Mathematics;
 using Signal.Processing;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -40,7 +37,7 @@ namespace UserInterface.Controls.Tests
         {
             double[] samples = new double[1000];
 
-            while(true)
+            while (true)
             {
                 for (int i = 0; i < 1000; i++)
                 {
