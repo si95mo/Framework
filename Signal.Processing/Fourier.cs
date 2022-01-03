@@ -35,7 +35,7 @@ namespace Signal.Processing
         {
             Complex[] fft = ToNumericComplex(CalculateFFT(data));
 
-            double[] magnitude = Mathematics.Mathematics.Magnitudes(fft, true);
+            double[] magnitude = Mathematics.Mathematics.CalculateMagnitudes(fft, true);
             double max = magnitude.Max();
             double indexOfMax = magnitude.ToList().IndexOf(max);
 
