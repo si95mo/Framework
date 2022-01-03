@@ -7,7 +7,9 @@ using System.Runtime.InteropServices;
 namespace Signal.Processing
 {
     /// <summary>
-    /// Class that calculate the Fourier transform.
+    /// Class that calculate the Fourier transform. <br/>
+    /// To perform a "real-time" FFT, consider using an <see cref="Hardware.MultiSampleAnalogInput"/>
+    /// and calculate the transform in the ValueChanged event
     /// </summary>
     public class Fourier
     {
@@ -15,6 +17,10 @@ namespace Signal.Processing
         /// Compute the Fast Fourier Transform.
         /// See also <see cref="FFT(double[], double)"/>
         /// </summary>
+        /// <remarks>
+        /// To perform a "real-time" FFT, consider using an <see cref="Hardware.MultiSampleAnalogInput"/>
+        /// and calculate the transform in the ValueChanged event
+        /// </remarks>
         /// <param name="data">The data to transform</param>
         /// <returns>The data transformed in the frequency domain</returns>
         public static Complex[] FFT(double[] data)
