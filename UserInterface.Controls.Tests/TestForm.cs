@@ -62,6 +62,9 @@ namespace UserInterface.Controls.Tests
 
             ResourceTestForm form = new ResourceTestForm();
             form.Show();
+
+            SpectrumPlotterForm plotterForm = new SpectrumPlotterForm();
+            plotterForm.Show();
         }
 
         private void BtnShowCustomMessageBox_Click(object sender, EventArgs e)

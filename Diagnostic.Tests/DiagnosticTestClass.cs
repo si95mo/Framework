@@ -138,7 +138,7 @@ namespace Diagnostic.Tests
 
             // Each of the 20 lines is 74 bytes, if the number is single digit.
             // There are 2 double digit numbers saved, plus 2 '-' character saved, thus 4 bytes in total
-            buffer.Length.Should().Be(20 * 74 + initialSize + 4); 
+            buffer.Length.Should().Be(20 * 74 + initialSize + 4);
         }
     }
 }

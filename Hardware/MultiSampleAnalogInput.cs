@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core;
+using System;
 using System.Linq;
 
 namespace Hardware
@@ -9,6 +10,24 @@ namespace Hardware
     public class MultiSampleAnalogInput : Channel<double[]>
     {
         /// <summary>
+        /// The <see cref="Channel{T}"/> value
+        /// </summary>
+        public override double[] Value
+        {
+            get => value;
+            set
+            {
+                if (!value.Equals(this.value))
+                {
+                    double[] oldValue = this.value;
+                    this.value = new double[value.Length];
+                    Array.Copy(value, this.value, value.Length);
+                    OnValueChanged(new ValueChangedEventArgs(oldValue, this.value));
+                }
+            }
+        }
+
+        /// <summary>
         /// Create a new instance of <see cref="MultiSampleAnalogInput"/>
         /// </summary>
         /// <param name="code">The code</param>
@@ -16,7 +35,7 @@ namespace Hardware
         /// <param name="format">The format</param>
         public MultiSampleAnalogInput(string code, string measureUnit = "", string format = "") : base(code)
         {
-            value = default;
+            value = new double[0];
             this.measureUnit = measureUnit;
             this.format = format;
         }

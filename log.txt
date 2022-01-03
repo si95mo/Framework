@@ -18,3 +18,33 @@
 ------------------------|-------|-----------------------------------------------------
 2021/11/16-09:37:52:841 | ERROR | Unable to connect to the PLC at localhost! (Error code: -1)
 ------------------------|-------|------------------------------------------------------------
+2021/12/29-16:04:44:349 | ERROR | OX.Copyable - System.ArgumentException on line 260 (method: DeepCopy, file: C:\Users\simod\Desktop\Meta\Framework\Extensions\ExtensionMethods.cs)
+
+		Exception message: Object of type System.Double[] cannot be cloned because an uninitialized object could not be created.
+
+		Stack-trace:    in OX.Copyable.ObjectExtensions.DeduceInstance(Object instance) in C:\Users\simod\Source\Repos\copyable\OX.Copyable\ObjectExtensions.cs:riga 183
+   in OX.Copyable.ObjectExtensions.Copy(Object instance) in C:\Users\simod\Source\Repos\copyable\OX.Copyable\ObjectExtensions.cs:riga 85
+   in Extensions.SystemExtension.DeepCopy[T](T source) in C:\Users\simod\Desktop\Meta\Framework\Extensions\ExtensionMethods.cs:riga 260
+
+--------------------------------------------------------------------------------------------------------
+
+2021/12/29-16:05:36:307 | ERROR | OX.Copyable - System.ArgumentException on line 260 (method: DeepCopy, file: C:\Users\simod\Desktop\Meta\Framework\Extensions\ExtensionMethods.cs)
+
+		Exception message: Object of type System.Double[] cannot be cloned because an uninitialized object could not be created.
+
+		Stack-trace:    in OX.Copyable.ObjectExtensions.DeduceInstance(Object instance) in C:\Users\simod\Source\Repos\copyable\OX.Copyable\ObjectExtensions.cs:riga 183
+   in OX.Copyable.ObjectExtensions.Copy(Object instance) in C:\Users\simod\Source\Repos\copyable\OX.Copyable\ObjectExtensions.cs:riga 85
+   in Extensions.SystemExtension.DeepCopy[T](T source) in C:\Users\simod\Desktop\Meta\Framework\Extensions\ExtensionMethods.cs:riga 260
+
+--------------------------------------------------------------------------------------------------------
+
+2021/12/29-16:06:40:122 | ERROR | OX.Copyable - System.ArgumentException on line 260 (method: DeepCopy, file: C:\Users\simod\Desktop\Meta\Framework\Extensions\ExtensionMethods.cs)
+
+		Exception message: Object of type System.Double[] cannot be cloned because an uninitialized object could not be created.
+
+		Stack-trace:    in OX.Copyable.ObjectExtensions.DeduceInstance(Object instance) in C:\Users\simod\Source\Repos\copyable\OX.Copyable\ObjectExtensions.cs:riga 183
+   in OX.Copyable.ObjectExtensions.Copy(Object instance) in C:\Users\simod\Source\Repos\copyable\OX.Copyable\ObjectExtensions.cs:riga 85
+   in Extensions.SystemExtension.DeepCopy[T](T source) in C:\Users\simod\Desktop\Meta\Framework\Extensions\ExtensionMethods.cs:riga 260
+
+--------------------------------------------------------------------------------------------------------
+
