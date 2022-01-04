@@ -1,5 +1,6 @@
 ﻿using Core.Parameters;
 using Core.Scheduling;
+using Extensions;
 using FluentAssertions;
 using NUnit.Framework;
 using System;
@@ -88,6 +89,63 @@ namespace Instructions.Common.Tests
                 instruction.Succeeded.Value.Should().BeFalse();
                 instruction.Failed.Value.Should().BeTrue();
             }
+        }
+
+        [Test]
+        [TestCase(1d, 2d)] // Success
+        [TestCase(2d, 1d)] // Fail
+        public async Task TestSequence(double x, double y)
+        {
+            Sequence sequence = new Sequence("Sequence", 0);
+            WaitForCondition waitFor = new WaitForCondition(
+                TimeSpan.FromSeconds(1),
+                TimeSpan.FromSeconds(0.5),
+                x.WrapToParameter(),
+                y.WrapToParameter(), 
+                Operand.Greather
+            );
+
+            sequence.Add(waitFor);
+            sequence.Add(waitFor.DeepCopy());
+
+            scheduler.RemoveAll();
+            scheduler.Add(sequence);
+
+            List<IInstruction> executedInstructions = await scheduler.Execute();
+
+            foreach (IInstruction instruction in executedInstructions)
+            {
+                if (x == 1d)
+                {
+                    instruction.Succeeded.Value.Should().BeTrue();
+                    instruction.Failed.Value.Should().BeFalse();
+                }
+                else
+                {
+                    instruction.Succeeded.Value.Should().BeFalse();
+                    instruction.Failed.Value.Should().BeTrue();
+                }
+            }
+        }
+
+        [Test]
+        [TestCase(1000d)]
+        public async Task TestParallel(double time)
+        {
+            Parallel parallel = new Parallel("Parallel", 0);
+            Pause pause = new Pause(time);
+
+            parallel.Add(pause);
+            parallel.Add(pause.DeepCopy());
+
+            scheduler.RemoveAll();
+            scheduler.Add(parallel);
+
+            Stopwatch sw = Stopwatch.StartNew();
+            await scheduler.Execute();
+            sw.Stop();
+
+            sw.Elapsed.TotalMilliseconds.Should().BeApproximately(time, 100d);
         }
     }
 }
