@@ -28,6 +28,16 @@ namespace Core.Parameters
         { }
 
         /// <summary>
+        /// Create a new instance of <see cref="BooleanParameter"/>
+        /// </summary>
+        /// <param name="code">The code</param>
+        /// <param name="value">The initial value</param>
+        public BooleanParameter(string code, bool value) : base(code)
+        {
+            Value = value;
+        }
+
+        /// <summary>
         /// Return a description of the object
         /// See also <see cref="object.ToString()"/>
         /// </summary>
