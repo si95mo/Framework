@@ -1,5 +1,6 @@
 ﻿using Core.Parameters;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace Instructions.Common
@@ -10,6 +11,7 @@ namespace Instructions.Common
     public class Pause : Instruction
     {
         private TimeSpanParameter time;
+        private TimeSpanParameter ElapsedTime;
 
         /// <summary>
         /// Create a new instance of <see cref="Pause"/>
@@ -20,7 +22,10 @@ namespace Instructions.Common
             this.time = new TimeSpanParameter($"{Code}.Time");
             this.time.Value = time;
 
+            ElapsedTime = new TimeSpanParameter($"{Code}.{nameof(ElapsedTime)}");
+
             InputParameters.Add(this.time);
+            OutputParameters.Add(ElapsedTime);
         }
 
         /// <summary>
@@ -31,6 +36,12 @@ namespace Instructions.Common
         { }
 
         public override async Task ExecuteInstruction()
-            => await Task.Delay(time.Value);
+        {
+            Stopwatch sw = Stopwatch.StartNew();
+            await Task.Delay(time.Value);
+            sw.Stop();
+
+            ElapsedTime.Value = TimeSpan.FromMilliseconds(sw.Elapsed.TotalMilliseconds);
+        }
     }
 }
