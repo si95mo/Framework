@@ -537,7 +537,7 @@ namespace Diagnostic
             string text = $"{entry.Item1} | {entry.Item2} | {entry.Item3}{Environment.NewLine}";
             AppendText(text);
 
-            string message = $"\t\tException message: { entry.Item4}{Environment.NewLine}";
+            string message = $"\t\tException message: {entry.Item4}{Environment.NewLine}";
             AppendText(message);
 
             string stackTrace = $"\t\tStack-trace: {entry.Item5}{Environment.NewLine}";
