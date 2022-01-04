@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Instructions;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Core.Scheduling
 {
@@ -58,13 +60,13 @@ namespace Core.Scheduling
         /// <summary>
         /// The subscribers
         /// </summary>
-        ActionQueue<T> Subscribers { get; }
+        ActionQueue<T> Instructions { get; }
 
         /// <summary>
         /// Add an element to the scheduler
         /// </summary>
         /// <param name="method">The element to add</param>
-        void AddElement(T method);
+        void Add(T method);
 
         /// <summary>
         /// Remove all elements from the <see cref="IScheduler{T}"/>
@@ -75,7 +77,7 @@ namespace Core.Scheduling
         /// Execute the item stored
         /// </summary>
         /// <returns>The item executed</returns>
-        T Execute();
+        Task<List<IInstruction>> Execute();
 
         /// <summary>
         /// Save the execution list

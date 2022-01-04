@@ -1,8 +1,11 @@
 ﻿using Core.DataStructures;
 using Extensions;
+using Instructions;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading.Tasks;
 
 namespace Core.Scheduling
 {
@@ -28,7 +31,7 @@ namespace Core.Scheduling
         /// <see cref="Method"/> subscribed to the <see cref="MethodScheduler"/>
         /// </summary>
         [field: NonSerialized()]
-        public ActionQueue<Method> Subscribers => subscribedMethods;
+        public ActionQueue<Method> Instructions => subscribedMethods;
 
         /// <summary>
         /// The persistent subscribers
@@ -48,7 +51,7 @@ namespace Core.Scheduling
         /// Add an element to the subscribed methods.
         /// </summary>
         /// <param name="method">The <see cref="object"/> (value) to add</param>
-        public void AddElement(Method method)
+        public void Add(Method method)
         {
             var item = method.DeepCopy();
 
@@ -88,7 +91,7 @@ namespace Core.Scheduling
 
         /// <summary>
         /// Removes all the <see cref="Method"/> subscribed in
-        /// the <see cref="Subscribers"/>.
+        /// the <see cref="Instructions"/>.
         /// </summary>
         public void RemoveAll()
         {
@@ -116,5 +119,11 @@ namespace Core.Scheduling
         /// </summary>
         /// <returns>The executed <see cref="Method"/></returns>
         public abstract Method Execute();
+
+        // TODO: remove method scheduler
+        Task<List<IInstruction>> IScheduler<Method>.Execute()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
