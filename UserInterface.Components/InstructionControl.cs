@@ -173,7 +173,7 @@ namespace UserInterface.Controls
                 }
             }
 
-            scheduler.AddElement(deepInstructionCopy);
+            scheduler.Add(deepInstructionCopy);
         }
 
         private void InstructionControl_Paint(object sender, PaintEventArgs e)
