@@ -46,7 +46,7 @@ namespace Core.Parameters
         /// <param name="value">The initial value</param>
         /// <param name="format">The format</param>
         /// <param name="measureUnit">The measure unit</param>
-        public NumericParameter(string code, double value, string measureUnit = "", string format = "") 
+        public NumericParameter(string code, double value, string measureUnit = "", string format = "")
             : this(code, measureUnit: measureUnit, format: format)
         {
             Value = value;

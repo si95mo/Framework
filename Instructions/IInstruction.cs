@@ -10,7 +10,7 @@ namespace Instructions
     /// Describe a generic instruction
     /// </summary>
     public interface IInstruction : IProperty
-    {       
+    {
         /// <summary>
         /// The <see cref="IInstruction"/> <see cref="Bag{T}"/>
         /// of input <see cref="IParameter"/>

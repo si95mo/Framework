@@ -1,7 +1,5 @@
-﻿using Extensions;
-using Instructions;
+﻿using Instructions;
 using System;
-using System.Threading.Tasks;
 
 namespace Core.Scheduling
 {

@@ -77,7 +77,7 @@ namespace Instructions
 
             Succeeded = new BooleanParameter($"{code}.{nameof(Succeeded)}", false);
             Failed = new BooleanParameter($"{code}.{nameof(Failed)}", false);
-            
+
             outputParameters.Add(Succeeded);
         }
 

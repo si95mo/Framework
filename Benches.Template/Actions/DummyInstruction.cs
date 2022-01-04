@@ -1,6 +1,4 @@
-﻿using Core.DataStructures;
-using Core.Parameters;
-using Devices;
+﻿using Core.Parameters;
 using Instructions;
 using System;
 using System.Threading.Tasks;
