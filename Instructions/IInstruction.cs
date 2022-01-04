@@ -53,7 +53,7 @@ namespace Instructions
         /// The <see cref="IInstruction"/> order (for parallelism)
         /// </summary>
         int Order
-        { get; }
+        { get; set; }
 
         /// <summary>
         /// Execute the <see cref="IInstruction"/>
