@@ -29,8 +29,8 @@ namespace Core.Scheduling.Tests
             Method waitLong = MethodWrapper.Wrap(dummy).ElementAt(1);
             waitLong.Parameters.ElementAt(0).Value = 2500;
 
-            scheduler.AddElement(waitShort);
-            scheduler.AddElement(waitLong);
+            scheduler.Add(waitShort);
+            scheduler.Add(waitLong);
 
             var shortMethod = scheduler.Execute();
             var longMEthod = scheduler.Execute();
