@@ -47,7 +47,11 @@ namespace Instructions
         /// <summary>
         /// The order of the <see cref="Instruction"/> (used in case of parallelism)
         /// </summary>
-        public int Order => order;
+        public int Order
+        {
+            get => order;
+            set => order = value;
+        }
 
         public Type Type => GetType();
 
