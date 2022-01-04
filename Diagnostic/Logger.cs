@@ -444,7 +444,7 @@ namespace Diagnostic
         /// Check if an <see cref="Exception"/> has already been logged
         /// </summary>
         /// <param name="ex">The <see cref="Exception"/> to check</param>
-        /// <returns><see langword="false"/> if an <see cref="Exception"/> has not yet been logged, 
+        /// <returns><see langword="false"/> if an <see cref="Exception"/> has not yet been logged,
         /// <see langword="true"/> otherwise (negated logic)</returns>
         private static bool CheckException(Exception ex)
         {

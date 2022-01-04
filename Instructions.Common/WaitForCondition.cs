@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Instructions.Common
 {
     /// <summary>
-    /// Define the type of operand to use in the 
+    /// Define the type of operand to use in the
     /// <see cref="WaitForCondition"/> test
     /// </summary>
     public enum Operand
@@ -70,7 +70,7 @@ namespace Instructions.Common
         /// <param name="secondValue">The second value to test</param>
         /// <param name="operand">The <see cref="Operand"/> to apply</param>
         /// <param name="pollingInterval">The polling interval (in milliseconds)</param>
-        public WaitForCondition(TimeSpan timeout, TimeSpan conditionTime, NumericParameter firstValue, NumericParameter secondValue, 
+        public WaitForCondition(TimeSpan timeout, TimeSpan conditionTime, NumericParameter firstValue, NumericParameter secondValue,
             Operand operand, int pollingInterval = 50) : base("WaitForCondition")
         {
             this.timeout = new TimeSpanParameter($"{Code}.Timeout", timeout);
@@ -94,7 +94,7 @@ namespace Instructions.Common
         public override void OnStart()
         {
             waitTask = Task.Run(async () =>
-                {                    
+                {
                     while (!TestCondition())
                         await Task.Delay(pollingInterval);
 
@@ -126,7 +126,7 @@ namespace Instructions.Common
         {
             bool conditionMet = false;
 
-            switch(operand.Value)
+            switch (operand.Value)
             {
                 case Operand.Equal:
                     conditionMet = Math.Abs(firstValue.Value - secondValue.Value) == 0;
