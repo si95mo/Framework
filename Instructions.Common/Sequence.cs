@@ -28,7 +28,7 @@ namespace Instructions.Common
 
         public override async Task ExecuteInstruction()
         {
-            foreach(IInstruction instruction in instructions)
+            foreach (IInstruction instruction in instructions)
             {
                 (instruction as Instruction).OnStart();
                 await instruction.ExecuteInstruction();

@@ -101,7 +101,7 @@ namespace Instructions.Common.Tests
                 TimeSpan.FromSeconds(1),
                 TimeSpan.FromSeconds(0.5),
                 x.WrapToParameter(),
-                y.WrapToParameter(), 
+                y.WrapToParameter(),
                 Operand.Greather
             );
 
