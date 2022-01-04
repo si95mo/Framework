@@ -1,4 +1,5 @@
-﻿using Dasync.Collections;
+﻿using Core.Parameters;
+using Dasync.Collections;
 using Diagnostic;
 using OX.Copyable;
 using System;
@@ -19,7 +20,7 @@ namespace Extensions
         /// <param name="source">The source collection</param>
         /// <param name="function">The <see cref="Func{T, TResult}"/> to execute</param>
         /// <returns>The async <see cref="Task"/></returns>
-        public static async Task ForEachAsync(this IEnumerable<object> source, Func<object, Task> function)
+        public static async Task ForEachAsync<T>(this IEnumerable<T> source, Func<T, Task> function)
             => await source.ParallelForEachAsync(function);
 
         /// <summary>
@@ -417,5 +418,40 @@ namespace Extensions
         /// <param name="top">The distance from the top corner</param>
         public static void SetConsolePosition(int left, int top)
             => Console.SetWindowPosition(left, top);
+    }
+
+    public static class FrameworkExtension
+    {
+        /// <summary>
+        /// Wrap a <see cref="double"/> to a <see cref="NumericParameter"/>
+        /// </summary>
+        /// <param name="source">The source</param>
+        /// <returns>The <see cref="NumericParameter"/></returns>
+        public static NumericParameter WrapToParameter(this double source)
+            => new NumericParameter($"{nameof(source)}.AsParameter", source);
+
+        /// <summary>
+        /// Wrap a <see cref="bool"/> to a <see cref="BooleanParameter"/>
+        /// </summary>
+        /// <param name="source">The source</param>
+        /// <returns>The <see cref="BooleanParameter"/></returns>
+        public static BooleanParameter WrapToParameter(this bool source)
+            => new BooleanParameter($"{nameof(source)}.AsParameter", source);
+
+        /// <summary>
+        /// Wrap a <see cref="string"/> to a <see cref="StringParameter"/>
+        /// </summary>
+        /// <param name="source">The source</param>
+        /// <returns>The <see cref="StringParameter"/></returns>
+        public static StringParameter WrapToParameter(this string source)
+            => new StringParameter($"{nameof(source)}.AsParameter", source);
+
+        /// <summary>
+        /// Wrap a <see cref="TimeSpan"/> to a <see cref="TimeSpanParameter"/>
+        /// </summary>
+        /// <param name="source">The source</param>
+        /// <returns>The <see cref="TimeSpanParameter"/></returns>
+        public static TimeSpanParameter WrapToParameter(this TimeSpan source)
+            => new TimeSpanParameter($"{nameof(source)}.AsParameter", source);
     }
 }
