@@ -24,7 +24,7 @@ namespace Instructions.Common
         /// <summary>
         /// '>' operand
         /// </summary>
-        Grather = 2,
+        Greather = 2,
 
         /// <summary>
         /// '<' operand
@@ -60,7 +60,7 @@ namespace Instructions.Common
         /// Create a new instance of <see cref="WaitForCondition"/>
         /// </summary>
         /// <remarks>
-        /// The test is applied as follows, assuming <paramref name="operand"/> is <see cref="Operand.Grather"/>: <br/>
+        /// The test is applied as follows, assuming <paramref name="operand"/> is <see cref="Operand.Greather"/>: <br/>
         /// <paramref name="secondValue"/> > <paramref name="firstValue"/>
         /// </remarks>
         /// <param name="code">The code</param>
@@ -136,7 +136,7 @@ namespace Instructions.Common
                     conditionMet = Math.Abs(firstValue.Value - secondValue.Value) != 0;
                     break;
 
-                case Operand.Grather:
+                case Operand.Greather:
                     conditionMet = secondValue.Value > firstValue.Value;
                     break;
 
