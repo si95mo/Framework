@@ -130,7 +130,7 @@ namespace UserInterface.Controls
             for (int i = 0; i < method.ParametersCount; i++)
                 // method.Parameters.ElementAt(i).Value = values.ElementAt(i).Value;
 
-                scheduler.AddElement(method);
+                scheduler.Add(method);
         }
 
         private void MethodControl_Paint(object sender, PaintEventArgs e)
