@@ -1,9 +1,8 @@
 ﻿using Core.DataStructures;
 using Core.Parameters;
-using Core.Scheduling.Wrapper;
-using Devices;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Instructions
 {
@@ -13,35 +12,44 @@ namespace Instructions
     [Serializable]
     public abstract class Instruction : IInstruction
     {
-        protected string code;
-        protected Bag<Method> methods;
-        protected Bag<IDevice> devices;
+        private string code;
+        private DateTime startTime, stopTime;
         private Bag<IParameter> inputParameters, outputParameters;
 
-        /// <summary>
-        /// The <see cref="Instruction"/> code
-        /// </summary>
+        private int order;
+
         public string Code => code;
 
-        /// <summary>
-        /// The <see cref="Instruction"/> <see cref="Bag{T}"/>
-        /// containing all the available <see cref="Method"/>
-        /// </summary>
-        public virtual Bag<Method> Methods => methods;
+        public Bag<IParameter> InputParameters => inputParameters;
+
+        public Bag<IParameter> OutputParameters => outputParameters;
+
+        public BooleanParameter Succeeded
+        {
+            get;
+            internal set;
+        }
+
+        public DateTime StartTime
+        {
+            get => startTime;
+            internal set => startTime = value;
+        }
+
+        public DateTime StopTime
+        {
+            get => stopTime;
+            internal set => stopTime = value;
+        }
+
+        public BooleanParameter Failed { get; internal set; }
 
         /// <summary>
-        /// The <see cref="Instruction"/> <see cref="Bag{T}"/>
-        /// of input <see cref="IParameter"/>
+        /// The order of the <see cref="Instruction"/> (used in case of parallelism)
         /// </summary>
-        public virtual Bag<IParameter> InputParameters => inputParameters;
+        public int Order => order;
 
-        /// <summary>
-        /// The <see cref="Instruction"/> <see cref="Bag{T}"/>
-        /// of output <see cref="IParameter"/>
-        /// </summary>
-        public virtual Bag<IParameter> OutputParameters => outputParameters;
-
-        public Type Type => this.GetType();
+        public Type Type => GetType();
 
         /// <summary>
         /// The <see cref="Instruction"/> value as <see cref="object"/>
@@ -51,36 +59,72 @@ namespace Instructions
             get => code;
             set
             {
-                object v = ValueAsObject;
+                object _ = ValueAsObject;
             }
-        }
-
-        /// <summary>
-        /// The <see cref="Bag{T}"/> of all the <see cref="IDevice"/>
-        /// with <see cref="Instruction"/> related methods
-        /// </summary>
-        public virtual Bag<IDevice> Devices
-        {
-            get => devices;
-            set => devices = value;
         }
 
         /// <summary>
         /// Set the class attributes to default values
         /// </summary>
         /// <param name="code">The code</param>
-        /// <param name="devices">The <see cref="Bag{T}"/> of devices</param>
-        protected Instruction(string code, Bag<IDevice> devices)
+        protected Instruction(string code)
         {
             this.code = code;
-            this.devices = devices;
+            order = 0;
 
             inputParameters = new Bag<IParameter>();
             outputParameters = new Bag<IParameter>();
 
-            foreach (IDevice device in devices.Values)
-                foreach (Method m in MethodWrapper.Wrap(device))
-                    methods.Add(m);
+            Succeeded = new BooleanParameter($"{code}.{nameof(Succeeded)}", false);
+            Failed = new BooleanParameter($"{code}.{nameof(Failed)}", false);
+            
+            outputParameters.Add(Succeeded);
+        }
+
+        /// <summary>
+        /// Execute the <see cref="Instruction"/>
+        /// </summary>
+        public abstract Task ExecuteInstruction();
+
+        /// <summary>
+        /// Method called on start of the <see cref="Instruction"/>. <br/>
+        /// Override to add some logic
+        /// </summary>
+        /// <remarks>
+        /// Note that <see langword="base"/> method should be called
+        /// inside the new implementation
+        /// </remarks>
+        public virtual void OnStart()
+            => startTime = DateTime.Now;
+
+        /// <summary>
+        /// Method called on stop of the <see cref="Instruction"/>. <br/>
+        /// Override to add some logic
+        /// </summary>
+        /// <remarks>
+        /// Note that <see langword="base"/> method should be called
+        /// inside the new implementation
+        /// </remarks>
+        public virtual void OnStop()
+        {
+            stopTime = DateTime.Now;
+
+            if (!Failed.Value)
+                Succeeded.Value = true;
+        }
+
+        /// <summary>
+        /// Method called on fail of the <see cref="Instruction"/>. <br/>
+        /// Override to add some logic
+        /// </summary>
+        /// <remarks>
+        /// Note that <see langword="base"/> method should be called
+        /// inside the new implementation
+        /// </remarks>
+        protected virtual void OnFail()
+        {
+            stopTime = DateTime.Now;
+            Succeeded.Value = false;
         }
 
         public override string ToString()
@@ -105,8 +149,13 @@ namespace Instructions
         }
 
         /// <summary>
-        /// Execute the <see cref="Instruction"/>
+        /// Let the <see cref="Instruction"/> fail. <br/>
+        /// Call in case the <see cref="Instruction"/> logic and/or result are not met
         /// </summary>
-        public abstract void Invoke();
+        protected void Fail()
+        {
+            Failed.Value = true;
+            OnFail();
+        }
     }
 }
