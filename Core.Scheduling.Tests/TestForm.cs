@@ -32,7 +32,7 @@ namespace Core.Scheduling.Tests
             instructionScheduler.Subscribers.Enqueued += Instruction_Enqueued;
 
             methodScheduler = new SimpleMethodScheduler();
-            methodScheduler.Subscribers.Enqueued += Method_Enqueued;
+            methodScheduler.Instructions.Enqueued += Method_Enqueued;
 
             TestClass testObject = new TestClass();
             DummyClass dummyObject = new DummyClass();
@@ -67,15 +67,15 @@ namespace Core.Scheduling.Tests
         private void Method_Enqueued(object sender, EventArgs e)
         {
             lbxInput.Items.Add(
-                methodScheduler.Subscribers.ElementAt(
-                    methodScheduler.Subscribers.Count - 1
+                methodScheduler.Instructions.ElementAt(
+                    methodScheduler.Instructions.Count - 1
                 ).ToString()
             );
         }
 
         private void BtnExecute_Click(object sender, EventArgs e)
         {
-            int n = methodScheduler.Subscribers.Count;
+            int n = methodScheduler.Instructions.Count;
             for (int i = 0; i < n; i++)
             {
                 var method = methodScheduler.Execute();

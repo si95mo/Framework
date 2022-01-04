@@ -1,8 +1,7 @@
-﻿using Core.DataStructures;
-using Core.Parameters;
-using Devices;
+﻿using Core.Parameters;
 using Instructions;
 using System;
+using System.Threading.Tasks;
 
 namespace Benches.Template.Actions
 {
@@ -20,15 +19,15 @@ namespace Benches.Template.Actions
     {
         private EnumParameter<InstructionEnum> Switch = new EnumParameter<InstructionEnum>(nameof(Switch));
 
-        public SecondDummyInstruction() : base(Guid.NewGuid().ToString(), new Bag<IDevice>())
+        public SecondDummyInstruction() : base(Guid.NewGuid().ToString())
         { }
 
-        public SecondDummyInstruction(string code, IBench bench) : base(code, bench.Devices)
+        public SecondDummyInstruction(string code, IBench bench) : base(code)
         {
             InputParameters.Add(Switch);
         }
 
-        public override void Invoke()
+        public override async Task ExecuteInstruction()
         {
             switch (Switch.Value)
             {
@@ -48,6 +47,8 @@ namespace Benches.Template.Actions
                     Console.WriteLine($"{Switch} :: {Switch.Value} (T)");
                     break;
             }
+
+            await Task.Delay(10);
         }
     }
 }
