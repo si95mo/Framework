@@ -432,6 +432,26 @@ namespace Diagnostic
         public static async Task ErrorAsync(string text)
             => await LogAsync(text, Severity.Error);
 
+        /// Save the text specified as <see cref="Severity.Fatal"/>
+        /// in the log file. <br/>
+        /// See also <see cref="Log(string, Severity)"/>
+        /// </summary>
+        /// <remarks>If the log is required after an <see cref="Exception"/>
+        /// occurred, consider using the method <see cref="Log(Exception)"/> instead!</remarks>
+        /// <param name="text">The text to log</param>
+        public static void Fatal(string text)
+            => Log(text, Severity.Fatal);
+
+        /// <summary>
+        /// Save asynchronously the text specified as <see cref="Severity.Fatal"/>
+        /// in the log file. <br/>
+        /// See also <see cref="LogAsync(string, Severity)"/>
+        /// </summary>
+        /// <param name="text">The text to log</param>
+        /// <returns>The async <see cref="Task"/></returns>
+        public static async Task FatalAsync(string text)
+            => await LogAsync(text, Severity.Fatal);
+
         /// <summary>
         /// Save asynchronously the <see cref="Exception"/> to the log file.
         /// See also <see cref="LogAsync(Exception)"/>
@@ -464,12 +484,14 @@ namespace Diagnostic
         }
 
         /// <summary>
-        /// Append to the log file a description of the <see cref="Exception"/> occurred.
+        /// Append to the log file a description of the <see cref="Exception"/> occurred
+        /// </summary>
+        /// <param name="ex">The exception to log</param>
+        /// <remarks>
         /// The entry will be saved <b>only</b> if it differs from
         /// the last one saved in the log file (i.e. different type <b>and</b>
         /// different message <b>and</b> different stack trace)!
-        /// </summary>
-        /// <param name="ex">The exception to log</param>
+        /// </remarks>
         public static void Log(Exception ex)
         {
             bool negatedFlag = CheckException(ex);
@@ -482,13 +504,15 @@ namespace Diagnostic
         }
 
         /// <summary>
-        /// Append asynchronously to the log file a description of the <see cref="Exception"/> occurred.
-        /// The entry will be saved <b>only</b> if it differs from
-        /// the last one saved in the log file (i.e. different type <b>and</b>
-        /// different message <b>and</b> different stack trace)!
+        /// Append asynchronously to the log file a description of the <see cref="Exception"/> occurred
         /// </summary>
         /// <param name="ex">The exception to log</param>
         /// <returns>The async <see cref="Task"/></returns>
+        /// <remarks>
+        /// The entry will be saved <b>only</b> if it differs from
+        /// the last one saved in the log file (i.e. different type <b>and</b>
+        /// different message <b>and</b> different stack trace)!
+        /// </remarks>
         public static async Task LogAsync(Exception ex)
         {
             bool negatedFlag = CheckException(ex);
