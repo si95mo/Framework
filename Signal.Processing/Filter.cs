@@ -17,7 +17,7 @@ namespace Signal.Processing
         /// </summary>
         /// <remarks>
         /// This property will only be valorized if the instance of <see cref="Filter"/> has been created with
-        /// <see cref="Filter(double, double, Channel{double})"/> or <see cref="Filter(double, double, double, Channel{double})"/> <br/><br/>
+        /// <see cref="Filter(double, double, Channel{double})"/> or <see cref="Filter(double, double, double, Channel{double})"/>. <br/>
         /// The effects of this method are equivalent to the ones of using <see cref="FilterSamples(double[])"/>,
         /// but the filtering action is not done offline in this case!
         /// </remarks>
