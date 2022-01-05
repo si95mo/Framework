@@ -578,7 +578,7 @@ namespace Diagnostic
         /// <returns>The async <see cref="Task"/></returns>
         private static async Task AppendTextAsync(Tuple<string, string, string, string, string> entry)
         {
-            // Here, hasToWait has been set to false because the method enter the semaphore once and the release it
+            // Here, hasToAwait has been set to false because the method enter the semaphore once and the release it
             // at the end of all the operations. So, there's no need to await another time inside the AppendTextAsync method!
 
             await semaphore.WaitAsync();
