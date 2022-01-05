@@ -3,7 +3,7 @@
 namespace Configuration
 {
     /// <summary>
-    /// Handle the configuration file
+    /// Handle the configuration file in memory
     /// </summary>
     public class Configuration
     {

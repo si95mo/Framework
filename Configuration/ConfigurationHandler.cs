@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace Configuration
 {
+    /// <summary>
+    /// Handle the configuration file read operations
+    /// </summary>
     internal class ConfigurationHandler : FileHandler
     {
         private static string configPath;
