@@ -50,21 +50,21 @@ namespace Extensions.Tests
         }
 
         [Test]
-        public void TestifTrue()
+        public void TestIfTrue()
         {
             itWorks = true.DoIfTrue(() => true);
             itWorks.Should().BeTrue();
         }
 
         [Test]
-        public void TestifFalse()
+        public void TestIfFalse()
         {
             itWorks = false.DoIfFalse(() => true);
             itWorks.Should().BeTrue();
         }
 
         [Test]
-        public void TestifTrueifFalse()
+        public void TestifTrueIfFalse()
         {
             itWorks = false.DoIfTrueIfFalse(() => false, () => true);
             itWorks.Should().BeTrue();
