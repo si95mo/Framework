@@ -4,7 +4,9 @@ using Diagnostic;
 using OX.Copyable;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Extensions
@@ -420,6 +422,9 @@ namespace Extensions
             => Console.SetWindowPosition(left, top);
     }
 
+    /// <summary>
+    /// Provides framework-related extension methods
+    /// </summary>
     public static class FrameworkExtension
     {
         /// <summary>
@@ -453,5 +458,34 @@ namespace Extensions
         /// <returns>The <see cref="TimeSpanParameter"/></returns>
         public static TimeSpanParameter WrapToParameter(this TimeSpan source)
             => new TimeSpanParameter($"{nameof(source)}.AsParameter", source);
+    }
+
+    /// <summary>
+    /// Provide logic structure-related extension methods
+    /// </summary>
+    public static class LogicStructureExtensions
+    { 
+        /// <summary>
+        /// Provide a times <see langword="while"/> loop
+        /// </summary>
+        /// <param name="source">The <see cref="Action"/> to perform</param>
+        /// <param name="condition">The <see cref="Func{T, TResult}"/> that represent the loop condition</param>
+        /// <param name="interval">The timed loop interval (in milliseconds</param>
+        public static void TimedWhile(this Action source, Func<bool> condition, int interval)
+        {
+            ManualResetEventSlim stopRequest = new ManualResetEventSlim(false);
+            Stopwatch stopwatch;
+
+            while(condition())
+            {
+                stopwatch = Stopwatch.StartNew();
+
+                do
+                    source();
+                while (stopRequest.Wait((int)Math.Max(0, interval - stopwatch.ElapsedMilliseconds)));
+
+                stopwatch.Stop();
+            }
+        }
     }
 }
