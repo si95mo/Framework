@@ -95,14 +95,14 @@ namespace Hardware.Libnodave
             Task waitingTask = new Task(() => Task.Delay(timeout));
 
             connectionTask.Start();
-            waitingTask.Start();
-            Task completedTask = await Task.WhenAny(connectionTask, waitingTask);
+            //waitingTask.Start();
+            //Task completedTask = await Task.WhenAny(connectionTask, waitingTask);
 
-            if (completedTask == waitingTask)
-            {
-                tokenSource.Cancel();
-                HandleException("Unable to connect to the PLC, timeout elapsed!");
-            }
+            //if (completedTask == waitingTask)
+            //{
+            //    tokenSource.Cancel();
+            //    HandleException("Unable to connect to the PLC, timeout elapsed!");
+            //}
         }
 
         public override void Stop()
@@ -173,7 +173,7 @@ namespace Hardware.Libnodave
                         if (result != 0)
                         {
                             string message = FormatErrorMessage(result);
-                            HandleException(message);
+                           // HandleException(message);
                         }
                     }
                 );
@@ -227,9 +227,17 @@ namespace Hardware.Libnodave
                                         break;
 
                                     case RepresentationBytes.Two:
-                                        (channel as LibnodaveAnalogInput).Value = BitConverter.ToUInt16(array, 0);
-                                        break;
+                                        switch ((channel as LibnodaveAnalogInput).NumericRepresentation)
+                                        {
+                                            case NumericRepresentation.UInt16:
+                                                (channel as LibnodaveAnalogInput).Value = BitConverter.ToUInt16(array, 0);
+                                                break;
 
+                                            case NumericRepresentation.Int16:
+                                                (channel as LibnodaveAnalogInput).Value = BitConverter.ToInt16(array, 0);
+                                                break;
+                                        }
+                                        break;
                                     case RepresentationBytes.One:
                                         (channel as LibnodaveAnalogInput).Value = array[0];
                                         break;
