@@ -103,7 +103,7 @@ namespace Hardware.Snap7
             }
             else
             {
-                string message = FormatErrorMessage(result);
+                string message = FormatErrorMessage(result, messageToPrepend: "On Start");
                 HandleException(message);
             }
 
@@ -119,7 +119,7 @@ namespace Hardware.Snap7
                 Status.Value = ResourceStatus.Stopped;
             else
             {
-                string message = FormatErrorMessage(result);
+                string message = FormatErrorMessage(result, messageToPrepend: "On Stop");
                 HandleException(message);
             }
         }
@@ -142,7 +142,7 @@ namespace Hardware.Snap7
 
                     if(result != 0)
                     {
-                        message = FormatErrorMessage(result);
+                        message = FormatErrorMessage(result, messageToPrepend: "On Receive");
                         HandleException(message);
                     }
                 }
@@ -204,7 +204,7 @@ namespace Hardware.Snap7
                     int result = client.DBWrite(channel.DataBlock, channel.MemoryAddress, dataBlocks[channel.DataBlock].Length, dataBlocks[channel.DataBlock]);
                     if (result != 0)
                     {
-                        string message = FormatErrorMessage(result);
+                        string message = FormatErrorMessage(result, messageToPrepend: "On Send");
                         HandleException(message);
                     }
                 }
@@ -216,11 +216,15 @@ namespace Hardware.Snap7
         /// Format an error code into a readable message
         /// </summary>
         /// <param name="errorCode">The error code</param>
+        /// <param name="messageToPrepend">The message to prepend to the error one (if not equal to <see langword="null"/>)</param>
         /// <returns>The formatted message</returns>
-        private string FormatErrorMessage(int errorCode)
+        private string FormatErrorMessage(int errorCode, string messageToPrepend = null)
         {
             string message = $"Communication error with Siemens PLC at {ipAddress}! Error code: 0x{errorCode:X}{Environment.NewLine}" +
                 $"Description: {client.ErrorText(errorCode)}";
+
+            if (messageToPrepend != null)
+                message = $"{messageToPrepend} >> {message}";
 
             return message;
         }
