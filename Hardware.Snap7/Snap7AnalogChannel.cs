@@ -11,6 +11,7 @@ namespace Hardware.Snap7
         private RepresentationBytes representationBytes;
         private int memoryAddress;
         private int dataBlock;
+        private bool reverse;
 
         protected IResource resource;
 
@@ -39,6 +40,11 @@ namespace Hardware.Snap7
         }
 
         /// <summary>
+        /// The reverse option
+        /// </summary>
+        internal bool Reverse => reverse;
+
+        /// <summary>
         /// Initialize the <see cref="Snap7AnalogChannel"/> attributes
         /// </summary>
         /// <param name="code">The code</param>
@@ -50,7 +56,7 @@ namespace Hardware.Snap7
         /// <param name="measureUnit">The measure unit</param>
         /// <param name="format">The format</param>
         protected Snap7AnalogChannel(string code, int memoryAddress, int dataBlock, IResource resource, RepresentationBytes representationBytes,
-            NumericRepresentation numericRepresentation, string measureUnit = "", string format = "0.000") : base(code, measureUnit, format, resource)
+            NumericRepresentation numericRepresentation, bool reverse = false, string measureUnit = "", string format = "0.000") : base(code, measureUnit, format, resource)
         {
             this.memoryAddress = memoryAddress;
             this.dataBlock = dataBlock;
@@ -58,8 +64,44 @@ namespace Hardware.Snap7
             this.numericRepresentation = numericRepresentation;
             this.representationBytes = representationBytes;
 
+            this.reverse = reverse;
+
             this.resource = resource;
             resource.Channels.Add(this);
+        }
+
+        /// <summary>
+        /// Extract the number of bytes based on <see cref="RepresentationBytes"/>
+        /// </summary>
+        /// <returns>The number of bytes</returns>
+        protected int ExtractNumberOfBytes()
+        {
+            int numberOfBytes;
+
+            switch (RepresentationBytes)
+            {
+                case RepresentationBytes.One: // byte
+                    numberOfBytes = 1;
+                    break;
+
+                case RepresentationBytes.Two: // ushort
+                    numberOfBytes = 2;
+                    break;
+
+                case RepresentationBytes.Four: // int and float
+                    numberOfBytes = 4;
+                    break;
+
+                case RepresentationBytes.Eight: // double
+                    numberOfBytes = 8;
+                    break;
+
+                default:
+                    numberOfBytes = 4;
+                    break;
+            }
+
+            return numberOfBytes;
         }
     }
 }

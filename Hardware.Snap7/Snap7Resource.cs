@@ -1,6 +1,7 @@
 ﻿using Core;
 using Sharp7;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Hardware.Snap7
@@ -14,12 +15,21 @@ namespace Hardware.Snap7
         private string ipAddress;
         private int rack;
         private int slot;
-        private int bufferSize;
-        private byte[] buffer;
+        private Dictionary<int, byte[]> dataBlocks;
+        private int pollingInterval;
 
         private S7Client client;
 
         public override bool IsOpen => client.Connected;
+
+        /// <summary>
+        /// The polling interval (in milliseconds)
+        /// </summary>
+        public int PollingInterval
+        { 
+            get => pollingInterval;
+            set => pollingInterval = value;
+        }
 
         /// <summary>
         /// Create a new instance of <see cref="Snap7Resource"/>
@@ -28,17 +38,49 @@ namespace Hardware.Snap7
         /// <param name="ipAddress">The ip address</param>
         /// <param name="rack">The rack number</param>
         /// <param name="slot">The slot number</param>
-        /// <param name="bufferSize">The buffer size</param>
-        public Snap7Resource(string code, string ipAddress, int rack, int slot, int bufferSize) : base(code)
+        /// <param name="pollingInterval">The polling interval (in milliseconds)</param>
+        public Snap7Resource(string code, string ipAddress, int rack, int slot, int pollingInterval = 100) : base(code)
         {
             this.ipAddress = ipAddress;
             this.rack = rack;
             this.slot = slot;
+            this.pollingInterval = pollingInterval;
 
-            this.bufferSize = bufferSize;
-            buffer = new byte[bufferSize];
-
+            dataBlocks = new Dictionary<int, byte[]>();
             client = new S7Client();
+        }
+
+        /// <summary>
+        /// Add a new data block to read or reinitialize an existing one
+        /// </summary>
+        /// <param name="dataBlock">The data block number</param>
+        /// <param name="size">The size of the associated buffer</param>
+        public void AddDataBlock(int dataBlock, int size)
+        {
+            if (!dataBlocks.ContainsKey(dataBlock))
+                dataBlocks.Add(dataBlock, new byte[size]);
+            else
+                dataBlocks[dataBlock] = new byte[size];
+        }
+
+        /// <summary>
+        /// Get the associated data block buffer
+        /// </summary>
+        /// <param name="dataBlock">The data block of which get the buffer</param>
+        /// <returns>
+        /// The buffer, or <see langword="null"/> if <paramref name="dataBlock"/> was
+        /// not previously specified
+        /// </returns>
+        internal byte[] GetDataBlockBuffer(int dataBlock)
+        {
+            byte[] buffer;
+
+            if (dataBlocks.ContainsKey(dataBlock))
+                buffer = dataBlocks[dataBlock];
+            else
+                buffer = null;
+
+            return buffer;
         }
 
         public override async Task Restart()
@@ -53,7 +95,12 @@ namespace Hardware.Snap7
             int result = client.ConnectTo(ipAddress, rack, slot);
 
             if (result == 0)
+            {
                 Status.Value = ResourceStatus.Executing;
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                Receive();
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            }
             else
             {
                 string message = FormatErrorMessage(result);
@@ -80,67 +127,27 @@ namespace Hardware.Snap7
         /// <summary>
         /// Receive a value from the PLC and store it in the relative channel
         /// </summary>
-        /// <param name="code">The channel code</param>
-        /// <returns></returns>
-        internal async Task Receive(string code)
+        /// <returns>The async <see cref="Task"/></returns>
+        private async Task Receive()
         {
-            ISnap7Channel channel = Channels.Get(code) as ISnap7Channel;
+            int result;
+            string message;
 
-            if (Status.Value == ResourceStatus.Executing)
+            while (Status.Value == ResourceStatus.Executing)
             {
-                await Task.Run(() =>
+                foreach(int dataBlock in dataBlocks.Keys)
+                {
+                    // Read the data block for each one of the specified
+                    result = client.DBRead(dataBlock, 0, dataBlocks[dataBlock].Length, dataBlocks[dataBlock]);
+
+                    if(result != 0)
                     {
-                        int size = ExtractNumberOfBytes(channel);
-                        int result = client.DBRead(channel.DataBlock, channel.MemoryAddress, size, buffer);
-
-                        if (result == 0)
-                        {
-                            if (channel is Snap7DigitalInput)
-                                (channel as Snap7DigitalInput).Value = Convert.ToBoolean(buffer[channel.MemoryAddress]);
-                            else
-                            {
-                                // Memory buffer manipulation - get only the elements of interest
-                                int n = ExtractNumberOfBytes(channel);
-                                byte[] array = new byte[n];
-                                Array.Copy(buffer, channel.MemoryAddress, array, 0, n);
-
-                                // Channel value assignment
-                                switch (channel.RepresentationBytes)
-                                {
-                                    case RepresentationBytes.Eight:
-                                        (channel as Snap7AnalogInput).Value = BitConverter.ToDouble(array, 0);
-                                        break;
-
-                                    case RepresentationBytes.Four:
-                                        switch ((channel as Snap7AnalogInput).NumericRepresentation)
-                                        {
-                                            case NumericRepresentation.Single:
-                                                (channel as Snap7AnalogInput).Value = BitConverter.ToSingle(array, 0);
-                                                break;
-
-                                            case NumericRepresentation.Int32:
-                                                (channel as Snap7AnalogInput).Value = BitConverter.ToUInt32(array, 0);
-                                                break;
-                                        }
-                                        break;
-
-                                    case RepresentationBytes.Two:
-                                        (channel as Snap7AnalogInput).Value = BitConverter.ToUInt16(array, 0);
-                                        break;
-
-                                    case RepresentationBytes.One:
-                                        (channel as Snap7AnalogInput).Value = array[0];
-                                        break;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            string message = FormatErrorMessage(result);
-                            HandleException(message);
-                        }
+                        message = FormatErrorMessage(result);
+                        HandleException(message);
                     }
-                );
+                }
+
+                await Task.Delay(pollingInterval);
             }
         }
 
@@ -157,7 +164,7 @@ namespace Hardware.Snap7
                 await Task.Run(() =>
                 {
                     if (channel is Snap7DigitalOutput)
-                        buffer[channel.MemoryAddress] = BitConverter.GetBytes((channel as Snap7DigitalOutput).Value)[0];
+                        dataBlocks[channel.DataBlock][channel.MemoryAddress] = BitConverter.GetBytes((channel as Snap7DigitalOutput).Value)[0];
                     else
                     {
                         Snap7AnalogChannel analogChannel = channel as Snap7AnalogChannel;
@@ -188,10 +195,13 @@ namespace Hardware.Snap7
                                 break;
                         }
 
-                        Array.Copy(array, 0, buffer, channel.MemoryAddress, n);
+                        if ((channel as Snap7AnalogChannel).Reverse)
+                            Array.Reverse(array);
+
+                        Array.Copy(array, 0, dataBlocks[channel.DataBlock], channel.MemoryAddress, n);
                     }
 
-                    int result = client.DBWrite(channel.DataBlock, channel.MemoryAddress, bufferSize, buffer);
+                    int result = client.DBWrite(channel.DataBlock, channel.MemoryAddress, dataBlocks[channel.DataBlock].Length, dataBlocks[channel.DataBlock]);
                     if (result != 0)
                     {
                         string message = FormatErrorMessage(result);
@@ -209,7 +219,7 @@ namespace Hardware.Snap7
         /// <returns>The formatted message</returns>
         private string FormatErrorMessage(int errorCode)
         {
-            string message = $"Unable to disconnect to the Siemens PLC at {ipAddress}! Error code: 0x{errorCode:X}{Environment.NewLine}" +
+            string message = $"Communication error with Siemens PLC at {ipAddress}! Error code: 0x{errorCode:X}{Environment.NewLine}" +
                 $"Description: {client.ErrorText(errorCode)}";
 
             return message;

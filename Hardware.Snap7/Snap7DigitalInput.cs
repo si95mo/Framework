@@ -43,7 +43,7 @@ namespace Hardware.Snap7
             {
                 while (true)
                 {
-                    await (resource as Snap7Resource).Receive(code);
+                    AcquireValue();
                     await Task.Delay(pollingInterval);
                 }
             };
@@ -56,10 +56,20 @@ namespace Hardware.Snap7
         /// </summary>
         /// <param name="sender">The sender</param>
         /// <param name="e">The <see cref="ValueChangedEventArgs"/></param>
-        protected override async void PropagateValues(object sender, ValueChangedEventArgs e)
+        protected override void PropagateValues(object sender, ValueChangedEventArgs e)
         {
-            await (resource as Snap7Resource).Receive(code);
+            AcquireValue();
             base.PropagateValues(sender, e);
+        }
+
+        /// <summary>
+        /// Acquire the <see cref="Snap7DigitalInput"/> associated value
+        /// from the <see cref="Snap7Resource"/>
+        /// </summary>
+        private void AcquireValue()
+        {
+            byte[] buffer = (resource as Snap7Resource).GetDataBlockBuffer(DataBlock);
+            Value = Convert.ToBoolean(buffer[MemoryAddress]);
         }
     }
 }
