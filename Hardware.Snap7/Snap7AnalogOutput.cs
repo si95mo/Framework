@@ -19,8 +19,8 @@ namespace Hardware.Snap7
         /// <param name="measureUnit">The measure unit</param>
         /// <param name="format">The format</param>
         public Snap7AnalogOutput(string code, int memoryAddress, int dataBlock, IResource resource, RepresentationBytes representationBytes,
-            NumericRepresentation numericRepresentation, string measureUnit = "", string format = "0.000")
-            : base(code, memoryAddress, dataBlock, resource, representationBytes, numericRepresentation, measureUnit, format)
+            NumericRepresentation numericRepresentation, bool reverse = false, string measureUnit = "", string format = "0.000")
+            : base(code, memoryAddress, dataBlock, resource, representationBytes, numericRepresentation, reverse, measureUnit, format)
         {
             ValueChanged += Snap7AnalogOutput_ValueChanged;
         }

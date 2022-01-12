@@ -57,5 +57,16 @@ namespace Hardware.Snap7
             this.resource = resource;
             resource.Channels.Add(this);
         }
+
+        /// <summary>
+        /// Extract the number of bytes based on <see cref="RepresentationBytes"/>
+        /// </summary>
+        /// <param name="channel">The <see cref="ISnap7Channel"/></param>
+        /// <returns>The number of bytes</returns>
+        protected int ExtractNumberOfBytes(ISnap7Channel channel)
+        {
+            int numberOfBytes = 1; // Only one byte for a digital channel
+            return numberOfBytes;
+        }
     }
 }
