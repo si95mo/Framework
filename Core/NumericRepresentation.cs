@@ -39,6 +39,12 @@
         /// A <see cref="bool"/> type of variable
         /// (<see langword="true"/> or <see langword="false"/> value)
         /// </summary>
-        Boolean = 5
+        Boolean = 5,
+
+        /// <summary>
+        /// A <see cref="short"/> type of variable
+        /// (16 bit integer value)
+        /// </summary>
+        Int16 = 6
     }
 }
