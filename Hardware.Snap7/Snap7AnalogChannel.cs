@@ -56,7 +56,7 @@ namespace Hardware.Snap7
         /// <param name="measureUnit">The measure unit</param>
         /// <param name="format">The format</param>
         protected Snap7AnalogChannel(string code, int memoryAddress, int dataBlock, IResource resource, RepresentationBytes representationBytes,
-            NumericRepresentation numericRepresentation, bool reverse = false, string measureUnit = "", string format = "0.000") 
+            NumericRepresentation numericRepresentation, bool reverse = false, string measureUnit = "", string format = "0.000")
             : base(code, measureUnit, format, resource)
         {
             this.memoryAddress = memoryAddress;

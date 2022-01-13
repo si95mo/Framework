@@ -163,7 +163,7 @@ namespace Hardware.Snap7
             ISnap7Channel channel = channels.Get(code) as ISnap7Channel;
 
             if (Status.Value == ResourceStatus.Executing)
-            {                
+            {
                 if (channel is Snap7DigitalOutput)
                     dataBlocks[channel.DataBlock][channel.MemoryAddress] = BitConverter.GetBytes((channel as Snap7DigitalOutput).Value)[0];
                 else
