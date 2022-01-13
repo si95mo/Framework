@@ -20,13 +20,15 @@ namespace Hardware.Snap7
 
         private S7Client client;
 
+        private object threadLock = new object();
+
         public override bool IsOpen => client.Connected;
 
         /// <summary>
         /// The polling interval (in milliseconds)
         /// </summary>
         public int PollingInterval
-        { 
+        {
             get => pollingInterval;
             set => pollingInterval = value;
         }
@@ -135,12 +137,13 @@ namespace Hardware.Snap7
 
             while (Status.Value == ResourceStatus.Executing)
             {
-                foreach(int dataBlock in dataBlocks.Keys)
+                foreach (int dataBlock in dataBlocks.Keys)
                 {
                     // Read the data block for each one of the specified
-                    result = client.DBRead(dataBlock, 0, dataBlocks[dataBlock].Length, dataBlocks[dataBlock]);
+                    lock (threadLock)
+                        result = client.DBRead(dataBlock, 0, dataBlocks[dataBlock].Length, dataBlocks[dataBlock]);
 
-                    if(result != 0)
+                    if (result != 0)
                     {
                         message = FormatErrorMessage(result, messageToPrepend: "On Receive");
                         HandleException(message);
@@ -155,60 +158,64 @@ namespace Hardware.Snap7
         /// Send a value stored in the relative channel to the PLC
         /// </summary>
         /// <param name="code">The channel code</param>
-        internal async Task Send(string code)
+        internal void Send(string code)
         {
             ISnap7Channel channel = channels.Get(code) as ISnap7Channel;
 
             if (Status.Value == ResourceStatus.Executing)
-            {
-                await Task.Run(() =>
+            {                
+                if (channel is Snap7DigitalOutput)
+                    dataBlocks[channel.DataBlock][channel.MemoryAddress] = BitConverter.GetBytes((channel as Snap7DigitalOutput).Value)[0];
+                else
                 {
-                    if (channel is Snap7DigitalOutput)
-                        dataBlocks[channel.DataBlock][channel.MemoryAddress] = BitConverter.GetBytes((channel as Snap7DigitalOutput).Value)[0];
-                    else
+                    Snap7AnalogChannel analogChannel = channel as Snap7AnalogChannel;
+
+                    int n = ExtractNumberOfBytes(channel);
+                    byte[] array = new byte[n];
+
+                    switch (analogChannel.NumericRepresentation)
                     {
-                        Snap7AnalogChannel analogChannel = channel as Snap7AnalogChannel;
+                        case NumericRepresentation.Byte:
+                            array = BitConverter.GetBytes((byte)analogChannel.Value);
+                            break;
 
-                        int n = ExtractNumberOfBytes(channel);
-                        byte[] array = new byte[n];
+                        case NumericRepresentation.UInt16:
+                            array = BitConverter.GetBytes((ushort)analogChannel.Value);
+                            break;
 
-                        switch (analogChannel.NumericRepresentation)
-                        {
-                            case NumericRepresentation.Byte:
-                                array = BitConverter.GetBytes((byte)analogChannel.Value);
-                                break;
+                        case NumericRepresentation.Int32:
+                            array = BitConverter.GetBytes((int)analogChannel.Value);
+                            break;
 
-                            case NumericRepresentation.UInt16:
-                                array = BitConverter.GetBytes((ushort)analogChannel.Value);
-                                break;
+                        case NumericRepresentation.Single:
+                            array = BitConverter.GetBytes((float)analogChannel.Value);
+                            break;
 
-                            case NumericRepresentation.Int32:
-                                array = BitConverter.GetBytes((int)analogChannel.Value);
-                                break;
+                        case NumericRepresentation.Double:
+                            array = BitConverter.GetBytes(analogChannel.Value);
+                            break;
 
-                            case NumericRepresentation.Single:
-                                array = BitConverter.GetBytes((float)analogChannel.Value);
-                                break;
-
-                            case NumericRepresentation.Double:
-                                array = BitConverter.GetBytes(analogChannel.Value);
-                                break;
-                        }
-
-                        if ((channel as Snap7AnalogChannel).Reverse)
-                            Array.Reverse(array);
-
-                        Array.Copy(array, 0, dataBlocks[channel.DataBlock], channel.MemoryAddress, n);
+                        case NumericRepresentation.Int16:
+                            array = BitConverter.GetBytes((short)analogChannel.Value);
+                            break;
                     }
 
-                    int result = client.DBWrite(channel.DataBlock, channel.MemoryAddress, dataBlocks[channel.DataBlock].Length, dataBlocks[channel.DataBlock]);
-                    if (result != 0)
-                    {
-                        string message = FormatErrorMessage(result, messageToPrepend: "On Send");
-                        HandleException(message);
-                    }
+                    if ((channel as Snap7AnalogChannel).Reverse)
+                        Array.Reverse(array);
+
+                    Array.Copy(array, 0, dataBlocks[channel.DataBlock], channel.MemoryAddress, n);
                 }
-                );
+
+                int result;
+
+                lock (threadLock)
+                    result = client.DBWrite(channel.DataBlock, channel.MemoryAddress, dataBlocks[channel.DataBlock].Length, dataBlocks[channel.DataBlock]);
+
+                if (result != 0)
+                {
+                    string message = FormatErrorMessage(result, messageToPrepend: "On Send");
+                    HandleException(message);
+                }
             }
         }
 

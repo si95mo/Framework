@@ -16,6 +16,7 @@ namespace Hardware.Snap7
         /// <param name="resource">The <see cref="IResource"/></param>
         /// <param name="representationBytes">The <see cref="RepresentationBytes"/></param>
         /// <param name="numericRepresentation">The <see cref="NumericRepresentation"/></param>
+        /// <param name="reverse">The reverse option</param>
         /// <param name="measureUnit">The measure unit</param>
         /// <param name="format">The format</param>
         public Snap7AnalogOutput(string code, int memoryAddress, int dataBlock, IResource resource, RepresentationBytes representationBytes,
@@ -25,7 +26,7 @@ namespace Hardware.Snap7
             ValueChanged += Snap7AnalogOutput_ValueChanged;
         }
 
-        private async void Snap7AnalogOutput_ValueChanged(object sender, ValueChangedEventArgs e)
-            => await (resource as Snap7Resource).Send(Code);
+        private void Snap7AnalogOutput_ValueChanged(object sender, ValueChangedEventArgs e)
+            => (resource as Snap7Resource).Send(Code);
     }
 }

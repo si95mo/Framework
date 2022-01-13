@@ -18,7 +18,7 @@
             ValueChanged += Snap7DigitalOutput_ValueChanged;
         }
 
-        private async void Snap7DigitalOutput_ValueChanged(object sender, Core.ValueChangedEventArgs e)
-            => await (resource as Snap7Resource).Send(Code);
+        private void Snap7DigitalOutput_ValueChanged(object sender, Core.ValueChangedEventArgs e)
+            => (resource as Snap7Resource).Send(Code);
     }
 }
