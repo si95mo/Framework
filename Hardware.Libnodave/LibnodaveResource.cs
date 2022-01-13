@@ -173,7 +173,7 @@ namespace Hardware.Libnodave
                         if (result != 0)
                         {
                             string message = FormatErrorMessage(result);
-                           // HandleException(message);
+                            // HandleException(message);
                         }
                     }
                 );
@@ -238,6 +238,7 @@ namespace Hardware.Libnodave
                                                 break;
                                         }
                                         break;
+
                                     case RepresentationBytes.One:
                                         (channel as LibnodaveAnalogInput).Value = array[0];
                                         break;

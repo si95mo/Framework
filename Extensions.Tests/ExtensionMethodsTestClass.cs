@@ -81,7 +81,7 @@ namespace Extensions.Tests
             int n = 10;
 
             // Action that also concur to the condition handling
-            Action source = () => Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} >> Counter value: {counter++}"); 
+            Action source = () => Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} >> Counter value: {counter++}");
             Func<bool> condition = new Func<bool>(() => TestCondition(counter, n));
 
             Stopwatch sw = Stopwatch.StartNew();

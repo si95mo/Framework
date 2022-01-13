@@ -464,7 +464,7 @@ namespace Extensions
     /// Provide logic structure-related extension methods
     /// </summary>
     public static class LogicStructureExtensions
-    { 
+    {
         /// <summary>
         /// Provide a times <see langword="while"/> loop
         /// </summary>
@@ -476,7 +476,7 @@ namespace Extensions
             ManualResetEventSlim stopRequest = new ManualResetEventSlim(false);
             Stopwatch stopwatch;
 
-            while(condition())
+            while (condition())
             {
                 stopwatch = Stopwatch.StartNew();
 
