@@ -131,9 +131,11 @@ namespace Rest
             string json = JsonConvert.SerializeObject(data);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
+            string actualRequest = $"{uri}/{request}";
+
             try
             {
-                response = await client.PostAsync(uri, content);
+                response = await client.PostAsync(actualRequest, content);
                 result = await response.Content.ReadAsStringAsync();
 
                 connected = true;
