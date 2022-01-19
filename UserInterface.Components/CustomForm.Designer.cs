@@ -32,7 +32,7 @@ namespace UserInterface.Controls
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CustomForm));
             this.lblFormName = new System.Windows.Forms.Label();
             this.controlBox = new MetroSet_UI.Controls.MetroSetControlBox();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.borderUpPanel = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
             // lblFormName
@@ -73,21 +73,21 @@ namespace UserInterface.Controls
             this.controlBox.ThemeAuthor = "Narwin";
             this.controlBox.ThemeName = "MetroLite";
             // 
-            // panel1
+            // borderUpPanel
             // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(220)))), ((int)(((byte)(4)))));
-            this.panel1.Location = new System.Drawing.Point(-2, -2);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1920, 15);
-            this.panel1.TabIndex = 11;
+            this.borderUpPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(220)))), ((int)(((byte)(4)))));
+            this.borderUpPanel.Location = new System.Drawing.Point(-2, -2);
+            this.borderUpPanel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.borderUpPanel.Name = "borderUpPanel";
+            this.borderUpPanel.Size = new System.Drawing.Size(1920, 15);
+            this.borderUpPanel.TabIndex = 11;
             // 
             // CustomForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(399, 261);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.borderUpPanel);
             this.Controls.Add(this.controlBox);
             this.Controls.Add(this.lblFormName);
             this.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -105,7 +105,7 @@ namespace UserInterface.Controls
         }
 
         #endregion
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel borderUpPanel;
         protected System.Windows.Forms.Label lblFormName;
         protected MetroSet_UI.Controls.MetroSetControlBox controlBox;
     }
