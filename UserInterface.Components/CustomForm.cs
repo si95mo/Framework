@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace UserInterface.Controls
@@ -44,13 +45,18 @@ namespace UserInterface.Controls
         }
 
         /// <summary>
-        /// Handle the on load event (set the form name)
+        /// Handle the on load event (set the form name and resize inherited components)
         /// </summary>
         /// <param name="sender">The sender</param>
         /// <param name="e">The <see cref="EventArgs"/></param>
         private void Form_Load(object sender, EventArgs e)
         {
             lblFormName.Text = Text;
+            controlBox.Location = new Point(
+                Size.Width - controlBox.Size.Width - 4,
+                controlBox.Location.Y
+            );
+            borderUpPanel.Size = new Size(Size.Width + 2, borderUpPanel.Size.Height);
         }
 
         /// <summary>
