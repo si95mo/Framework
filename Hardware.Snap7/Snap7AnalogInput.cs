@@ -49,7 +49,9 @@ namespace Hardware.Snap7
             {
                 while (true)
                 {
-                    AcquireValue();
+                    if (resource.Status.Value == ResourceStatus.Executing)
+                        AcquireValue();
+
                     await Task.Delay(pollingInterval);
                 }
             };
