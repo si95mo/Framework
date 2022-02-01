@@ -35,7 +35,7 @@ namespace Hardware.Resources.Tests
                 RepresentationBytes.Two,
                 NumericRepresentation.Int16,
                 format: "0"
-            ); 
+            );
             secondAnalogInput = new Snap7AnalogInput(
                  "SecondAnalogInput",
                  memoryAddress: 0,

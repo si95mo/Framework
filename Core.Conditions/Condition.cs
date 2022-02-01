@@ -17,17 +17,17 @@ namespace Core.Conditions
 
         public string Code => code;
 
-        public object ValueAsObject 
-        { 
+        public object ValueAsObject
+        {
             get => value;
             set => this.value = (bool)value;
         }
 
         public Type Type => typeof(Condition);
 
-        public bool Value 
-        { 
-            get => value; 
+        public bool Value
+        {
+            get => value;
             set
             {
                 if (!value.Equals(this.value))
@@ -79,14 +79,14 @@ namespace Core.Conditions
         }
 
         /// <summary>
-        /// Create a new <see cref="ICondition"/> that will be <see langword="true"/> 
+        /// Create a new <see cref="ICondition"/> that will be <see langword="true"/>
         /// when the actual <see cref="Condition"/> is <see langword="true"/>
         /// </summary>
         /// <returns>The new <see cref="ICondition"/></returns>
         public abstract ICondition IsTrue();
 
         /// <summary>
-        /// Create a new <see cref="ICondition"/> that will be <see langword="true"/> 
+        /// Create a new <see cref="ICondition"/> that will be <see langword="true"/>
         /// when the actual <see cref="Condition"/> is <see langword="false"/>
         /// </summary>
         /// <returns>The new <see cref="ICondition"/></returns>

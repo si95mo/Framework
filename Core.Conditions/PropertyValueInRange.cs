@@ -22,7 +22,7 @@
         /// <param name="isMaximumExcluded">
         /// <see langword="true"/> if <paramref name="maximum"/> is excluded from the range, <see langword="false"/> otherwise
         /// </param>
-        public PropertyValueInRange(string code, IProperty<double> property, double minimum, double maximum, 
+        public PropertyValueInRange(string code, IProperty<double> property, double minimum, double maximum,
             bool isMinimumExcluded = false, bool isMaximumExcluded = false) : base(code)
         {
             this.minimum = minimum;
