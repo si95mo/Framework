@@ -4,7 +4,7 @@ using System.Windows.Forms;
 namespace UserInterface.Controls
 {
     /// <summary>
-    /// Class that implements a control that automatically display all of its 
+    /// Class that implements a control that automatically display all of its
     /// children control by applying a vertical layout (from top to bottom).
     /// See also <see cref="FlowLayoutPanel"/>
     /// </summary>
