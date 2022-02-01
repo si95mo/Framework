@@ -46,7 +46,9 @@ namespace Core.Conditions
         protected Condition(string code)
         {
             this.code = code;
+
             subscribers = new List<IProperty>();
+            ValueChanged += PropagateValues;
         }
 
         public event EventHandler<ValueChangedEventArgs> ValueChanged
@@ -76,6 +78,18 @@ namespace Core.Conditions
         {
             property.ValueAsObject = value;
             subscribers.Add(property);
+        }
+
+        /// <summary>
+        /// <see cref="ValueChanged"/> event handler that manages
+        /// the propagation of the values to subscribers.
+        /// See <see cref="ConnectTo(IProperty)"/>
+        /// </summary>
+        /// <param name="sender">The sender</param>
+        /// <param name="e">The <see cref="ValueChangedEventArgs"/></param>
+        private void PropagateValues(object sender, ValueChangedEventArgs e)
+        {
+            subscribers.ForEach(x => x.ValueAsObject = Value);
         }
 
         /// <summary>

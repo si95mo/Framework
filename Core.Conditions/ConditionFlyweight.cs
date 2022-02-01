@@ -25,14 +25,25 @@
         public override ICondition IsTrue()
         {
             ConditionFlyweight result = new ConditionFlyweight($"{Code}.IsTrue", Value);
+            ConnectTo(result);
+
             return result;
         }
 
         public override ICondition IsFalse()
         {
             ConditionFlyweight result = new ConditionFlyweight($"{Code}.IsFalse", Value == false);
+            ValueChanged += (sender, e) => UpdateIsFalseCondition(result);
+
             return result;
         }
+
+        /// <summary>
+        /// Update a <see cref="ConditionFlyweight"/> to check if its value is <see langword="false"/>
+        /// </summary>
+        /// <param name="newCondition">The <see cref="ConditionFlyweight"/> to update</param>
+        private void UpdateIsFalseCondition(ConditionFlyweight newCondition)
+            => newCondition.Value = Value == false;
 
         /// <summary>
         /// Create a <see cref="ConditionFlyweight"/> that concatenates itself with another <see cref="ICondition"/>
