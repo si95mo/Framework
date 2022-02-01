@@ -33,5 +33,30 @@
             ConditionFlyweight result = new ConditionFlyweight($"{Code}.IsFalse", Value == false);
             return result;
         }
+
+        /// <summary>
+        /// Create a <see cref="ConditionFlyweight"/> that concatenates itself with another <see cref="ICondition"/>
+        /// with an <see langword="and"/> relation
+        /// </summary>
+        /// <param name="condition">The other condition to which concatenate</param>
+        /// <returns>The concatenated <see cref="ConditionFlyweight"/></returns>
+        public ConditionFlyweight And(ICondition condition)
+        {
+            ConditionFlyweight andCondition = new ConditionFlyweight($"{Code}.And.{condition.Code}", Value & condition.Value);
+
+            ValueChanged += (sender, e) => UpdateAndCondition(this, andCondition);
+            condition.ValueChanged += (sender, e) => UpdateAndCondition(condition, andCondition);
+
+            return andCondition;
+        }
+
+        /// <summary>
+        /// Update a <see cref="ConditionFlyweight"/> by applying an
+        /// <see langword="and"/> operand between two <see langword="bool"/> values
+        /// </summary>
+        /// <param name="changedCondition">The sender (the <see cref="ICondition"/> of which the value has changed)</param>
+        /// <param name="andCondition">The <see cref="ConditionFlyweight"/> result of the <see cref="And(ICondition)"/> method</param>
+        private void UpdateAndCondition(ICondition changedCondition, ConditionFlyweight andCondition)
+            => andCondition.Value &= changedCondition.Value;
     }
 }
