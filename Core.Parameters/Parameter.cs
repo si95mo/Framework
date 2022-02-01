@@ -137,16 +137,12 @@ namespace Core.Parameters
             add
             {
                 lock (eventLock)
-                {
                     ValueChangedHandler += value;
-                }
             }
             remove
             {
                 lock (eventLock)
-                {
                     ValueChangedHandler -= value;
-                }
             }
         }
 
