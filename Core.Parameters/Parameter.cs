@@ -45,7 +45,7 @@ namespace Core.Parameters
         /// <summary>
         /// The object lock
         /// </summary>
-        protected object objectLock = new object();
+        protected object eventLock = new object();
 
         /// <summary>
         /// The value changed event handler
@@ -136,15 +136,14 @@ namespace Core.Parameters
         {
             add
             {
-                lock (objectLock)
+                lock (eventLock)
                 {
                     ValueChangedHandler += value;
                 }
             }
-
             remove
             {
-                lock (objectLock)
+                lock (eventLock)
                 {
                     ValueChangedHandler -= value;
                 }
@@ -164,11 +163,11 @@ namespace Core.Parameters
         /// Connects an <see cref="IProperty{T}"/> to another
         /// in order to propagate its value;
         /// </summary>
-        /// <param name="channel">The destination <see cref="IProperty{T}"/></param>
-        public void ConnectTo(IProperty channel)
+        /// <param name="property">The destination <see cref="IProperty{T}"/></param>
+        public void ConnectTo(IProperty property)
         {
-            channel.ValueAsObject = value;
-            subscribers.Add(channel);
+            property.ValueAsObject = value;
+            subscribers.Add(property);
         }
 
         /// <summary>
