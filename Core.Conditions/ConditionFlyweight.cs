@@ -1,4 +1,8 @@
-﻿namespace Core.Conditions
+﻿using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
+
+namespace Core.Conditions
 {
     /// <summary>
     /// Implement a flyweight condition (i.e. a basic type of condition)
