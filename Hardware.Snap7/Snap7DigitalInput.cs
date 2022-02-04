@@ -71,7 +71,9 @@ namespace Hardware.Snap7
         private void AcquireValue()
         {
             byte[] buffer = (resource as Snap7Resource).GetDataBlockBuffer(DataBlock);
-            Value = Convert.ToBoolean(buffer[MemoryAddress]);
+
+            if (buffer != null)
+                Value = Convert.ToBoolean(buffer[MemoryAddress]);
         }
     }
 }

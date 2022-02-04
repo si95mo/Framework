@@ -82,47 +82,51 @@ namespace Hardware.Snap7
                 int n = ExtractNumberOfBytes();
                 byte[] array = new byte[n];
                 byte[] buffer = (resource as Snap7Resource).GetDataBlockBuffer(DataBlock);
-                Array.Copy(buffer, MemoryAddress, array, 0, n);
 
-                if (Reverse)
-                    Array.Reverse(array);
-
-                // Channel value assignment
-                switch (RepresentationBytes)
+                if (buffer != null)
                 {
-                    case RepresentationBytes.Eight:
-                        Value = BitConverter.ToDouble(array, 0);
-                        break;
+                    Array.Copy(buffer, MemoryAddress, array, 0, n);
 
-                    case RepresentationBytes.Four:
-                        switch (NumericRepresentation)
-                        {
-                            case NumericRepresentation.Single:
-                                Value = BitConverter.ToSingle(array, 0);
-                                break;
+                    if (Reverse)
+                        Array.Reverse(array);
 
-                            case NumericRepresentation.Int32:
-                                Value = BitConverter.ToUInt32(array, 0);
-                                break;
-                        }
-                        break;
+                    // Channel value assignment
+                    switch (RepresentationBytes)
+                    {
+                        case RepresentationBytes.Eight:
+                            Value = BitConverter.ToDouble(array, 0);
+                            break;
 
-                    case RepresentationBytes.Two:
-                        switch (NumericRepresentation)
-                        {
-                            case NumericRepresentation.UInt16:
-                                Value = BitConverter.ToUInt16(array, 0);
-                                break;
+                        case RepresentationBytes.Four:
+                            switch (NumericRepresentation)
+                            {
+                                case NumericRepresentation.Single:
+                                    Value = BitConverter.ToSingle(array, 0);
+                                    break;
 
-                            case NumericRepresentation.Int16:
-                                Value = BitConverter.ToInt16(array, 0);
-                                break;
-                        }
-                        break;
+                                case NumericRepresentation.Int32:
+                                    Value = BitConverter.ToUInt32(array, 0);
+                                    break;
+                            }
+                            break;
 
-                    case RepresentationBytes.One:
-                        Value = array[0];
-                        break;
+                        case RepresentationBytes.Two:
+                            switch (NumericRepresentation)
+                            {
+                                case NumericRepresentation.UInt16:
+                                    Value = BitConverter.ToUInt16(array, 0);
+                                    break;
+
+                                case NumericRepresentation.Int16:
+                                    Value = BitConverter.ToInt16(array, 0);
+                                    break;
+                            }
+                            break;
+
+                        case RepresentationBytes.One:
+                            Value = array[0];
+                            break;
+                    }
                 }
             }
         }
