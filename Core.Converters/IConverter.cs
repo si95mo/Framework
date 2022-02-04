@@ -2,7 +2,12 @@
 
 namespace Core.Converters
 {
-    public interface IConverter<TIn, TOut>
+    /// <summary>
+    /// Define a generic converter
+    /// </summary>
+    /// <typeparam name="TIn">The input type</typeparam>
+    /// <typeparam name="TOut">The output type</typeparam>
+    public interface IConverter<TIn, TOut> : IConverter
     {
         /// <summary>
         /// The <see cref="IConverter"/> <see cref="Func{T, TResult}"/>
@@ -17,13 +22,5 @@ namespace Core.Converters
         /// <param name="arg">The argument to convert</param>
         /// <returns>The result of the conversion</returns>
         TOut Execute(TIn arg);
-
-        /// <summary>
-        /// Connect two <see cref="IProperty"/> in order to
-        /// propagate the converted value
-        /// </summary>
-        /// <param name="sourceParameter">The source <see cref="IParameter"/></param>
-        /// <param name="destinationParameter">The destination <see cref="IParameter"/></param>
-        void Connect(IProperty<TIn> sourceParameter, IProperty<TOut> destinationParameter);
     }
 }

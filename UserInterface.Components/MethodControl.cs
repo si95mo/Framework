@@ -3,7 +3,6 @@ using Core.Scheduling;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace UserInterface.Controls
@@ -23,7 +22,7 @@ namespace UserInterface.Controls
 
         private Method method;
         private MethodScheduler scheduler;
-        private List<BaseControl> values = new List<BaseControl>();
+        private List<UserControl> values = new List<UserControl>();
 
         /// <summary>
         /// Create a new instance of the class <see cref="MethodControl"/>
@@ -74,7 +73,7 @@ namespace UserInterface.Controls
                             lblParam.Location.Y - 4
                         );
 
-                        AddElementToCollection(lblParam, txtCtrl);
+                        // AddElementToCollection(lblParam, txtCtrl);
                     }
                     else
                     {
@@ -112,7 +111,7 @@ namespace UserInterface.Controls
         /// </summary>
         /// <param name="lblParam">The <see cref="Label"/></param>
         /// <param name="control">The <see cref="BaseControl"/></param>
-        private void AddElementToCollection(Label lblParam, BaseControl control)
+        private void AddElementToCollection(Label lblParam, UserControl control)
         {
             Controls.Add(lblParam);
             Controls.Add(control);
@@ -125,13 +124,13 @@ namespace UserInterface.Controls
         /// <see cref="ActionQueue{T}"/>
         /// </summary>
         /// <param name="sender">The sender</param>
-        /// <param name="e"><The <see cref="EventArgs"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void BtnAdd_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < method.ParametersCount; i++)
-                method.Parameters.ElementAt(i).Value = values.ElementAt(i).Value;
+                // method.Parameters.ElementAt(i).Value = values.ElementAt(i).Value;
 
-            scheduler.AddElement(method);
+                scheduler.Add(method);
         }
 
         private void MethodControl_Paint(object sender, PaintEventArgs e)

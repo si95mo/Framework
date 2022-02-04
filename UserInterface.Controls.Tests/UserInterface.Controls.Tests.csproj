@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5F390910-D0E6-41C4-A675-F6966FDCCD16}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UserInterface.Controls.Tests</RootNamespace>
+    <AssemblyName>UserInterface.Controls.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Core">
+      <HintPath>..\Core\bin\Debug\Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Core.DataStructures">
+      <HintPath>..\Core.DataStructures\bin\Debug\Core.DataStructures.dll</HintPath>
+    </Reference>
+    <Reference Include="Core.Parameters">
+      <HintPath>..\Core.Parameters\bin\Debug\Core.Parameters.dll</HintPath>
+    </Reference>
+    <Reference Include="Core.Scheduling">
+      <HintPath>..\Core.Scheduling\bin\Debug\Core.Scheduling.dll</HintPath>
+    </Reference>
+    <Reference Include="Diagnostic">
+      <HintPath>..\Diagnostic\bin\Debug\Diagnostic.dll</HintPath>
+    </Reference>
+    <Reference Include="Extensions">
+      <HintPath>..\Extensions\bin\Debug\Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Hardware">
+      <HintPath>..\Hardware\bin\Debug\Hardware.dll</HintPath>
+    </Reference>
+    <Reference Include="Instructions">
+      <HintPath>..\Instructions\bin\Debug\Instructions.dll</HintPath>
+    </Reference>
+    <Reference Include="IO.File">
+      <HintPath>..\IO.File\bin\Debug\IO.File.dll</HintPath>
+    </Reference>
+    <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
+    </Reference>
+    <Reference Include="LiveCharts.WinForms, Version=0.9.7.1, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.WinForms.0.9.7.1\lib\net45\LiveCharts.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="LiveCharts.Wpf, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.Wpf.0.9.7\lib\net45\LiveCharts.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroSet UI, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null" />
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResourceTestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ResourceTestForm.Designer.cs">
+      <DependentUpon>ResourceTestForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SpectrumPlotterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SpectrumPlotterForm.Designer.cs">
+      <DependentUpon>SpectrumPlotterForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TestForm.Designer.cs">
+      <DependentUpon>TestForm.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Hardware.Modbus\Hardware.Modbus.csproj">
+      <Project>{FA1A2A2F-C31D-4588-AFDD-EFCBE654E93D}</Project>
+      <Name>Hardware.Modbus</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Hardware.Tcp\Hardware.Tcp.csproj">
+      <Project>{281409C8-104C-4167-B5E9-DA9032034803}</Project>
+      <Name>Hardware.Tcp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mathematics\Mathematics.csproj">
+      <Project>{CFE7C7F0-3A06-42EC-905B-4B9DB2358BC1}</Project>
+      <Name>Mathematics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Signal.Processing\Signal.Processing.csproj">
+      <Project>{55CB7D92-F9F3-43B8-8A82-D886FC194106}</Project>
+      <Name>Signal.Processing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UserInterface.Components\UserInterface.Controls.csproj">
+      <Project>{4944754E-8566-44D6-933F-38F8DDC98F55}</Project>
+      <Name>UserInterface.Controls</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ResourceTestForm.resx">
+      <DependentUpon>ResourceTestForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SpectrumPlotterForm.resx">
+      <DependentUpon>SpectrumPlotterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TestForm.resx">
+      <DependentUpon>TestForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

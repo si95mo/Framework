@@ -41,9 +41,10 @@ namespace UserInterface.Controls
             // lblQuestion
             // 
             this.lblQuestion.AutoSize = true;
-            this.lblQuestion.Location = new System.Drawing.Point(75, 20);
+            this.lblQuestion.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblQuestion.Location = new System.Drawing.Point(19, 29);
             this.lblQuestion.Name = "lblQuestion";
-            this.lblQuestion.Size = new System.Drawing.Size(230, 13);
+            this.lblQuestion.Size = new System.Drawing.Size(340, 20);
             this.lblQuestion.TabIndex = 0;
             this.lblQuestion.Text = "Are you sure you want to close the application?\r\n";
             // 
@@ -70,6 +71,7 @@ namespace UserInterface.Controls
             this.btnYes.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(157)))), ((int)(((byte)(199)))));
             this.btnYes.FlatAppearance.BorderColor = System.Drawing.Color.DarkSlateGray;
             this.btnYes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnYes.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnYes.Location = new System.Drawing.Point(3, 3);
             this.btnYes.Name = "btnYes";
             this.btnYes.Size = new System.Drawing.Size(150, 25);
@@ -83,6 +85,7 @@ namespace UserInterface.Controls
             this.btnNo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(157)))), ((int)(((byte)(199)))));
             this.btnNo.FlatAppearance.BorderColor = System.Drawing.Color.DarkSlateGray;
             this.btnNo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNo.Location = new System.Drawing.Point(159, 3);
             this.btnNo.Name = "btnNo";
             this.btnNo.Size = new System.Drawing.Size(150, 25);

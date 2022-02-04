@@ -3,6 +3,8 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Diagnostic
 {
@@ -82,6 +84,8 @@ namespace Diagnostic
 
         private static bool initialized = false;
 
+        private static readonly SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
+
         /// <summary>
         /// The minimum <see cref="Severity"/> level of the entry to log
         /// </summary>
@@ -104,12 +108,15 @@ namespace Diagnostic
         public static bool Initialized => initialized;
 
         /// <summary>
-        /// Initialize the logger.
+        /// Initialize the logger with the specified parameters
         /// </summary>
-        /// <param name="logPath">The path of the log file </param>
-        /// <param name="timeSpanAsDays"> The time span of daily log to keep saved (as days interval).
-        /// If the parameter value is equal to -1 no log file will be deleted (i.e. all
-        /// the logs will be kept saved in the disk).</param>
+        /// <remarks>If the <paramref name="timeSpanAsDays"/> is equal to -1 no log file will be deleted (i.e. all
+        /// the logs will be kept saved in the disk), otherwise logs older than the actual day
+        /// minus the time span specified will be deleted (e.g. if today is 10/01/2021 and
+        /// <paramref name="timeSpanAsDays"/> is 10, then all the logs up to
+        /// 30/12/2020 will be deleted)</remarks>
+        /// <param name="logPath">The path of the log file</param>
+        /// <param name="timeSpanAsDays">The time span of daily logs to keep saved (expressed in days); -1 equals no file deleted</param>
         public static void Initialize(string logPath = "logs\\", int timeSpanAsDays = -1)
         {
             string now = DateTime.Now.ToString("yyyy-MM-dd");
@@ -185,7 +192,7 @@ namespace Diagnostic
         /// <summary>
         /// Deletes old log files saved in disk
         /// </summary>
-        /// <param name="timeSpanAsDays">The time span of file that has to be keep saved</param>
+        /// <param name="timeSpanAsDays">The time span of file that has to be keep saved (in days)</param>
         /// <param name="files">The <see cref="string"/> array containing the log files path</param>
         private static void DeleteOldLogs(int timeSpanAsDays, string[] files)
         {
@@ -227,6 +234,67 @@ namespace Diagnostic
         }
 
         /// <summary>
+        /// Build a new log entry
+        /// </summary>
+        /// <param name="text">The text to log</param>
+        /// <param name="severity">The <see cref="Severity"/> of the entry</param>
+        /// <returns>The new entry to log</returns>
+        private static string BuildLogEntry(string text, Severity severity)
+        {
+            string log = $"{GetDateTime()} | {GetSeverityAsString(severity)} | {text}";
+
+            string line = "";
+
+            int counter = 0;
+            for (int i = 0; i < log.Length; i++)
+            {
+                counter++;
+                if (counter != 25 && counter != 33)
+                    line += "-"; // Normal line separator
+                else
+                    line += "|"; // Add this char in these position for a table-like appearance
+            }
+
+            log += Environment.NewLine + line;
+
+            return log;
+        }
+
+        /// <summary>
+        /// Build a new log entry
+        /// </summary>
+        /// <param name="ex">The <see cref="Exception"/> to log</param>
+        /// <returns>A <see cref="Tuple{T1, T2, T3, T4, T5}"/> containing the new entry</returns>
+        private static Tuple<string, string, string, string, string> BuildLogEntry(Exception ex)
+        {
+            lastException = ex;
+
+            string message = ex.Message;
+            string stackTrace = ex.StackTrace;
+            string source = ex.Source;
+            string type = ex.GetType().ToString();
+
+            StackTrace st = new StackTrace(ex, true);
+            StackFrame frame = st.GetFrame(st.FrameCount - 1);
+
+            // Get the file name in which the exception was thrown
+            string fileName = frame?.GetFileName();
+            // Get the method name
+            string methodName = frame?.GetMethod().Name;
+            // Get the line number from the stack frame
+            int? line = frame?.GetFileLineNumber();
+
+            var entry = CreateEntry(
+                Severity.Error,
+                $"{source} - {type} on line {line} (method: {methodName}, file: {fileName})",
+                message,
+                stackTrace
+            );
+
+            return entry;
+        }
+
+        /// <summary>
         /// Simple log method.
         /// Save the text specified as parameter in the log file.
         /// <see cref="Path"/>
@@ -237,27 +305,168 @@ namespace Diagnostic
         {
             if (HasHigherSeverityLevel(severity))
             {
-                string log = $"{GetDateTime()} | {GetSeverityAsString(severity)} | {text}";
-
-                string line = "";
-
-                for (int i = 0; i < log.Length; i++)
-                    line += "-";
-
-                log += Environment.NewLine + line;
-
+                string log = BuildLogEntry(text, severity);
                 AppendText(log);
             }
         }
 
         /// <summary>
-        /// Append to the log file a description of the <see cref="Exception"/> occurred.
-        /// The entry will be saved <b>only</b> if its a different one
-        /// respect the last one saved in the log file (i.e. different type <b>and</b>
-        /// different message <b>and</b> different stack trace)!
+        /// Simple asynchronous log method.
+        /// Save the text specified as parameter in the log file.
+        /// <see cref="Path"/>
         /// </summary>
-        /// <param name="ex">The exception to log</param>
-        public static void Log(Exception ex)
+        /// <param name="text">The text to be saved</param>
+        /// <param name="severity">The <see cref="Severity"/></param>
+        /// <returns>The async <see cref="Task"/></returns>
+        public static async Task LogAsync(string text, Severity severity = Severity.Info)
+        {
+            if (HasHigherSeverityLevel(severity))
+            {
+                string log = BuildLogEntry(text, severity) + Environment.NewLine;
+                await AppendTextAsync(log, hasToAwait: true);
+            }
+        }
+
+        /// <summary>
+        /// Save the text specified as <see cref="Severity.Trace"/>
+        /// in the log file. <br/>
+        /// See also <see cref="Log(string, Severity)"/>
+        /// </summary>
+        /// <param name="text">The text to log</param>
+        public static void Trace(string text)
+            => Log(text, Severity.Trace);
+
+        /// <summary>
+        /// Save asynchronously the text specified as <see cref="Severity.Trace"/>
+        /// in the log file. <br/>
+        /// See also <see cref="LogAsync(string, Severity)"/>
+        /// </summary>
+        /// <param name="text">The text to log</param>
+        /// <returns>The async <see cref="Task"/></returns>
+        public static async Task TraceAsync(string text)
+            => await LogAsync(text, Severity.Trace);
+
+        /// <summary>
+        /// Save the text specified as <see cref="Severity.Debug"/>
+        /// in the log file. <br/>
+        /// See also <see cref="Log(string, Severity)"/>
+        /// </summary>
+        /// <param name="text">The text to log</param>
+        public static void Debug(string text)
+            => Log(text, Severity.Debug);
+
+        /// <summary>
+        /// Save asynchronously the text specified as <see cref="Severity.Debug"/>
+        /// in the log file. <br/>
+        /// See also <see cref="LogAsync(string, Severity)"/>
+        /// </summary>
+        /// <param name="text">The text to log</param>
+        /// <returns>The async <see cref="Task"/></returns>
+        public static async Task DebugAsync(string text)
+            => await LogAsync(text, Severity.Debug);
+
+        /// <summary>
+        /// Save the text specified as <see cref="Severity.Info"/>
+        /// in the log file. <br/>
+        /// See also <see cref="Log(string, Severity)"/>
+        /// </summary>
+        /// <param name="text">The text to log</param>
+        public static void Info(string text)
+            => Log(text, Severity.Info);
+
+        /// <summary>
+        /// Save asynchronously the text specified as <see cref="Severity.Info"/>
+        /// in the log file. <br/>
+        /// See also <see cref="LogAsync(string, Severity)"/>
+        /// </summary>
+        /// <param name="text">The text to log</param>
+        /// <returns>The async <see cref="Task"/></returns>
+        public static async Task InfoAsync(string text)
+            => await LogAsync(text, Severity.Info);
+
+        /// <summary>
+        /// Save the text specified as <see cref="Severity.Warn"/>
+        /// in the log file. <br/>
+        /// See also <see cref="Log(string, Severity)"/>
+        /// </summary>
+        /// <param name="text">The text to log</param>
+        public static void Warn(string text)
+            => Log(text, Severity.Warn);
+
+        /// <summary>
+        /// Save asynchronously the text specified as <see cref="Severity.Warn"/>
+        /// in the log file. <br/>
+        /// See also <see cref="LogAsync(string, Severity)"/>
+        /// </summary>
+        /// <param name="text">The text to log</param>
+        /// <returns>The async <see cref="Task"/></returns>
+        public static async Task WarnAsync(string text)
+            => await LogAsync(text, Severity.Warn);
+
+        /// <summary>
+        /// Save the text specified as <see cref="Severity.Error"/>
+        /// in the log file. <br/>
+        /// See also <see cref="Log(string, Severity)"/>
+        /// </summary>
+        /// <remarks>If the log is required after an <see cref="Exception"/>
+        /// occurred, consider using the method <see cref="Log(Exception)"/> instead!</remarks>
+        /// <param name="text">The text to log</param>
+        public static void Error(string text)
+            => Log(text, Severity.Error);
+
+        /// <summary>
+        /// Save the <see cref="Exception"/> to the log file.
+        /// See also <see cref="Log(Exception)"/>
+        /// </summary>
+        /// <param name="ex">The <see cref="Exception"/> occurred</param>
+        public static void Error(Exception ex)
+            => Log(ex);
+
+        /// <summary>
+        /// Save asynchronously the text specified as <see cref="Severity.Error"/>
+        /// in the log file. <br/>
+        /// See also <see cref="LogAsync(string, Severity)"/>
+        /// </summary>
+        /// <param name="text">The text to log</param>
+        /// <returns>The async <see cref="Task"/></returns>
+        public static async Task ErrorAsync(string text)
+            => await LogAsync(text, Severity.Error);
+
+        /// Save the text specified as <see cref="Severity.Fatal"/>
+        /// in the log file. <br/>
+        /// See also <see cref="Log(string, Severity)"/>
+        /// </summary>
+        /// <remarks>If the log is required after an <see cref="Exception"/>
+        /// occurred, consider using the method <see cref="Log(Exception)"/> instead!</remarks>
+        /// <param name="text">The text to log</param>
+        public static void Fatal(string text)
+            => Log(text, Severity.Fatal);
+
+        /// <summary>
+        /// Save asynchronously the text specified as <see cref="Severity.Fatal"/>
+        /// in the log file. <br/>
+        /// See also <see cref="LogAsync(string, Severity)"/>
+        /// </summary>
+        /// <param name="text">The text to log</param>
+        /// <returns>The async <see cref="Task"/></returns>
+        public static async Task FatalAsync(string text)
+            => await LogAsync(text, Severity.Fatal);
+
+        /// <summary>
+        /// Save asynchronously the <see cref="Exception"/> to the log file.
+        /// See also <see cref="LogAsync(Exception)"/>
+        /// </summary>
+        /// <param name="ex">The <see cref="Exception"/> occurred</param>
+        public static async Task ErrorAsync(Exception ex)
+            => await LogAsync(ex);
+
+        /// <summary>
+        /// Check if an <see cref="Exception"/> has already been logged
+        /// </summary>
+        /// <param name="ex">The <see cref="Exception"/> to check</param>
+        /// <returns><see langword="false"/> if an <see cref="Exception"/> has not yet been logged,
+        /// <see langword="true"/> otherwise (negated logic)</returns>
+        private static bool CheckException(Exception ex)
         {
             bool negatedFlag;
 
@@ -271,29 +480,47 @@ namespace Diagnostic
                 negatedFlag = lastException != null; // If lastException != null -> true
             }
 
+            return negatedFlag;
+        }
+
+        /// <summary>
+        /// Append to the log file a description of the <see cref="Exception"/> occurred
+        /// </summary>
+        /// <param name="ex">The exception to log</param>
+        /// <remarks>
+        /// The entry will be saved <b>only</b> if it differs from
+        /// the last one saved in the log file (i.e. different type <b>and</b>
+        /// different message <b>and</b> different stack trace)!
+        /// </remarks>
+        public static void Log(Exception ex)
+        {
+            bool negatedFlag = CheckException(ex);
+
             if (!negatedFlag || !IsSameExceptionAsTheLast(ex))
             {
-                lastException = ex;
-
-                string message = ex.Message;
-                string stackTrace = ex.StackTrace;
-                string source = ex.Source;
-                string type = ex.GetType().ToString();
-
-                StackTrace st = new StackTrace(ex, true);
-                StackFrame frame = st.GetFrame(st.FrameCount - 1);
-
-                // Get the line number from the stack frame
-                int? line = frame?.GetFileLineNumber();
-
-                var entry = CreateEntry(
-                    Severity.Error,
-                    $"{source} - {type} on line {line}",
-                    message,
-                    stackTrace
-                );
-
+                Tuple<string, string, string, string, string> entry = BuildLogEntry(ex);
                 AppendText(entry);
+            }
+        }
+
+        /// <summary>
+        /// Append asynchronously to the log file a description of the <see cref="Exception"/> occurred
+        /// </summary>
+        /// <param name="ex">The exception to log</param>
+        /// <returns>The async <see cref="Task"/></returns>
+        /// <remarks>
+        /// The entry will be saved <b>only</b> if it differs from
+        /// the last one saved in the log file (i.e. different type <b>and</b>
+        /// different message <b>and</b> different stack trace)!
+        /// </remarks>
+        public static async Task LogAsync(Exception ex)
+        {
+            bool negatedFlag = CheckException(ex);
+
+            if (!negatedFlag || !IsSameExceptionAsTheLast(ex))
+            {
+                Tuple<string, string, string, string, string> entry = BuildLogEntry(ex);
+                await AppendTextAsync(entry);
             }
         }
 
@@ -306,16 +533,36 @@ namespace Diagnostic
             => Save(text, path, SaveMode.Append);
 
         /// <summary>
+        /// Append text on the log file asynchronously.
+        /// See <see cref="FileHandler.SaveAsync(string, string, SaveMode)"/>
+        /// </summary>
+        /// <param name="text">The text to append</param>
+        /// <param name="hasToAwait"><see langword="true"/> if the task has to await
+        /// for a semaphore, <see langword="false"/> otherwise</param>
+        /// <returns>The async <see cref="Task"/></returns>
+        private static async Task AppendTextAsync(string text, bool hasToAwait = true)
+        {
+            if (hasToAwait)
+                await semaphore.WaitAsync();
+
+            await SaveAsync(text, path, SaveMode.Append);
+
+            if (hasToAwait)
+                semaphore.Release();
+        }
+
+        /// <summary>
         /// Append a <see cref="Tuple"/> to the log file as
         /// (timestamp; type of log entry; source; message; stack-trace)
         /// </summary>
         /// <param name="entry">The <see cref="Tuple"/> containing the element to append</param>
         private static void AppendText(Tuple<string, string, string, string, string> entry)
         {
-            string text = $"{entry.Item1} | {entry.Item2} | {entry.Item3} | {entry.Item4}" +
-                $"{Environment.NewLine}";
-
+            string text = $"{entry.Item1} | {entry.Item2} | {entry.Item3}{Environment.NewLine}";
             AppendText(text);
+
+            string message = $"\t\tException message: {entry.Item4}{Environment.NewLine}";
+            AppendText(message);
 
             string stackTrace = $"\t\tStack-trace: {entry.Item5}{Environment.NewLine}";
             AppendText(stackTrace);
@@ -324,7 +571,34 @@ namespace Diagnostic
         }
 
         /// <summary>
-        /// Convert the <see cref="Severity"/> of the entry to log in a <see cref="string""/>
+        /// Append asynchronously a <see cref="Tuple"/> to the log file as
+        /// (timestamp; type of log entry; source; message; stack-trace)
+        /// </summary>
+        /// <param name="entry">The <see cref="Tuple"/> containing the element to append</param>
+        /// <returns>The async <see cref="Task"/></returns>
+        private static async Task AppendTextAsync(Tuple<string, string, string, string, string> entry)
+        {
+            // Here, hasToAwait has been set to false because the method enter the semaphore once and the release it
+            // at the end of all the operations. So, there's no need to await another time inside the AppendTextAsync method!
+
+            await semaphore.WaitAsync();
+
+            string text = $"{entry.Item1} | {entry.Item2} | {entry.Item3}{Environment.NewLine}";
+            await AppendTextAsync(text, hasToAwait: false);
+
+            string message = $"\t\tException message: { entry.Item4}{Environment.NewLine}";
+            await AppendTextAsync(message, hasToAwait: false);
+
+            string stackTrace = $"\t\tStack-trace: {entry.Item5}{Environment.NewLine}";
+            await AppendTextAsync(stackTrace, hasToAwait: false);
+
+            await AppendTextAsync(ENTRY_SEPARATOR + Environment.NewLine, hasToAwait: false);
+
+            semaphore.Release();
+        }
+
+        /// <summary>
+        /// Convert the <see cref="Severity"/> of the entry to log in a <see cref="string"/>
         /// </summary>
         /// <param name="severity">The <see cref="Severity"/> of the entry</param>
         /// <returns>The <see cref="string"/> result of the conversion</returns>
@@ -343,11 +617,11 @@ namespace Diagnostic
                     break;
 
                 case Severity.Info:
-                    severityAsString = "INFO "; // Five letters for align!
+                    severityAsString = "INFO "; // Five letters for alignment!
                     break;
 
                 case Severity.Warn:
-                    severityAsString = "WARN "; // Five letters for align!
+                    severityAsString = "WARN "; // Five letters for alignment!
                     break;
 
                 case Severity.Error:
@@ -363,7 +637,7 @@ namespace Diagnostic
         }
 
         /// <summary>
-        /// Convert the <see cref="Severity"/> of the entry to log in a readable <see cref="string""/>
+        /// Convert the <see cref="Severity"/> of the entry to log in a readable <see cref="string"/>
         /// (i.e. removing all unnecessary characters as white spaces)
         /// </summary>
         /// <param name="severity"> The severity (<see cref="Severity"/>) of the entry </param>
@@ -392,9 +666,16 @@ namespace Diagnostic
         }
 
         /// <summary>
-        /// Check if the new <see cref="Exception"/> is the same as the last one,
-        /// i.e. they are of the same <see cref="Type"/>, they have the same <see cref="Exception.Message"/>
-        /// and have the same <see cref="StackTrace"/>
+        /// Check if the new <see cref="Exception"/> is the same as the last one, in other words:
+        /// <list type="bullet">
+        /// <term>they are of the same <see cref="Type"/></term>
+        /// </list>
+        /// <list type="bullet">
+        /// <term>they have the same <see cref="Exception.Message"/></term>
+        /// </list>
+        /// <list type="bullet">
+        /// <term>they have the same <see cref="StackTrace"/></term>
+        /// </list>
         /// </summary>
         /// <param name="ex">The <see cref="Exception"/>to test </param>
         /// <returns><see langword="true"/> if is the new <see cref="Exception"/> is equal to the last one,
@@ -410,16 +691,18 @@ namespace Diagnostic
 
         /// <summary>
         /// Set the <see cref="MinimumSeverityLevel"/> <see cref="Severity"/> to log.
-        /// (i.e. all the entry with a lower severity will not be logged).
+        /// (i.e. all the entry with a lower severity will not be logged)
+        /// </summary>
+        /// <remarks>
         /// Note that the minimum level of the logged entry can't be
         /// higher than <see cref="Severity.Info"/> (i.e. entry of level
         /// <see cref="Severity.Warn"/>, <see cref="Severity.Error"/> and
-        /// <see cref="Severity.Fatal"/>will always be logged.
+        /// <see cref="Severity.Fatal"/> will always be logged. <br/>
         /// The <see cref="Severity"/> level is defined as follows (from lower to higher):
         /// <see cref="Severity.Trace"/>, <see cref="Severity.Debug"/>,
         /// <see cref="Severity.Info"/>, <see cref="Severity.Warn"/>,
         /// <see cref="Severity.Error"/>, <see cref="Severity.Fatal"/>
-        /// </summary>
+        /// </remarks>
         /// <param name="level">The <see cref="Severity"/> level</param>
         public static void SetMinimumSeverityLevel(Severity level)
         {
@@ -452,5 +735,7 @@ namespace Diagnostic
             bool isHigher = (int)minimumSeverityLevel <= (int)level;
             return isHigher;
         }
+
+        // TODO: Add an async version of all the saving methods of the Logger class. The basic method that should be added is AppendTextAsync
     }
 }

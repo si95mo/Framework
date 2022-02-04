@@ -16,9 +16,9 @@ namespace UserInterface.Controls
 
         /// <summary>
         /// The green <see cref="Color"/>
-        /// defined as 0xB8, 0xF2, 0x94
+        /// defined as 0xBD, 0xDC, 0x04
         /// </summary>
-        public static readonly Color Green = Color.FromArgb(0xB8, 0xF2, 0x94);
+        public static readonly Color Green = Color.FromArgb(189, 220, 4);
 
         /// <summary>
         /// The black <see cref="Color"/>
@@ -44,10 +44,46 @@ namespace UserInterface.Controls
         /// </summary>
         public static readonly Color TextColorDark = Color.DarkSlateGray;
 
+        public static readonly Color TextColor = Color.FromArgb(51, 51, 51);
+
+        public static readonly Color Grey = Color.FromArgb(200, 200, 200);
+
         /// <summary>
         /// The red <see cref="Color"/>
         /// defined as 0xD2, 0x04, 0x2D
         /// </summary>
         public static readonly Color Red = Color.FromArgb(0xD2, 0x04, 0x2D);
+
+        /// <summary>
+        /// The light blue <see cref="Color"/>
+        /// defined as 0xDE, 0xE7, 0xF2
+        /// </summary>
+        public static readonly Color LightBlue = Color.FromArgb(0xDE, 0xE7, 0xF2);
+
+        /// <summary>
+        /// The light yellow <see cref="Color"/>
+        /// defined as 0xFF, 0xFe, 0xED
+        /// </summary>
+        public static readonly Color LightYellow = Color.FromArgb(0xFF, 0xFE, 0xED);
+
+        /// <summary>
+        /// Define the color for success messages
+        /// </summary>
+        public static readonly Color Success = Color.SeaGreen;
+
+        /// <summary>
+        /// Define the color for info messages
+        /// </summary>
+        public static readonly Color Info = Color.RoyalBlue;
+
+        /// <summary>
+        /// Define the color for warning messages
+        /// </summary>
+        public static readonly Color Warning = Color.DarkOrange;
+
+        /// <summary>
+        /// Define the color for error messages
+        /// </summary>
+        public static readonly Color Error = Color.DarkRed;
     }
 }

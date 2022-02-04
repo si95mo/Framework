@@ -1,5 +1,8 @@
 ﻿namespace UserInterface.Controls
 {
+    /// <summary>
+    /// Implement a panel selector control
+    /// </summary>
     public partial class PanelSelectorControl : BaseControl
     {
         private string panelName;
@@ -16,6 +19,9 @@
         /// </summary>
         public ButtonControl Button => btnSelector;
 
+        /// <summary>
+        /// Create a new instance of <see cref="PanelSelectorControl"/>
+        /// </summary>
         protected PanelSelectorControl()
         {
             InitializeComponent();

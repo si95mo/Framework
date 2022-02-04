@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Core.Parameters.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -47,6 +48,7 @@
     <Compile Include="IBooleanParameter.cs" />
     <Compile Include="IEnumParameter.cs" />
     <Compile Include="INumericParameter.cs" />
+    <Compile Include="IParameter.cs" />
     <Compile Include="IStringParameter.cs" />
     <Compile Include="ITimeSpanParameter.cs" />
     <Compile Include="NumericParameter.cs" />

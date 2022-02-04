@@ -1,4 +1,5 @@
-﻿using Core;
+﻿using Core.Parameters;
+using Hardware;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace Devices.Tasks
         private Device<TChannel, TParameter> device;
 
         /// <summary>
-        /// Create a new instance of <see cref="Configure"/>
+        /// Create a new instance of <see cref="Tasks.Configure{TChannel, TParameter}"/>
         /// </summary>
         /// <param name="device">The <see cref="Device{TChannel, TParameter}"/> to configure</param>
         public Configure(Device<TChannel, TParameter> device)
@@ -43,7 +44,7 @@ namespace Devices.Tasks
         }
 
         /// <summary>
-        /// Execute the configuration of the <see cref="Device"/>
+        /// Execute the configuration of the <see cref="Device{TChannel, TParameter}"/>
         /// </summary>
         public void Execute()
         {

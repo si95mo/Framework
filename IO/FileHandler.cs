@@ -1,11 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-/// <summary>
-/// Static class that handles IO operations.
-/// <see cref="IO.IOUtility"/>
-/// </summary>
 namespace IO
 {
     /// <summary>
@@ -13,6 +11,9 @@ namespace IO
     /// </summary>
     public class FileHandler
     {
+        /// <summary>
+        /// Define the save mode
+        /// </summary>
         public enum SaveMode
         {
             /// <summary>
@@ -26,37 +27,60 @@ namespace IO
             Append = 1
         };
 
+        private static object writeLock = new object();
+
+        /// <summary>
+        /// The <see cref="StreamWriter"/>
+        /// </summary>
         protected static StreamWriter sw;
+
+        /// <summary>
+        /// The <see cref="StreamReader"/>
+        /// </summary>
         protected static StreamReader sr;
 
         /// <summary>
         /// Save text to a file.
         /// </summary>
-        /// <param name="text">The text to be saved</param>
+        /// <param name="text">The text to save</param>
         /// <param name="path">Path to the file</param>
         /// <param name="mode">Write mode, overwrite or append <see cref="SaveMode"/></param>
         public static void Save(string text, string path, SaveMode mode = SaveMode.Overwrite)
         {
-            try
+            lock (writeLock)
             {
                 switch (mode)
                 {
                     case SaveMode.Overwrite:
-                        using (sw = File.CreateText(path))
+                        using (sw = new StreamWriter(path, false, Encoding.UTF8))
                             sw.WriteLine(text);
                         break;
 
                     case SaveMode.Append:
-                        using (sw = File.AppendText(path))
+                        using (sw = new StreamWriter(path, true, Encoding.UTF8))
                             sw.WriteLine(text);
                         break;
                 }
 
                 sw.Close();
             }
-            catch (Exception ex)
+        }
+
+        /// <summary>
+        /// Save text to a file asynchronously
+        /// </summary>
+        /// <param name="text">The text to save</param>
+        /// <param name="path">Path to the file</param>
+        /// <param name="mode">Write mode, overwrite or append <see cref="SaveMode"/></param>
+        /// <returns>The async <see cref="Task"/></returns>
+        public static async Task SaveAsync(string text, string path, SaveMode mode = SaveMode.Overwrite)
+        {
+            byte[] encodedText = Encoding.UTF8.GetBytes(text);
+            FileMode fileMode = mode == SaveMode.Overwrite ? FileMode.Create : FileMode.Append;
+
+            using (FileStream stream = new FileStream(path, fileMode, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true))
             {
-                throw ex;
+                await stream.WriteAsync(encodedText, offset: 0, count: encodedText.Length);
             }
         }
 
@@ -68,7 +92,7 @@ namespace IO
         public static string Read(string path)
         {
             string linesRead = "";
-            sr = new StreamReader(path);
+            sr = new StreamReader(path, Encoding.UTF8);
 
             while (!sr.EndOfStream)
                 linesRead += sr.ReadLine() + Environment.NewLine;

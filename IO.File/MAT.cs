@@ -18,13 +18,13 @@ namespace IO.File
         /// <returns>The <see cref="IStructureArray"/> with the data</returns>
         /// <example>
         /// This example show the usage of the method.
-        /// <code>
-        /// IStructureArray data = MAT.ReadStructFromFile(path, "data");
-        /// dynamic dynamicData = new ExpandoObject();
-        /// dynamicData.time = data["time"];
+        ///     <code>
+        ///         IStructureArray data = MAT.ReadStructFromFile(path, "data");
+        ///         dynamic dynamicData = new ExpandoObject();
+        ///         dynamicData.time = data["time"];
         ///
-        /// IArrayOf<double> time = data.time as IArrayOf<double>;
-        /// </code>
+        ///         IArrayOf≪double≫ time = data.time as IArrayOf≪double≫;
+        ///     </code>
         /// </example>
         public static IStructureArray ReadStructFromFile(string path, string structName)
         {

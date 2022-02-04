@@ -1,5 +1,7 @@
 ﻿using Core;
 using Core.DataStructures;
+using Core.Parameters;
+using Hardware;
 
 namespace Devices
 {

@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Core.Scheduling
 {
+    /// <summary>
+    /// Implement an async <see cref="Method"/> scheduler
+    /// </summary>
     [Serializable]
     public class AsyncScheduler : MethodScheduler
     {
@@ -18,7 +21,7 @@ namespace Core.Scheduling
 
         /// <summary>
         /// Executes the <see cref="Action"/> associated with the <see cref="Method"/>
-        /// stored in the <see cref="SubscribedMethods"/>,
+        /// stored in the subscribed ones
         /// and remove it from the <see cref="ActionQueue{T}"/>
         /// </summary>
         /// <returns>The <see cref="Method"/> executed</returns>

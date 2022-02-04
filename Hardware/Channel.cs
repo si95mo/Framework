@@ -12,17 +12,44 @@ namespace Hardware
     /// <typeparam name="T">The type of the <see cref="Channel{T}"/></typeparam>
     public abstract class Channel<T> : IChannel<T>
     {
+        /// <summary>
+        /// The code
+        /// </summary>
         protected string code;
+
+        /// <summary>
+        /// The value
+        /// </summary>
         protected T value;
+
+        /// <summary>
+        /// The measure unit
+        /// </summary>
         protected string measureUnit;
+
+        /// <summary>
+        /// The format
+        /// </summary>
         protected string format;
 
-        protected List<IProperty<T>> subscribers;
+        /// <summary>
+        /// The subscribers
+        /// </summary>
+        protected List<IProperty> subscribers;
 
+        /// <summary>
+        /// The object lock
+        /// </summary>
         protected object objectLock = new object();
 
+        /// <summary>
+        /// The value changed <see cref="EventHandler"/>
+        /// </summary>
         protected EventHandler<ValueChangedEventArgs> ValueChangedHandler;
 
+        /// <summary>
+        /// The <see cref="Type"/>
+        /// </summary>
         public Type Type => typeof(T);
 
         /// <summary>
@@ -43,8 +70,32 @@ namespace Hardware
 
             value = default;
 
-            subscribers = new List<IProperty<T>>();
+            subscribers = new List<IProperty>();
             ValueChanged += PropagateValues;
+        }
+
+        /// <summary>
+        /// Initialize the class attributes
+        /// </summary>
+        /// <param name="code">The code</param>
+        /// <param name="measureUnit">The measure unit</param>
+        /// <param name="format">The format</param>
+        protected Channel(string code, string measureUnit, string format) : this(code)
+        {
+            this.measureUnit = measureUnit;
+            this.format = format;
+        }
+
+        /// <summary>
+        /// Initialize the class attributes
+        /// </summary>
+        /// <param name="code">The code</param>
+        /// <param name="measureUnit">The measure unit</param>
+        /// <param name="format">The format</param>
+        /// <param name="resource">The <see cref="IResource"/></param>
+        protected Channel(string code, string measureUnit, string format, IResource resource) : this(code, measureUnit, format)
+        {
+            resource.Channels.Add(this);
         }
 
         /// <summary>
@@ -71,12 +122,12 @@ namespace Hardware
         }
 
         /// <summary>
-        /// The <see cref="Channel"/> code
+        /// The <see cref="Channel{T}"/> code
         /// </summary>
         public string Code => code;
 
         /// <summary>
-        /// The <see cref="Channel"/> value
+        /// The <see cref="Channel{T}"/> value
         /// </summary>
         public virtual T Value
         {
@@ -97,17 +148,23 @@ namespace Hardware
         /// </summary>
         public virtual object ValueAsObject
         {
-            get => value;
-            set => this.value = (T)value;
+            get => Value;
+            set => Value = (T)value;
         }
 
-        protected virtual string MeasureUnit
+        /// <summary>
+        /// The <see cref="Channel{T}"/> measure unit
+        /// </summary>
+        public virtual string MeasureUnit
         {
             get => measureUnit;
             set => measureUnit = value;
         }
 
-        protected virtual string Format
+        /// <summary>
+        /// The <see cref="Channel{T}"/> format
+        /// </summary>
+        public virtual string Format
         {
             get => format;
             set => format = value;
@@ -127,20 +184,20 @@ namespace Hardware
         /// in order to propagate its value;
         /// </summary>
         /// <param name="channel">The destination <see cref="IChannel"/></param>
-        public void ConnectTo(IProperty<T> channel)
+        public void ConnectTo(IProperty channel)
         {
-            channel.Value = value;
+            channel.ValueAsObject = value;
             subscribers.Add(channel);
         }
 
         /// <summary>
         /// Connects an <see cref="IChannel"/> to another
         /// in order to propagate its value converted.
-        /// See also <see cref="ConnectTo(IChannel{T})"/>
+        /// See also <see cref="ConnectTo(IProperty)"/>
         /// </summary>
         /// <param name="channel">The destination <see cref="IChannel"/></param>
         /// <param name="converter">The <see cref="IConverter{TIn, TOut}"/></param>
-        public void ConnectTo(IProperty<T> channel, IConverter<T, T> converter)
+        public void ConnectTo(IProperty channel, IConverter converter)
         {
             converter.Connect(this, channel);
         }
@@ -148,13 +205,30 @@ namespace Hardware
         /// <summary>
         /// <see cref="ValueChanged"/> event handler that manages
         /// the propagation of the values to subscribers.
-        /// See <see cref="ConnectTo(IChannel)"/>
+        /// See <see cref="ConnectTo(IProperty)"/>
         /// </summary>
         /// <param name="sender">The sender</param>
         /// <param name="e">The <see cref="ValueChangedEventArgs"/></param>
         protected virtual void PropagateValues(object sender, ValueChangedEventArgs e)
         {
-            subscribers.ForEach(x => x.Value = Value);
+            subscribers.ForEach(x => x.ValueAsObject = Value);
+        }
+
+        /// <summary>
+        /// Give a textual description of the <see cref="Channel{T}"/>
+        /// </summary>
+        /// <returns>The textual description</returns>
+        public override string ToString()
+        {
+            string description = "";
+            string valueAsString = value.ToString();
+
+            if (double.TryParse(valueAsString, out double result))
+                description = $"{result.ToString(format)}{measureUnit}";
+            else
+                description = $"{value}{measureUnit}";
+
+            return description;
         }
     }
 }

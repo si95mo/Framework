@@ -10,9 +10,24 @@ namespace Core.Parameters
     public class TimeSpanParameter : Parameter<TimeSpan>, ITimeSpanParameter
     {
         /// <summary>
-        /// The <see cref="TimeSpanParameter"/> value
+        /// Represent the current <see cref="TimeSpan"/> stored in
+        /// <see cref="Parameter{T}.Value"/> as seconds
         /// </summary>
-        public override TimeSpan Value => value;
+        public double ValueAsSeconds
+        {
+            get => value.TotalSeconds;
+            set => Value = TimeSpan.FromSeconds(value);
+        }
+
+        /// <summary>
+        /// Represent the current <see cref="TimeSpan"/> stored in
+        /// <see cref="Parameter{T}.Value"/> as milliseconds
+        /// </summary>
+        public double ValueAsMilliseconds
+        {
+            get => value.TotalMilliseconds;
+            set => Value = TimeSpan.FromMilliseconds(value);
+        }
 
         /// <summary>
         /// Create a new instance of <see cref="TimeSpanParameter"/>
@@ -25,6 +40,24 @@ namespace Core.Parameters
         /// </summary>
         /// <param name="code">The code</param>
         public TimeSpanParameter(string code) : base(code)
+        { }
+
+        /// <summary>
+        /// Create a new instance of <see cref="TimeSpanParameter"/>
+        /// </summary>
+        /// <param name="code">The code</param>
+        /// <param name="value">The initial value</param>
+        public TimeSpanParameter(string code, TimeSpan value) : base(code)
+        {
+            Value = value;
+        }
+
+        /// <summary>
+        /// Create a new instance of <see cref="TimeSpanParameter"/>
+        /// </summary>
+        /// <param name="code">The code</param>
+        /// <param name="value">The initial value (in milliseconds)</param>
+        public TimeSpanParameter(string code, double value) : this(code, TimeSpan.FromMilliseconds(value))
         { }
 
         /// <summary>

@@ -12,15 +12,44 @@ namespace Core.Parameters
     [Serializable]
     public abstract class Parameter<T> : IParameter<T>
     {
+        /// <summary>
+        /// The code
+        /// </summary>
         protected string code;
+
+        /// <summary>
+        /// The value
+        /// </summary>
         protected T value;
+
+        /// <summary>
+        /// The measure unit
+        /// </summary>
         protected string measureUnit;
+
+        /// <summary>
+        /// The format
+        /// </summary>
         protected string format;
 
-        protected List<IProperty<T>> subscribers;
+        /// <summary>
+        /// The subscribers
+        /// </summary>
+        protected List<IProperty> subscribers;
+
+        /// <summary>
+        /// The converter
+        /// </summary>
         protected IConverter<T, T> converter;
 
-        protected object objectLock = new object();
+        /// <summary>
+        /// The object lock
+        /// </summary>
+        protected object eventLock = new object();
+
+        /// <summary>
+        /// The value changed event handler
+        /// </summary>
         protected EventHandler<ValueChangedEventArgs> ValueChangedHandler;
 
         /// <summary>
@@ -41,7 +70,7 @@ namespace Core.Parameters
 
             value = default;
 
-            subscribers = new List<IProperty<T>>();
+            subscribers = new List<IProperty>();
             ValueChanged += PropagateValues;
         }
 
@@ -67,10 +96,13 @@ namespace Core.Parameters
         /// </summary>
         public virtual object ValueAsObject
         {
-            get => value;
-            set => this.value = (T)value;
+            get => Value;
+            set => Value = (T)value;
         }
 
+        /// <summary>
+        /// The <see cref="System.Type"/>
+        /// </summary>
         public virtual Type Type => typeof(T);
 
         /// <summary>
@@ -104,18 +136,13 @@ namespace Core.Parameters
         {
             add
             {
-                lock (objectLock)
-                {
+                lock (eventLock)
                     ValueChangedHandler += value;
-                }
             }
-
             remove
             {
-                lock (objectLock)
-                {
+                lock (eventLock)
                     ValueChangedHandler -= value;
-                }
             }
         }
 
@@ -132,35 +159,35 @@ namespace Core.Parameters
         /// Connects an <see cref="IProperty{T}"/> to another
         /// in order to propagate its value;
         /// </summary>
-        /// <param name="channel">The destination <see cref="IProperty{T}"/></param>
-        public void ConnectTo(IProperty<T> channel)
+        /// <param name="property">The destination <see cref="IProperty{T}"/></param>
+        public void ConnectTo(IProperty property)
         {
-            channel.Value = value;
-            subscribers.Add(channel);
+            property.ValueAsObject = value;
+            subscribers.Add(property);
         }
 
         /// <summary>
         /// Connects an <see cref="IParameter"/> to another
         /// in order to propagate its value converted.
-        /// See also <see cref="ConnectTo(IParameter{T})"/>
+        /// See also <see cref="ConnectTo(IProperty)"/>
         /// </summary>
         /// <param name="channel">The destination <see cref="IParameter"/></param>
-        /// <param name="converter">The <see cref="IConverter{TIn, TOut}"/></param>
-        public void ConnectTo(IProperty<T> channel, IConverter<T, T> converter)
+        /// <param name="converter">The <see cref="IConverter"/></param>
+        public void ConnectTo(IProperty channel, IConverter converter)
         {
-            converter.Connect(this as IProperty<T>, channel);
+            converter.Connect(this, channel);
         }
 
         /// <summary>
         /// <see cref="ValueChanged"/> event handler that manages
         /// the propagation of the values to subscribers.
-        /// See <see cref="ConnectTo(IChannel)"/>
+        /// See <see cref="ConnectTo(IProperty)"/>
         /// </summary>
         /// <param name="sender">The sender</param>
         /// <param name="e">The <see cref="ValueChangedEventArgs"/></param>
         private void PropagateValues(object sender, ValueChangedEventArgs e)
         {
-            subscribers.ForEach(x => x.Value = Value);
+            subscribers.ForEach(x => x.ValueAsObject = Value);
         }
     }
 }

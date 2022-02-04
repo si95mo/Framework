@@ -1,8 +1,7 @@
-﻿using Core.DataStructures;
-using Core.Parameters;
-using Devices;
+﻿using Core.Parameters;
 using Instructions;
 using System;
+using System.Threading.Tasks;
 
 namespace Benches.Template.Actions
 {
@@ -15,10 +14,10 @@ namespace Benches.Template.Actions
         private NumericParameter Result = new NumericParameter(nameof(Result));
         private BooleanParameter NotSwitch = new BooleanParameter(nameof(NotSwitch));
 
-        public DummyInstruction() : base(Guid.NewGuid().ToString(), new Bag<IDevice>())
+        public DummyInstruction() : base(Guid.NewGuid().ToString())
         { }
 
-        public DummyInstruction(string code, IBench bench) : base(code, bench.Devices)
+        public DummyInstruction(string code, IBench bench) : base(code)
         {
             InputParameters.Add(Message);
             InputParameters.Add(Switch);
@@ -27,7 +26,7 @@ namespace Benches.Template.Actions
             OutputParameters.Add(NotSwitch);
         }
 
-        public override void Invoke()
+        public override async Task ExecuteInstruction()
         {
             if (Switch.Value)
                 Console.WriteLine($"{Switch} :: {Message.Value}");
@@ -36,6 +35,8 @@ namespace Benches.Template.Actions
 
             NotSwitch.Value = !Switch.Value;
             Result.Value = new Random(Guid.NewGuid().GetHashCode()).Next();
+
+            await Task.Delay(10);
         }
     }
 }

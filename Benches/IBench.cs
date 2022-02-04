@@ -1,10 +1,14 @@
 ﻿using Core;
 using Core.DataStructures;
+using Core.Parameters;
 using Devices;
 using Instructions;
 
 namespace Benches
 {
+    /// <summary>
+    /// Define a bench general prototype
+    /// </summary>
     public interface IBench : IProperty
     {
         /// <summary>

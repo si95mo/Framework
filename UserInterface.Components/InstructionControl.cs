@@ -10,6 +10,9 @@ using System.Windows.Forms;
 
 namespace UserInterface.Controls
 {
+    /// <summary>
+    /// Define an instruction control
+    /// </summary>
     public partial class InstructionControl : UserControl
     {
         private const int controlLocationOffset = 6;
@@ -74,7 +77,7 @@ namespace UserInterface.Controls
                             lblParam.Location.Y - 4
                         );
 
-                        AddElementToCollection(lblParam, txtCtrl);
+                        // AddElementToCollection(lblParam, txtCtrl);
                     }
                     else
                     {
@@ -121,11 +124,11 @@ namespace UserInterface.Controls
         }
 
         /// <summary>
-        /// Add a <see cref="Method"/> to the <see cref="MethodScheduler"/>
+        /// Add a <see cref="Instruction"/> to the <see cref="InstructionScheduler"/>
         /// <see cref="ActionQueue{T}"/>
         /// </summary>
         /// <param name="sender">The sender</param>
-        /// <param name="e"><The <see cref="EventArgs"/></param>
+        /// <param name="e">The <see cref="EventArgs"/></param>
         private void BtnAdd_Click(object sender, EventArgs e)
         {
             IInstruction deepInstructionCopy = instruction.DeepCopy();
@@ -143,7 +146,15 @@ namespace UserInterface.Controls
                         break;
 
                     case Type numType when numType == typeof(NumericParameter):
-                        (parameters.ElementAt(i) as NumericParameter).Value = (double)values.ElementAt(i).Value;
+                        try
+                        {
+                            (parameters.ElementAt(i) as NumericParameter).Value = (double)values.ElementAt(i).Value;
+                        }
+                        catch (Exception)
+                        {
+                            double.TryParse(values.ElementAt(i).Value as string, out double value);
+                            (parameters.ElementAt(i) as NumericParameter).Value = value;
+                        }
                         break;
 
                     case Type stringType when stringType == typeof(StringParameter):
@@ -162,7 +173,7 @@ namespace UserInterface.Controls
                 }
             }
 
-            scheduler.AddElement(deepInstructionCopy);
+            scheduler.Add(deepInstructionCopy);
         }
 
         private void InstructionControl_Paint(object sender, PaintEventArgs e)

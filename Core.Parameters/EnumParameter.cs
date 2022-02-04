@@ -28,7 +28,17 @@ namespace Core.Parameters
         /// <param name="code">The code</param>
         public EnumParameter(string code) : base(code)
         {
-            value = default(T);
+            value = default;
+        }
+
+        /// <summary>
+        /// Create a new instance of <see cref="StringParameter"/>
+        /// </summary>
+        /// <param name="code">The code</param>
+        /// <param name="value">The initial value</param>
+        public EnumParameter(string code, T value) : base(code)
+        {
+            Value = value;
         }
 
         /// <summary>

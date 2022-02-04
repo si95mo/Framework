@@ -1,124 +1,117 @@
-﻿using Core.DataStructures;
-using Extensions;
+﻿using Extensions;
 using Instructions;
 using System;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Core.Scheduling
 {
+    /// <summary>
+    /// Implement an <see cref="Instruction"/> scheduler
+    /// </summary>
     [Serializable]
-    public abstract class InstructionScheduler : IScheduler<IInstruction>
+    public class InstructionScheduler : IScheduler<IInstruction>
     {
-        [field: NonSerialized()]
-        protected ActionQueue<IInstruction> subscribedInstructions;
-        [field: NonSerialized]
-        protected ActionQueue<IInstruction> lastExecution;
-
-        protected ActionQueue<IInstruction> persistentSubscribers;
+        private SortedDictionary<int, Queue<IInstruction>> instructions;
+        private bool stop;
 
         /// <summary>
-        /// The <see cref="ActionQueue{T}"/> of all the
-        /// <see cref="Method"/> subscribed to the <see cref="MethodScheduler"/>
+        /// The subscribed <see cref="Instruction"/>
         /// </summary>
-        [field: NonSerialized()]
-        public ActionQueue<IInstruction> Subscribers => subscribedInstructions;
-
-        /// <summary>
-        /// The scheduler subscribers number
-        /// </summary>
-        [field: NonSerialized]
-        public int Count => Math.Max(subscribedInstructions.Count, lastExecution.Count);
-
-        protected ActionQueue<IInstruction> PersistentSubscribers => persistentSubscribers;
-
-        /// <summary>
-        /// Initialize the parameters
-        /// </summary>
-        protected InstructionScheduler()
+        public ActionQueue<IInstruction> Instructions
         {
-            subscribedInstructions = new ActionQueue<IInstruction>();
-            lastExecution = new ActionQueue<IInstruction>();
-
-            persistentSubscribers = new ActionQueue<IInstruction>();
-        }
-
-        /// <summary>
-        /// Add an element to the subscribed methods.
-        /// </summary>
-        /// <param name="instruction">The <see cref="object"/> (value) to add</param>
-        public void AddElement(IInstruction instruction)
-        {
-            if (lastExecution.Count != 0)
-                foreach (IInstruction i in lastExecution)
-                    subscribedInstructions.Enqueue(i.DeepCopy());
-
-            subscribedInstructions.Enqueue(instruction);
-            persistentSubscribers.Enqueue(instruction);
-        }
-
-        /// <summary>
-        /// Load a <see cref="ActionQueue{T}"/> with
-        /// a previous iteration performed by the
-        /// <see cref="SimpleMethodScheduler"/>.
-        /// </summary>
-        /// <param name="fileName">The file name from which read the list</param>
-        public void LoadExecutionList(string fileName)
-        {
-            subscribedInstructions.Clear();
-            lastExecution.Clear();
-
-            persistentSubscribers.Clear();
-
-            if (File.Exists(fileName))
+            get
             {
-                Stream openFileStream = File.OpenRead(fileName);
-                BinaryFormatter deserializer = new BinaryFormatter();
+                ActionQueue<IInstruction> instructionQueue = new ActionQueue<IInstruction>();
 
-                ActionQueue<IInstruction> instructions = (deserializer.Deserialize(openFileStream)
-                    as InstructionScheduler)?.PersistentSubscribers;
+                foreach (Queue<IInstruction> instruction in instructions.Values)
+                    instruction.ToList().ForEach(x => instructionQueue.Enqueue(x));
 
-                if (instructions != null)
-                {
-                    foreach (Instruction i in instructions)
-                    {
-                        subscribedInstructions.Enqueue(i);
-                        lastExecution.Enqueue(i);
-                    }
-                }
-
-                openFileStream.Close();
+                return instructionQueue;
             }
-            else
-                throw new IOException("File not found!");
         }
 
         /// <summary>
-        /// Removes all the <see cref="Method"/> subscribed in
-        /// the <see cref="Subscribers"/>.
+        /// Create a new instance of <see cref="InstructionScheduler"/>
         /// </summary>
+        public InstructionScheduler()
+        {
+            instructions = new SortedDictionary<int, Queue<IInstruction>>();
+            stop = false;
+        }
+
+        /// <summary>
+        /// Add an <see cref="Instruction"/> to the
+        /// <see cref="Instructions"/>
+        /// </summary>
+        /// <param name="instruction">The <see cref="Instruction"/> to add</param>
+        public void Add(IInstruction instruction)
+        {
+            if (instructions.ContainsKey(instruction.Order))
+                instructions[instruction.Order].Enqueue(instruction);
+            else
+            {
+                instructions.Add(instruction.Order, new Queue<IInstruction>());
+                instructions[instruction.Order].Enqueue(instruction);
+            }
+        }
+
+        /// <summary>
+        /// Execute all the subscribed <see cref="Instruction"/>
+        /// and remove them from <see cref="Instructions"/>
+        /// </summary>
+        public async Task<List<IInstruction>> Execute()
+        {
+            stop = false;
+
+            // First instruction order to execute
+            int order = instructions.Keys.Min();
+            List<IInstruction> parallelInstructions = new List<IInstruction>();
+            List<IInstruction> executedInstructions = new List<IInstruction>();
+
+            while (instructions.Count > 0 && !stop)
+            {
+                // Instruction order handling
+                while (instructions[order].Count > 0)
+                    parallelInstructions.Add(instructions[order].Dequeue());
+
+                // Parallel execution of the instruction with the same order
+                parallelInstructions.ForEach(x => (x as Instruction).OnStart()); // On start logic
+                await parallelInstructions.ForEachAsync(async (x) => await x.ExecuteInstruction()); // Execution
+                parallelInstructions.ForEach(x => (x as Instruction).OnStop()); // On stop logic
+
+                // Remove the order of executed instruction and update it with the new one
+                instructions.Remove(order);
+                order = instructions.Count > 0 ? instructions.Keys.Min() : 0;
+
+                executedInstructions.AddRange(parallelInstructions);
+                parallelInstructions.Clear();
+            }
+
+            return executedInstructions;
+        }
+
+        /// <summary>
+        /// Stop (pause) the current execution
+        /// </summary>
+        public void StopAll() => stop = true;
+
         public void RemoveAll()
         {
-            subscribedInstructions.Clear();
-            lastExecution.Clear();
-            persistentSubscribers.Clear();
+            instructions.Clear();
         }
 
-        /// <summary>
-        /// Save the last execution list of <see cref="Method"/>
-        /// performed by the <see cref="MethodScheduler"/>.
-        /// </summary>
-        /// <param name="fileName">The file name in which save the list</param>
+        // TODO: implement the method
         public void SaveExecutionList(string fileName)
         {
-            Stream SaveFileStream = File.Create(fileName);
-            BinaryFormatter serializer = new BinaryFormatter();
-
-            serializer.Serialize(SaveFileStream, this);
-
-            SaveFileStream.Close();
+            throw new NotImplementedException();
         }
 
-        public abstract IInstruction Execute();
+        // TODO: implement the method
+        public void LoadExecutionList(string fileName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

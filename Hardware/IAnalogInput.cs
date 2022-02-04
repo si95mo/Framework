@@ -1,6 +1,4 @@
-﻿using Core;
-
-namespace Hardware
+﻿namespace Hardware
 {
     /// <summary>
     /// Define a generic analog input channel

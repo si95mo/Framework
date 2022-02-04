@@ -1,5 +1,7 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
+using System;
+using System.Diagnostics;
 
 namespace Extensions.Tests
 {
@@ -48,21 +50,21 @@ namespace Extensions.Tests
         }
 
         [Test]
-        public void TestifTrue()
+        public void TestIfTrue()
         {
             itWorks = true.DoIfTrue(() => true);
             itWorks.Should().BeTrue();
         }
 
         [Test]
-        public void TestifFalse()
+        public void TestIfFalse()
         {
             itWorks = false.DoIfFalse(() => true);
             itWorks.Should().BeTrue();
         }
 
         [Test]
-        public void TestifTrueifFalse()
+        public void TestifTrueIfFalse()
         {
             itWorks = false.DoIfTrueIfFalse(() => false, () => true);
             itWorks.Should().BeTrue();
@@ -70,5 +72,26 @@ namespace Extensions.Tests
             itWorks = true.DoIfTrueIfFalse(() => true, () => false);
             itWorks.Should().BeTrue();
         }
+
+        [Test]
+        [TestCase(1000)]
+        public void TestTimedWhile(int interval)
+        {
+            int counter = 0;
+            int n = 10;
+
+            // Action that also concur to the condition handling
+            Action source = () => Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} >> Counter value: {counter++}");
+            Func<bool> condition = new Func<bool>(() => TestCondition(counter, n));
+
+            Stopwatch sw = Stopwatch.StartNew();
+            source.TimedWhile(condition, interval);
+            sw.Stop();
+
+            Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} >> Time taken: {sw.Elapsed.TotalMilliseconds:0.0}[ms]");
+            sw.Elapsed.TotalMilliseconds.Should().BeApproximately(interval * n, 100);
+        }
+
+        private bool TestCondition(int counter, int n) => counter < n;
     }
 }

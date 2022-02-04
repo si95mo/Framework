@@ -7,7 +7,9 @@ using System.Runtime.InteropServices;
 namespace Signal.Processing
 {
     /// <summary>
-    /// Class that calculate the Fourier transform.
+    /// Class that calculate the Fourier transform. <br/>
+    /// To perform a "real-time" FFT, consider using an <see cref="Hardware.MultiSampleAnalogInput"/>
+    /// and calculate the transform in the ValueChanged event
     /// </summary>
     public class Fourier
     {
@@ -15,6 +17,10 @@ namespace Signal.Processing
         /// Compute the Fast Fourier Transform.
         /// See also <see cref="FFT(double[], double)"/>
         /// </summary>
+        /// <remarks>
+        /// To perform a "real-time" FFT, consider using an <see cref="Hardware.MultiSampleAnalogInput"/>
+        /// and calculate the transform in the ValueChanged event
+        /// </remarks>
         /// <param name="data">The data to transform</param>
         /// <returns>The data transformed in the frequency domain</returns>
         public static Complex[] FFT(double[] data)
@@ -35,7 +41,7 @@ namespace Signal.Processing
         {
             Complex[] fft = ToNumericComplex(CalculateFFT(data));
 
-            double[] magnitude = Mathematics.Mathematics.Magnitudes(fft, true);
+            double[] magnitude = Mathematics.Mathematics.CalculateMagnitudes(fft, true);
             double max = magnitude.Max();
             double indexOfMax = magnitude.ToList().IndexOf(max);
 
@@ -116,7 +122,7 @@ namespace Signal.Processing
         }
 
         /// <summary>
-        /// Transform and array of real data in an
+        /// Transform and array of real numbers in an
         /// array of complex data (with respect to FFTW
         /// representation standard of complex numbers).
         /// </summary>
@@ -134,10 +140,10 @@ namespace Signal.Processing
         }
 
         /// <summary>
-        /// Transform and array of complex data (FFTW representation
+        /// Transform and array of complex data (FFTW representation)
         /// in an array of <see cref="Complex"/>.
         /// </summary>
-        /// <param name="real">The array to convert</param>
+        /// <param name="data">The array to convert</param>
         /// <returns>The converted array</returns>
         private static Complex[] ToNumericComplex(double[] data)
         {

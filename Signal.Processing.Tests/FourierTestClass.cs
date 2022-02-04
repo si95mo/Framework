@@ -1,7 +1,9 @@
 ﻿using FluentAssertions;
+using Hardware;
 using NUnit.Framework;
 using Signal.Processing.Tests.Properties;
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -31,16 +33,6 @@ namespace Signal.Processing.Tests
             short s = (short)((secondByte << 8) | firstByte);
             // convert to range from -1 to (just below) 1
             return s / 32768.0;
-        }
-
-        private double[] LoadResourceAndAddOffset(UnmanagedMemoryStream stream, double offset)
-        {
-            double[] samples = LoadResource(stream);
-
-            for (int i = 0; i < samples.Length; i++)
-                samples[i] += offset;
-
-            return samples;
         }
 
         private double[] LoadResource(UnmanagedMemoryStream stream)
@@ -169,6 +161,34 @@ namespace Signal.Processing.Tests
                     (fundamental - 9998.0).Should().BeGreaterThan(0.0).And.BeLessThan(threshold);
                     break;
             }
+        }
+
+        [Test]
+        public void CalculateRealTimeFFT()
+        {
+            MultiSampleAnalogInput input = new MultiSampleAnalogInput("Waveform");
+
+            double[] samples = new double[1000];
+            input.Value = samples;
+
+            input.ValueChanged += Input_ValueChanged;
+
+            Stopwatch sw = Stopwatch.StartNew();
+            do
+            {
+                for (int i = 0; i < samples.Length; i++)
+                    samples[i] = Math.Sin(i) + new Random(Guid.NewGuid().GetHashCode()).NextDouble() / 1000d;
+
+                input.Value = samples;
+            } while (sw.Elapsed.TotalMilliseconds <= 10000);
+        }
+
+        private void Input_ValueChanged(object sender, Core.ValueChangedEventArgs e)
+        {
+            Complex[] oldTransform = Fourier.FFT((double[])e.OldValue);
+            Complex[] newTransform = Fourier.FFT((double[])e.NewValue);
+
+            oldTransform.Should().NotBeEquivalentTo(newTransform);
         }
     }
 }

@@ -11,7 +11,14 @@ namespace Core
         private string description;
         private DateTime timestamp;
 
+        /// <summary>
+        /// The object lock
+        /// </summary>
         protected object objectLock = new object();
+
+        /// <summary>
+        /// The value changed <see cref="EventHandler"/>
+        /// </summary>
         protected EventHandler<ValueChangedEventArgs> ValueChangedHandler;
 
         /// <summary>
@@ -51,7 +58,7 @@ namespace Core
         public Failure()
         {
             description = "";
-            timestamp = new DateTime();
+            Timestamp = new DateTime();
         }
 
         /// <summary>
@@ -62,7 +69,7 @@ namespace Core
         public Failure(string description, DateTime timestamp)
         {
             this.description = description;
-            this.timestamp = timestamp;
+            Timestamp = timestamp;
         }
 
         /// <summary>
@@ -72,6 +79,17 @@ namespace Core
         public Failure(string description) : this(description, DateTime.Now)
         { }
 
+        /// <summary>
+        /// Create a new instance of <see cref="Failure"/>
+        /// </summary>
+        /// <param name="ex">The <see cref="Exception"/> occurred</param>
+        public Failure(Exception ex) : this(ex.Message, DateTime.Now)
+        { }
+
+        /// <summary>
+        /// The <see cref="EventHandler"/> for the
+        /// value changed event
+        /// </summary>
         public event EventHandler<ValueChangedEventArgs> ValueChanged
         {
             add
@@ -107,7 +125,7 @@ namespace Core
         public void Clear()
         {
             description = "";
-            timestamp = new DateTime();
+            Timestamp = new DateTime();
         }
 
         /// <summary>
@@ -115,11 +133,9 @@ namespace Core
         /// See also <see cref="object.ToString()"/>
         /// </summary>
         /// <returns>The description of the object</returns>
-        override
-        public string ToString()
+        public override string ToString()
         {
-            string description = $"{timestamp.ToString("yyyy/MM/dd-HH:mm:ss:fff")}; {this.description}";
-
+            string description = $"{timestamp:yyyy/MM/dd-HH:mm:ss:fff}; {this.description}";
             return description;
         }
     }

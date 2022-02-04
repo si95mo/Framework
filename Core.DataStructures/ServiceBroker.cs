@@ -6,7 +6,7 @@ namespace Core.DataStructures
     /// <summary>
     /// Implements a service broker
     /// </summary>
-    public class ServiceBroker : IEnumerable<string>
+    public class ServiceBroker : IEnumerable<IProperty>
     {
         private static Bag<IProperty> subscribers;
 
@@ -52,7 +52,12 @@ namespace Core.DataStructures
             return returnCollection;
         }
 
-        public IEnumerator<string> GetEnumerator() => subscribers.GetEnumerator();
+        /// <summary>
+        /// Get the <see cref="IEnumerator{T}"/> used to
+        /// iterate through the <see cref="ServiceBroker"/>
+        /// </summary>
+        /// <returns>The <see cref="IEnumerator{T}"/></returns>
+        public IEnumerator<IProperty> GetEnumerator() => subscribers.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }

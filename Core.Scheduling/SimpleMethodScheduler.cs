@@ -9,7 +9,7 @@ namespace Core.Scheduling
     ///  <b>Note</b> that each class that will have methods subscribed to the <see cref="SimpleMethodScheduler"/>
     /// <b>must</b> be serializable in order to perform a deep copy of the objects and
     /// have the <see cref="SimpleMethodScheduler"/> work!
-    /// See <see cref="Core.Extensions.SystemExtension.Clone{T}(T)"/>, <see cref="SerializableAttribute"/> and
+    /// See <see cref="Extensions.SystemExtension.DeepCopy{T}(T)"/>, <see cref="SerializableAttribute"/> and
     /// also <see cref="SerializableAttribute.SerializableAttribute"/>
     /// </summary>
     [Serializable]
@@ -23,7 +23,7 @@ namespace Core.Scheduling
 
         /// <summary>
         /// Executes the <see cref="Action"/> associated with the <see cref="Method"/>
-        /// stored in the <see cref="Subscribers"/>,
+        /// stored in the subscribed ones,
         /// and remove it from the <see cref="ActionQueue{T}"/>
         /// </summary>
         /// <returns>The <see cref="Method"/> executed</returns>

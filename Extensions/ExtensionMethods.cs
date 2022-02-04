@@ -1,7 +1,13 @@
-﻿using Diagnostic;
+﻿using Core.Parameters;
+using Dasync.Collections;
+using Diagnostic;
 using OX.Copyable;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Extensions
 {
@@ -10,6 +16,15 @@ namespace Extensions
     /// </summary>
     public static class ExtensionMethods
     {
+        /// <summary>
+        /// Perform an async for each, in parallel
+        /// </summary>
+        /// <param name="source">The source collection</param>
+        /// <param name="function">The <see cref="Func{T, TResult}"/> to execute</param>
+        /// <returns>The async <see cref="Task"/></returns>
+        public static async Task ForEachAsync<T>(this IEnumerable<T> source, Func<T, Task> function)
+            => await source.ParallelForEachAsync(function);
+
         /// <summary>
         /// Determine whether an item is contained in a collection of elements
         /// </summary>
@@ -137,7 +152,6 @@ namespace Extensions
         /// <summary>
         /// Perform an <see cref="Action"/> if <paramref name="value"/> is <see langword="true"/>
         /// </summary>
-        /// <typeparam name="T">The type of the value to test</typeparam>
         /// <param name="value">The value</param>
         /// <param name="action">The <see cref="Action"/></param>
         /// <returns>The result of the <see cref="Action"/></returns>
@@ -179,7 +193,6 @@ namespace Extensions
         /// <summary>
         /// Perform an <see cref="Action"/> if <paramref name="value"/> is <see langword="false"/>
         /// </summary>
-        /// <typeparam name="T">The type of the value to test</typeparam>
         /// <param name="value">The value</param>
         /// <param name="action">The <see cref="Action"/></param>
         /// <returns>The result of the <see cref="Action"/></returns>
@@ -210,7 +223,6 @@ namespace Extensions
         /// <summary>
         /// Perform an <see cref="Action"/> based on <paramref name="value"/>
         /// </summary>
-        /// <typeparam name="T">The type of the value to test</typeparam>
         /// <param name="value">The value</param>
         /// <param name="trueAction">The <see cref="Action"/> to execute
         /// if <paramref name="value"/> is <see langword="true"/></param>
@@ -227,9 +239,15 @@ namespace Extensions
     }
 
     /// <summary>
-    /// Provides a method for performing a deep copy of an object.
-    /// Reflection is used to perform the copy
+    /// Provides a method for performing a deep copy of an object. <br/>
+    /// Reflection is used to perform the deep copy
     /// </summary>
+    /// <remarks>
+    /// Reflection is used instead of a binary deep copy
+    /// for security reasons. <br/>
+    /// In fact, the MSDN binary formatter will gradually be
+    /// removed in following .NET releases
+    /// </remarks>
     public static class SystemExtension
     {
         /// <summary>
@@ -245,7 +263,7 @@ namespace Extensions
                 object copy = source.Copy();
                 return (T)copy;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Log(ex);
                 return default;
@@ -402,5 +420,72 @@ namespace Extensions
         /// <param name="top">The distance from the top corner</param>
         public static void SetConsolePosition(int left, int top)
             => Console.SetWindowPosition(left, top);
+    }
+
+    /// <summary>
+    /// Provides framework-related extension methods
+    /// </summary>
+    public static class FrameworkExtension
+    {
+        /// <summary>
+        /// Wrap a <see cref="double"/> to a <see cref="NumericParameter"/>
+        /// </summary>
+        /// <param name="source">The source</param>
+        /// <returns>The <see cref="NumericParameter"/></returns>
+        public static NumericParameter WrapToParameter(this double source)
+            => new NumericParameter($"{nameof(source)}.AsParameter", source);
+
+        /// <summary>
+        /// Wrap a <see cref="bool"/> to a <see cref="BooleanParameter"/>
+        /// </summary>
+        /// <param name="source">The source</param>
+        /// <returns>The <see cref="BooleanParameter"/></returns>
+        public static BooleanParameter WrapToParameter(this bool source)
+            => new BooleanParameter($"{nameof(source)}.AsParameter", source);
+
+        /// <summary>
+        /// Wrap a <see cref="string"/> to a <see cref="StringParameter"/>
+        /// </summary>
+        /// <param name="source">The source</param>
+        /// <returns>The <see cref="StringParameter"/></returns>
+        public static StringParameter WrapToParameter(this string source)
+            => new StringParameter($"{nameof(source)}.AsParameter", source);
+
+        /// <summary>
+        /// Wrap a <see cref="TimeSpan"/> to a <see cref="TimeSpanParameter"/>
+        /// </summary>
+        /// <param name="source">The source</param>
+        /// <returns>The <see cref="TimeSpanParameter"/></returns>
+        public static TimeSpanParameter WrapToParameter(this TimeSpan source)
+            => new TimeSpanParameter($"{nameof(source)}.AsParameter", source);
+    }
+
+    /// <summary>
+    /// Provide logic structure-related extension methods
+    /// </summary>
+    public static class LogicStructureExtensions
+    {
+        /// <summary>
+        /// Provide a times <see langword="while"/> loop
+        /// </summary>
+        /// <param name="source">The <see cref="Action"/> to perform</param>
+        /// <param name="condition">The <see cref="Func{T, TResult}"/> that represent the loop condition</param>
+        /// <param name="interval">The timed loop interval (in milliseconds</param>
+        public static void TimedWhile(this Action source, Func<bool> condition, int interval)
+        {
+            ManualResetEventSlim stopRequest = new ManualResetEventSlim(false);
+            Stopwatch stopwatch;
+
+            while (condition())
+            {
+                stopwatch = Stopwatch.StartNew();
+
+                do
+                    source();
+                while (stopRequest.Wait((int)Math.Max(0, interval - stopwatch.ElapsedMilliseconds)));
+
+                stopwatch.Stop();
+            }
+        }
     }
 }

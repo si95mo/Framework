@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Instructions;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Core.Scheduling
 {
@@ -31,41 +33,62 @@ namespace Core.Scheduling
         public new void Enqueue(T item)
         {
             base.Enqueue(item);
-
-            if (null != Enqueued)
-                Enqueued(this, null);
+            Enqueued?.Invoke(this, null);
         }
 
         /// <summary>
         /// Dequeue an element from the collection and
         /// handle the Dequeued <see cref="EventHandler"/>.
-        /// Also see <see cref="Queue{T}.Dequeue(T)"/>
+        /// Also see <see cref="Queue{T}.Dequeue()"/>
         /// </summary>
-        /// <param name="item">The item to dequeue</param>
         /// <returns>The item dequeued</returns>
         public new T Dequeue()
         {
             T item = base.Dequeue();
-
-            if (null != Dequeued)
-                Dequeued(this, null);
+            Dequeued?.Invoke(this, null);
 
             return item;
         }
     }
 
+    /// <summary>
+    /// Describe a generic scheduler prototype
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public interface IScheduler<T>
     {
-        ActionQueue<T> Subscribers { get; }
+        /// <summary>
+        /// The subscribers
+        /// </summary>
+        ActionQueue<T> Instructions { get; }
 
-        void AddElement(T method);
+        /// <summary>
+        /// Add an element to the scheduler
+        /// </summary>
+        /// <param name="method">The element to add</param>
+        void Add(T method);
 
+        /// <summary>
+        /// Remove all elements from the <see cref="IScheduler{T}"/>
+        /// </summary>
         void RemoveAll();
 
-        T Execute();
+        /// <summary>
+        /// Execute the item stored
+        /// </summary>
+        /// <returns>The item executed</returns>
+        Task<List<IInstruction>> Execute();
 
+        /// <summary>
+        /// Save the execution list
+        /// </summary>
+        /// <param name="fileName">The file path</param>
         void SaveExecutionList(string fileName);
 
+        /// <summary>
+        /// Load the execution list
+        /// </summary>
+        /// <param name="fileName">The file path</param>
         void LoadExecutionList(string fileName);
     }
 }

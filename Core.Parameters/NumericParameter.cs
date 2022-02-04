@@ -40,6 +40,19 @@ namespace Core.Parameters
         }
 
         /// <summary>
+        /// Create a new instance of <see cref="NumericParameter"/>
+        /// </summary>
+        /// <param name="code">The code</param>
+        /// <param name="value">The initial value</param>
+        /// <param name="format">The format</param>
+        /// <param name="measureUnit">The measure unit</param>
+        public NumericParameter(string code, double value, string measureUnit = "", string format = "")
+            : this(code, measureUnit: measureUnit, format: format)
+        {
+            Value = value;
+        }
+
+        /// <summary>
         /// The <see cref="NumericParameter"/> measure unit
         /// </summary>
         public new string MeasureUnit

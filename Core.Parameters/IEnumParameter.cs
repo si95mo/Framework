@@ -2,6 +2,9 @@
 
 namespace Core.Parameters
 {
+    /// <summary>
+    /// An enum parameter
+    /// </summary>
     public interface IEnumParameter
     {
     }

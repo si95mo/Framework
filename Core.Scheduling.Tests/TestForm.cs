@@ -21,8 +21,6 @@ namespace Core.Scheduling.Tests
         private readonly SimpleInstructionScheduler instructionScheduler;
         private readonly SimpleMethodScheduler methodScheduler;
 
-        private bool isOpen = true;
-
         public TestForm()
         {
             InitializeComponent();
@@ -34,7 +32,7 @@ namespace Core.Scheduling.Tests
             instructionScheduler.Subscribers.Enqueued += Instruction_Enqueued;
 
             methodScheduler = new SimpleMethodScheduler();
-            methodScheduler.Subscribers.Enqueued += Method_Enqueued;
+            methodScheduler.Instructions.Enqueued += Method_Enqueued;
 
             TestClass testObject = new TestClass();
             DummyClass dummyObject = new DummyClass();
@@ -69,15 +67,15 @@ namespace Core.Scheduling.Tests
         private void Method_Enqueued(object sender, EventArgs e)
         {
             lbxInput.Items.Add(
-                methodScheduler.Subscribers.ElementAt(
-                    methodScheduler.Subscribers.Count - 1
+                methodScheduler.Instructions.ElementAt(
+                    methodScheduler.Instructions.Count - 1
                 ).ToString()
             );
         }
 
         private void BtnExecute_Click(object sender, EventArgs e)
         {
-            int n = methodScheduler.Subscribers.Count;
+            int n = methodScheduler.Instructions.Count;
             for (int i = 0; i < n; i++)
             {
                 var method = methodScheduler.Execute();
@@ -107,7 +105,7 @@ namespace Core.Scheduling.Tests
             methodScheduler.RemoveAll();
         }
 
-        private void BtnSaveTest_Click(object sender, EventArgs e)
+        private void BtnSaveProgram_Click(object sender, EventArgs e)
         {
             IOUtility.CreateDirectoryIfNotExists("test");
 
@@ -122,9 +120,11 @@ namespace Core.Scheduling.Tests
 
             methodScheduler.SaveExecutionList(binPath);
             instructionScheduler.SaveExecutionList(binPath);
+
+            MessageBox.Show("Program saved", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void BtnLoadTest_Click(object sender, EventArgs e)
+        private void BtnLoadProgram_Click(object sender, EventArgs e)
         {
             lbxInput.Items.Clear();
             lbxOutput.Items.Clear();
@@ -142,6 +142,8 @@ namespace Core.Scheduling.Tests
 
             methodScheduler.LoadExecutionList(binPath);
             instructionScheduler.LoadExecutionList(binPath);
+
+            MessageBox.Show("Program loaded", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void TxbConsole_DoubleClick(object sender, EventArgs e)
@@ -152,8 +154,6 @@ namespace Core.Scheduling.Tests
         private void BtnClose_Click(object sender, EventArgs e)
         {
             Close();
-            isOpen = false;
-
             Dispose();
         }
 

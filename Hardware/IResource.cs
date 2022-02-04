@@ -1,5 +1,7 @@
 ﻿using Core;
 using Core.DataStructures;
+using Core.Parameters;
+using System.Threading.Tasks;
 
 namespace Hardware
 {
@@ -45,13 +47,17 @@ namespace Hardware
         bool IsOpen
         { get; }
 
+        /// <summary>
+        /// The <see cref="IResource"/> <see cref="Bag{T}"/>
+        /// of <see cref="IChannel"/>
+        /// </summary>
         Bag<IChannel> Channels
         { get; }
 
         /// <summary>
         /// The <see cref="IResource"/> status
         /// </summary>
-        ResourceStatus Status
+        EnumParameter<ResourceStatus> Status
         { get; }
 
         /// <summary>
@@ -63,7 +69,7 @@ namespace Hardware
         /// <summary>
         /// Start the <see cref="IResource"/>
         /// </summary>
-        void Start();
+        Task Start();
 
         /// <summary>
         /// Stop the <see cref="IResource"/>
@@ -73,6 +79,6 @@ namespace Hardware
         /// <summary>
         /// Restart the <see cref="IResource"/>
         /// </summary>
-        void Restart();
+        Task Restart();
     }
 }

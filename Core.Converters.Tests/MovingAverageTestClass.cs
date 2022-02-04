@@ -19,8 +19,8 @@ namespace Core.Converters.Tests
         public void Setup()
         {
             npSimple.Value = 0;
-            ai.ConnectTo(npSimple, new SimpleMovingAverage(8));
-            ai.ConnectTo(npExponential, new ExponentialMovingAverage(0.75));
+            ai.ConnectTo(npSimple, new SimpleMovingAverageConverter(8));
+            ai.ConnectTo(npExponential, new ExponentialMovingAverageConverter(0.75));
 
             ServiceBroker.Initialize();
             ServiceBroker.Add<IChannel>(ai);
@@ -48,11 +48,11 @@ namespace Core.Converters.Tests
                 if (saveFiles)
                 {
                     FileHandler.Save(
-                        $"{ai.Value:F6}", IOUtility.GetDesktopFolder() + @"\raw_simple.log",
+                        $"{ai.Value:F6}", IOUtility.GetDesktopFolder() + @"\test_results\raw_simple.log",
                         FileHandler.SaveMode.Append
                     );
                     FileHandler.Save(
-                        $"{npSimple.Value:F6}", IOUtility.GetDesktopFolder() + @"\filtered_simple.log",
+                        $"{npSimple.Value:F6}", IOUtility.GetDesktopFolder() + @"\test_results\filtered_simple.log",
                         FileHandler.SaveMode.Append
                     );
                 }
@@ -74,11 +74,11 @@ namespace Core.Converters.Tests
                 if (saveFiles)
                 {
                     FileHandler.Save(
-                        $"{ai.Value:F6}", IOUtility.GetDesktopFolder() + @"\raw_exp.log",
+                        $"{ai.Value:F6}", IOUtility.GetDesktopFolder() + @"\test_results\raw_exp.log",
                         FileHandler.SaveMode.Append
                     );
                     FileHandler.Save(
-                        $"{npExponential.Value:F6}", IOUtility.GetDesktopFolder() + @"\filtered_exp.log",
+                        $"{npExponential.Value:F6}", IOUtility.GetDesktopFolder() + @"\test_results\filtered_exp.log",
                         FileHandler.SaveMode.Append
                     );
                 }

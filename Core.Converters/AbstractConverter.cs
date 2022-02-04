@@ -2,6 +2,11 @@
 
 namespace Core.Converters
 {
+    /// <summary>
+    /// Define a basic structure for a converter
+    /// </summary>
+    /// <typeparam name="TIn">The input type of the value to convert</typeparam>
+    /// <typeparam name="TOut">The output type of the conversion</typeparam>
     public abstract class AbstractConverter<TIn, TOut> : IConverter<TIn, TOut>
     {
         protected Func<TIn, TOut> converter;
@@ -18,6 +23,9 @@ namespace Core.Converters
             set => converter = value;
         }
 
+        /// <summary>
+        /// Create a new isntance of <see cref="AbstractConverter{TIn, TOut}"/>
+        /// </summary>
         protected AbstractConverter()
         {
             sourceParameter = null;
@@ -32,28 +40,30 @@ namespace Core.Converters
         public virtual TOut Execute(TIn arg) => converter.Invoke(arg);
 
         /// <summary>
-        /// Connects an <see cref="IParameter"/> to another
+        /// Connects an <see cref="IProperty"/> to another
         /// in order to propagate its value;
         /// </summary>
-        /// <param name="sourceParameter">The source <see cref="IParameter"/></param>
-        /// <param name="destinationParameter">The destination <see cref="IParameter"/></param>
-        public virtual void Connect(IProperty<TIn> sourceParameter, IProperty<TOut> destinationParameter)
+        /// <param name="sourceParameter">The source <see cref="IProperty"/></param>
+        /// <param name="destinationParameter">The destination <see cref="IProperty"/></param>
+        public virtual void Connect(IProperty sourceParameter, IProperty destinationParameter)
         {
-            this.sourceParameter = sourceParameter;
-            this.destinationParameter = destinationParameter;
+            this.sourceParameter = sourceParameter as IProperty<TIn>;
+            this.destinationParameter = destinationParameter as IProperty<TOut>;
 
-            sourceParameter.ConnectTo(this.sourceParameter as IProperty<TIn>);
+            (sourceParameter as IProperty<TIn>).ConnectTo(this.sourceParameter);
             this.destinationParameter.ConnectTo(destinationParameter as IProperty<TOut>);
+
+            this.destinationParameter.Value =
+                converter.Invoke((sourceParameter as IProperty<TIn>).Value);
 
             this.sourceParameter.ValueChanged += PropagateValues;
         }
 
         /// <summary>
-        /// Connect two <see cref="IParameter"/> in order to
-        /// propagate the converted value
+        /// Connect two objects in order to propagate the converted value
         /// </summary>
-        /// <param name="sourceParameter">The source <see cref="IParameter"/></param>
-        /// <param name="destinationParameter">The destination <see cref="IParameter"/></param>
+        /// <param name="sender">The sender</param>
+        /// <param name="e">The <see cref="ValueChangedEventArgs"/></param>
         protected virtual void PropagateValues(object sender, ValueChangedEventArgs e)
         {
             destinationParameter.Value = converter.Invoke(sourceParameter.Value);

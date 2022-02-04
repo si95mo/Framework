@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\UserInterface.Controls.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -43,10 +44,15 @@
     <Reference Include="Hardware">
       <HintPath>..\Hardware\bin\Debug\Hardware.dll</HintPath>
     </Reference>
+    <Reference Include="MetroSet UI, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroSet_UI.2.0.0\lib\net45\MetroSet UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
@@ -79,6 +85,18 @@
     <Compile Include="ButtonControl.Designer.cs">
       <DependentUpon>ButtonControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="CircularProgressBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CircularProgressBar.Designer.cs">
+      <DependentUpon>CircularProgressBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ClockControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ClockControl.Designer.cs">
+      <DependentUpon>ClockControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="CloseApplicationControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -91,6 +109,24 @@
     </Compile>
     <Compile Include="ComboControl.Designer.cs">
       <DependentUpon>ComboControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomForm.Designer.cs">
+      <DependentUpon>CustomForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomMessageBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomMessageBox.Designer.cs">
+      <DependentUpon>CustomMessageBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataGridControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DataGridControl.Designer.cs">
+      <DependentUpon>DataGridControl.cs</DependentUpon>
     </Compile>
     <Compile Include="DialogPanel.cs">
       <SubType>UserControl</SubType>
@@ -109,6 +145,18 @@
     </Compile>
     <Compile Include="InstructionControl.Designer.cs">
       <DependentUpon>InstructionControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LabelControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="LedControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="LoadTestProgramPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LoadTestProgramPanel.Designer.cs">
+      <DependentUpon>LoadTestProgramPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="MethodControl.cs">
       <SubType>UserControl</SubType>
@@ -134,11 +182,30 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="TextControl.cs">
+    <Compile Include="ResourceControl.cs">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ResourceControl.Designer.cs">
+      <DependentUpon>ResourceControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SaveTestProgramPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SaveTestProgramPanel.Designer.cs">
+      <DependentUpon>SaveTestProgramPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TextControl.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="TextControl.Designer.cs">
       <DependentUpon>TextControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControlExtensions.cs" />
+    <Compile Include="VerticalLayoutPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="VerticalLayoutPanel.Designer.cs">
+      <DependentUpon>VerticalLayoutPanel.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -151,11 +218,23 @@
     <EmbeddedResource Include="ButtonControl.resx">
       <DependentUpon>ButtonControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ClockControl.resx">
+      <DependentUpon>ClockControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CloseApplicationControl.resx">
       <DependentUpon>CloseApplicationControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ComboControl.resx">
       <DependentUpon>ComboControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomForm.resx">
+      <DependentUpon>CustomForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomMessageBox.resx">
+      <DependentUpon>CustomMessageBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataGridControl.resx">
+      <DependentUpon>DataGridControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DialogPanel.resx">
       <DependentUpon>DialogPanel.cs</DependentUpon>
@@ -165,6 +244,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="InstructionControl.resx">
       <DependentUpon>InstructionControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LabelControl.resx">
+      <DependentUpon>LabelControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoadTestProgramPanel.resx">
+      <DependentUpon>LoadTestProgramPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MethodControl.resx">
       <DependentUpon>MethodControl.cs</DependentUpon>
@@ -178,6 +263,12 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ResourceControl.resx">
+      <DependentUpon>ResourceControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SaveTestProgramPanel.resx">
+      <DependentUpon>SaveTestProgramPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TextControl.resx">
       <DependentUpon>TextControl.cs</DependentUpon>
@@ -200,7 +291,7 @@
       <Project>{9A12DE29-C4AD-42CE-AB4B-88EBC819E83A}</Project>
       <Name>Extensions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Hardware.Resources\Hardware.Serial.csproj">
+    <ProjectReference Include="..\Hardware.Serial\Hardware.Serial.csproj">
       <Project>{2DD453BC-D187-4023-9222-48DDF02BA689}</Project>
       <Name>Hardware.Serial</Name>
     </ProjectReference>
@@ -208,8 +299,18 @@
       <Project>{C8BDFAEE-7C9D-49EB-80BA-7667D4CB0766}</Project>
       <Name>Instructions</Name>
     </ProjectReference>
+    <ProjectReference Include="..\IO.File\IO.File.csproj">
+      <Project>{38B143CC-9481-468A-88AF-48DEDBC36C96}</Project>
+      <Name>IO.File</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IO\IO.csproj">
+      <Project>{65535B13-4850-4EC8-893D-58F3BC49C457}</Project>
+      <Name>IO</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
     <None Include="Resources\ImageAdd.bmp" />
   </ItemGroup>
   <ItemGroup>
@@ -229,6 +330,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\clear_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\start_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\stop_32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

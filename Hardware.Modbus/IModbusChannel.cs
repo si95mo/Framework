@@ -2,6 +2,9 @@
 
 namespace Hardware.Modbus
 {
+    /// <summary>
+    /// Represent a basic prototype for a modbus channel
+    /// </summary>
     public interface IModbusChannel : IProperty
     {
         /// <summary>
@@ -22,6 +25,6 @@ namespace Hardware.Modbus
         /// <summary>
         /// The modbus register <see cref="ModbusFunction"/>
         /// </summary>
-        ModbusFunction Function { get; set; }
+        ModbusFunction Function { get; }
     }
 }
