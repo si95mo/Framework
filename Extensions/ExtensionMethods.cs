@@ -466,11 +466,11 @@ namespace Extensions
     public static class LoopExtensions
     {
         /// <summary>
-        /// Provide a times <see langword="while"/> loop
+        /// Provide a timed <see langword="while"/> loop
         /// </summary>
-        /// <param name="source">The <see cref="Action"/> to perform</param>
+        /// <param name="source">The <see cref="Action"/> to perform on each step</param>
         /// <param name="condition">The <see cref="Func{T, TResult}"/> that represent the loop condition</param>
-        /// <param name="interval">The timed loop interval (in milliseconds</param>
+        /// <param name="interval">The timed loop interval (in milliseconds)</param>
         public static void TimedWhile(this Action source, Func<bool> condition, int interval)
         {
             ManualResetEventSlim stopRequest = new ManualResetEventSlim(false);
