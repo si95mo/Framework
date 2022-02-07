@@ -87,8 +87,8 @@ namespace IO
         /// <summary>
         /// Read text from a file.
         /// </summary>
-        /// <param name="path">The path to the file that contains the text to be read</param>
-        /// <returns></returns>
+        /// <param name="path">The file path</param>
+        /// <returns>The text read</returns>
         public static string Read(string path)
         {
             string linesRead = "";
@@ -100,6 +100,24 @@ namespace IO
             sr.Close();
 
             return linesRead;
+        }
+
+        /// <summary>
+        /// Read text from a file asynchronously
+        /// </summary>
+        /// <param name="path">The file path</param>
+        /// <returns>The (async) <see cref="Task"/> of which the result is the text read</returns>
+        public static async Task<string> ReadAsync(string path)
+        {
+            byte[] buffer;
+            using (FileStream stream = new FileStream(path, FileMode.Open))
+            {
+                buffer = new byte[stream.Length];
+                await stream.ReadAsync(buffer, offset: 0, (int)stream.Length);
+            }
+
+            string text = Encoding.UTF8.GetString(buffer);
+            return text;
         }
 
         /// <summary>
