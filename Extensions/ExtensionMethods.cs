@@ -463,7 +463,7 @@ namespace Extensions
     /// <summary>
     /// Provide logic structure-related extension methods
     /// </summary>
-    public static class LogicStructureExtensions
+    public static class LoopExtensions
     {
         /// <summary>
         /// Provide a times <see langword="while"/> loop
