@@ -78,9 +78,9 @@ namespace IO
             byte[] encodedText = Encoding.UTF8.GetBytes(text);
             FileMode fileMode = mode == SaveMode.Overwrite ? FileMode.Create : FileMode.Append;
 
-            using (FileStream stream = new FileStream(path, fileMode, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true))
+            using (FileStream stream = new FileStream(path, fileMode, FileAccess.Write, FileShare.None, 4096, true))
             {
-                await stream.WriteAsync(encodedText, offset: 0, count: encodedText.Length);
+                await stream.WriteAsync(encodedText, 0, encodedText.Length);
             }
         }
 
@@ -113,7 +113,7 @@ namespace IO
             using (FileStream stream = new FileStream(path, FileMode.Open))
             {
                 buffer = new byte[stream.Length];
-                await stream.ReadAsync(buffer, offset: 0, (int)stream.Length);
+                await stream.ReadAsync(buffer, 0, (int)stream.Length);
             }
 
             string text = Encoding.UTF8.GetString(buffer);
