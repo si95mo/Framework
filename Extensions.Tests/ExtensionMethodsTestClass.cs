@@ -85,7 +85,7 @@ namespace Extensions.Tests
             Func<bool> condition = new Func<bool>(() => TestCondition(counter, n));
 
             Stopwatch sw = Stopwatch.StartNew();
-            source.TimedWhile(condition, interval);
+            source.TimedWhile(condition, interval); // Or: source.TimedWhile(() => counter < n, interval);
             sw.Stop();
 
             Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} >> Time taken: {sw.Elapsed.TotalMilliseconds:0.0}[ms]");
