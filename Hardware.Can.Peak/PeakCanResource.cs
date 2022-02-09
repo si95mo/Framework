@@ -327,10 +327,7 @@ namespace Hardware.Can
                         if (channel is ICanChannel)
                         {
                             if ((channel as ICanChannel).CanId == message.ID)
-                            {
-                                (channel as ICanChannel).Data = canFrame.Data;
                                 (channel as ICanChannel).CanFrame = canFrame;
-                            }
                         }
                     }
                 }
