@@ -296,37 +296,41 @@ namespace Hardware.Can
                     out TPCANMsg message,
                     out TPCANTimestamp t
                 );
-                canFrame = new CanFrame(
-                    (int)message.ID,
-                    message.DATA,
-                    (t.micros + 1000 * t.millis + 0x100000000 * 1000 * t.millis_overflow) / 1000
-                );
 
-                if (logEnabled)
+                if (message.MSGTYPE == TPCANMessageType.PCAN_MESSAGE_STANDARD && message.LEN != 0)
                 {
-                    if (filteredCanId.TryGetValue(canFrame.Id, out bool enabled))
-                    {
-                        if (enabled)
-                        {
-                            lock (logLock)
-                            {
-                                if (logQueue.Count >= maxCapacity)
-                                    logQueue.Dequeue();
+                    canFrame = new CanFrame(
+                        (int)message.ID,
+                        message.DATA,
+                        (t.micros + 1000 * t.millis + 0x100000000 * 1000 * t.millis_overflow) / 1000
+                    );
 
-                                logQueue.Enqueue(canFrame);
+                    if (logEnabled)
+                    {
+                        if (filteredCanId.TryGetValue(canFrame.Id, out bool enabled))
+                        {
+                            if (enabled)
+                            {
+                                lock (logLock)
+                                {
+                                    if (logQueue.Count >= maxCapacity)
+                                        logQueue.Dequeue();
+
+                                    logQueue.Enqueue(canFrame);
+                                }
                             }
                         }
                     }
-                }
 
-                foreach (IChannel channel in channels)
-                {
-                    if (channel is ICanChannel)
+                    foreach (IChannel channel in channels)
                     {
-                        if ((channel as ICanChannel).CanId == message.ID)
+                        if (channel is ICanChannel)
                         {
-                            (channel as ICanChannel).Data = canFrame.Data;
-                            (channel as ICanChannel).CanFrame = canFrame;
+                            if ((channel as ICanChannel).CanId == message.ID)
+                            {
+                                (channel as ICanChannel).Data = canFrame.Data;
+                                (channel as ICanChannel).CanFrame = canFrame;
+                            }
                         }
                     }
                 }
