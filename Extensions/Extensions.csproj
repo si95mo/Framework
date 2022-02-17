@@ -59,8 +59,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConditionExtensions.cs" />
+    <Compile Include="ConsoleExtensions.cs" />
     <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="FrameworkExtensions.cs" />
+    <Compile Include="LoopExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SystemExceptions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core.Conditions\Core.Conditions.csproj">
