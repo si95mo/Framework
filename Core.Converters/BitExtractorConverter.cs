@@ -23,7 +23,7 @@ namespace Core.Converters
         /// <param name="number">The number</param>
         /// <param name="numberOfBits">The number of bits to extract</param>
         /// <param name="position">The starting position</param>
-        /// <returns>The extracted bits</returns>
+        /// <returns>The extracted bit</returns>
         private int ExtractBit(double number, int numberOfBits, int position)
         {
             int shiftedNumber = (1 << numberOfBits) - 1;

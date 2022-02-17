@@ -24,7 +24,7 @@ namespace Core.Converters
         }
 
         /// <summary>
-        /// Create a new isntance of <see cref="AbstractConverter{TIn, TOut}"/>
+        /// Create a new instance of <see cref="AbstractConverter{TIn, TOut}"/>
         /// </summary>
         protected AbstractConverter()
         {
@@ -37,7 +37,8 @@ namespace Core.Converters
         /// </summary>
         /// <param name="arg">The argument to convert</param>
         /// <returns>The result of the conversion</returns>
-        public virtual TOut Execute(TIn arg) => converter.Invoke(arg);
+        public virtual TOut Execute(TIn arg) 
+            => converter.Invoke(arg);
 
         /// <summary>
         /// Connects an <see cref="IProperty"/> to another
