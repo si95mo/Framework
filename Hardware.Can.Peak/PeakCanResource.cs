@@ -1,4 +1,5 @@
-﻿using Core.DataStructures;
+﻿using Core;
+using Core.DataStructures;
 using Hardware.Can.Peak.Lib;
 using System;
 using System.Collections.Generic;
@@ -297,6 +298,7 @@ namespace Hardware.Can
                     out TPCANTimestamp t
                 );
 
+                // Filter diagnostic frames
                 if (message.MSGTYPE == TPCANMessageType.PCAN_MESSAGE_STANDARD && message.LEN != 0)
                 {
                     canFrame = new CanFrame(
@@ -305,6 +307,7 @@ namespace Hardware.Can
                         (t.micros + 1000 * t.millis + 0x100000000 * 1000 * t.millis_overflow) / 1000
                     );
 
+                    // Handle logging
                     if (logEnabled)
                     {
                         if (filteredCanId.TryGetValue(canFrame.Id, out bool enabled))
@@ -322,12 +325,15 @@ namespace Hardware.Can
                         }
                     }
 
-                    foreach (IChannel channel in channels)
+                    List<IProperty> list = channels.ToList();
+                    bool channelFound = false;
+                    for (int i = 0; i < list.Count && !channelFound; i++)
                     {
-                        if (channel is ICanChannel)
+                        IProperty property = list[i];
+                        if (property is ICanChannel & (property as ICanChannel).CanId == message.ID)
                         {
-                            if ((channel as ICanChannel).CanId == message.ID)
-                                (channel as ICanChannel).CanFrame = canFrame;
+                            (property as ICanChannel).CanFrame = canFrame;
+                            channelFound = true;
                         }
                     }
                 }
