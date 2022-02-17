@@ -91,19 +91,5 @@ namespace Core.Conditions
         {
             subscribers.ForEach(x => x.ValueAsObject = Value);
         }
-
-        /// <summary>
-        /// Create a new <see cref="ICondition"/> that will be <see langword="true"/>
-        /// when the actual <see cref="Condition"/> is <see langword="true"/>
-        /// </summary>
-        /// <returns>The new <see cref="ICondition"/></returns>
-        public abstract ICondition IsTrue();
-
-        /// <summary>
-        /// Create a new <see cref="ICondition"/> that will be <see langword="true"/>
-        /// when the actual <see cref="Condition"/> is <see langword="false"/>
-        /// </summary>
-        /// <returns>The new <see cref="ICondition"/></returns>
-        public abstract ICondition IsFalse();
     }
 }

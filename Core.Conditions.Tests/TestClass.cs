@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using Extensions;
+using FluentAssertions;
 using NUnit.Framework;
 
 namespace Core.Conditions.Tests
