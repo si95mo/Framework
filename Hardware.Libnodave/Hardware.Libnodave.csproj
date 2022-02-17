@@ -85,13 +85,16 @@
   <ItemGroup>
     <Content Include="lib\libnodave.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    <TargetPath>libnodave.dll</TargetPath>
+      <TargetPath>libnodave.dll</TargetPath>
     </Content>
     <Content Include="lib\libnodave.net.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    <TargetPath>libnodave.net.dll</TargetPath>
+      <TargetPath>libnodave.net.dll</TargetPath>
     </Content>
     <Content Include="lib\references.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

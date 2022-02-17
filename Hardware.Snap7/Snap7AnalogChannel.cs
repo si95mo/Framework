@@ -53,6 +53,7 @@ namespace Hardware.Snap7
         /// <param name="resource">The <see cref="IResource"/></param>
         /// <param name="representationBytes">The <see cref="Core.RepresentationBytes"/></param>
         /// <param name="numericRepresentation">The <see cref="Core.NumericRepresentation"/></param>
+        /// <param name="reverse">The reverse array option</param>
         /// <param name="measureUnit">The measure unit</param>
         /// <param name="format">The format</param>
         protected Snap7AnalogChannel(string code, int memoryAddress, int dataBlock, IResource resource, RepresentationBytes representationBytes,
