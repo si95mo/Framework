@@ -19,9 +19,10 @@ namespace Core.DataStructures
         }
 
         /// <summary>
-        /// Clear the <see cref="ServiceBroker"/> collection.
+        /// Clear the <see cref="ServiceBroker"/> collection
         /// </summary>
-        public static void Clear() => Initialize();
+        public static void Clear() 
+            => Initialize();
 
         /// <summary>
         /// Add an item to the <see cref="ServiceBroker"/>
@@ -30,7 +31,8 @@ namespace Core.DataStructures
         /// <param name="item">The item to add</param>
         /// <returns><see langword="true"/> if the item is added,
         /// <see langword="false"/> otherwise</returns>
-        public static bool Add<T>(IProperty item) => subscribers.Add(item);
+        public static bool Add<T>(IProperty item) 
+            => subscribers.Add(item);
 
         /// <summary>
         /// Get the collection relative to the specified type
@@ -42,8 +44,8 @@ namespace Core.DataStructures
         {
             Bag<T> returnCollection = new Bag<T>();
 
-            var sublist = subscribers.ToList();
-            foreach (var item in sublist)
+            List<IProperty> sublist = subscribers.ToList();
+            foreach (IProperty item in sublist)
             {
                 if (item is T)
                     returnCollection.Add(item);
