@@ -14,7 +14,6 @@ namespace Hardware.Resources.Tests
         private int port = 851; // TwinCAT - local ads server
 
         private TwincatResource resource;
-        private Mock server;
 
         [OneTimeSetUp]
         public void Setup()
