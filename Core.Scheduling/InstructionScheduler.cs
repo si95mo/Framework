@@ -78,7 +78,7 @@ namespace Core.Scheduling
 
                 // Parallel execution of the instruction with the same order
                 parallelInstructions.ForEach(x => (x as Instruction).OnStart()); // On start logic
-                await parallelInstructions.ForEachAsync(async (x) => await x.ExecuteInstruction()); // Execution
+                await parallelInstructions.ParallelForeachAsync(async (x) => await x.ExecuteInstruction()); // Execution
                 parallelInstructions.ForEach(x => (x as Instruction).OnStop()); // On stop logic
 
                 // Remove the order of executed instruction and update it with the new one
