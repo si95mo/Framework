@@ -61,7 +61,7 @@ namespace Hardware.Libnodave
             await Start();
         }
 
-        public override async Task Start()
+        public override Task Start()
         {
             CancellationTokenSource tokenSource = new CancellationTokenSource();
             CancellationToken token = tokenSource.Token;
@@ -103,6 +103,8 @@ namespace Hardware.Libnodave
             //    tokenSource.Cancel();
             //    HandleException("Unable to connect to the PLC, timeout elapsed!");
             //}
+
+            return Task.CompletedTask;
         }
 
         public override void Stop()
