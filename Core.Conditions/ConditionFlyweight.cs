@@ -1,8 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
-
-namespace Core.Conditions
+﻿namespace Core.Conditions
 {
     /// <summary>
     /// Implement a flyweight condition (i.e. a basic type of condition)
@@ -24,6 +20,6 @@ namespace Core.Conditions
         public ConditionFlyweight(string code, bool value) : this(code)
         {
             Value = value;
-        }        
+        }
     }
 }
