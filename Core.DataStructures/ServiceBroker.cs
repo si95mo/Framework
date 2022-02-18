@@ -21,7 +21,7 @@ namespace Core.DataStructures
         /// <summary>
         /// Clear the <see cref="ServiceBroker"/> collection
         /// </summary>
-        public static void Clear() 
+        public static void Clear()
             => Initialize();
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Core.DataStructures
         /// <param name="item">The item to add</param>
         /// <returns><see langword="true"/> if the item is added,
         /// <see langword="false"/> otherwise</returns>
-        public static bool Add<T>(IProperty item) 
+        public static bool Add<T>(IProperty item)
             => subscribers.Add(item);
 
         /// <summary>

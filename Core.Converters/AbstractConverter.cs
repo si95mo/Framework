@@ -37,7 +37,7 @@ namespace Core.Converters
         /// </summary>
         /// <param name="arg">The argument to convert</param>
         /// <returns>The result of the conversion</returns>
-        public virtual TOut Execute(TIn arg) 
+        public virtual TOut Execute(TIn arg)
             => converter.Invoke(arg);
 
         /// <summary>
