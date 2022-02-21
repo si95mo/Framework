@@ -1,4 +1,5 @@
-﻿using Hardware;
+﻿using Core.DataStructures;
+using Hardware;
 
 namespace Core.Converters.Calibrations
 {
@@ -10,6 +11,9 @@ namespace Core.Converters.Calibrations
         /// <summary>
         /// Create a calibrated <see cref="AnalogInput"/> based on the <paramref name="rawChannel"/> <see cref="AnalogInput"/>
         /// </summary>
+        /// <remarks>
+        /// The calibrated channel is automatically added to the <see cref="ServiceBroker"/>
+        /// </remarks> 
         /// <param name="rawChannel">The raw <see cref="AnalogInput"/></param>
         /// <param name="x0">The <paramref name="rawChannel"/> first point</param>
         /// <param name="x1">The <paramref name="rawChannel"/> second point</param>
@@ -24,12 +28,17 @@ namespace Core.Converters.Calibrations
             AnalogInput calibratedChannel = new AnalogInput(rawChannel.Code + "_Calibrated", measureUnit, format);
             rawChannel.ConnectTo(calibratedChannel, new LinearInterpolationConverter(x0, x1, y0, y1));
 
+            ServiceBroker.Add<IChannel>(calibratedChannel);
+
             return calibratedChannel;
         }
 
         /// <summary>
         /// Create a calibrated <see cref="AnalogOutput"/> based on the <paramref name="rawChannel"/> <see cref="AnalogOutput"/>
         /// </summary>
+        /// <remarks>
+        /// The calibrated channel is automatically added to the <see cref="ServiceBroker"/>
+        /// </remarks>
         /// <param name="rawChannel">The raw <see cref="AnalogOutput"/></param>
         /// <param name="x0">The <paramref name="rawChannel"/> first point</param>
         /// <param name="x1">The <paramref name="rawChannel"/> second point</param>
@@ -43,6 +52,8 @@ namespace Core.Converters.Calibrations
         {
             AnalogOutput calibratedChannel = new AnalogOutput(rawChannel.Code + "_Calibrated", measureUnit, format);
             calibratedChannel.ConnectTo(rawChannel, new LinearInterpolationConverter(x0, x1, y0, y1));
+
+            ServiceBroker.Add<IChannel>(calibratedChannel);
 
             return calibratedChannel;
         }
