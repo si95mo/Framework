@@ -6,7 +6,7 @@ namespace Extensions
     public static class UserInterfaceExtensions
     {
         /// <summary>
-        /// Automatically update an <see cref="UserControl"/> id neede (e.g. in case of a cross-thread operation)
+        /// Automatically update an <see cref="UserControl"/> if needed (e.g. in case of a cross-thread operation)
         /// </summary>
         /// <param name="source">The source <see cref="UserControl"/></param>
         /// <param name="form">The parent <see cref="Form"/></param>
