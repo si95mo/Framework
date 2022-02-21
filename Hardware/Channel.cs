@@ -53,6 +53,11 @@ namespace Hardware
         public Type Type => typeof(T);
 
         /// <summary>
+        /// The tags
+        /// </summary>
+        public List<string> Tags { get; set; }
+
+        /// <summary>
         /// Initialize the class attributes with
         /// default parameters
         /// </summary>
@@ -71,6 +76,8 @@ namespace Hardware
             value = default;
 
             subscribers = new List<IProperty>();
+            Tags = new List<string>();
+
             ValueChanged += PropagateValues;
         }
 
