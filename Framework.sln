@@ -130,6 +130,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Converters.Calibration
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Converters.Calibrations.Tests", "Core.Converters.Calibrations.Tests\Core.Converters.Calibrations.Tests.csproj", "{46E95530-6777-4DDE-9F0C-716B5D4BFF5B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hash", "Hash\Hash.csproj", "{B9BAFADD-8808-4693-9D3C-B6674CAE4069}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -380,6 +382,10 @@ Global
 		{46E95530-6777-4DDE-9F0C-716B5D4BFF5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46E95530-6777-4DDE-9F0C-716B5D4BFF5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46E95530-6777-4DDE-9F0C-716B5D4BFF5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9BAFADD-8808-4693-9D3C-B6674CAE4069}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9BAFADD-8808-4693-9D3C-B6674CAE4069}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9BAFADD-8808-4693-9D3C-B6674CAE4069}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9BAFADD-8808-4693-9D3C-B6674CAE4069}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
