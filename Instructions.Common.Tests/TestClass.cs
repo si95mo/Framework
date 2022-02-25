@@ -57,7 +57,7 @@ namespace Instructions.Common.Tests
         public async Task ExecuteWithSuccess(double x, double y)
         {
             AddInstructions();
-            SetValues(x, y); // Greather or equal
+            SetValues(x, y); // Greater or equal
 
             Stopwatch sw = Stopwatch.StartNew();
             List<IInstruction> executedInstructions = await scheduler.Execute();
