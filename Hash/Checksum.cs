@@ -16,13 +16,11 @@ namespace Hash
         /// <returns>The checksum, calculated as previously described</returns>
         public static string CreateNew(string input)
         {
-            string checksum = "";
             int sum = 0;
-
             for (int i = 0; i < input.Count(); i++)
                 sum += input[i];
 
-            checksum = sum.ToString("X");
+            string checksum = sum.ToString("X");
             checksum = "" + checksum.Substring(checksum.Length - 2);
 
             return checksum;
