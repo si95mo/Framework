@@ -13,7 +13,7 @@ namespace Core.Converters.Calibrations
         /// </summary>
         /// <remarks>
         /// The calibrated channel is automatically added to the <see cref="ServiceBroker"/>
-        /// </remarks> 
+        /// </remarks>
         /// <param name="rawChannel">The raw <see cref="AnalogInput"/></param>
         /// <param name="x0">The <paramref name="rawChannel"/> first point</param>
         /// <param name="x1">The <paramref name="rawChannel"/> second point</param>

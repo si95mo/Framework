@@ -39,16 +39,23 @@ namespace Hardware.Twincat
         public int Port => port;
 
         /// <summary>
+        /// The <see cref="TwincatResource"/> polling interval (in milliseconds)
+        /// </summary>
+        public int PollingInterval { get; set; }
+
+        /// <summary>
         /// Create a new instance of <see cref="TwincatResource"/>
         /// by specifying both the ams net address and the port of the Ads server
         /// </summary>
         /// <param name="code">The code</param>
         /// <param name="amsNetAddress">The PLC ams net address</param>
         /// <param name="port">The port number</param>
-        public TwincatResource(string code, string amsNetAddress, int port) : base(code)
+        /// <param name="pollingInterval">The polling interval (in milliseconds)</param>
+        public TwincatResource(string code, string amsNetAddress, int port, int pollingInterval = 100) : base(code)
         {
             this.amsNetAddress = amsNetAddress;
             this.port = port;
+            PollingInterval = pollingInterval;
 
             initializedWithAddress = true;
 
@@ -64,10 +71,12 @@ namespace Hardware.Twincat
         /// </summary>
         /// <param name="code">The code</param>
         /// <param name="port">The port number</param>
-        public TwincatResource(string code, int port) : base(code)
+        /// <param name="pollingInterval">The polling interval (in milliseconds)</param>
+        public TwincatResource(string code, int port, int pollingInterval = 100) : base(code)
         {
             this.port = port;
             amsNetAddress = "";
+            PollingInterval = pollingInterval;
 
             initializedWithAddress = false;
 
@@ -157,6 +166,11 @@ namespace Hardware.Twincat
                         HandleException($"{code} - Unable to connect to {amsNetAddress}:{port}");
                 }
             }
+
+            if (Status.Value == ResourceStatus.Executing)
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                Receive();
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         }
 
         public override void Stop()
@@ -176,22 +190,28 @@ namespace Hardware.Twincat
         /// <summary>
         /// Receive a value through the <see cref="TwincatResource"/>
         /// </summary>
-        /// <param name="code">The channel code in which the value will be stored</param>
         /// <returns>The async <see cref="Task"/></returns>
-        internal async Task Receive(string code)
+        private async Task Receive()
         {
-            if (Status.Value == ResourceStatus.Executing)
+            while (Status.Value == ResourceStatus.Executing)
             {
-                ITwincatChannel channel = channels.Get(code) as ITwincatChannel;
-                uint handle = variableHandles[channel.Code];
+                uint handle;
+                Memory<byte> buffer;
 
-                Memory<byte> buffer = new Memory<byte>();
-                await client.ReadAsync(handle, buffer, CancellationToken.None);
+                foreach (IChannel channel in channels)
+                {
+                    handle = variableHandles[channel.Code];
 
-                if (channel is TwincatAnalogInput)
-                    (channel as TwincatAnalogInput).Value = Convert.ToDouble(buffer);
-                else // Digital input
-                    (channel as TwincatDigitalInput).Value = Convert.ToBoolean(buffer);
+                    buffer = new Memory<byte>();
+                    await client.ReadAsync(handle, buffer, CancellationToken.None);
+
+                    if (channel is TwincatAnalogInput)
+                        (channel as TwincatAnalogInput).Value = Convert.ToDouble(buffer);
+                    else // Digital input
+                        (channel as TwincatDigitalInput).Value = Convert.ToBoolean(buffer);
+                }
+
+                await Task.Delay(PollingInterval);
             }
         }
 
