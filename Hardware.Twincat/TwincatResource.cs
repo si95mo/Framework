@@ -91,7 +91,7 @@ namespace Hardware.Twincat
         {
             client.AdsNotificationError += (object _, AdsNotificationErrorEventArgs e) =>
             {
-                Logger.Error($"Ads error. Recevied: {e.Exception.Message}");
+                Logger.Error($"Ads error. Received: {e.Exception.Message}");
                 Status.Value = ResourceStatus.Failure;
             };
             client.Timeout = 5000;
