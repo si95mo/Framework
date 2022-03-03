@@ -12,7 +12,7 @@ namespace Control.Hysteresis.Tests
         private double c = 1.0; // 1 F
         private Stopwatch t;
 
-        HysteresisRegulator regulator;
+        private HysteresisRegulator regulator;
 
         private AnalogInput u;
         private DigitalOutput actuator;

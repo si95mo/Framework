@@ -28,7 +28,7 @@ namespace Control.Hysteresis
         /// <param name="lowerLimit">The lower limit</param>
         /// <param name="setpoint">The setpoint</param>
         /// <param name="cycleTime">The cycle time (in milliseconds)</param>
-        public HysteresisRegulator(string code, Channel<double> feedbackChannel, Channel<bool> actuatorChannel, 
+        public HysteresisRegulator(string code, Channel<double> feedbackChannel, Channel<bool> actuatorChannel,
             double upperLimit, double lowerLimit, double setpoint, double cycleTime) : base(code, feedbackChannel, setpoint)
         {
             UpperLimit = new NumericParameter(nameof(UpperLimit), upperLimit, measureUnit: feedbackChannel.MeasureUnit, format: feedbackChannel.Format);
@@ -46,20 +46,20 @@ namespace Control.Hysteresis
         /// </summary>
         /// <returns>The (async) <see cref="Task"/></returns>
         private Task CreateControlTask() => new Task(async () =>
-            {
-                while (doRegulate)
-                {
-                    if (feedbackChannel.Value > UpperLimit.Value)
-                        actuatorChannel.Value = false;
-                    else
-                    {
-                        if (feedbackChannel.Value < LowerLimit.Value)
-                            actuatorChannel.Value = true;
-                    }
+             {
+                 while (doRegulate)
+                 {
+                     if (feedbackChannel.Value > UpperLimit.Value)
+                         actuatorChannel.Value = false;
+                     else
+                     {
+                         if (feedbackChannel.Value < LowerLimit.Value)
+                             actuatorChannel.Value = true;
+                     }
 
-                    await Task.Delay(CycleTime.Value);
-                }
-            }
+                     await Task.Delay(CycleTime.Value);
+                 }
+             }
         );
 
         public override void Start()
