@@ -34,6 +34,12 @@ namespace Control
         public Type Type => typeof(Regulator);
 
         /// <summary>
+        /// The controller output (as an <see cref="AnalogOutput"/>). <br/>
+        /// In the block diagram this variable represents u(k)
+        /// </summary>
+        public AnalogOutput Output => uk;
+
+        /// <summary>
         /// The actual setpoint
         /// </summary>
         public NumericParameter Setpoint
