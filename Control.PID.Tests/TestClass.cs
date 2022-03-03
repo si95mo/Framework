@@ -31,14 +31,14 @@ namespace Control.PID.Tests
             u = new AnalogInput("U", "V", "0.000");
             pid = new PID(
                 code: "PID",
-                controlledVariable: u,
+                feedback: u,
                 n: 100,
                 kp: 0.01,
                 ki: 4,
                 kd: 0.0001,
                 upperLimit: 10,
                 lowerLimit: 0,
-                setPoint: 5.0
+                setpoint: 5.0
             );
 
             pid.Start();
@@ -68,7 +68,7 @@ namespace Control.PID.Tests
 
                     time = t.Elapsed.TotalMilliseconds;
                     text = $"{time.ToString("F3").Replace(',', '.')}; " +
-                        $"{pid.SetPoint.ToString("F3").Replace(',', '.')}; " +
+                        $"{pid.Setpoint.ToString("F3").Replace(',', '.')}; " +
                         $"{pid.Rk.Value.ToString("F3").Replace(',', '.')}; " +
                         $"{pid.Uk.Value.ToString("F3").Replace(',', '.')}; " +
                         $"{u.Value.ToString("F3").Replace(',', '.')}";
@@ -79,11 +79,11 @@ namespace Control.PID.Tests
                         Console.WriteLine(text);
 
                     if (time >= 33333 && time <= 66666)
-                        pid.SetPoint = 3.3;
+                        pid.Setpoint = 3.3;
                     else
                     {
                         if (time >= 66000)
-                            pid.SetPoint = 10.0;
+                            pid.Setpoint = 10.0;
                     }
                 } while (sw.Elapsed.TotalMilliseconds <= intervalInMilliseconds);
             }

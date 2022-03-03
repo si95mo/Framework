@@ -50,6 +50,10 @@
       <Project>{c52ac350-467d-4937-813f-6e382808424f}</Project>
       <Name>Control</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Core.Parameters\Core.Parameters.csproj">
+      <Project>{B0E053BC-1B89-4C83-B819-5EC032B2566F}</Project>
+      <Name>Core.Parameters</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core.Threading\Core.Threading.csproj">
       <Project>{E5630A9F-E4FA-477E-9821-8565812E2C6F}</Project>
       <Name>Core.Threading</Name>

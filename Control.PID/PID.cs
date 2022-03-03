@@ -1,4 +1,5 @@
-﻿using Core.Threading;
+﻿using Core.Parameters;
+using Core.Threading;
 using Hardware;
 using System;
 using System.Diagnostics;
@@ -9,18 +10,18 @@ namespace Control.PID
     /// <summary>
     /// Implement a (P)roportional (I)ntegrative (D)erivative controller
     /// </summary>
-    public class PID : Controller
+    public class PID : Regulator
     {
         private int n;
-        private double kp, ki, kd;
-        private double upperLimit, lowerLimit;
-        private double cycleTime;
+        private NumericParameter kp, ki, kd;
+        private NumericParameter upperLimit, lowerLimit;
+        private TimeSpanParameter cycleTime;
 
         private TimeSpan timeSinceLastUpdate;
 
-        private double integralTerm;
-        private double proportionalTerm;
-        private double derivativeTerm;
+        private NumericParameter proportionalTerm;
+        private NumericParameter integralTerm;
+        private NumericParameter derivativeTerm;
 
         private Task controlTask;
 
@@ -32,27 +33,27 @@ namespace Control.PID
         /// <summary>
         /// The proportional gain
         /// </summary>
-        public double Kp { get => kp; set => kp = value; }
+        public NumericParameter Kp { get => kp; set => kp = value; }
 
         /// <summary>
         /// The integral gain
         /// </summary>
-        public double Ki { get => ki; set => ki = value; }
+        public NumericParameter Ki { get => ki; set => ki = value; }
 
         /// <summary>
         /// The derivative gain
         /// </summary>
-        public double Kd { get => kd; set => kd = value; }
+        public NumericParameter Kd { get => kd; set => kd = value; }
 
         /// <summary>
         /// The clamping upper output limit of the controller
         /// </summary>
-        public double UpperLimit { get => upperLimit; set => upperLimit = value; }
+        public NumericParameter UpperLimit { get => upperLimit; set => upperLimit = value; }
 
         /// <summary>
         /// The clamping lower output limit of the controller
         /// </summary>
-        public double LowerLimit { get => lowerLimit; set => lowerLimit = value; }
+        public NumericParameter LowerLimit { get => lowerLimit; set => lowerLimit = value; }
 
         /// <summary>
         /// The controller output (as an <see cref="AnalogOutput"/>). <br/>
@@ -64,12 +65,12 @@ namespace Control.PID
         /// The controlled variable (as a generic <see cref="Channel{T}"/>). <br/>
         /// In the block diagram this variable represents r(k)
         /// </summary>
-        public Channel<double> Rk => controlledVariable;
+        public Channel<double> Rk => feedbackChannel;
 
         /// <summary>
         /// The cycle time of the controller (in milliseconds)
         /// </summary>
-        public double CycleTime
+        public TimeSpanParameter CycleTime
         {
             get => cycleTime;
             set => cycleTime = value;
@@ -79,23 +80,27 @@ namespace Control.PID
         /// Create a new instance of <see cref="PID"/>
         /// </summary>
         /// <param name="code">The code</param>
-        /// <param name="controlledVariable">The controlled variable</param>
+        /// <param name="feedback">The controlled variable feedback</param>
         /// <param name="n">The derivative filter coefficient</param>
         /// <param name="kp">The proportional gain</param>
         /// <param name="ki">The integral gain</param>
         /// <param name="kd">The derivative gain</param>
         /// <param name="upperLimit">The upper limit (for clamping)</param>
         /// <param name="lowerLimit">The lower limit (for clamping)</param>
-        /// <param name="setPoint">The desired set point</param>
-        public PID(string code, Channel<double> controlledVariable, int n, double kp, double ki, double kd,
-            double upperLimit, double lowerLimit, double setPoint) : base(code, controlledVariable, setPoint)
+        /// <param name="setpoint">The desired setpoint</param>
+        public PID(string code, Channel<double> feedback, int n, double kp, double ki, double kd,
+            double upperLimit, double lowerLimit, double setpoint) : base(code, feedback, setpoint)
         {
             this.n = n;
-            this.kp = kp;
-            this.ki = ki;
-            this.kd = kd;
-            this.upperLimit = upperLimit;
-            this.lowerLimit = lowerLimit;
+            this.kp = new NumericParameter("Kp", value: kp, format: "0.000");
+            this.ki = new NumericParameter("Ki", value: ki, format: "0.000");
+            this.kd = new NumericParameter("Kd", value: kd, format: "0.000");
+            this.upperLimit = new NumericParameter("UpperLimit", value: upperLimit, measureUnit: feedback.MeasureUnit, format: feedback.Format);
+            this.lowerLimit = new NumericParameter("LowerLimit", value: lowerLimit, measureUnit: feedback.MeasureUnit, format: feedback.Format);
+
+            proportionalTerm = new NumericParameter("ProportionalTerm", format: "0.000");
+            integralTerm = new NumericParameter("IntegralTerm", format: "0.000");
+            derivativeTerm = new NumericParameter("DerivativeTerm", format: "0.000");
 
             controlTask = null;
         }
@@ -105,24 +110,24 @@ namespace Control.PID
         /// </summary>
         /// <returns>The controlling <see cref="Task"/></returns>
         private Task CreateControlTask() => new Task(async () =>
-                          {
-                              Stopwatch sw;
-                              int timeToWait;
+            {
+                Stopwatch sw;
+                int timeToWait;
 
-                              timeSinceLastUpdate = new TimeSpan(0);
-                              while (true)
-                              {
-                                  sw = Stopwatch.StartNew();
+                timeSinceLastUpdate = new TimeSpan(0);
+                while (true)
+                {
+                    sw = Stopwatch.StartNew();
 
-                                  Iterate();
+                    Iterate();
 
-                                  timeToWait = (int)(cycleTime - sw.Elapsed.TotalMilliseconds);
-                                  if (timeToWait > 0)
-                                      await Tasks.NoOperation(timeToWait, 1);
+                    timeToWait = (int)(cycleTime.Value.TotalMilliseconds - sw.Elapsed.TotalMilliseconds);
+                    if (timeToWait > 0)
+                        await Tasks.NoOperation(timeToWait, 1);
 
-                                  timeSinceLastUpdate = new TimeSpan(sw.Elapsed.Ticks).Subtract(timeSinceLastUpdate);
-                              }
-                          }
+                    timeSinceLastUpdate = new TimeSpan(sw.Elapsed.Ticks).Subtract(timeSinceLastUpdate);
+                }
+            }
         );
 
         /// <summary>
@@ -137,7 +142,7 @@ namespace Control.PID
             }
             else
             {
-                controlTask.Wait((int)cycleTime);
+                controlTask.Wait((int)cycleTime.Value.TotalMilliseconds);
                 controlTask.Dispose();
 
                 controlTask = CreateControlTask();
@@ -150,21 +155,21 @@ namespace Control.PID
         /// </summary>
         private void Iterate()
         {
-            double error = setPoint - controlledVariable.Value;
+            double error = setpoint.Value - feedbackChannel.Value;
 
             // Integral term
-            integralTerm += ki * error * timeSinceLastUpdate.TotalSeconds;
-            integralTerm = Clamp(integralTerm);
+            integralTerm.Value += ki.Value * error * timeSinceLastUpdate.TotalSeconds;
+            integralTerm.Value = Clamp(integralTerm.Value);
 
             // Derivative term
             // double dInput = u.Value - lastControlledValue;
-            derivativeTerm = kd * (n / (1 + n * integralTerm / ki));
+            derivativeTerm.Value = kd.Value * (n / (1 + n * integralTerm.Value / ki.Value));
 
             // Proportional term
-            proportionalTerm = kp * error;
+            proportionalTerm.Value = kp.Value * error;
 
             // Output update
-            uk.Value = proportionalTerm + integralTerm - derivativeTerm;
+            uk.Value = proportionalTerm.Value + integralTerm.Value - derivativeTerm.Value;
             uk.Value = Clamp(uk.Value);
         }
 
@@ -178,10 +183,10 @@ namespace Control.PID
         {
             double result = valueToClamp;
 
-            if (valueToClamp <= lowerLimit)
-                result = lowerLimit;
-            if (valueToClamp >= upperLimit)
-                result = upperLimit;
+            if (valueToClamp <= lowerLimit.Value)
+                result = lowerLimit.Value;
+            if (valueToClamp >= upperLimit.Value)
+                result = upperLimit.Value;
 
             return result;
         }
@@ -192,7 +197,7 @@ namespace Control.PID
         /// </summary>
         public void Reset()
         {
-            integralTerm = 0;
+            integralTerm.Value = 0;
             timeSinceLastUpdate = new TimeSpan(0);
         }
     }

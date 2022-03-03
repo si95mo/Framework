@@ -5,7 +5,7 @@ namespace Control
     /// <summary>
     /// Define a basic prototype for a controller
     /// </summary>
-    public interface IController : IProperty
+    public interface IRegulator : IProperty
     {
         /// <summary>
         /// Start the control algorithm
