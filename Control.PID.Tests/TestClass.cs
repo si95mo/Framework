@@ -19,7 +19,7 @@ namespace Control.PID.Tests
 
         private double CalculateVoltage()
         {
-            double vc = pid.Uk.Value * (1 - Math.Exp(-t.Elapsed.TotalSeconds / (r * c)));
+            double vc = pid.Output.Value * (1 - Math.Exp(-t.Elapsed.TotalSeconds / (r * c)));
             return vc;
         }
 
@@ -68,9 +68,9 @@ namespace Control.PID.Tests
 
                     time = t.Elapsed.TotalMilliseconds;
                     text = $"{time.ToString("F3").Replace(',', '.')}; " +
-                        $"{pid.Setpoint.ToString("F3").Replace(',', '.')}; " +
+                        $"{pid.Setpoint.Value.ToString("F3").Replace(',', '.')}; " +
                         $"{pid.Rk.Value.ToString("F3").Replace(',', '.')}; " +
-                        $"{pid.Uk.Value.ToString("F3").Replace(',', '.')}; " +
+                        $"{pid.Output.Value.ToString("F3").Replace(',', '.')}; " +
                         $"{u.Value.ToString("F3").Replace(',', '.')}";
 
                     writer.WriteLine(text);
@@ -79,11 +79,11 @@ namespace Control.PID.Tests
                         Console.WriteLine(text);
 
                     if (time >= 33333 && time <= 66666)
-                        pid.Setpoint = 3.3;
+                        pid.Setpoint.Value = 3.3;
                     else
                     {
                         if (time >= 66000)
-                            pid.Setpoint = 10.0;
+                            pid.Setpoint.Value = 10.0;
                     }
                 } while (sw.Elapsed.TotalMilliseconds <= intervalInMilliseconds);
             }

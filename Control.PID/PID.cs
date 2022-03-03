@@ -56,12 +56,6 @@ namespace Control.PID
         public NumericParameter LowerLimit { get => lowerLimit; set => lowerLimit = value; }
 
         /// <summary>
-        /// The controller output (as an <see cref="AnalogOutput"/>). <br/>
-        /// In the block diagram this variable represents u(k)
-        /// </summary>
-        public AnalogOutput Uk => uk;
-
-        /// <summary>
         /// The controlled variable (as a generic <see cref="Channel{T}"/>). <br/>
         /// In the block diagram this variable represents r(k)
         /// </summary>
