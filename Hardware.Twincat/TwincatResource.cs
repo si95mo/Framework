@@ -231,7 +231,7 @@ namespace Hardware.Twincat
 
                 if (channel is TwincatAnalogOutput)
                     buffer = BitConverter.GetBytes((channel as TwincatAnalogOutput).Value);
-                else
+                else // Digital output
                     buffer = BitConverter.GetBytes((channel as DigitalOutput).Value);
 
                 await client.WriteAsync(handle, buffer, CancellationToken.None);

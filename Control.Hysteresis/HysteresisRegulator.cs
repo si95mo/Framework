@@ -18,6 +18,8 @@ namespace Control.Hysteresis
         private bool doRegulate;
         private Task controlTask;
 
+        private bool usePwmInBand;
+
         /// <summary>
         /// Create a new instance of <see cref="HysteresisRegulator"/>
         /// </summary>
@@ -39,6 +41,7 @@ namespace Control.Hysteresis
 
             doRegulate = false;
             controlTask = null;
+            usePwmInBand = false;
         }
 
         /// <summary>
@@ -55,14 +58,41 @@ namespace Control.Hysteresis
                      {
                          if (feedbackChannel.Value < LowerLimit.Value)
                              actuatorChannel.Value = true;
+                         else
+                         {
+                             if (usePwmInBand) // 50% PWM, if enabled
+                                 actuatorChannel.Value = !actuatorChannel.Value;
+                         }
                      }
 
                      await Task.Delay(CycleTime.Value);
                  }
+
+                 actuatorChannel.Value = false;
              }
         );
 
         public override void Start()
+        {
+            usePwmInBand = false;
+            StartRegulation();
+        }
+
+        /// <summary>
+        /// Start the control algorithm and eventually use a 50% PWM inside band, if enabled.
+        /// See also <see cref="Start"/> (that uses no PWM)
+        /// </summary>
+        /// <param name="usePwmInBand">The PWM option (<see langword="true"/> if PWM has to be used, <see langword="false"/> otherwise)</param>
+        public void Start(bool usePwmInBand)
+        {
+            this.usePwmInBand = usePwmInBand;
+            StartRegulation();
+        }
+
+        /// <summary>
+        /// Start the regulation <see cref="Task"/>
+        /// </summary>
+        private void StartRegulation()
         {
             if (!doRegulate)
                 doRegulate = true;
