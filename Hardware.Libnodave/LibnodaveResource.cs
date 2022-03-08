@@ -1,4 +1,5 @@
 ﻿using Core;
+using Extensions;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -61,7 +62,7 @@ namespace Hardware.Libnodave
             await Start();
         }
 
-        public override Task Start()
+        public override async Task Start()
         {
             CancellationTokenSource tokenSource = new CancellationTokenSource();
             CancellationToken token = tokenSource.Token;
@@ -92,19 +93,12 @@ namespace Hardware.Libnodave
             );
 
             // Connection timeout handling
-            Task waitingTask = new Task(() => Task.Delay(timeout));
-
             connectionTask.Start();
-            //waitingTask.Start();
-            //Task completedTask = await Task.WhenAny(connectionTask, waitingTask);
-
-            //if (completedTask == waitingTask)
-            //{
-            //    tokenSource.Cancel();
-            //    HandleException("Unable to connect to the PLC, timeout elapsed!");
-            //}
-
-            return Task.CompletedTask;
+            if (!await connectionTask.StartWithTimeout(timeout))
+            {
+                tokenSource.Cancel();
+                HandleException("Unable to connect to the PLC, timeout elapsed!");
+            }
         }
 
         public override void Stop()
