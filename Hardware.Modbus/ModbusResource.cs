@@ -152,7 +152,7 @@ namespace Hardware.Modbus
                     }
                     else
                         if (channel is ModbusDigitalOutput)
-                        master.WriteSingleCoil((channel as ModbusDigitalOutput).Address, (channel as ModbusDigitalOutput).Value);
+                            await master.WriteSingleCoilAsync((channel as ModbusDigitalOutput).Address, (channel as ModbusDigitalOutput).Value);
 
                     writing = false;
                 }
