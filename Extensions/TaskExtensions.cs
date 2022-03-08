@@ -13,7 +13,7 @@ namespace Extensions
         /// <param name="source">The <see cref="Task"/> to start</param>
         /// <param name="timeout">The <paramref name="source"/> timeout (in milliseconds) to complete</param>
         /// <returns>
-        /// The (async) <see cref="Task{TResult}"/> (<see langword="true"/> if the <see cref="Task"/> completed, 
+        /// The (async) <see cref="Task{TResult}"/> (<see langword="true"/> if the <see cref="Task"/> completed,
         /// <see langword="false"/> if timeout occurred)
         /// </returns>
         public static async Task<bool> StartWithTimeout(this Task source, int timeout)

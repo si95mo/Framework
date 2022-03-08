@@ -106,7 +106,7 @@ namespace Hardware.Twincat
 
         private async Task ConnectToVariables(ITwincatChannel channel)
         {
-            if(client.IsConnected)
+            if (client.IsConnected)
             {
                 ResultHandle resultHandler = await client.CreateVariableHandleAsync(channel.VariableName, CancellationToken.None);
                 uint handle = resultHandler.Handle;
@@ -199,7 +199,7 @@ namespace Hardware.Twincat
                         Channels.ToList().ForEach(async (x) => await ConnectToVariables(x as ITwincatChannel));
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 HandleException(ex);
             }
