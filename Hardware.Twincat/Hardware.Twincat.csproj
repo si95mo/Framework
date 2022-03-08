@@ -128,6 +128,10 @@
       <Project>{7DEB54D9-B9F1-4B05-8D81-D7B4F77631D1}</Project>
       <Name>Diagnostic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Extensions\Extensions.csproj">
+      <Project>{9A12DE29-C4AD-42CE-AB4B-88EBC819E83A}</Project>
+      <Name>Extensions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Hardware\Hardware.csproj">
       <Project>{c0f5ecde-b7ad-42b3-acf8-d5486b0e4c44}</Project>
       <Name>Hardware</Name>

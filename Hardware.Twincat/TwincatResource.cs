@@ -1,6 +1,7 @@
 ﻿using Core;
 using Core.DataStructures;
 using Diagnostic;
+using Extensions;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -103,25 +104,45 @@ namespace Hardware.Twincat
             Status.Value = ResourceStatus.Stopped;
         }
 
+        private async Task ConnectToVariables(ITwincatChannel channel)
+        {
+            if(client.IsConnected)
+            {
+                ResultHandle resultHandler = await client.CreateVariableHandleAsync(channel.VariableName, CancellationToken.None);
+                uint handle = resultHandler.Handle;
+
+                if (!variableHandles.ContainsKey(channel.Code))
+                    variableHandles.Add(channel.Code, handle);
+                else
+                    variableHandles[channel.Code] = handle;
+            }
+            else
+                await Logger.ErrorAsync($"Unable to connect {channel.Code} to {channel.VariableName}");
+        }
+
+        private async Task DisconnectFromVariables(ITwincatChannel channel)
+        {
+            if (client.IsConnected)
+            {
+                if (variableHandles.TryGetValue(channel.Code, out uint handle))
+                    await client.DeleteVariableHandleAsync(handle, CancellationToken.None);
+
+                variableHandles.Remove(channel.Code);
+            }
+            else
+                await Logger.ErrorAsync($"Unable to disconnect {channel.Code} from {channel.VariableName}");
+        }
+
         private async void Channels_ItemAdded(object sender, BagChangedEventArgs<IProperty> e)
         {
             ITwincatChannel channel = e.Item as ITwincatChannel;
-            ResultHandle resultHandler = await client.CreateVariableHandleAsync(channel.VariableName, CancellationToken.None);
-            uint handle = resultHandler.Handle;
-
-            if (!variableHandles.ContainsKey(channel.Code))
-                variableHandles.Add(channel.Code, handle);
-            else
-                variableHandles[channel.Code] = handle;
+            await ConnectToVariables(channel);
         }
 
         private async void Channels_ItemRemoved(object sender, BagChangedEventArgs<IProperty> e)
         {
             ITwincatChannel channel = e.Item as ITwincatChannel;
-            if (variableHandles.TryGetValue(channel.Code, out uint handle))
-                await client.DeleteVariableHandleAsync(handle, CancellationToken.None);
-
-            variableHandles.Remove(channel.Code);
+            await DisconnectFromVariables(channel);
         }
 
         public override async Task Restart()
@@ -134,43 +155,54 @@ namespace Hardware.Twincat
         {
             Status.Value = ResourceStatus.Starting;
 
-            Task timeoutTask = new Task(async () => await Task.Delay(client.Timeout));
-            Task t;
-            if (initializedWithAddress)
-                t = await Task.WhenAny(client.ConnectAndWaitAsync(address, CancellationToken.None), timeoutTask);
-            else
-                t = await Task.WhenAny(Task.Run(() => client.Connect(port)), timeoutTask);
-
-            if (t == timeoutTask)
-                HandleException($"{code} - Unable to connect to {amsNetAddress}:{port}");
-            else
+            try
             {
-                if (client.Session != null)
-                {
-                    if (client.Session.IsConnected)
-                    {
-                        Status.Value = ResourceStatus.Executing;
-                        isOpen = true;
-                    }
-                    else
-                        HandleException($"{code} - Unable to connect to {amsNetAddress}:{port}");
-                }
+                Task task;
+                if (initializedWithAddress)
+                    task = client.ConnectAndWaitAsync(address, CancellationToken.None);
+                else
+                    task = new Task(() => client.Connect(address));
+
+                if (await task.StartWithTimeout(client.Timeout))
+                    HandleException($"{code} - Unable to connect to {amsNetAddress}:{port}");
                 else
                 {
-                    if (client.IsConnected)
+                    if (client.Session != null)
                     {
-                        Status.Value = ResourceStatus.Executing;
-                        isOpen = true;
+                        if (client.Session.IsConnected)
+                        {
+                            Status.Value = ResourceStatus.Executing;
+                            isOpen = true;
+                        }
+                        else
+                            HandleException($"{code} - Unable to connect to {amsNetAddress}:{port}");
                     }
                     else
-                        HandleException($"{code} - Unable to connect to {amsNetAddress}:{port}");
+                    {
+                        if (client.IsConnected)
+                        {
+                            Status.Value = ResourceStatus.Executing;
+                            isOpen = true;
+                        }
+                        else
+                            HandleException($"{code} - Unable to connect to {amsNetAddress}:{port}");
+                    }
+                }
+
+                if (Status.Value == ResourceStatus.Executing)
+                {
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                    Receive();
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+
+                    if (Channels.Count > 0)
+                        Channels.ToList().ForEach(async (x) => await ConnectToVariables(x as ITwincatChannel));
                 }
             }
-
-            if (Status.Value == ResourceStatus.Executing)
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                Receive();
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            catch(Exception ex)
+            {
+                HandleException(ex);
+            }
         }
 
         public override void Stop()
