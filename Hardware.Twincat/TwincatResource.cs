@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using TwinCAT.Ads;
+using TwinCAT.Ads.TypeSystem;
 
 namespace Hardware.Twincat
 {
@@ -20,10 +21,10 @@ namespace Hardware.Twincat
         private string amsNetAddress;
         private int port;
 
-        private AdsClient client;
+        private TcAdsClient client;
         private AmsAddress address;
 
-        private Dictionary<string, uint> variableHandles;
+        private Dictionary<string, int> variableHandles;
 
         private bool initializedWithAddress;
 
@@ -61,7 +62,7 @@ namespace Hardware.Twincat
             initializedWithAddress = true;
 
             address = new AmsAddress(amsNetAddress, port);
-            client = new AdsClient();
+            client = new TcAdsClient();
 
             InitializeResource();
         }
@@ -81,7 +82,8 @@ namespace Hardware.Twincat
 
             initializedWithAddress = false;
 
-            client = new AdsClient();
+            client = new TcAdsClient();
+
             InitializeResource();
         }
 
@@ -97,19 +99,17 @@ namespace Hardware.Twincat
             };
             client.Timeout = 5000;
 
-            variableHandles = new Dictionary<string, uint>();
+            variableHandles = new Dictionary<string, int>();
             channels.ItemAdded += Channels_ItemAdded;
             channels.ItemRemoved += Channels_ItemRemoved;
 
             Status.Value = ResourceStatus.Stopped;
         }
-
         private async Task ConnectToVariables(ITwincatChannel channel)
         {
             if (client.IsConnected)
             {
-                ResultHandle resultHandler = await client.CreateVariableHandleAsync(channel.VariableName, CancellationToken.None);
-                uint handle = resultHandler.Handle;
+                int handle = client.CreateVariableHandle(channel.VariableName);
 
                 if (!variableHandles.ContainsKey(channel.Code))
                     variableHandles.Add(channel.Code, handle);
@@ -124,8 +124,8 @@ namespace Hardware.Twincat
         {
             if (client.IsConnected)
             {
-                if (variableHandles.TryGetValue(channel.Code, out uint handle))
-                    await client.DeleteVariableHandleAsync(handle, CancellationToken.None);
+                if (variableHandles.TryGetValue(channel.Code, out int handle))
+                    client.DeleteVariableHandle(handle);
 
                 variableHandles.Remove(channel.Code);
             }
@@ -133,16 +133,16 @@ namespace Hardware.Twincat
                 await Logger.ErrorAsync($"Unable to disconnect {channel.Code} from {channel.VariableName}");
         }
 
-        private async void Channels_ItemAdded(object sender, BagChangedEventArgs<IProperty> e)
+        private void Channels_ItemAdded(object sender, BagChangedEventArgs<IProperty> e)
         {
             ITwincatChannel channel = e.Item as ITwincatChannel;
-            await ConnectToVariables(channel);
+            Task.Run(async () => await ConnectToVariables(channel));
         }
 
-        private async void Channels_ItemRemoved(object sender, BagChangedEventArgs<IProperty> e)
+        private void Channels_ItemRemoved(object sender, BagChangedEventArgs<IProperty> e)
         {
             ITwincatChannel channel = e.Item as ITwincatChannel;
-            await DisconnectFromVariables(channel);
+            Task.Run(async () => await DisconnectFromVariables(channel));
         }
 
         public override async Task Restart()
@@ -151,63 +151,61 @@ namespace Hardware.Twincat
             await Start();
         }
 
-        public override async Task Start()
+        public override Task Start()
         {
             Status.Value = ResourceStatus.Starting;
 
             try
             {
-                Task task;
                 if (initializedWithAddress)
-                    task = client.ConnectAndWaitAsync(address, CancellationToken.None);
+                    client.Connect(address.NetId, address.Port);
                 else
-                    task = new Task(() => client.Connect(address));
+                    client.Connect(address);
 
-                if (await task.StartWithTimeout(client.Timeout))
-                    HandleException($"{code} - Unable to connect to {amsNetAddress}:{port}");
-                else
+                if (client.Session != null)
                 {
-                    if (client.Session != null)
+                    if (client.Session.IsConnected)
                     {
-                        if (client.Session.IsConnected)
-                        {
-                            Status.Value = ResourceStatus.Executing;
-                            isOpen = true;
-                        }
-                        else
-                            HandleException($"{code} - Unable to connect to {amsNetAddress}:{port}");
+                        Status.Value = ResourceStatus.Executing;
+                        isOpen = true;
                     }
                     else
+                        HandleException($"{code} - Unable to connect to {amsNetAddress}:{port}");
+                }
+                else
+                {
+                    if (client.IsConnected)
                     {
-                        if (client.IsConnected)
-                        {
-                            Status.Value = ResourceStatus.Executing;
-                            isOpen = true;
-                        }
-                        else
-                            HandleException($"{code} - Unable to connect to {amsNetAddress}:{port}");
+                        Status.Value = ResourceStatus.Executing;
+                        isOpen = true;
                     }
+                    else
+                        HandleException($"{code} - Unable to connect to {amsNetAddress}:{port}");
                 }
 
                 if (Status.Value == ResourceStatus.Executing)
                 {
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                    Receive();
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-
                     if (Channels.Count > 0)
                         Channels.ToList().ForEach(async (x) => await ConnectToVariables(x as ITwincatChannel));
+
+                    #pragma warning disable CS4014 
+                    Receive();
+                    #pragma warning restore CS4014 
                 }
             }
             catch (Exception ex)
             {
                 HandleException(ex);
             }
+
+            return Task.CompletedTask;
         }
 
         public override void Stop()
         {
             Status.Value = ResourceStatus.Stopping;
+
+            client.Disconnect();
             client.Close();
 
             if (!client.Session.IsConnected)
@@ -216,7 +214,7 @@ namespace Hardware.Twincat
                 isOpen = false;
             }
             else
-                HandleException($"{code}- Unable to disconnect to {amsNetAddress}:{port}");
+                HandleException($"{code} - Unable to disconnect to {amsNetAddress}:{port}");
         }
 
         /// <summary>
@@ -225,22 +223,29 @@ namespace Hardware.Twincat
         /// <returns>The async <see cref="Task"/></returns>
         private async Task Receive()
         {
+            int handle;
+            AdsStream stream;
+            ITwincatChannel twincatChannel;
+
             while (Status.Value == ResourceStatus.Executing)
             {
-                uint handle;
-                Memory<byte> buffer;
-
                 foreach (IChannel channel in channels)
                 {
-                    handle = variableHandles[channel.Code];
+                    twincatChannel = (ITwincatChannel)channel;
 
-                    buffer = new Memory<byte>();
-                    await client.ReadAsync(handle, buffer, CancellationToken.None);
+                    if (variableHandles.TryGetValue(twincatChannel.Code, out handle))
+                    {
+                        stream = new AdsStream();
+                        ITcAdsSymbol symbol = client.ReadSymbolInfo(twincatChannel.VariableName);
 
-                    if (channel is TwincatAnalogInput)
-                        (channel as TwincatAnalogInput).Value = Convert.ToDouble(buffer);
-                    else // Digital input
-                        (channel as TwincatDigitalInput).Value = Convert.ToBoolean(buffer);
+                        if (twincatChannel is TwincatAnalogInput) // Analog input
+                            (twincatChannel as TwincatAnalogInput).Value = Convert.ToDouble(client.ReadSymbol(symbol));
+                        else // Analog output, digital output or digital input
+                        {
+                            if (twincatChannel is TwincatDigitalInput) // Digital input
+                                (twincatChannel as TwincatDigitalInput).Value = Convert.ToBoolean(client.ReadSymbol(symbol));
+                        }
+                    }
                 }
 
                 await Task.Delay(PollingInterval);
@@ -252,21 +257,12 @@ namespace Hardware.Twincat
         /// </summary>
         /// <param name="code">The channel code with the value to send</param>
         /// <returns>The async <see cref="Task"/></returns>
-        internal async Task Send(string code)
+        internal void Send(string code)
         {
             if (Status.Value == ResourceStatus.Executing)
             {
                 ITwincatChannel channel = channels.Get(code) as ITwincatChannel;
-                uint handle = variableHandles[channel.Code];
-
-                Memory<byte> buffer;
-
-                if (channel is TwincatAnalogOutput)
-                    buffer = BitConverter.GetBytes((channel as TwincatAnalogOutput).Value);
-                else // Digital output
-                    buffer = BitConverter.GetBytes((channel as DigitalOutput).Value);
-
-                await client.WriteAsync(handle, buffer, CancellationToken.None);
+                client.WriteSymbol(channel.VariableName, channel.ValueAsObject, true);
             }
         }
     }

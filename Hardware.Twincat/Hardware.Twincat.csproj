@@ -90,14 +90,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="TwinCAT.Ads, Version=5.0.0.0, Culture=neutral, PublicKeyToken=180016cd49e5e8c3, processorArchitecture=MSIL">
-      <HintPath>..\packages\Beckhoff.TwinCAT.Ads.5.0.528\lib\net461\TwinCAT.Ads.dll</HintPath>
-    </Reference>
-    <Reference Include="TwinCAT.Ads.Abstractions, Version=5.0.0.0, Culture=neutral, PublicKeyToken=180016cd49e5e8c3, processorArchitecture=MSIL">
-      <HintPath>..\packages\Beckhoff.TwinCAT.Ads.Abstractions.5.0.528\lib\net461\TwinCAT.Ads.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="TwinCAT.Ads.Server, Version=5.0.0.0, Culture=neutral, PublicKeyToken=180016cd49e5e8c3, processorArchitecture=MSIL">
-      <HintPath>..\packages\Beckhoff.TwinCAT.Ads.Server.5.0.528\lib\net461\TwinCAT.Ads.Server.dll</HintPath>
+    <Reference Include="TwinCAT.Ads, Version=4.4.0.0, Culture=neutral, PublicKeyToken=180016cd49e5e8c3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Beckhoff.TwinCAT.Ads.4.4.19\lib\Net40-full\TwinCAT.Ads.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>

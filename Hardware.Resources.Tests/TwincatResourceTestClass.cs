@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Hardware.Twincat;
 using NUnit.Framework;
+using System;
 using System.Threading.Tasks;
 
 namespace Hardware.Resources.Tests
@@ -8,26 +9,43 @@ namespace Hardware.Resources.Tests
     [TestFixture]
     public class TwincatResourceTestClass
     {
-        private string amsNetAddress = "169.254.174.61.1.1"; // Check which is correct for the local ads server
-
-        private int port = 12345; // Mock server - only this parameter in the constructor of the resource
-        // private int port = 851; // TwinCAT - local ads server
+        private readonly string amsNetAddress = "169.254.174.61.1.1"; // Check which is correct for the local ads server
+        private readonly int port = 851; // TwinCAT - local ads server
 
         private TwincatResource resource;
 
+
+        private TwincatAnalogInput analogIn;
+        private TwincatDigitalInput digitalIn;
+        private TwincatAnalogOutput analogOut;
+        private TwincatDigitalOutput digitalOut;
+
         [OneTimeSetUp]
-        public void Setup()
+        public async Task Setup()
         {
-            // The mock server only specify a valid port number
-            resource = new TwincatResource("TwincatResource", port);
-            // resource = new TwincatResource("TwincatResource", amsNetAddress, port);
+            resource = new TwincatResource("TwincatResource", amsNetAddress, port);
+
+            await resource.Start();
+            resource.Status.Value.Should().Be(ResourceStatus.Executing);
+
+            analogIn = new TwincatAnalogInput("AnalogInputVariableName", "GVL.AIn[0]", resource);
+            digitalIn = new TwincatDigitalInput("DigitalInputVariableName", "GVL.DIn[0]", resource);
+            analogOut = new TwincatAnalogOutput("AnalogOutputVariableName", "GVL.AOut[0]", resource);
+            digitalOut = new TwincatDigitalOutput("DigitalOutputVariableName", "GVL.DOUt[0]", resource);
         }
 
         [Test]
-        public async Task StartTest()
+        public async Task Test()
         {
-            await resource.Start();
-            resource.Status.Value.Should().Be(ResourceStatus.Executing);
+            for(int i = 1; i <= 10; i++)
+            {
+                analogOut.Value = i;
+                digitalOut.Value = !digitalOut.Value;
+
+                await Task.Delay(1000);
+
+                Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} >> {analogIn.VariableName}: {analogIn.Value}, {digitalIn.VariableName}: {digitalIn.Value}");
+            }
         }
     }
 }
