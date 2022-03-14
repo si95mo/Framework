@@ -735,7 +735,5 @@ namespace Diagnostic
             bool isHigher = (int)minimumSeverityLevel <= (int)level;
             return isHigher;
         }
-
-        // TODO: Add an async version of all the saving methods of the Logger class. The basic method that should be added is AppendTextAsync
     }
 }
