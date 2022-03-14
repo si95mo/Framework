@@ -1,13 +1,10 @@
 ﻿using Core;
 using Core.DataStructures;
 using Diagnostic;
-using Extensions;
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 using TwinCAT.Ads;
-using TwinCAT.Ads.TypeSystem;
 
 namespace Hardware.Twincat
 {
@@ -105,6 +102,7 @@ namespace Hardware.Twincat
 
             Status.Value = ResourceStatus.Stopped;
         }
+
         private async Task ConnectToVariables(ITwincatChannel channel)
         {
             if (client.IsConnected)
@@ -188,9 +186,9 @@ namespace Hardware.Twincat
                     if (Channels.Count > 0)
                         Channels.ToList().ForEach(async (x) => await ConnectToVariables(x as ITwincatChannel));
 
-                    #pragma warning disable CS4014 
+#pragma warning disable CS4014
                     Receive();
-                    #pragma warning restore CS4014 
+#pragma warning restore CS4014
                 }
             }
             catch (Exception ex)

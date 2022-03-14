@@ -14,7 +14,6 @@ namespace Hardware.Resources.Tests
 
         private TwincatResource resource;
 
-
         private TwincatAnalogInput analogIn;
         private TwincatDigitalInput digitalIn;
         private TwincatAnalogOutput analogOut;
@@ -37,7 +36,7 @@ namespace Hardware.Resources.Tests
         [Test]
         public async Task Test()
         {
-            for(int i = 1; i <= 10; i++)
+            for (int i = 1; i <= 10; i++)
             {
                 analogOut.Value = i;
                 digitalOut.Value = !digitalOut.Value;

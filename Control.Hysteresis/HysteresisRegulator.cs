@@ -49,27 +49,27 @@ namespace Control.Hysteresis
         /// </summary>
         /// <returns>The (async) <see cref="Task"/></returns>
         private Task CreateControlTask() => new Task(async () =>
-              {
-                  while (doRegulate)
-                  {
-                      if (feedbackChannel.Value > UpperLimit.Value)
-                          actuatorChannel.Value = false;
-                      else
-                      {
-                          if (feedbackChannel.Value < LowerLimit.Value)
-                              actuatorChannel.Value = true;
-                          else
-                          {
-                              if (usePwmInBand) // 50% PWM, if enabled
-                                 actuatorChannel.Value = !actuatorChannel.Value;
-                          }
-                      }
+               {
+                   while (doRegulate)
+                   {
+                       if (feedbackChannel.Value > UpperLimit.Value)
+                           actuatorChannel.Value = false;
+                       else
+                       {
+                           if (feedbackChannel.Value < LowerLimit.Value)
+                               actuatorChannel.Value = true;
+                           else
+                           {
+                               if (usePwmInBand) // 50% PWM, if enabled
+                                  actuatorChannel.Value = !actuatorChannel.Value;
+                           }
+                       }
 
-                      await Task.Delay(CycleTime.Value);
-                  }
+                       await Task.Delay(CycleTime.Value);
+                   }
 
-                  actuatorChannel.Value = false;
-              }
+                   actuatorChannel.Value = false;
+               }
         );
 
         public override void Start()
