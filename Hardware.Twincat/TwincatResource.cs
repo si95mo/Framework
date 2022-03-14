@@ -115,7 +115,10 @@ namespace Hardware.Twincat
                     variableHandles[channel.Code] = handle;
             }
             else
-                await Logger.ErrorAsync($"Unable to connect {channel.Code} to {channel.VariableName}");
+            {
+                if (client.Disposed)
+                    await Logger.ErrorAsync($"Unable to connect {channel.Code} to {channel.VariableName}");
+            }
         }
 
         private async Task DisconnectFromVariables(ITwincatChannel channel)
@@ -128,7 +131,10 @@ namespace Hardware.Twincat
                 variableHandles.Remove(channel.Code);
             }
             else
-                await Logger.ErrorAsync($"Unable to disconnect {channel.Code} from {channel.VariableName}");
+            {
+                if (client.Disposed)
+                    await Logger.ErrorAsync($"Unable to disconnect {channel.Code} from {channel.VariableName}");
+            }
         }
 
         private void Channels_ItemAdded(object sender, BagChangedEventArgs<IProperty> e)
@@ -206,13 +212,14 @@ namespace Hardware.Twincat
             client.Disconnect();
             client.Close();
 
-            if (!client.Session.IsConnected)
+            if (client.Session == null)
             {
                 Status.Value = ResourceStatus.Stopped;
                 isOpen = false;
             }
             else
                 HandleException($"{code} - Unable to disconnect to {amsNetAddress}:{port}");
+
         }
 
         /// <summary>
