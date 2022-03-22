@@ -228,7 +228,6 @@ namespace Hardware.Twincat
             }
             else
                 HandleException($"{code} - Unable to disconnect to {amsNetAddress}:{port}");
-
         }
 
         /// <summary>
@@ -266,7 +265,7 @@ namespace Hardware.Twincat
 
                     await Task.Delay(PollingInterval);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     HandleException(ex);
                 }
@@ -288,7 +287,7 @@ namespace Hardware.Twincat
                 {
                     client.WriteSymbol(channel.VariableName, channel.ValueAsObject, true);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     HandleException(ex);
                 }
