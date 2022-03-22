@@ -6,14 +6,14 @@ namespace Extensions
     public static class UserInterfaceExtensions
     {
         /// <summary>
-        /// Automatically update an <see cref="UserControl"/> if needed (e.g. in case of a cross-thread operation)
+        /// Automatically update a <see cref="Control"/> if needed (e.g. in case of a cross-thread operation)
         /// </summary>
-        /// <param name="source">The source <see cref="UserControl"/></param>
+        /// <param name="source">The source <see cref="Control"/></param>
         /// <param name="form">The parent <see cref="Form"/></param>
         /// <param name="updateAction">The <see cref="Action"/> to call in case of a non cross-thread operation</param>
         /// <param name="crossThreadMethod">The cross-thread <see cref="Delegate"/> method (e.g. a value changed handler)</param>
         /// <param name="args">The <paramref name="crossThreadMethod"/> arguments</param>
-        public static void InvokeIfNeeded(this UserControl source, Form form, Action updateAction, Delegate crossThreadMethod, params object[] args)
+        public static void InvokeIfNeeded(this Control source, Form form, Action updateAction, Delegate crossThreadMethod, params object[] args)
         {
             if (!form.InvokeRequired)
                 updateAction();
