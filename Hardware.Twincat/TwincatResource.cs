@@ -4,6 +4,7 @@ using Diagnostic;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TwinCAT;
 using TwinCAT.Ads;
 
 namespace Hardware.Twincat
@@ -91,9 +92,30 @@ namespace Hardware.Twincat
         {
             client.AdsNotificationError += (object _, AdsNotificationErrorEventArgs e) =>
             {
-                Logger.Error($"Ads error. Received: {e.Exception.Message}");
+                string failureDescription = e.Exception.Message;
+
+                failure = new Failure(failureDescription);
                 Status.Value = ResourceStatus.Failure;
+
+                Logger.Error($"Ads error. Received: {failureDescription}");
             };
+            client.AdsStateChanged += (object _, AdsStateChangedEventArgs e) =>
+                Logger.Warn($"Ads state change notification. Actual Ads state: {e.State.AdsState}");
+            client.ConnectionStateChanged += (object _, ConnectionStateChangedEventArgs e) =>
+            {
+                Logger.Warn($"Connection state change notification. Actual state: {e.NewState}");
+
+                if (e.NewState == ConnectionState.Connected)
+                    Status.Value = ResourceStatus.Executing;
+                else
+                {
+                    if (e.NewState == ConnectionState.Disconnected)
+                        Status.Value = ResourceStatus.Stopped;
+                    else
+                        Status.Value = ResourceStatus.Failure;
+                }
+            };
+
             client.Timeout = 5000;
 
             variableHandles = new Dictionary<string, int>();
@@ -166,26 +188,13 @@ namespace Hardware.Twincat
                 else
                     client.Connect(address);
 
-                if (client.Session != null)
+                if (client.ConnectionState == ConnectionState.Connected)
                 {
-                    if (client.Session.IsConnected)
-                    {
-                        Status.Value = ResourceStatus.Executing;
-                        isOpen = true;
-                    }
-                    else
-                        HandleException($"{code} - Unable to connect to {amsNetAddress}:{port}");
+                    Status.Value = ResourceStatus.Executing;
+                    isOpen = true;
                 }
                 else
-                {
-                    if (client.IsConnected)
-                    {
-                        Status.Value = ResourceStatus.Executing;
-                        isOpen = true;
-                    }
-                    else
-                        HandleException($"{code} - Unable to connect to {amsNetAddress}:{port}");
-                }
+                    HandleException($"{code} - Unable to connect to {amsNetAddress}:{port}");
 
                 if (Status.Value == ResourceStatus.Executing)
                 {
@@ -234,26 +243,33 @@ namespace Hardware.Twincat
 
             while (Status.Value == ResourceStatus.Executing)
             {
-                foreach (IChannel channel in channels)
+                try
                 {
-                    twincatChannel = (ITwincatChannel)channel;
-
-                    if (variableHandles.TryGetValue(twincatChannel.Code, out handle))
+                    foreach (IChannel channel in channels)
                     {
-                        stream = new AdsStream();
-                        ITcAdsSymbol symbol = client.ReadSymbolInfo(twincatChannel.VariableName);
+                        twincatChannel = (ITwincatChannel)channel;
 
-                        if (twincatChannel is TwincatAnalogInput) // Analog input
-                            (twincatChannel as TwincatAnalogInput).Value = Convert.ToDouble(client.ReadSymbol(symbol));
-                        else // Analog output, digital output or digital input
+                        if (variableHandles.TryGetValue(twincatChannel.Code, out handle))
                         {
-                            if (twincatChannel is TwincatDigitalInput) // Digital input
-                                (twincatChannel as TwincatDigitalInput).Value = Convert.ToBoolean(client.ReadSymbol(symbol));
+                            stream = new AdsStream();
+                            ITcAdsSymbol symbol = client.ReadSymbolInfo(twincatChannel.VariableName);
+
+                            if (twincatChannel is TwincatAnalogInput) // Analog input
+                                (twincatChannel as TwincatAnalogInput).Value = Convert.ToDouble(client.ReadSymbol(symbol));
+                            else // Analog output, digital output or digital input
+                            {
+                                if (twincatChannel is TwincatDigitalInput) // Digital input
+                                    (twincatChannel as TwincatDigitalInput).Value = Convert.ToBoolean(client.ReadSymbol(symbol));
+                            }
                         }
                     }
-                }
 
-                await Task.Delay(PollingInterval);
+                    await Task.Delay(PollingInterval);
+                }
+                catch(Exception ex)
+                {
+                    HandleException(ex);
+                }
             }
         }
 
@@ -267,7 +283,15 @@ namespace Hardware.Twincat
             if (Status.Value == ResourceStatus.Executing)
             {
                 ITwincatChannel channel = channels.Get(code) as ITwincatChannel;
-                client.WriteSymbol(channel.VariableName, channel.ValueAsObject, true);
+
+                try
+                {
+                    client.WriteSymbol(channel.VariableName, channel.ValueAsObject, true);
+                }
+                catch(Exception ex)
+                {
+                    HandleException(ex);
+                }
             }
         }
     }
