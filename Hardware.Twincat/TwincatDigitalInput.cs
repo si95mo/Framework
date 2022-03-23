@@ -1,5 +1,8 @@
 ﻿namespace Hardware.Twincat
 {
+    /// <summary>
+    /// Implement a twincat digital input
+    /// </summary>
     public class TwincatDigitalInput : TwincatChannel<bool>, ITwincatChannel
     {
         /// <summary>
