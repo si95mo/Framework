@@ -17,12 +17,12 @@ namespace Extensions
             => new NumericParameter($"{nameof(source)}.AsParameter", source);
 
         /// <summary>
-        /// Wrap a <see cref="bool"/> to a <see cref="BooleanParameter"/>
+        /// Wrap a <see cref="bool"/> to a <see cref="BoolParameter"/>
         /// </summary>
         /// <param name="source">The source</param>
-        /// <returns>The <see cref="BooleanParameter"/></returns>
-        public static BooleanParameter WrapToParameter(this bool source)
-            => new BooleanParameter($"{nameof(source)}.AsParameter", source);
+        /// <returns>The <see cref="BoolParameter"/></returns>
+        public static BoolParameter WrapToParameter(this bool source)
+            => new BoolParameter($"{nameof(source)}.AsParameter", source);
 
         /// <summary>
         /// Wrap a <see cref="string"/> to a <see cref="StringParameter"/>

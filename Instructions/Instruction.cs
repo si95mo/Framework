@@ -24,7 +24,7 @@ namespace Instructions
 
         public Bag<IParameter> OutputParameters => outputParameters;
 
-        public BooleanParameter Succeeded
+        public BoolParameter Succeeded
         {
             get;
             internal set;
@@ -42,7 +42,7 @@ namespace Instructions
             internal set => stopTime = value;
         }
 
-        public BooleanParameter Failed { get; internal set; }
+        public BoolParameter Failed { get; internal set; }
 
         /// <summary>
         /// The order of the <see cref="Instruction"/> (used in case of parallelism)
@@ -79,8 +79,8 @@ namespace Instructions
             inputParameters = new Bag<IParameter>();
             outputParameters = new Bag<IParameter>();
 
-            Succeeded = new BooleanParameter($"{code}.{nameof(Succeeded)}", false);
-            Failed = new BooleanParameter($"{code}.{nameof(Failed)}", false);
+            Succeeded = new BoolParameter($"{code}.{nameof(Succeeded)}", false);
+            Failed = new BoolParameter($"{code}.{nameof(Failed)}", false);
 
             outputParameters.Add(Succeeded);
         }

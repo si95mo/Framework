@@ -9,10 +9,10 @@ namespace Benches.Template.Actions
     public class DummyInstruction : Instruction
     {
         private StringParameter Message = new StringParameter(nameof(Message));
-        private BooleanParameter Switch = new BooleanParameter(nameof(Switch));
+        private BoolParameter Switch = new BoolParameter(nameof(Switch));
 
         private NumericParameter Result = new NumericParameter(nameof(Result));
-        private BooleanParameter NotSwitch = new BooleanParameter(nameof(NotSwitch));
+        private BoolParameter NotSwitch = new BoolParameter(nameof(NotSwitch));
 
         public DummyInstruction() : base(Guid.NewGuid().ToString())
         { }

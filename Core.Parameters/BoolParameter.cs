@@ -7,32 +7,32 @@ namespace Core.Parameters
     /// See also <see cref="Parameter{T}"/> and <see cref="IParameter{T}"/>
     /// </summary>
     [Serializable]
-    public class BooleanParameter : Parameter<bool>, IBooleanParameter
+    public class BoolParameter : Parameter<bool>, IBoolParameter
     {
         /// <summary>
-        /// The <see cref="BooleanParameter"/> value;
+        /// The <see cref="BoolParameter"/> value;
         /// </summary>
         public override bool Value => value;
 
         /// <summary>
-        /// Create a new instance of <see cref="BooleanParameter"/>
+        /// Create a new instance of <see cref="BoolParameter"/>
         /// </summary>
-        public BooleanParameter() : this(Guid.NewGuid().ToString())
+        public BoolParameter() : this(Guid.NewGuid().ToString())
         { }
 
         /// <summary>
-        /// Create a new instance of <see cref="BooleanParameter"/>
+        /// Create a new instance of <see cref="BoolParameter"/>
         /// </summary>
         /// <param name="code">The code</param>
-        public BooleanParameter(string code) : base(code)
+        public BoolParameter(string code) : base(code)
         { }
 
         /// <summary>
-        /// Create a new instance of <see cref="BooleanParameter"/>
+        /// Create a new instance of <see cref="BoolParameter"/>
         /// </summary>
         /// <param name="code">The code</param>
         /// <param name="value">The initial value</param>
-        public BooleanParameter(string code, bool value) : base(code)
+        public BoolParameter(string code, bool value) : base(code)
         {
             Value = value;
         }

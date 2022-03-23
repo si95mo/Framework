@@ -3,7 +3,7 @@
     /// <summary>
     /// Describe a generic bool parameter
     /// </summary>
-    public interface IBooleanParameter : IParameter<bool>
+    public interface IBoolParameter : IParameter<bool>
     {
     }
 }

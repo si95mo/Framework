@@ -16,7 +16,7 @@ namespace Core.DataStructures.Tests
     internal class ParameterTestClass
     {
         private NumericParameter firstNumericParameter, secondNumericParameter;
-        private BooleanParameter firstBooleanParameter, secondBooleanParameter;
+        private BoolParameter firstBooleanParameter, secondBooleanParameter;
         private StringParameter firstStringParameter, secondStringParameter;
         private TimeSpanParameter timeSpanParameter;
         private EnumParameter<DummyEnum> enumParameter;
@@ -27,8 +27,8 @@ namespace Core.DataStructures.Tests
             firstNumericParameter = new NumericParameter(nameof(firstNumericParameter));
             secondNumericParameter = new NumericParameter(nameof(secondNumericParameter));
 
-            firstBooleanParameter = new BooleanParameter(nameof(firstBooleanParameter));
-            secondBooleanParameter = new BooleanParameter(nameof(secondBooleanParameter));
+            firstBooleanParameter = new BoolParameter(nameof(firstBooleanParameter));
+            secondBooleanParameter = new BoolParameter(nameof(secondBooleanParameter));
 
             firstStringParameter = new StringParameter(nameof(firstStringParameter));
             secondStringParameter = new StringParameter(nameof(secondStringParameter));

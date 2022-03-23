@@ -40,13 +40,13 @@ namespace Instructions
         /// <summary>
         /// The <see cref="IInstruction"/> succeeded property
         /// </summary>
-        BooleanParameter Succeeded
+        BoolParameter Succeeded
         { get; }
 
         /// <summary>
         /// The <see cref="IInstruction"/> failed property
         /// </summary>
-        BooleanParameter Failed
+        BoolParameter Failed
         { get; }
 
         /// <summary>

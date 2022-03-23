@@ -43,9 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BooleanParameter.cs" />
+    <Compile Include="BoolParameter.cs" />
     <Compile Include="EnumParameter.cs" />
-    <Compile Include="IBooleanParameter.cs" />
+    <Compile Include="IBoolParameter.cs" />
     <Compile Include="IEnumParameter.cs" />
     <Compile Include="INumericParameter.cs" />
     <Compile Include="IParameter.cs" />
