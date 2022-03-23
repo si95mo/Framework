@@ -12,7 +12,7 @@ namespace Hardware.Twincat
     /// <summary>
     /// Implement a resource that communicate with TwinCAT via the Ads protocol
     /// </summary>
-    public class TwincatResource : Resource, IResource
+    public class TwincatResource : Resource
     {
         private bool isOpen;
 
