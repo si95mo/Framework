@@ -81,7 +81,7 @@ namespace UserInterface.Controls
                     }
                     else
                     {
-                        if (p.GetType() == typeof(BooleanParameter))
+                        if (p.GetType() == typeof(BoolParameter))
                         {
                             var diCtrl = new DigitalControl();
                             diCtrl.Location = new Point(
@@ -141,8 +141,8 @@ namespace UserInterface.Controls
 
                 switch (t)
                 {
-                    case Type boolType when boolType == typeof(BooleanParameter):
-                        (parameters.ElementAt(i) as BooleanParameter).Value = (bool)values.ElementAt(i).Value;
+                    case Type boolType when boolType == typeof(BoolParameter):
+                        (parameters.ElementAt(i) as BoolParameter).Value = (bool)values.ElementAt(i).Value;
                         break;
 
                     case Type numType when numType == typeof(NumericParameter):

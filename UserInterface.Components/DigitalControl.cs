@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.Parameters;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -12,6 +13,8 @@ namespace UserInterface.Controls
     public partial class DigitalControl : BaseControl
     {
         private object objectLock = new object();
+
+        private BoolParameter parameter;
 
         /// <summary>
         /// The <see cref="DigitalControl"/> value
@@ -46,6 +49,8 @@ namespace UserInterface.Controls
 
             btnValue.BackColor = Colors.TextColor;
             btnValue.ForeColor = Colors.Grey;
+
+            Size = new Size(150, 40);
         }
 
         /// <summary>
@@ -120,5 +125,20 @@ namespace UserInterface.Controls
                 }
             }
         }
+
+        /// <summary>
+        /// Set the <see cref="BoolParameter"/> that will be connected to the <see cref="DigitalControl"/>
+        /// </summary>
+        /// <param name="parameter">The <see cref="BoolParameter"/> to connect</param>
+        public void SetParameter(BoolParameter parameter)
+        {
+            this.parameter = new BoolParameter("DigitalControl.BoolParameter", parameter.Value);
+            this.parameter.ConnectTo(parameter);
+
+            ValueChanged += DigitalControl_ValueChanged;
+        }
+
+        private void DigitalControl_ValueChanged(object sender, ValueChangedEventArgs e)
+            => parameter.Value = (bool)Value;
     }
 }

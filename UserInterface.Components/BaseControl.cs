@@ -38,7 +38,7 @@ namespace UserInterface.Controls
         /// <returns>The description of the <see cref="BaseControl"/></returns>
         public override string ToString()
         {
-            string description = $"({this.GetType().Name}, {value})";
+            string description = $"({GetType().Name}, {value})";
             return description;
         }
     }
