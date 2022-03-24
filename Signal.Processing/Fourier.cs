@@ -7,6 +7,46 @@ using System.Runtime.InteropServices;
 namespace Signal.Processing
 {
     /// <summary>
+    /// Represent the result of <see cref="Fourier.FFT(double[], double)"/>
+    /// </summary>
+    public struct FourierResult
+    {
+        public FourierResult(Complex[] fft, double[] magnitudes, double[] frequencies, double fundamental, double dcValue)
+        {
+            FFT = fft;
+            Magnitudes = magnitudes;
+            Frequencies = frequencies;
+            FundamentalFrequency = fundamental;
+            DcValue = dcValue;
+        }
+
+        /// <summary>
+        /// The FFT
+        /// </summary>
+        public Complex[] FFT { get; }
+
+        /// <summary>
+        /// The magnitudes array (in dB)
+        /// </summary>
+        public double[] Magnitudes { get; }
+
+        /// <summary>
+        /// The frequencies array (in Hz)
+        /// </summary>
+        public double[] Frequencies { get; }
+
+        /// <summary>
+        /// The fundamental frequency (in Hz)
+        /// </summary>
+        public double FundamentalFrequency { get; }
+
+        /// <summary>
+        /// The DC value (in dB)
+        /// </summary>
+        public double DcValue { get; }
+    }
+
+    /// <summary>
     /// Class that calculate the Fourier transform. <br/>
     /// To perform a "real-time" FFT, consider using an <see cref="Hardware.MultiSampleAnalogInput"/>
     /// and calculate the transform in the ValueChanged event
@@ -25,9 +65,9 @@ namespace Signal.Processing
         /// <returns>The data transformed in the frequency domain</returns>
         public static Complex[] FFT(double[] data)
         {
-            (Complex[] fft, _, _, _, _) = FFT(data, 0);
+            FourierResult result = FFT(data, 0);
 
-            return fft;
+            return result.FFT;
         }
 
         /// <summary>
@@ -37,7 +77,7 @@ namespace Signal.Processing
         /// <param name="samplingFrequency">The sampling frequency in Hz</param>
         /// <returns>The data in the frequency domain, the array with the magnitude (dB)
         /// and frequencies (Hz), the fundamental frequency and the DC value, in this order</returns>
-        public static (Complex[], double[], double[], double, double) FFT(double[] data, double samplingFrequency)
+        public static FourierResult FFT(double[] data, double samplingFrequency)
         {
             Complex[] fft = ToNumericComplex(CalculateFFT(data));
 
@@ -54,7 +94,8 @@ namespace Signal.Processing
 
             double dcValue = magnitude[0];
 
-            return (fft, magnitude, frequencies, fundamentalFrequency, dcValue);
+            FourierResult result = new FourierResult(fft, magnitude, frequencies, fundamentalFrequency, dcValue);
+            return result;
         }
 
         /// <summary>

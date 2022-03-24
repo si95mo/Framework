@@ -126,39 +126,38 @@ namespace Signal.Processing.Tests
             samples = LoadResource(stream);
 
             double samplingFrequency = 44100.0;
-            (Complex[] fft, double[] magnitude, double[] frequencies, double fundamental, double dcValue) =
-                Fourier.FFT(samples, samplingFrequency);
-            Console.WriteLine($"\t >> Fundamental frequency: {fundamental:F2}Hz");
+            FourierResult result = Fourier.FFT(samples, samplingFrequency);
+            Console.WriteLine($"\t >> Fundamental frequency: {result.FundamentalFrequency:F2}Hz");
 
-            int n = fft.Length;
+            int n = result.FFT.Length;
 
-            double max = magnitude.Max();
+            double max = result.Magnitudes.Max();
             max.Should().NotBe(0);
 
             double threshold = 0.01;
-            (Math.Abs(dcValue) - threshold).Should().BeGreaterThan(-threshold).And.BeLessThan(threshold);
+            (Math.Abs(result.DcValue) - threshold).Should().BeGreaterThan(-threshold).And.BeLessThan(threshold);
 
             threshold = 4.0; // Hz
             switch (i)
             {
                 case 0:
-                    (fundamental - 98.0).Should().BeGreaterThan(0.0).And.BeLessThan(threshold);
+                    (result.FundamentalFrequency - 98.0).Should().BeGreaterThan(0.0).And.BeLessThan(threshold);
                     break;
 
                 case 1:
-                    (fundamental - 248.0).Should().BeGreaterThan(0.0).And.BeLessThan(threshold);
+                    (result.FundamentalFrequency - 248.0).Should().BeGreaterThan(0.0).And.BeLessThan(threshold);
                     break;
 
                 case 2:
-                    (fundamental - 438.0).Should().BeGreaterThan(0.0).And.BeLessThan(threshold);
+                    (result.FundamentalFrequency - 438.0).Should().BeGreaterThan(0.0).And.BeLessThan(threshold);
                     break;
 
                 case 3:
-                    (fundamental - 998.0).Should().BeGreaterThan(0.0).And.BeLessThan(threshold);
+                    (result.FundamentalFrequency - 998.0).Should().BeGreaterThan(0.0).And.BeLessThan(threshold);
                     break;
 
                 case 4:
-                    (fundamental - 9998.0).Should().BeGreaterThan(0.0).And.BeLessThan(threshold);
+                    (result.FundamentalFrequency - 9998.0).Should().BeGreaterThan(0.0).And.BeLessThan(threshold);
                     break;
             }
         }
