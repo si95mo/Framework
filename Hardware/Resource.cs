@@ -46,6 +46,8 @@ namespace Hardware
             status = new EnumParameter<ResourceStatus>(nameof(status));
             failure = new Failure();
 
+            Status.Value = ResourceStatus.Stopped;
+
             Status.ValueChanged += Status_ValueChanged;
         }
 
