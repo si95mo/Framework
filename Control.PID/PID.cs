@@ -163,7 +163,7 @@ namespace Control.PID
             proportionalTerm.Value = kp.Value * error;
 
             // Output update
-            uk.Value = proportionalTerm.Value + integralTerm.Value - derivativeTerm.Value;
+            uk.Value = proportionalTerm.Value + integralTerm.Value + derivativeTerm.Value;
             uk.Value = Clamp(uk.Value);
         }
 
