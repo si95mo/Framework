@@ -86,15 +86,15 @@ namespace Control.PID
             double upperLimit, double lowerLimit, double setpoint) : base(code, feedback, setpoint)
         {
             this.n = n;
-            this.kp = new NumericParameter("Kp", value: kp, format: "0.000");
-            this.ki = new NumericParameter("Ki", value: ki, format: "0.000");
-            this.kd = new NumericParameter("Kd", value: kd, format: "0.000");
-            this.upperLimit = new NumericParameter("UpperLimit", value: upperLimit, measureUnit: feedback.MeasureUnit, format: feedback.Format);
-            this.lowerLimit = new NumericParameter("LowerLimit", value: lowerLimit, measureUnit: feedback.MeasureUnit, format: feedback.Format);
+            this.kp = new NumericParameter($"{Code}.Kp", value: kp, format: "0.000");
+            this.ki = new NumericParameter($"{Code}.Ki", value: ki, format: "0.000");
+            this.kd = new NumericParameter($"{Code}.Kd", value: kd, format: "0.000");
+            this.upperLimit = new NumericParameter($"{Code}.UpperLimit", value: upperLimit, measureUnit: feedback.MeasureUnit, format: feedback.Format);
+            this.lowerLimit = new NumericParameter($"{Code}.LowerLimit", value: lowerLimit, measureUnit: feedback.MeasureUnit, format: feedback.Format);
 
-            proportionalTerm = new NumericParameter("ProportionalTerm", format: "0.000");
-            integralTerm = new NumericParameter("IntegralTerm", format: "0.000");
-            derivativeTerm = new NumericParameter("DerivativeTerm", format: "0.000");
+            proportionalTerm = new NumericParameter($"{Code}.ProportionalTerm", format: "0.000");
+            integralTerm = new NumericParameter($"{Code}.IntegralTerm", format: "0.000");
+            derivativeTerm = new NumericParameter($"{Code}.DerivativeTerm", format: "0.000");
 
             controlTask = null;
         }

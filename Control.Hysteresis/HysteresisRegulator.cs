@@ -10,9 +10,9 @@ namespace Control.Hysteresis
     /// </summary>
     public class HysteresisRegulator : Regulator
     {
-        public NumericParameter UpperLimit;
-        public NumericParameter LowerLimit;
-        public TimeSpanParameter CycleTime;
+        public NumericParameter UpperLimit { get; internal set; }
+        public NumericParameter LowerLimit { get; internal set; }
+        public TimeSpanParameter CycleTime { get; internal set; }
 
         private Channel<bool> actuatorChannel;
         private bool doRegulate;
@@ -80,7 +80,7 @@ namespace Control.Hysteresis
 
         /// <summary>
         /// Start the control algorithm and eventually use a 50% PWM inside band, if enabled.
-        /// See also <see cref="Start"/> (that uses no PWM)
+        /// See also <see cref="Start()"/> (that uses no PWM)
         /// </summary>
         /// <param name="usePwmInBand">The PWM option (<see langword="true"/> if PWM has to be used, <see langword="false"/> otherwise)</param>
         public void Start(bool usePwmInBand)
