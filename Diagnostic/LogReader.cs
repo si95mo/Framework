@@ -114,7 +114,7 @@ namespace Diagnostic
                         }
                         catch (Exception ex)
                         {
-                            Logger.Log(ex);
+                            await Logger.ErrorAsync(ex);
                         }
 
                         await Task.Delay(monitoringInterval);
