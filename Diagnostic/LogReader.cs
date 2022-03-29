@@ -88,26 +88,29 @@ namespace Diagnostic
                     {
                         try
                         {
-                            var fileSize = new FileInfo(logPath).Length;
+                            long fileSize = new FileInfo(logPath).Length;
                             if (fileSize > lastReadLength)
                             {
-                                using (var fs = new FileStream(logPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                                using (FileStream fs = new FileStream(logPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                                 {
                                     fs.Seek(lastReadLength, SeekOrigin.Begin);
-                                    var buffer = new byte[1024];
+                                    byte[] buffer = new byte[1024];
 
-                                    while (true)
+                                    bool doLoop = true;
+                                    while (doLoop)
                                     {
-                                        var bytesRead = fs.Read(buffer, 0, buffer.Length);
+                                        int bytesRead = fs.Read(buffer, 0, buffer.Length);
                                         lastReadLength += bytesRead;
 
                                         if (bytesRead == 0)
-                                            break;
+                                            doLoop = false;
+                                        else
+                                        {
+                                            string text = Encoding.ASCII.GetString(buffer, 0, bytesRead);
 
-                                        var text = Encoding.ASCII.GetString(buffer, 0, bytesRead);
-
-                                        logText += text;
-                                        lastLog = text;
+                                            logText += text;
+                                            lastLog = text;
+                                        }
                                     }
                                 }
                             }
