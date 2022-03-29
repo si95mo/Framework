@@ -21,6 +21,8 @@ namespace Core.DataStructures.Tests
         private TimeSpanParameter timeSpanParameter;
         private EnumParameter<DummyEnum> enumParameter;
 
+        private bool eventFired = false;
+
         [OneTimeSetUp]
         public void Setup()
         {
@@ -62,6 +64,8 @@ namespace Core.DataStructures.Tests
         [Test]
         public void ParameterTest()
         {
+            firstBooleanParameter.ValueChanged += FirstBooleanParameter_ValueChanged;
+
             firstNumericParameter.Value = -1.5;
             firstNumericParameter.MeasureUnit = "V";
 
@@ -84,6 +88,13 @@ namespace Core.DataStructures.Tests
                 enumParameter.Value = (DummyEnum)item;
                 enumParameter.Value.Should().Be((DummyEnum)item);
             }
+
+            eventFired.Should().BeTrue();
+        }
+
+        private void FirstBooleanParameter_ValueChanged(object sender, ValueChangedEventArgs e)
+        {
+            eventFired = true;
         }
     }
 }
