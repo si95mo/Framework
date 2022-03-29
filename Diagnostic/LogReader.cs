@@ -51,14 +51,14 @@ namespace Diagnostic
         /// <summary>
         /// Start the read of the log file.
         /// </summary>
-        /// <param name="intervalInMilliseconds">The monitoring interval (in milliseconds)</param>
+        /// <param name="pollingInterval">The monitoring interval (in milliseconds)</param>
         /// <remarks>The <see cref="Logger"/> must be <see cref="Logger.Initialized"/></remarks>
-        public static void StartRead(int intervalInMilliseconds = 1000)
+        public static void StartRead(int pollingInterval = 1000)
         {
             if (Logger.Initialized)
             {
                 logPath = Logger.Path;
-                monitoringInterval = intervalInMilliseconds;
+                monitoringInterval = pollingInterval;
 
                 if (!reading)
                 {
