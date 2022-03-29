@@ -56,12 +56,21 @@ namespace Hardware.Tcp
         public Task PollingTask => pollingTask;
 
         /// <summary>
+        /// Create a new instance of <see cref="TcpChannel"/> that use an async send/receive logic
+        /// </summary>
+        /// <param name="code">The code</param>
+        /// <param name="resource">The <see cref="IResource"/></param>
+        public TcpChannel(string code, IResource resource) : this(code, "", resource, 100, false)
+        { }
+
+        /// <summary>
         /// Create a new instance of <see cref="TcpChannel"/>
         /// </summary>
         /// <param name="code">The code</param>
         /// <param name="request">The command to send</param>
         /// <param name="resource">The <see cref="IResource"/></param>
         /// <param name="pollingInterval">The polling interval (in milliseconds)</param>
+        /// <param name="usePolling"><see langword="true"/> if polling must be used, <see langword="false"/> for async send/receive instead</param>
         public TcpChannel(string code, string request, IResource resource, int pollingInterval = 100, bool usePolling = true) : base(code)
         {
             this.request = request;
