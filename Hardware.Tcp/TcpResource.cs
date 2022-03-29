@@ -1,6 +1,5 @@
 ﻿using Core;
 using Core.DataStructures;
-using Diagnostic;
 using Hardware.Tcp;
 using System;
 using System.Linq;
@@ -122,11 +121,11 @@ namespace Hardware.Resources
 
             // Begin sending the data to the remote device
             tcp.Client.BeginSend(
-                byteData, 
-                0, 
-                byteData.Length, 
+                byteData,
                 0,
-                new AsyncCallback(SendCallback), 
+                byteData.Length,
+                0,
+                new AsyncCallback(SendCallback),
                 tcp.Client
             );
         }
@@ -138,10 +137,10 @@ namespace Hardware.Resources
                 // Retrieve the socket from the state object.
                 Socket client = (Socket)asyncResult.AsyncState;
 
-                // Complete sending the data to the remote device  
+                // Complete sending the data to the remote device
                 int bytesSent = client.EndSend(asyncResult);
 
-                // Signal that all bytes have been sent  
+                // Signal that all bytes have been sent
                 sendDone.Set();
             }
             catch (Exception ex)
@@ -165,11 +164,11 @@ namespace Hardware.Resources
 
                 // Begin receiving the data from the remote device
                 tcp.Client.BeginReceive(
-                    state.Buffer, 
-                    0, 
-                    StateObject.BufferSize, 
+                    state.Buffer,
                     0,
-                    new AsyncCallback(ReceiveCallback), 
+                    StateObject.BufferSize,
+                    0,
+                    new AsyncCallback(ReceiveCallback),
                     state
                 );
             }
@@ -184,38 +183,38 @@ namespace Hardware.Resources
             try
             {
                 // Retrieve the state object and the client socket
-                // from the asynchronous state object  
+                // from the asynchronous state object
                 StateObject state = (StateObject)asyncResult.AsyncState;
                 Socket client = state.Socket;
 
-                // Read data from the remote device  
+                // Read data from the remote device
                 int bytesRead = client.EndReceive(asyncResult);
 
                 if (bytesRead > 0)
                 {
-                    // There might be more data, so store the data received so far  
+                    // There might be more data, so store the data received so far
                     state.StringBuilder.Append(Encoding.ASCII.GetString(state.Buffer, 0, bytesRead));
 
                     if (state.TcpChannel.Response.CompareTo(string.Empty) == 0)
                         state.TcpChannel.Response = state.StringBuilder.ToString();
 
-                    // Get the rest of the data  
+                    // Get the rest of the data
                     client.BeginReceive(
-                        state.Buffer, 
-                        0, 
-                        StateObject.BufferSize, 
+                        state.Buffer,
                         0,
-                        new AsyncCallback(ReceiveCallback), 
+                        StateObject.BufferSize,
+                        0,
+                        new AsyncCallback(ReceiveCallback),
                         state
                     );
                 }
                 else
                 {
-                    // All the data has arrived; put it in response  
+                    // All the data has arrived; put it in response
                     if (state.StringBuilder.Length > 1)
                         state.TcpChannel.Response = state.StringBuilder.ToString();
 
-                    // Signal that all bytes have been received  
+                    // Signal that all bytes have been received
                     receiveDone.Set();
                 }
             }

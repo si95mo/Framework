@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
+﻿using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Hardware.Tcp
 {
@@ -16,12 +12,12 @@ namespace Hardware.Tcp
         /// The client <see cref="System.Net.Sockets.Socket"/>
         /// </summary>
         public Socket Socket = null;
-        
+
         /// <summary>
         /// Receive buffer size
         /// </summary>
         public const int BufferSize = 256;
-        
+
         /// <summary>
         /// Receive buffer
         /// </summary>

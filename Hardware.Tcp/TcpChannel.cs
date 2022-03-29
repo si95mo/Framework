@@ -19,7 +19,7 @@ namespace Hardware.Tcp
         /// it is automatically sent when using the setter)
         /// </summary>
         public string Request
-        { 
+        {
             get => request;
             set
             {

@@ -8,9 +8,9 @@ namespace Core.Parameters
     /// </summary>
     public class TriggerParameter : Parameter<bool>, IBoolParameter
     {
-        TimeSpan tOn;
-        TimeSpan preTriggerTime;
-        bool risingTrigger;
+        private TimeSpan tOn;
+        private TimeSpan preTriggerTime;
+        private bool risingTrigger;
 
         /// <summary>
         /// Create a new instance of <see cref="TriggerParameter"/>
@@ -27,7 +27,7 @@ namespace Core.Parameters
             Value = value;
         }
 
-        public TriggerParameter (string code, bool value, TimeSpan tOn, TimeSpan preTriggerTime) : this(code, value, tOn)
+        public TriggerParameter(string code, bool value, TimeSpan tOn, TimeSpan preTriggerTime) : this(code, value, tOn)
         {
             this.preTriggerTime = preTriggerTime;
         }
