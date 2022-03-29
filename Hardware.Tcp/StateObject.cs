@@ -28,6 +28,9 @@ namespace Hardware.Tcp
         /// </summary>
         public StringBuilder StringBuilder = new StringBuilder();
 
+        /// <summary>
+        /// The <see cref="ITcpChannel"/> involved in the transmission
+        /// </summary>
         public ITcpChannel TcpChannel;
     }
 }
