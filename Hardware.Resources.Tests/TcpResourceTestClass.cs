@@ -50,7 +50,7 @@ namespace Hardware.Resources.Tests
 
             await Task.Delay(2000);
 
-            channel.Response.Should().NotBe(""); // The response is sent back from Hercules
+            channel.Response.Should().NotBe(""); // The response is sent back from Hercules (manual)
         }
     }
 }
