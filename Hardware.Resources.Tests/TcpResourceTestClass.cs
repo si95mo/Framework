@@ -11,8 +11,7 @@ namespace Hardware.Resources.Tests
     public class TcpResourceTestClass
     {
         private TcpResource resource;
-        private TcpInput input;
-        private TcpOutput output;
+        private TcpChannel channel;
 
         [OneTimeSetUp]
         public async Task Setup()
@@ -20,10 +19,9 @@ namespace Hardware.Resources.Tests
             resource = new TcpResource("TcpResource", GetLocalIp(), 10000);
 
             await resource.Start();
-            resource.Status.Should().Be(ResourceStatus.Executing);
+            resource.Status.Value.Should().Be(ResourceStatus.Executing);
 
-            input = new TcpInput("TcpInput", $"Hello IN {Environment.NewLine}", resource, 100);
-            output = new TcpOutput("TcpOutput", $"Hello OUT {Environment.NewLine}", resource);
+            channel = new TcpChannel("TcpInput", "", resource, usePolling: false);
         }
 
         [OneTimeTearDown]
@@ -48,20 +46,11 @@ namespace Hardware.Resources.Tests
         [TestCase("Hello, world!")]
         public async Task Test(string message)
         {
-            resource.Send($"{message} (Send){Environment.NewLine}");
+            channel.Request = message + Environment.NewLine;
 
-            resource.SendAndReceive(
-                $"{message} (SendAndReceive){Environment.NewLine}",
-                out string response
-            );
-            response.Should().NotBe(""); // The response is sent back from Hercules
+            await Task.Delay(2000);
 
-            for (int i = 1; i <= 4; i++)
-            {
-                output.Value = i.ToString();
-                await Task.Delay(2000);
-                Console.WriteLine($"{DateTime.Now:ss:ffff} - {input.Value} ({i})");
-            }
+            channel.Response.Should().NotBe(""); // The response is sent back from Hercules
         }
     }
 }

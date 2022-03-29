@@ -6,7 +6,7 @@ namespace Hardware.Tcp
     /// <summary>
     /// An input channel for tcp communication
     /// </summary>
-    public class TcpInput : Channel<string>, ITcpChannel
+    public class TcpChannel : Channel<string>, ITcpChannel
     {
         private string request;
         private string response;
@@ -15,15 +15,28 @@ namespace Hardware.Tcp
         private Task pollingTask;
 
         /// <summary>
-        /// The request to send
+        /// The request to send (if the actual request is not equal to the previous one,
+        /// it is automatically sent when using the setter)
         /// </summary>
         public string Request
-        { get => request; set => request = value; }
+        { 
+            get => request;
+            set
+            {
+                if (request.CompareTo(value) != 0)
+                {
+                    response = "";
+                    request = value;
+                    (Resource as TcpResource).SendAndReceive(this);
+                }
+            }
+        }
 
         /// <summary>
         /// The received response
         /// </summary>
-        public string Response => response;
+        public string Response
+        { get => response; set => response = value; }
 
         /// <summary>
         /// The <see cref="IResource"/>
@@ -43,13 +56,13 @@ namespace Hardware.Tcp
         public Task PollingTask => pollingTask;
 
         /// <summary>
-        /// Create a new instance of <see cref="TcpInput"/>
+        /// Create a new instance of <see cref="TcpChannel"/>
         /// </summary>
         /// <param name="code">The code</param>
         /// <param name="request">The command to send</param>
         /// <param name="resource">The <see cref="IResource"/></param>
         /// <param name="pollingInterval">The polling interval (in milliseconds)</param>
-        public TcpInput(string code, string request, IResource resource, int pollingInterval = 100) : base(code)
+        public TcpChannel(string code, string request, IResource resource, int pollingInterval = 100, bool usePolling = true) : base(code)
         {
             this.request = request;
             this.resource = resource;
@@ -61,14 +74,16 @@ namespace Hardware.Tcp
                 {
                     while (true)
                     {
-                        (resource as TcpResource).SendAndReceive(request, out response);
+                        (resource as TcpResource).SendAndReceive(this);
                         value = response;
 
                         await Task.Delay(pollingInterval);
                     }
                 }
             );
-            pollingTask.Start();
+
+            if (usePolling)
+                pollingTask.Start();
         }
     }
 }

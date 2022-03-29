@@ -1,11 +1,13 @@
 ﻿using Core;
 using Core.DataStructures;
 using Diagnostic;
+using Hardware.Tcp;
 using System;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Hardware.Resources
@@ -49,6 +51,8 @@ namespace Hardware.Resources
         private IPGlobalProperties ipProperties;
         private TcpConnectionInformation[] tcpConnections;
 
+        private ManualResetEventSlim sendDone, receiveDone;
+
         /// <summary>
         /// Create a new instance of <see cref="TcpResource"/>
         /// </summary>
@@ -67,6 +71,9 @@ namespace Hardware.Resources
             channels = new Bag<IChannel>();
 
             tcp = new TcpClient();
+
+            sendDone = new ManualResetEventSlim(false);
+            receiveDone = new ManualResetEventSlim(false);
 
             status.Value = ResourceStatus.Stopped;
         }
@@ -93,6 +100,9 @@ namespace Hardware.Resources
                     SendTimeout = timeout
                 };
 
+                sendDone = new ManualResetEventSlim(false);
+                receiveDone = new ManualResetEventSlim(false);
+
                 status.Value = ResourceStatus.Stopped;
             }
             catch (Exception ex)
@@ -104,19 +114,39 @@ namespace Hardware.Resources
         /// <summary>
         /// Send a command via the <see cref="TcpResource"/>, without receiving a response
         /// </summary>
-        /// <param name="request">The http request to send</param>
-        public void Send(string request)
+        /// <param name="channel">The <see cref="ITcpChannel"/></param>
+        public void Send(ITcpChannel channel)
+        {
+            // Convert the string data to byte data using ASCII encoding
+            byte[] byteData = Encoding.ASCII.GetBytes(channel.Request);
+
+            // Begin sending the data to the remote device
+            tcp.Client.BeginSend(
+                byteData, 
+                0, 
+                byteData.Length, 
+                0,
+                new AsyncCallback(SendCallback), 
+                tcp.Client
+            );
+        }
+
+        private void SendCallback(IAsyncResult asyncResult)
         {
             try
             {
-                // Request
-                var requestData = Encoding.UTF8.GetBytes(request);
-                tcp.Client.Send(requestData);
+                // Retrieve the socket from the state object.
+                Socket client = (Socket)asyncResult.AsyncState;
+
+                // Complete sending the data to the remote device  
+                int bytesSent = client.EndSend(asyncResult);
+
+                // Signal that all bytes have been sent  
+                sendDone.Set();
             }
             catch (Exception ex)
             {
-                Status.Value = ResourceStatus.Failure;
-                Logger.Log(ex);
+                HandleException(ex);
             }
         }
 
@@ -124,40 +154,87 @@ namespace Hardware.Resources
         /// Receive data via the <see cref="TcpResource"/>
         /// </summary>
         /// <returns></returns>
-        private string Receive()
+        private void Receive(ITcpChannel channel)
         {
-            string response = "";
-
             try
             {
-                byte[] responseData = new byte[1024];
-                int lengthOfResponse = tcp.Client.Receive(responseData);
+                // Create the state object
+                StateObject state = new StateObject();
+                state.Socket = tcp.Client;
+                state.TcpChannel = channel;
 
-                response = Encoding.UTF8.GetString(responseData, 0, lengthOfResponse);
+                // Begin receiving the data from the remote device
+                tcp.Client.BeginReceive(
+                    state.Buffer, 
+                    0, 
+                    StateObject.BufferSize, 
+                    0,
+                    new AsyncCallback(ReceiveCallback), 
+                    state
+                );
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+        }
 
-                return response;
+        private void ReceiveCallback(IAsyncResult asyncResult)
+        {
+            try
+            {
+                // Retrieve the state object and the client socket
+                // from the asynchronous state object  
+                StateObject state = (StateObject)asyncResult.AsyncState;
+                Socket client = state.Socket;
+
+                // Read data from the remote device  
+                int bytesRead = client.EndReceive(asyncResult);
+
+                if (bytesRead > 0)
+                {
+                    // There might be more data, so store the data received so far  
+                    state.StringBuilder.Append(Encoding.ASCII.GetString(state.Buffer, 0, bytesRead));
+
+                    if (state.TcpChannel.Response.CompareTo(string.Empty) == 0)
+                        state.TcpChannel.Response = state.StringBuilder.ToString();
+
+                    // Get the rest of the data  
+                    client.BeginReceive(
+                        state.Buffer, 
+                        0, 
+                        StateObject.BufferSize, 
+                        0,
+                        new AsyncCallback(ReceiveCallback), 
+                        state
+                    );
+                }
+                else
+                {
+                    // All the data has arrived; put it in response  
+                    if (state.StringBuilder.Length > 1)
+                        state.TcpChannel.Response = state.StringBuilder.ToString();
+
+                    // Signal that all bytes have been received  
+                    receiveDone.Set();
+                }
             }
             catch (Exception ex)
             {
                 HandleException(ex);
-
-                return response;
             }
         }
 
         /// <summary>
         /// Send a command via the <see cref="TcpResource"/> and receive the response
         /// </summary>
-        /// <param name="request">The request to send</param>
-        /// <param name="response">The response received</param>
-        public void SendAndReceive(string request, out string response)
+        /// <param name="channel">The <see cref="ITcpChannel"/></param>
+        public void SendAndReceive(ITcpChannel channel)
         {
-            response = "";
-
             try
             {
-                Send(request);
-                response = Receive();
+                Send(channel);
+                Receive(channel);
             }
             catch (Exception ex)
             {

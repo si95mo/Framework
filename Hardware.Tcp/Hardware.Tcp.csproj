@@ -44,8 +44,8 @@
   <ItemGroup>
     <Compile Include="ITcpChannel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TcpInput.cs" />
-    <Compile Include="TcpOutput.cs" />
+    <Compile Include="StateObject.cs" />
+    <Compile Include="TcpChannel.cs" />
     <Compile Include="TcpResource.cs" />
   </ItemGroup>
   <ItemGroup>
