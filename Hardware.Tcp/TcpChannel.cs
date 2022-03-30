@@ -44,6 +44,16 @@ namespace Hardware.Tcp
         { get => response; set => response = value; }
 
         /// <summary>
+        /// The <see cref="TcpChannel"/> value.
+        /// Represent the <see cref="Response"/> if the getter method is used and
+        /// the <see cref="Request"/> if the setter is used instead. <br/>
+        /// So, if the setter is used, a new request is sent to the underlying <see cref="TcpResource"/>, while, 
+        /// if the getter method is used, the last retrieved response from the <see cref="TcpResource"/> is returned instead
+        /// </summary>
+        public override string Value 
+        { get => Response; set => Request = value; }
+
+        /// <summary>
         /// The <see cref="IResource"/>
         /// </summary>
         public IResource Resource
