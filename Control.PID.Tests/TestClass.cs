@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace Control.PID.Tests
 {
+    /// <summary>
+    /// The test consist in the simulation of an RC circuit in which the PID control the power supply. <br/>
+    /// So, in other words, the controlled variable is the output of the RC circuit and the control is made by
+    /// applying a voltage by controlling the power supply output
+    /// </summary>
     public class TestClass
     {
         private double r = 1.0; // 1 Ohm
@@ -38,7 +43,8 @@ namespace Control.PID.Tests
                 kd: 0.0001,
                 upperLimit: 10,
                 lowerLimit: 0,
-                setpoint: 5.0
+                setpoint: 5.0,
+                cycleTime: TimeSpan.FromMilliseconds(50)
             );
 
             pid.Start();
@@ -78,11 +84,11 @@ namespace Control.PID.Tests
                     if (printToStandardOutput)
                         Console.WriteLine(text);
 
-                    if (time >= 33333 && time <= 66666)
+                    if (time >= intervalInMilliseconds / 3 && time <= 2 * intervalInMilliseconds / 3)
                         pid.Setpoint.Value = 3.3;
                     else
                     {
-                        if (time >= 66000)
+                        if (time >= 2 * intervalInMilliseconds / 3)
                             pid.Setpoint.Value = 10.0;
                     }
                 } while (sw.Elapsed.TotalMilliseconds <= intervalInMilliseconds);

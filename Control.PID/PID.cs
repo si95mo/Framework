@@ -82,8 +82,9 @@ namespace Control.PID
         /// <param name="upperLimit">The upper limit (for clamping)</param>
         /// <param name="lowerLimit">The lower limit (for clamping)</param>
         /// <param name="setpoint">The desired setpoint</param>
+        /// <param name="cycleTime">The cycle time</param>
         public PID(string code, Channel<double> feedback, int n, double kp, double ki, double kd,
-            double upperLimit, double lowerLimit, double setpoint) : base(code, feedback, setpoint)
+            double upperLimit, double lowerLimit, double setpoint, TimeSpan cycleTime) : base(code, feedback, setpoint)
         {
             this.n = n;
             this.kp = new NumericParameter($"{Code}.Kp", value: kp, format: "0.000");
@@ -91,11 +92,41 @@ namespace Control.PID
             this.kd = new NumericParameter($"{Code}.Kd", value: kd, format: "0.000");
             this.upperLimit = new NumericParameter($"{Code}.UpperLimit", value: upperLimit, measureUnit: feedback.MeasureUnit, format: feedback.Format);
             this.lowerLimit = new NumericParameter($"{Code}.LowerLimit", value: lowerLimit, measureUnit: feedback.MeasureUnit, format: feedback.Format);
+            this.cycleTime = new TimeSpanParameter($"{Code}.CycleTime", value: cycleTime);
 
             proportionalTerm = new NumericParameter($"{Code}.ProportionalTerm", format: "0.000");
             integralTerm = new NumericParameter($"{Code}.IntegralTerm", format: "0.000");
             derivativeTerm = new NumericParameter($"{Code}.DerivativeTerm", format: "0.000");
+            controlTask = null;
+        }
 
+        /// <summary>
+        /// Create a new instance of <see cref="PID"/>
+        /// </summary>
+        /// <param name="code">The code</param>
+        /// <param name="feedback">The controlled variable feedback</param>
+        /// <param name="n">The derivative filter coefficient</param>
+        /// <param name="kp">The proportional gain</param>
+        /// <param name="ki">The integral gain</param>
+        /// <param name="kd">The derivative gain</param>
+        /// <param name="upperLimit">The upper limit (for clamping)</param>
+        /// <param name="lowerLimit">The lower limit (for clamping)</param>
+        /// <param name="setpoint">The desired setpoint</param>
+        /// <param name="cycleTime">The cycle time (in milliseconds)</param>
+        public PID(string code, Channel<double> feedback, int n, double kp, double ki, double kd,
+            double upperLimit, double lowerLimit, double setpoint, int cycleTime) : base(code, feedback, setpoint)
+        {
+            this.n = n;
+            this.kp = new NumericParameter($"{Code}.Kp", value: kp, format: "0.000");
+            this.ki = new NumericParameter($"{Code}.Ki", value: ki, format: "0.000");
+            this.kd = new NumericParameter($"{Code}.Kd", value: kd, format: "0.000");
+            this.upperLimit = new NumericParameter($"{Code}.UpperLimit", value: upperLimit, measureUnit: feedback.MeasureUnit, format: feedback.Format);
+            this.lowerLimit = new NumericParameter($"{Code}.LowerLimit", value: lowerLimit, measureUnit: feedback.MeasureUnit, format: feedback.Format);
+            this.cycleTime = new TimeSpanParameter($"{Code}.CycleTime", value: cycleTime);
+
+            proportionalTerm = new NumericParameter($"{Code}.ProportionalTerm", format: "0.000");
+            integralTerm = new NumericParameter($"{Code}.IntegralTerm", format: "0.000");
+            derivativeTerm = new NumericParameter($"{Code}.DerivativeTerm", format: "0.000");
             controlTask = null;
         }
 
@@ -163,8 +194,7 @@ namespace Control.PID
             proportionalTerm.Value = kp.Value * error;
 
             // Output update
-            uk.Value = proportionalTerm.Value + integralTerm.Value + derivativeTerm.Value;
-            uk.Value = Clamp(uk.Value);
+            uk.Value = Clamp(proportionalTerm.Value + integralTerm.Value + derivativeTerm.Value);
         }
 
         /// <summary>
