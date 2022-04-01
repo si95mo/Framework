@@ -49,7 +49,7 @@ namespace Extensions
             if (!condition.Value)
             {
                 CancellationTokenSource tokenSource = new CancellationTokenSource();
-                EventHandler<ValueChangedEventArgs> eventHandler = (object _, ValueChangedEventArgs __) =>
+                EventHandler<ValueChangedEventArgs> eventHandler = (__, ___) =>
                 {
                     if (condition.Value)
                         tokenSource.Cancel();
