@@ -323,7 +323,7 @@ namespace Diagnostic
             if (HasHigherSeverityLevel(severity))
             {
                 string log = BuildLogEntry(text, severity) + Environment.NewLine;
-                await AppendTextAsync(log, hasToAwait: true);
+                await AppendTextAsync(log, hasToWait: true);
             }
         }
 
@@ -537,17 +537,17 @@ namespace Diagnostic
         /// See <see cref="FileHandler.SaveAsync(string, string, SaveMode)"/>
         /// </summary>
         /// <param name="text">The text to append</param>
-        /// <param name="hasToAwait"><see langword="true"/> if the task has to await
+        /// <param name="hasToWait"><see langword="true"/> if the task has to wait
         /// for a semaphore, <see langword="false"/> otherwise</param>
         /// <returns>The async <see cref="Task"/></returns>
-        private static async Task AppendTextAsync(string text, bool hasToAwait = true)
+        private static async Task AppendTextAsync(string text, bool hasToWait = true)
         {
-            if (hasToAwait)
+            if (hasToWait)
                 await semaphore.WaitAsync();
 
             await SaveAsync(text, path, SaveMode.Append);
 
-            if (hasToAwait)
+            if (hasToWait)
                 semaphore.Release();
         }
 
@@ -584,15 +584,15 @@ namespace Diagnostic
             await semaphore.WaitAsync();
 
             string text = $"{entry.Item1} | {entry.Item2} | {entry.Item3}{Environment.NewLine}";
-            await AppendTextAsync(text, hasToAwait: false);
+            await AppendTextAsync(text, hasToWait: false);
 
             string message = $"\t\tException message: { entry.Item4}{Environment.NewLine}";
-            await AppendTextAsync(message, hasToAwait: false);
+            await AppendTextAsync(message, hasToWait: false);
 
             string stackTrace = $"\t\tStack-trace: {entry.Item5}{Environment.NewLine}";
-            await AppendTextAsync(stackTrace, hasToAwait: false);
+            await AppendTextAsync(stackTrace, hasToWait: false);
 
-            await AppendTextAsync(ENTRY_SEPARATOR + Environment.NewLine, hasToAwait: false);
+            await AppendTextAsync(ENTRY_SEPARATOR + Environment.NewLine, hasToWait: false);
 
             semaphore.Release();
         }
