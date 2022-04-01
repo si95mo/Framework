@@ -47,10 +47,10 @@ namespace Hardware.Tcp
         /// The <see cref="TcpChannel"/> value.
         /// Represent the <see cref="Response"/> if the getter method is used and
         /// the <see cref="Request"/> if the setter is used instead. <br/>
-        /// So, if the setter is used, a new request is sent to the underlying <see cref="TcpResource"/>, while, 
+        /// So, if the setter is used, a new request is sent to the underlying <see cref="TcpResource"/>, while,
         /// if the getter method is used, the last retrieved response from the <see cref="TcpResource"/> is returned instead
         /// </summary>
-        public override string Value 
+        public override string Value
         { get => Response; set => Request = value; }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace Hardware.Tcp
         /// <param name="pollingInterval">The polling interval (in milliseconds)</param>
         /// <param name="usePolling"><see langword="true"/> if polling must be used, <see langword="false"/> for async send/receive instead</param>
         /// <param name="useSendAndReceive">Use a send/receive logic (the request is sent and then the response is awaited if <see langword="true"/>)</param>
-        public TcpChannel(string code, string request, IResource resource, int pollingInterval = 100, bool usePolling = true, bool useSendAndReceive = true) 
+        public TcpChannel(string code, string request, IResource resource, int pollingInterval = 100, bool usePolling = true, bool useSendAndReceive = true)
             : base(code)
         {
             this.request = request;

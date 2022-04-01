@@ -23,6 +23,7 @@ namespace UserInterface.Controls.Tests
 
             bgWorker.RunWorkerAsync();
         }
+
         private async void BgWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             double[] samples = new double[1000];
