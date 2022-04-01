@@ -1,5 +1,9 @@
-﻿using Core.Parameters;
+﻿using Core;
+using Core.Conditions;
+using Core.Parameters;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Extensions
 {
@@ -39,5 +43,22 @@ namespace Extensions
         /// <returns>The <see cref="TimeSpanParameter"/></returns>
         public static TimeSpanParameter WrapToParameter(this TimeSpan source)
             => new TimeSpanParameter($"{nameof(source)}.AsParameter", source);
+
+        public static async Task WaitFor(this object _, ICondition condition)
+        {
+            if (!condition.Value)
+            {
+                CancellationTokenSource tokenSource = new CancellationTokenSource();
+                EventHandler<ValueChangedEventArgs> eventHandler = (object _, ValueChangedEventArgs __) =>
+                {
+                    if (condition.Value)
+                        tokenSource.Cancel();
+                };
+
+                condition.ValueChanged += eventHandler;
+                await Task.Delay(-1, tokenSource.Token);
+                condition.ValueChanged -= eventHandler;
+            }
+        }
     }
 }
