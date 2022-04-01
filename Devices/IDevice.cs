@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.Conditions;
 using Core.DataStructures;
 using Core.Parameters;
 using Hardware;
@@ -24,6 +25,14 @@ namespace Devices
         /// and <see cref="Bag{T}"/>
         /// </summary>
         Bag<IParameter> Parameters
+        { get; }
+
+        /// <summary>
+        /// The <see cref="IDevice"/> collection of 
+        /// conditions. See <see cref="ICondition"/>
+        /// and <see cref="Bag{T}"/>
+        /// </summary>
+        Bag<ICondition> Conditions
         { get; }
     }
 }

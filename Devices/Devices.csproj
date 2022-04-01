@@ -43,14 +43,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Channels\Channels.cs" />
     <Compile Include="Device.cs" />
     <Compile Include="IDevice.cs" />
-    <Compile Include="Parameters\Parameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tasks\Configure.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Core.Conditions\Core.Conditions.csproj">
+      <Project>{694CD750-5601-4C5F-A881-3B330E4CAF43}</Project>
+      <Name>Core.Conditions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core.DataStructures\Core.DataStructures.csproj">
       <Project>{1967AA9E-7FB5-4B63-AD7B-8394D65B6E8F}</Project>
       <Name>Core.DataStructures</Name>
