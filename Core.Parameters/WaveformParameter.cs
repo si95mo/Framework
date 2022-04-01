@@ -9,9 +9,22 @@ namespace Core.Parameters
     public class WaveformParameter : Parameter<double[]>
     {
         /// <summary>
-        /// The <see cref="WaveformParameter"/> value;
+        /// The <see cref="WaveformParameter"/> value
         /// </summary>
-        public override double[] Value => value;
+        public override double[] Value
+        {
+            get => value;
+            set
+            {
+                if (!value.Equals(this.value))
+                {
+                    double[] oldValue = this.value;
+                    this.value = new double[value.Length];
+                    Array.Copy(value, this.value, value.Length);
+                    OnValueChanged(new ValueChangedEventArgs(oldValue, this.value));
+                }
+            }
+        }
 
         /// <summary>
         /// Create a new instance of <see cref="WaveformParameter"/>
@@ -24,7 +37,9 @@ namespace Core.Parameters
         /// </summary>
         /// <param name="code">The code</param>
         public WaveformParameter(string code) : base(code)
-        { }
+        {
+            value = new double[0];
+        }
 
         /// <summary>
         /// Create a new instance of <see cref="WaveformParameter"/>
