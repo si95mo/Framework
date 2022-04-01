@@ -69,12 +69,19 @@ namespace Devices
         /// </summary>
         /// <param name="channelCode">The channel code</param>
         /// <returns><see langword="true"/> if the channel is valid, <see langword="false"/> otherwise</returns>
+        /// <remarks>
+        /// This method actually evaluate <paramref name="channelCode"/> only if it is not equal to <see langword="null"/>,
+        /// otherwise <see langword="false"/> is returned
+        /// </remarks>
         protected bool IsAValidChannel(string channelCode)
         {
-            bool isValid = channelCode.CompareTo(string.Empty) != 0;
-            IChannel channel = ServiceBroker.Get<IChannel>().Get(channelCode);
+            bool isValid = false;
 
-            isValid &= channel != null;
+            if (channelCode != null)
+            {
+                IChannel channel = ServiceBroker.Get<IChannel>().Get(channelCode);
+                isValid &= channel != null;
+            }
 
             return isValid;
         }
