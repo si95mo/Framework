@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Hardware;
 using NUnit.Framework;
+using System;
 
 namespace Hadware.Tests
 {
@@ -50,6 +51,21 @@ namespace Hadware.Tests
             sourceDigitalChannel.Value = newValue;
 
             destinationDigitalChannel.Value.Should().Be(newValue);
+        }
+
+        [Test]
+        [TestCase(10)]
+        public void AddTags(int numberOfTags)
+        {
+            AnalogInput channel = new AnalogInput(Guid.NewGuid().ToString());
+
+            for (int i = 1; i <= numberOfTags; i++)
+                channel.Tags.Add(i.ToString());
+
+            channel.Tags.Count.Should().Be(numberOfTags);
+
+            for (int i = 1; i <= numberOfTags; i++)
+                channel.Tags[i - 1].Should().BeEquivalentTo(i.ToString());
         }
     }
 }
