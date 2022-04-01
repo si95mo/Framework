@@ -65,6 +65,9 @@ namespace UserInterface.Controls.Tests
 
             SpectrumPlotterForm plotterForm = new SpectrumPlotterForm();
             plotterForm.Show();
+
+            ChartControlForm chartControlForm = new ChartControlForm();
+            chartControlForm.Show();
         }
 
         private void BtnShowCustomMessageBox_Click(object sender, EventArgs e)
