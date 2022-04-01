@@ -57,6 +57,7 @@
     <Compile Include="StringParameter.cs" />
     <Compile Include="TimeSpanParameter.cs" />
     <Compile Include="TriggerParameter.cs" />
+    <Compile Include="WaveformParameter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core.Converters\Core.Converters.csproj">
