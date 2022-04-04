@@ -21,7 +21,7 @@ namespace Extensions
         }
 
         /// <summary>
-        /// Create a new <see cref="ICondition"/> that is <see langword="false"/> when <paramref name="source"/> is <see langword="false"/>
+        /// Create a new <see cref="ICondition"/> that is <see langword="true"/> when <paramref name="source"/> is <see langword="false"/>
         /// </summary>
         /// <param name="source">The source <see cref="ICondition"/></param>
         /// <returns>The new <see cref="ICondition"/></returns>
