@@ -134,6 +134,10 @@
       <Project>{55CB7D92-F9F3-43B8-8A82-D886FC194106}</Project>
       <Name>Signal.Processing</Name>
     </ProjectReference>
+    <ProjectReference Include="..\UserInterafce.Forms\UserInterafce.Forms.csproj">
+      <Project>{C0995E8E-9811-4909-8D33-CECEC75E7646}</Project>
+      <Name>UserInterafce.Forms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UserInterface.Components\UserInterface.Controls.csproj">
       <Project>{4944754E-8566-44D6-933F-38F8DDC98F55}</Project>
       <Name>UserInterface.Controls</Name>

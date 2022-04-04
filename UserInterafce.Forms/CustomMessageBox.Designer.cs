@@ -1,5 +1,7 @@
 ﻿
-namespace UserInterface.Controls
+using UserInterface.Controls;
+
+namespace UserInterface.Forms
 {
     partial class CustomMessageBox
     {

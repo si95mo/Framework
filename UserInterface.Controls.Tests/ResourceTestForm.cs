@@ -1,5 +1,6 @@
 ﻿using Hardware.Modbus;
 using System;
+using UserInterface.Forms;
 
 namespace UserInterface.Controls.Tests
 {

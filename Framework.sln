@@ -136,6 +136,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Control.Hysteresis", "Contr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Control.Hysteresis.Tests", "Control.Hysteresis.Tests\Control.Hysteresis.Tests.csproj", "{11E59156-985B-4812-9039-2136F0506676}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserInterface.Dashboards", "UserInterface.Dashboards\UserInterface.Dashboards.csproj", "{9B1C640E-F741-4635-961A-8AC14EF2C522}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserInterafce.Forms", "UserInterafce.Forms\UserInterafce.Forms.csproj", "{C0995E8E-9811-4909-8D33-CECEC75E7646}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -398,6 +402,14 @@ Global
 		{11E59156-985B-4812-9039-2136F0506676}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11E59156-985B-4812-9039-2136F0506676}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11E59156-985B-4812-9039-2136F0506676}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B1C640E-F741-4635-961A-8AC14EF2C522}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B1C640E-F741-4635-961A-8AC14EF2C522}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B1C640E-F741-4635-961A-8AC14EF2C522}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B1C640E-F741-4635-961A-8AC14EF2C522}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0995E8E-9811-4909-8D33-CECEC75E7646}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0995E8E-9811-4909-8D33-CECEC75E7646}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0995E8E-9811-4909-8D33-CECEC75E7646}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0995E8E-9811-4909-8D33-CECEC75E7646}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

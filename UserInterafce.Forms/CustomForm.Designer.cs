@@ -1,5 +1,5 @@
 ﻿
-namespace UserInterface.Controls
+namespace UserInterface.Forms
 {
     partial class CustomForm
     {

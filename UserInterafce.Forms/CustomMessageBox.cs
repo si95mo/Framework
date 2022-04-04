@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace UserInterface.Controls
+namespace UserInterface.Forms
 {
     /// <summary>
     /// Implement a custom message box compliant with the

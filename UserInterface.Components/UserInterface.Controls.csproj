@@ -122,18 +122,6 @@
     <Compile Include="ComboControl.Designer.cs">
       <DependentUpon>ComboControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CustomForm.Designer.cs">
-      <DependentUpon>CustomForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CustomMessageBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CustomMessageBox.Designer.cs">
-      <DependentUpon>CustomMessageBox.cs</DependentUpon>
-    </Compile>
     <Compile Include="DataGridControl.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -241,12 +229,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ComboControl.resx">
       <DependentUpon>ComboControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CustomForm.resx">
-      <DependentUpon>CustomForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CustomMessageBox.resx">
-      <DependentUpon>CustomMessageBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DataGridControl.resx">
       <DependentUpon>DataGridControl.cs</DependentUpon>
