@@ -25,21 +25,38 @@ namespace UserInterface.Dashboards
             AnalogReadControl analogReadControl = new AnalogReadControl();
             analogReadControl.DoubleClick += AnalogReadControl_DoubleClick;
             analogReadControl.Draggable(false);
+            layoutPanel.Controls.Add(analogReadControl);
 
-            layoutPanel.AddControl(analogReadControl);
+            DigitalReadControl digitalReadControl = new DigitalReadControl();
+            digitalReadControl.DoubleClick += DigitalReadControl_DoubleClick;
+            digitalReadControl.Draggable(false);
+            layoutPanel.AddControl(digitalReadControl);
         }
 
         private void AnalogReadControl_DoubleClick(object sender, EventArgs e)
         {
-            AnalogReadControl analogControl = new AnalogReadControl();
-            analogControl.Draggable(true);
-            analogControl.Click += (_, __) =>
+            AnalogReadControl control = new AnalogReadControl();
+            control.Draggable(true);
+            control.Click += (_, __) =>
             {
                 configPanel.Controls.Clear();
-                configPanel.Controls.Add(new ItemConfigurationControl(analogControl));
+                configPanel.Controls.Add(new ItemConfigurationControl(control));
             };
 
-            dashboard.Controls.Add(analogControl);
+            dashboard.Controls.Add(control);
+        }
+
+        private void DigitalReadControl_DoubleClick(object sender, EventArgs e)
+        {
+            DigitalReadControl control = new DigitalReadControl();
+            control.Draggable(true);
+            control.Click += (_, __) =>
+            {
+                configPanel.Controls.Clear();
+                configPanel.Controls.Add(new ItemConfigurationControl(control));
+            };
+
+            dashboard.Controls.Add(control);
         }
     }
 }

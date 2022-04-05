@@ -30,9 +30,9 @@ namespace UserInterface.Dashboards
         private void InitializeComponent()
         {
             this.dashboard = new System.Windows.Forms.Panel();
-            this.itemPanel = new System.Windows.Forms.Panel();
             this.configPanel = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.itemPanel = new System.Windows.Forms.Panel();
             this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -43,13 +43,6 @@ namespace UserInterface.Dashboards
             this.dashboard.Name = "dashboard";
             this.dashboard.Size = new System.Drawing.Size(1210, 1077);
             this.dashboard.TabIndex = 0;
-            // 
-            // itemPanel
-            // 
-            this.itemPanel.Location = new System.Drawing.Point(3, 0);
-            this.itemPanel.Name = "itemPanel";
-            this.itemPanel.Size = new System.Drawing.Size(296, 1077);
-            this.itemPanel.TabIndex = 1;
             // 
             // configPanel
             // 
@@ -69,6 +62,13 @@ namespace UserInterface.Dashboards
             this.panel3.Size = new System.Drawing.Size(1920, 1080);
             this.panel3.TabIndex = 2;
             // 
+            // itemPanel
+            // 
+            this.itemPanel.Location = new System.Drawing.Point(3, 0);
+            this.itemPanel.Name = "itemPanel";
+            this.itemPanel.Size = new System.Drawing.Size(296, 1077);
+            this.itemPanel.TabIndex = 1;
+            // 
             // DashboardPanel
             // 
             this.Controls.Add(this.panel3);
@@ -82,8 +82,8 @@ namespace UserInterface.Dashboards
         #endregion
 
         private System.Windows.Forms.Panel dashboard;
-        private System.Windows.Forms.Panel itemPanel;
         private System.Windows.Forms.Panel configPanel;
         private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel itemPanel;
     }
 }
