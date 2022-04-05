@@ -1,5 +1,4 @@
-﻿using Hardware;
-using System;
+﻿using System;
 using System.Windows.Forms;
 
 namespace UserInterface.Dashboards

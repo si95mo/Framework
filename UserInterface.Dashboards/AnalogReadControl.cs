@@ -2,8 +2,6 @@
 using Core.DataStructures;
 using Hardware;
 using System;
-using System.Windows.Forms;
-using UserInterface.Controls;
 
 namespace UserInterface.Dashboards
 {
@@ -31,14 +29,14 @@ namespace UserInterface.Dashboards
 
         public void SetChannel(IChannel channel)
         {
-            if(channel is AnalogInput)
+            if (channel is AnalogInput)
             {
                 this.channel.MeasureUnit = (channel as AnalogInput).MeasureUnit;
                 this.channel.Format = (channel as AnalogInput).Format;
             }
             else
             {
-                if(channel is AnalogOutput)
+                if (channel is AnalogOutput)
                 {
                     this.channel.MeasureUnit = (channel as AnalogOutput).MeasureUnit;
                     this.channel.Format = (channel as AnalogOutput).Format;

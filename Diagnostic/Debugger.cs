@@ -34,7 +34,7 @@ namespace Diagnostic
             => WriteLine(stackTrace.ToString());
 
         /// <summary>
-        /// Write the <see cref="Exception.Message"/> and eventually the <see cref="Exception.StackTrace"/> to the debug console and 
+        /// Write the <see cref="Exception.Message"/> and eventually the <see cref="Exception.StackTrace"/> to the debug console and
         /// append an <see cref="Environment.NewLine"/> at the end of it
         /// </summary>
         /// <param name="ex">The <see cref="Exception"/> to write</param>

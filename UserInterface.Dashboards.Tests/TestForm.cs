@@ -1,6 +1,5 @@
 ﻿using Hardware;
 using Hardware.WaveformGenerator;
-using System;
 using System.Windows.Forms;
 
 namespace UserInterface.Dashboards.Tests

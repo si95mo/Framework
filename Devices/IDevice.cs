@@ -28,7 +28,7 @@ namespace Devices
         { get; }
 
         /// <summary>
-        /// The <see cref="IDevice"/> collection of 
+        /// The <see cref="IDevice"/> collection of
         /// conditions. See <see cref="ICondition"/>
         /// and <see cref="Bag{T}"/>
         /// </summary>
