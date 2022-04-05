@@ -1,27 +1,39 @@
-﻿using System;
+﻿using Hardware;
+using Hardware.WaveformGenerator;
+using System;
 using System.Windows.Forms;
 
 namespace UserInterface.Dashboards.Tests
 {
     public partial class TestForm : Form
     {
-        private bool gridShown;
+        private WaveformGeneratorResource resource;
+        private AnalogOutput output;
 
         public TestForm()
         {
             InitializeComponent();
 
-            gridShown = false;
+            output = new AnalogOutput($"AnalogOutput", "V", "0.000");
+            resource = new WaveformGeneratorResource(
+                $"WaveformGenerator",
+                WaveformType.Random,
+                0d,
+                0d,
+                output,
+                0d,
+                0d,
+                250
+            );
+            resource.Start();
+
+            dashboard.Dashboard.ControlAdded += Dashboard_ControlAdded;
         }
 
-        private void BtnChangeGrid_Click(object sender, EventArgs e)
+        private void Dashboard_ControlAdded(object sender, ControlEventArgs e)
         {
-            if (gridShown)
-                dashboard.ClearLines();
-            else
-                dashboard.DrawLines();
-
-            gridShown = !gridShown;
+            if (e.Control is AnalogReadControl)
+                (e.Control as AnalogReadControl).SetChannel(output);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Hardware;
+using System;
 using System.Windows.Forms;
 
 namespace UserInterface.Dashboards
@@ -11,7 +12,7 @@ namespace UserInterface.Dashboards
         /// <summary>
         /// Create a <see cref="DraggableControl"/>
         /// </summary>
-        public DraggableControl()
+        protected DraggableControl()
         {
             InitializeComponent();
         }

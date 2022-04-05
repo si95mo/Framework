@@ -1,14 +1,14 @@
 ﻿
-namespace UserInterface.Dashboards.Tests
+namespace UserInterface.Dashboards
 {
-    partial class TestForm
+    partial class DashboardItemControl
     {
-        /// <summary>
+        /// <summary> 
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
+        /// <summary> 
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -21,41 +21,38 @@ namespace UserInterface.Dashboards.Tests
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
+        #region Component Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
+        /// <summary> 
+        /// Required method for Designer support - do not modify 
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
-            this.dashboard = new UserInterface.Dashboards.DashboardPanel();
+            this.layoutPanel = new UserInterface.Controls.VerticalLayoutPanel();
             this.SuspendLayout();
             // 
-            // dashboard
+            // layoutPanel
             // 
-            this.dashboard.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dashboard.Location = new System.Drawing.Point(0, 0);
-            this.dashboard.Name = "dashboard";
-            this.dashboard.Size = new System.Drawing.Size(982, 450);
-            this.dashboard.TabIndex = 0;
+            this.layoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.layoutPanel.Location = new System.Drawing.Point(0, 0);
+            this.layoutPanel.Name = "layoutPanel";
+            this.layoutPanel.Size = new System.Drawing.Size(294, 441);
+            this.layoutPanel.TabIndex = 0;
             // 
-            // TestForm
+            // DashboardItemControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(982, 450);
-            this.Controls.Add(this.dashboard);
-            this.Name = "TestForm";
-            this.Text = "Dashboard test";
+            this.Controls.Add(this.layoutPanel);
+            this.Name = "DashboardItemControl";
+            this.Size = new System.Drawing.Size(294, 441);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private DashboardPanel dashboard;
-        private DraggableControl draggableControl;
+        private Controls.VerticalLayoutPanel layoutPanel;
     }
 }
-
