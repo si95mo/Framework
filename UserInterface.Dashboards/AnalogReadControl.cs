@@ -11,9 +11,16 @@ namespace UserInterface.Dashboards
     public partial class AnalogReadControl : DraggableControl, IDashboardControl<double>
     {
         private AnalogInput channel;
+        private string channelCode;
         private string description;
 
         public IChannel Channel => channel;
+
+        public string ChannelCode
+        {
+            get => channelCode;
+            set => channelCode = value;
+        }
 
         public string Description
         {
@@ -57,6 +64,7 @@ namespace UserInterface.Dashboards
                 }
 
                 channel.ConnectTo(this.channel);
+                channelCode = channel.Code;
                 description = channel.Code;
 
                 UpdateUserInterface();

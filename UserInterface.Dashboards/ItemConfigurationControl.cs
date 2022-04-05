@@ -1,6 +1,7 @@
 ﻿using Core.DataStructures;
 using Hardware;
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace UserInterface.Dashboards
@@ -19,22 +20,6 @@ namespace UserInterface.Dashboards
         protected ItemConfigurationControl()
         {
             InitializeComponent();
-
-            source = new AutoCompleteStringCollection();
-            SetAutoCompleteSource();
-        }
-
-        private void SetAutoCompleteSource()
-        {
-            source.Clear();
-            source.AddRange(ServiceBroker.Get<IChannel>().Keys.ToArray());
-
-            txbChannelCode.AutoCompleteSource = AutoCompleteSource.CustomSource;
-            txbChannelCode.AutoCompleteMode = AutoCompleteMode.Suggest;
-            txbChannelCode.AutoCompleteCustomSource = source;
-
-            txbChannelCode.KeyDown += TxbChannelCode_KeyDown;
-            txbDescription.KeyDown += TxbDescription_KeyDown;
         }
 
         /// <summary>
@@ -44,6 +29,33 @@ namespace UserInterface.Dashboards
         internal ItemConfigurationControl(IDashboardControl control) : this()
         {
             this.control = control;
+
+            source = new AutoCompleteStringCollection();
+            SetAutoCompleteSource();
+
+            txbChannelCode.Text = control.ChannelCode;
+            txbDescription.Text = control.Description;
+        }
+
+        private void SetAutoCompleteSource()
+        {
+            source.Clear();
+
+            bool isAnalog = control is AnalogReadControl;
+            foreach (string key in ServiceBroker.Get<IChannel>().Keys)
+            {
+                IChannel channel = ServiceBroker.Get<IChannel>().Get(key);
+
+                if (isAnalog == channel is AnalogInput || channel is AnalogOutput)
+                    source.Add(key);
+            }
+
+            txbChannelCode.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            txbChannelCode.AutoCompleteMode = AutoCompleteMode.Suggest;
+            txbChannelCode.AutoCompleteCustomSource = source;
+
+            txbChannelCode.KeyDown += TxbChannelCode_KeyDown;
+            txbDescription.KeyDown += TxbDescription_KeyDown;
         }
 
         private void TxbChannelCode_KeyDown(object sender, KeyEventArgs e)

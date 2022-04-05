@@ -13,6 +13,11 @@ namespace UserInterface.Dashboards
         IChannel Channel { get; }
 
         /// <summary>
+        /// The related <see cref="IChannel"/> code
+        /// </summary>
+        string ChannelCode { get; set; }
+
+        /// <summary>
         /// The description
         /// </summary>
         string Description { get; set; }
