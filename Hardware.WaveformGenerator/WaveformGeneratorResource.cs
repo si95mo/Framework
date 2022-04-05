@@ -32,7 +32,12 @@ namespace Hardware.WaveformGenerator
         /// <summary>
         /// A sawtooth waveform
         /// </summary>
-        Sawtooth = 4
+        Sawtooth = 4,
+
+        /// <summary>
+        /// A random waveform
+        /// </summary>
+        Random = 5
     }
 
     /// <summary>
@@ -46,6 +51,7 @@ namespace Hardware.WaveformGenerator
         private double frequency;
         private double offset;
         private double phase;
+        private int generationTime;
 
         private AnalogOutput output;
 
@@ -63,14 +69,16 @@ namespace Hardware.WaveformGenerator
         /// <param name="output">The <see cref="AnalogOutput"/> that will store the waveform value</param>
         /// <param name="offset">The offset (in Volt)</param>
         /// <param name="phase">The phase (in radiants)</param>
+        /// <param name="generationTime">The interval between each generated sample (in milliseconds)</param>
         public WaveformGeneratorResource(string code, WaveformType waveformType, double amplitude, double frequency,
-            AnalogOutput output, double offset = 0, double phase = 0) : base(code)
+            AnalogOutput output, double offset = 0, double phase = 0, int generationTime = 0) : base(code)
         {
             this.waveformType = waveformType;
             this.amplitude = amplitude;
             this.frequency = frequency;
             this.offset = offset;
             this.phase = phase;
+            this.generationTime = generationTime;
 
             period = 1000 / frequency; // In milliseconds
             generationTask = default;
@@ -149,9 +157,13 @@ namespace Hardware.WaveformGenerator
                             case WaveformType.Sawtooth: // 2 * (t/a - floor(t/a + 1/2))
                                 output.Value = amplitude * (2 * (t - Math.Floor(t + 0.5))) + offset;
                                 break;
+
+                            case WaveformType.Random:
+                                output.Value = new Random(Guid.NewGuid().GetHashCode()).NextDouble();
+                                break;
                         }
 
-                        await Task.Delay(0);
+                        await Task.Delay(generationTime);
                     }
                 }
             );
