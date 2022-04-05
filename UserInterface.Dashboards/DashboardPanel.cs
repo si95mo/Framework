@@ -13,7 +13,7 @@ namespace UserInterface.Dashboards
         {
             InitializeComponent();
 
-            DashboardItemControl itemControl = new DashboardItemControl(dashboard);
+            DashboardItemControl itemControl = new DashboardItemControl(dashboard, configPanel);
             itemPanel.Controls.Add(itemControl);
         }
     }

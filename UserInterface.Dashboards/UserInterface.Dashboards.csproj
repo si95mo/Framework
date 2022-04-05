@@ -99,6 +99,12 @@
       <DependentUpon>DraggableControl.cs</DependentUpon>
     </Compile>
     <Compile Include="IDashboardControl.cs" />
+    <Compile Include="ItemConfigurationControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ItemConfigurationControl.Designer.cs">
+      <DependentUpon>ItemConfigurationControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -116,6 +122,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DraggableControl.resx">
       <DependentUpon>DraggableControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ItemConfigurationControl.resx">
+      <DependentUpon>ItemConfigurationControl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

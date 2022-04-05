@@ -1,5 +1,8 @@
-﻿using Hardware;
+﻿using Core.Converters;
+using Core.DataStructures;
+using Hardware;
 using Hardware.WaveformGenerator;
+using System;
 using System.Windows.Forms;
 
 namespace UserInterface.Dashboards.Tests
@@ -8,12 +11,18 @@ namespace UserInterface.Dashboards.Tests
     {
         private WaveformGeneratorResource resource;
         private AnalogOutput output;
+        private AnalogInput input;
 
         public TestForm()
         {
             InitializeComponent();
 
+            FormBorderStyle = FormBorderStyle.None;
+            WindowState = FormWindowState.Maximized;
+
             output = new AnalogOutput($"AnalogOutput", "V", "0.000");
+            input = new AnalogInput($"AnalogInput", "V", "0.000");
+
             resource = new WaveformGeneratorResource(
                 $"WaveformGenerator",
                 WaveformType.Random,
@@ -26,13 +35,11 @@ namespace UserInterface.Dashboards.Tests
             );
             resource.Start();
 
-            dashboard.Dashboard.ControlAdded += Dashboard_ControlAdded;
-        }
+            output.ConnectTo(input, new GenericConverter<double, double>(new Func<double, double>((x) => 10 + x)));
 
-        private void Dashboard_ControlAdded(object sender, ControlEventArgs e)
-        {
-            if (e.Control is AnalogReadControl)
-                (e.Control as AnalogReadControl).SetChannel(output);
+            ServiceBroker.Initialize();
+            ServiceBroker.Add<IChannel>(output);
+            ServiceBroker.Add<IChannel>(input);
         }
     }
 }

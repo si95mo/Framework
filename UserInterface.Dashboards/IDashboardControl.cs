@@ -3,10 +3,9 @@
 namespace UserInterface.Dashboards
 {
     /// <summary>
-    /// Describe the prototype of a dashboard control
+    /// Basic prototype of a dashboard control
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    internal interface IDashboardControl<T>
+    internal interface IDashboardControl
     {
         /// <summary>
         /// The <see cref="IDashboardControl{T}"/> <see cref="IChannel"/>
@@ -14,9 +13,9 @@ namespace UserInterface.Dashboards
         IChannel Channel { get; }
 
         /// <summary>
-        /// The <see cref="IDashboardControl{T}"/> value
+        /// The description
         /// </summary>
-        T Value { get; }
+        string Description { get; set; }
 
         /// <summary>
         /// Set the <see cref="IDashboardControl{T}"/> <see cref="Channel"/>
@@ -29,5 +28,17 @@ namespace UserInterface.Dashboards
         /// </summary>
         /// <param name="channeCode">The <see cref="IChannel"/> to set code</param>
         void SetChannel(string channeCode);
+    }
+
+    /// <summary>
+    /// Describe the prototype of a dashboard control with a value
+    /// </summary>
+    /// <typeparam name="T">The type of the <see cref="IDashboardControl"/></typeparam>
+    internal interface IDashboardControl<T> : IDashboardControl
+    {
+        /// <summary>
+        /// The <see cref="IDashboardControl{T}"/> value
+        /// </summary>
+        T Value { get; }
     }
 }
