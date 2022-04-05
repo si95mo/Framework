@@ -14,6 +14,14 @@ namespace Core.Parameters
         /// </summary>
         public override double Value => value;
 
+        public int ValueAsInt => (int)Value;
+
+        public float ValueAsFloat => (float)Value;
+
+        public byte ValueAsByte => (byte)Value;
+
+        public byte[] ValueAsByteArray => BitConverter.GetBytes(Value);
+
         /// <summary>
         /// Create a new instance of <see cref="NumericParameter"/>
         /// </summary>
