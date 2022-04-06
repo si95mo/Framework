@@ -52,9 +52,9 @@ namespace UserInterface.Controls
             this.btnValue.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnValue.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnValue.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
-            this.btnValue.Location = new System.Drawing.Point(-1, -1);
+            this.btnValue.Location = new System.Drawing.Point(0, 0);
             this.btnValue.Name = "btnValue";
-            this.btnValue.Size = new System.Drawing.Size(75, 40);
+            this.btnValue.Size = new System.Drawing.Size(75, 38);
             this.btnValue.TabIndex = 0;
             this.btnValue.Text = "False";
             this.btnValue.UseVisualStyleBackColor = false;

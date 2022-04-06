@@ -35,11 +35,13 @@ namespace UserInterface.Dashboards
             // 
             // dgcChannelValue
             // 
+            this.dgcChannelValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.dgcChannelValue.BackColor = System.Drawing.SystemColors.Control;
-            this.dgcChannelValue.Location = new System.Drawing.Point(14, 72);
-            this.dgcChannelValue.Margin = new System.Windows.Forms.Padding(8, 8, 8, 8);
+            this.dgcChannelValue.Font = new System.Drawing.Font("Lucida Sans Unicode", 8F);
+            this.dgcChannelValue.Location = new System.Drawing.Point(50, 63);
+            this.dgcChannelValue.Margin = new System.Windows.Forms.Padding(8);
             this.dgcChannelValue.Name = "dgcChannelValue";
-            this.dgcChannelValue.Size = new System.Drawing.Size(248, 36);
+            this.dgcChannelValue.Size = new System.Drawing.Size(173, 43);
             this.dgcChannelValue.TabIndex = 8;
             this.dgcChannelValue.Value = false;
             this.dgcChannelValue.ValueChanged += new System.EventHandler<Core.ValueChangedEventArgs>(this.DgcChannelValue_ValueChanged);
@@ -59,11 +61,12 @@ namespace UserInterface.Dashboards
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.dgcChannelValue);
             this.Controls.Add(this.lblChannelName);
-            this.Margin = new System.Windows.Forms.Padding(8, 8, 8, 8);
+            this.Margin = new System.Windows.Forms.Padding(8);
             this.Name = "DigitalWriteControl";
-            this.Size = new System.Drawing.Size(276, 116);
+            this.Size = new System.Drawing.Size(274, 114);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -63,16 +63,16 @@ namespace UserInterface.Controls
             Point p;
             string text;
 
-            if (btnValue.Location.X == -1)
+            if (btnValue.Location.X == 0)
             {
-                p = new Point(panel.Size.Width - btnValue.Size.Width, -1);
+                p = new Point(panel.Size.Width - btnValue.Size.Width, 0);
                 text = "True";
                 panel.BackColor = Colors.Green;
                 btnValue.ForeColor = Colors.Green;
             }
             else
             {
-                p = new Point(-1, -1);
+                p = new Point(0, 0);
                 text = "False";
                 panel.BackColor = Colors.Grey;
                 btnValue.ForeColor = Colors.Grey;
