@@ -104,6 +104,12 @@
     <Compile Include="DigitalReadControl.Designer.cs">
       <DependentUpon>DigitalReadControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="DigitalWriteControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DigitalWriteControl.Designer.cs">
+      <DependentUpon>DigitalWriteControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="DraggableControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -137,6 +143,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DigitalReadControl.resx">
       <DependentUpon>DigitalReadControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DigitalWriteControl.resx">
+      <DependentUpon>DigitalWriteControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DraggableControl.resx">
       <DependentUpon>DraggableControl.cs</DependentUpon>

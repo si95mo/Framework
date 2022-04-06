@@ -69,7 +69,8 @@ namespace UserInterface.Dashboards
                         }
                         else
                         {
-                            // Digital write control
+                            if (channel is DigitalOutput) // Digital write control
+                                source.Add(key);
                         }
                     }
                 }

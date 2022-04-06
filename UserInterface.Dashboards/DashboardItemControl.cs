@@ -36,6 +36,11 @@ namespace UserInterface.Dashboards
             digitalReadControl.DoubleClick += DigitalReadControl_DoubleClick;
             digitalReadControl.Draggable(false);
             layoutPanel.AddControl(digitalReadControl);
+
+            DigitalWriteControl digitalWriteControl = new DigitalWriteControl();
+            digitalWriteControl.DoubleClick += DigitalWriteControl_DoubleClick;
+            digitalWriteControl.Draggable(false);
+            layoutPanel.AddControl(digitalWriteControl);
         }
 
         private void AnalogReadControl_DoubleClick(object sender, EventArgs e)
@@ -53,6 +58,12 @@ namespace UserInterface.Dashboards
         private void DigitalReadControl_DoubleClick(object sender, EventArgs e)
         {
             DigitalReadControl control = new DigitalReadControl();
+            HandleNewControl(control);
+        }
+
+        private void DigitalWriteControl_DoubleClick(object sender, EventArgs e)
+        {
+            DigitalWriteControl control = new DigitalWriteControl();
             HandleNewControl(control);
         }
 
