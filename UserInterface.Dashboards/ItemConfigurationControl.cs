@@ -1,7 +1,6 @@
 ﻿using Core.DataStructures;
 using Hardware;
 using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace UserInterface.Dashboards
@@ -41,13 +40,39 @@ namespace UserInterface.Dashboards
         {
             source.Clear();
 
-            bool isAnalog = control is AnalogReadControl;
+            bool isAnalogReadControl = control is AnalogReadControl;
+            bool isAnalogWriteControl = control is AnalogWriteControl;
+            bool isDigitalReadControl = control is DigitalReadControl;
+
             foreach (string key in ServiceBroker.Get<IChannel>().Keys)
             {
                 IChannel channel = ServiceBroker.Get<IChannel>().Get(key);
 
-                if (isAnalog == channel is AnalogInput || channel is AnalogOutput)
-                    source.Add(key);
+                if (isAnalogReadControl)
+                {
+                    if (channel is AnalogInput || channel is AnalogOutput) // Analog read control
+                        source.Add(key);
+                }
+                else
+                {
+                    if (isAnalogWriteControl)
+                    {
+                        if (channel is AnalogOutput) // Analog write control
+                            source.Add(key);
+                    }
+                    else
+                    {
+                        if (isDigitalReadControl)
+                        {
+                            if (channel is DigitalInput || channel is DigitalOutput) // Digital read control
+                                source.Add(key);
+                        }
+                        else
+                        {
+                            // Digital write control
+                        }
+                    }
+                }
             }
 
             txbChannelCode.AutoCompleteSource = AutoCompleteSource.CustomSource;

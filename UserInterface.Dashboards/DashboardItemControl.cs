@@ -27,6 +27,11 @@ namespace UserInterface.Dashboards
             analogReadControl.Draggable(false);
             layoutPanel.Controls.Add(analogReadControl);
 
+            AnalogWriteControl analogWriteControl = new AnalogWriteControl();
+            analogWriteControl.DoubleClick += AnalogWriteControl_DoubleClick;
+            analogWriteControl.Draggable(false);
+            layoutPanel.Controls.Add(analogWriteControl);
+
             DigitalReadControl digitalReadControl = new DigitalReadControl();
             digitalReadControl.DoubleClick += DigitalReadControl_DoubleClick;
             digitalReadControl.Draggable(false);
@@ -36,27 +41,35 @@ namespace UserInterface.Dashboards
         private void AnalogReadControl_DoubleClick(object sender, EventArgs e)
         {
             AnalogReadControl control = new AnalogReadControl();
-            control.Draggable(true);
-            control.Click += (_, __) =>
-            {
-                configPanel.Controls.Clear();
-                configPanel.Controls.Add(new ItemConfigurationControl(control));
-            };
+            HandleNewControl(control);
+        }
 
-            dashboard.Controls.Add(control);
+        private void AnalogWriteControl_DoubleClick(object sender, EventArgs e)
+        {
+            AnalogWriteControl control = new AnalogWriteControl();
+            HandleNewControl(control);
         }
 
         private void DigitalReadControl_DoubleClick(object sender, EventArgs e)
         {
             DigitalReadControl control = new DigitalReadControl();
-            control.Draggable(true);
-            control.Click += (_, __) =>
+            HandleNewControl(control);
+        }
+
+        /// <summary>
+        /// Handle the new created <see cref="IDashboardControl"/>
+        /// </summary>
+        /// <param name="control">The <see cref="IDashboardControl"/> to handle</param>
+        private void HandleNewControl(IDashboardControl control)
+        {
+            (control as DraggableControl).Draggable(true);
+            (control as DraggableControl).Click += (_, __) =>
             {
                 configPanel.Controls.Clear();
                 configPanel.Controls.Add(new ItemConfigurationControl(control));
             };
 
-            dashboard.Controls.Add(control);
+            dashboard.Controls.Add(control as DraggableControl);
         }
     }
 }

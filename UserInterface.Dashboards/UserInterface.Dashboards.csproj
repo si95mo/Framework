@@ -80,6 +80,12 @@
     <Compile Include="AnalogReadControl.Designer.cs">
       <DependentUpon>AnalogReadControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="AnalogWriteControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AnalogWriteControl.Designer.cs">
+      <DependentUpon>AnalogWriteControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="DashboardItemControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -119,6 +125,9 @@
   <ItemGroup>
     <EmbeddedResource Include="AnalogReadControl.resx">
       <DependentUpon>AnalogReadControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AnalogWriteControl.resx">
+      <DependentUpon>AnalogWriteControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DashboardItemControl.resx">
       <DependentUpon>DashboardItemControl.cs</DependentUpon>
