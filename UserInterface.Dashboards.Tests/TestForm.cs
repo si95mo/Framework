@@ -29,7 +29,10 @@ namespace UserInterface.Dashboards.Tests
                 analogInput,
                 new GenericConverter<double, double>(new Func<double, double>((x) => 10 + x))
             );
-            digitalOutput.ConnectTo(digitalInput);
+            digitalOutput.ConnectTo(
+                digitalInput, 
+                new GenericConverter<bool, bool>(new Func<bool, bool>((x) => !x))   
+            );
 
             ServiceBroker.Initialize();
             ServiceBroker.Add<IChannel>(analogOutput);
