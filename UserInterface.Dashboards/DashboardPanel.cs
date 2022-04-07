@@ -14,6 +14,7 @@ namespace UserInterface.Dashboards
             InitializeComponent();
 
             DashboardItemControl itemControl = new DashboardItemControl(dashboard, configPanel);
+            itemControl.Size = itemPanel.Size;
             itemPanel.Controls.Add(itemControl);
         }
     }

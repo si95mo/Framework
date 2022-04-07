@@ -13,6 +13,7 @@ namespace UserInterface.Controls
     public partial class DigitalControl : BaseControl
     {
         private object objectLock = new object();
+        private readonly Size initialSize = new Size(60, 60);
 
         private BoolParameter parameter;
 
@@ -63,16 +64,16 @@ namespace UserInterface.Controls
             Point p;
             string text;
 
-            if (btnValue.Location.X == 0)
+            if (btnValue.Location.X == -1)
             {
-                p = new Point(panel.Size.Width - btnValue.Size.Width, 0);
+                p = new Point(panel.Size.Width - btnValue.Size.Width, -1);
                 text = "True";
                 panel.BackColor = Colors.Green;
                 btnValue.ForeColor = Colors.Green;
             }
             else
             {
-                p = new Point(0, 0);
+                p = new Point(-1, -1);
                 text = "False";
                 panel.BackColor = Colors.Grey;
                 btnValue.ForeColor = Colors.Grey;
@@ -83,15 +84,6 @@ namespace UserInterface.Controls
 
             btnValue.Location = p;
             btnValue.Text = text;
-        }
-
-        /// <summary>
-        /// The on paint event handler
-        /// </summary>
-        /// <param name="e">THe <see cref="PaintEventArgs"/></param>
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
         }
 
         /// <summary>

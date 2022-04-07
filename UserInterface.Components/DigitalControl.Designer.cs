@@ -39,9 +39,11 @@ namespace UserInterface.Controls
             this.panel.BackColor = System.Drawing.SystemColors.ControlDark;
             this.panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel.Controls.Add(this.btnValue);
+            this.panel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel.Location = new System.Drawing.Point(0, 0);
+            this.panel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.panel.Name = "panel";
-            this.panel.Size = new System.Drawing.Size(150, 40);
+            this.panel.Size = new System.Drawing.Size(200, 60);
             this.panel.TabIndex = 0;
             this.panel.Click += new System.EventHandler(this.Control_Cick);
             // 
@@ -52,9 +54,10 @@ namespace UserInterface.Controls
             this.btnValue.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnValue.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnValue.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
-            this.btnValue.Location = new System.Drawing.Point(0, 0);
+            this.btnValue.Location = new System.Drawing.Point(-1, -1);
+            this.btnValue.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnValue.Name = "btnValue";
-            this.btnValue.Size = new System.Drawing.Size(75, 38);
+            this.btnValue.Size = new System.Drawing.Size(90, 60);
             this.btnValue.TabIndex = 0;
             this.btnValue.Text = "False";
             this.btnValue.UseVisualStyleBackColor = false;
@@ -62,11 +65,13 @@ namespace UserInterface.Controls
             // 
             // DigitalControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.panel);
+            this.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "DigitalControl";
-            this.Size = new System.Drawing.Size(150, 40);
+            this.Size = new System.Drawing.Size(200, 60);
             this.panel.ResumeLayout(false);
             this.ResumeLayout(false);
 

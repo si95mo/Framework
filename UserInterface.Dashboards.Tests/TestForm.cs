@@ -1,9 +1,7 @@
 ﻿using Core.Converters;
 using Core.DataStructures;
 using Hardware;
-using Hardware.WaveformGenerator;
 using System;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace UserInterface.Dashboards.Tests
@@ -28,7 +26,7 @@ namespace UserInterface.Dashboards.Tests
             digitalInput = new DigitalInput($"DigitalInput");
 
             analogOutput.ConnectTo(
-                analogInput, 
+                analogInput,
                 new GenericConverter<double, double>(new Func<double, double>((x) => 10 + x))
             );
             digitalOutput.ConnectTo(digitalInput);
