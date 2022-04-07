@@ -43,7 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Condition.cs" />
-    <Compile Include="ConditionFlyweight.cs" />
+    <Compile Include="FlyweightCondition.cs" />
+    <Compile Include="DummyCondition.cs" />
     <Compile Include="ICondition.cs" />
     <Compile Include="PropertyValueEqualTo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

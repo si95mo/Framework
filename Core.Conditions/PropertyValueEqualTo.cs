@@ -4,7 +4,7 @@
     /// Implement an <see cref="ICondition"/> that will be <see langword="true"/>
     /// when a property value is equal to the one passed
     /// </summary>
-    public class PropertyValueEqualTo : ConditionFlyweight
+    public class PropertyValueEqualTo : FlyweightCondition
     {
         private double valueToTest;
 

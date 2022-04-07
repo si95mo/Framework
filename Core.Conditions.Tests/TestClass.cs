@@ -7,15 +7,15 @@ namespace Core.Conditions.Tests
     [TestFixture]
     public class TestClass
     {
-        private ConditionFlyweight mainCondition;
+        private FlyweightCondition mainCondition;
 
-        private readonly ConditionFlyweight falseCondition = new ConditionFlyweight("FalseCondition", false);
-        private readonly ConditionFlyweight trueCondition = new ConditionFlyweight("TrueCondition", true);
+        private readonly FlyweightCondition falseCondition = new FlyweightCondition("FalseCondition", false);
+        private readonly FlyweightCondition trueCondition = new FlyweightCondition("TrueCondition", true);
 
         [OneTimeSetUp]
         public void Setup()
         {
-            mainCondition = new ConditionFlyweight("MainCondition", true);
+            mainCondition = new FlyweightCondition("MainCondition", true);
 
             mainCondition.IsFalse().Value.Should().Be(false);
             mainCondition.IsTrue().Value.Should().Be(true);

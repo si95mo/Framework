@@ -4,7 +4,7 @@
     /// Implement an <see cref="ICondition"/> that will be <see langword="true"/>
     /// when a property value is in the passed range
     /// </summary>
-    public class PropertyValueInRange : ConditionFlyweight
+    public class PropertyValueInRange : FlyweightCondition
     {
         private double minimum, maximum;
         private bool isMinimumExcluded, isMaximumExcluded;
