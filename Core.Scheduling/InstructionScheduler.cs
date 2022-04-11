@@ -102,13 +102,13 @@ namespace Core.Scheduling
             instructions.Clear();
         }
 
-        // TODO: implement the method
+        // TODO: implement the method (save execution list for InstructionScheduler)
         public void SaveExecutionList(string fileName)
         {
             throw new NotImplementedException();
         }
 
-        // TODO: implement the method
+        // TODO: implement the method (load execution list for InstructionScheduler)
         public void LoadExecutionList(string fileName)
         {
             throw new NotImplementedException();

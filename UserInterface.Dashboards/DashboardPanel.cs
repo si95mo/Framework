@@ -50,5 +50,15 @@ namespace UserInterface.Dashboards
                     (control as DraggableControl).Draggable(true);
             }
         }
+
+        private void BtnSave_Click(object sender, System.EventArgs e)
+        {
+            // TODO: implement save method (DashboardPanel)
+        }
+
+        private void BtnLoad_Click(object sender, System.EventArgs e)
+        {
+            // TODO: implement load method (DashboardPanel)
+        }
     }
 }

@@ -37,7 +37,7 @@ namespace UserInterface.Dashboards
             this.btnStart = new UserInterface.Controls.ButtonControl();
             this.btnStop = new UserInterface.Controls.ButtonControl();
             this.btnSave = new UserInterface.Controls.ButtonControl();
-            this.btnImport = new UserInterface.Controls.ButtonControl();
+            this.btnLoad = new UserInterface.Controls.ButtonControl();
             this.panel3.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -81,7 +81,7 @@ namespace UserInterface.Dashboards
             this.flowLayoutPanel1.Controls.Add(this.btnStart);
             this.flowLayoutPanel1.Controls.Add(this.btnStop);
             this.flowLayoutPanel1.Controls.Add(this.btnSave);
-            this.flowLayoutPanel1.Controls.Add(this.btnImport);
+            this.flowLayoutPanel1.Controls.Add(this.btnLoad);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(1521, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(399, 38);
@@ -133,21 +133,23 @@ namespace UserInterface.Dashboards
             this.btnSave.Size = new System.Drawing.Size(32, 32);
             this.btnSave.TabIndex = 2;
             this.btnSave.UseVisualStyleBackColor = false;
+            this.btnSave.Click += new System.EventHandler(this.BtnSave_Click);
             // 
-            // btnImport
+            // btnLoad
             // 
-            this.btnImport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
-            this.btnImport.BackgroundImage = global::UserInterface.Dashboards.Properties.Resources.ImportImage;
-            this.btnImport.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnImport.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
-            this.btnImport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnImport.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnImport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
-            this.btnImport.Location = new System.Drawing.Point(117, 3);
-            this.btnImport.Name = "btnImport";
-            this.btnImport.Size = new System.Drawing.Size(32, 32);
-            this.btnImport.TabIndex = 3;
-            this.btnImport.UseVisualStyleBackColor = false;
+            this.btnLoad.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.btnLoad.BackgroundImage = global::UserInterface.Dashboards.Properties.Resources.LoadImage;
+            this.btnLoad.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnLoad.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.btnLoad.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLoad.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLoad.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
+            this.btnLoad.Location = new System.Drawing.Point(117, 3);
+            this.btnLoad.Name = "btnLoad";
+            this.btnLoad.Size = new System.Drawing.Size(32, 32);
+            this.btnLoad.TabIndex = 3;
+            this.btnLoad.UseVisualStyleBackColor = false;
+            this.btnLoad.Click += new System.EventHandler(this.BtnLoad_Click);
             // 
             // DashboardPanel
             // 
@@ -170,6 +172,6 @@ namespace UserInterface.Dashboards
         private Controls.ButtonControl btnStart;
         private Controls.ButtonControl btnStop;
         private Controls.ButtonControl btnSave;
-        private Controls.ButtonControl btnImport;
+        private Controls.ButtonControl btnLoad;
     }
 }

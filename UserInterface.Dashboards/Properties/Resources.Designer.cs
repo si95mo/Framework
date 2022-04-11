@@ -63,9 +63,9 @@ namespace UserInterface.Dashboards.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ImportImage {
+        internal static System.Drawing.Bitmap LoadImage {
             get {
-                object obj = ResourceManager.GetObject("ImportImage", resourceCulture);
+                object obj = ResourceManager.GetObject("LoadImage", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

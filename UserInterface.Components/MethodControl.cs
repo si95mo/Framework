@@ -145,7 +145,7 @@ namespace UserInterface.Controls
     }
 }
 
-// TODO
+// TODO: improve UI for MethodControl
 /* Add new UserControls in order to have a better UI in respect to the type of the parameter, e.g.
  * - A "MyUserComponent" that inherit from UserComponent and add a Value property
  *   with the actual value
