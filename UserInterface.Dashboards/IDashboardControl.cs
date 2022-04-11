@@ -31,8 +31,8 @@ namespace UserInterface.Dashboards
         /// <summary>
         /// Set the <see cref="IDashboardControl{T}"/> <see cref="Channel"/>
         /// </summary>
-        /// <param name="channeCode">The <see cref="IChannel"/> to set code</param>
-        void SetChannel(string channeCode);
+        /// <param name="channelCode">The <see cref="IChannel"/> to set code</param>
+        void SetChannel(string channelCode);
     }
 
     /// <summary>

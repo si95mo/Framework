@@ -43,34 +43,47 @@ namespace UserInterface.Dashboards
             bool isAnalogReadControl = control is AnalogReadControl;
             bool isAnalogWriteControl = control is AnalogWriteControl;
             bool isDigitalReadControl = control is DigitalReadControl;
+            bool isDigitalWriteControl = control is DigitalWriteControl;
+            bool isMultiSampleControl = control is MultiSampleAnalogReadControl;
 
             foreach (string key in ServiceBroker.Get<IChannel>().Keys)
             {
                 IChannel channel = ServiceBroker.Get<IChannel>().Get(key);
 
-                if (isAnalogReadControl)
+                if (isAnalogReadControl) // Analog read control, Ai and Ao
                 {
-                    if (channel is AnalogInput || channel is AnalogOutput) // Analog read control
+                    if (channel is AnalogInput || channel is AnalogOutput)
                         source.Add(key);
                 }
                 else
                 {
-                    if (isAnalogWriteControl)
+                    if (isAnalogWriteControl) // Analog write control, Ao only
                     {
-                        if (channel is AnalogOutput) // Analog write control
+                        if (channel is AnalogOutput) 
                             source.Add(key);
                     }
                     else
                     {
-                        if (isDigitalReadControl)
+                        if (isDigitalReadControl) // Digital read control, Di and Do
                         {
-                            if (channel is DigitalInput || channel is DigitalOutput) // Digital read control
+                            if (channel is DigitalInput || channel is DigitalOutput) 
                                 source.Add(key);
                         }
                         else
                         {
-                            if (channel is DigitalOutput) // Digital write control
-                                source.Add(key);
+                            if (isDigitalWriteControl) // Digital write control, Do only
+                            {
+                                if (channel is DigitalOutput) 
+                                    source.Add(key);
+                            }
+                            else
+                            {
+                                if (isMultiSampleControl) // Multi sample analog read, MsAi and Ai
+                                {
+                                    if (channel is MultiSampleAnalogInput || channel is AnalogInput)
+                                        source.Add(key);
+                                }
+                            }
                         }
                     }
                 }
