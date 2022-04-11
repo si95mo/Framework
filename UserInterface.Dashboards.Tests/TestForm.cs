@@ -2,6 +2,7 @@
 using Core.DataStructures;
 using Hardware;
 using System;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace UserInterface.Dashboards.Tests
@@ -12,6 +13,7 @@ namespace UserInterface.Dashboards.Tests
         private AnalogInput analogInput;
         private DigitalInput digitalInput;
         private DigitalOutput digitalOutput;
+        private MultiSampleAnalogInput multiSampleAnalogInput;
 
         public TestForm()
         {
@@ -20,10 +22,11 @@ namespace UserInterface.Dashboards.Tests
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
 
-            analogOutput = new AnalogOutput($"AnalogOutput", "V", "0.000");
-            analogInput = new AnalogInput($"AnalogInput", "V", "0.000");
-            digitalOutput = new DigitalOutput($"DigitalOutput");
-            digitalInput = new DigitalInput($"DigitalInput");
+            analogOutput = new AnalogOutput("AnalogOutput", "V", "0.000");
+            analogInput = new AnalogInput("AnalogInput", "V", "0.000");
+            digitalOutput = new DigitalOutput("DigitalOutput");
+            digitalInput = new DigitalInput("DigitalInput");
+            multiSampleAnalogInput = new MultiSampleAnalogInput("MultiSampleAnalogInput", "V", "0.000");
 
             analogOutput.ConnectTo(
                 analogInput,
@@ -34,11 +37,30 @@ namespace UserInterface.Dashboards.Tests
                 new GenericConverter<bool, bool>(new Func<bool, bool>((x) => !x))   
             );
 
+            Task t = new Task(async () =>
+                {
+                    Random rnd = new Random(Guid.NewGuid().GetHashCode());
+                    double[] values = new double[100];
+
+                    while (true)
+                    {
+                        for(int i = 0; i < 100; i++)
+                            values[i] = rnd.NextDouble();
+
+                        multiSampleAnalogInput.Value = values;
+
+                        await Task.Delay(100);
+                    }
+                }
+            );
+            t.Start();
+
             ServiceBroker.Initialize();
             ServiceBroker.Add<IChannel>(analogOutput);
             ServiceBroker.Add<IChannel>(analogInput);
             ServiceBroker.Add<IChannel>(digitalOutput);
             ServiceBroker.Add<IChannel>(digitalInput);
+            ServiceBroker.Add<IChannel>(multiSampleAnalogInput);
         }
     }
 }
