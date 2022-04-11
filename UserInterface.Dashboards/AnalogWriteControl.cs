@@ -81,7 +81,7 @@ namespace UserInterface.Dashboards
 
         private void TxbChannelValue_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            if (e.KeyCode == Keys.Enter && txbChannelValue.Text.CompareTo(string.Empty) != 0)
                 channel.Value = double.Parse(txbChannelValue.Text.TrimEnd(Environment.NewLine.ToCharArray()), CultureInfo.InvariantCulture);
         }
 
