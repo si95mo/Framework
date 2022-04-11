@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Extensions;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -25,27 +26,27 @@ namespace UserInterface.Dashboards
 
             AnalogReadControl analogReadControl = new AnalogReadControl();
             analogReadControl.DoubleClick += AnalogReadControl_DoubleClick;
-            analogReadControl.Draggable(false);
+            analogReadControl.SetDraggable(false);
             layoutPanel.Controls.Add(analogReadControl);
 
             AnalogWriteControl analogWriteControl = new AnalogWriteControl();
             analogWriteControl.DoubleClick += AnalogWriteControl_DoubleClick;
-            analogWriteControl.Draggable(false);
+            analogWriteControl.SetDraggable(false);
             layoutPanel.Controls.Add(analogWriteControl);
 
             DigitalReadControl digitalReadControl = new DigitalReadControl();
             digitalReadControl.DoubleClick += DigitalReadControl_DoubleClick;
-            digitalReadControl.Draggable(false);
+            digitalReadControl.SetDraggable(false);
             layoutPanel.AddControl(digitalReadControl);
 
             DigitalWriteControl digitalWriteControl = new DigitalWriteControl();
             digitalWriteControl.DoubleClick += DigitalWriteControl_DoubleClick;
-            digitalWriteControl.Draggable(false);
+            digitalWriteControl.SetDraggable(false);
             layoutPanel.AddControl(digitalWriteControl);
 
             MultiSampleAnalogReadControl multiSampleReadControl = new MultiSampleAnalogReadControl();
             multiSampleReadControl.DoubleClick += MultiSampleReadControl_DoubleClick;
-            multiSampleReadControl.Draggable(false);
+            multiSampleReadControl.SetDraggable(false);
             layoutPanel.AddControl(multiSampleReadControl);
         }
 
@@ -85,7 +86,7 @@ namespace UserInterface.Dashboards
         /// <param name="control">The <see cref="IDashboardControl"/> to handle</param>
         private void HandleNewControl(IDashboardControl control)
         {
-            (control as DraggableControl).Draggable(true);
+            (control as DraggableControl).SetDraggable(true);
             (control as DraggableControl).Click += (_, __) =>
             {
                 configPanel.Controls.Clear();

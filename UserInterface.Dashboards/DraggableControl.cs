@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Extensions;
+using System;
 using System.Windows.Forms;
 
 namespace UserInterface.Dashboards
@@ -9,14 +10,22 @@ namespace UserInterface.Dashboards
     public partial class DraggableControl : UserControl
     {
         /// <summary>
+        /// <see langword="true"/> if the <see cref="DraggableControl"/> is draggable,
+        /// <see langword="false"/> otherwise
+        /// </summary>
+        public bool IsDraggable { get; set; }
+
+        /// <summary>
         /// Create a <see cref="DraggableControl"/>
         /// </summary>
-        protected DraggableControl()
+        public DraggableControl()
         {
             InitializeComponent();
+
+            IsDraggable = false;
         }
 
         private void DraggableControl_Load(object sender, EventArgs e)
-            => this.Draggable(true);
+            => this.SetDraggable(true);
     }
 }

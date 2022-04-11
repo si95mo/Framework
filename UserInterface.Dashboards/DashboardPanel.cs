@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using Extensions;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace UserInterface.Dashboards
@@ -35,7 +36,7 @@ namespace UserInterface.Dashboards
             foreach(Control control in dashboard.Controls)
             {
                 if (control is DraggableControl)
-                    (control as DraggableControl).Draggable(false);
+                    (control as DraggableControl).SetDraggable(false);
             }
         }
 
@@ -47,7 +48,7 @@ namespace UserInterface.Dashboards
             foreach(Control control in dashboard.Controls)
             {
                 if (control is DraggableControl)
-                    (control as DraggableControl).Draggable(true);
+                    (control as DraggableControl).SetDraggable(true);
             }
         }
 
