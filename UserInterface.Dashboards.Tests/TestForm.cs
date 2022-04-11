@@ -33,8 +33,8 @@ namespace UserInterface.Dashboards.Tests
                 new GenericConverter<double, double>(new Func<double, double>((x) => 10 + x))
             );
             digitalOutput.ConnectTo(
-                digitalInput, 
-                new GenericConverter<bool, bool>(new Func<bool, bool>((x) => !x))   
+                digitalInput,
+                new GenericConverter<bool, bool>(new Func<bool, bool>((x) => !x))
             );
 
             Task t = new Task(async () =>
@@ -44,7 +44,7 @@ namespace UserInterface.Dashboards.Tests
 
                     while (true)
                     {
-                        for(int i = 0; i < 100; i++)
+                        for (int i = 0; i < 100; i++)
                             values[i] = rnd.NextDouble();
 
                         multiSampleAnalogInput.Value = values;

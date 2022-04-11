@@ -33,7 +33,7 @@ namespace UserInterface.Dashboards
             dashboard.Location = new Point(0, dashboardLocation.Y);
             dashboard.Size = new Size(Width, dashboard.Height);
 
-            foreach(Control control in dashboard.Controls)
+            foreach (Control control in dashboard.Controls)
             {
                 if (control is DraggableControl)
                     (control as DraggableControl).SetDraggable(false);
@@ -45,7 +45,7 @@ namespace UserInterface.Dashboards
             dashboard.Location = dashboardLocation;
             dashboard.Size = dashboardSize;
 
-            foreach(Control control in dashboard.Controls)
+            foreach (Control control in dashboard.Controls)
             {
                 if (control is DraggableControl)
                     (control as DraggableControl).SetDraggable(true);

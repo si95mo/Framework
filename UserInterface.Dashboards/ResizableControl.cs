@@ -35,7 +35,7 @@ namespace UserInterface.Dashboards
             base.WndProc(ref m);
 
             if (m.Msg == 0x84) // Trap WM_NCHITTEST
-            {  
+            {
                 var pos = PointToClient(new Point(m.LParam.ToInt32()));
                 if (pos.X >= ClientSize.Width - Grab && pos.Y >= ClientSize.Height - Grab)
                     m.Result = new IntPtr(17);  // HT_BOTTOMRIGHT

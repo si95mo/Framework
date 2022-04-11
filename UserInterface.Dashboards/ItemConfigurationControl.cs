@@ -59,21 +59,21 @@ namespace UserInterface.Dashboards
                 {
                     if (isAnalogWriteControl) // Analog write control, Ao only
                     {
-                        if (channel is AnalogOutput) 
+                        if (channel is AnalogOutput)
                             source.Add(key);
                     }
                     else
                     {
                         if (isDigitalReadControl) // Digital read control, Di and Do
                         {
-                            if (channel is DigitalInput || channel is DigitalOutput) 
+                            if (channel is DigitalInput || channel is DigitalOutput)
                                 source.Add(key);
                         }
                         else
                         {
                             if (isDigitalWriteControl) // Digital write control, Do only
                             {
-                                if (channel is DigitalOutput) 
+                                if (channel is DigitalOutput)
                                     source.Add(key);
                             }
                             else

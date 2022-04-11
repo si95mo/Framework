@@ -1,10 +1,10 @@
 ﻿namespace Core.Conditions
 {
     /// <summary>
-    /// Create a <see cref="Condition"/> that will retain its value since its not connected 
+    /// Create a <see cref="Condition"/> that will retain its value since its not connected
     /// to anything external
     /// </summary>
-    class DummyCondition : Condition
+    internal class DummyCondition : Condition
     {
         /// <summary>
         /// Create a new instance of <see cref="DummyCondition"/>
@@ -24,7 +24,7 @@
         }
 
         /// <summary>
-        /// Force the <see cref="DummyCondition"/> value to change 
+        /// Force the <see cref="DummyCondition"/> value to change
         /// </summary>
         /// <remarks>This is the only way to change the <see cref="DummyCondition"/> value!</remarks>
         /// <param name="value">The new value</param>
