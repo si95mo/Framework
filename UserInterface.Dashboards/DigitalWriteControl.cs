@@ -39,6 +39,12 @@ namespace UserInterface.Dashboards
 
         public bool Value => channel.Value;
 
+        public Type Type
+        {
+            get => GetType();
+            set => _ = value;
+        }
+
         public DigitalWriteControl()
         {
             InitializeComponent();

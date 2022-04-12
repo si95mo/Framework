@@ -1,6 +1,7 @@
 ﻿using Core.DataStructures;
 using Core.Parameters;
 using Hardware;
+using System;
 
 namespace UserInterface.Dashboards
 {
@@ -63,6 +64,12 @@ namespace UserInterface.Dashboards
                 description = value;
                 UpdateUserInterface();
             }
+        }
+
+        public Type Type
+        {
+            get => GetType();
+            set => _ = value;
         }
 
         public MultiSampleAnalogReadControl()

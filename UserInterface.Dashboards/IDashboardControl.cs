@@ -1,5 +1,6 @@
 ﻿using Hardware;
 using Newtonsoft.Json;
+using System;
 
 namespace UserInterface.Dashboards
 {
@@ -25,6 +26,12 @@ namespace UserInterface.Dashboards
         /// </summary>
         [JsonProperty]
         string Description { get; set; }
+
+        /// <summary>
+        /// The <see cref="IDashboardControl"/> <see cref="System.Type"/>
+        /// </summary>
+        [JsonProperty]
+        Type Type { get; set; }
 
         /// <summary>
         /// Set the <see cref="IDashboardControl{T}"/> <see cref="Channel"/>

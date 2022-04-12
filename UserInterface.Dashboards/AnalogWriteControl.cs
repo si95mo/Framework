@@ -42,6 +42,12 @@ namespace UserInterface.Dashboards
 
         public double Value => channel.Value;
 
+        public Type Type
+        {
+            get => GetType();
+            set => _ = value;
+        }
+
         public AnalogWriteControl()
         {
             InitializeComponent();

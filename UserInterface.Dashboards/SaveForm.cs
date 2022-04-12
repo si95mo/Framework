@@ -37,14 +37,24 @@ namespace UserInterface.Dashboards
             else
             {
                 IOUtility.CreateDirectoryIfNotExists("dashboards");
-                string serializedDashboard = JsonConvert.SerializeObject(
-                    dashboard.Controls,
-                    Formatting.None,
-                    new JsonSerializerSettings()
+
+                string serializedDashboard = "";
+                foreach (Control control in dashboard.Controls)
+                {
+                    if (control is IDashboardControl)
                     {
-                        ReferenceLoopHandling = ReferenceLoopHandling.Serialize
+                        serializedDashboard += JsonConvert.SerializeObject(
+                            control as IDashboardControl,
+                            
+                            Formatting.Indented,
+                            new JsonSerializerSettings()
+                            {
+                                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                            }
+                        );
+                        serializedDashboard += Environment.NewLine;
                     }
-                );
+                }
 
                 await FileHandler.SaveAsync(serializedDashboard, $"dashboards//{txcDashboardName.Text}");
 
