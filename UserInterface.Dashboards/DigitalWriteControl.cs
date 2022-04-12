@@ -11,7 +11,15 @@ namespace UserInterface.Dashboards
         private string channelCode;
         private string description;
 
-        public IChannel Channel => channel;
+        public IChannel Channel
+        {
+            get => channel;
+            set
+            {
+                if (value is DigitalOutput)
+                    channel = (DigitalOutput)value;
+            }
+        }
 
         public string ChannelCode
         {

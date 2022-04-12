@@ -46,20 +46,21 @@
     <Reference Include="Instructions">
       <HintPath>..\Instructions\bin\Debug\Instructions.dll</HintPath>
     </Reference>
-    <Reference Include="IO.File">
-      <HintPath>..\IO.File\bin\Debug\IO.File.dll</HintPath>
-    </Reference>
     <Reference Include="LiveCharts">
       <HintPath>..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
     </Reference>
     <Reference Include="LiveCharts.Wpf">
       <HintPath>..\packages\LiveCharts.Wpf.0.9.7\lib\net45\LiveCharts.Wpf.dll</HintPath>
     </Reference>
+    <Reference Include="MetroSet UI, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroSet_UI.2.0.0\lib\net45\MetroSet UI.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
@@ -138,6 +139,12 @@
     <Compile Include="ResizableControl.Designer.cs">
       <DependentUpon>ResizableControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="SaveForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SaveForm.Designer.cs">
+      <DependentUpon>SaveForm.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -175,6 +182,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="SaveForm.resx">
+      <DependentUpon>SaveForm.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core.DataStructures\Core.DataStructures.csproj">
@@ -188,6 +198,14 @@
     <ProjectReference Include="..\Hardware\Hardware.csproj">
       <Project>{C0F5ECDE-B7AD-42B3-ACF8-D5486B0E4C44}</Project>
       <Name>Hardware</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IO\IO.csproj">
+      <Project>{65535b13-4850-4ec8-893d-58f3bc49c457}</Project>
+      <Name>IO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UserInterafce.Forms\UserInterafce.Forms.csproj">
+      <Project>{c0995e8e-9811-4909-8d33-cecec75e7646}</Project>
+      <Name>UserInterafce.Forms</Name>
     </ProjectReference>
     <ProjectReference Include="..\UserInterface.Components\UserInterface.Controls.csproj">
       <Project>{4944754E-8566-44D6-933F-38F8DDC98F55}</Project>

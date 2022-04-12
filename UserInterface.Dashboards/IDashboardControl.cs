@@ -1,4 +1,5 @@
 ﻿using Hardware;
+using Newtonsoft.Json;
 
 namespace UserInterface.Dashboards
 {
@@ -10,16 +11,19 @@ namespace UserInterface.Dashboards
         /// <summary>
         /// The <see cref="IDashboardControl{T}"/> <see cref="IChannel"/>
         /// </summary>
-        IChannel Channel { get; }
+        [JsonProperty]
+        IChannel Channel { get; set; }
 
         /// <summary>
         /// The related <see cref="IChannel"/> code
         /// </summary>
+        [JsonProperty]
         string ChannelCode { get; set; }
 
         /// <summary>
         /// The description
         /// </summary>
+        [JsonProperty]
         string Description { get; set; }
 
         /// <summary>

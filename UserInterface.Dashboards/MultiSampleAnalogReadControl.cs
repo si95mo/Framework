@@ -37,6 +37,16 @@ namespace UserInterface.Dashboards
 
                 return channel;
             }
+            set
+            {
+                if (value is AnalogInput)
+                    analogInput = (AnalogInput)value;
+                else
+                {
+                    if (value is MultiSampleAnalogInput)
+                        multiSampleAnalogInput = (MultiSampleAnalogInput)value;
+                }
+            }
         }
 
         public string ChannelCode

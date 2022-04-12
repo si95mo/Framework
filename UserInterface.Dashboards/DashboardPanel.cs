@@ -54,7 +54,11 @@ namespace UserInterface.Dashboards
 
         private void BtnSave_Click(object sender, System.EventArgs e)
         {
-            // TODO: implement save method (DashboardPanel)
+            SaveForm form = new SaveForm(dashboard);
+
+            form.ShowInTaskbar = false;
+            form.ShowIcon = false;
+            form.ShowDialog();
         }
 
         private void BtnLoad_Click(object sender, System.EventArgs e)
