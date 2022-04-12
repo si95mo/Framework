@@ -1,6 +1,8 @@
 ﻿using IO;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using UserInterface.Forms;
 
@@ -25,6 +27,7 @@ namespace UserInterface.Dashboards
         public  SaveForm(Panel dashboard) : this()
         {
             this.dashboard = dashboard;
+            txcDashboardName.Focus();
         }
 
         private async void BtnSaveDashboard_Click(object sender, EventArgs e)
@@ -39,24 +42,27 @@ namespace UserInterface.Dashboards
                 IOUtility.CreateDirectoryIfNotExists("dashboards");
 
                 string serializedDashboard = "";
+                List<DashboardControl> items = new List<DashboardControl>();
                 foreach (Control control in dashboard.Controls)
                 {
                     if (control is IDashboardControl)
                     {
-                        serializedDashboard += JsonConvert.SerializeObject(
-                            control as IDashboardControl,
-                            
-                            Formatting.Indented,
-                            new JsonSerializerSettings()
-                            {
-                                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                            }
+                        IDashboardControl dashboardControl = control as IDashboardControl;
+                        DraggableControl draggableControl = control as DraggableControl;
+                        items.Add(
+                            new DashboardControl(
+                                dashboardControl.ChannelCode,
+                                dashboardControl.Description,
+                                dashboardControl.GetType(),
+                                draggableControl.Size,
+                                draggableControl.Location
+                            )
                         );
-                        serializedDashboard += Environment.NewLine;
                     }
                 }
 
-                await FileHandler.SaveAsync(serializedDashboard, $"dashboards//{txcDashboardName.Text}");
+                serializedDashboard = await Task.Factory.StartNew(() => JsonConvert.SerializeObject(items, Formatting.Indented));
+                await FileHandler.SaveAsync(serializedDashboard, $"dashboards//{txcDashboardName.Text}.json");
 
                 Close();
                 Dispose();

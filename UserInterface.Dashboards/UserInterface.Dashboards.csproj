@@ -84,6 +84,7 @@
     <Compile Include="AnalogWriteControl.Designer.cs">
       <DependentUpon>AnalogWriteControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="DashboardControl.cs" />
     <Compile Include="DashboardItemControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -120,6 +121,12 @@
     </Compile>
     <Compile Include="ItemConfigurationControl.Designer.cs">
       <DependentUpon>ItemConfigurationControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoadForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoadForm.Designer.cs">
+      <DependentUpon>LoadForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MultiSampleAnalogReadControl.cs">
       <SubType>UserControl</SubType>
@@ -174,6 +181,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ItemConfigurationControl.resx">
       <DependentUpon>ItemConfigurationControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoadForm.resx">
+      <DependentUpon>LoadForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MultiSampleAnalogReadControl.resx">
       <DependentUpon>MultiSampleAnalogReadControl.cs</DependentUpon>
