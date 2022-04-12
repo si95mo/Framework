@@ -54,11 +54,15 @@ namespace UserInterface.Dashboards
 
         private void BtnSave_Click(object sender, System.EventArgs e)
         {
-            SaveForm form = new SaveForm(dashboard);
+            // TODO: Fix error on serialization
+            if (true == false)
+            {
+                SaveForm form = new SaveForm(dashboard);
 
-            form.ShowInTaskbar = false;
-            form.ShowIcon = false;
-            form.ShowDialog();
+                form.ShowInTaskbar = false;
+                form.ShowIcon = false;
+                form.ShowDialog();
+            }
         }
 
         private void BtnLoad_Click(object sender, System.EventArgs e)
