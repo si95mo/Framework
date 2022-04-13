@@ -1,6 +1,9 @@
 ﻿using Diagnostic;
+using IO;
+using Newtonsoft.Json;
 using OX.Copyable;
 using System;
+using System.Threading.Tasks;
 
 namespace Extensions
 {
@@ -34,6 +37,18 @@ namespace Extensions
                 Logger.Log(ex);
                 return default;
             }
+        }
+
+        /// <summary>
+        /// Serialize an <see cref="object"/> to a json file
+        /// </summary>
+        /// <param name="source">The object to serialize</param>
+        /// <param name="path">The json file path</param>
+        /// <returns>The (sync) <see cref="Task"/></returns>
+        public static async Task Serialize(this object source, string path)
+        {
+            string json = await Task.Factory.StartNew(() => JsonConvert.SerializeObject(source, Formatting.Indented));
+            await FileHandler.SaveAsync(json, path);
         }
     }
 }
