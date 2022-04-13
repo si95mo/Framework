@@ -22,9 +22,7 @@ namespace Core.Threading
         {
             ManualResetEventSlim stopRequest = new ManualResetEventSlim(false);
 
-            var durationTicks = Math.Round((double)(interval * Stopwatch.Frequency)) / 1000;
-            var sw = Stopwatch.StartNew();
-
+            Stopwatch sw = Stopwatch.StartNew();
             do
             {
                 await Task.Delay(1);
