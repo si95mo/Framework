@@ -63,7 +63,7 @@ namespace UserInterface.Dashboards
 
         private void BtnLoad_Click(object sender, System.EventArgs e)
         {
-            LoadForm form = new LoadForm(dashboard);
+            LoadForm form = new LoadForm(dashboard, configPanel);
 
             form.ShowInTaskbar = false;
             form.ShowIcon = false;
