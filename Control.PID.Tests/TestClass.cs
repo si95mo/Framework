@@ -18,7 +18,7 @@ namespace Control.PID.Tests
         private double c = 1.0; // 1 F
         private Stopwatch t;
 
-        private PID pid;
+        private PidRegulator pid;
 
         private AnalogInput u;
 
@@ -34,7 +34,7 @@ namespace Control.PID.Tests
             t = Stopwatch.StartNew();
 
             u = new AnalogInput("U", "V", "0.000");
-            pid = new PID(
+            pid = new PidRegulator(
                 code: "PID",
                 feedback: u,
                 n: 100,

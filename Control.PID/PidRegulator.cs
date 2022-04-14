@@ -10,7 +10,7 @@ namespace Control.PID
     /// <summary>
     /// Implement a (P)roportional (I)ntegrative (D)erivative controller
     /// </summary>
-    public class PID : Regulator
+    public class PidRegulator : Regulator
     {
         private int n;
         private NumericParameter kp, ki, kd;
@@ -71,7 +71,7 @@ namespace Control.PID
         }
 
         /// <summary>
-        /// Create a new instance of <see cref="PID"/>
+        /// Create a new instance of <see cref="PidRegulator"/>
         /// </summary>
         /// <param name="code">The code</param>
         /// <param name="feedback">The controlled variable feedback</param>
@@ -83,7 +83,7 @@ namespace Control.PID
         /// <param name="lowerLimit">The lower limit (for clamping)</param>
         /// <param name="setpoint">The desired setpoint</param>
         /// <param name="cycleTime">The cycle time</param>
-        public PID(string code, Channel<double> feedback, int n, double kp, double ki, double kd,
+        public PidRegulator(string code, Channel<double> feedback, int n, double kp, double ki, double kd,
             double upperLimit, double lowerLimit, double setpoint, TimeSpan cycleTime) : base(code, feedback, setpoint)
         {
             this.n = n;
@@ -101,7 +101,7 @@ namespace Control.PID
         }
 
         /// <summary>
-        /// Create a new instance of <see cref="PID"/>
+        /// Create a new instance of <see cref="PidRegulator"/>
         /// </summary>
         /// <param name="code">The code</param>
         /// <param name="feedback">The controlled variable feedback</param>
@@ -113,7 +113,7 @@ namespace Control.PID
         /// <param name="lowerLimit">The lower limit (for clamping)</param>
         /// <param name="setpoint">The desired setpoint</param>
         /// <param name="cycleTime">The cycle time (in milliseconds)</param>
-        public PID(string code, Channel<double> feedback, int n, double kp, double ki, double kd,
+        public PidRegulator(string code, Channel<double> feedback, int n, double kp, double ki, double kd,
             double upperLimit, double lowerLimit, double setpoint, int cycleTime) : base(code, feedback, setpoint)
         {
             this.n = n;
@@ -134,26 +134,27 @@ namespace Control.PID
         /// Create a new controlling <see cref="Task"/>
         /// </summary>
         /// <returns>The controlling <see cref="Task"/></returns>
-        private Task CreateControlTask() => new Task(async () =>
-                     {
-                         Stopwatch sw;
-                         int timeToWait;
+        private Task CreateControlTask() 
+            => new Task(async () =>
+                {
+                    Stopwatch sw;
+                    int timeToWait;
 
-                         timeSinceLastUpdate = new TimeSpan(0);
-                         while (true)
-                         {
-                             sw = Stopwatch.StartNew();
+                    timeSinceLastUpdate = new TimeSpan(0);
+                    while (true)
+                    {
+                        sw = Stopwatch.StartNew();
 
-                             Iterate();
+                        Iterate();
 
-                             timeToWait = (int)(cycleTime.Value.TotalMilliseconds - sw.Elapsed.TotalMilliseconds);
-                             if (timeToWait > 0)
-                                 await Tasks.NoOperation(timeToWait, 1);
+                        timeToWait = (int)(cycleTime.Value.TotalMilliseconds - sw.Elapsed.TotalMilliseconds);
+                        if (timeToWait > 0)
+                            await Tasks.NoOperation(timeToWait, 1);
 
-                             timeSinceLastUpdate = new TimeSpan(sw.Elapsed.Ticks).Subtract(timeSinceLastUpdate);
-                         }
-                     }
-        );
+                        timeSinceLastUpdate = new TimeSpan(sw.Elapsed.Ticks).Subtract(timeSinceLastUpdate);
+                    }
+                }
+            );
 
         /// <summary>
         /// Start the PID controller (or restart it if already started)
@@ -216,7 +217,7 @@ namespace Control.PID
         }
 
         /// <summary>
-        /// Reset the <see cref="PID"/> controller by setting the
+        /// Reset the <see cref="PidRegulator"/> controller by setting the
         /// integral term to 0 and the last update time to now
         /// </summary>
         public void Reset()

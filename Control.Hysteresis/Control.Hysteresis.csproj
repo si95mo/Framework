@@ -46,6 +46,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Control.PID\Control.PID.csproj">
+      <Project>{38B8B17B-720B-4C82-982D-B9935F372934}</Project>
+      <Name>Control.PID</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Control\Control.csproj">
       <Project>{c52ac350-467d-4937-813f-6e382808424f}</Project>
       <Name>Control</Name>

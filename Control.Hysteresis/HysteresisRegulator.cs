@@ -1,4 +1,5 @@
-﻿using Core.Parameters;
+﻿using Control.PID;
+using Core.Parameters;
 using Hardware;
 using System;
 using System.Threading.Tasks;
@@ -10,15 +11,16 @@ namespace Control.Hysteresis
     /// </summary>
     public class HysteresisRegulator : Regulator
     {
-        public NumericParameter UpperLimit { get; internal set; }
-        public NumericParameter LowerLimit { get; internal set; }
-        public TimeSpanParameter CycleTime { get; internal set; }
+        public NumericParameter UpperLimit { get => pid.UpperLimit; internal set => pid.UpperLimit = value; }
+        public NumericParameter LowerLimit { get => pid.LowerLimit; internal set => pid.LowerLimit = value; }
+        public TimeSpanParameter CycleTime { get => pid.CycleTime; internal set => pid.CycleTime = value; }
 
-        private Channel<bool> actuatorChannel;
         private bool doRegulate;
         private Task controlTask;
 
-        private bool usePwmInBand;
+        private Channel<bool> actuatorChannel;
+
+        private PidRegulator pid;
 
         /// <summary>
         /// Create a new instance of <see cref="HysteresisRegulator"/>
@@ -26,22 +28,19 @@ namespace Control.Hysteresis
         /// <param name="code">The code</param>
         /// <param name="feedbackChannel">The feedback <see cref="Channel{T}"/></param>
         /// <param name="actuatorChannel">The actuator <see cref="Channel{T}"/></param>
+        /// <param name="n"></param>
         /// <param name="upperLimit">The upper limit</param>
         /// <param name="lowerLimit">The lower limit</param>
         /// <param name="setpoint">The setpoint</param>
         /// <param name="cycleTime">The cycle time (in milliseconds)</param>
         public HysteresisRegulator(string code, Channel<double> feedbackChannel, Channel<bool> actuatorChannel,
-            double upperLimit, double lowerLimit, double setpoint, double cycleTime) : base(code, feedbackChannel, setpoint)
+            double upperLimit, double lowerLimit, double setpoint, int n, double kp, double ki, double kd, double cycleTime) 
+            : base(code, feedbackChannel, setpoint)
         {
-            UpperLimit = new NumericParameter(nameof(UpperLimit), upperLimit, measureUnit: feedbackChannel.MeasureUnit, format: feedbackChannel.Format);
-            LowerLimit = new NumericParameter(nameof(LowerLimit), lowerLimit, measureUnit: feedbackChannel.MeasureUnit, format: feedbackChannel.Format);
-            CycleTime = new TimeSpanParameter(nameof(CycleTime), TimeSpan.FromMilliseconds(cycleTime));
-
-            this.actuatorChannel = actuatorChannel;
+            pid = new PidRegulator($"{Code}.PID", feedbackChannel, n, kp, ki, kd, upperLimit, lowerLimit, setpoint, TimeSpan.FromMilliseconds(cycleTime));
 
             doRegulate = false;
             controlTask = null;
-            usePwmInBand = false;
         }
 
         /// <summary>
