@@ -57,9 +57,9 @@ namespace Control.PID
 
         /// <summary>
         /// The controlled variable (as a generic <see cref="Channel{T}"/>). <br/>
-        /// In the block diagram this variable represents r(k)
+        /// In the block diagram this variable represents r(k) (i.e. the feedback channel)
         /// </summary>
-        public Channel<double> Rk => feedbackChannel;
+        public Channel<double> Feedback => feedbackChannel;
 
         /// <summary>
         /// The cycle time of the controller (in milliseconds)
@@ -189,7 +189,8 @@ namespace Control.PID
 
             // Derivative term
             // double dInput = u.Value - lastControlledValue;
-            derivativeTerm.Value = kd.Value * (n / (1 + n * integralTerm.Value / ki.Value));
+            if (kd.Value != 0)
+                derivativeTerm.Value = kd.Value * (n / (1 + n * integralTerm.Value / ki.Value));
 
             // Proportional term
             proportionalTerm.Value = kp.Value * error;

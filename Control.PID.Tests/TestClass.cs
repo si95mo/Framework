@@ -75,7 +75,7 @@ namespace Control.PID.Tests
                     time = t.Elapsed.TotalMilliseconds;
                     text = $"{time.ToString("F3").Replace(',', '.')}; " +
                         $"{pid.Setpoint.Value.ToString("F3").Replace(',', '.')}; " +
-                        $"{pid.Rk.Value.ToString("F3").Replace(',', '.')}; " +
+                        $"{pid.Feedback.Value.ToString("F3").Replace(',', '.')}; " +
                         $"{pid.Output.Value.ToString("F3").Replace(',', '.')}; " +
                         $"{u.Value.ToString("F3").Replace(',', '.')}";
 

@@ -11,16 +11,16 @@ namespace Control.Hysteresis
     /// </summary>
     public class HysteresisRegulator : Regulator
     {
-        public NumericParameter UpperLimit { get => pid.UpperLimit; internal set => pid.UpperLimit = value; }
-        public NumericParameter LowerLimit { get => pid.LowerLimit; internal set => pid.LowerLimit = value; }
-        public TimeSpanParameter CycleTime { get => pid.CycleTime; internal set => pid.CycleTime = value; }
+        public NumericParameter UpperLimit { get; internal set; }
+        public NumericParameter LowerLimit { get; internal set; }
+        public TimeSpanParameter CycleTime { get; internal set; }
 
         private bool doRegulate;
         private Task controlTask;
 
         private Channel<bool> actuatorChannel;
 
-        private PidRegulator pid;
+        private bool usePwmInBand;
 
         /// <summary>
         /// Create a new instance of <see cref="HysteresisRegulator"/>
@@ -34,42 +34,46 @@ namespace Control.Hysteresis
         /// <param name="setpoint">The setpoint</param>
         /// <param name="cycleTime">The cycle time (in milliseconds)</param>
         public HysteresisRegulator(string code, Channel<double> feedbackChannel, Channel<bool> actuatorChannel,
-            double upperLimit, double lowerLimit, double setpoint, int n, double kp, double ki, double kd, double cycleTime) 
-            : base(code, feedbackChannel, setpoint)
+            double upperLimit, double lowerLimit, double setpoint, double cycleTime) : base(code, feedbackChannel, setpoint)
         {
-            pid = new PidRegulator($"{Code}.PID", feedbackChannel, n, kp, ki, kd, upperLimit, lowerLimit, setpoint, TimeSpan.FromMilliseconds(cycleTime));
+            UpperLimit = new NumericParameter($"{Code}.{nameof(UpperLimit)}", measureUnit: feedbackChannel.MeasureUnit, format: "0.0", value: upperLimit);
+            LowerLimit = new NumericParameter($"{Code}.{nameof(LowerLimit)}", measureUnit: feedbackChannel.MeasureUnit, format: "0.0", value: lowerLimit);
+            CycleTime = new TimeSpanParameter($"{Code}.{nameof(CycleTime)}", cycleTime);
 
             doRegulate = false;
             controlTask = null;
+
+            usePwmInBand = false; 
         }
 
         /// <summary>
         /// Create the control <see cref="Task"/>
         /// </summary>
         /// <returns>The (async) <see cref="Task"/></returns>
-        private Task CreateControlTask() => new Task(async () =>
-                     {
-                         while (doRegulate)
-                         {
-                             if (feedbackChannel.Value > UpperLimit.Value)
-                                 actuatorChannel.Value = false;
-                             else
-                             {
-                                 if (feedbackChannel.Value < LowerLimit.Value)
-                                     actuatorChannel.Value = true;
-                                 else
-                                 {
-                                     if (usePwmInBand) // 50% PWM, if enabled
-                                        actuatorChannel.Value = !actuatorChannel.Value;
-                                 }
-                             }
+        private Task CreateControlTask() 
+            => new Task(async () =>
+                {
+                    while (doRegulate)
+                    {
+                        if (feedbackChannel.Value > UpperLimit.Value)
+                            actuatorChannel.Value = false;
+                        else
+                        {
+                            if (feedbackChannel.Value < LowerLimit.Value)
+                                actuatorChannel.Value = true;
+                            else
+                            {
+                                if (usePwmInBand) // 50% PWM, if enabled
+                                actuatorChannel.Value = !actuatorChannel.Value;
+                            }
+                        }
 
-                             await Task.Delay(CycleTime.Value);
-                         }
+                        await Task.Delay(CycleTime.Value);
+                    }
 
-                         actuatorChannel.Value = false;
-                     }
-        );
+                    actuatorChannel.Value = false;
+                }
+            );
 
         public override void Start()
         {
