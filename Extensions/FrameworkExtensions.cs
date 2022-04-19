@@ -56,14 +56,14 @@ namespace Extensions
             if (!condition.Value)
             {
                 CancellationTokenSource tokenSource = new CancellationTokenSource();
-                EventHandler<ValueChangedEventArgs> eventHandler = (__, ___) =>
+                EventHandler<ValueChangedEventArgs> eventHandler = (__, e) =>
                 {
-                    if (condition.Value)
+                    if ((bool)e.NewValue)
                         tokenSource.Cancel();
                 };
 
                 condition.ValueChanged += eventHandler;
-                await Task.Delay(-1, tokenSource.Token);
+                await Task.Delay(-1, tokenSource.Token).ContinueWith((x) => { }); // Prevent the exception throw;
                 condition.ValueChanged -= eventHandler;
             }
         }
@@ -86,16 +86,16 @@ namespace Extensions
             if (!condition.Value)
             {
                 CancellationTokenSource tokenSource = new CancellationTokenSource();
-                EventHandler<ValueChangedEventArgs> eventHandler = (__, ___) =>
+                EventHandler<ValueChangedEventArgs> eventHandler = (__, e) =>
                 {
-                    if (condition.Value)
+                    if ((bool)e.NewValue)
                         tokenSource.Cancel();
                 };
 
                 condition.ValueChanged += eventHandler;
 
                 Stopwatch timer = Stopwatch.StartNew();
-                await Task.Delay(timeout, tokenSource.Token);
+                await Task.Delay(timeout, tokenSource.Token).ContinueWith((x) => { }); // Prevent the exception throw
                 timer.Stop();
 
                 condition.ValueChanged -= eventHandler;

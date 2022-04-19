@@ -1,4 +1,6 @@
-﻿using FluentAssertions;
+﻿using Core.Conditions;
+using Extensions;
+using FluentAssertions;
 using Hardware.Tcp;
 using NUnit.Framework;
 using System;
@@ -52,10 +54,20 @@ namespace Hardware.Resources.Tests
         {
             channel.ValueChanged += Channel_ValueChanged;
             channel.Request = message + Environment.NewLine;
+            PropertyValueChanged condition = new PropertyValueChanged(Guid.NewGuid().ToString(), channel);
+            condition.ValueChanged += Condition_ValueChanged;
 
-            await Task.Delay(2000);
+            System.Diagnostics.Stopwatch timer = System.Diagnostics.Stopwatch.StartNew();
+            await this.WaitFor(condition, 5000);
+            timer.Stop();
 
             channel.Value.Should().NotBe(""); // The response is sent back from Hercules (manual)
+            timer.Elapsed.TotalMilliseconds.Should().BeLessThan(5000);
+        }
+
+        private void Condition_ValueChanged(object sender, Core.ValueChangedEventArgs e)
+        {
+            eventFired = true;
         }
 
         private void Channel_ValueChanged(object sender, Core.ValueChangedEventArgs e)
