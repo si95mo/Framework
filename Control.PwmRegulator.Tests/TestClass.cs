@@ -10,8 +10,8 @@ namespace Control.Pwm.Tests
     [TestFixture]
     public class TestClass
     {
-        private double r = 1.0; // 1 Ohm
-        private double c = 1.0; // 1 F
+        private double r = 100; // 0.1 kOhm
+        private double c = 0.01; // 10 mF
 
         private Stopwatch t;
 
@@ -20,15 +20,15 @@ namespace Control.Pwm.Tests
         private AnalogInput u; // Feedback
         private DigitalOutput m; // Actuator
 
-        private double CalculateTemperatureIncrement()
+        private double CalculateVoltageIncrement()
         {
-            double vc = regulator.Output.Value * (1 - Math.Exp(regulator.Ton.Value / (r * c)));
+            double vc = 24 * (1 - Math.Exp(-regulator.Ton.Value / 1000 / (r * c))); // 24V
             return vc;
         }
 
-        private double CalculateTemperatureDecrement()
+        private double CalculateVoltageDecrement()
         {
-            double vc = regulator.Output.Value * (1 - Math.Exp((regulator.CycleTime.ValueAsMilliseconds - regulator.Ton.Value) / (r * c)));
+            double vc = -u.Value * (1 - Math.Exp(-(regulator.CycleTime.ValueAsMilliseconds - regulator.Ton.Value) / 1000 / (r * c)));
             return vc;
         }
 
@@ -47,10 +47,10 @@ namespace Control.Pwm.Tests
                 maximumPercentage: 100d,
                 minimumPercentage: 0d,
                 n: 10,
-                kp: 1,
-                ki: 0,
+                kp: 1.6,
+                ki: 4,
                 kd: 0,
-                setpoint: 80d,
+                setpoint: 8d,
                 cycleTime: 250
             );
 
@@ -73,17 +73,14 @@ namespace Control.Pwm.Tests
             double time;
             using (StreamWriter writer = File.CreateText(path))
             {
-                double oldTemperature = 20d;
                 do
                 {
-                    u.Value += CalculateTemperatureIncrement();
-                    oldTemperature = u.Value;
+                    u.Value += CalculateVoltageIncrement();
 
                     time = t.Elapsed.TotalMilliseconds;
                     text = $"{time.ToString("F3").Replace(',', '.')}; " +
                         $"{regulator.Setpoint.Value.ToString("F3").Replace(',', '.')}; " +
                         $"{regulator.Feedback.Value.ToString("F3").Replace(',', '.')}; " +
-                        $"{regulator.Output.Value.ToString("F3").Replace(',', '.')}; " +
                         $"{regulator.PwmPercentage.Value.ToString("F3").Replace(',', '.')}";
 
                     writer.WriteLine(text);
@@ -92,19 +89,16 @@ namespace Control.Pwm.Tests
                         Console.WriteLine(text);
 
                     if (time >= intervalInMilliseconds / 3 && time <= 2 * intervalInMilliseconds / 3)
-                        regulator.Setpoint.Value = 50d;
+                        regulator.Setpoint.Value = 5d;
                     else
                     {
                         if (time >= 2 * intervalInMilliseconds / 3)
-                            regulator.Setpoint.Value = 60d;
+                            regulator.Setpoint.Value = 6d;
                     }
 
-                    int tOff = (int)(regulator.CycleTime.Value.TotalMilliseconds - regulator.Ton.Value);
-                    await Task.Delay(tOff);
+                    await Task.Delay(regulator.CycleTime.Value);
 
-                    u.Value -= CalculateTemperatureDecrement();
-                    oldTemperature = u.Value;
-
+                    u.Value += CalculateVoltageDecrement();
                 } while (sw.Elapsed.TotalMilliseconds <= intervalInMilliseconds);
             }
         }

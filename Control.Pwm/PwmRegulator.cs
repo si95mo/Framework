@@ -9,16 +9,39 @@ namespace Control.Pwm
     public class PwmRegulator : Regulator
     {
         private Channel<bool> actuatorChannel;
-        private bool doRegulate;
         private Task controlTask;
 
         private PidRegulator pid;
 
+        /// <summary>
+        /// The maximum percentage of the PWM
+        /// </summary>
         public NumericParameter MaximumPercentage { get => pid.UpperLimit; internal set => pid.UpperLimit = value; }
+
+        /// <summary>
+        /// The minimum percentage of the PWM
+        /// </summary>
         public NumericParameter MinimumPercentage { get => pid.LowerLimit; internal set => pid.LowerLimit = value; }
+
+        /// <summary>
+        /// The feed-forward gain (i.e. add a fixed percentage of the setpoint to
+        /// the calculated PWM time in order to perform some kind of compensation)
+        /// </summary>
+        public NumericParameter GainFeedForward { get; set; }
+
+        /// <summary>
+        /// The cycle time (with value as <see cref="TimeSpan"/>)
+        /// </summary>
         public TimeSpanParameter CycleTime { get => pid.CycleTime; internal set => pid.CycleTime = value; }
+
+        /// <summary>
+        /// The actual PWM percentage
+        /// </summary>
         public AnalogOutput PwmPercentage => pid.Output;
 
+        /// <summary>
+        /// The on time (in milliseconds)
+        /// </summary>
         public NumericParameter Ton { get; }
 
         /// <summary>
@@ -46,19 +69,22 @@ namespace Control.Pwm
         /// <param name="kd">The derivative gain</param>
         /// <param name="setpoint">The setpoint</param>
         /// <param name="cycleTime">THe cycle time (in milliseconds)</param>
+        /// <param name="gainFeedForward">The feed-forward gain (as a fraction of the setpoint)</param>
         public PwmRegulator(string code, Channel<double> feedbackChannel, Channel<bool> actuatorChannel, double maximumPercentage,
-            double minimumPercentage, int n, double kp, double ki, double kd, double setpoint, int cycleTime) : base(code, feedbackChannel, setpoint)
+            double minimumPercentage, int n, double kp, double ki, double kd, double setpoint, int cycleTime, double gainFeedForward = 0d)
+            : base(code, feedbackChannel, setpoint)
         {
             this.actuatorChannel = actuatorChannel;
 
             pid = new PidRegulator($"{Code}.PID", feedbackChannel, n, kp, ki, kd, maximumPercentage, minimumPercentage, setpoint, cycleTime);
+            Setpoint.ConnectTo(pid.Setpoint);
 
             MaximumPercentage = new NumericParameter($"{Code}.{nameof(MaximumPercentage)}", measureUnit: "", format: "0.0", value: maximumPercentage);
             MinimumPercentage = new NumericParameter($"{Code}.{nameof(MinimumPercentage)}", measureUnit: "", format: "0.0", value: minimumPercentage);
+            GainFeedForward = new NumericParameter($"{Code}.{nameof(GainFeedForward)}", measureUnit: "", format: "0.00", value: gainFeedForward);
             CycleTime = new TimeSpanParameter($"{Code}.{nameof(CycleTime)}", value: cycleTime);
             Ton = new NumericParameter($"{Code}.Ton", measureUnit: "ms", format: "0.0", value: 0);
 
-            doRegulate = false;
             controlTask = null;
         }
 
@@ -68,7 +94,7 @@ namespace Control.Pwm
         /// <returns>The PWM time (in milliseconds)</returns>
         private double CalculatePwmTime()
         {
-            double pwmTime = CycleTime.ValueAsMilliseconds * (pid.Output.Value / 100d);
+            double pwmTime = CycleTime.ValueAsMilliseconds * (pid.Output.Value / 100d) + Setpoint.Value * GainFeedForward.Value;
             return pwmTime;
         }
 
@@ -76,7 +102,7 @@ namespace Control.Pwm
         /// Create the control <see cref="Task"/>
         /// </summary>
         /// <returns>The (async) <see cref="Task"/></returns>
-        private Task CreateControlTask() 
+        private Task CreateControlTask()
             => new Task(async () =>
                 {
                     pid.Start();
@@ -92,14 +118,12 @@ namespace Control.Pwm
                         actuatorChannel.Value = false;
                         await Task.Delay(TimeSpan.FromMilliseconds(CycleTime.ValueAsMilliseconds - Ton.Value));
                     }
-
-                    actuatorChannel.Value = false;
                 }
             );
 
         /// <summary>
-        /// Clamp a variable based on <see cref="UpperLimit"/>
-        /// and <see cref="LowerLimit"/>
+        /// Clamp a variable based on <see cref="MaximumPercentage"/>
+        /// and <see cref="MinimumPercentage"/>
         /// </summary>
         /// <param name="valueToClamp">The value to clamp</param>
         /// <returns>The clamped value</returns>
@@ -110,7 +134,7 @@ namespace Control.Pwm
             double maxInPercentage = MaximumPercentage.Value * CycleTime.ValueAsMilliseconds;
             double minInPercentage = MinimumPercentage.Value * CycleTime.ValueAsMilliseconds;
 
-            if (valueToClamp < minInPercentage)
+            if (valueToClamp < minInPercentage || valueToClamp == double.NaN)
                 result = minInPercentage;
             if (valueToClamp > maxInPercentage)
                 result = maxInPercentage;
@@ -137,6 +161,20 @@ namespace Control.Pwm
 
                 controlTask = CreateControlTask();
                 controlTask.Start();
+            }
+        }
+
+        /// <summary>
+        /// Stop the <see cref="PwmRegulator"/> control <see cref="Task"/>
+        /// </summary>
+        public void Stop()
+        {
+            if (controlTask != null)
+            {
+                controlTask.Wait((int)CycleTime.ValueAsMilliseconds);
+                controlTask.Dispose();
+
+                actuatorChannel.Value = false;
             }
         }
 
