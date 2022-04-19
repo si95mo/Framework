@@ -48,7 +48,7 @@ namespace Hardware.Tcp
         /// Represent the <see cref="Response"/> from the <see cref="TcpResource"/>
         /// </summary>
         public override string Value
-        { 
+        {
             get => Response;
             set
             {

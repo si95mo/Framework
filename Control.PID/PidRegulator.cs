@@ -134,7 +134,7 @@ namespace Control.PID
         /// Create a new controlling <see cref="Task"/>
         /// </summary>
         /// <returns>The controlling <see cref="Task"/></returns>
-        private Task CreateControlTask() 
+        private Task CreateControlTask()
             => new Task(async () =>
                 {
                     Stopwatch sw;

@@ -85,7 +85,7 @@ namespace Core.Conditions.Tests
             PropertyValueChanged propertyValueChanged = new PropertyValueChanged("ValueChangedCondition", channel);
             propertyValueChanged.ValueChanged += PropertyValueChanged_ValueChanged;
 
-            for(int i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i++)
             {
                 channel.Request = i.ToString();
                 await Task.Delay(10000);

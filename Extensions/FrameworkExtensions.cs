@@ -83,7 +83,7 @@ namespace Extensions
         {
             bool result = true;
 
-            if(!condition.Value)
+            if (!condition.Value)
             {
                 CancellationTokenSource tokenSource = new CancellationTokenSource();
                 EventHandler<ValueChangedEventArgs> eventHandler = (__, ___) =>

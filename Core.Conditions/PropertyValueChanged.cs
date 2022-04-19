@@ -39,7 +39,7 @@
         }
 
         /// <summary>
-        /// Create a new instance <see cref="PropertyValueChanged"/> 
+        /// Create a new instance <see cref="PropertyValueChanged"/>
         /// with default attribute values
         /// </summary>
         /// <param name="code">The code</param>
@@ -49,7 +49,7 @@
         }
 
         /// <summary>
-        /// Create a new instance of <see cref="PropertyValueChanged"/> for 
+        /// Create a new instance of <see cref="PropertyValueChanged"/> for
         /// an <see cref="IProperty"/> with a <see cref="bool"/> value
         /// </summary>
         /// <param name="code">The code</param>
@@ -60,7 +60,7 @@
         }
 
         /// <summary>
-        /// Create a new instance of <see cref="PropertyValueChanged"/>for 
+        /// Create a new instance of <see cref="PropertyValueChanged"/>for
         /// an <see cref="IProperty"/> with a <see cref="double"/> value
         /// </summary>
         /// <param name="code">The code</param>
@@ -71,7 +71,7 @@
         }
 
         /// <summary>
-        /// Create a new instance of <see cref="PropertyValueChanged"/>for 
+        /// Create a new instance of <see cref="PropertyValueChanged"/>for
         /// an <see cref="IProperty"/> with a <see cref="string"/> value
         /// </summary>
         /// <param name="code">The code</param>

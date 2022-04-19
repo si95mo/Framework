@@ -24,7 +24,7 @@ namespace UserInterface.Dashboards
         /// Create a new instance of <see cref="SaveForm"/>
         /// </summary>
         /// <param name="dashboard">The dashboard to save</param>
-        public  SaveForm(Panel dashboard) : this()
+        public SaveForm(Panel dashboard) : this()
         {
             this.dashboard = dashboard;
             txcDashboardName.Focus();

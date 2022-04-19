@@ -1,7 +1,5 @@
-﻿using Control.PID;
-using Core.Parameters;
+﻿using Core.Parameters;
 using Hardware;
-using System;
 using System.Threading.Tasks;
 
 namespace Control.Hysteresis
@@ -43,14 +41,14 @@ namespace Control.Hysteresis
             doRegulate = false;
             controlTask = null;
 
-            usePwmInBand = false; 
+            usePwmInBand = false;
         }
 
         /// <summary>
         /// Create the control <see cref="Task"/>
         /// </summary>
         /// <returns>The (async) <see cref="Task"/></returns>
-        private Task CreateControlTask() 
+        private Task CreateControlTask()
             => new Task(async () =>
                 {
                     while (doRegulate)
@@ -64,7 +62,7 @@ namespace Control.Hysteresis
                             else
                             {
                                 if (usePwmInBand) // 50% PWM, if enabled
-                                actuatorChannel.Value = !actuatorChannel.Value;
+                                    actuatorChannel.Value = !actuatorChannel.Value;
                             }
                         }
 
