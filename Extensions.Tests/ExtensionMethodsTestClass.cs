@@ -1,7 +1,14 @@
-﻿using FluentAssertions;
+﻿using Core;
+using Core.Conditions;
+using FluentAssertions;
+using Hardware.Resources;
+using Hardware.Tcp;
 using NUnit.Framework;
 using System;
 using System.Diagnostics;
+using System.Net;
+using System.Net.Sockets;
+using System.Threading.Tasks;
 
 namespace Extensions.Tests
 {
@@ -10,6 +17,7 @@ namespace Extensions.Tests
         private int item;
         private string text;
         private bool itWorks = false;
+        private int eventCounter = 0;
 
         [OneTimeSetUp]
         public void Setup()
@@ -93,5 +101,43 @@ namespace Extensions.Tests
         }
 
         private bool TestCondition(int counter, int n) => counter < n;
+
+        /// <summary>
+        /// Get the host PC local ip address
+        /// </summary>
+        /// <returns>The local ip address</returns>
+        private string GetLocalIp()
+        {
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+
+            foreach (var ip in host.AddressList)
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                    return ip.ToString();
+
+            throw new Exception("No network adapters with an IPv4 address in the system!");
+        }
+
+        [Test]
+        private async Task TestWaitFor()
+        {
+            TcpResource resource = new TcpResource("TcpResource", GetLocalIp(), 10000, 5000);
+            TcpChannel channel = new TcpChannel("Channel", resource);
+
+            await resource.Start();
+
+            PropertyValueChanged propertyValueChanged = new PropertyValueChanged("ValueChangedCondition", channel);
+            propertyValueChanged.ValueChanged += PropertyValueChanged_ValueChanged;
+
+            for (int i = 0; i < 10; i++)
+            {
+                channel.Request = i.ToString();
+                await this.WaitFor(propertyValueChanged, 5000);
+            }
+        }
+
+        private void PropertyValueChanged_ValueChanged(object sender, ValueChangedEventArgs e)
+        {
+            eventCounter++;
+        }
     }
 }

@@ -104,6 +104,10 @@
       <Project>{694cd750-5601-4c5f-a881-3b330e4caf43}</Project>
       <Name>Core.Conditions</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Core.Parameters\Core.Parameters.csproj">
+      <Project>{B0E053BC-1B89-4C83-B819-5EC032B2566F}</Project>
+      <Name>Core.Parameters</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{75DFACF6-E820-4E3F-83D5-1E21FBC92385}</Project>
       <Name>Core</Name>
@@ -111,6 +115,14 @@
     <ProjectReference Include="..\Extensions\Extensions.csproj">
       <Project>{9a12de29-c4ad-42ce-ab4b-88ebc819e83a}</Project>
       <Name>Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Hardware.Tcp\Hardware.Tcp.csproj">
+      <Project>{281409C8-104C-4167-B5E9-DA9032034803}</Project>
+      <Name>Hardware.Tcp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Hardware\Hardware.csproj">
+      <Project>{C0F5ECDE-B7AD-42B3-ACF8-D5486B0E4C44}</Project>
+      <Name>Hardware</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

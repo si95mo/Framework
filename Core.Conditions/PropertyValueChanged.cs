@@ -32,6 +32,8 @@
                     object oldValue = this.value;
                     this.value = value;
                     OnValueChanged(new ValueChangedEventArgs(oldValue, this.value));
+
+                    this.value = false;
                 }
             }
         }
@@ -43,7 +45,7 @@
         /// <param name="code">The code</param>
         private PropertyValueChanged(string code) : base(code)
         {
-            value = false;
+            Value = false;
         }
 
         /// <summary>

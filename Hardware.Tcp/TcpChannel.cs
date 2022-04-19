@@ -1,4 +1,5 @@
-﻿using Hardware.Resources;
+﻿using Core;
+using Hardware.Resources;
 using System.Threading.Tasks;
 
 namespace Hardware.Tcp
@@ -26,7 +27,7 @@ namespace Hardware.Tcp
             {
                 if (request.CompareTo(value) != 0)
                 {
-                    response = "";
+                    Response = "";
                     request = value;
 
                     if (useSendAndReceive)
@@ -40,18 +41,25 @@ namespace Hardware.Tcp
         /// <summary>
         /// The received response
         /// </summary>
-        public string Response
-        { get => response; set => response = value; }
+        public string Response { get => response; set => Value = value; }
 
         /// <summary>
         /// The <see cref="TcpChannel"/> value.
-        /// Represent the <see cref="Response"/> if the getter method is used and
-        /// the <see cref="Request"/> if the setter is used instead. <br/>
-        /// So, if the setter is used, a new request is sent to the underlying <see cref="TcpResource"/>, while,
-        /// if the getter method is used, the last retrieved response from the <see cref="TcpResource"/> is returned instead
+        /// Represent the <see cref="Response"/> from the <see cref="TcpResource"/>
         /// </summary>
         public override string Value
-        { get => Response; set => Request = value; }
+        { 
+            get => Response;
+            set
+            {
+                if (value.CompareTo(Response) != 0)
+                {
+                    string oldValue = response;
+                    response = value;
+                    OnValueChanged(new ValueChangedEventArgs(oldValue, response));
+                }
+            }
+        }
 
         /// <summary>
         /// The <see cref="IResource"/>
@@ -91,12 +99,13 @@ namespace Hardware.Tcp
             : base(code)
         {
             this.request = request;
+            response = "";
             this.resource = resource;
 
             this.pollingInterval = pollingInterval;
             this.useSendAndReceive = useSendAndReceive;
 
-            response = "";
+            Response = "";
             value = "";
 
             pollingTask = new Task(async () =>
@@ -108,7 +117,7 @@ namespace Hardware.Tcp
                         else
                             (resource as TcpResource).Send(this);
 
-                        value = response;
+                        Value = Response;
 
                         await Task.Delay(pollingInterval);
                     }

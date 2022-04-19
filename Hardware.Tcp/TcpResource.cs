@@ -195,8 +195,8 @@ namespace Hardware.Resources
                     // There might be more data, so store the data received so far
                     state.StringBuilder.Append(Encoding.ASCII.GetString(state.Buffer, 0, bytesRead));
 
-                    if (state.TcpChannel.Response.CompareTo(string.Empty) == 0)
-                        state.TcpChannel.Response = state.StringBuilder.ToString();
+                    if (state.TcpChannel.Value.CompareTo(string.Empty) == 0)
+                        state.TcpChannel.Value = state.StringBuilder.ToString();
 
                     // Get the rest of the data
                     client.BeginReceive(

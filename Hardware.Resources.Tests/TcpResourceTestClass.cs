@@ -13,6 +13,8 @@ namespace Hardware.Resources.Tests
         private TcpResource resource;
         private TcpChannel channel;
 
+        private bool eventFired;
+
         [OneTimeSetUp]
         public async Task Setup()
         {
@@ -22,6 +24,8 @@ namespace Hardware.Resources.Tests
             resource.Status.Value.Should().Be(ResourceStatus.Executing);
 
             channel = new TcpChannel("TcpInput", "", resource, usePolling: false);
+
+            eventFired = false;
         }
 
         [OneTimeTearDown]
@@ -46,11 +50,17 @@ namespace Hardware.Resources.Tests
         [TestCase("Hello, world!")]
         public async Task Test(string message)
         {
+            channel.ValueChanged += Channel_ValueChanged;
             channel.Request = message + Environment.NewLine;
 
             await Task.Delay(2000);
 
-            channel.Response.Should().NotBe(""); // The response is sent back from Hercules (manual)
+            channel.Value.Should().NotBe(""); // The response is sent back from Hercules (manual)
+        }
+
+        private void Channel_ValueChanged(object sender, Core.ValueChangedEventArgs e)
+        {
+            eventFired = true;
         }
     }
 }
