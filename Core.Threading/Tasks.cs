@@ -41,7 +41,7 @@ namespace Core.Threading
         /// The new clock rate is reseted at the end of the method
         /// (at approximatively 15.6ms, <see cref="NoOperation(int)"/>)
         /// </remarks>
-        public static async Task NoOperation(int interval, uint clockRate = 15)
+        public static async Task NoOperation(int interval, uint clockRate = 1)
         {
             ThreadingApi.SetTimeBeginPeriod(clockRate);
             await NoOperation(interval);
