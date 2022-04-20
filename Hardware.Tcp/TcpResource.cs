@@ -212,7 +212,7 @@ namespace Hardware.Resources
                 {
                     // All the data has arrived; put it in response
                     if (state.StringBuilder.Length > 1)
-                        state.TcpChannel.Response = state.StringBuilder.ToString();
+                        state.TcpChannel.Value = state.StringBuilder.ToString();
 
                     // Signal that all bytes have been received
                     receiveDone.Set();

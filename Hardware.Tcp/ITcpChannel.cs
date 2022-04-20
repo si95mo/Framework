@@ -15,13 +15,6 @@ namespace Hardware.Tcp
         { get; set; }
 
         /// <summary>
-        ///
-        /// The response received using <see cref="TcpResource"/>
-        /// </summary>
-        string Response
-        { get; set; }
-
-        /// <summary>
         /// The serial <see cref="IResource"/>
         /// </summary>
         IResource Resource { get; set; }

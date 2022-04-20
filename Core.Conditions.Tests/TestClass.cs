@@ -1,5 +1,6 @@
 ﻿using Extensions;
 using FluentAssertions;
+using Hardware;
 using Hardware.Resources;
 using Hardware.Tcp;
 using NUnit.Framework;
@@ -82,16 +83,17 @@ namespace Core.Conditions.Tests
         [Test]
         public async Task TestPropertyValueChanged()
         {
-            PropertyValueChanged propertyValueChanged = new PropertyValueChanged("ValueChangedCondition", channel);
+            AnalogOutput output = new AnalogOutput(Guid.NewGuid().ToString());
+            PropertyValueChanged propertyValueChanged = new PropertyValueChanged("ValueChangedCondition", output);
             propertyValueChanged.ValueChanged += PropertyValueChanged_ValueChanged;
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 1; i <= 10; i++)
             {
-                channel.Request = i.ToString();
-                await Task.Delay(10000);
+                output.Value = i;
+                await Task.Delay(1000);
             }
 
-            eventCounter.Should().BeGreaterThan(9);
+            eventCounter.Should().Be(10);
         }
 
         private void PropertyValueChanged_ValueChanged(object sender, ValueChangedEventArgs e)

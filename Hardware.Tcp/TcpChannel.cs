@@ -27,7 +27,7 @@ namespace Hardware.Tcp
             {
                 if (request.CompareTo(value) != 0)
                 {
-                    Response = "";
+                    Value = "";
                     request = value;
 
                     if (useSendAndReceive)
@@ -39,20 +39,15 @@ namespace Hardware.Tcp
         }
 
         /// <summary>
-        /// The received response
-        /// </summary>
-        public string Response { get => response; set => Value = value; }
-
-        /// <summary>
         /// The <see cref="TcpChannel"/> value.
-        /// Represent the <see cref="Response"/> from the <see cref="TcpResource"/>
+        /// Represent the response from the <see cref="TcpResource"/>
         /// </summary>
         public override string Value
         {
-            get => Response;
+            get => response;
             set
             {
-                if (value.CompareTo(Response) != 0)
+                if (value.CompareTo(response) != 0)
                 {
                     string oldValue = response;
                     response = value;
@@ -105,7 +100,7 @@ namespace Hardware.Tcp
             this.pollingInterval = pollingInterval;
             this.useSendAndReceive = useSendAndReceive;
 
-            Response = "";
+            Value = "";
             value = "";
 
             pollingTask = new Task(async () =>
@@ -116,8 +111,6 @@ namespace Hardware.Tcp
                             (resource as TcpResource).SendAndReceive(this);
                         else
                             (resource as TcpResource).Send(this);
-
-                        Value = Response;
 
                         await Task.Delay(pollingInterval);
                     }
