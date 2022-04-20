@@ -8,6 +8,7 @@ namespace ArtificialIntelligence.Tests
     [TestFixture]
     public class NeuralNetworkTestClass
     {
+        // Xor function
         private double[][] inputs = {
             new[] {0.0, 0.0},
             new[] {1.0, 0.0},
@@ -22,7 +23,6 @@ namespace ArtificialIntelligence.Tests
             new[] {0.0}
         };
 
-        //public List<Bot> Bots;
         public NeuralNetwork nn;
 
         [OneTimeSetUp]

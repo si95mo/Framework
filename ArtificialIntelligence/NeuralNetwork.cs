@@ -30,7 +30,7 @@ namespace ArtificialIntelligence
         Linear = 2,
 
         /// <summary>
-        /// A gaussian-type function
+        /// A Gaussian-type function
         /// </summary>
         Gaussian = 3
     }
@@ -57,7 +57,7 @@ namespace ArtificialIntelligence
         public double[][] Inputs { get => inputs; set => inputs = value; }
 
         /// <summary>
-        /// The network outptus
+        /// The network outputs
         /// </summary>
         public double[][] Outputs { get => outputs; }
 
@@ -137,9 +137,11 @@ namespace ArtificialIntelligence
         /// <summary>
         /// Update the network structure
         /// </summary>
-        /// <remarks>This method should be called after <see cref="AddLayer(int, bool, ActivationFunction)"/>
+        /// <remarks>
+        /// This method should be called after <see cref="AddLayer(int, bool, ActivationFunction)"/>
         /// and only if the network has at least two <see cref="LayerCount"/> and before calling
-        /// <see cref="Train(double)"/>!</remarks>
+        /// <see cref="Train(double)"/>!
+        /// </remarks>
         public void UpdateNetwork()
         {
             if (layerCount >= 2)
