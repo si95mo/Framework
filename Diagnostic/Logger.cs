@@ -107,6 +107,7 @@ namespace Diagnostic
                 return description;
             }
         }
+
         private const string DAILY_SEPARATOR = "****************************************************" +
             "****************************************************";
 
@@ -262,7 +263,7 @@ namespace Diagnostic
         /// <param name="message">The message</param>
         /// <param name="stackTrace">The <see cref="StackTrace"/> (as <see cref="string"/>)</param>
         /// <returns>The <see cref="ExceptionEntry"/> containing the entry</returns>
-        private static ExceptionEntry CreateEntry (Severity severity, string source, string message, string stackTrace)
+        private static ExceptionEntry CreateEntry(Severity severity, string source, string message, string stackTrace)
         {
             string severityAsString = GetSeverityAsString(severity);
             string now = GetDateTime();
@@ -618,7 +619,6 @@ namespace Diagnostic
             // Here, hasToAwait has been set to false because the method enter the semaphore once and the release it
             // at the end of all the operations. So, there's no need to await another time inside the AppendTextAsync method!
             await semaphore.WaitAsync();
-
 
             await AppendTextAsync(entry.ToString(), hasToWait: false);
             await AppendTextAsync(ENTRY_SEPARATOR + Environment.NewLine, hasToWait: false);

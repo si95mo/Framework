@@ -46,7 +46,7 @@ namespace Control.Pwm
         public NumericParameter Ton { get; }
 
         /// <summary>
-        /// The regulator output (as percentage of PWM). 
+        /// The regulator output (as percentage of PWM).
         /// See also <see cref="PwmPercentage"/>
         /// </summary>
         public new AnalogOutput Output => pid.Output;

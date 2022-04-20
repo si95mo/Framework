@@ -19,7 +19,7 @@ namespace Diagnostic
 
         /// <summary>
         /// Write a new line in the debug console and append
-        /// an <see cref="Environment.NewLine"/> at the end of it if 
+        /// an <see cref="Environment.NewLine"/> at the end of it if
         /// <see cref="Enabled"/> is <see langword="true"/>
         /// </summary>
         /// <param name="message">The message to write</param>
@@ -31,7 +31,7 @@ namespace Diagnostic
 
         /// <summary>
         /// Write a <see cref="StackTrace"/> to the debug console and append
-        /// an <see cref="Environment.NewLine"/> at the end of it if 
+        /// an <see cref="Environment.NewLine"/> at the end of it if
         /// <see cref="Enabled"/> is <see langword="true"/>
         /// </summary>
         /// <param name="stackTrace">The <see cref="StackTrace"/> to write</param>
@@ -40,7 +40,7 @@ namespace Diagnostic
 
         /// <summary>
         /// Write the <see cref="Exception.Message"/> and eventually the <see cref="Exception.StackTrace"/> to the debug console and
-        /// append an <see cref="Environment.NewLine"/> at the end of it if 
+        /// append an <see cref="Environment.NewLine"/> at the end of it if
         /// <see cref="Enabled"/> is <see langword="true"/>
         /// </summary>
         /// <param name="ex">The <see cref="Exception"/> to write</param>
