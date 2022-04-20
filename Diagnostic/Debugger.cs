@@ -5,7 +5,9 @@ using System.Text;
 namespace Diagnostic
 {
     /// <summary>
-    /// Implement a debugger that print to the <see cref="Debug"/> console
+    /// Implement a debugger that print to the <see cref="Debug"/> console. <br/>
+    /// This class should be intended as a momentary logger to use during debug that prevents several
+    /// writing operation to file, but should be then disabled
     /// </summary>
     public static class Debugger
     {
