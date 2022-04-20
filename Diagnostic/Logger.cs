@@ -96,8 +96,17 @@ namespace Diagnostic
             /// The <see cref="Exception.StackTrace"/> as <see cref="string"/>
             /// </summary>
             public string StackTrace;
-        };
 
+            public override string ToString()
+            {
+                string header = $"{Timestamp} | {Severity} | {Source}{Environment.NewLine}";
+                string message = $"\t\tException message: {Message}{Environment.NewLine}";
+                string stackTrace = $"\t\tStack-trace: {StackTrace}{Environment.NewLine}";
+
+                string description = header + message + stackTrace;
+                return description;
+            }
+        }
         private const string DAILY_SEPARATOR = "****************************************************" +
             "****************************************************";
 
@@ -595,14 +604,7 @@ namespace Diagnostic
         /// <param name="entry">The <see cref="ExceptionEntry"/> containing the element to append</param>
         private static void AppendText(ExceptionEntry entry)
         {
-            string text = $"{entry.Timestamp} | {entry.Severity} | {entry.Source}{Environment.NewLine}";
-            AppendText(text);
-
-            string message = $"\t\tException message: {entry.Message}{Environment.NewLine}";
-            AppendText(message);
-
-            string stackTrace = $"\t\tStack-trace: {entry.StackTrace}{Environment.NewLine}";
-            AppendText(stackTrace);
+            AppendText(entry.ToString());
 
             AppendText(ENTRY_SEPARATOR + Environment.NewLine);
         }
