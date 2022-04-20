@@ -108,6 +108,10 @@
       <Project>{C52AC350-467D-4937-813F-6E382808424F}</Project>
       <Name>Control</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Core.Parameters\Core.Parameters.csproj">
+      <Project>{B0E053BC-1B89-4C83-B819-5EC032B2566F}</Project>
+      <Name>Core.Parameters</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Hardware\Hardware.csproj">
       <Project>{C0F5ECDE-B7AD-42B3-ACF8-D5486B0E4C44}</Project>
       <Name>Hardware</Name>

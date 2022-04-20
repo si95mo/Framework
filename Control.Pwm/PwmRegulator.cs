@@ -35,7 +35,8 @@ namespace Control.Pwm
         public TimeSpanParameter CycleTime { get => pid.CycleTime; internal set => pid.CycleTime = value; }
 
         /// <summary>
-        /// The actual PWM percentage
+        /// The actual PWM percentage.
+        /// See also <see cref="Output"/>
         /// </summary>
         public AnalogOutput PwmPercentage => pid.Output;
 
@@ -45,7 +46,8 @@ namespace Control.Pwm
         public NumericParameter Ton { get; }
 
         /// <summary>
-        /// The regulator output (as percentage of PWM)
+        /// The regulator output (as percentage of PWM). 
+        /// See also <see cref="PwmPercentage"/>
         /// </summary>
         public new AnalogOutput Output => pid.Output;
 
@@ -53,7 +55,7 @@ namespace Control.Pwm
         /// The controlled variable (as a generic <see cref="Channel{T}"/>). <br/>
         /// In the block diagram this variable represents r(k) (i.e. the feedback channel)
         /// </summary>
-        public Channel<double> Feedback => pid.Feedback;
+        public override Channel<double> Feedback => pid.Feedback;
 
         /// <summary>
         /// Creste a new instance of <see cref="PwmRegulator"/>
@@ -77,6 +79,7 @@ namespace Control.Pwm
             this.actuatorChannel = actuatorChannel;
 
             pid = new PidRegulator($"{Code}.PID", feedbackChannel, n, kp, ki, kd, maximumPercentage, minimumPercentage, setpoint, cycleTime);
+            pid.Output.MeasureUnit = "%";
             Setpoint.ConnectTo(pid.Setpoint);
 
             MaximumPercentage = new NumericParameter($"{Code}.{nameof(MaximumPercentage)}", measureUnit: "", format: "0.0", value: maximumPercentage);

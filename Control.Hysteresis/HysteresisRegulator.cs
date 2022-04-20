@@ -16,7 +16,10 @@ namespace Control.Hysteresis
         private bool doRegulate;
         private Task controlTask;
 
-        private Channel<bool> actuatorChannel;
+        /// <summary>
+        /// The actuator <see cref="Channel{T}B"/>
+        /// </summary>
+        public Channel<bool> Actuator { get; private set; }
 
         private bool usePwmInBand;
 
@@ -42,7 +45,7 @@ namespace Control.Hysteresis
 
             usePwmInBand = false;
 
-            this.actuatorChannel = actuatorChannel;
+            this.Actuator = actuatorChannel;
         }
 
         /// <summary>
@@ -55,22 +58,22 @@ namespace Control.Hysteresis
                     while (doRegulate)
                     {
                         if (feedbackChannel.Value > UpperLimit.Value)
-                            actuatorChannel.Value = false;
+                            Actuator.Value = false;
                         else
                         {
                             if (feedbackChannel.Value < LowerLimit.Value)
-                                actuatorChannel.Value = true;
+                                Actuator.Value = true;
                             else
                             {
                                 if (usePwmInBand) // 50% PWM, if enabled
-                                    actuatorChannel.Value = !actuatorChannel.Value;
+                                    Actuator.Value = !Actuator.Value;
                             }
                         }
 
                         await Task.Delay(CycleTime.Value);
                     }
 
-                    actuatorChannel.Value = false;
+                    Actuator.Value = false;
                 }
             );
 

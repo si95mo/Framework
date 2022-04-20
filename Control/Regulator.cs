@@ -40,6 +40,11 @@ namespace Control
         public AnalogOutput Output => uk;
 
         /// <summary>
+        /// The feedback <see cref="Channel{T}"/>
+        /// </summary>
+        public virtual Channel<double> Feedback => feedbackChannel;
+
+        /// <summary>
         /// The actual setpoint
         /// </summary>
         public NumericParameter Setpoint

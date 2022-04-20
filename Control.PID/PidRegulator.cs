@@ -56,12 +56,6 @@ namespace Control.PID
         public NumericParameter LowerLimit { get => lowerLimit; set => lowerLimit = value; }
 
         /// <summary>
-        /// The controlled variable (as a generic <see cref="Channel{T}"/>). <br/>
-        /// In the block diagram this variable represents r(k) (i.e. the feedback channel)
-        /// </summary>
-        public Channel<double> Feedback => feedbackChannel;
-
-        /// <summary>
         /// The cycle time of the controller (in milliseconds)
         /// </summary>
         public TimeSpanParameter CycleTime
@@ -188,9 +182,10 @@ namespace Control.PID
             integralTerm.Value = Clamp(integralTerm.Value);
 
             // Derivative term
-            // double dInput = u.Value - lastControlledValue;
-            if (kd.Value != 0)
+            if (ki.Value != 0)
                 derivativeTerm.Value = kd.Value * (n / (1 + n * integralTerm.Value / ki.Value));
+            else
+                derivativeTerm.Value = kd.Value * (error / timeSinceLastUpdate.TotalSeconds);
 
             // Proportional term
             proportionalTerm.Value = kp.Value * error;

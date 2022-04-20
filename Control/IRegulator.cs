@@ -1,4 +1,5 @@
 ﻿using Core;
+using Hardware;
 
 namespace Control
 {
@@ -7,6 +8,11 @@ namespace Control
     /// </summary>
     public interface IRegulator : IProperty
     {
+        /// <summary>
+        /// The feedback <see cref="Channel{T}"/>
+        /// </summary>
+        Channel<double> Feedback { get; }
+
         /// <summary>
         /// Start the control algorithm
         /// </summary>
