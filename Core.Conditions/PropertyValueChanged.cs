@@ -16,7 +16,7 @@
         /// with the <see cref="PropertyValueChanged"/> change its value and will automatically
         /// become <see langword="false"/> once it will be accessed via the <see cref="Value"/> property getter!
         /// </remarks>
-        public new bool Value
+        public override bool Value
         {
             get
             {
@@ -25,7 +25,7 @@
 
                 return actualValue;
             }
-            private set
+            set
             {
                 if (!value.Equals(this.value))
                 {

@@ -25,7 +25,7 @@ namespace Core.Conditions
 
         public Type Type => typeof(Condition);
 
-        public bool Value
+        public virtual bool Value
         {
             get => value;
             set
