@@ -31,15 +31,15 @@ namespace Core.Threading
 
         /// <summary>
         /// Perform no operation for the specified amount of time and, while doing
-        /// no operation, set the internal clock rate  <paramref name="clockRate"/>. <br/>
+        /// no operation, set the internal <paramref name="clockRate"/>. <br/>
         /// See <see cref="ThreadingApi.SetTimeBeginPeriod(uint)"/> and
         /// <see cref="ThreadingApi.SetTimeEndPeriod(uint)"/>
         /// </summary>
         /// <param name="interval">The interval (in milliseconds)</param>
         /// <param name="clockRate">The Windows interrupt clock rate (in milliseconds)</param>
         /// <remarks>
-        /// The new clock rate is reset at the end of the method
-        /// (15.6ms, <see cref="NoOperation(int)"/>)
+        /// The new clock rate is reseted at the end of the method
+        /// (at approximatively 15.6ms, <see cref="NoOperation(int)"/>)
         /// </remarks>
         public static async Task NoOperation(int interval, uint clockRate = 15)
         {

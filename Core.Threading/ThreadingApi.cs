@@ -4,6 +4,9 @@ using System.Security;
 
 namespace Core.Threading
 {
+    /// <summary>
+    /// Provide thread-related API
+    /// </summary>
     internal class ThreadingApi
     {
         /// <summary>
