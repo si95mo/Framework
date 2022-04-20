@@ -26,7 +26,6 @@ namespace Control.Hysteresis
         /// <param name="code">The code</param>
         /// <param name="feedbackChannel">The feedback <see cref="Channel{T}"/></param>
         /// <param name="actuatorChannel">The actuator <see cref="Channel{T}"/></param>
-        /// <param name="n"></param>
         /// <param name="upperLimit">The upper limit</param>
         /// <param name="lowerLimit">The lower limit</param>
         /// <param name="setpoint">The setpoint</param>
@@ -42,6 +41,8 @@ namespace Control.Hysteresis
             controlTask = null;
 
             usePwmInBand = false;
+
+            this.actuatorChannel = actuatorChannel;
         }
 
         /// <summary>
