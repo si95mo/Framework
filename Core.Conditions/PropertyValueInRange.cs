@@ -10,7 +10,7 @@
         private bool isMinimumExcluded, isMaximumExcluded;
 
         /// <summary>
-        /// Create a new isntance of <see cref="PropertyValueInRange"/>
+        /// Create a new instance of <see cref="PropertyValueInRange"/>
         /// </summary>
         /// <param name="code">The code</param>
         /// <param name="property">The <see cref="IProperty{T}"/> of which test the value</param>

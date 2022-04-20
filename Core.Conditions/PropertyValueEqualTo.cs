@@ -4,17 +4,17 @@
     /// Implement an <see cref="ICondition"/> that will be <see langword="true"/>
     /// when a property value is equal to the one passed
     /// </summary>
-    public class PropertyValueEqualTo : FlyweightCondition
+    public class PropertyValueEqualTo<T> : FlyweightCondition
     {
-        private double valueToTest;
+        private T valueToTest;
 
         /// <summary>
-        /// Create a new instance of <see cref="PropertyValueEqualTo"/>
+        /// Create a new instance of <see cref="PropertyValueEqualTo{T}"/>
         /// </summary>
         /// <param name="code">The code</param>
         /// <param name="property">The <see cref="IProperty{T}"/> of which test the value</param>
         /// <param name="valueToTest">The target value</param>
-        public PropertyValueEqualTo(string code, IProperty<double> property, double valueToTest) : base(code)
+        public PropertyValueEqualTo(string code, IProperty<T> property, T valueToTest) : base(code)
         {
             this.valueToTest = valueToTest;
 
@@ -22,6 +22,6 @@
         }
 
         private void Property_ValueChanged(object sender, ValueChangedEventArgs e)
-            => Value = (double)e.NewValue == valueToTest;
+            => Value = e.NewValue.Equals(valueToTest);
     }
 }
