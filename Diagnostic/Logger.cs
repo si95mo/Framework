@@ -622,15 +622,8 @@ namespace Diagnostic
 
             await semaphore.WaitAsync();
 
-            string text = $"{entry.Timestamp} | {entry.Severity} | {entry.Source}{Environment.NewLine}";
-            await AppendTextAsync(text, hasToWait: false);
 
-            string message = $"\t\tException message: { entry.Message}{Environment.NewLine}";
-            await AppendTextAsync(message, hasToWait: false);
-
-            string stackTrace = $"\t\tStack-trace: {entry.StackTrace}{Environment.NewLine}";
-            await AppendTextAsync(stackTrace, hasToWait: false);
-
+            await AppendTextAsync(entry.ToString(), hasToWait: false);
             await AppendTextAsync(ENTRY_SEPARATOR + Environment.NewLine, hasToWait: false);
 
             semaphore.Release();
