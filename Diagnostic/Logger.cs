@@ -67,6 +67,37 @@ namespace Diagnostic
     /// </summary>
     public class Logger : FileHandler
     {
+        /// <summary>
+        /// Represent an <see cref="Exception"/> entry to be logged
+        /// </summary>
+        private struct ExceptionEntry
+        {
+            /// <summary>
+            /// The timestamp
+            /// </summary>
+            public string Timestamp;
+
+            /// <summary>
+            /// The <see cref="Diagnostic.Severity"/> as <see cref="string"/>
+            /// </summary>
+            public string Severity;
+
+            /// <summary>
+            /// The <see cref="Exception.Source"/>
+            /// </summary>
+            public string Source;
+
+            /// <summary>
+            /// The <see cref="Exception.Message"/>
+            /// </summary>
+            public string Message;
+
+            /// <summary>
+            /// The <see cref="Exception.StackTrace"/> as <see cref="string"/>
+            /// </summary>
+            public string StackTrace;
+        };
+
         private const string DAILY_SEPARATOR = "****************************************************" +
             "****************************************************";
 
@@ -221,14 +252,20 @@ namespace Diagnostic
         /// <param name="source">The source</param>
         /// <param name="message">The message</param>
         /// <param name="stackTrace">The <see cref="StackTrace"/> (as <see cref="string"/>)</param>
-        /// <returns>The <see cref="Tuple"/> containing the entry</returns>
-        private static Tuple<string, string, string, string, string> CreateEntry
-            (Severity severity, string source, string message, string stackTrace)
+        /// <returns>The <see cref="ExceptionEntry"/> containing the entry</returns>
+        private static ExceptionEntry CreateEntry (Severity severity, string source, string message, string stackTrace)
         {
             string severityAsString = GetSeverityAsString(severity);
             string now = GetDateTime();
 
-            var entry = Tuple.Create(now, severityAsString, source, message, stackTrace);
+            ExceptionEntry entry = new ExceptionEntry
+            {
+                Timestamp = now,
+                Severity = severityAsString,
+                Source = source,
+                Message = message,
+                StackTrace = stackTrace
+            };
 
             return entry;
         }
@@ -264,8 +301,8 @@ namespace Diagnostic
         /// Build a new log entry
         /// </summary>
         /// <param name="ex">The <see cref="Exception"/> to log</param>
-        /// <returns>A <see cref="Tuple{T1, T2, T3, T4, T5}"/> containing the new entry</returns>
-        private static Tuple<string, string, string, string, string> BuildLogEntry(Exception ex)
+        /// <returns>A <see cref="ExceptionEntry"/> containing the new entry</returns>
+        private static ExceptionEntry BuildLogEntry(Exception ex)
         {
             lastException = ex;
 
@@ -284,7 +321,7 @@ namespace Diagnostic
             // Get the line number from the stack frame
             int? line = frame?.GetFileLineNumber();
 
-            var entry = CreateEntry(
+            ExceptionEntry entry = CreateEntry(
                 Severity.Error,
                 $"{source} - {type} on line {line} (method: {methodName}, file: {fileName})",
                 message,
@@ -498,7 +535,7 @@ namespace Diagnostic
 
             if (!negatedFlag || !IsSameExceptionAsTheLast(ex))
             {
-                Tuple<string, string, string, string, string> entry = BuildLogEntry(ex);
+                ExceptionEntry entry = BuildLogEntry(ex);
                 AppendText(entry);
             }
         }
@@ -519,7 +556,7 @@ namespace Diagnostic
 
             if (!negatedFlag || !IsSameExceptionAsTheLast(ex))
             {
-                Tuple<string, string, string, string, string> entry = BuildLogEntry(ex);
+                ExceptionEntry entry = BuildLogEntry(ex);
                 await AppendTextAsync(entry);
             }
         }
@@ -555,16 +592,16 @@ namespace Diagnostic
         /// Append a <see cref="Tuple"/> to the log file as
         /// (timestamp; type of log entry; source; message; stack-trace)
         /// </summary>
-        /// <param name="entry">The <see cref="Tuple"/> containing the element to append</param>
-        private static void AppendText(Tuple<string, string, string, string, string> entry)
+        /// <param name="entry">The <see cref="ExceptionEntry"/> containing the element to append</param>
+        private static void AppendText(ExceptionEntry entry)
         {
-            string text = $"{entry.Item1} | {entry.Item2} | {entry.Item3}{Environment.NewLine}";
+            string text = $"{entry.Timestamp} | {entry.Severity} | {entry.Source}{Environment.NewLine}";
             AppendText(text);
 
-            string message = $"\t\tException message: {entry.Item4}{Environment.NewLine}";
+            string message = $"\t\tException message: {entry.Message}{Environment.NewLine}";
             AppendText(message);
 
-            string stackTrace = $"\t\tStack-trace: {entry.Item5}{Environment.NewLine}";
+            string stackTrace = $"\t\tStack-trace: {entry.StackTrace}{Environment.NewLine}";
             AppendText(stackTrace);
 
             AppendText(ENTRY_SEPARATOR + Environment.NewLine);
@@ -574,22 +611,22 @@ namespace Diagnostic
         /// Append asynchronously a <see cref="Tuple"/> to the log file as
         /// (timestamp; type of log entry; source; message; stack-trace)
         /// </summary>
-        /// <param name="entry">The <see cref="Tuple"/> containing the element to append</param>
+        /// <param name="entry">The <see cref="ExceptionEntry"/> containing the element to append</param>
         /// <returns>The async <see cref="Task"/></returns>
-        private static async Task AppendTextAsync(Tuple<string, string, string, string, string> entry)
+        private static async Task AppendTextAsync(ExceptionEntry entry)
         {
             // Here, hasToAwait has been set to false because the method enter the semaphore once and the release it
             // at the end of all the operations. So, there's no need to await another time inside the AppendTextAsync method!
 
             await semaphore.WaitAsync();
 
-            string text = $"{entry.Item1} | {entry.Item2} | {entry.Item3}{Environment.NewLine}";
+            string text = $"{entry.Timestamp} | {entry.Severity} | {entry.Source}{Environment.NewLine}";
             await AppendTextAsync(text, hasToWait: false);
 
-            string message = $"\t\tException message: { entry.Item4}{Environment.NewLine}";
+            string message = $"\t\tException message: { entry.Message}{Environment.NewLine}";
             await AppendTextAsync(message, hasToWait: false);
 
-            string stackTrace = $"\t\tStack-trace: {entry.Item5}{Environment.NewLine}";
+            string stackTrace = $"\t\tStack-trace: {entry.StackTrace}{Environment.NewLine}";
             await AppendTextAsync(stackTrace, hasToWait: false);
 
             await AppendTextAsync(ENTRY_SEPARATOR + Environment.NewLine, hasToWait: false);
