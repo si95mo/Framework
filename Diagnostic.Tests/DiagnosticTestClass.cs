@@ -41,8 +41,8 @@ namespace Diagnostic.Tests
                 }
                 catch (Exception ex)
                 {
-                    Logger.Log($"Exception throw at {sw.Elapsed.TotalMilliseconds:HH:mm:ss:fff}", Severity.Info);
-                    Logger.Log(ex);
+                    await Logger.LogAsync($"Exception throw at {sw.Elapsed.TotalMilliseconds:0.000} [ms]", Severity.Info);
+                    await Logger.LogAsync(ex);
                 }
 
                 await Tasks.NoOperation(2000);
