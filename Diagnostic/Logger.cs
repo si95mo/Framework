@@ -598,8 +598,7 @@ namespace Diagnostic
         }
 
         /// <summary>
-        /// Append a <see cref="Tuple"/> to the log file as
-        /// (timestamp; type of log entry; source; message; stack-trace)
+        /// Append an <see cref="ExceptionEntry"/> to the log file
         /// </summary>
         /// <param name="entry">The <see cref="ExceptionEntry"/> containing the element to append</param>
         private static void AppendText(ExceptionEntry entry)
@@ -610,8 +609,7 @@ namespace Diagnostic
         }
 
         /// <summary>
-        /// Append asynchronously a <see cref="Tuple"/> to the log file as
-        /// (timestamp; type of log entry; source; message; stack-trace)
+        /// Append asynchronously an <see cref="ExceptionEntry"/> to the log file
         /// </summary>
         /// <param name="entry">The <see cref="ExceptionEntry"/> containing the element to append</param>
         /// <returns>The async <see cref="Task"/></returns>
@@ -619,7 +617,6 @@ namespace Diagnostic
         {
             // Here, hasToAwait has been set to false because the method enter the semaphore once and the release it
             // at the end of all the operations. So, there's no need to await another time inside the AppendTextAsync method!
-
             await semaphore.WaitAsync();
 
 
