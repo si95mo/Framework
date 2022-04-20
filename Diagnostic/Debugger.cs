@@ -5,7 +5,7 @@ using System.Text;
 namespace Diagnostic
 {
     /// <summary>
-    /// Implement a debugger that print to the debug console
+    /// Implement a debugger that print to the <see cref="Debug"/> console
     /// </summary>
     public static class Debugger
     {
