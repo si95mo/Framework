@@ -16,6 +16,11 @@ namespace Mathematics.FuzzyLogic
         private Dictionary<Variable, double> inputs;
         private Dictionary<string, FuzzyVariable> outputVariables;
 
+        /// <summary>
+        /// The system <see cref="FuzzyVariable"/>
+        /// </summary>
+        public Dictionary<string, FuzzyVariable> InputVariables { get; private set; }
+
         public string Code => code;
 
         public object ValueAsObject { get => code; set => _ = value; }
@@ -33,6 +38,7 @@ namespace Mathematics.FuzzyLogic
 
             inputs = new Dictionary<Variable, double>();
             outputVariables = new Dictionary<string, FuzzyVariable>();
+            InputVariables = new Dictionary<string, FuzzyVariable>();
         }
 
         /// <summary>
@@ -64,7 +70,7 @@ namespace Mathematics.FuzzyLogic
         /// <remarks>
         /// The <paramref name="ruleAsString"/> should have the same form as the linguistic one. <br/>
         /// For example: <br/>
-        /// if ('variableName' is 'linguisticTerm') or ('otherVariableName' is 'otherlinguisticTerm') then 'outputVariableName' is 'someOtherlinguisticTerm'
+        /// if ('variableName' is 'linguisticTerm') or ('otherVariableName' is 'otherlinguisticTerm') then 'outputVariableName' is 'someOtherLinguisticTerm'
         /// </remarks>
         /// <param name="ruleAsString">The rule as string</param>
         public void AddRule(string ruleAsString)

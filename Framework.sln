@@ -146,6 +146,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Control.Pwm", "Control.Pwm\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Control.Pwm.Tests", "Control.PwmRegulator.Tests\Control.Pwm.Tests.csproj", "{0D5DDAD8-12C3-4150-9BEB-36F5FD475778}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Control.FuzzyRegulator", "Control.FuzzyRegulator\Control.FuzzyRegulator.csproj", "{F60BA1C5-E1D6-4A6D-AD37-76B8E9F7D94C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Control.FuzzyRegulator.Tests", "Control.FuzzyRegulator.Tests\Control.FuzzyRegulator.Tests.csproj", "{57ABE9E2-9A27-4AF0-9938-04A3B8C000F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -428,6 +432,14 @@ Global
 		{0D5DDAD8-12C3-4150-9BEB-36F5FD475778}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D5DDAD8-12C3-4150-9BEB-36F5FD475778}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D5DDAD8-12C3-4150-9BEB-36F5FD475778}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F60BA1C5-E1D6-4A6D-AD37-76B8E9F7D94C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F60BA1C5-E1D6-4A6D-AD37-76B8E9F7D94C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F60BA1C5-E1D6-4A6D-AD37-76B8E9F7D94C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F60BA1C5-E1D6-4A6D-AD37-76B8E9F7D94C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57ABE9E2-9A27-4AF0-9938-04A3B8C000F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57ABE9E2-9A27-4AF0-9938-04A3B8C000F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57ABE9E2-9A27-4AF0-9938-04A3B8C000F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57ABE9E2-9A27-4AF0-9938-04A3B8C000F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
