@@ -40,12 +40,12 @@ namespace UserInterface.Dashboards
             }
             set
             {
-                if (value is AnalogInput)
-                    analogInput = (AnalogInput)value;
+                if (value is AnalogInput ai)
+                    analogInput = ai;
                 else
                 {
-                    if (value is MultiSampleAnalogInput)
-                        multiSampleAnalogInput = (MultiSampleAnalogInput)value;
+                    if (value is MultiSampleAnalogInput msai)
+                        multiSampleAnalogInput = msai;
                 }
             }
         }
@@ -72,7 +72,7 @@ namespace UserInterface.Dashboards
             set => _ = value;
         }
 
-        public MultiSampleAnalogReadControl()
+        public MultiSampleAnalogReadControl() : base()
         {
             InitializeComponent();
         }

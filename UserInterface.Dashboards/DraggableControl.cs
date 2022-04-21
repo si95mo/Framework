@@ -33,7 +33,7 @@ namespace UserInterface.Dashboards
         private void DraggableControl_Load(object sender, EventArgs e)
             => this.SetDraggable(true);
 
-        protected void Control_KeyDown(object sender, KeyEventArgs e)
+        private void Control_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Cancel || e.KeyCode == Keys.Delete)
             {

@@ -18,8 +18,6 @@ namespace UserInterface.Dashboards
         protected ResizableControl() : base()
         {
             InitializeComponent();
-
-            ResizeRedraw = true;
         }
 
         protected override void OnPaint(PaintEventArgs e)
