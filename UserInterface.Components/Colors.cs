@@ -18,7 +18,7 @@ namespace UserInterface.Controls
         /// The green <see cref="Color"/>
         /// defined as 0xBD, 0xDC, 0x04
         /// </summary>
-        public static readonly Color Green = Color.FromArgb(189, 220, 4);
+        public static readonly Color Green = Color.FromArgb(0xBD, 0xDC, 0x4);
 
         /// <summary>
         /// The black <see cref="Color"/>
@@ -27,26 +27,34 @@ namespace UserInterface.Controls
         public static readonly Color Black = Color.DarkSlateGray;
 
         /// <summary>
-        /// The text light color <see cref="Color"/>.
+        /// The text light <see cref="Color"/>.
         /// See <see cref="Color.Transparent"/>
         /// </summary>
         public static readonly Color Transparent = Color.Transparent;
 
         /// <summary>
-        /// The light text color <see cref="Color"/>
+        /// The light text <see cref="Color"/>
         /// defined as 0xFC, 0xEE, 0xDF
         /// </summary>
         public static readonly Color TextColorLight = Color.FromArgb(0xFC, 0xEE, 0xDF);
 
         /// <summary>
-        /// The dark text color <see cref="Color"/>
+        /// The dark text <see cref="Color"/>
         /// defined as 0x2F, 0x4F, 0x4F
         /// </summary>
         public static readonly Color TextColorDark = Color.DarkSlateGray;
 
-        public static readonly Color TextColor = Color.FromArgb(51, 51, 51);
+        /// <summary>
+        /// The text <see cref="Color"/>
+        /// defined as 0x33, 0x33, 0x33
+        /// </summary>
+        public static readonly Color TextColor = Color.FromArgb(0x33, 0x33, 0x33);
 
-        public static readonly Color Grey = Color.FromArgb(200, 200, 200);
+        /// <summary>
+        /// The gray <see cref="Color"/>
+        /// defined as 0xC8, 0xC8, 0xC8
+        /// </summary>
+        public static readonly Color Grey = Color.FromArgb(0xC8, 0xC8, 0xC8);
 
         /// <summary>
         /// The red <see cref="Color"/>
