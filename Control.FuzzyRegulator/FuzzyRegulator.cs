@@ -38,12 +38,12 @@ namespace Control.FuzzyRegulator
         /// <param name="setpoint">The setpoint</param>
         /// <param name="fuzzySystem">The <see cref="FuzzySystem"/></param>
         /// <param name="inputVariables">
-        /// The <see cref="Dictionary{TKey, TValue}"/> with all the <paramref name="fuzzySystem"/> 
+        /// The <see cref="Dictionary{TKey, TValue}"/> with all the <paramref name="fuzzySystem"/>
         /// input <see cref="FuzzyVariable"/> with the relative <see cref="IProperty"/>
         /// </param>
         /// <param name="outputVariable">The <paramref name="fuzzySystem"/> output <see cref="FuzzyVariable"/></param>
         /// <param name="cycleTime">The cycle time (as <see cref="TimeSpan"/>)</param>
-        public FuzzyRegulator(string code, Channel<double> feedbackChannel, double setpoint, FuzzySystem fuzzySystem, 
+        public FuzzyRegulator(string code, Channel<double> feedbackChannel, double setpoint, FuzzySystem fuzzySystem,
             Dictionary<FuzzyVariable, IProperty<double>> inputVariables, FuzzyVariable outputVariable, TimeSpan cycleTime)
             : base(code, feedbackChannel, setpoint)
         {
@@ -66,8 +66,8 @@ namespace Control.FuzzyRegulator
         /// <param name="setpoint">The setpoint. The actual setpoint is given by the <paramref name="fuzzySystem"/> rules' set</param>
         /// <param name="fuzzySystem">The <see cref="FuzzySystem"/></param>
         /// <param name="cycleTime">The cycle time (in milliseconds)</param>
-        public FuzzyRegulator(string code, Channel<double> feedbackChannel, double setpoint, FuzzySystem fuzzySystem, 
-            Dictionary<FuzzyVariable, IProperty<double>> variables, FuzzyVariable outputVariable, int cycleTime) 
+        public FuzzyRegulator(string code, Channel<double> feedbackChannel, double setpoint, FuzzySystem fuzzySystem,
+            Dictionary<FuzzyVariable, IProperty<double>> variables, FuzzyVariable outputVariable, int cycleTime)
             : this(code, feedbackChannel, setpoint, fuzzySystem, variables, outputVariable, TimeSpan.FromMilliseconds(cycleTime))
         { }
 
