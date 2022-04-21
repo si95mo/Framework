@@ -35,11 +35,15 @@ namespace UserInterface.Dashboards
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "DraggableControl";
-            this.Size = new System.Drawing.Size(280, 120);
+            this.Size = new System.Drawing.Size(278, 118);
             this.Load += new System.EventHandler(this.DraggableControl_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Control_KeyDown);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Control_MouseDown);
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Control_MouseUp);
             this.ResumeLayout(false);
 
         }

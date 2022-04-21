@@ -32,6 +32,7 @@ namespace Extensions
         /// </param>
         public static void SetDraggable(this DraggableControl source, bool isDraggable)
         {
+            source.IsDraggable = isDraggable;
             source.Draggable(isDraggable);
         }
     }
