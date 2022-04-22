@@ -674,11 +674,7 @@ namespace Diagnostic
         private static string GetReadableSeverityAsString(Severity severity)
         {
             string str = GetSeverityAsString(severity);
-            str = new string(
-                str.ToCharArray().Where(
-                    c => !char.IsWhiteSpace(c)
-                ).ToArray()
-            );
+            str = new string(str.ToCharArray().Where(c => !char.IsWhiteSpace(c)).ToArray());
 
             return str;
         }
