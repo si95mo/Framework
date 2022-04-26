@@ -4,7 +4,7 @@
     /// Create a <see cref="Condition"/> that will retain its value since its not connected
     /// to anything external
     /// </summary>
-    internal class DummyCondition : Condition
+    public class DummyCondition : Condition
     {
         /// <summary>
         /// Create a new instance of <see cref="DummyCondition"/>
