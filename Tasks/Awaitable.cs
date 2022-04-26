@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Tasks
 {
     /// <summary>
-    /// Implement generic aspect fo the <see cref="IAwaitable"/> interface
+    /// Implement generic aspects of the <see cref="IAwaitable"/> interface
     /// </summary>
     public abstract class Awaitable : IAwaitable, IProperty
     {
@@ -20,9 +20,16 @@ namespace Tasks
 
         public Type Type => GetType();
 
+        /// <summary>
+        /// Create a new instace of <see cref="Awaitable"/>
+        /// </summary>
+        /// <param name="code">The code</param>
         protected Awaitable (string code)
         {
             this.code = code;
+
+            Status = new EnumParameter<TaskStatus>($"{Code}.{nameof(Status)}", TaskStatus.Created);
+            Message = new StringParameter($"{Code}.{nameof(Message)}", "");
         }
 
         public abstract Task Start();
