@@ -50,8 +50,13 @@
     <Compile Include="PropertyValueEqualTo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyValueInRange.cs" />
+    <Compile Include="TimeElapsed.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Core.Parameters\Core.Parameters.csproj">
+      <Project>{B0E053BC-1B89-4C83-B819-5EC032B2566F}</Project>
+      <Name>Core.Parameters</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{75dfacf6-e820-4e3f-83d5-1e21fbc92385}</Project>
       <Name>Core</Name>
