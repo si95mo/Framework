@@ -182,9 +182,9 @@ namespace Control.PID
             integralTerm.Value = Clamp(integralTerm.Value);
 
             // Derivative term
-            if (ki.Value != 0)
+            if (ki.Value != 0) // If Ki != 0, then the filtered form is used for the derivative term
                 derivativeTerm.Value = kd.Value * (n / (1 + n * integralTerm.Value / ki.Value));
-            else
+            else // Otherwise the unfiltered one is used (to prevent the divide-by-0 case)
                 derivativeTerm.Value = kd.Value * (error / timeSinceLastUpdate.TotalSeconds);
 
             // Proportional term
