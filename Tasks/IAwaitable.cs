@@ -14,7 +14,7 @@ namespace Tasks
         EnumParameter<TaskStatus> Status { get; }
 
         /// <summary>
-        /// The actua <see cref="IAwaitable"/> message (i.e. last executed operation)
+        /// The actual <see cref="IAwaitable"/> message (i.e. last executed operation)
         /// </summary>
         StringParameter Message { get; }
 
