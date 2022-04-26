@@ -179,7 +179,7 @@ namespace Control.PID
 
             // Integral term
             integralTerm.Value += ki.Value * error * timeSinceLastUpdate.TotalSeconds; // Bumpless operation (Se * Ki is stored, not sum(e) * Ki)
-            integralTerm.Value = Clamp(integralTerm.Value);
+            integralTerm.Value = Clamp(integralTerm.Value); // Anti wind-up with clamping (i.e. conditional integration)
 
             // Derivative term
             if (ki.Value != 0) // If Ki != 0, then the filtered form is used for the derivative term
