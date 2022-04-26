@@ -66,6 +66,8 @@ namespace Extensions
                 await Task.Delay(-1, tokenSource.Token).ContinueWith((x) => { }); // Prevent the exception throw;
                 condition.ValueChanged -= eventHandler;
             }
+            else
+                await Task.CompletedTask;
         }
 
         /// <summary>
