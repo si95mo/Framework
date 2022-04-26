@@ -159,7 +159,7 @@ namespace Core.Conditions
                         Value = false;
 
                         await Task.Delay(-1, token)
-                            .ContinueWith((x) => 
+                            .ContinueWith((x) =>
                                 {
                                     Value = true;
                                     timer.Stop();
@@ -168,7 +168,7 @@ namespace Core.Conditions
 
                                     Started.Value = false;
                                 }
-                            );                       
+                            );
                     }
                 }
             );

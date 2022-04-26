@@ -14,10 +14,10 @@ namespace UserInterface.Dashboards
         /// <see langword="true"/> if the <see cref="DraggableControl"/> is draggable,
         /// <see langword="false"/> otherwise
         /// </summary>
-        public bool IsDraggable 
-        { 
-            get; 
-            set; 
+        public bool IsDraggable
+        {
+            get;
+            set;
         }
 
         /// <summary>

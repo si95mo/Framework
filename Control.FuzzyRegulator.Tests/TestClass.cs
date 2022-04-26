@@ -80,6 +80,7 @@ namespace Control.FuzzyRegulator.Tests
 
             t = Stopwatch.StartNew();
         }
+
         private double CalculateVoltage()
         {
             double vc;

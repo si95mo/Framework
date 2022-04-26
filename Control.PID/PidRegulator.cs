@@ -172,7 +172,7 @@ namespace Control.PID
 
         /// <summary>
         /// Perform an iteration of the control algorithm. <br/>
-        /// The equation used is: Kp + Ki * 1/s + Kd * N/(1 + N * 1/s) 
+        /// The equation used is: Kp + Ki * 1/s + Kd * N/(1 + N * 1/s)
         /// </summary>
         private void Iterate()
         {
@@ -184,7 +184,7 @@ namespace Control.PID
 
             // Derivative term
             if (ki.Value != 0) // If Ki != 0, then the filtered form is used for the derivative term
-                derivativeTerm.Value = kd.Value * (n / (1 + n * integralTerm.Value / ki.Value)); // 1/s = Se; I = Ki * Se -> Se = I / Ki 
+                derivativeTerm.Value = kd.Value * (n / (1 + n * integralTerm.Value / ki.Value)); // 1/s = Se; I = Ki * Se -> Se = I / Ki
             else // Otherwise the unfiltered one is used (to prevent the divide-by-0 case)
                 derivativeTerm.Value = kd.Value * (error / timeSinceLastUpdate.TotalSeconds);
 
