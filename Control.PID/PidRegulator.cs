@@ -178,7 +178,7 @@ namespace Control.PID
             double error = setpoint.Value - feedbackChannel.Value;
 
             // Integral term
-            integralTerm.Value += ki.Value * error * timeSinceLastUpdate.TotalSeconds;
+            integralTerm.Value += ki.Value * error * timeSinceLastUpdate.TotalSeconds; // Bumpless operation (Se * Ki is stored, not sum(e) * Ki)
             integralTerm.Value = Clamp(integralTerm.Value);
 
             // Derivative term

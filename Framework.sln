@@ -150,6 +150,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Control.FuzzyRegulator", "C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Control.FuzzyRegulator.Tests", "Control.FuzzyRegulator.Tests\Control.FuzzyRegulator.Tests.csproj", "{57ABE9E2-9A27-4AF0-9938-04A3B8C000F1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mathematics.DifferentialEquation", "Mathematics.DifferentialEquation\Mathematics.DifferentialEquation.csproj", "{E663FE61-8032-4D15-9231-8D7F4C579542}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -440,6 +442,10 @@ Global
 		{57ABE9E2-9A27-4AF0-9938-04A3B8C000F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57ABE9E2-9A27-4AF0-9938-04A3B8C000F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57ABE9E2-9A27-4AF0-9938-04A3B8C000F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E663FE61-8032-4D15-9231-8D7F4C579542}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E663FE61-8032-4D15-9231-8D7F4C579542}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E663FE61-8032-4D15-9231-8D7F4C579542}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E663FE61-8032-4D15-9231-8D7F4C579542}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
