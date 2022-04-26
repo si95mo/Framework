@@ -1,5 +1,6 @@
 ﻿using Core.Parameters;
 using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -21,6 +22,11 @@ namespace Core.Conditions
         public TimeSpanParameter Time { get; set; }
 
         /// <summary>
+        /// The actual elapsed time
+        /// </summary>
+        public TimeSpanParameter ElapsedTime { get; private set; }
+
+        /// <summary>
         /// The started state
         /// </summary>
         public BoolParameter Started { get; private set; }
@@ -32,8 +38,7 @@ namespace Core.Conditions
         /// <param name="time">The time after which the new instance will be <see langword="true"/> (as a <see cref="TimeSpan"/></param>
         public TimeElapsed(string code, TimeSpan time) : base(code)
         {
-            Time = new TimeSpanParameter($"{Code}.{nameof(Time)}", time);
-            Started = new BoolParameter($"{Code}.{nameof(Started)}", false);
+            InitializeParameters(time);
         }
 
         /// <summary>
@@ -66,11 +71,24 @@ namespace Core.Conditions
         /// <param name="endCondition">The <see cref="ICondition"/> that will stop the timer when will become <see langword="true"/></param>
         public TimeElapsed(string code, ICondition startCondition, ICondition endCondition) : base(code)
         {
+            InitializeParameters(TimeSpan.Zero);
+
             tokenSource = new CancellationTokenSource();
             withEndCondition = true;
 
             startCondition.ValueChanged += StartCondition_ValueChanged;
             endCondition.ValueChanged += EndCondition_ValueChanged;
+        }
+
+        /// <summary>
+        /// Initialize specific class parameters
+        /// </summary>
+        /// <param name="time">The <see cref="Condition"/> time</param>
+        private void InitializeParameters(TimeSpan time)
+        {
+            Time = new TimeSpanParameter($"{Code}.{nameof(Time)}", time);
+            Started = new BoolParameter($"{Code}.{nameof(Started)}", false);
+            ElapsedTime = new TimeSpanParameter($"{Code}.{nameof(ElapsedTime)}", 0d);
         }
 
         private void StartCondition_ValueChanged(object sender, ValueChangedEventArgs e)
@@ -80,7 +98,7 @@ namespace Core.Conditions
                 if (!withEndCondition)
                     CreateTimerTask().Start();
                 else
-                    CreateTimerTask(tokenSource.Token);
+                    CreateTimerTask(tokenSource.Token).Start();
             }
         }
 
@@ -98,13 +116,21 @@ namespace Core.Conditions
         {
             Task t = new Task(async () =>
                 {
+                    Stopwatch timer;
+
                     if (!Started.Value)
                     {
                         Started.Value = true;
 
+                        timer = Stopwatch.StartNew();
                         Value = false;
+
                         await Task.Delay(Time.Value);
+
                         Value = true;
+                        timer.Stop();
+
+                        ElapsedTime.Value = TimeSpan.FromMilliseconds(timer.Elapsed.TotalMilliseconds);
 
                         Started.Value = false;
                     }
@@ -123,15 +149,26 @@ namespace Core.Conditions
         {
             Task t = new Task(async () =>
                 {
+                    Stopwatch timer;
+
                     if (!Started.Value)
                     {
                         Started.Value = true;
 
+                        timer = Stopwatch.StartNew();
                         Value = false;
-                        await Task.Delay(Time.Value, token).ContinueWith((x) => { }); // To prevent Exception throw
-                        Value = true;
 
-                        Started.Value = false;
+                        await Task.Delay(-1, token)
+                            .ContinueWith((x) => 
+                                {
+                                    Value = true;
+                                    timer.Stop();
+
+                                    ElapsedTime.Value = TimeSpan.FromMilliseconds(timer.Elapsed.TotalMilliseconds);
+
+                                    Started.Value = false;
+                                }
+                            );                       
                     }
                 }
             );

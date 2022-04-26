@@ -5,6 +5,7 @@ using Hardware.Resources;
 using Hardware.Tcp;
 using NUnit.Framework;
 using System;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
@@ -99,6 +100,29 @@ namespace Core.Conditions.Tests
         private void PropertyValueChanged_ValueChanged(object sender, ValueChangedEventArgs e)
         {
             eventCounter++;
+        }
+
+        [Test]
+        [TestCase(1000)]
+        [TestCase(10000)]
+        public async Task TestTimeElapsed(int timeToWait)
+        {
+            DummyCondition startCondition = new DummyCondition("StartCondition", false);
+            DummyCondition endCondition = new DummyCondition("EndCondition", false);
+
+            TimeElapsed timeElapsedCondition = new TimeElapsed("TimeElapsedCondition", startCondition, endCondition);
+
+            Stopwatch timer = Stopwatch.StartNew();
+
+            startCondition.Force(true);
+            await Task.Delay(timeToWait);
+            endCondition.Force(true);
+
+            await Task.Delay(10); // A little delay for the condition.Value to be updated
+            timer.Stop();
+
+            timeElapsedCondition.Value.Should().BeTrue();
+            timeElapsedCondition.ElapsedTime.ValueInMilliseconds.Should().BeApproximately(timeToWait, 20); // 20ms precision
         }
     }
 }
