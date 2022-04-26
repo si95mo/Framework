@@ -26,7 +26,10 @@
         /// <summary>
         /// Force the <see cref="DummyCondition"/> value to change
         /// </summary>
-        /// <remarks>This is the only way to change the <see cref="DummyCondition"/> value!</remarks>
+        /// <remarks>
+        /// This is the only way to change the <see cref="DummyCondition"/> value 
+        /// (other than a <see cref="IProperty{T}.ConnectTo(IProperty)"/>)!
+        /// </remarks>
         /// <param name="value">The new value</param>
         public void Force(bool value) => Value = value;
     }
