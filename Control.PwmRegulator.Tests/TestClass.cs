@@ -28,7 +28,7 @@ namespace Control.Pwm.Tests
 
         private double CalculateVoltageDecrement()
         {
-            double vc = -u.Value * (1 - Math.Exp(-(regulator.CycleTime.ValueAsMilliseconds - regulator.Ton.Value) / 1000 / (r * c)));
+            double vc = -u.Value * (1 - Math.Exp(-(regulator.CycleTime.ValueInMilliseconds - regulator.Ton.Value) / 1000 / (r * c)));
             return vc;
         }
 

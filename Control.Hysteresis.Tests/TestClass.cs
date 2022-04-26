@@ -21,13 +21,13 @@ namespace Control.Hysteresis.Tests
 
         private double CalculateVoltageIncrement()
         {
-            double vc = regulator.Actuator.Value ? 24 * (1 - Math.Exp(-regulator.CycleTime.ValueAsMilliseconds / 1000 / (r * c))) : 0d;
+            double vc = regulator.Actuator.Value ? 24 * (1 - Math.Exp(-regulator.CycleTime.ValueInMilliseconds / 1000 / (r * c))) : 0d;
             return vc;
         }
 
         private double CalculateVoltageDecrement()
         {
-            double vc = !regulator.Actuator.Value ? -u.Value * (1 - Math.Exp(-regulator.CycleTime.ValueAsMilliseconds / 2000 / (r * c))) : 0d;
+            double vc = !regulator.Actuator.Value ? -u.Value * (1 - Math.Exp(-regulator.CycleTime.ValueInMilliseconds / 2000 / (r * c))) : 0d;
             return vc;
         }
 

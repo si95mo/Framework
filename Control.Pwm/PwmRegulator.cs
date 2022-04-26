@@ -97,7 +97,7 @@ namespace Control.Pwm
         /// <returns>The PWM time (in milliseconds)</returns>
         private double CalculatePwmTime()
         {
-            double pwmTime = CycleTime.ValueAsMilliseconds * (pid.Output.Value / 100d) + Setpoint.Value * GainFeedForward.Value;
+            double pwmTime = CycleTime.ValueInMilliseconds * (pid.Output.Value / 100d) + Setpoint.Value * GainFeedForward.Value;
             return pwmTime;
         }
 
@@ -119,7 +119,7 @@ namespace Control.Pwm
                         await Task.Delay(TimeSpan.FromMilliseconds(Ton.Value));
 
                         actuatorChannel.Value = false;
-                        await Task.Delay(TimeSpan.FromMilliseconds(CycleTime.ValueAsMilliseconds - Ton.Value));
+                        await Task.Delay(TimeSpan.FromMilliseconds(CycleTime.ValueInMilliseconds - Ton.Value));
                     }
                 }
             );
@@ -134,8 +134,8 @@ namespace Control.Pwm
         {
             double result = valueToClamp;
 
-            double maxInPercentage = MaximumPercentage.Value * CycleTime.ValueAsMilliseconds;
-            double minInPercentage = MinimumPercentage.Value * CycleTime.ValueAsMilliseconds;
+            double maxInPercentage = MaximumPercentage.Value * CycleTime.ValueInMilliseconds;
+            double minInPercentage = MinimumPercentage.Value * CycleTime.ValueInMilliseconds;
 
             if (valueToClamp < minInPercentage || valueToClamp == double.NaN)
                 result = minInPercentage;
@@ -159,7 +159,7 @@ namespace Control.Pwm
             }
             else
             {
-                controlTask.Wait((int)CycleTime.ValueAsMilliseconds);
+                controlTask.Wait((int)CycleTime.ValueInMilliseconds);
                 controlTask.Dispose();
 
                 controlTask = CreateControlTask();
@@ -174,7 +174,7 @@ namespace Control.Pwm
         {
             if (controlTask != null)
             {
-                controlTask.Wait((int)CycleTime.ValueAsMilliseconds);
+                controlTask.Wait((int)CycleTime.ValueInMilliseconds);
                 controlTask.Dispose();
 
                 actuatorChannel.Value = false;
