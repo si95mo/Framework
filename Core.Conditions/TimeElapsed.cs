@@ -1,15 +1,12 @@
 ﻿using Core.Parameters;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Core.Conditions
 {
     /// <summary>
-    /// Implement a condition that will be <see langword="true"/> after 
+    /// Implement a condition that will be <see langword="true"/> after
     /// a time interval elapsed
     /// </summary>
     public class TimeElapsed : FlyweightCondition
@@ -18,11 +15,11 @@ namespace Core.Conditions
         private bool withEndCondition;
 
         /// <summary>
-        /// The time after which the <see cref="TimeElapsed"/> <see cref="Condition"/> 
+        /// The time after which the <see cref="TimeElapsed"/> <see cref="Condition"/>
         /// will be  <see langword="true"/>
         /// </summary>
         public TimeSpanParameter Time { get; set; }
-        
+
         /// <summary>
         /// The started state
         /// </summary>
@@ -116,7 +113,6 @@ namespace Core.Conditions
 
             return t;
         }
-
 
         /// <summary>
         /// Create the timer <see cref="Task"/> with a <see cref="CancellationToken"/>
