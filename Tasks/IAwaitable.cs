@@ -1,4 +1,5 @@
-﻿using Core.Parameters;
+﻿using Core.DataStructures;
+using Core.Parameters;
 using System.Threading.Tasks;
 
 namespace Tasks
@@ -17,6 +18,16 @@ namespace Tasks
         /// The actual <see cref="IAwaitable"/> message (i.e. last executed operation)
         /// </summary>
         StringParameter Message { get; }
+
+        /// <summary>
+        /// The <see cref="IAwaitable"/> input <see cref="IParameter"/>
+        /// </summary>
+        Bag<IParameter> InputParameters { get; }
+
+        /// <summary>
+        /// The <see cref="IAwaitable"/> output <see cref="IParameter"/>
+        /// </summary>
+        Bag<IParameter> OutputParameters { get; }
 
         /// <summary>
         /// Start the <see cref="IAwaitable"/> task

@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.DataStructures;
 using Core.Parameters;
 using System;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ namespace Tasks
     /// <summary>
     /// Implement generic aspects of the <see cref="IAwaitable"/> interface
     /// </summary>
-    public abstract class Awaitable : IAwaitable, IProperty
+    public abstract class AwaitableTask : IAwaitable, IProperty
     {
         private string code;
 
@@ -20,16 +21,23 @@ namespace Tasks
 
         public Type Type => GetType();
 
+        public Bag<IParameter> InputParameters { get; protected set; }
+
+        public Bag<IParameter> OutputParameters { get; protected set; }
+
         /// <summary>
-        /// Create a new instace of <see cref="Awaitable"/>
+        /// Create a new instance of <see cref="AwaitableTask"/>
         /// </summary>
         /// <param name="code">The code</param>
-        protected Awaitable (string code)
+        protected AwaitableTask (string code)
         {
             this.code = code;
 
             Status = new EnumParameter<TaskStatus>($"{Code}.{nameof(Status)}", TaskStatus.Created);
             Message = new StringParameter($"{Code}.{nameof(Message)}", "");
+
+            InputParameters = new Bag<IParameter>();
+            OutputParameters = new Bag<IParameter>();
         }
 
         public abstract Task Start();
