@@ -6,7 +6,6 @@ using Mathematics.FuzzyLogic;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Control.FuzzyRegulator
