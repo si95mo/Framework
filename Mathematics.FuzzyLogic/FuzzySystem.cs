@@ -2,6 +2,7 @@
 using Core;
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Variable = AI.Fuzzy.Library.FuzzyVariable;
 
 namespace Mathematics.FuzzyLogic
@@ -92,6 +93,32 @@ namespace Mathematics.FuzzyLogic
                 result.Add($"{variable.Name}: {outputs[variable].ToString(outputVariables[variable.Name].Format)}{outputVariables[variable.Name].MeasureUnit}");
 
             return result;
+        }
+
+        /// <summary>
+        /// Convert the result calculated with <see cref="Calculate"/> to a <see cref="string"/>
+        /// </summary>
+        /// <param name="results">The calculated results</param>
+        /// <param name="index">The result index</param>
+        /// <returns>The converted result</returns>
+        public string GetResultAsString(List<string> results, int index)
+        {
+            string resultAsString = Regex.Match(results[0], @"\d+\,\d+").Value;
+            return resultAsString;
+        }
+
+        /// <summary>
+        /// Convert the result calculated with <see cref="Calculate"/> to a <see cref="string"/>
+        /// </summary>
+        /// <param name="results">The calculated results</param>
+        /// <param name="index">The result index</param>
+        /// <returns>The converted result, or 0 if the conversion failed</returns>
+        public double GetResultAsDouble(List<string> results, int index)
+        {
+            string resultAsStirng = GetResultAsString(results, index);
+            double.TryParse(resultAsStirng, out double resultAsDouble);
+
+            return resultAsDouble;
         }
 
         /// <summary>

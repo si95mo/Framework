@@ -110,11 +110,8 @@ namespace Control.FuzzyRegulator
 
             fuzzySystem.AddOutput(outputVariable);
 
-            List<string> result = fuzzySystem.Calculate();
-
-            string valueAsString = Regex.Match(result[0], @"\d+\,\d+").Value;
-            if (double.TryParse(valueAsString, out double value))
-                uk.Value = value;
+            List<string> results = fuzzySystem.Calculate();
+            uk.Value = fuzzySystem.GetResultAsDouble(results, 0);
         }
 
         public override void Start()
