@@ -35,7 +35,6 @@ namespace Devices
         Bag<ICondition> Conditions
         { get; }
 
-
         /// <summary>
         /// Stop the <see cref="IDevice"/>.
         /// This method should handle the safety (i.e. should put the <see cref="IDevice"/>

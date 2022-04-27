@@ -29,7 +29,7 @@ namespace Tasks
         /// Create a new instance of <see cref="AwaitableTask"/>
         /// </summary>
         /// <param name="code">The code</param>
-        protected AwaitableTask (string code)
+        protected AwaitableTask(string code)
         {
             this.code = code;
 
