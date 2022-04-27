@@ -23,7 +23,8 @@ namespace Alarms
         DateTime FiringTime { get; }
 
         /// <summary>
-        /// Fire the <see cref="IAlarm"/>
+        /// Fire the <see cref="IAlarm"/> and stop the relative
+        /// <see cref="Source"/> (if possible)
         /// </summary>
         void Fire();
     }
