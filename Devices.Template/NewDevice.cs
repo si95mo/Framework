@@ -11,6 +11,11 @@
             // Add stuff here
         }
 
+        public override void Stop()
+        {
+            throw new System.NotImplementedException();
+        }
+
         protected override void ConnectChannelsToParameters()
         {
             throw new System.NotImplementedException();

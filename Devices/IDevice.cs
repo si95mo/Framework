@@ -34,5 +34,13 @@ namespace Devices
         /// </summary>
         Bag<ICondition> Conditions
         { get; }
+
+
+        /// <summary>
+        /// Stop the <see cref="IDevice"/>.
+        /// This method should handle the safety (i.e. should put the <see cref="IDevice"/>
+        /// in a safe condition when something abnormal happens)
+        /// </summary>
+        void Stop();
     }
 }

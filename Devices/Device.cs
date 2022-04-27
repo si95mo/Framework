@@ -92,6 +92,13 @@ namespace Devices
         /// </summary>
         protected abstract void ConnectChannelsToParameters();
 
+        /// <summary>
+        /// Stop the <see cref="Device"/>.
+        /// This method should handle the safety (i.e. should put the <see cref="Device"/>
+        /// in a safe condition when something abnormal happens)
+        /// </summary>
+        public abstract void Stop();
+
         public override string ToString() => code;
     }
 }
