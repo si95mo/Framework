@@ -17,7 +17,7 @@ namespace Tasks
         public abstract StringParameter Message { get; protected set; }
 
         public string Code => code;
-        public object ValueAsObject { get => Status.Value; set => _; }
+        public object ValueAsObject { get => Status.Value; set => _ = value; }
 
         public Type Type => GetType();
 
