@@ -1,6 +1,5 @@
 ﻿using Core;
 using Core.DataStructures;
-using System;
 using System.Threading.Tasks;
 using Unosquare.RaspberryIO;
 
@@ -15,7 +14,7 @@ namespace Hardware.Raspberry
 
         private Task pollingTask;
 
-        public override bool IsOpen => throw new NotImplementedException();
+        public override bool IsOpen => Status.Value == ResourceStatus.Executing || Status.Value == ResourceStatus.Stopped;
 
         /// <summary>
         /// Create a new instance of <see cref="PiResource"/>
