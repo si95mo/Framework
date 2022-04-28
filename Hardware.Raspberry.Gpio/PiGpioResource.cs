@@ -64,6 +64,14 @@ namespace Hardware.Raspberry
         }
 
         /// <summary>
+        /// Send a value via the <see cref="PiGpioResource"/>
+        /// </summary>
+        /// <param name="pinNumber">The pin number</param>
+        /// <param name="value">The value to write</param>
+        internal void Send(int pinNumber, bool value)
+            => Pi.Gpio[pinNumber].Write(value);
+
+        /// <summary>
         /// Create the polling <see cref="Task"/>
         /// </summary>
         /// <returns>The polling <see cref="Task"/></returns>
@@ -79,11 +87,6 @@ namespace Hardware.Raspberry
                             {
                                 if (piChannel is PiInputChannel)
                                     (piChannel as PiInputChannel).Value = Pi.Gpio[piChannel.PinNumber].Read();
-                                else
-                                {
-                                    if (piChannel is PiOutputChannel)
-                                        Pi.Gpio[piChannel.PinNumber].Write((piChannel as PiOutputChannel).Value);
-                                }
                             }
                         }
 

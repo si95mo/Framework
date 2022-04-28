@@ -7,6 +7,8 @@ namespace Hardware.Raspberry
     /// </summary>
     public class PiOutputChannel : PiChannel<bool>
     {
+        private IResource resource;
+
         /// <summary>
         /// Create a new instance of <see cref="PiOutputChannel"/>
         /// </summary>
@@ -22,6 +24,12 @@ namespace Hardware.Raspberry
         public PiOutputChannel(string code, int pinNumber, IResource resource) : base(code, pinNumber, resource)
         {
             PinMode = GpioPinDriveMode.Output;
+            this.resource = resource;
+
+            ValueChanged += PiOutputChannel_ValueChanged;
         }
+
+        private void PiOutputChannel_ValueChanged(object sender, Core.ValueChangedEventArgs e)
+            => (resource as PiGpioResource).Send(PinNumber, Value);
     }
 }
