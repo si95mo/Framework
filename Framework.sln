@@ -158,6 +158,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alarms", "Alarms\Alarms.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hardware.Raspberry.Gpio", "Hardware.Raspberry.Gpio\Hardware.Raspberry.Gpio.csproj", "{FF71DC5D-F34F-4EA5-A6B9-37CCCFB80B64}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hardware.Can.Vector", "Hardware.Can.Vector\Hardware.Can.Vector.csproj", "{80A12FA0-67D7-46C1-8135-63C8697EB13F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -464,6 +466,10 @@ Global
 		{FF71DC5D-F34F-4EA5-A6B9-37CCCFB80B64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF71DC5D-F34F-4EA5-A6B9-37CCCFB80B64}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF71DC5D-F34F-4EA5-A6B9-37CCCFB80B64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80A12FA0-67D7-46C1-8135-63C8697EB13F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80A12FA0-67D7-46C1-8135-63C8697EB13F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80A12FA0-67D7-46C1-8135-63C8697EB13F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80A12FA0-67D7-46C1-8135-63C8697EB13F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
