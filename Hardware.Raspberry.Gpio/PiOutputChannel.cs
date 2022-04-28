@@ -2,16 +2,19 @@
 
 namespace Hardware.Raspberry
 {
-    public class PiOutputChannel : PiChannel
+    /// <summary>
+    /// Implement an output GPIO <see cref="PiChannel{T}"/>
+    /// </summary>
+    public class PiOutputChannel : PiChannel<bool>
     {
         /// <summary>
-        /// Create a new instance of <see cref="PiInputChannel"/>
+        /// Create a new instance of <see cref="PiOutputChannel"/>
         /// </summary>
         public PiOutputChannel() : base()
         { }
 
         /// <summary>
-        /// Create a new instance of <see cref="PiInputChannel"/>
+        /// Create a new instance of <see cref="PiOutputChannel"/>
         /// </summary>
         /// <param name="code">The code</param>
         /// <param name="pinNumber">The pin number</param>

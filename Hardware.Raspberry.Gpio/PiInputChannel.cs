@@ -3,9 +3,9 @@
 namespace Hardware.Raspberry
 {
     /// <summary>
-    /// Implement an input GPIO <see cref="Channel{T}"/>
+    /// Implement an input GPIO <see cref="PiChannel{T}"/>
     /// </summary>
-    internal class PiInputChannel : PiChannel
+    internal class PiInputChannel : PiChannel<bool>
     {
         /// <summary>
         /// Create a new instance of <see cref="PiInputChannel"/>

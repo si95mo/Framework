@@ -8,7 +8,7 @@ namespace Hardware.Raspberry
     /// <summary>
     /// Implement a resource that grants access to Raspberry GPIO
     /// </summary>
-    public class PiResource : Resource
+    public class PiGpioResource : Resource
     {
         private int pollingInterval;
 
@@ -17,11 +17,11 @@ namespace Hardware.Raspberry
         public override bool IsOpen => Status.Value == ResourceStatus.Executing || Status.Value == ResourceStatus.Stopped;
 
         /// <summary>
-        /// Create a new instance of <see cref="PiResource"/>
+        /// Create a new instance of <see cref="PiGpioResource"/>
         /// </summary>
         /// <param name="code">The code</param>
         /// <param name="pollingInterval">The polling interval (in milliseconds)</param>
-        public PiResource(string code, int pollingInterval) : base(code)
+        public PiGpioResource(string code, int pollingInterval) : base(code)
         {
             this.pollingInterval = pollingInterval;
 

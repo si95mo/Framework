@@ -3,7 +3,10 @@ using Unosquare.RaspberryIO.Abstractions;
 
 namespace Hardware.Raspberry
 {
-    public abstract class PiChannel : Channel<bool>, IPiChannel
+    /// <summary>
+    /// Define a basic implementation of a channel to be used with <see cref="PiGpioResource"/>
+    /// </summary>
+    public abstract class PiChannel<T> : Channel<T>, IPiChannel
     {
         public GpioPinDriveMode PinMode
         { get; protected set; }
