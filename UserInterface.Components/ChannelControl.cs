@@ -33,7 +33,8 @@ namespace UserInterface.Controls
             this.parent = parent;
 
             lblCode.Text = channel.Code;
-            lblValue.Text = channel.ToString();
+            lblValue.Text = AsciiToByte(channel.ToString());
+            lblTimestamp.Text = DateTime.Now.ToString("HH:mm:ss.fff");
         }
 
         private void ChannelControl_Load(object sender, EventArgs e)
@@ -51,9 +52,23 @@ namespace UserInterface.Controls
         private void Channel_ValueChanged(object sender, Core.ValueChangedEventArgs e)
         {
             if (!InvokeRequired)
-                lblValue.Text = channel.ToString();
+            {
+                lblValue.Text = AsciiToByte(channel.ToString());
+                lblTimestamp.Text = DateTime.Now.ToString("HH:mm:ss.fff");
+            }
             else
                 BeginInvoke(new Action(() => Channel_ValueChanged(sender, e)));
+        }
+
+        /// <summary>
+        /// Convert an ASCII <see cref="string"/> special characters with the relative <see cref="byte"/> representation
+        /// </summary>
+        /// <param name="ascii">The ASCII <see cref="string"/></param>
+        /// <returns>The converted <see cref="string"/></returns>
+        private string AsciiToByte(string ascii)
+        {
+            string toByte = ascii.Replace("\n", "0x10");
+            return toByte;
         }
     }
 }

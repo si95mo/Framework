@@ -29,16 +29,28 @@ namespace UserInterface.Controls
         /// </summary>
         private void InitializeComponent()
         {
+            this.lblTimestamp = new UserInterface.Controls.LabelControl();
             this.lblValue = new UserInterface.Controls.LabelControl();
             this.lblCode = new UserInterface.Controls.LabelControl();
             this.SuspendLayout();
             // 
+            // lblTimestamp
+            // 
+            this.lblTimestamp.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lblTimestamp.AutoSize = true;
+            this.lblTimestamp.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
+            this.lblTimestamp.Location = new System.Drawing.Point(610, 6);
+            this.lblTimestamp.Name = "lblTimestamp";
+            this.lblTimestamp.Size = new System.Drawing.Size(114, 20);
+            this.lblTimestamp.TabIndex = 4;
+            this.lblTimestamp.Text = "00:00:00.000";
+            // 
             // lblValue
             // 
-            this.lblValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblValue.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblValue.AutoSize = true;
             this.lblValue.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
-            this.lblValue.Location = new System.Drawing.Point(327, 6);
+            this.lblValue.Location = new System.Drawing.Point(161, 6);
             this.lblValue.Name = "lblValue";
             this.lblValue.Size = new System.Drawing.Size(117, 20);
             this.lblValue.TabIndex = 3;
@@ -48,7 +60,7 @@ namespace UserInterface.Controls
             // 
             this.lblCode.AutoSize = true;
             this.lblCode.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
-            this.lblCode.Location = new System.Drawing.Point(90, 6);
+            this.lblCode.Location = new System.Drawing.Point(38, 6);
             this.lblCode.Name = "lblCode";
             this.lblCode.Size = new System.Drawing.Size(117, 20);
             this.lblCode.TabIndex = 2;
@@ -58,6 +70,7 @@ namespace UserInterface.Controls
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.lblTimestamp);
             this.Controls.Add(this.lblValue);
             this.Controls.Add(this.lblCode);
             this.Name = "ChannelControl";
@@ -72,5 +85,6 @@ namespace UserInterface.Controls
 
         private LabelControl lblValue;
         private LabelControl lblCode;
+        private LabelControl lblTimestamp;
     }
 }
