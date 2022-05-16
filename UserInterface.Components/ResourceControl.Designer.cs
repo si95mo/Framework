@@ -76,7 +76,7 @@ namespace UserInterface.Controls
             this.btnRestartResource.BackColor = System.Drawing.Color.Transparent;
             this.btnRestartResource.FlatAppearance.BorderSize = 0;
             this.btnRestartResource.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRestartResource.Image = Properties.Resources.Start;
+            this.btnRestartResource.Image = global::UserInterface.Controls.Properties.Resources.Start;
             this.btnRestartResource.Location = new System.Drawing.Point(692, 0);
             this.btnRestartResource.Name = "btnRestartResource";
             this.btnRestartResource.Size = new System.Drawing.Size(32, 32);
@@ -94,7 +94,6 @@ namespace UserInterface.Controls
             this.Controls.Add(this.lblResourceCode);
             this.Name = "ResourceControl";
             this.Size = new System.Drawing.Size(727, 32);
-            this.Click += new System.EventHandler(this.ResourceControl_Cilck);
             this.ResumeLayout(false);
             this.PerformLayout();
 

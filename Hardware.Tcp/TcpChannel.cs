@@ -103,6 +103,8 @@ namespace Hardware.Tcp
             Value = "";
             value = "";
 
+            resource.Channels.Add(this);
+
             pollingTask = new Task(async () =>
                 {
                     while (true)
