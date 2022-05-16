@@ -25,7 +25,7 @@ namespace UserInterface.Controls
         private readonly bool initialized = false;
 
         /// <summary>
-        /// Initialize the UI components
+        /// Create a new instance of <see cref="ResourceControl"/>
         /// </summary>
         private ResourceControl()
         {
@@ -39,8 +39,10 @@ namespace UserInterface.Controls
         /// <summary>
         /// Create a new instance of <see cref="ResourceControl"/>
         /// </summary>
-        /// <remarks>It's necessary to pass the <paramref name="parent"/> container as a parameter
-        /// in order to correctly resize the <see cref="ResourceControl"/>!</remarks>
+        /// <remarks>
+        /// It's necessary to pass the <paramref name="parent"/> container as a parameter
+        /// in order to correctly resize the <see cref="ResourceControl"/>!
+        /// </remarks>
         /// <param name="resource">The <see cref="IResource"/></param>
         /// <param name="parent">The <see cref="ResourceControl"/> parent <see cref="Panel"/></param>
         public ResourceControl(IResource resource, Panel parent = null) : this()
@@ -88,72 +90,58 @@ namespace UserInterface.Controls
         /// <param name="e">The <see cref="Core.ValueChangedEventArgs"/></param>
         private void ResourceStatus_ValueChanged(object sender, Core.ValueChangedEventArgs e)
         {
-            UpdateControls();
+            if (!InvokeRequired)
+                UpdateControls();
+            else
+                BeginInvoke(new Action(() => UpdateControls()));
         }
 
         /// <summary>
-        /// Update the UI controls thread safe
+        /// Update the UI controls
         /// </summary>
         private void UpdateControls()
         {
             try
             {
-                lblResourceCode.Invoke(new MethodInvoker(() =>
-                        lblResourceCode.Text = resource.Code
-                    )
-                );
-                lblResourceStatus.Invoke(new MethodInvoker(() =>
-                        lblResourceStatus.Text = resource.Status.Value.ToString()
-                    )
-                );
-                lblResourceFailure.Invoke(new MethodInvoker(() =>
-                        lblResourceFailure.Text = resource.LastFailure.Description
-                    )
-                );
-                lblFailureTimestamp.Invoke(new MethodInvoker(() =>
-                        lblFailureTimestamp.Text = resource.LastFailure.Timestamp.ToString("HH:mm:ss.fff")
-                    )
-                );
+                lblResourceCode.Text = resource.Code;
+                lblResourceStatus.Text = resource.Status.Value.ToString();
+                lblResourceFailure.Text = resource.LastFailure.Description;
+                lblFailureTimestamp.Text = resource.LastFailure.Timestamp.ToString("HH:mm:ss.fff");
 
-                Invoke(new MethodInvoker(() =>
-                        {
-                            switch (resource.Status.Value)
-                            {
-                                case ResourceStatus.Stopping:
-                                    btnRestartResource.Image = Resources.Start;
-                                    BackColor = notExecuting;
-                                    btnRestartResource.FlatAppearance.BorderColor = BackColor;
-                                    break;
+                switch (resource.Status.Value)
+                {
+                    case ResourceStatus.Stopping:
+                        btnRestartResource.Image = Resources.Start;
+                        BackColor = notExecuting;
+                        btnRestartResource.FlatAppearance.BorderColor = BackColor;
+                        break;
 
-                                case ResourceStatus.Stopped:
-                                    btnRestartResource.Image = Resources.Start;
-                                    BackColor = notExecuting;
-                                    btnRestartResource.FlatAppearance.BorderColor = BackColor;
-                                    break;
+                    case ResourceStatus.Stopped:
+                        btnRestartResource.Image = Resources.Start;
+                        BackColor = notExecuting;
+                        btnRestartResource.FlatAppearance.BorderColor = BackColor;
+                        break;
 
-                                case ResourceStatus.Failure:
-                                    btnRestartResource.Image = Resources.Start;
-                                    BackColor = failure;
-                                    btnRestartResource.FlatAppearance.BorderColor = BackColor;
-                                    break;
+                    case ResourceStatus.Failure:
+                        btnRestartResource.Image = Resources.Start;
+                        BackColor = failure;
+                        btnRestartResource.FlatAppearance.BorderColor = BackColor;
+                        break;
 
-                                case ResourceStatus.Starting:
-                                    btnRestartResource.Image = Resources.Stop;
-                                    BackColor = notStopped;
-                                    btnRestartResource.FlatAppearance.BorderColor = BackColor;
-                                    break;
+                    case ResourceStatus.Starting:
+                        btnRestartResource.Image = Resources.Stop;
+                        BackColor = notStopped;
+                        btnRestartResource.FlatAppearance.BorderColor = BackColor;
+                        break;
 
-                                case ResourceStatus.Executing:
-                                    btnRestartResource.Image = Resources.Stop;
-                                    BackColor = notStopped;
-                                    btnRestartResource.FlatAppearance.BorderColor = BackColor;
-                                    break;
-                            }
+                    case ResourceStatus.Executing:
+                        btnRestartResource.Image = Resources.Stop;
+                        BackColor = notStopped;
+                        btnRestartResource.FlatAppearance.BorderColor = BackColor;
+                        break;
+                }
 
-                            tip.SetToolTip(lblResourceFailure, lblResourceFailure.Text);
-                        }
-                    )
-                );
+                tip.SetToolTip(lblResourceFailure, lblResourceFailure.Text);
             }
             catch (Exception)
             { }
