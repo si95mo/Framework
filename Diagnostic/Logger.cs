@@ -605,7 +605,6 @@ namespace Diagnostic
         private static void AppendText(ExceptionEntry entry)
         {
             AppendText(entry.ToString());
-
             AppendText(ENTRY_SEPARATOR + Environment.NewLine);
         }
 
@@ -686,7 +685,7 @@ namespace Diagnostic
         /// <returns>The <see cref="string"/> representing the <see cref="DateTime"/></returns>
         private static string GetDateTime()
         {
-            string now = DateTime.Now.ToString("yyyy/MM/dd-HH:mm:ss:fff");
+            string now = DateTime.Now.ToString("yyyy/MM/dd-HH:mm:ss.fff");
             return now;
         }
 
@@ -753,8 +752,10 @@ namespace Diagnostic
         /// level than the <see cref="MinimumSeverityLevel"/> set
         /// </summary>
         /// <param name="level">The <see cref="Severity"/> level to test</param>
-        /// <returns><see langword="true"/> of the level to test is higher (or equals)
-        /// to <see cref="MinimumSeverityLevel"/>, <see langword="false"/> otherwise</returns>
+        /// <returns>
+        /// <see langword="true"/> if the level to test is higher (or equals)
+        /// to <see cref="MinimumSeverityLevel"/>, <see langword="false"/> otherwise
+        /// </returns>
         private static bool HasHigherSeverityLevel(Severity level)
         {
             bool isHigher = (int)minimumSeverityLevel <= (int)level;
