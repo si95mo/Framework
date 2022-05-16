@@ -116,18 +116,21 @@ namespace Hardware.Resources
         /// <param name="channel">The <see cref="ITcpChannel"/></param>
         public void Send(ITcpChannel channel)
         {
-            // Convert the string data to byte data using ASCII encoding
-            byte[] byteData = Encoding.ASCII.GetBytes(channel.Request);
+            if (Status.Value == ResourceStatus.Executing)
+            {
+                // Convert the string data to byte data using ASCII encoding
+                byte[] byteData = Encoding.ASCII.GetBytes(channel.Request);
 
-            // Begin sending the data to the remote device
-            tcp.Client.BeginSend(
-                byteData,
-                0,
-                byteData.Length,
-                0,
-                new AsyncCallback(SendCallback),
-                tcp.Client
-            );
+                // Begin sending the data to the remote device
+                tcp.Client.BeginSend(
+                    byteData,
+                    0,
+                    byteData.Length,
+                    0,
+                    new AsyncCallback(SendCallback),
+                    tcp.Client
+                );
+            }
         }
 
         private void SendCallback(IAsyncResult asyncResult)

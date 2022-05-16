@@ -122,5 +122,28 @@ namespace Hardware.Tcp
             if (usePolling)
                 pollingTask.Start();
         }
+
+        /// <summary>
+        /// Forcibly send a request using the underlying <see cref="TcpResource"/>
+        /// </summary>
+        /// <param name="request">The request to send (if <see langword="null"/>, <see cref="Request"/> will be sent)</param>
+        public void Send(string request = null)
+        {
+            if (request != null & request.CompareTo(Request) != 0)
+                Request = request; // Trigger the send (if the actual request is different from the passed one)
+            else // Forcibly send the request if its equal to the actual one
+            {
+                if (useSendAndReceive)
+                    (Resource as TcpResource).SendAndReceive(this);
+                else
+                    (Resource as TcpResource).Send(this);
+            }
+        }
+
+        public override string ToString()
+        {
+            string description = "{" + Request + "} : {" + Value + "}";
+            return description;
+        }
     }
 }
