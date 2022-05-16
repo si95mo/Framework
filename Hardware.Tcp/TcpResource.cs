@@ -185,40 +185,43 @@ namespace Hardware.Resources
         {
             try
             {
-                // Retrieve the state object and the client socket
-                // from the asynchronous state object
-                StateObject state = (StateObject)asyncResult.AsyncState;
-                Socket client = state.Socket;
-
-                // Read data from the remote device
-                int bytesRead = client.EndReceive(asyncResult);
-
-                if (bytesRead > 0)
+                if (Status.Value == ResourceStatus.Executing)
                 {
-                    // There might be more data, so store the data received so far
-                    state.StringBuilder.Append(Encoding.ASCII.GetString(state.Buffer, 0, bytesRead));
+                    // Retrieve the state object and the client socket
+                    // from the asynchronous state object
+                    StateObject state = (StateObject)asyncResult.AsyncState;
+                    Socket client = state.Socket;
 
-                    if (state.TcpChannel.Value.CompareTo(string.Empty) == 0)
-                        state.TcpChannel.Value = state.StringBuilder.ToString();
+                    // Read data from the remote device
+                    int bytesRead = client.EndReceive(asyncResult);
 
-                    // Get the rest of the data
-                    client.BeginReceive(
-                        state.Buffer,
-                        0,
-                        StateObject.BufferSize,
-                        0,
-                        new AsyncCallback(ReceiveCallback),
-                        state
-                    );
-                }
-                else
-                {
-                    // All the data has arrived; put it in response
-                    if (state.StringBuilder.Length > 1)
-                        state.TcpChannel.Value = state.StringBuilder.ToString();
+                    if (bytesRead > 0)
+                    {
+                        // There might be more data, so store the data received so far
+                        state.StringBuilder.Append(Encoding.ASCII.GetString(state.Buffer, 0, bytesRead));
 
-                    // Signal that all bytes have been received
-                    receiveDone.Set();
+                        if (state.TcpChannel.Value.CompareTo(string.Empty) == 0)
+                            state.TcpChannel.Value = state.StringBuilder.ToString();
+
+                        // Get the rest of the data
+                        client.BeginReceive(
+                            state.Buffer,
+                            0,
+                            StateObject.BufferSize,
+                            0,
+                            new AsyncCallback(ReceiveCallback),
+                            state
+                        );
+                    }
+                    else
+                    {
+                        // All the data has arrived; put it in response
+                        if (state.StringBuilder.Length > 1)
+                            state.TcpChannel.Value = state.StringBuilder.ToString();
+
+                        // Signal that all bytes have been received
+                        receiveDone.Set();
+                    }
                 }
             }
             catch (Exception ex)
