@@ -52,9 +52,6 @@ namespace Core.Parameters
         /// </summary>
         protected EventHandler<ValueChangedEventArgs> ValueChangedHandler;
 
-        /// <summary>
-        /// The <see cref="Parameter{T}"/> description
-        /// </summary>
         public string Description { get; set; }
 
         /// <summary>

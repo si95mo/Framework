@@ -39,6 +39,8 @@ namespace Core.Conditions
             }
         }
 
+        public string Description { get; set; }
+
         /// <summary>
         /// Initialize the <see cref="Condition"/>
         /// </summary>
@@ -49,6 +51,8 @@ namespace Core.Conditions
 
             subscribers = new List<IProperty>();
             ValueChanged += PropagateValues;
+
+            Description = code;
         }
 
         public event EventHandler<ValueChangedEventArgs> ValueChanged

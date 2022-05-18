@@ -19,7 +19,7 @@ namespace Core.DataStructures
         public event EventHandler OnAdd;
 
         /// <summary>
-        /// Add an elemtnthe the <see cref="ParameterList{T}"/>
+        /// Add an element to the <see cref="ParameterList{T}"/>
         /// </summary>
         /// <param name="item"></param>
         public new void Add(T item)

@@ -24,6 +24,11 @@ namespace Core.Parameters
         /// The value changed event. See <see cref="ValueChangedEventArgs"/>
         /// </summary>
         event EventHandler<ValueChangedEventArgs> ValueChanged;
+
+        /// <summary>
+        /// The <see cref="IParameter"/> description
+        /// </summary>
+        string Description { get; set; }
     }
 
     /// <summary>
