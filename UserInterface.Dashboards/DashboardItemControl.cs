@@ -25,27 +25,27 @@ namespace UserInterface.Dashboards
 
             AnalogReadControl analogReadControl = new AnalogReadControl();
             analogReadControl.DoubleClick += AnalogReadControl_DoubleClick;
-            analogReadControl.SetDraggable(false);
+            //analogReadControl.SetDraggable(false);
             layoutPanel.Controls.Add(analogReadControl);
 
             AnalogWriteControl analogWriteControl = new AnalogWriteControl();
             analogWriteControl.DoubleClick += AnalogWriteControl_DoubleClick;
-            analogWriteControl.SetDraggable(false);
+            //analogWriteControl.SetDraggable(false);
             layoutPanel.Controls.Add(analogWriteControl);
 
             DigitalReadControl digitalReadControl = new DigitalReadControl();
             digitalReadControl.DoubleClick += DigitalReadControl_DoubleClick;
-            digitalReadControl.SetDraggable(false);
+            //digitalReadControl.SetDraggable(false);
             layoutPanel.AddControl(digitalReadControl);
 
             DigitalWriteControl digitalWriteControl = new DigitalWriteControl();
             digitalWriteControl.DoubleClick += DigitalWriteControl_DoubleClick;
-            digitalWriteControl.SetDraggable(false);
+            //digitalWriteControl.SetDraggable(false);
             layoutPanel.AddControl(digitalWriteControl);
 
             MultiSampleAnalogReadControl multiSampleReadControl = new MultiSampleAnalogReadControl();
             multiSampleReadControl.DoubleClick += MultiSampleReadControl_DoubleClick;
-            multiSampleReadControl.SetDraggable(false);
+            //multiSampleReadControl.SetDraggable(false);
             layoutPanel.AddControl(multiSampleReadControl);
         }
 

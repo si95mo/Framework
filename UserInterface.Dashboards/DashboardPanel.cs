@@ -35,8 +35,8 @@ namespace UserInterface.Dashboards
 
             foreach (Control control in dashboard.Controls)
             {
-                if (control is DraggableControl)
-                    (control as DraggableControl).SetDraggable(false);
+                //if (control is DraggableControl)
+                //    (control as DraggableControl).SetDraggable(false);
             }
         }
 
