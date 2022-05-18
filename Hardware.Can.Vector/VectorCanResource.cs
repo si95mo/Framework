@@ -101,7 +101,7 @@ namespace Hardware.Can.Vector
         /// <param name="hardwareType">The <see cref="HardwareType"/></param>
         /// <param name="hardwareIndex">The hardware index</param>
         /// <param name="hardwareChannel">The hardware channel</param>
-        public VectorCanResource(string code, string applicationName, uint applicationChannel, HardwareType hardwareType, 
+        public VectorCanResource(string code, string applicationName, uint applicationChannel, HardwareType hardwareType,
             uint hardwareIndex, uint hardwareChannel) : this(code)
         {
             this.applicationChannel = applicationChannel;
