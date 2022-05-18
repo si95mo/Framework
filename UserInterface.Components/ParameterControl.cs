@@ -1,4 +1,4 @@
-﻿using Hardware;
+﻿using Core.Parameters;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -6,41 +6,37 @@ using System.Windows.Forms;
 namespace UserInterface.Controls
 {
     /// <summary>
-    /// Define an <see cref="UserControl"/> for <see cref="IChannel"/>
+    /// Define an <see cref="UserControl"/> for <see cref="IParameter"/>
     /// </summary>
-    public partial class ChannelControl : UserControl
+    public partial class ParameterControl : UserControl
     {
-        private IChannel channel;
+        private IParameter parameter;
         private Panel parent;
 
-        /// <summary>
-        /// Create a new instance of <see cref="ChannelControl"/>
-        /// </summary>
-        private ChannelControl()
+        private ParameterControl()
         {
             InitializeComponent();
         }
 
         /// <summary>
-        /// Create a new instance of <see cref="ChannelControl"/>
+        /// Create a new instance of <see cref="ParameterControl"/>
         /// </summary>
         /// <remarks>
         /// It's necessary to pass the <paramref name="parent"/> container as a parameter
-        /// in order to correctly resize the <see cref="ChannelControl"/>!
+        /// in order to correctly resize the <see cref="ParameterControl"/>!
         /// </remarks>
-        /// <param name="channel">The <see cref="IChannel"/></param>
+        /// <param name="parameter">The <see cref="IParameter"/></param>
         /// <param name="parent">The <see cref="ChannelControl"/> parent <see cref="Panel"/></param>
-        public ChannelControl(IChannel channel, Panel parent = null) : this()
+        public ParameterControl(IParameter parameter, Panel parent = null) : this()
         {
-            this.channel = channel;
+            this.parameter = parameter;
             this.parent = parent;
 
-            lblCode.Text = channel.Code;
-            lblValue.Text = AsciiToByte(channel.ToString());
-            lblTimestamp.Text = DateTime.Now.ToString("HH:mm:ss.fff");
+            lblCode.Text = parameter.Code;
+            lblValue.Text = AsciiToByte(parameter.ToString());
         }
 
-        private void ChannelControl_Load(object sender, EventArgs e)
+        private void ParameterControl_Load(object sender, EventArgs e)
         {
             if (parent != null)
             {
@@ -49,18 +45,15 @@ namespace UserInterface.Controls
                 Size = new Size(width, heigth);
             }
 
-            channel.ValueChanged += Channel_ValueChanged;
+            parameter.ValueChanged += Parameter_ValueChanged;
         }
 
-        private void Channel_ValueChanged(object sender, Core.ValueChangedEventArgs e)
+        private void Parameter_ValueChanged(object sender, Core.ValueChangedEventArgs e)
         {
             if (!InvokeRequired)
-            {
-                lblValue.Text = AsciiToByte(channel.ToString());
-                lblTimestamp.Text = DateTime.Now.ToString("HH:mm:ss.fff");
-            }
+                lblValue.Text = AsciiToByte(parameter.ToString());
             else
-                BeginInvoke(new Action(() => Channel_ValueChanged(sender, e)));
+                BeginInvoke(new Action(() => Parameter_ValueChanged(sender, e)));
         }
 
         /// <summary>

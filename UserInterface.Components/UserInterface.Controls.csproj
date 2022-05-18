@@ -128,6 +128,12 @@
     <Compile Include="ComboControl.Designer.cs">
       <DependentUpon>ComboControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="ConditionControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConditionControl.Designer.cs">
+      <DependentUpon>ConditionControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="DataGridControl.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -181,6 +187,12 @@
     </Compile>
     <Compile Include="PanelSelectorControl.Designer.cs">
       <DependentUpon>PanelSelectorControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ParameterControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ParameterControl.Designer.cs">
+      <DependentUpon>ParameterControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -238,6 +250,9 @@
     <EmbeddedResource Include="ComboControl.resx">
       <DependentUpon>ComboControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ConditionControl.resx">
+      <DependentUpon>ConditionControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DataGridControl.resx">
       <DependentUpon>DataGridControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -265,6 +280,9 @@
     <EmbeddedResource Include="PanelSelectorControl.resx">
       <DependentUpon>PanelSelectorControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ParameterControl.resx">
+      <DependentUpon>ParameterControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -280,6 +298,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Core.Conditions\Core.Conditions.csproj">
+      <Project>{694CD750-5601-4C5F-A881-3B330E4CAF43}</Project>
+      <Name>Core.Conditions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core.DataStructures\Core.DataStructures.csproj">
       <Project>{1967aa9e-7fb5-4b63-ad7b-8394d65b6e8f}</Project>
       <Name>Core.DataStructures</Name>

@@ -1,7 +1,7 @@
 ﻿
 namespace UserInterface.Controls
 {
-    partial class ChannelControl
+    partial class ParameterControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -29,30 +29,20 @@ namespace UserInterface.Controls
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblTimestamp = new UserInterface.Controls.LabelControl();
             this.lblValue = new UserInterface.Controls.LabelControl();
             this.lblCode = new UserInterface.Controls.LabelControl();
             this.SuspendLayout();
             // 
-            // lblTimestamp
-            // 
-            this.lblTimestamp.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lblTimestamp.AutoSize = true;
-            this.lblTimestamp.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
-            this.lblTimestamp.Location = new System.Drawing.Point(572, 6);
-            this.lblTimestamp.Name = "lblTimestamp";
-            this.lblTimestamp.Size = new System.Drawing.Size(114, 20);
-            this.lblTimestamp.TabIndex = 4;
-            this.lblTimestamp.Text = "00:00:00.000";
-            // 
             // lblValue
             // 
+            this.lblValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblValue.AutoSize = true;
             this.lblValue.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
-            this.lblValue.Location = new System.Drawing.Point(305, 6);
+            this.lblValue.Location = new System.Drawing.Point(226, 6);
+            this.lblValue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblValue.Name = "lblValue";
             this.lblValue.Size = new System.Drawing.Size(117, 20);
-            this.lblValue.TabIndex = 3;
+            this.lblValue.TabIndex = 6;
             this.lblValue.Text = "labelControl1";
             // 
             // lblCode
@@ -60,21 +50,23 @@ namespace UserInterface.Controls
             this.lblCode.AutoSize = true;
             this.lblCode.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
             this.lblCode.Location = new System.Drawing.Point(38, 6);
+            this.lblCode.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblCode.Name = "lblCode";
             this.lblCode.Size = new System.Drawing.Size(117, 20);
-            this.lblCode.TabIndex = 2;
+            this.lblCode.TabIndex = 5;
             this.lblCode.Text = "labelControl1";
             // 
-            // ChannelControl
+            // ParameterControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.lblTimestamp);
             this.Controls.Add(this.lblValue);
             this.Controls.Add(this.lblCode);
-            this.Name = "ChannelControl";
-            this.Size = new System.Drawing.Size(727, 32);
-            this.Load += new System.EventHandler(this.ChannelControl_Load);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Name = "ParameterControl";
+            this.Size = new System.Drawing.Size(540, 32);
+            this.Load += new System.EventHandler(this.ParameterControl_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -84,6 +76,5 @@ namespace UserInterface.Controls
 
         private LabelControl lblValue;
         private LabelControl lblCode;
-        private LabelControl lblTimestamp;
     }
 }

@@ -38,11 +38,11 @@ namespace UserInterface.Forms
             // lblFormName
             // 
             this.lblFormName.AutoSize = true;
-            this.lblFormName.Font = new System.Drawing.Font("Lucida Sans Unicode", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFormName.Font = new System.Drawing.Font("Lucida Sans Unicode", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblFormName.Location = new System.Drawing.Point(16, 14);
             this.lblFormName.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.lblFormName.Name = "lblFormName";
-            this.lblFormName.Size = new System.Drawing.Size(60, 25);
+            this.lblFormName.Size = new System.Drawing.Size(64, 25);
             this.lblFormName.TabIndex = 9;
             this.lblFormName.Text = "----";
             // 
