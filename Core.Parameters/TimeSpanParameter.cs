@@ -68,7 +68,6 @@ namespace Core.Parameters
         public override string ToString()
         {
             string description = $"{value}";
-
             return description;
         }
     }

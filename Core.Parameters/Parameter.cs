@@ -53,6 +53,11 @@ namespace Core.Parameters
         protected EventHandler<ValueChangedEventArgs> ValueChangedHandler;
 
         /// <summary>
+        /// The <see cref="Parameter{T}"/> description
+        /// </summary>
+        public string Description { get; set; }
+
+        /// <summary>
         /// Initialize the class attributes with
         /// default parameters
         /// </summary>
@@ -72,6 +77,8 @@ namespace Core.Parameters
 
             subscribers = new List<IProperty>();
             ValueChanged += PropagateValues;
+
+            Description = code;
         }
 
         /// <summary>
