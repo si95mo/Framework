@@ -33,7 +33,7 @@ namespace UserInterface.Controls
             this.condition = condition;
             this.parent = parent;
 
-            lblCode.Text = condition.Code;
+            lblCode.Text = condition.Description;
             ledControl.Color = condition.Value ? Color.Black : SystemColors.Control;
         }
 

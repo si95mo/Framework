@@ -32,7 +32,7 @@ namespace UserInterface.Controls
             this.parameter = parameter;
             this.parent = parent;
 
-            lblCode.Text = parameter.Code;
+            lblCode.Text = parameter.Description;
             lblValue.Text = AsciiToByte(parameter.ToString());
         }
 
