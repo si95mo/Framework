@@ -23,7 +23,7 @@ namespace Core.Parameters
         /// Represent the current <see cref="TimeSpan"/> stored in
         /// <see cref="Parameter{T}.Value"/> as milliseconds
         /// </summary>
-        public double ValueInMilliseconds
+        public double ValueAsMilliseconds
         {
             get => value.TotalMilliseconds;
             set => Value = TimeSpan.FromMilliseconds(value);

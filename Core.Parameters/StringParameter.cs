@@ -15,6 +15,58 @@ namespace Core.Parameters
         public override string Value => value;
 
         /// <summary>
+        /// The <see cref="Value"/> as <see cref="double"/>
+        /// </summary>
+        /// <remarks>If the conversion is not possible, then 0 is returned!</remarks>
+        public double ValueAsDouble
+        {
+            get
+            {
+                double.TryParse(Value, out double valueAsDouble);
+                return valueAsDouble;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="Value"/> as <see cref="float"/>
+        /// </summary>
+        /// <remarks>If the conversion is not possible, then 0 is returned!</remarks>
+        public float ValueAsFloat
+        {
+            get
+            {
+                float.TryParse(Value, out float valueAsFloat);
+                return valueAsFloat;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="Value"/> as <see cref="int"/>
+        /// </summary>
+        /// <remarks>If the conversion is not possible, then 0 is returned!</remarks>
+        public int ValueAsInt
+        {
+            get
+            {
+                int.TryParse(Value, out int valueAsInt);
+                return valueAsInt;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="Value"/> as <see cref="bool"/>
+        /// </summary>
+        /// <remarks>If the conversion is not possible, then <see langword="false"/> is returned!</remarks>
+        public bool ValueAsBool
+        {
+            get
+            {
+                bool.TryParse(Value, out bool valueAsBool);
+                return valueAsBool;
+            }
+        }
+
+        /// <summary>
         /// Create a new instance of <see cref="StringParameter"/>
         /// </summary>
         public StringParameter() : this(Guid.NewGuid().ToString())

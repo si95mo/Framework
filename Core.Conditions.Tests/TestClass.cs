@@ -122,7 +122,7 @@ namespace Core.Conditions.Tests
             timer.Stop();
 
             timeElapsedCondition.Value.Should().BeTrue();
-            timeElapsedCondition.ElapsedTime.ValueInMilliseconds.Should().BeApproximately(timeToWait, 20); // 20ms precision
+            timeElapsedCondition.ElapsedTime.ValueAsMilliseconds.Should().BeApproximately(timeToWait, 20); // 20ms precision
         }
     }
 }

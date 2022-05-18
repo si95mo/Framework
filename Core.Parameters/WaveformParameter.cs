@@ -27,6 +27,11 @@ namespace Core.Parameters
         }
 
         /// <summary>
+        /// The <see cref="Value"/> as <see cref="double"/> (i.e. the mean value of the array)
+        /// </summary>
+        public double ValueAsDouble => Value.Average();
+
+        /// <summary>
         /// Create a new instance of <see cref="WaveformParameter"/>
         /// </summary>
         public WaveformParameter() : this(Guid.NewGuid().ToString())

@@ -17,6 +17,11 @@ namespace Core.Parameters
         public override T Value => value;
 
         /// <summary>
+        /// The <see cref="EnumParameter{T}.Value"/> value as <see cref="int"/>
+        /// </summary>
+        public int ValueAsInt => Convert.ToInt32(value);
+
+        /// <summary>
         /// Create a new instance of <see cref="StringParameter"/>
         /// </summary>
         public EnumParameter() : this(Guid.NewGuid().ToString())

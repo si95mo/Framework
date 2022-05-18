@@ -27,6 +27,13 @@ namespace Core.Parameters
             Value = value;
         }
 
+        /// <summary>
+        /// Create a new instance of <see cref="TriggerParameter"/>
+        /// </summary>
+        /// <param name="code">The code</param>
+        /// <param name="value">The initial value</param>
+        /// <param name="tOn">The on time of the trigger (as a <see cref="TimeSpan"/>)</param>
+        /// <param name="preTriggerTime">The pre-trigger time (as a <see cref="TimeSpan"/>)</param>
         public TriggerParameter(string code, bool value, TimeSpan tOn, TimeSpan preTriggerTime) : this(code, value, tOn)
         {
             this.preTriggerTime = preTriggerTime;
@@ -55,7 +62,7 @@ namespace Core.Parameters
         {
             Value = !risingTrigger; // If the trigger is a rising one, the initial value must be false
 
-            // Wait for the pre trigger time, if not equal to 0
+            // Wait for the pre-trigger time, if not equal to 0
             if (preTriggerTime != TimeSpan.Zero)
                 await Task.Delay(preTriggerTime);
 

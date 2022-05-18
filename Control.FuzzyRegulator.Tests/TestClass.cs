@@ -85,9 +85,9 @@ namespace Control.FuzzyRegulator.Tests
         {
             double vc;
             if (regulator.Output.Value > u.Value) // Increment
-                vc = regulator.Output.Value * (1 - Math.Exp(-regulator.CycleTime.ValueInMilliseconds / 1000 / (r * c)));
+                vc = regulator.Output.Value * (1 - Math.Exp(-regulator.CycleTime.ValueAsMilliseconds / 1000 / (r * c)));
             else // Decrement
-                vc = -regulator.Output.Value * (1 - Math.Exp(-regulator.CycleTime.ValueInMilliseconds / 1000 / (r * c)));
+                vc = -regulator.Output.Value * (1 - Math.Exp(-regulator.CycleTime.ValueAsMilliseconds / 1000 / (r * c)));
 
             return vc;
         }
