@@ -160,20 +160,23 @@ namespace Hardware.Resources
         {
             try
             {
-                // Create the state object
-                StateObject state = new StateObject();
-                state.Socket = tcp.Client;
-                state.TcpChannel = channel;
+                if (status.Value == ResourceStatus.Executing)
+                {
+                    // Create the state object
+                    StateObject state = new StateObject();
+                    state.Socket = tcp.Client;
+                    state.TcpChannel = channel;
 
-                // Begin receiving the data from the remote device
-                tcp.Client.BeginReceive(
-                    state.Buffer,
-                    0,
-                    StateObject.BufferSize,
-                    0,
-                    new AsyncCallback(ReceiveCallback),
-                    state
-                );
+                    // Begin receiving the data from the remote device
+                    tcp.Client.BeginReceive(
+                        state.Buffer,
+                        0,
+                        StateObject.BufferSize,
+                        0,
+                        new AsyncCallback(ReceiveCallback),
+                        state
+                    );
+                }
             }
             catch (Exception e)
             {
