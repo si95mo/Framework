@@ -7,7 +7,7 @@ namespace Core.DataStructures
     /// <summary>
     /// A wrapper for <see cref="Method"/>.
     /// </summary>
-    public class MethodWrapper
+    public static class MethodWrapper
     {
         /// <summary>
         /// Wrap all methods of <see cref="object"/> into
@@ -17,16 +17,19 @@ namespace Core.DataStructures
         /// <returns>The <see cref="List{T}"/> of <see cref="Method"/></returns>
         public static List<Method> Wrap(object obj)
         {
-            List<Method> methodList = new List<Method>();
+            List<Method> methods = new List<Method>();
 
-            var methodsEnum = obj.GetType().GetMethods()
+            IEnumerable<MethodInfo> methodsEnumerable = obj.GetType().GetMethods()
                 .Where(m => m.DeclaringType != typeof(object));
 
-            MethodInfo[] methods = new MethodInfo[methodsEnum.Count()];
-            foreach (var method in methodsEnum)
-                methodList.Add(Wrap(method, obj));
+            //MethodInfo[] methods = new MethodInfo[methodsEnumerable.Count()];
+            foreach (MethodInfo method in methodsEnumerable)
+            {
+                if (method.IsPublic && !method.IsSpecialName && method.Name.CompareTo("ToString") != 0)
+                    methods.Add(Wrap(method, obj));
+            }
 
-            return methodList;
+            return methods;
         }
 
         /// <summary>
