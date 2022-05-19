@@ -30,7 +30,7 @@ namespace Core.DataStructures
         Bool = 3,
 
         /// <summary>
-        /// An <see cref="Enum"/> type parameter
+        /// An <see cref="System.Enum"/> type parameter
         /// </summary>
         Enum = 4
     }
