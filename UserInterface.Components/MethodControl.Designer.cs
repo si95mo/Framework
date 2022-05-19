@@ -29,60 +29,51 @@ namespace UserInterface.Controls
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblMethodNamePlaceholder = new System.Windows.Forms.Label();
             this.lblMethodName = new System.Windows.Forms.Label();
-            this.btnAdd = new System.Windows.Forms.Button();
+            this.btnInvoke = new UserInterface.Controls.ButtonControl();
             this.SuspendLayout();
-            // 
-            // lblMethodNamePlaceholder
-            // 
-            this.lblMethodNamePlaceholder.AutoSize = true;
-            this.lblMethodNamePlaceholder.BackColor = System.Drawing.SystemColors.Control;
-            this.lblMethodNamePlaceholder.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblMethodNamePlaceholder.Location = new System.Drawing.Point(3, 24);
-            this.lblMethodNamePlaceholder.Name = "lblMethodNamePlaceholder";
-            this.lblMethodNamePlaceholder.Size = new System.Drawing.Size(75, 13);
-            this.lblMethodNamePlaceholder.TabIndex = 0;
-            this.lblMethodNamePlaceholder.Text = "Method name:";
             // 
             // lblMethodName
             // 
-            this.lblMethodName.Location = new System.Drawing.Point(115, 24);
+            this.lblMethodName.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMethodName.Location = new System.Drawing.Point(5, 35);
+            this.lblMethodName.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.lblMethodName.Name = "lblMethodName";
-            this.lblMethodName.Size = new System.Drawing.Size(150, 13);
+            this.lblMethodName.Size = new System.Drawing.Size(207, 20);
             this.lblMethodName.TabIndex = 1;
             this.lblMethodName.Text = "label2";
             // 
-            // btnAdd
+            // btnInvoke
             // 
-            this.btnAdd.BackColor = System.Drawing.Color.Transparent;
-            this.btnAdd.Location = new System.Drawing.Point(265, 12);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(36, 36);
-            this.btnAdd.TabIndex = 2;
-            this.btnAdd.UseVisualStyleBackColor = false;
-            this.btnAdd.Click += new System.EventHandler(this.BtnAdd_Click);
+            this.btnInvoke.BackColor = System.Drawing.Color.Transparent;
+            this.btnInvoke.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.btnInvoke.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnInvoke.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnInvoke.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
+            this.btnInvoke.Image = global::UserInterface.Controls.Properties.Resources.Start;
+            this.btnInvoke.Location = new System.Drawing.Point(533, 18);
+            this.btnInvoke.Name = "btnInvoke";
+            this.btnInvoke.Size = new System.Drawing.Size(60, 55);
+            this.btnInvoke.TabIndex = 3;
+            this.btnInvoke.UseVisualStyleBackColor = false;
+            this.btnInvoke.Click += new System.EventHandler(this.BtnInvoke_Click);
             // 
             // MethodControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Controls.Add(this.btnAdd);
+            this.Controls.Add(this.btnInvoke);
             this.Controls.Add(this.lblMethodName);
-            this.Controls.Add(this.lblMethodNamePlaceholder);
+            this.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "MethodControl";
-            this.Size = new System.Drawing.Size(305, 60);
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.MethodControl_Paint);
+            this.Size = new System.Drawing.Size(602, 94);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Label lblMethodNamePlaceholder;
         private System.Windows.Forms.Label lblMethodName;
-        private System.Windows.Forms.Button btnAdd;
+        private ButtonControl btnInvoke;
     }
 }

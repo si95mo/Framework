@@ -15,91 +15,91 @@ namespace UserInterface.Controls
     /// </summary>
     public partial class MethodControl : UserControl
     {
-        private const int controlLocationOffset = 6;
-        private const int textBoxSize = 25;
+        private const int LocationOffset = 6;
+        private const int TextBoxSize = 25;
 
         private Size size;
 
         private Method method;
-        private MethodScheduler scheduler;
-        private List<UserControl> values = new List<UserControl>();
+        private List<Control> values = new List<Control>();
 
         /// <summary>
         /// Create a new instance of the class <see cref="MethodControl"/>
         /// </summary>
         /// <param name="method">The <see cref="Method"/></param>
-        /// <param name="scheduler">The <see cref="MethodScheduler"/></param>
-        public MethodControl(Method method, MethodScheduler scheduler)
+        public MethodControl(Method method)
         {
             InitializeComponent();
 
             size = Size;
-            btnAdd.Image = Properties.Resources.ImageAdd;
 
             this.method = method;
-            var pars = method.Parameters;
-            this.scheduler = scheduler;
+            ParameterList<MethodParameter> parameters = method.Parameters;
 
             lblMethodName.Text = method.Name;
 
-            int parameterCount = (int)pars?.Count;
-            if (parameterCount > 0)
+            int parameterCount = (int)parameters?.Count;
+            if (parameterCount > 1)
             {
-                size.Height += textBoxSize * parameterCount + 8;
+                size.Height += TextBoxSize * parameterCount + 8;
                 Size = size;
             }
 
-            int index = 1;
-            Label lblParam;
-            if (pars != null)
+            int index = 0;
+            Label lblParameter;
+            if (parameters != null)
             {
-                foreach (var p in pars)
+                foreach (MethodParameter parameter in parameters)
                 {
-                    lblParam = new Label();
-                    lblParam.AutoSize = true;
-                    lblParam.Text = p.Name;
-                    lblParam.Location = new Point(
-                        lblMethodNamePlaceholder.Location.X + 10,
-                        lblMethodNamePlaceholder.Location.Y + 10
-                            + index++ * (lblMethodNamePlaceholder.Size.Height + controlLocationOffset)
-                    );
-                    lblParam.Size = lblMethodNamePlaceholder.Size;
+                    int y;
+                    if (++index == 1)
+                        y = lblMethodName.Location.Y;
+                    else
+                        y = index * (lblMethodName.Size.Height + TextBoxSize);
 
-                    if (p.Type != ParameterType.Bool && p.Type != ParameterType.Enum)
+                    lblParameter = new Label
                     {
-                        var txtCtrl = new TextControl();
-                        txtCtrl.Location = new Point(
-                            lblMethodName.Location.X,
-                            lblParam.Location.Y - 4
-                        );
+                        AutoSize = true,
+                        Location = new Point(lblMethodName.Size.Width + LocationOffset, y),
+                        Size = lblMethodName.Size
+                    };
+                    lblParameter.Text = parameter.Name;
 
-                        // AddElementToCollection(lblParam, txtCtrl);
+                    if (parameter.Type != ParameterType.Bool && parameter.Type != ParameterType.Enum)
+                    {
+                        TextControl txtCtrl = new TextControl
+                        {
+                            Location = CalculateLocation(lblParameter)
+                        };
+                        txtCtrl.Size = new Size(txtCtrl.Size.Width + txtCtrl.Size.Width * 20 / 100, txtCtrl.Size.Height);
+
+                        AddElementToCollection(lblParameter, txtCtrl);
                     }
                     else
                     {
-                        if (p.Type == ParameterType.Bool)
+                        if (parameter.Type == ParameterType.Bool)
                         {
-                            var diCtrl = new DigitalControl();
-                            diCtrl.Location = new Point(
-                                lblMethodName.Location.X,
-                                lblParam.Location.Y - 4
-                            );
+                            DigitalControl diCtrl = new DigitalControl
+                            {
+                                Location = CalculateLocation(lblParameter)
+                            };
 
-                            AddElementToCollection(lblParam, diCtrl);
+                            AddElementToCollection(lblParameter, diCtrl);
                         }
                         else
                         {
-                            var cbxCtrl = new ComboControl();
-                            cbxCtrl.Location = new Point(
-                                lblMethodName.Location.X,
-                                lblParam.Location.Y - 4
-                            );
+                            ComboControl cbxCtrl = new ComboControl
+                            {
+                                Location = CalculateLocation(lblParameter)
+                            };
 
-                            BindingSource bs = new BindingSource();
-                            bs.DataSource = Enum.GetValues(p.ExactType);
+                            BindingSource bs = new BindingSource
+                            {
+                                DataSource = Enum.GetValues(parameter.ExactType)
+                            };
                             cbxCtrl.DataSource = bs;
 
-                            AddElementToCollection(lblParam, cbxCtrl);
+                            AddElementToCollection(lblParameter, cbxCtrl);
                         }
                     }
                 }
@@ -111,7 +111,7 @@ namespace UserInterface.Controls
         /// </summary>
         /// <param name="lblParam">The <see cref="Label"/></param>
         /// <param name="control">The <see cref="BaseControl"/></param>
-        private void AddElementToCollection(Label lblParam, UserControl control)
+        private void AddElementToCollection(Label lblParam, Control control)
         {
             Controls.Add(lblParam);
             Controls.Add(control);
@@ -120,42 +120,31 @@ namespace UserInterface.Controls
         }
 
         /// <summary>
+        /// Calculate the control <see cref="Control.Location"/>
+        /// </summary>
+        /// <param name="lbl">The reference <see cref="Label"/></param>
+        /// <returns>The <see cref="Point"/> with the calculated <see cref="Control.Location"/></returns>
+        private Point CalculateLocation(Label lbl)
+        {
+            Point point = new Point(lbl.Location.X + lbl.Size.Width + LocationOffset, lbl.Location.Y - 4);
+            point.X -= point.X * 20 / 100;
+
+            return point;
+        }
+
+        /// <summary>
         /// Add a <see cref="Method"/> to the <see cref="MethodScheduler"/>
         /// <see cref="ActionQueue{T}"/>
         /// </summary>
         /// <param name="sender">The sender</param>
         /// <param name="e">The <see cref="EventArgs"/></param>
-        private void BtnAdd_Click(object sender, EventArgs e)
+        private void BtnInvoke_Click(object sender, EventArgs e)
         {
+            string[] parameters = new string[method.ParametersCount];
             for (int i = 0; i < method.ParametersCount; i++)
-                // method.Parameters.ElementAt(i).Value = values.ElementAt(i).Value;
+                parameters[i] = values[i].Text;
 
-                scheduler.Add(method);
-        }
-
-        private void MethodControl_Paint(object sender, PaintEventArgs e)
-        {
-            ControlPaint.DrawBorder(
-                e.Graphics,
-                e.ClipRectangle,
-                Colors.BackgroundColor,
-                ButtonBorderStyle.Solid
-            );
+            method.Invoke(parameters);
         }
     }
 }
-
-// TODO: improve UI for MethodControl
-/* Add new UserControls in order to have a better UI in respect to the type of the parameter, e.g.
- * - A "MyUserComponent" that inherit from UserComponent and add a Value property
- *   with the actual value
- * All the other new UserComponents will inherit from "MyUserComponent".
- * - A "DigitalButton" for boolean parameters
- * - A "NumericTextBox" for integer and real numbers (the UserControl may have a format
- *   to distinguish between the type of the number?)
- * - A "StringComponent" for string parameters (inherit from TextBox and unify its style?)
- *
- * With all the new UserComponents (with a Value property with the actual value inserted by
- * the user), txbValues should become a list of "MyUserComponent" and then:
- * components?.ElementAt(i)?.Value
- */
