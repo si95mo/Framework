@@ -130,6 +130,10 @@
       <Project>{7CD54F15-DF6A-4829-8AFD-E714ECF9F505}</Project>
       <Name>Core.Converters</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Core.Scheduling.Wrapper\Core.Scheduling.Wrapper.csproj">
+      <Project>{7EDD29C2-D0C7-4990-BDEE-117EBC9DEB72}</Project>
+      <Name>Core.Scheduling.Wrapper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{75DFACF6-E820-4E3F-83D5-1E21FBC92385}</Project>
       <Name>Core</Name>

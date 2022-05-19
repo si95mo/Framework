@@ -19,6 +19,8 @@ namespace UserInterface.Dashboards.Tests
         {
             InitializeComponent();
 
+            MethodWrapper.Wrap(this);
+
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
 
