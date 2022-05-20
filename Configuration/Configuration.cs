@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Configuration
 {
@@ -19,7 +20,7 @@ namespace Configuration
         /// Create a new instance of <see cref="Configuration"/>
         /// </summary>
         /// <param name="path">The configuration file path</param>
-        public Configuration(string path = "config/config.ini")
+        public Configuration(string path = "config/config.json")
         {
             ConfigurationHandler.Initialize(path);
             items = ConfigurationHandler.Parse();

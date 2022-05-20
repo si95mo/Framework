@@ -1,6 +1,9 @@
 ﻿using IO;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 
 namespace Configuration
 {
@@ -29,22 +32,17 @@ namespace Configuration
         public static Dictionary<string, ConfigurationItem> Parse()
         {
             string config = Read(configPath);
-            string[] lines = config.Split(
-                new[] { Environment.NewLine },
-                StringSplitOptions.None
-            );
 
-            ConfigurationItem item;
-            string name, value;
-            foreach (string line in lines)
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            serializer.RegisterConverters(new[] { new DynamicJsonConverter() });
+
+            dynamic values = serializer.Deserialize(config, typeof(object));
+
+            foreach(var item in values.Items)
             {
-                if (line.CompareTo("") != 0)
-                {
-                    (name, value) = (line.Split(':')[0], line.Split(':')[1]);
-                    item = new ConfigurationItem(name, value);
-
-                    items.Add(item.Name, item);
-                }
+                string name = Convert.ToString(item.Name);
+                ConfigurationItem configurationItem = new ConfigurationItem(name, item);
+                items.Add(configurationItem.Name, configurationItem);
             }
 
             return items;

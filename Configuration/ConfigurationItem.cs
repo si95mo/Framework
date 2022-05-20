@@ -6,7 +6,7 @@
     public class ConfigurationItem
     {
         private string name;
-        private string value;
+        private dynamic value;
 
         /// <summary>
         /// The <see cref="ConfigurationItem"/> name
@@ -16,14 +16,14 @@
         /// <summary>
         /// The <see cref="ConfigurationItem"/> value
         /// </summary>
-        public string Value => value;
+        public dynamic Value => value;
 
         /// <summary>
         /// Create a new instance of <see cref="ConfigurationItem"/>
         /// </summary>
         /// <param name="name">The item name</param>
         /// <param name="value">The item value</param>
-        public ConfigurationItem(string name, string value)
+        public ConfigurationItem(string name, dynamic value)
         {
             this.name = name;
             this.value = value;
