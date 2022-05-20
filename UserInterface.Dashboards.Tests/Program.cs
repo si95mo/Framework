@@ -1,5 +1,4 @@
-﻿using Core.Scheduling.Wrapper;
-using System;
+﻿using System;
 using System.Windows.Forms;
 
 namespace UserInterface.Dashboards.Tests

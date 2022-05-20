@@ -103,6 +103,7 @@
     <Compile Include="TwincatChannel.cs" />
     <Compile Include="TwincatDigitalInput.cs" />
     <Compile Include="TwincatDigitalOutput.cs" />
+    <Compile Include="TwincatMultiSampleAnalogInput.cs" />
     <Compile Include="TwincatResource.cs" />
   </ItemGroup>
   <ItemGroup>
