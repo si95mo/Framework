@@ -183,6 +183,19 @@ namespace IO
         }
 
         /// <summary>
+        /// Copy a file asynchronously
+        /// </summary>
+        /// <param name="sourcePath">The source file path</param>
+        /// <param name="destinationPath">The destination file path</param>
+        /// <returns>The (async) <see cref="Task"/></returns>
+        public static async Task CopyFileAsync(string sourcePath, string destinationPath)
+        {
+            using (FileStream sourceStream = File.Open(sourcePath, FileMode.Open))
+            using (FileStream destinationStream = File.Create(destinationPath))
+                await sourceStream.CopyToAsync(destinationStream);
+        }
+
+        /// <summary>
         /// Check if a file has been modified (i.e. last time it was written).
         /// </summary>
         /// <param name="existingFile">The old file path present in disk</param>
