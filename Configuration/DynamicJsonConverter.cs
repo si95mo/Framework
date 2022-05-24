@@ -80,7 +80,6 @@ public sealed class DynamicJsonConverter : JavaScriptConverter
                             sb.AppendFormat("\"{0}\"", arrayValue);
                         else
                             sb.AppendFormat("{0}", arrayValue);
-
                     }
                     sb.Append("]");
                 }
@@ -141,5 +140,5 @@ public sealed class DynamicJsonConverter : JavaScriptConverter
         }
     }
 
-    #endregion
+    #endregion Nested type: DynamicJsonObject
 }

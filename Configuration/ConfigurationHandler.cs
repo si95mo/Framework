@@ -1,8 +1,6 @@
 ﻿using IO;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 
 namespace Configuration
@@ -38,7 +36,7 @@ namespace Configuration
 
             dynamic values = serializer.Deserialize(config, typeof(object));
 
-            foreach(var item in values.Items)
+            foreach (var item in values.Items)
             {
                 string name = Convert.ToString(item.Name);
                 ConfigurationItem configurationItem = new ConfigurationItem(name, item);
