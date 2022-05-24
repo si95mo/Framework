@@ -7,6 +7,8 @@
  - In combination with the resource, various type of channels are present (digital and analog input and output channel specialized in the associated resource)
  - Above this stage, there are general input/output digital and analog channel which may be connected to the specified ones and can be used in various part of the application
  - In parallel to this, there is the ServiceBroker, that can store various property to make them available in each part of the application
+
+This represent the core logic that should be followed and used in higher level of each application.
  
  _________________________________________________________________
 
@@ -29,3 +31,30 @@ Other tested (without any hardware) classes are:
 - Parameters
 - Signal.Processing
 - Some functionalities in Core.Threading
+
+__________________________________________________________________
+Configuration file: <br/>
+The configuration handling parse a json file and get the stored configuration. <br/>
+Here's an eaxmple of a configuration file:
+```json
+{
+    "Items":
+    [
+        {
+            "Name": "Z32",
+            "SharedFolder": "C:\\Users\\simod\\Desktop\\Old\\CopyAndPasteTest",
+            "IpAddress": "localhost"
+        },
+        {
+            "Name": "Rest",
+            "Port": 8080
+        }
+    ]
+}
+```
+Each element must have a non empty Name value that will be the configuration item code. <br/>
+In C# each element can be accessed by using the json field name. For example:
+```cs
+string ipAddress = config.Items["Z32"].Value.IpAddress;
+int port = config.Items["Rest"].Value.Port;
+```
