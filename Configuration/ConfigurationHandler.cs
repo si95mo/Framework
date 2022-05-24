@@ -19,7 +19,7 @@ namespace Configuration
         /// Initialize the <see cref="ConfigurationHandler"/>
         /// </summary>
         /// <param name="path">The configuration file path</param>
-        public static void Initialize(string path = "config/config.ini")
+        public static void Initialize(string path = "config/config.json")
         {
             items = new Dictionary<string, ConfigurationItem>();
             configPath = path;
