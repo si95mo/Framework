@@ -237,7 +237,6 @@ namespace Hardware.Twincat
         private async Task Receive()
         {
             int handle;
-            AdsStream stream;
             ITwincatChannel twincatChannel;
 
             while (Status.Value == ResourceStatus.Executing)
@@ -250,7 +249,6 @@ namespace Hardware.Twincat
 
                         if (variableHandles.TryGetValue(twincatChannel.Code, out handle))
                         {
-                            stream = new AdsStream();
                             ITcAdsSymbol symbol = client.ReadSymbolInfo(twincatChannel.VariableName);
 
                             if (twincatChannel is TwincatAnalogInput) // Analog input
