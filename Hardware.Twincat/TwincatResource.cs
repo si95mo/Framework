@@ -262,13 +262,13 @@ namespace Hardware.Twincat
                             }
                         }
                     }
-
-                    await Task.Delay(PollingInterval);
                 }
                 catch (Exception ex)
                 {
                     HandleException(ex);
                 }
+
+                await Task.Delay(PollingInterval);
             }
         }
 
@@ -276,7 +276,6 @@ namespace Hardware.Twincat
         /// Send a value through the <see cref="TwincatResource"/>
         /// </summary>
         /// <param name="code">The channel code with the value to send</param>
-        /// <returns>The async <see cref="Task"/></returns>
         internal void Send(string code)
         {
             if (Status.Value == ResourceStatus.Executing)
