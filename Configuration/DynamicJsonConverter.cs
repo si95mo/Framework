@@ -7,8 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Web.Script.Serialization;
 
+/// <summary>
+/// Define a converter from json to a <see langword="dynamic"/> <see cref="object"/>
+/// </summary>
 public sealed class DynamicJsonConverter : JavaScriptConverter
 {
+    /// <summary>
+    /// Deserialize an <see cref="IDictionary"/>
+    /// </summary>
+    /// <param name="dictionary">The dictionary to deserialize</param>
+    /// <param name="type">The type of the <paramref name="dictionary"/> values</param>
+    /// <param name="serializer">The serializer</param>
+    /// <returns>The deserialized object</returns>
+    /// <exception cref="ArgumentException"/>
     public override object Deserialize(IDictionary<string, object> dictionary, Type type, JavaScriptSerializer serializer)
     {
         if (dictionary == null)
@@ -17,6 +28,14 @@ public sealed class DynamicJsonConverter : JavaScriptConverter
         return type == typeof(object) ? new DynamicJsonObject(dictionary) : null;
     }
 
+    /// <summary>
+    /// Serialize an <see cref="object"/> to json
+    /// </summary>
+    /// <param name="obj">The object to serialize</param>
+    /// <param name="serializer">The serializer</param>
+    /// <returns>The serialized object</returns>
+    /// <remarks>Not yet implemented! Throws a <see cref="NotImplementedException"/></remarks>
+    /// <exception cref="NotImplementedException"/>
     public override IDictionary<string, object> Serialize(object obj, JavaScriptSerializer serializer)
     {
         throw new NotImplementedException();
