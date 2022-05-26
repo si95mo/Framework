@@ -2,7 +2,7 @@
  **A C# framework** that communicate with the underlying hardware
  ________________________________________________________________
  
- The basic logic and structure of the framework is:
+ The **basic logic** and structure of the framework is:
  - At the lowest level the Hardware resource is responsible of the communication (e.g. modbus, OPC UA, tcp, ...)
  - In combination with the resource, various type of channels are present (digital and analog input and output channel specialized in the associated resource)
  - Above this stage, there are general input/output digital and analog channel which may be connected to the specified ones and can be used in various part of the application
@@ -18,7 +18,7 @@ This represent the core logic that should be followed and used in higher level o
 
 __________________________________________________________________
 
-The tested (with real hardware) and working classes are:
+The **tested** (with real hardware) and working classes are:
 - Bag
 - ServiceBroker (these two are contained in Core.DataStructures)
 - Channels and converters
@@ -33,7 +33,7 @@ Other tested (without any hardware) classes are:
 - Some functionalities in Core.Threading
 
 __________________________________________________________________
-Configuration file: <br/>
+**Configuration file**: <br/>
 The configuration handling parse a json file and get the stored configuration. <br/>
 Here's an eaxmple of a configuration file:
 ```json
