@@ -89,8 +89,8 @@ namespace Extensions
         /// <see langword="or"/> operand between two <see langword="bool"/> values
         /// </summary>
         /// <param name="changedCondition">The sender (the <see cref="ICondition"/> of which the value has changed)</param>
-        /// <param name="andCondition">The <see cref="FlyweightCondition"/> result of the <see cref="And(ICondition, ICondition)"/> method</param>
-        private static void UpdateOrCondition(ICondition changedCondition, FlyweightCondition andCondition)
-            => andCondition.Value |= changedCondition.Value;
+        /// <param name="orCondition">The <see cref="FlyweightCondition"/> result of the <see cref="Or(ICondition, ICondition)"/> method</param>
+        private static void UpdateOrCondition(ICondition changedCondition, FlyweightCondition orCondition)
+            => orCondition.Value |= changedCondition.Value;
     }
 }
