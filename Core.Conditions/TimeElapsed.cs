@@ -66,7 +66,6 @@ namespace Core.Conditions
         /// Create a new instance of <see cref="TimeElapsed"/>
         /// </summary>
         /// <param name="code">The code</param>
-        /// <param name="time">The time after which the new instance will be <see langword="true"/></param>
         /// <param name="startCondition">The <see cref="ICondition"/> that will start the timer when will become <see langword="true"/></param>
         /// <param name="endCondition">The <see cref="ICondition"/> that will stop the timer when will become <see langword="true"/></param>
         public TimeElapsed(string code, ICondition startCondition, ICondition endCondition) : base(code)
