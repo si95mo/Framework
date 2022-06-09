@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.Conditions;
 using Core.Converters;
 using System;
 using System.Collections.Generic;
@@ -56,6 +57,8 @@ namespace Hardware
         /// The tags
         /// </summary>
         public List<string> Tags { get; set; }
+
+        public ICondition WriteEnable { get; set; }
 
         /// <summary>
         /// Initialize the class attributes with
@@ -141,12 +144,27 @@ namespace Hardware
             get => value;
             set
             {
-                if (!value.Equals(this.value))
+                if (WriteEnable != null)
                 {
-                    object oldValue = this.value;
-                    this.value = value;
-                    OnValueChanged(new ValueChangedEventArgs(oldValue, this.value));
+                    if (WriteEnable.Value)
+                        UpdateValue(value);
                 }
+                else
+                    UpdateValue(value);
+            }
+        }
+
+        /// <summary>
+        /// Update the <see cref="Channel{T}"/> <see cref="Value"/>
+        /// </summary>
+        /// <param name="value">The new value</param>
+        private void UpdateValue(T value)
+        {
+            if (!value.Equals(this.value))
+            {
+                object oldValue = this.value;
+                this.value = value;
+                OnValueChanged(new ValueChangedEventArgs(oldValue, this.value));
             }
         }
 

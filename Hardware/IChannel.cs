@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.Conditions;
 using System;
 
 namespace Hardware
@@ -8,6 +9,11 @@ namespace Hardware
     /// </summary>
     public interface IChannel : IProperty
     {
+        /// <summary>
+        /// Define an <see cref="ICondition"/> that enable the <see cref="IChannel"/> write
+        /// </summary>
+        ICondition WriteEnable { get; set; }
+
         /// <summary>
         /// Connect a <see cref="IProperty"/> to propagate the value
         /// </summary>

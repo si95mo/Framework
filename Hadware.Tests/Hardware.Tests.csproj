@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Extensions">
+      <HintPath>..\Extensions\bin\Debug\Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="FluentAssertions, Version=6.6.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentAssertions.6.6.0\lib\net47\FluentAssertions.dll</HintPath>
     </Reference>
@@ -101,6 +104,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Core.Conditions\Core.Conditions.csproj">
+      <Project>{694CD750-5601-4C5F-A881-3B330E4CAF43}</Project>
+      <Name>Core.Conditions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{75DFACF6-E820-4E3F-83D5-1E21FBC92385}</Project>
       <Name>Core</Name>

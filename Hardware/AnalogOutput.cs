@@ -10,23 +10,6 @@ namespace Hardware
     public class AnalogOutput : Channel<double>, IAnalogOutput
     {
         /// <summary>
-        /// The <see cref="AnalogInput"/> value;
-        /// </summary>
-        public new double Value
-        {
-            get => value;
-            set
-            {
-                if (value != this.value)
-                {
-                    object oldValue = this.value;
-                    this.value = value;
-                    OnValueChanged(new ValueChangedEventArgs(oldValue, this.value));
-                }
-            }
-        }
-
-        /// <summary>
         /// Create a new instance of <see cref="AnalogOutput"/>
         /// </summary>
         public AnalogOutput() : this(Guid.NewGuid().ToString())

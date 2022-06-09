@@ -10,23 +10,6 @@ namespace Hardware
     public class DigitalOutput : Channel<bool>, IDigitalOutput
     {
         /// <summary>
-        /// The <see cref="AnalogInput"/> value;
-        /// </summary>
-        public new bool Value
-        {
-            get => value;
-            set
-            {
-                if (value != this.value)
-                {
-                    object oldValue = this.value;
-                    this.value = value;
-                    OnValueChanged(new ValueChangedEventArgs(oldValue, this.value));
-                }
-            }
-        }
-
-        /// <summary>
         /// Create a new instance of <see cref="DigitalOutput"/>
         /// </summary>
         public DigitalOutput() : this(Guid.NewGuid().ToString())

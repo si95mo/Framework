@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using Extensions;
+using FluentAssertions;
 using Hardware;
 using NUnit.Framework;
 using System;
@@ -66,6 +67,24 @@ namespace Hadware.Tests
 
             for (int i = 1; i <= numberOfTags; i++)
                 channel.Tags[i - 1].Should().BeEquivalentTo(i.ToString());
+        }
+
+        [Test]
+        public void WriteEnableTest()
+        {
+            DigitalInput input = new DigitalInput("Input");
+            DigitalOutput output = new DigitalOutput("Output");
+
+            output.Value = true;
+
+            output.WriteEnable = input.IsTrue();
+
+            output.Value = false;
+            output.Value.Should().BeTrue(); // WriteEnable should be false
+
+            input.Value = true;
+            output.Value = false;
+            output.Value.Should().BeFalse(); // WriteEnable should be true
         }
     }
 }
