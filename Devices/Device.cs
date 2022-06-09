@@ -3,6 +3,7 @@ using Core.DataStructures;
 using Core.Parameters;
 using Hardware;
 using System;
+using System.Threading;
 
 namespace Devices
 {
@@ -43,6 +44,13 @@ namespace Devices
         }
 
         /// <summary>
+        /// The <see cref="Device"/> <see cref="CancellationTokenSource"/>
+        /// (used to cancel the pending tasks)
+        /// </summary>
+        public CancellationTokenSource TokenSource
+        { get; protected set; }
+
+        /// <summary>
         /// Initialize the class attributes with
         /// default parameters
         /// </summary>
@@ -61,6 +69,8 @@ namespace Devices
             Channels = new Bag<IChannel>();
             Parameters = new Bag<IParameter>();
             Conditions = new Bag<ICondition>();
+
+            TokenSource = new CancellationTokenSource();
         }
 
         /// <summary>
@@ -97,7 +107,14 @@ namespace Devices
         /// This method should handle the safety (i.e. should put the <see cref="Device"/>
         /// in a safe condition when something abnormal happens)
         /// </summary>
-        public abstract void Stop();
+        /// <remarks>
+        /// The <see langword="base"/> method should always be called inside new implementation because
+        /// the cancellation of the tasks' <see cref="CancellationTokenSource"/> is done here!
+        /// </remarks>
+        public virtual void Stop()
+        {
+            TokenSource.Cancel();
+        }
 
         public override string ToString() => code;
     }

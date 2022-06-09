@@ -3,6 +3,7 @@ using Core.Conditions;
 using Core.DataStructures;
 using Core.Parameters;
 using Hardware;
+using System.Threading;
 
 namespace Devices
 {
@@ -33,6 +34,12 @@ namespace Devices
         /// and <see cref="Bag{T}"/>
         /// </summary>
         Bag<ICondition> Conditions
+        { get; }
+
+        /// <summary>
+        /// The <see cref="IDevice"/> tasks <see cref="CancellationTokenSource"/>
+        /// </summary>
+        CancellationTokenSource TokenSource
         { get; }
 
         /// <summary>
