@@ -50,6 +50,10 @@
     <Compile Include="Timer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Core.Parameters\Core.Parameters.csproj">
+      <Project>{B0E053BC-1B89-4C83-B819-5EC032B2566F}</Project>
+      <Name>Core.Parameters</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IO\IO.csproj">
       <Project>{65535B13-4850-4EC8-893D-58F3BC49C457}</Project>
       <Name>IO</Name>

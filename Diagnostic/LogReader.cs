@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Parameters;
+using System;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,8 +13,6 @@ namespace Diagnostic
     public class LogReader
     {
         private static string logPath = "";
-        private static string logText = "";
-        private static string lastLog = "";
         private static bool reading = false;
         private static int monitoringInterval = 1000; // ms
         private static Task monitoringTask;
@@ -21,12 +20,14 @@ namespace Diagnostic
         /// <summary>
         /// The full log text with all the entries
         /// </summary>
-        public static string LogText => logText;
+        public static StringParameter LogText { get; private set; }
+            = new StringParameter($"{nameof(LogReader)}.{nameof(LogText)}", string.Empty);
 
         /// <summary>
         /// The last log entry
         /// </summary>
-        public static string LastLog => lastLog;
+        public static StringParameter LastLog { get; private set; }
+            = new StringParameter($"{nameof(LogReader)}.{nameof(LastLog)}", string.Empty);
 
         /// <summary>
         /// The log file path
@@ -94,12 +95,12 @@ namespace Diagnostic
                                 using (FileStream fs = new FileStream(logPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                                 {
                                     fs.Seek(lastReadLength, SeekOrigin.Begin);
-                                    byte[] buffer = new byte[1024];
+                                    byte[] buffer = new byte[4096];
 
                                     bool doLoop = true;
                                     while (doLoop)
                                     {
-                                        int bytesRead = fs.Read(buffer, 0, buffer.Length);
+                                        int bytesRead = await fs.ReadAsync(buffer, 0, buffer.Length);
                                         lastReadLength += bytesRead;
 
                                         if (bytesRead == 0)
@@ -108,8 +109,8 @@ namespace Diagnostic
                                         {
                                             string text = Encoding.ASCII.GetString(buffer, 0, bytesRead);
 
-                                            logText += text;
-                                            lastLog = text;
+                                            LogText.Value += text;
+                                            LastLog.Value = text;
                                         }
                                     }
                                 }

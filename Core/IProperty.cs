@@ -99,7 +99,7 @@ namespace Core
             }
         }
 
-        #endregion
+        #endregion OldValue casted properties
 
         /// <summary>
         /// The new value
@@ -192,7 +192,7 @@ namespace Core
             }
         }
 
-        #endregion
+        #endregion NewValue casted properties
 
         /// <summary>
         /// Create a new instance of <see cref="ValueChangedEventArgs"/>

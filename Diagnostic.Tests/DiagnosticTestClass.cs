@@ -47,11 +47,11 @@ namespace Diagnostic.Tests
 
                 await Tasks.NoOperation(2000);
 
-                LogReader.LogText.Should().NotBe("").And.NotBe(lastLogText);
-                LogReader.LastLog.Should().NotBe("").And.NotBe(lastLastLog);
+                LogReader.LogText.Value.Should().NotBe("").And.NotBe(lastLogText);
+                LogReader.LastLog.Value.Should().NotBe("").And.NotBe(lastLastLog);
 
-                lastLogText = LogReader.LogText;
-                lastLastLog = LogReader.LastLog;
+                lastLogText = LogReader.LogText.Value;
+                lastLastLog = LogReader.LastLog.Value;
             } while (sw.Elapsed.TotalMilliseconds <= interval);
         }
 

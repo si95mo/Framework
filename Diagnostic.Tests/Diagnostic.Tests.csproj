@@ -101,6 +101,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Core.Parameters\Core.Parameters.csproj">
+      <Project>{B0E053BC-1B89-4C83-B819-5EC032B2566F}</Project>
+      <Name>Core.Parameters</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core.Threading\Core.Threading.csproj">
       <Project>{e5630a9f-e4fa-477e-9821-8565812e2c6f}</Project>
       <Name>Core.Threading</Name>
