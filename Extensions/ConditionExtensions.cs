@@ -1,4 +1,5 @@
-﻿using Core.Conditions;
+﻿using Core;
+using Core.Conditions;
 
 namespace Extensions
 {
@@ -34,11 +35,45 @@ namespace Extensions
         }
 
         /// <summary>
+        /// Create a new <see cref="ICondition"/> that is <see langword="true"/> when <paramref name="source"/> is <see langword="true"/>
+        /// </summary>
+        /// <param name="source">The source <see cref="IProperty{T}"/></param>
+        /// <returns>The new <see cref="ICondition"/></returns>
+        public static ICondition IsTrue(this IProperty<bool> source)
+        {
+            FlyweightCondition result = new FlyweightCondition($"{source.Code}.IsTrue", source.Value);
+            source.ConnectTo(result);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Create a new <see cref="ICondition"/> that is <see langword="true"/> when <paramref name="source"/> is <see langword="false"/>
+        /// </summary>
+        /// <param name="source">The source <see cref="IProperty{T}"/></param>
+        /// <returns>The new <see cref="ICondition"/></returns>
+        public static ICondition IsFalse(this IProperty<bool> source)
+        {
+            FlyweightCondition result = new FlyweightCondition($"{source.Code}.IsFalse", source.Value == false);
+            source.ValueChanged += (sender, e) => UpdateIfFalseCondition(source, result);
+
+            return result;
+        }
+
+        /// <summary>
         /// Update a <see cref="FlyweightCondition"/> to check if its value is <see langword="false"/>
         /// </summary>
         /// <param name="source">The source <see cref="ICondition"/></param>
         /// <param name="newCondition">The <see cref="FlyweightCondition"/> to update</param>
         private static void UpdateIsFalseCondition(ICondition source, FlyweightCondition newCondition)
+            => newCondition.Value = source.Value == false;
+
+        /// <summary>
+        /// Update a <see cref="FlyweightCondition"/> to check if its value is <see langword="false"/>
+        /// </summary>
+        /// <param name="source">The source <see cref="IProperty{T}"/></param>
+        /// <param name="newCondition">The <see cref="FlyweightCondition"/> to update</param>
+        private static void UpdateIfFalseCondition(IProperty<bool> source, FlyweightCondition newCondition)
             => newCondition.Value = source.Value == false;
 
         /// <summary>
