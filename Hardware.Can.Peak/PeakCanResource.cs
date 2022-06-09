@@ -134,8 +134,6 @@ namespace Hardware.Can
         /// <param name="code">The code</param>
         public PeakCanResource(string code) : base(code)
         {
-            channels = new Bag<IChannel>(); ;
-
             logQueue = null;
             maxCapacity = 65535;
             logEnabled = false;
@@ -325,7 +323,7 @@ namespace Hardware.Can
                         }
                     }
 
-                    List<IProperty> list = channels.ToList();
+                    List<IProperty> list = Channels.ToList();
                     bool channelFound = false;
                     for (int i = 0; i < list.Count && !channelFound; i++)
                     {
@@ -444,9 +442,6 @@ namespace Hardware.Can
                 lock (logLock)
                 {
                     log = string.Join(Environment.NewLine, logQueue);
-                    //foreach (CanFrame canFrame in logQueue)
-                    //    log += $"{canFrame}{Environment.NewLine}";
-
                     logQueue.Clear();
                 }
             }

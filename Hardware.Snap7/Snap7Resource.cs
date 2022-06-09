@@ -160,7 +160,7 @@ namespace Hardware.Snap7
         /// <param name="code">The channel code</param>
         internal void Send(string code)
         {
-            ISnap7Channel channel = channels.Get(code) as ISnap7Channel;
+            ISnap7Channel channel = Channels.Get(code) as ISnap7Channel;
 
             if (Status.Value == ResourceStatus.Executing)
             {

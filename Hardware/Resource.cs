@@ -16,24 +16,22 @@ namespace Hardware
         /// <summary>
         /// The code
         /// </summary>
-        protected string code;
+        private string code;
 
         /// <summary>
         /// The status
         /// </summary>
-        protected EnumParameter<ResourceStatus> status;
+        private EnumParameter<ResourceStatus> status;
 
         /// <summary>
         /// The failure
         /// </summary>
-        protected IFailure failure;
+        private IFailure failure;
 
         /// <summary>
         /// The channels
         /// </summary>
-        protected Bag<IChannel> channels;
-
-        private object objectLock = new object();
+        private Bag<IChannel> channels;
 
         /// <summary>
         /// Create a new instance of <see cref="Resource"/>
@@ -43,10 +41,8 @@ namespace Hardware
         {
             this.code = code;
             channels = new Bag<IChannel>();
-            status = new EnumParameter<ResourceStatus>(nameof(status));
+            status = new EnumParameter<ResourceStatus>(nameof(Status), ResourceStatus.Stopped);
             failure = new Failure();
-
-            Status.Value = ResourceStatus.Stopped;
 
             Status.ValueChanged += Status_ValueChanged;
         }
@@ -89,7 +85,11 @@ namespace Hardware
         /// <summary>
         /// The <see cref="Resource"/> last <see cref="IFailure"/>
         /// </summary>
-        public IFailure LastFailure => failure;
+        public IFailure LastFailure
+        {
+            get => failure;
+            protected set => failure = value;
+        }
 
         /// <summary>
         /// The <see cref="Resource"/> <see cref="System.Type"/>

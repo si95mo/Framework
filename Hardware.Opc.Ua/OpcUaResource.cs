@@ -56,8 +56,8 @@ namespace Hardware.Opc.Ua
             readRequests = new Dictionary<string, ReadRequest>();
             writeRequests = new Dictionary<string, WriteRequest>();
 
-            channels.ItemAdded += Channels_ItemAdded;
-            channels.ItemRemoved += Channels_ItemRemoved;
+            Channels.ItemAdded += Channels_ItemAdded;
+            Channels.ItemRemoved += Channels_ItemRemoved;
         }
 
         private void Channels_ItemAdded(object sender, BagChangedEventArgs<IProperty> e)
@@ -82,11 +82,11 @@ namespace Hardware.Opc.Ua
         /// <param name="code">The <see cref="IOpcUaChannel"/> code</param>
         internal async Task Receive(string code)
         {
-            if (status.Value == ResourceStatus.Executing)
+            if (Status.Value == ResourceStatus.Executing)
             {
                 try
                 {
-                    IOpcUaChannel ch = channels.Get(code) as IOpcUaChannel;
+                    IOpcUaChannel ch = Channels.Get(code) as IOpcUaChannel;
                     ReadValueId rv = new ReadValueId
                     {
                         NodeId = NodeId.Parse(ch.NamespaceConfiguration),
@@ -114,11 +114,11 @@ namespace Hardware.Opc.Ua
         /// <param name="code">The <see cref="IOpcUaChannel"/> code</param>
         internal async Task Send(string code)
         {
-            if (status.Value == ResourceStatus.Executing)
+            if (Status.Value == ResourceStatus.Executing)
             {
                 try
                 {
-                    IOpcUaChannel ch = channels.Get(code) as IOpcUaChannel;
+                    IOpcUaChannel ch = Channels.Get(code) as IOpcUaChannel;
                     DataValue value;
                     if (ch is OpcUaAnalogOutput)
                         value = new DataValue((ch as OpcUaAnalogOutput).Value);
@@ -161,7 +161,7 @@ namespace Hardware.Opc.Ua
                 else
                 {
                     Status.Value = ResourceStatus.Failure;
-                    failure = new Failure($"Unable to connect to {serverAddress}");
+                    LastFailure = new Failure($"Unable to connect to {serverAddress}");
                 }
             }
             catch (Exception ex)
@@ -183,7 +183,7 @@ namespace Hardware.Opc.Ua
                 else
                 {
                     Status.Value = ResourceStatus.Failure;
-                    failure = new Failure($"Unable to disconnect to {serverAddress}");
+                    LastFailure = new Failure($"Unable to disconnect to {serverAddress}");
                 }
             }
             catch (Exception ex)

@@ -94,7 +94,7 @@ namespace Hardware.Twincat
             {
                 string failureDescription = e.Exception.Message;
 
-                failure = new Failure(failureDescription);
+                LastFailure = new Failure(failureDescription);
                 Status.Value = ResourceStatus.Failure;
 
                 Logger.Error($"Ads error. Received: {failureDescription}");
@@ -119,8 +119,8 @@ namespace Hardware.Twincat
             client.Timeout = 5000;
 
             variableHandles = new Dictionary<string, int>();
-            channels.ItemAdded += Channels_ItemAdded;
-            channels.ItemRemoved += Channels_ItemRemoved;
+            Channels.ItemAdded += Channels_ItemAdded;
+            Channels.ItemRemoved += Channels_ItemRemoved;
 
             Status.Value = ResourceStatus.Stopped;
         }
@@ -194,7 +194,7 @@ namespace Hardware.Twincat
                     isOpen = true;
                 }
                 else
-                    HandleException($"{code} - Unable to connect to {amsNetAddress}:{port}");
+                    HandleException($"{Code} - Unable to connect to {amsNetAddress}:{port}");
 
                 if (Status.Value == ResourceStatus.Executing)
                 {
@@ -227,7 +227,7 @@ namespace Hardware.Twincat
                 isOpen = false;
             }
             else
-                HandleException($"{code} - Unable to disconnect to {amsNetAddress}:{port}");
+                HandleException($"{Code} - Unable to disconnect to {amsNetAddress}:{port}");
         }
 
         /// <summary>
@@ -243,7 +243,7 @@ namespace Hardware.Twincat
             {
                 try
                 {
-                    foreach (IChannel channel in channels)
+                    foreach (IChannel channel in Channels)
                     {
                         twincatChannel = (ITwincatChannel)channel;
 
@@ -278,7 +278,7 @@ namespace Hardware.Twincat
         {
             if (Status.Value == ResourceStatus.Executing)
             {
-                ITwincatChannel channel = channels.Get(code) as ITwincatChannel;
+                ITwincatChannel channel = Channels.Get(code) as ITwincatChannel;
 
                 try
                 {

@@ -73,7 +73,7 @@ namespace Hardware.Libnodave
 
                     connectionType.rfd = openSocket(port, ipAddress);
                     connectionType.wfd = connectionType.rfd;
-                    connectionInterface = new daveInterface(connectionType, code, 0, daveProtoISOTCP, daveSpeed187k);
+                    connectionInterface = new daveInterface(connectionType, Code, 0, daveProtoISOTCP, daveSpeed187k);
 
                     connectionInterface.initAdapter();
                     connection = new daveConnection(connectionInterface, 0, rack, slot);
@@ -124,7 +124,7 @@ namespace Hardware.Libnodave
         /// <returns>The async <see cref="Task"/></returns>
         internal async Task Send(string code)
         {
-            ILibnodaveChannel channel = channels.Get(code) as ILibnodaveChannel;
+            ILibnodaveChannel channel = Channels.Get(code) as ILibnodaveChannel;
 
             if (Status.Value == ResourceStatus.Executing)
             {
@@ -183,7 +183,7 @@ namespace Hardware.Libnodave
         /// <returns>The async <see cref="Task"/></returns>
         internal async Task Receive(string code)
         {
-            ILibnodaveChannel channel = channels.Get(code) as ILibnodaveChannel;
+            ILibnodaveChannel channel = Channels.Get(code) as ILibnodaveChannel;
 
             if (Status.Value == ResourceStatus.Executing)
             {

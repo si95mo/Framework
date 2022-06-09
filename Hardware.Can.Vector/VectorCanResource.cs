@@ -11,60 +11,60 @@ namespace Hardware.Can.Vector
     public enum HardwareType : byte
     {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        XL_HWTYPE_NONE = 0,
-        XL_HWTYPE_VIRTUAL = 1,
-        XL_HWTYPE_CANCARDX = 2,
-        XL_HWTYPE_CANAC2PCI = 6,
-        XL_HWTYPE_CANCARDY = 12,
-        XL_HWTYPE_CANCARDXL = 15,
-        XL_HWTYPE_CANCASEXL = 21,
-        XL_HWTYPE_CANCASEXL_LOG_OBSOLETE = 23,
-        XL_HWTYPE_CANBOARDXL = 25,
-        XL_HWTYPE_CANBOARDXL_PXI = 27,
-        XL_HWTYPE_VN2600 = 29,
-        XL_HWTYPE_VN2610 = 29,
-        XL_HWTYPE_VN3300 = 37,
-        XL_HWTYPE_VN3600 = 39,
-        XL_HWTYPE_VN7600 = 41,
-        XL_HWTYPE_CANCARDXLE = 43,
-        XL_HWTYPE_VN8900 = 45,
-        XL_HWTYPE_VN8950 = 47,
-        XL_HWTYPE_VN2640 = 53,
-        XL_HWTYPE_VN1610 = 55,
-        XL_HWTYPE_VN1630 = 57,
-        XL_HWTYPE_VN1640 = 59,
-        XL_HWTYPE_VN8970 = 61,
-        XL_HWTYPE_VN1611 = 63,
-        XL_HWTYPE_VN5610 = 65,
-        XL_HWTYPE_VN5620 = 66,
-        XL_HWTYPE_VN7570 = 67,
-        XL_HWTYPE_IPCLIENT = 69,
-        XL_HWTYPE_IPSERVER = 71,
-        XL_HWTYPE_VX1121 = 73,
-        XL_HWTYPE_VX1131 = 75,
-        XL_HWTYPE_VT6204 = 77,
-        XL_HWTYPE_VN1630_LOG = 79,
-        XL_HWTYPE_VN7610 = 81,
-        XL_HWTYPE_VN7572 = 83,
-        XL_HWTYPE_VN8972 = 85,
-        XL_HWTYPE_VN0601 = 87,
-        XL_HWTYPE_VN5640 = 89,
-        XL_HWTYPE_VX0312 = 91,
-        XL_HWTYPE_VH6501 = 94,
-        XL_HWTYPE_VN8800 = 95,
-        XL_HWTYPE_IPCL8800 = 96,
-        XL_HWTYPE_IPSRV8800 = 97,
-        XL_HWTYPE_CSMCAN = 98,
-        XL_HWTYPE_VN5610A = 101,
-        XL_HWTYPE_VN7640 = 102,
-        XL_HWTYPE_VX1135 = 104,
-        XL_HWTYPE_VN4610 = 105,
-        XL_HWTYPE_VT6306 = 107,
-        XL_HWTYPE_VT6104A = 108,
-        XL_HWTYPE_VN5430 = 109,
-        XL_HWTYPE_VN1530 = 112,
-        XL_HWTYPE_VN1531 = 113,
-        XL_MAX_HWTYPE = 113
+        None = 0,
+        Virtual = 1,
+        CanCardX = 2,
+        CanAC2Pci = 6,
+        CanCardY = 12,
+        CanCardXl = 15,
+        CanCaseXl = 21,
+        CanCaseXlLogObsolete = 23,
+        CanBoardXl = 25,
+        CanBoardXlPxi = 27,
+        Vn2600 = 29,
+        Vn2610 = 29,
+        Vn3300 = 37,
+        Vn3600 = 39,
+        Vn7600 = 41,
+        CanCardXle = 43,
+        Vn8900 = 45,
+        Vn8950 = 47,
+        Vn2640 = 53,
+        Vn1610 = 55,
+        Vn1630 = 57,
+        Vn1640 = 59,
+        Vn8970 = 61,
+        Vn1611 = 63,
+        Vn5610 = 65,
+        Vn5620 = 66,
+        Vn7570 = 67,
+        IpClient = 69,
+        IpServer = 71,
+        Vx1121 = 73,
+        Vx1131 = 75,
+        Vt6204 = 77,
+        Vn1630Log = 79,
+        Vn7610 = 81,
+        Vn7572 = 83,
+        Vn8972 = 85,
+        Vn0601 = 87,
+        Vn5640 = 89,
+        Vz0312 = 91,
+        Vh6501 = 94,
+        Vn8800 = 95,
+        IpCl8800 = 96,
+        IpSrv8800 = 97,
+        CsmCan = 98,
+        Vn5610A = 101,
+        Vn7640 = 102,
+        Vx1135 = 104,
+        Vn4610 = 105,
+        Vt6306 = 107,
+        Vt6104A = 108,
+        Vn5430 = 109,
+        Vn1530 = 112,
+        Vn1531 = 113,
+        MaxHwType = 113
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }
 
@@ -81,6 +81,11 @@ namespace Hardware.Can.Vector
         private string applicationName;
         private uint applicationChannel, hardwareIndex, hardwareChannel;
         private HardwareType hardwareType;
+
+        private bool logEnabled;
+        private int maxCapacity;
+        private Queue<CanFrame> logQueue;
+        private object logLock = new object();
 
         /// <summary>
         /// Create a new instance of <see cref="VectorCanResource"/>
@@ -108,21 +113,34 @@ namespace Hardware.Can.Vector
             this.hardwareType = hardwareType;
             this.hardwareIndex = hardwareIndex;
             this.hardwareChannel = hardwareChannel;
+
+            driver = new XLDriver();
         }
 
-        public void DisableLog()
-        {
-            throw new NotImplementedException();
-        }
+        public void DisableLog() => logEnabled = false;
 
         public void EnableLog(int maxLogSize = 65535)
         {
-            throw new NotImplementedException();
+            logEnabled = true;
+            maxCapacity = maxLogSize;
+            logQueue = new Queue<CanFrame>(maxLogSize);
         }
 
         public string ReadLog()
         {
-            throw new NotImplementedException();
+            string log = "";
+
+            // EnableLog(int) should have been called at least once
+            if (logQueue != null)
+            {
+                lock (logLock)
+                {
+                    log = string.Join(Environment.NewLine, logQueue);
+                    logQueue.Clear();
+                }
+            }
+
+            return log;
         }
 
         public override Task Restart()
@@ -140,13 +158,16 @@ namespace Hardware.Can.Vector
             Status.Value = ResourceStatus.Starting;
 
             driver.XL_CloseDriver(); // Close already started sessions
+            driver.XL_OpenDriver();
 
             return Task.CompletedTask;
         }
 
         public override void Stop()
         {
-            throw new NotImplementedException();
+            Status.Value = ResourceStatus.Stopping;
+            driver.XL_CloseDriver();
+            Status.Value = ResourceStatus.Stopped;
         }
     }
 }

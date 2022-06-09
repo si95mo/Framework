@@ -111,7 +111,7 @@ namespace Hardware.Modbus
                 try
                 {
                     writing = true;
-                    var channel = channels.Get(code);
+                    var channel = Channels.Get(code);
 
                     if (channel is ModbusAnalogOutput)
                     {
@@ -180,7 +180,7 @@ namespace Hardware.Modbus
                     while (writing && ++counter < 100)
                         await Tasks.NoOperation(1);
 
-                    var channel = channels.Get(code);
+                    var channel = Channels.Get(code);
 
                     if (channel is ModbusAnalogInput)
                     {
@@ -301,7 +301,7 @@ namespace Hardware.Modbus
         /// </summary>
         public override async Task Start()
         {
-            failure.Clear();
+            LastFailure.Clear();
             Status.Value = ResourceStatus.Starting;
             tcp = new TcpClient();
 
@@ -317,7 +317,7 @@ namespace Hardware.Modbus
                     started = tcp.Connected;
                     Status.Value = started ? ResourceStatus.Executing : ResourceStatus.Failure;
 
-                    foreach (IProperty channel in channels)
+                    foreach (IProperty channel in Channels)
                     {
                         if (channel is ModbusAnalogInput)
                             await Task.Factory.StartNew((channel as ModbusAnalogInput).PollingAction);
@@ -328,11 +328,11 @@ namespace Hardware.Modbus
                 }
                 else
                 {
-                    failure = new Failure($"Unable to connect to {ipAddress}:{port}", DateTime.Now);
+                    LastFailure = new Failure($"Unable to connect to {ipAddress}:{port}", DateTime.Now);
                     Status.Value = ResourceStatus.Failure;
 
                     started = false;
-                    Logger.Log(failure.Description);
+                    Logger.Log(LastFailure.Description);
                 }
             }
             catch (Exception ex)
@@ -356,8 +356,8 @@ namespace Hardware.Modbus
                 Status.Value = ResourceStatus.Stopped;
             }
 
-            if (status.Value == ResourceStatus.Failure)
-                failure = new Failure("Error occurred while closing the port!", DateTime.Now);
+            if (Status.Value == ResourceStatus.Failure)
+                LastFailure = new Failure("Error occurred while closing the port!", DateTime.Now);
 
             started = false;
         }

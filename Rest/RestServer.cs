@@ -35,7 +35,6 @@ namespace Rest
             configuration.UrlReservations.CreateAutomatically = true;
             configuration.RewriteLocalhost = false;
 
-            this.code = code;
             this.uri = uri;
 
             host = new NancyHost(uri, new DefaultNancyBootstrapper(), configuration);
@@ -58,7 +57,6 @@ namespace Rest
             configuration = new HostConfiguration();
             configuration.UrlReservations.CreateAutomatically = true;
 
-            this.code = code;
             this.uri = uri;
 
             host = new NancyHost(uri, bootstrapper, configuration);
@@ -69,12 +67,12 @@ namespace Rest
         /// </summary>
         public override async Task Start()
         {
-            status.Value = ResourceStatus.Starting;
+            Status.Value = ResourceStatus.Starting;
 
             await Task.Run(() => host.Start());
-            Logger.Log($"{code} self-hosting on {uri}", Severity.Info);
+            Logger.Log($"{Code} self-hosting on {uri}", Severity.Info);
 
-            status.Value = ResourceStatus.Executing;
+            Status.Value = ResourceStatus.Executing;
         }
 
         /// <summary>
@@ -82,12 +80,12 @@ namespace Rest
         /// </summary>
         public override void Stop()
         {
-            status.Value = ResourceStatus.Stopping;
+            Status.Value = ResourceStatus.Stopping;
 
             host.Stop();
-            Logger.Log($"{code} stopped self-hosting on {uri}:{uri.Port}", Severity.Info);
+            Logger.Log($"{Code} stopped self-hosting on {uri}:{uri.Port}", Severity.Info);
 
-            status.Value = ResourceStatus.Stopped;
+            Status.Value = ResourceStatus.Stopped;
         }
 
         public override async Task Restart()

@@ -66,15 +66,11 @@ namespace Hardware.Resources
         {
             ipAddress = "";
             port = 0;
-            failure = new Failure();
-            channels = new Bag<IChannel>();
 
             tcp = new TcpClient();
 
             sendDone = new ManualResetEventSlim(false);
             receiveDone = new ManualResetEventSlim(false);
-
-            status.Value = ResourceStatus.Stopped;
         }
 
         /// <summary>
@@ -84,25 +80,18 @@ namespace Hardware.Resources
         /// <param name="ipAddress">The ip address</param>
         /// <param name="port">The port number</param>
         /// <param name="timeout">The timeout (in milliseconds)</param>
-        public TcpResource(string code, string ipAddress, int port, int timeout = 5000) : base(code)
+        public TcpResource(string code, string ipAddress, int port, int timeout = 5000) : this(code)
         {
             try
             {
                 this.ipAddress = ipAddress;
                 this.port = port;
-                failure = new Failure();
-                channels = new Bag<IChannel>();
 
                 tcp = new TcpClient
                 {
                     ReceiveTimeout = timeout,
                     SendTimeout = timeout
                 };
-
-                sendDone = new ManualResetEventSlim(false);
-                receiveDone = new ManualResetEventSlim(false);
-
-                status.Value = ResourceStatus.Stopped;
             }
             catch (Exception ex)
             {
@@ -160,7 +149,7 @@ namespace Hardware.Resources
         {
             try
             {
-                if (status.Value == ResourceStatus.Executing)
+                if (Status.Value == ResourceStatus.Executing)
                 {
                     // Create the state object
                     StateObject state = new StateObject();
@@ -264,7 +253,7 @@ namespace Hardware.Resources
         /// </summary>
         public override async Task Start()
         {
-            failure.Clear();
+            LastFailure.Clear();
             Status.Value = ResourceStatus.Starting;
             tcp = new TcpClient();
 
@@ -277,8 +266,8 @@ namespace Hardware.Resources
                 else
                     Status.Value = ResourceStatus.Failure;
 
-                if (status.Value == ResourceStatus.Failure)
-                    failure = new Failure("Error occurred while opening the port!", DateTime.Now);
+                if (Status.Value == ResourceStatus.Failure)
+                    LastFailure = new Failure("Error occurred while opening the port!", DateTime.Now);
             }
             catch (Exception ex)
             {
