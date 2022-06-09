@@ -13,10 +13,186 @@ namespace Core
         /// </summary>
         public readonly object OldValue;
 
+        #region OldValue casted properties
+
+        /// <summary>
+        /// The old value as <see cref="double"/>
+        /// </summary>
+        /// <remarks>
+        /// If the conversion throws an <see cref="Exception"/>, <see cref="double.NaN"/> is returned
+        /// </remarks>
+        public double OldValueAsDouble
+        {
+            get
+            {
+                double value = double.NaN;
+                try
+                {
+                    value = Convert.ToDouble(OldValue);
+                }
+                catch { }
+
+                return value;
+            }
+        }
+
+        /// <summary>
+        /// The old value as <see cref="int"/>
+        /// </summary>
+        /// <remarks>
+        /// If the conversion throws an <see cref="Exception"/>, <see cref="int.MinValue"/> is returned
+        /// </remarks>
+        public int OldValueAsInt
+        {
+            get
+            {
+                int value = int.MinValue;
+                try
+                {
+                    value = Convert.ToInt32(OldValue);
+                }
+                catch { }
+
+                return value;
+            }
+        }
+
+        /// <summary>
+        /// The old value as <see cref="bool"/>
+        /// </summary>
+        /// <remarks>
+        /// If the conversion throws an <see cref="Exception"/>, <see langword="false"/> is returned
+        /// </remarks>
+        public bool OldValueAsBool
+        {
+            get
+            {
+                bool value = false;
+                try
+                {
+                    value = Convert.ToBoolean(OldValue);
+                }
+                catch { }
+
+                return value;
+            }
+        }
+
+        /// <summary>
+        /// The old value as <see cref="string"/>
+        /// </summary>
+        /// <remarks>
+        /// If the conversion throws an <see cref="Exception"/>, <see cref="string.Empty"/> is returned
+        /// </remarks>
+        public string OldValueAsString
+        {
+            get
+            {
+                string value = string.Empty;
+                try
+                {
+                    value = Convert.ToString(OldValue);
+                }
+                catch { }
+
+                return value;
+            }
+        }
+
+        #endregion
+
         /// <summary>
         /// The new value
         /// </summary>
         public readonly object NewValue;
+
+        #region NewValue casted properties
+
+        /// <summary>
+        /// The old value as <see cref="double"/>
+        /// </summary>
+        /// <remarks>
+        /// If the conversion throws an <see cref="Exception"/>, <see cref="double.NaN"/> is returned
+        /// </remarks>
+        public double NewValueAsDouble
+        {
+            get
+            {
+                double value = double.NaN;
+                try
+                {
+                    value = Convert.ToDouble(NewValue);
+                }
+                catch { }
+
+                return value;
+            }
+        }
+
+        /// <summary>
+        /// The old value as <see cref="int"/>
+        /// </summary>
+        /// <remarks>
+        /// If the conversion throws an <see cref="Exception"/>, <see cref="int.MinValue"/> is returned
+        /// </remarks>
+        public int NewValueAsInt
+        {
+            get
+            {
+                int value = int.MinValue;
+                try
+                {
+                    value = Convert.ToInt32(NewValue);
+                }
+                catch { }
+
+                return value;
+            }
+        }
+
+        /// <summary>
+        /// The old value as <see cref="bool"/>
+        /// </summary>
+        /// <remarks>
+        /// If the conversion throws an <see cref="Exception"/>, <see langword="false"/> is returned
+        /// </remarks>
+        public bool NewValueAsBool
+        {
+            get
+            {
+                bool value = false;
+                try
+                {
+                    value = Convert.ToBoolean(NewValue);
+                }
+                catch { }
+
+                return value;
+            }
+        }
+
+        /// <summary>
+        /// The old value as <see cref="string"/>
+        /// </summary>
+        /// <remarks>
+        /// If the conversion throws an <see cref="Exception"/>, <see cref="string.Empty"/> is returned
+        /// </remarks>
+        public string NewValueAsString
+        {
+            get
+            {
+                string value = string.Empty;
+                try
+                {
+                    value = Convert.ToString(NewValue);
+                }
+                catch { }
+
+                return value;
+            }
+        }
+
+        #endregion
 
         /// <summary>
         /// Create a new instance of <see cref="ValueChangedEventArgs"/>
