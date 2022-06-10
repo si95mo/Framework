@@ -18,6 +18,10 @@ namespace Core.Parameters
         /// <param name="code">The code</param>
         /// <param name="value">The initial value</param>
         /// <param name="tOn">The on time of the trigger (as a <see cref="TimeSpan"/></param>
+        /// <remarks>
+        /// The <paramref name="value"/> defines the type of the trigger: if is <see langword="false"/>, then
+        /// the trigger will be a rising one and if is <see langword="true"/> a falling one
+        /// </remarks>
         public TriggerParameter(string code, bool value, TimeSpan tOn) : base(code)
         {
             this.tOn = tOn;
@@ -34,6 +38,10 @@ namespace Core.Parameters
         /// <param name="value">The initial value</param>
         /// <param name="tOn">The on time of the trigger (as a <see cref="TimeSpan"/>)</param>
         /// <param name="preTriggerTime">The pre-trigger time (as a <see cref="TimeSpan"/>)</param>
+        /// <remarks>
+        /// The <paramref name="value"/> defines the type of the trigger: if is <see langword="false"/>, then
+        /// the trigger will be a rising edge one and if is <see langword="true"/> a falling edge one
+        /// </remarks>
         public TriggerParameter(string code, bool value, TimeSpan tOn, TimeSpan preTriggerTime) : this(code, value, tOn)
         {
             this.preTriggerTime = preTriggerTime;
@@ -45,12 +53,19 @@ namespace Core.Parameters
         /// <param name="code">The code</param>
         /// <param name="value">The initial value</param>
         /// <param name="tOn">The on time of the trigger (in milliseconds)</param>
+        /// <remarks>
+        /// The <paramref name="value"/> defines the type of the trigger: if is <see langword="false"/>, then
+        /// the trigger will be a rising one and if is <see langword="true"/> a falling one
+        /// </remarks>
         public TriggerParameter(string code, bool value, int tOn) : this(code, value, TimeSpan.FromMilliseconds(tOn))
         { }
 
         /// <summary>
         /// Create a new instance of <see cref="TriggerParameter"/> with a rising edge and an on time of 100ms
         /// </summary>
+        /// <remarks>
+        /// The trigger will be a rising edge one
+        /// </remarks>
         public TriggerParameter() : this(Guid.NewGuid().ToString(), false, TimeSpan.FromMilliseconds(100))
         { }
 
