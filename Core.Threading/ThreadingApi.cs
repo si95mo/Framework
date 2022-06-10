@@ -28,7 +28,7 @@ namespace Core.Threading
         internal static extern uint SetTimeBeginPeriod(uint uMilliseconds);
 
         /// <summary>
-        /// Reset the internal interrupt clock rate (the one specified in. <br/>
+        /// Reset the internal interrupt clock rate (the one specified in <see cref="SetTimeBeginPeriod(uint)"/>). <br/>
         /// See the Windows API documentation for details.
         /// </summary>
         /// <param name="uMilliseconds">The clock rate (in milliseconds) to stop</param>
