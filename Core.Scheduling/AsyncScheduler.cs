@@ -11,6 +11,7 @@ namespace Core.Scheduling
     /// Implement an async <see cref="Method"/> scheduler
     /// </summary>
     [Serializable]
+    [Obsolete]
     public class AsyncScheduler : MethodScheduler
     {
         /// <summary>

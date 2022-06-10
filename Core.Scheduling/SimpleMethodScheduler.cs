@@ -13,6 +13,7 @@ namespace Core.Scheduling
     /// also <see cref="SerializableAttribute.SerializableAttribute"/>
     /// </summary>
     [Serializable]
+    [Obsolete]
     public class SimpleMethodScheduler : MethodScheduler
     {
         /// <summary>

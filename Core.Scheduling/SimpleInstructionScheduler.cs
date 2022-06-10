@@ -7,6 +7,7 @@ namespace Core.Scheduling
     /// Implement a simple <see cref="Instruction"/> scheduler
     /// </summary>
     [Serializable]
+    [Obsolete]
     public class SimpleInstructionScheduler : InstructionScheduler
     {
         /// <summary>

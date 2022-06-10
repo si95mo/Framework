@@ -61,6 +61,7 @@ namespace Core.Scheduling
         /// Execute all the subscribed <see cref="Instruction"/>
         /// and remove them from <see cref="Instructions"/>
         /// </summary>
+        /// <returns>The <see cref="List{T}"/> with the executed <see cref="Instruction"/></returns>
         public async Task<List<IInstruction>> Execute()
         {
             stop = false;
