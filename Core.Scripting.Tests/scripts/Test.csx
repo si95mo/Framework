@@ -1,5 +1,6 @@
 ﻿using Core.Scripting;
 using System;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ScriptTest
@@ -13,9 +14,10 @@ namespace ScriptTest
             this.message = message;
         }
 
-        public override void Execute()
+        public override Task Execute()
         {
             MessageBox.Show($"Script executed!{Environment.NewLine}\t{message}");
+            return Task.CompletedTask;
         }
     }
 }

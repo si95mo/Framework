@@ -1,6 +1,7 @@
 ﻿using Core.DataStructures;
 using Diagnostic;
 using System;
+using System.Threading.Tasks;
 
 namespace Core.Scripting
 {
@@ -29,17 +30,17 @@ namespace Core.Scripting
         }
 
         /// <summary>
-        /// Execute all the script contained in the
-        /// <see cref="ScriptManager"/>
+        /// Execute all the script contained in the <see cref="ScriptManager"/>
         /// </summary>
-        public static void ExecuteScripts()
+        /// <returns>The (async) <see cref="Task"/> that will execute all the scripts</returns>
+        public static async Task ExecuteScripts()
         {
             if (!initialized)
                 Logger.Log(new Exception("Script manager not initialized!"));
             else
             {
                 foreach (IScript script in scripts)
-                    script.Execute();
+                    await script.Execute();
             }
         }
     }

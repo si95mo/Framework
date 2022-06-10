@@ -1,5 +1,6 @@
 ﻿using Core.DataStructures;
 using System;
+using System.Threading.Tasks;
 
 namespace Core.Scripting
 {
@@ -47,6 +48,7 @@ namespace Core.Scripting
         /// <summary>
         /// The <see cref="Script"/> to execute
         /// </summary>
-        public abstract void Execute();
+        /// <returns>The script associated <see cref="Task"/></returns>
+        public abstract Task Execute();
     }
 }

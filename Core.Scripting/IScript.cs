@@ -1,4 +1,6 @@
-﻿namespace Core.Scripting
+﻿using System.Threading.Tasks;
+
+namespace Core.Scripting
 {
     /// <summary>
     /// Describe a generic prototype for scripting
@@ -8,6 +10,6 @@
         /// <summary>
         /// The <see cref="IScript"/> to execute
         /// </summary>
-        void Execute();
+        Task Execute();
     }
 }
