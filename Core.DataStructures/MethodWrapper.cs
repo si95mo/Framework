@@ -10,7 +10,7 @@ namespace Core.DataStructures
     public static class MethodWrapper
     {
         /// <summary>
-        /// Wrap all methods of <see cref="object"/> into
+        /// Wrap all methods of an <see cref="object"/> into
         /// a <see cref="List{T}"/> of <see cref="Method"/>.
         /// </summary>
         /// <param name="obj">The <see cref="object"/> of which wrap all methods</param>
