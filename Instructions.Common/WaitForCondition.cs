@@ -65,7 +65,7 @@ namespace Instructions.Common
         /// </remarks>
         /// <param name="code">The code</param>
         /// <param name="timeout">The condition timeout</param>
-        /// <param name="conditionTime">The time in which the condition sìhas to remain <see langword="true"/></param>
+        /// <param name="conditionTime">The time in which the condition has to remain <see langword="true"/></param>
         /// <param name="firstValue">The first value to test</param>
         /// <param name="secondValue">The second value to test</param>
         /// <param name="operand">The <see cref="Operand"/> to apply</param>
