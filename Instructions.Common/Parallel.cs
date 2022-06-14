@@ -30,9 +30,9 @@ namespace Instructions.Common
 
         public override async Task ExecuteInstruction()
         {
-            instructions.ForEach(x => (x as Instruction).OnStart());
+            await instructions.ParallelForeachAsync(async (x) => await Task.Run(() => (x as Instruction).OnStart()));
             await instructions.ParallelForeachAsync(async (x) => await x.ExecuteInstruction());
-            instructions.ForEach(x => (x as Instruction).OnStop());
+            await instructions.ParallelForeachAsync(async (x) => await Task.Run(() => (x as Instruction).OnStop()));
 
             bool flag = false;
             for (int i = 0; i < instructions.Count && !flag; i++)
