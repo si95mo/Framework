@@ -37,7 +37,6 @@ namespace UserInterface.Controls
             updateTask = new Task(async () =>
                 {
                     stopUpdateTask = false;
-                    int i = 0;
 
                     while (!stopUpdateTask)
                     {

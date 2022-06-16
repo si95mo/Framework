@@ -17,7 +17,7 @@
             ValueChanged += TwincatAnalogOutput_ValueChanged;
         }
 
-        private async void TwincatAnalogOutput_ValueChanged(object sender, Core.ValueChangedEventArgs e)
+        private void TwincatAnalogOutput_ValueChanged(object sender, Core.ValueChangedEventArgs e)
             => (resource as TwincatResource).Send(code);
     }
 }

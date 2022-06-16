@@ -10,7 +10,6 @@ namespace Hardware.Can.Vector
     /// </summary>
     public enum HardwareType : byte
     {
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         None = 0,
         Virtual = 1,
         CanCardX = 2,
@@ -65,7 +64,6 @@ namespace Hardware.Can.Vector
         Vn1530 = 112,
         Vn1531 = 113,
         MaxHwType = 113
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }
 
     /// <summary>

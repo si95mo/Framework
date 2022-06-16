@@ -17,7 +17,7 @@ namespace Control.Hysteresis
         private Task controlTask;
 
         /// <summary>
-        /// The actuator <see cref="Channel{T}B"/>
+        /// The actuator <see cref="Channel{T}"/>
         /// </summary>
         public Channel<bool> Actuator { get; private set; }
 

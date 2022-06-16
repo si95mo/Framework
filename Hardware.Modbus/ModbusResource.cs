@@ -104,7 +104,7 @@ namespace Hardware.Modbus
         /// Send an update via the modbus protocol
         /// </summary>
         /// <param name="code">The code of the <see cref="IModbusChannel"/> of which send the value</param>
-        internal new async Task Send(string code)
+        internal async Task Send(string code)
         {
             if (started)
             {
