@@ -1,5 +1,4 @@
 ﻿using Core;
-using Core.DataStructures;
 using Hardware.Can.Peak.Lib;
 using System;
 using System.Collections.Generic;
