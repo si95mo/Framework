@@ -1,6 +1,7 @@
 ﻿using Core;
 using Core.Conditions;
 using Core.Converters;
+using Diagnostic;
 using System;
 using System.Collections.Generic;
 
@@ -148,6 +149,8 @@ namespace Hardware
                 {
                     if (WriteEnable.Value)
                         UpdateValue(value);
+                    else
+                        Logger.Warn($"Attempting to write {Code} with write disabled");
                 }
                 else
                     UpdateValue(value);
