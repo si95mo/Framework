@@ -161,6 +161,7 @@ namespace Hardware
         /// Update the <see cref="Channel{T}"/> <see cref="Value"/>
         /// </summary>
         /// <param name="value">The new value</param>
+        /// <remarks>This method also invoke the <see cref="OnValueChanged(ValueChangedEventArgs)"/> handler if needed</remarks>
         private void UpdateValue(T value)
         {
             if (!value.Equals(this.value))
