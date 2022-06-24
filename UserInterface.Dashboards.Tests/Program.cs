@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Diagnostic;
+using System;
 using System.Windows.Forms;
 
 namespace UserInterface.Dashboards.Tests
@@ -11,6 +12,8 @@ namespace UserInterface.Dashboards.Tests
         [STAThread]
         private static void Main()
         {
+            Logger.Initialize();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new TestForm());

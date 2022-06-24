@@ -183,7 +183,7 @@ namespace Diagnostic
             if (data == null || data?.CompareTo("") == 0)
             {
                 string applicationName = AppDomain.CurrentDomain.FriendlyName;
-                string header = $"{GetDateTime()} - Application: {applicationName}";
+                string header = $"UTC time: {GetUtcDateTime()} - Application: {applicationName} - User: {Environment.UserName}";
 
                 AppendText(header);
                 AppendText(DAILY_SEPARATOR);
@@ -203,24 +203,11 @@ namespace Diagnostic
                 // 23 = LINE_TIMESTAMP_LENGTH
                 // 5  = LINE_TYPE_LENGTH - 1
                 // 70 = ENTRY_DESCRIPTION_LENGTH
-                header = string.Format(
-                    "{0, 23}|{1, 5}|{2, 70}",
-                    lineTimestamp,
-                    lineType,
-                    lineLogEntryDescription
-                );
+                header = string.Format("{0, 23}|{1, 5}|{2, 70}", lineTimestamp, lineType, lineLogEntryDescription);
                 header += Environment.NewLine;
-                header += string.Format(
-                    "{0, 23} | {1, 5} | {2, 40}",
-                    "TIMESTAMP", "TYPE", "LOG ENTRY DESCRIPTION"
-                );
+                header += string.Format("{0, 23} | {1, 5} | {2, 40}", "TIMESTAMP", "TYPE", "LOG ENTRY DESCRIPTION");
                 header += Environment.NewLine;
-                header += string.Format(
-                    "{0, 23}|{1, 5}|{2, 70}",
-                    lineTimestamp,
-                    lineType,
-                    lineLogEntryDescription
-                );
+                header += string.Format("{0, 23}|{1, 5}|{2, 70}", lineTimestamp, lineType, lineLogEntryDescription);
 
                 AppendText(header);
             }
@@ -684,10 +671,15 @@ namespace Diagnostic
         /// </summary>
         /// <returns>The <see cref="string"/> representing the <see cref="DateTime"/></returns>
         private static string GetDateTime()
-        {
-            string now = DateTime.Now.ToString("yyyy/MM/dd-HH:mm:ss.fff");
-            return now;
-        }
+            => $"           {DateTime.Now:HH:mm:ss.fff}";
+
+        /// <summary>
+        /// Get the UTC <see cref="DateTime"/> in the format "yyyy/MM/dd-HH:mm:ss:fff". <br/>
+        /// For example: 2021/02/25-09:32:44:123.
+        /// </summary>
+        /// <returns>The <see cref="string"/> representing the <see cref="DateTime"/></returns>
+        private static string GetUtcDateTime()
+             => DateTime.UtcNow.ToString("yyyy/MM/dd HH:mm:ss.fff");
 
         /// <summary>
         /// Check if the new <see cref="Exception"/> is the same as the last one, in other words:

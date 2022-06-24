@@ -142,6 +142,10 @@
       <Project>{C0F5ECDE-B7AD-42B3-ACF8-D5486B0E4C44}</Project>
       <Name>Hardware</Name>
     </ProjectReference>
+    <ProjectReference Include="..\IO\IO.csproj">
+      <Project>{65535B13-4850-4EC8-893D-58F3BC49C457}</Project>
+      <Name>IO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UserInterface.Components\UserInterface.Controls.csproj">
       <Project>{4944754E-8566-44D6-933F-38F8DDC98F55}</Project>
       <Name>UserInterface.Controls</Name>
