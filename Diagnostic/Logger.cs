@@ -671,7 +671,7 @@ namespace Diagnostic
         /// </summary>
         /// <returns>The <see cref="string"/> representing the <see cref="DateTime"/></returns>
         private static string GetDateTime()
-            => $"           {DateTime.Now:HH:mm:ss.fff}";
+             => DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff");
 
         /// <summary>
         /// Get the UTC <see cref="DateTime"/> in the format "yyyy/MM/dd-HH:mm:ss:fff". <br/>
