@@ -11,6 +11,14 @@ namespace Signal.Processing
     /// </summary>
     public struct FourierResult
     {
+        /// <summary>
+        /// Create a new instance of <see cref="FourierResult"/>
+        /// </summary>
+        /// <param name="fft">The FFT array</param>
+        /// <param name="magnitudes">The magnitudes (in dB)</param>
+        /// <param name="frequencies">The frequencies (in Hz)</param>
+        /// <param name="fundamental">The fundamental frequency (in Hz)</param>
+        /// <param name="dcValue">The DC value (in dB)</param>
         public FourierResult(Complex[] fft, double[] magnitudes, double[] frequencies, double fundamental, double dcValue)
         {
             FFT = fft;
@@ -21,7 +29,7 @@ namespace Signal.Processing
         }
 
         /// <summary>
-        /// The FFT
+        /// The FFT array
         /// </summary>
         public Complex[] FFT { get; }
 

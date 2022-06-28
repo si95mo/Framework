@@ -108,15 +108,15 @@ namespace Diagnostic
             }
         }
 
-        private const string DAILY_SEPARATOR = "****************************************************" +
+        private const string DailySeparator = "****************************************************" +
             "****************************************************";
 
-        private const string ENTRY_SEPARATOR = "----------------------------------------------------" +
+        private const string EntrySeparator = "----------------------------------------------------" +
             "----------------------------------------------------";
 
-        private const int ENTRY_DESCRITPION_LENGTH = 70; // Header entry description length
-        private const int LINE_TYPE_LEGNTH = 6;          // Header type length
-        private const int LINE_TIMESTAMP_LENGTH = 23;    // Header timestamp length
+        private const int EntryDescriptionLength = 70; // Header entry description length
+        private const int LineTypeLength = 6;          // Header type length
+        private const int LineTimestampLength = 23;    // Header timestamp length
 
         private static string path = "log.txt";
         private static Exception lastException = null;
@@ -182,19 +182,18 @@ namespace Diagnostic
 
             if (data == null || data?.CompareTo("") == 0)
             {
-                string applicationName = AppDomain.CurrentDomain.FriendlyName;
-                string header = $"UTC time: {GetUtcDateTime()} - Application: {applicationName} - User: {Environment.UserName}";
+                string header = $"UTC time: {GetUtcDateTime()} - Application: {AppDomain.CurrentDomain.FriendlyName} - User: {Environment.UserName}";
 
                 AppendText(header);
-                AppendText(DAILY_SEPARATOR);
+                AppendText(DailySeparator);
 
                 string lineTimestamp = "", lineType = "", lineLogEntryDescription = "";
-                for (int i = 0; i <= ENTRY_DESCRITPION_LENGTH; i++)
+                for (int i = 0; i <= EntryDescriptionLength; i++)
                 {
-                    if (i <= LINE_TYPE_LEGNTH)
+                    if (i <= LineTypeLength)
                         lineType += "*";
 
-                    if (i <= LINE_TIMESTAMP_LENGTH)
+                    if (i <= LineTimestampLength)
                         lineTimestamp += "*";
 
                     lineLogEntryDescription += "*";
@@ -212,7 +211,7 @@ namespace Diagnostic
                 AppendText(header);
             }
             else
-                AppendText(DAILY_SEPARATOR);
+                AppendText(DailySeparator);
 
             initialized = true;
         }
@@ -592,7 +591,7 @@ namespace Diagnostic
         private static void AppendText(ExceptionEntry entry)
         {
             AppendText(entry.ToString());
-            AppendText(ENTRY_SEPARATOR + Environment.NewLine);
+            AppendText(EntrySeparator + Environment.NewLine);
         }
 
         /// <summary>
@@ -607,7 +606,7 @@ namespace Diagnostic
             await semaphore.WaitAsync();
 
             await AppendTextAsync(entry.ToString(), hasToWait: false);
-            await AppendTextAsync(ENTRY_SEPARATOR + Environment.NewLine, hasToWait: false);
+            await AppendTextAsync(EntrySeparator + Environment.NewLine, hasToWait: false);
 
             semaphore.Release();
         }
