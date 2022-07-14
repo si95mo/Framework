@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Database
+namespace Database.Entity
 {
     /// <summary>
     /// Define an entity class prototype

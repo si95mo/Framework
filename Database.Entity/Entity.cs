@@ -1,7 +1,7 @@
 ﻿using System.Data.SqlClient;
 using System.Threading.Tasks;
 
-namespace Database
+namespace Database.Entity
 {
     /// <summary>
     /// Define a generic entity class

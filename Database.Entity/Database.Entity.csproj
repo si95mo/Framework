@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EF533670-2BB7-4B0F-B8D3-BDD4F85DD43C}</ProjectGuid>
+    <ProjectGuid>{4D109BB1-F427-4C4E-8093-586D5AA31455}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Database</RootNamespace>
-    <AssemblyName>Database</AssemblyName>
+    <RootNamespace>Database.Entity</RootNamespace>
+    <AssemblyName>Database.Entity</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -21,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Database.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -42,17 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DatabaseManager.cs" />
+    <Compile Include="Entity.cs" />
+    <Compile Include="IEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Diagnostic\Diagnostic.csproj">
-      <Project>{7deb54d9-b9f1-4b05-8d81-d7b4f77631d1}</Project>
-      <Name>Diagnostic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IO\IO.csproj">
-      <Project>{65535B13-4850-4EC8-893D-58F3BC49C457}</Project>
-      <Name>IO</Name>
+    <ProjectReference Include="..\Database\Database.csproj">
+      <Project>{ef533670-2bb7-4b0f-b8d3-bdd4f85dd43c}</Project>
+      <Name>Database</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
