@@ -29,13 +29,24 @@ namespace Database
             SqlCommand command = new SqlCommand("SELECT @@VERSION", connection);
             string version = command.ExecuteScalar().ToString();
 
-            Logger.Log($"Database connection initialized. Version: {version}", Severity.Info);
+            if (IsConnectionOpen)
+                await Logger.InfoAsync($"Database connection initialized. Version: {version}");
+            else
+                await Logger.ErrorAsync("Database connection not initialzed on Initialize(string connectionString) method!");
         }
 
         /// <summary>
         /// Close the <see cref="DatabaseManager"/> connection
         /// </summary>
-        public static void Close() => connection.Close();
+        public static void Close()
+        {
+            connection.Close();
+
+            if (!IsConnectionOpen)
+                Logger.Info("Database connection closed");
+            else
+                Logger.Error("Database connection not closed on Close() method!");
+        }
 
         /// <summary>
         /// Execute a select query
