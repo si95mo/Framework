@@ -13,7 +13,7 @@ namespace Database.Entity
         object PrimaryKey { get; }
 
         /// <summary>
-        /// Update the the database record with the <see cref="IEntity"/> class actual value 
+        /// Update the the database record with the <see cref="IEntity"/> class actual value
         /// </summary>
         /// <returns>The (async) <see cref="Task{TResult}"/> (<see langword="true"/> if update succeeded, <see langword="false"/> otherwise</returns>
         Task<bool> Update();

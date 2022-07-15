@@ -14,9 +14,10 @@ namespace Database.Entity
         { get; protected set; }
 
         public abstract Task<bool> InsertInto();
+
         public abstract Task<bool> Update();
 
-        #endregion
+        #endregion IEntity (abstract) implementation
 
         #region Abstract methods
 
@@ -27,7 +28,7 @@ namespace Database.Entity
         /// <returns>The new instance of <see cref="Entity"/></returns>
         public abstract Entity New(SqlDataReader reader);
 
-        #endregion
+        #endregion Abstract methods
 
         #region Protected methods
 
@@ -49,6 +50,6 @@ namespace Database.Entity
             PrimaryKey = tmp.PrimaryKey;
         }
 
-        #endregion
+        #endregion Protected methods
     }
 }
