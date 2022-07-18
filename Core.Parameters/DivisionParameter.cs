@@ -3,7 +3,7 @@
     /// <summary>
     /// Implement a <see cref="NumericParameter"/> that is the division of 2 <see cref="NumericParameter"/>
     /// </summary>
-    /// <remarks>If a division by 0 is done at run-time, <see cref="NumericParameter.Value"/> of the instance 
+    /// <remarks>If a division by 0 is done at run-time, <see cref="NumericParameter.Value"/> of the instance
     /// should be <see cref="double.NegativeInfinity"/> or <see cref="double.PositiveInfinity"/>. <br/>
     /// Consider the using <see cref="double.IsNegativeInfinity(double)"/> or <see cref="double.IsPositiveInfinity(double)"/>
     /// (applies also in caso of <see cref="double.NaN"/> used with <see cref="double.IsNaN(double)"/>)</remarks>
