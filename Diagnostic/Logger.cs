@@ -465,6 +465,7 @@ namespace Diagnostic
         public static async Task ErrorAsync(string text)
             => await LogAsync(text, Severity.Error);
 
+        /// <summary>
         /// Save the text specified as <see cref="Severity.Fatal"/>
         /// in the log file. <br/>
         /// See also <see cref="Log(string, Severity)"/>
