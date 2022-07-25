@@ -13,6 +13,11 @@ namespace Database.Entity
         object PrimaryKey { get; }
 
         /// <summary>
+        /// The <see cref="IEntity"/> associated table name inside the database
+        /// </summary>
+        string TableName { get; }
+
+        /// <summary>
         /// Update the the database record with the <see cref="IEntity"/> class actual value
         /// </summary>
         /// <returns>The (async) <see cref="Task{TResult}"/> (<see langword="true"/> if update succeeded, <see langword="false"/> otherwise</returns>

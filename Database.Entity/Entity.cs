@@ -13,6 +13,9 @@ namespace Database.Entity
         public abstract object PrimaryKey
         { get; protected set; }
 
+        public abstract string TableName
+        { get; protected set; }
+
         public abstract Task<bool> InsertInto();
 
         public abstract Task<bool> Update();
