@@ -753,5 +753,10 @@ namespace Diagnostic
             bool isHigher = (int)minimumSeverityLevel <= (int)level;
             return isHigher;
         }
+
+        public static void Info()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
