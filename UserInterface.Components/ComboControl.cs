@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.Drawing;
+using System.Windows.Forms;
 
 namespace UserInterface.Controls
 {
@@ -48,28 +49,29 @@ namespace UserInterface.Controls
         {
             InitializeComponent();
 
-            //cbxControl.DropDownStyle = ComboBoxStyle.DropDownList;
-            //cbxControl.DrawItem += ComboBox_DrawItem;
+            cbxControl.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbxControl.DrawItem += ComboBox_DrawItem;
         }
 
-        //private void ComboBox_DrawItem(object sender, DrawItemEventArgs e)
-        //{
-        //    if (e.Index < 0) return;
-        //    Font f = cbxControl.Font;
-        //    int yOffset = 10;
+        private void ComboBox_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            if (e.Index < 0) return;
+            Font f = cbxControl.Font;
+            int yOffset = 10;
 
-        //    if ((e.State & DrawItemState.Focus) == 0)
-        //    {
-        //        e.Graphics.FillRectangle(Brushes.White, e.Bounds);
-        //        e.Graphics.DrawString(cbxControl.Items[e.Index].ToString(), f, Brushes.Black,
-        //                              new Point(e.Bounds.X, e.Bounds.Y + yOffset));
-        //    }
-        //    else
-        //    {
-        //        e.Graphics.FillRectangle(Brushes.Blue, e.Bounds);
-        //        e.Graphics.DrawString(cbxControl.Items[e.Index].ToString(), f, Brushes.White,
-        //                              new Point(e.Bounds.X, e.Bounds.Y + yOffset));
-        //    }
-        //}
+            Point point = new Point(e.Bounds.X, e.Bounds.Y + yOffset);
+            string str = cbxControl.Items[e.Index].ToString();
+
+            if ((e.State & DrawItemState.Focus) == 0)
+            {
+                e.Graphics.FillRectangle(Brushes.White, e.Bounds);
+                e.Graphics.DrawString(str, f, Brushes.Black, point);
+            }
+            else
+            {
+                e.Graphics.FillRectangle(Brushes.Blue, e.Bounds);
+                e.Graphics.DrawString(str, f, Brushes.White, point);
+            }
+        }
     }
 }
