@@ -27,6 +27,7 @@ namespace Database.Entity
         /// <summary>
         /// Create a new instance of <see cref="Entity"/>
         /// </summary>
+        /// <remarks><see cref="SqlDataReader.Read"/> must be called inside the method!</remarks>
         /// <param name="reader">The <see cref="SqlDataReader"/></param>
         /// <returns>The new instance of <see cref="Entity"/></returns>
         public abstract Entity New(SqlDataReader reader);
