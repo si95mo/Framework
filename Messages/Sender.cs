@@ -36,4 +36,3 @@ namespace Messages
         public static extern bool PostThreadMessage(uint threadId, uint msg, IntPtr wParam, IntPtr lParam);
     }
 }
-}
