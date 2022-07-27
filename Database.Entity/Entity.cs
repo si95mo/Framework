@@ -6,7 +6,7 @@ namespace Database.Entity
     /// <summary>
     /// Define a generic entity class
     /// </summary>
-    public abstract class Entity : IEntity
+    public abstract class Entity : IEntity, IEntityFactory
     {
         #region IEntity (abstract) implementation
 
@@ -22,17 +22,11 @@ namespace Database.Entity
 
         #endregion IEntity (abstract) implementation
 
-        #region Abstract methods
+        #region IEntityFactory (abstract) implementation
 
-        /// <summary>
-        /// Create a new instance of <see cref="Entity"/>
-        /// </summary>
-        /// <remarks><see cref="SqlDataReader.Read"/> must be called inside the method!</remarks>
-        /// <param name="reader">The <see cref="SqlDataReader"/></param>
-        /// <returns>The new instance of <see cref="Entity"/></returns>
-        public abstract Entity New(SqlDataReader reader);
+        public abstract IEntity New(SqlDataReader reader);
 
-        #endregion Abstract methods
+        #endregion IEntityFactory (abstract) implementation
 
         #region Protected methods
 
@@ -49,7 +43,7 @@ namespace Database.Entity
 
             SqlDataReader reader = await DatabaseManager.Select(select, from, other: other);
             reader.Read(); // Only one record
-            Entity tmp = New(reader);
+            IEntity tmp = New(reader);
 
             PrimaryKey = tmp.PrimaryKey;
         }

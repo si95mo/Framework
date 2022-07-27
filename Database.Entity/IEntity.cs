@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Data.SqlClient;
+using System.Threading.Tasks;
 
 namespace Database.Entity
 {
@@ -28,5 +29,19 @@ namespace Database.Entity
         /// </summary>
         /// <returns>The (async) <see cref="Task{TResult}"/> (<see langword="true"/> if insert succeeded, <see langword="false"/> otherwise</returns>
         Task<bool> InsertInto();
+    }
+
+    /// <summary>
+    /// Define a factory pattern to create <see cref="IEntity"/> objects
+    /// </summary>
+    internal interface IEntityFactory
+    {
+        /// <summary>
+        /// Create a new <see cref="IEntity"/> object
+        /// </summary>
+        /// <remarks><see cref="SqlDataReader.Read"/> must be called inside the method!</remarks>
+        /// <param name="reader">The <see cref="SqlDataReader"/></param>
+        /// <returns>The new <see cref="IEntity"/> object created</returns>
+        IEntity New(SqlDataReader reader);
     }
 }
