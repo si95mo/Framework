@@ -162,7 +162,7 @@ namespace Diagnostic
         /// </summary>
         public static bool Initialized => initialized;
 
-        #endregion Public Properties
+        #endregion Public properties
 
         #region Public methods
 

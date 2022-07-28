@@ -147,7 +147,7 @@ public sealed class DynamicJsonConverter : JavaScriptConverter
             ArrayList arrayList = result as ArrayList;
             if (arrayList != null && arrayList.Count > 0)
             {
-                return arrayList[0] is IDictionary<string, object> ? 
+                return arrayList[0] is IDictionary<string, object> ?
                     new List<object>(arrayList.Cast<IDictionary<string, object>>().Select(x => new DynamicJsonObject(x))) : new List<object>(arrayList.Cast<object>());
             }
 
