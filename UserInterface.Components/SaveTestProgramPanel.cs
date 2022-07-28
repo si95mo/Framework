@@ -1,6 +1,6 @@
 ﻿using Core.Scheduling;
 using Diagnostic;
-using IO.File;
+//using IO.File;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Drawing;
@@ -15,7 +15,7 @@ namespace UserInterface.Controls
     {
         private const string filePath = @"test\";
 
-        private JObject jsonToSave;
+        //private JObject jsonToSave;
         private InstructionScheduler scheduler;
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace UserInterface.Controls
                 (Screen.PrimaryScreen.WorkingArea.Height - Height) / 2
             );
 
-            this.jsonToSave = jsonToSave;
+            //this.jsonToSave = jsonToSave;
             this.scheduler = scheduler;
 
             parent.Parent.Controls.Add(this);
@@ -60,7 +60,7 @@ namespace UserInterface.Controls
 
                 try
                 {
-                    JSON.SaveJSON(jsonToSave, fileName + ".json");
+                    //JSON.SaveJSON(jsonToSave, fileName + ".json");
                     scheduler.SaveExecutionList(fileName + ".bin");
 
                     Logger.Log($"Test program with name \"{fileName}\" save correctly", Severity.Info);

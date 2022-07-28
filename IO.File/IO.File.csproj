@@ -92,7 +92,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JSON.cs" />
     <Compile Include="MAT.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
