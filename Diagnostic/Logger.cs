@@ -67,6 +67,8 @@ namespace Diagnostic
     /// </summary>
     public class Logger : FileHandler
     {
+        #region Private data structures
+
         /// <summary>
         /// Represent an <see cref="Exception"/> entry to be logged
         /// </summary>
@@ -108,6 +110,10 @@ namespace Diagnostic
             }
         }
 
+        #endregion Private data structures
+
+        #region Private constants
+
         private const string DailySeparator = "****************************************************" +
             "****************************************************";
 
@@ -118,6 +124,10 @@ namespace Diagnostic
         private const int LineTypeLength = 6;          // Header type length
         private const int LineTimestampLength = 23;    // Header timestamp length
 
+        #endregion Private constants
+
+        #region Private variables
+
         private static string path = "log.txt";
         private static Exception lastException = null;
 
@@ -126,6 +136,10 @@ namespace Diagnostic
         private static bool initialized = false;
 
         private static readonly SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
+
+        #endregion Private variables
+
+        #region Public properties
 
         /// <summary>
         /// The minimum <see cref="Severity"/> level of the entry to log
@@ -148,6 +162,10 @@ namespace Diagnostic
         /// </summary>
         public static bool Initialized => initialized;
 
+        #endregion Public Properties
+
+        #region Public methods
+
         /// <summary>
         /// Initialize the logger with the specified parameters
         /// </summary>
@@ -160,19 +178,9 @@ namespace Diagnostic
         /// <param name="timeSpanAsDays">The time span of daily logs to keep saved (expressed in days); -1 equals no file deleted</param>
         public static void Initialize(string logPath = "logs\\", int timeSpanAsDays = -1)
         {
+            DeleteOldLogs(logPath, timeSpanAsDays);
+
             string now = DateTime.Now.ToString("yyyy-MM-dd");
-            string[] files;
-            if (Directory.Exists(logPath))
-                files = Directory.GetFiles(logPath);
-            else
-            {
-                Directory.CreateDirectory(logPath);
-                files = Directory.GetFiles(logPath);
-            }
-
-            if (timeSpanAsDays != -1)
-                DeleteOldLogs(timeSpanAsDays, files);
-
             path = logPath + $"{now}.log";
             IOUtility.CreateDirectoryIfNotExists(logPath);
 
@@ -217,11 +225,279 @@ namespace Diagnostic
         }
 
         /// <summary>
-        /// Deletes old log files saved in disk
+        /// Set the <see cref="MinimumSeverityLevel"/> <see cref="Severity"/> to log.
+        /// (i.e. all the entry with a lower severity will not be logged)
+        /// </summary>
+        /// <remarks>
+        /// Note that the minimum level of the logged entry can't be
+        /// higher than <see cref="Severity.Info"/> (i.e. entry of level
+        /// <see cref="Severity.Warn"/>, <see cref="Severity.Error"/> and
+        /// <see cref="Severity.Fatal"/> will always be logged. <br/>
+        /// The <see cref="Severity"/> level is defined as follows (from lower to higher):
+        /// <see cref="Severity.Trace"/>, <see cref="Severity.Debug"/>,
+        /// <see cref="Severity.Info"/>, <see cref="Severity.Warn"/>,
+        /// <see cref="Severity.Error"/>, <see cref="Severity.Fatal"/>
+        /// </remarks>
+        /// <param name="level">The <see cref="Severity"/> level</param>
+        public static void SetMinimumSeverityLevel(Severity level)
+        {
+            Severity oldSeverity = minimumSeverityLevel;
+
+            if ((int)level < (int)Severity.Warn)
+                minimumSeverityLevel = level;
+            else
+                minimumSeverityLevel = Severity.Warn;
+
+            if (oldSeverity != minimumSeverityLevel)
+                Warn($"Minimum level set from {GetReadableSeverityAsString(oldSeverity)} to {GetReadableSeverityAsString(minimumSeverityLevel)}.");
+        }
+
+        #region Synchronous logging methods
+
+        /// <summary>
+        /// Simple log method.
+        /// Save the text specified as parameter in the log file.
+        /// <see cref="Path"/>
+        /// </summary>
+        /// <param name="text">The text to be saved</param>
+        /// <param name="severity">The <see cref="Severity"/></param>
+        public static void Log(string text, Severity severity = Severity.Info)
+        {
+            if (HasHigherSeverityLevel(severity))
+            {
+                string log = BuildLogEntry(text, severity);
+                AppendText(log);
+            }
+        }
+
+        /// <summary>
+        /// Append to the log file a description of the <see cref="Exception"/> occurred
+        /// </summary>
+        /// <param name="ex">The exception to log</param>
+        /// <remarks>
+        /// The entry will be saved <b>only</b> if it differs from
+        /// the last one saved in the log file (i.e. different type <b>and</b>
+        /// different message <b>and</b> different stack trace)!
+        /// </remarks>
+        public static void Log(Exception ex)
+        {
+            bool negatedFlag = CheckException(ex);
+
+            if (!negatedFlag || !IsSameExceptionAsTheLast(ex))
+            {
+                ExceptionEntry entry = BuildLogEntry(ex);
+                AppendText(entry);
+            }
+        }
+
+        /// <summary>
+        /// Save the text specified as <see cref="Severity.Trace"/>
+        /// in the log file. <br/>
+        /// See also <see cref="Log(string, Severity)"/>
+        /// </summary>
+        /// <param name="text">The text to log</param>
+        public static void Trace(string text)
+            => Log(text, Severity.Trace);
+
+        /// <summary>
+        /// Save the text specified as <see cref="Severity.Debug"/>
+        /// in the log file. <br/>
+        /// See also <see cref="Log(string, Severity)"/>
+        /// </summary>
+        /// <param name="text">The text to log</param>
+        public static void Debug(string text)
+            => Log(text, Severity.Debug);
+
+        /// <summary>
+        /// Save the text specified as <see cref="Severity.Info"/>
+        /// in the log file. <br/>
+        /// See also <see cref="Log(string, Severity)"/>
+        /// </summary>
+        /// <param name="text">The text to log</param>
+        public static void Info(string text)
+            => Log(text, Severity.Info);
+
+        /// <summary>
+        /// Save the text specified as <see cref="Severity.Warn"/>
+        /// in the log file. <br/>
+        /// See also <see cref="Log(string, Severity)"/>
+        /// </summary>
+        /// <param name="text">The text to log</param>
+        public static void Warn(string text)
+            => Log(text, Severity.Warn);
+
+        /// <summary>
+        /// Save the text specified as <see cref="Severity.Error"/>
+        /// in the log file. <br/>
+        /// See also <see cref="Log(string, Severity)"/>
+        /// </summary>
+        /// <remarks>If the log is required after an <see cref="Exception"/>
+        /// occurred, consider using the method <see cref="Log(Exception)"/> instead!</remarks>
+        /// <param name="text">The text to log</param>
+        public static void Error(string text)
+            => Log(text, Severity.Error);
+
+        /// <summary>
+        /// Save the <see cref="Exception"/> to the log file.
+        /// See also <see cref="Log(Exception)"/>
+        /// </summary>
+        /// <param name="ex">The <see cref="Exception"/> occurred</param>
+        public static void Error(Exception ex)
+            => Log(ex);
+
+        /// <summary>
+        /// Save the text specified as <see cref="Severity.Fatal"/>
+        /// in the log file. <br/>
+        /// See also <see cref="Log(string, Severity)"/>
+        /// </summary>
+        /// <remarks>If the log is required after an <see cref="Exception"/>
+        /// occurred, consider using the method <see cref="Log(Exception)"/> instead!</remarks>
+        /// <param name="text">The text to log</param>
+        public static void Fatal(string text)
+            => Log(text, Severity.Fatal);
+
+        #endregion Synchronous logging methods
+
+        #region Asynchronous logging methods
+
+        /// <summary>
+        /// Simple asynchronous log method.
+        /// Save the text specified as parameter in the log file.
+        /// <see cref="Path"/>
+        /// </summary>
+        /// <param name="text">The text to be saved</param>
+        /// <param name="severity">The <see cref="Severity"/></param>
+        /// <returns>The async <see cref="Task"/></returns>
+        public static async Task LogAsync(string text, Severity severity = Severity.Info)
+        {
+            if (HasHigherSeverityLevel(severity))
+            {
+                string log = BuildLogEntry(text, severity) + Environment.NewLine;
+                await AppendTextAsync(log, hasToWait: true);
+            }
+        }
+
+        /// <summary>
+        /// Append asynchronously to the log file a description of the <see cref="Exception"/> occurred
+        /// </summary>
+        /// <param name="ex">The exception to log</param>
+        /// <returns>The async <see cref="Task"/></returns>
+        /// <remarks>
+        /// The entry will be saved <b>only</b> if it differs from
+        /// the last one saved in the log file (i.e. different type <b>and</b>
+        /// different message <b>and</b> different stack trace)!
+        /// </remarks>
+        public static async Task LogAsync(Exception ex)
+        {
+            bool negatedFlag = CheckException(ex);
+
+            if (!negatedFlag || !IsSameExceptionAsTheLast(ex))
+            {
+                ExceptionEntry entry = BuildLogEntry(ex);
+                await AppendTextAsync(entry);
+            }
+        }
+
+        /// <summary>
+        /// Save asynchronously the text specified as <see cref="Severity.Trace"/>
+        /// in the log file. <br/>
+        /// See also <see cref="LogAsync(string, Severity)"/>
+        /// </summary>
+        /// <param name="text">The text to log</param>
+        /// <returns>The async <see cref="Task"/></returns>
+        public static async Task TraceAsync(string text)
+            => await LogAsync(text, Severity.Trace);
+
+        /// <summary>
+        /// Save asynchronously the text specified as <see cref="Severity.Debug"/>
+        /// in the log file. <br/>
+        /// See also <see cref="LogAsync(string, Severity)"/>
+        /// </summary>
+        /// <param name="text">The text to log</param>
+        /// <returns>The async <see cref="Task"/></returns>
+        public static async Task DebugAsync(string text)
+            => await LogAsync(text, Severity.Debug);
+
+        /// <summary>
+        /// Save asynchronously the text specified as <see cref="Severity.Info"/>
+        /// in the log file. <br/>
+        /// See also <see cref="LogAsync(string, Severity)"/>
+        /// </summary>
+        /// <param name="text">The text to log</param>
+        /// <returns>The async <see cref="Task"/></returns>
+        public static async Task InfoAsync(string text)
+            => await LogAsync(text, Severity.Info);
+
+        /// <summary>
+        /// Save asynchronously the text specified as <see cref="Severity.Warn"/>
+        /// in the log file. <br/>
+        /// See also <see cref="LogAsync(string, Severity)"/>
+        /// </summary>
+        /// <param name="text">The text to log</param>
+        /// <returns>The async <see cref="Task"/></returns>
+        public static async Task WarnAsync(string text)
+            => await LogAsync(text, Severity.Warn);
+
+        /// <summary>
+        /// Save asynchronously the text specified as <see cref="Severity.Error"/>
+        /// in the log file. <br/>
+        /// See also <see cref="LogAsync(string, Severity)"/>
+        /// </summary>
+        /// <param name="text">The text to log</param>
+        /// <returns>The async <see cref="Task"/></returns>
+        public static async Task ErrorAsync(string text)
+            => await LogAsync(text, Severity.Error);
+
+        /// <summary>
+        /// Save asynchronously the <see cref="Exception"/> to the log file.
+        /// See also <see cref="LogAsync(Exception)"/>
+        /// </summary>
+        /// <param name="ex">The <see cref="Exception"/> occurred</param>
+        public static async Task ErrorAsync(Exception ex)
+            => await LogAsync(ex);
+
+        /// <summary>
+        /// Save asynchronously the text specified as <see cref="Severity.Fatal"/>
+        /// in the log file. <br/>
+        /// See also <see cref="LogAsync(string, Severity)"/>
+        /// </summary>
+        /// <param name="text">The text to log</param>
+        /// <returns>The async <see cref="Task"/></returns>
+        public static async Task FatalAsync(string text)
+            => await LogAsync(text, Severity.Fatal);
+
+        #endregion Asynchronous logging methods
+
+        #endregion Public methods
+
+        #region Helper methods
+
+        /// <summary>
+        /// Delete the old logs if necessary
+        /// </summary>
+        /// <param name="logPath">The log file path</param>
+        /// <param name="timeSpanAsDays">The time span of file that has to be keep saved (in days)</param>
+        private static void DeleteOldLogs(string logPath, int timeSpanAsDays)
+        {
+            string[] files;
+            if (Directory.Exists(logPath))
+                files = Directory.GetFiles(logPath);
+            else
+            {
+                Directory.CreateDirectory(logPath);
+                files = Directory.GetFiles(logPath);
+            }
+
+            if (timeSpanAsDays != -1)
+                DeleteLogs(timeSpanAsDays, files);
+        }
+
+        /// <summary>
+        /// Deletes old log files saved in disk after they have been retrieved (see <see cref="DeleteOldLogs(string, int)"/>
         /// </summary>
         /// <param name="timeSpanAsDays">The time span of file that has to be keep saved (in days)</param>
         /// <param name="files">The <see cref="string"/> array containing the log files path</param>
-        private static void DeleteOldLogs(int timeSpanAsDays, string[] files)
+        private static void DeleteLogs(int timeSpanAsDays, string[] files)
         {
             foreach (string file in files)
             {
@@ -328,173 +604,6 @@ namespace Diagnostic
         }
 
         /// <summary>
-        /// Simple log method.
-        /// Save the text specified as parameter in the log file.
-        /// <see cref="Path"/>
-        /// </summary>
-        /// <param name="text">The text to be saved</param>
-        /// <param name="severity">The <see cref="Severity"/></param>
-        public static void Log(string text, Severity severity = Severity.Info)
-        {
-            if (HasHigherSeverityLevel(severity))
-            {
-                string log = BuildLogEntry(text, severity);
-                AppendText(log);
-            }
-        }
-
-        /// <summary>
-        /// Simple asynchronous log method.
-        /// Save the text specified as parameter in the log file.
-        /// <see cref="Path"/>
-        /// </summary>
-        /// <param name="text">The text to be saved</param>
-        /// <param name="severity">The <see cref="Severity"/></param>
-        /// <returns>The async <see cref="Task"/></returns>
-        public static async Task LogAsync(string text, Severity severity = Severity.Info)
-        {
-            if (HasHigherSeverityLevel(severity))
-            {
-                string log = BuildLogEntry(text, severity) + Environment.NewLine;
-                await AppendTextAsync(log, hasToWait: true);
-            }
-        }
-
-        /// <summary>
-        /// Save the text specified as <see cref="Severity.Trace"/>
-        /// in the log file. <br/>
-        /// See also <see cref="Log(string, Severity)"/>
-        /// </summary>
-        /// <param name="text">The text to log</param>
-        public static void Trace(string text)
-            => Log(text, Severity.Trace);
-
-        /// <summary>
-        /// Save asynchronously the text specified as <see cref="Severity.Trace"/>
-        /// in the log file. <br/>
-        /// See also <see cref="LogAsync(string, Severity)"/>
-        /// </summary>
-        /// <param name="text">The text to log</param>
-        /// <returns>The async <see cref="Task"/></returns>
-        public static async Task TraceAsync(string text)
-            => await LogAsync(text, Severity.Trace);
-
-        /// <summary>
-        /// Save the text specified as <see cref="Severity.Debug"/>
-        /// in the log file. <br/>
-        /// See also <see cref="Log(string, Severity)"/>
-        /// </summary>
-        /// <param name="text">The text to log</param>
-        public static void Debug(string text)
-            => Log(text, Severity.Debug);
-
-        /// <summary>
-        /// Save asynchronously the text specified as <see cref="Severity.Debug"/>
-        /// in the log file. <br/>
-        /// See also <see cref="LogAsync(string, Severity)"/>
-        /// </summary>
-        /// <param name="text">The text to log</param>
-        /// <returns>The async <see cref="Task"/></returns>
-        public static async Task DebugAsync(string text)
-            => await LogAsync(text, Severity.Debug);
-
-        /// <summary>
-        /// Save the text specified as <see cref="Severity.Info"/>
-        /// in the log file. <br/>
-        /// See also <see cref="Log(string, Severity)"/>
-        /// </summary>
-        /// <param name="text">The text to log</param>
-        public static void Info(string text)
-            => Log(text, Severity.Info);
-
-        /// <summary>
-        /// Save asynchronously the text specified as <see cref="Severity.Info"/>
-        /// in the log file. <br/>
-        /// See also <see cref="LogAsync(string, Severity)"/>
-        /// </summary>
-        /// <param name="text">The text to log</param>
-        /// <returns>The async <see cref="Task"/></returns>
-        public static async Task InfoAsync(string text)
-            => await LogAsync(text, Severity.Info);
-
-        /// <summary>
-        /// Save the text specified as <see cref="Severity.Warn"/>
-        /// in the log file. <br/>
-        /// See also <see cref="Log(string, Severity)"/>
-        /// </summary>
-        /// <param name="text">The text to log</param>
-        public static void Warn(string text)
-            => Log(text, Severity.Warn);
-
-        /// <summary>
-        /// Save asynchronously the text specified as <see cref="Severity.Warn"/>
-        /// in the log file. <br/>
-        /// See also <see cref="LogAsync(string, Severity)"/>
-        /// </summary>
-        /// <param name="text">The text to log</param>
-        /// <returns>The async <see cref="Task"/></returns>
-        public static async Task WarnAsync(string text)
-            => await LogAsync(text, Severity.Warn);
-
-        /// <summary>
-        /// Save the text specified as <see cref="Severity.Error"/>
-        /// in the log file. <br/>
-        /// See also <see cref="Log(string, Severity)"/>
-        /// </summary>
-        /// <remarks>If the log is required after an <see cref="Exception"/>
-        /// occurred, consider using the method <see cref="Log(Exception)"/> instead!</remarks>
-        /// <param name="text">The text to log</param>
-        public static void Error(string text)
-            => Log(text, Severity.Error);
-
-        /// <summary>
-        /// Save the <see cref="Exception"/> to the log file.
-        /// See also <see cref="Log(Exception)"/>
-        /// </summary>
-        /// <param name="ex">The <see cref="Exception"/> occurred</param>
-        public static void Error(Exception ex)
-            => Log(ex);
-
-        /// <summary>
-        /// Save asynchronously the text specified as <see cref="Severity.Error"/>
-        /// in the log file. <br/>
-        /// See also <see cref="LogAsync(string, Severity)"/>
-        /// </summary>
-        /// <param name="text">The text to log</param>
-        /// <returns>The async <see cref="Task"/></returns>
-        public static async Task ErrorAsync(string text)
-            => await LogAsync(text, Severity.Error);
-
-        /// <summary>
-        /// Save the text specified as <see cref="Severity.Fatal"/>
-        /// in the log file. <br/>
-        /// See also <see cref="Log(string, Severity)"/>
-        /// </summary>
-        /// <remarks>If the log is required after an <see cref="Exception"/>
-        /// occurred, consider using the method <see cref="Log(Exception)"/> instead!</remarks>
-        /// <param name="text">The text to log</param>
-        public static void Fatal(string text)
-            => Log(text, Severity.Fatal);
-
-        /// <summary>
-        /// Save asynchronously the text specified as <see cref="Severity.Fatal"/>
-        /// in the log file. <br/>
-        /// See also <see cref="LogAsync(string, Severity)"/>
-        /// </summary>
-        /// <param name="text">The text to log</param>
-        /// <returns>The async <see cref="Task"/></returns>
-        public static async Task FatalAsync(string text)
-            => await LogAsync(text, Severity.Fatal);
-
-        /// <summary>
-        /// Save asynchronously the <see cref="Exception"/> to the log file.
-        /// See also <see cref="LogAsync(Exception)"/>
-        /// </summary>
-        /// <param name="ex">The <see cref="Exception"/> occurred</param>
-        public static async Task ErrorAsync(Exception ex)
-            => await LogAsync(ex);
-
-        /// <summary>
         /// Check if an <see cref="Exception"/> has already been logged
         /// </summary>
         /// <param name="ex">The <see cref="Exception"/> to check</param>
@@ -515,47 +624,6 @@ namespace Diagnostic
             }
 
             return negatedFlag;
-        }
-
-        /// <summary>
-        /// Append to the log file a description of the <see cref="Exception"/> occurred
-        /// </summary>
-        /// <param name="ex">The exception to log</param>
-        /// <remarks>
-        /// The entry will be saved <b>only</b> if it differs from
-        /// the last one saved in the log file (i.e. different type <b>and</b>
-        /// different message <b>and</b> different stack trace)!
-        /// </remarks>
-        public static void Log(Exception ex)
-        {
-            bool negatedFlag = CheckException(ex);
-
-            if (!negatedFlag || !IsSameExceptionAsTheLast(ex))
-            {
-                ExceptionEntry entry = BuildLogEntry(ex);
-                AppendText(entry);
-            }
-        }
-
-        /// <summary>
-        /// Append asynchronously to the log file a description of the <see cref="Exception"/> occurred
-        /// </summary>
-        /// <param name="ex">The exception to log</param>
-        /// <returns>The async <see cref="Task"/></returns>
-        /// <remarks>
-        /// The entry will be saved <b>only</b> if it differs from
-        /// the last one saved in the log file (i.e. different type <b>and</b>
-        /// different message <b>and</b> different stack trace)!
-        /// </remarks>
-        public static async Task LogAsync(Exception ex)
-        {
-            bool negatedFlag = CheckException(ex);
-
-            if (!negatedFlag || !IsSameExceptionAsTheLast(ex))
-            {
-                ExceptionEntry entry = BuildLogEntry(ex);
-                await AppendTextAsync(entry);
-            }
         }
 
         /// <summary>
@@ -706,40 +774,6 @@ namespace Diagnostic
         }
 
         /// <summary>
-        /// Set the <see cref="MinimumSeverityLevel"/> <see cref="Severity"/> to log.
-        /// (i.e. all the entry with a lower severity will not be logged)
-        /// </summary>
-        /// <remarks>
-        /// Note that the minimum level of the logged entry can't be
-        /// higher than <see cref="Severity.Info"/> (i.e. entry of level
-        /// <see cref="Severity.Warn"/>, <see cref="Severity.Error"/> and
-        /// <see cref="Severity.Fatal"/> will always be logged. <br/>
-        /// The <see cref="Severity"/> level is defined as follows (from lower to higher):
-        /// <see cref="Severity.Trace"/>, <see cref="Severity.Debug"/>,
-        /// <see cref="Severity.Info"/>, <see cref="Severity.Warn"/>,
-        /// <see cref="Severity.Error"/>, <see cref="Severity.Fatal"/>
-        /// </remarks>
-        /// <param name="level">The <see cref="Severity"/> level</param>
-        public static void SetMinimumSeverityLevel(Severity level)
-        {
-            Severity oldSeverity = minimumSeverityLevel;
-
-            if ((int)level < (int)Severity.Warn)
-                minimumSeverityLevel = level;
-            else
-                minimumSeverityLevel = Severity.Warn;
-
-            if (oldSeverity != minimumSeverityLevel)
-            {
-                Log(
-                    $"Minimum level set from {GetReadableSeverityAsString(oldSeverity)} " +
-                    $"to {GetReadableSeverityAsString(minimumSeverityLevel)}.",
-                    severity: Severity.Warn
-                );
-            }
-        }
-
-        /// <summary>
         /// Test if the entry to log has an higher (or equal) <see cref="Severity"/>
         /// level than the <see cref="MinimumSeverityLevel"/> set
         /// </summary>
@@ -754,9 +788,6 @@ namespace Diagnostic
             return isHigher;
         }
 
-        public static void Info()
-        {
-            throw new NotImplementedException();
-        }
+        #endregion Helper methods
     }
 }
