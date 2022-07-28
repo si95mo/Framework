@@ -50,40 +50,37 @@ public sealed class DynamicJsonConverter : JavaScriptConverter
 
     private sealed class DynamicJsonObject : DynamicObject
     {
-        private readonly IDictionary<string, object> _dictionary;
+        private readonly IDictionary<string, object> dictionary;
 
         public DynamicJsonObject(IDictionary<string, object> dictionary)
         {
-            if (dictionary == null)
-                throw new ArgumentNullException("dictionary");
-            _dictionary = dictionary;
+            this.dictionary = dictionary ?? throw new ArgumentNullException("dictionary");
         }
 
         public override string ToString()
         {
             var sb = new StringBuilder("{");
             ToString(sb);
+
             return sb.ToString();
         }
 
         private void ToString(StringBuilder sb)
         {
-            var firstInDictionary = true;
-            foreach (var pair in _dictionary)
+            bool firstInDictionary = true;
+            foreach (var pair in dictionary)
             {
                 if (!firstInDictionary)
                     sb.Append(",");
+
                 firstInDictionary = false;
-                var value = pair.Value;
-                var name = pair.Key;
+                object value = pair.Value;
+                string name = pair.Key;
+
                 if (value is string)
-                {
                     sb.AppendFormat("{0}:\"{1}\"", name, value);
-                }
                 else if (value is IDictionary<string, object>)
-                {
                     new DynamicJsonObject((IDictionary<string, object>)value).ToString(sb);
-                }
                 else if (value is ArrayList)
                 {
                     sb.Append(name + ":[");
@@ -92,7 +89,9 @@ public sealed class DynamicJsonConverter : JavaScriptConverter
                     {
                         if (!firstInArray)
                             sb.Append(",");
+
                         firstInArray = false;
+
                         if (arrayValue is IDictionary<string, object>)
                             new DynamicJsonObject((IDictionary<string, object>)arrayValue).ToString(sb);
                         else if (arrayValue is string)
@@ -103,16 +102,14 @@ public sealed class DynamicJsonConverter : JavaScriptConverter
                     sb.Append("]");
                 }
                 else
-                {
                     sb.AppendFormat("{0}:{1}", name, value);
-                }
             }
             sb.Append("}");
         }
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
-            if (!_dictionary.TryGetValue(binder.Name, out result))
+            if (!dictionary.TryGetValue(binder.Name, out result))
             {
                 // return null to avoid exception.  caller can check for null this way...
                 result = null;
@@ -127,7 +124,7 @@ public sealed class DynamicJsonConverter : JavaScriptConverter
         {
             if (indexes.Length == 1 && indexes[0] != null)
             {
-                if (!_dictionary.TryGetValue(indexes[0].ToString(), out result))
+                if (!dictionary.TryGetValue(indexes[0].ToString(), out result))
                 {
                     // return null to avoid exception.  caller can check for null this way...
                     result = null;
@@ -143,16 +140,15 @@ public sealed class DynamicJsonConverter : JavaScriptConverter
 
         private static object WrapResultObject(object result)
         {
-            var dictionary = result as IDictionary<string, object>;
+            IDictionary<string, object> dictionary = result as IDictionary<string, object>;
             if (dictionary != null)
                 return new DynamicJsonObject(dictionary);
 
-            var arrayList = result as ArrayList;
+            ArrayList arrayList = result as ArrayList;
             if (arrayList != null && arrayList.Count > 0)
             {
-                return arrayList[0] is IDictionary<string, object>
-                    ? new List<object>(arrayList.Cast<IDictionary<string, object>>().Select(x => new DynamicJsonObject(x)))
-                    : new List<object>(arrayList.Cast<object>());
+                return arrayList[0] is IDictionary<string, object> ? 
+                    new List<object>(arrayList.Cast<IDictionary<string, object>>().Select(x => new DynamicJsonObject(x))) : new List<object>(arrayList.Cast<object>());
             }
 
             return result;
