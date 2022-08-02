@@ -8,45 +8,60 @@ namespace Database
     /// <summary>
     /// Implement database-related functionalities
     /// </summary>
-    /// <remarks>This class only works with one database connection at time. For multiple (and simultaneous connections see <see cref="Database"/>)</remarks>
-    public class DatabaseManager
+    public class Database
     {
-        private static SqlConnection connection;
+        private SqlConnection connection;
 
         /// <summary>
         /// The open state of the connection
         /// </summary>
-        public static bool IsConnected => connection.State == System.Data.ConnectionState.Open;
+        public bool IsConnected => connection.State == System.Data.ConnectionState.Open;
 
         /// <summary>
-        /// Initialize the <see cref="DatabaseManager"/> connection
+        /// Create a new instance of <see cref="Database"/>
         /// </summary>
         /// <param name="connectionString">The connection <see cref="string"/></param>
-        public static async Task Initialize(string connectionString)
+        public Database(string connectionString)
         {
             connection = new SqlConnection(connectionString);
+        }
+
+        /// <summary>
+        /// Create a new instance of <see cref="Database"/>
+        /// </summary>
+        /// <param name="connectionBuilder">The <see cref="SqlConnectionStringBuilder"/></param>
+        public Database(SqlConnectionStringBuilder connectionBuilder) : this(connectionBuilder.ConnectionString)
+        { }
+
+        /// <summary>
+        /// Initialize the connection to the database
+        /// </summary>
+        /// <returns>The (async) <see cref="Task{TResult}"/> (of which the result will be <see langword="true"/> if connected, <see langword="false"/> otherwise</returns>
+        public async Task<bool> InitializeConnection()
+        {
             await connection.OpenAsync();
 
             SqlCommand command = new SqlCommand("SELECT @@VERSION", connection);
             string version = command.ExecuteScalar().ToString();
 
+            bool connected;
             if (IsConnected)
+            {
                 await Logger.InfoAsync($"Database connection initialized. Version: {version}");
+                connected = true;
+            }
             else
+            {
                 await Logger.ErrorAsync("Database connection not initialzed on Initialize(string connectionString) method!");
-        }
+                connected = false;
+            }
 
-        /// <summary>
-        /// Initialize the <see cref="DatabaseManager"/> connection
-        /// </summary>
-        /// <param name="sqlConnectionBuilder">The <see cref="SqlConnectionStringBuilder"/></param>
-        public static async Task Initialize(SqlConnectionStringBuilder sqlConnectionBuilder)
-            => await Initialize(sqlConnectionBuilder.ConnectionString);
+            return connected;
+        }/// <summary>
 
-        /// <summary>
-        /// Close the <see cref="DatabaseManager"/> connection
-        /// </summary>
-        public static void Close()
+         /// Close the <see cref="DatabaseManager"/> connection
+         /// </summary>
+        public void Close()
         {
             connection.Close();
 
@@ -72,7 +87,7 @@ namespace Database
         /// named, for example, description, as: <br/>
         /// descriptionValue = sqlReader["description"].ToString();
         /// </remarks>
-        public static async Task<SqlDataReader> Select(string select, string from, string where = "", string other = "")
+        public async Task<SqlDataReader> Select(string select, string from, string where = "", string other = "")
         {
             string query = $"SELECT {select} FROM {from}";
 
@@ -103,7 +118,7 @@ namespace Database
         /// of (<see cref="string"/>, <see cref="object"/>) = (column name, value to insert), <br/>
         /// with the column name with an '@' at the beginning (e.g. "@description")
         /// </remarks>
-        public static async Task<bool> InsertInto(string where, string what, params (string Name, object Value)[] values)
+        public async Task<bool> InsertInto(string where, string what, params (string Name, object Value)[] values)
         {
             string valueNames = "";
             for (int i = 0; i < values.Length; i++)
@@ -135,7 +150,7 @@ namespace Database
         /// <remarks>
         /// If the query does not strictly affect any rows, the returned value is -1
         /// </remarks>
-        public static async Task<int> Query(string query)
+        public async Task<int> Query(string query)
         {
             SqlCommand command = new SqlCommand(query, connection);
             int affectedRows = await command.ExecuteNonQueryAsync();
@@ -152,7 +167,7 @@ namespace Database
         /// <remarks>
         /// If the query does not strictly affect any rows, the returned value is -1
         /// </remarks>
-        public static async Task<int> ExcuteQueryFromPath(string path)
+        public async Task<int> ExcuteQueryFromPath(string path)
         {
             int affectedRows = -1;
 
@@ -170,7 +185,7 @@ namespace Database
         /// </summary>
         /// <param name="databaseName">The database name to check</param>
         /// <returns><see langword="true"/> if the database exists, <see langword="false"/> otherwise</returns>
-        public static async Task<bool> CheckIfDatabaseExists(string databaseName)
+        public async Task<bool> CheckIfDatabaseExists(string databaseName)
         {
             string query = string.Format("SELECT database_id FROM sys.databases WHERE Name='{0}'", databaseName);
 

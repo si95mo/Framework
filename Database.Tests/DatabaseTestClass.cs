@@ -13,7 +13,7 @@ namespace Database.Tests
         public async Task Setup()
         {
             await DatabaseManager.Initialize(@"Server=localhost\SQLEXPRESS;Database=dummy;Trusted_Connection=True;MultipleActiveResultSets=True");
-            DatabaseManager.IsConnectionOpen.Should().BeTrue();
+            DatabaseManager.IsConnected.Should().BeTrue();
         }
 
         [OneTimeTearDown]
