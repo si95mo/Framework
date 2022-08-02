@@ -36,6 +36,13 @@ namespace Database
         }
 
         /// <summary>
+        /// Initialize the <see cref="DatabaseManager"/> connection
+        /// </summary>
+        /// <param name="sqlConnectionBuilder">The <see cref="SqlConnectionStringBuilder"/></param>
+        public static async Task Initialize(SqlConnectionStringBuilder sqlConnectionBuilder)
+            => await Initialize(sqlConnectionBuilder.ConnectionString);
+
+        /// <summary>
         /// Close the <see cref="DatabaseManager"/> connection
         /// </summary>
         public static void Close()
