@@ -58,7 +58,7 @@ namespace Database
 
             return connected;
         }
-        
+
         /// <summary>
         /// Close the <see cref="DatabaseManager"/> connection
         /// </summary>

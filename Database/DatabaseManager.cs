@@ -70,7 +70,7 @@ namespace Database
         /// <see langword="false"/> otherwise
         /// </returns>
         /// <remarks>
-        /// The <paramref name="values"/> must be (an array) of tuples in the form of (<see cref="string"/>, <see cref="object"/>) = (column name, value to insert), 
+        /// The <paramref name="values"/> must be (an array) of tuples in the form of (<see cref="string"/>, <see cref="object"/>) = (column name, value to insert),
         /// with the column name with an '@' at the beginning (e.g. "@description")
         /// </remarks>
         public static async Task<bool> InsertInto(string where, string what, params (string Name, object Value)[] values)

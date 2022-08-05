@@ -153,7 +153,7 @@ namespace Diagnostic
         public static string Path => path;
 
         /// <summary>
-        /// Define whether the <see cref="Logger"/> has been initialized by calling <see cref="Initialize(string, int)"/> - 
+        /// Define whether the <see cref="Logger"/> has been initialized by calling <see cref="Initialize(string, int)"/> -
         /// <see langword="true"/> - or not - <see langword="false"/>
         /// </summary>
         public static bool Initialized => initialized;
@@ -166,7 +166,7 @@ namespace Diagnostic
         /// Initialize the logger with the specified parameters
         /// </summary>
         /// <remarks>
-        /// If the <paramref name="daysOfLogsToKeepSaved"/> is equal to -1 no log file will be deleted (i.e. all the logs will be kept saved in the disk), 
+        /// If the <paramref name="daysOfLogsToKeepSaved"/> is equal to -1 no log file will be deleted (i.e. all the logs will be kept saved in the disk),
         /// otherwise logs older than the actual day minus the time span specified will be deleted (e.g. if today is 10/01/2021 and
         /// <paramref name="daysOfLogsToKeepSaved"/> is 10, then all the logs up to 30/12/2020 will be deleted)
         /// </remarks>
@@ -226,7 +226,7 @@ namespace Diagnostic
         /// <remarks>
         /// Note that the minimum level of the logged entry can't be higher than <see cref="Severity.Info"/> (i.e. entry of level
         /// <see cref="Severity.Warn"/>, <see cref="Severity.Error"/> and <see cref="Severity.Fatal"/> will always be logged). <br/>
-        /// The <see cref="Severity"/> level is defined as follows (from lower to higher): <see cref="Severity.Trace"/>, 
+        /// The <see cref="Severity"/> level is defined as follows (from lower to higher): <see cref="Severity.Trace"/>,
         /// <see cref="Severity.Debug"/>, <see cref="Severity.Info"/>, <see cref="Severity.Warn"/>, <see cref="Severity.Error"/> and <see cref="Severity.Fatal"/>
         /// </remarks>
         /// <param name="level">The <see cref="Severity"/> level</param>
