@@ -36,8 +36,7 @@ namespace Diagnostic
         /// Higher level of <see cref="Severity"/> than <see cref="Severity.Info"/>
         /// </summary>
         /// <remarks>
-        /// This level of <see cref="Severity"/> cannot be disabled.
-        /// See <see cref="Logger.SetMinimumSeverityLevel(Severity)"/>
+        /// This level of <see cref="Severity"/> cannot be disabled. See <see cref="Logger.SetMinimumSeverityLevel(Severity)"/>
         /// </remarks>
         Warn = 3,
 
@@ -46,8 +45,7 @@ namespace Diagnostic
         /// Higher level of <see cref="Severity"/> than <see cref="Severity.Warn"/>
         /// </summary>
         /// <remarks>
-        /// This level of <see cref="Severity"/> cannot be disabled.
-        /// See <see cref="Logger.SetMinimumSeverityLevel(Severity)"/>
+        /// This level of <see cref="Severity"/> cannot be disabled. See <see cref="Logger.SetMinimumSeverityLevel(Severity)"/>
         /// </remarks>
         Error = 4,
 
@@ -56,8 +54,7 @@ namespace Diagnostic
         /// Highest level of <see cref="Severity"/>
         /// </summary>
         /// <remarks>
-        /// This level of <see cref="Severity"/> cannot be disabled.
-        /// See <see cref="Logger.SetMinimumSeverityLevel(Severity)"/>
+        /// This level of <see cref="Severity"/> cannot be disabled. See <see cref="Logger.SetMinimumSeverityLevel(Severity)"/>
         /// </remarks>
         Fatal = 5
     }
@@ -228,9 +225,9 @@ namespace Diagnostic
         /// </summary>
         /// <remarks>
         /// Note that the minimum level of the logged entry can't be higher than <see cref="Severity.Info"/> (i.e. entry of level
-        /// <see cref="Severity.Warn"/>, <see cref="Severity.Error"/> and <see cref="Severity.Fatal"/> will always be logged. <br/>
+        /// <see cref="Severity.Warn"/>, <see cref="Severity.Error"/> and <see cref="Severity.Fatal"/> will always be logged). <br/>
         /// The <see cref="Severity"/> level is defined as follows (from lower to higher): <see cref="Severity.Trace"/>, 
-        /// <see cref="Severity.Debug"/>, <see cref="Severity.Info"/>, <see cref="Severity.Warn"/>, <see cref="Severity.Error"/>, <see cref="Severity.Fatal"/>
+        /// <see cref="Severity.Debug"/>, <see cref="Severity.Info"/>, <see cref="Severity.Warn"/>, <see cref="Severity.Error"/> and <see cref="Severity.Fatal"/>
         /// </remarks>
         /// <param name="level">The <see cref="Severity"/> level</param>
         public static void SetMinimumSeverityLevel(Severity level)
@@ -601,8 +598,7 @@ namespace Diagnostic
         /// Check if an <see cref="Exception"/> has already been logged
         /// </summary>
         /// <param name="ex">The <see cref="Exception"/> to check</param>
-        /// <returns><see langword="false"/> if an <see cref="Exception"/> has not yet been logged,
-        /// <see langword="true"/> otherwise (negated logic)</returns>
+        /// <returns><see langword="false"/> if an <see cref="Exception"/> has not yet been logged, <see langword="true"/> otherwise (negated logic)</returns>
         private static bool CheckException(Exception ex)
         {
             bool negatedFlag;
@@ -621,20 +617,17 @@ namespace Diagnostic
         }
 
         /// <summary>
-        /// Append text on the log file.
-        /// See <see cref="FileHandler.Save(string, string, SaveMode)"/>.
+        /// Append text on the log file. See <see cref="FileHandler.Save(string, string, SaveMode)"/>.
         /// </summary>
         /// <param name="text">The text to append</param>
         private static void AppendText(string text)
             => Save(text, path, SaveMode.Append);
 
         /// <summary>
-        /// Append text on the log file asynchronously.
-        /// See <see cref="FileHandler.SaveAsync(string, string, SaveMode)"/>
+        /// Append text on the log file asynchronously. See <see cref="FileHandler.SaveAsync(string, string, SaveMode)"/>
         /// </summary>
         /// <param name="text">The text to append</param>
-        /// <param name="hasToWait"><see langword="true"/> if the task has to wait
-        /// for a semaphore, <see langword="false"/> otherwise</param>
+        /// <param name="hasToWait"><see langword="true"/> if the task has to wait for a semaphore, <see langword="false"/> otherwise</param>
         /// <returns>The async <see cref="Task"/></returns>
         private static async Task AppendTextAsync(string text, bool hasToWait = true)
         {
@@ -664,7 +657,7 @@ namespace Diagnostic
         /// <returns>The async <see cref="Task"/></returns>
         private static async Task AppendTextAsync(ExceptionEntry entry)
         {
-            // Here, hasToAwait has been set to false because the method enter the semaphore once and the release it
+            // Here, hasToAwait has been set to false because the method enter the semaphore once and then release it
             // at the end of all the operations. So, there's no need to await another time inside the AppendTextAsync method!
             await semaphore.WaitAsync();
 
@@ -714,8 +707,7 @@ namespace Diagnostic
         }
 
         /// <summary>
-        /// Convert the <see cref="Severity"/> of the entry to log in a readable <see cref="string"/>
-        /// (i.e. removing all unnecessary characters as white spaces)
+        /// Convert the <see cref="Severity"/> of the entry to log in a readable <see cref="string"/> (i.e. removing all unnecessary characters as white spaces)
         /// </summary>
         /// <param name="severity"> The severity (<see cref="Severity"/>) of the entry </param>
         /// <returns>The <see cref="string"/> result of the conversion</returns>
@@ -756,8 +748,7 @@ namespace Diagnostic
         /// </list>
         /// </summary>
         /// <param name="ex">The <see cref="Exception"/>to test </param>
-        /// <returns><see langword="true"/> if is the new <see cref="Exception"/> is equal to the last one,
-        /// <see langword="false"/> otherwise</returns>
+        /// <returns><see langword="true"/> if is the new <see cref="Exception"/> is equal to the last one, <see langword="false"/> otherwise</returns>
         private static bool IsSameExceptionAsTheLast(Exception ex)
         {
             bool isSameException = ex.GetType() == lastException.GetType();
@@ -768,14 +759,10 @@ namespace Diagnostic
         }
 
         /// <summary>
-        /// Test if the entry to log has an higher (or equal) <see cref="Severity"/>
-        /// level than the <see cref="MinimumSeverityLevel"/> set
+        /// Test if the entry to log has an higher (or equal) <see cref="Severity"/> level than the <see cref="MinimumSeverityLevel"/> set
         /// </summary>
         /// <param name="level">The <see cref="Severity"/> level to test</param>
-        /// <returns>
-        /// <see langword="true"/> if the level to test is higher (or equals)
-        /// to <see cref="MinimumSeverityLevel"/>, <see langword="false"/> otherwise
-        /// </returns>
+        /// <returns> <see langword="true"/> if the level to test is higher (or equals) to <see cref="MinimumSeverityLevel"/>, <see langword="false"/> otherwise </returns>
         private static bool HasHigherSeverityLevel(Severity level)
         {
             bool isHigher = (int)minimumSeverityLevel <= (int)level;
