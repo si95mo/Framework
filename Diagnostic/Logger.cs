@@ -156,9 +156,8 @@ namespace Diagnostic
         public static string Path => path;
 
         /// <summary>
-        /// Define whether the <see cref="Logger"/> has been initialized
-        /// by calling <see cref="Initialize(string, int)"/> - <see langword="true"/> -
-        /// or not - <see langword="false"/>
+        /// Define whether the <see cref="Logger"/> has been initialized by calling <see cref="Initialize(string, int)"/> - 
+        /// <see langword="true"/> - or not - <see langword="false"/>
         /// </summary>
         public static bool Initialized => initialized;
 
@@ -169,16 +168,16 @@ namespace Diagnostic
         /// <summary>
         /// Initialize the logger with the specified parameters
         /// </summary>
-        /// <remarks>If the <paramref name="timeSpanAsDays"/> is equal to -1 no log file will be deleted (i.e. all
-        /// the logs will be kept saved in the disk), otherwise logs older than the actual day
-        /// minus the time span specified will be deleted (e.g. if today is 10/01/2021 and
-        /// <paramref name="timeSpanAsDays"/> is 10, then all the logs up to
-        /// 30/12/2020 will be deleted)</remarks>
+        /// <remarks>
+        /// If the <paramref name="daysOfLogsToKeepSaved"/> is equal to -1 no log file will be deleted (i.e. all the logs will be kept saved in the disk), 
+        /// otherwise logs older than the actual day minus the time span specified will be deleted (e.g. if today is 10/01/2021 and
+        /// <paramref name="daysOfLogsToKeepSaved"/> is 10, then all the logs up to 30/12/2020 will be deleted)
+        /// </remarks>
         /// <param name="logPath">The path of the log file</param>
-        /// <param name="timeSpanAsDays">The time span of daily logs to keep saved (expressed in days); -1 equals no file deleted</param>
-        public static void Initialize(string logPath = "logs\\", int timeSpanAsDays = -1)
+        /// <param name="daysOfLogsToKeepSaved">The number of days of logs to keep saved up to now; -1 equals no file deleted</param>
+        public static void Initialize(string logPath = "logs\\", int daysOfLogsToKeepSaved = -1)
         {
-            DeleteOldLogs(logPath, timeSpanAsDays);
+            DeleteOldLogs(logPath, daysOfLogsToKeepSaved);
 
             string now = DateTime.Now.ToString("yyyy-MM-dd");
             path = logPath + $"{now}.log";
