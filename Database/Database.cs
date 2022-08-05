@@ -80,13 +80,10 @@ namespace Database
         /// <param name="where">The where parameter of the query (conditions)</param>
         /// <param name="other">Other parameters (e.g. "ORDER BY id DESC")</param>
         /// <returns>
-        /// The <see cref="SqlDataReader"/>, in which data can be accessed
-        /// with the relative column name
+        /// The <see cref="SqlDataReader"/>, in which data can be accessed with the relative column name
         /// </returns>
         /// <remarks>
-        /// The <see cref="SqlDataReader"/> can be accessed, if there is a column
-        /// named, for example, description, as: <br/>
-        /// descriptionValue = sqlReader["description"].ToString();
+        /// The <see cref="SqlDataReader"/> can be accessed, if there is a column named, for example, description, as descriptionValue = sqlReader["description"].ToString();
         /// </remarks>
         public async Task<SqlDataReader> Select(string select, string from, string where = "", string other = "")
         {
@@ -115,8 +112,7 @@ namespace Database
         /// <see langword="false"/> otherwise
         /// </returns>
         /// <remarks>
-        /// The <paramref name="values"/> must be (an array) of tuples in the form
-        /// of (<see cref="string"/>, <see cref="object"/>) = (column name, value to insert), <br/>
+        /// The <paramref name="values"/> must be (an array) of tuples in the form of (<see cref="string"/>, <see cref="object"/>) = (column name, value to insert),
         /// with the column name with an '@' at the beginning (e.g. "@description")
         /// </remarks>
         public async Task<bool> InsertInto(string where, string what, params (string Name, object Value)[] values)
@@ -143,8 +139,7 @@ namespace Database
 
         /// <summary>
         /// Execute e generic query to the <see cref="DatabaseManager"/>. <br/>
-        /// See also <see cref="SqlCommand.ExecuteNonQuery"/> and
-        /// <see cref="SqlCommand.ExecuteNonQueryAsync(System.Threading.CancellationToken)"/>
+        /// See also <see cref="SqlCommand.ExecuteNonQuery"/> and <see cref="SqlCommand.ExecuteNonQueryAsync(System.Threading.CancellationToken)"/>
         /// </summary>
         /// <param name="query">The generic query</param>
         /// <returns>The number of affected rows</returns>
