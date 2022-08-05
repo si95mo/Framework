@@ -57,10 +57,11 @@ namespace Database
             }
 
             return connected;
-        }/// <summary>
-
-         /// Close the <see cref="DatabaseManager"/> connection
-         /// </summary>
+        }
+        
+        /// <summary>
+        /// Close the <see cref="DatabaseManager"/> connection
+        /// </summary>
         public void Close()
         {
             connection.Close();
