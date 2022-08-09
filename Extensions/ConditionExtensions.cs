@@ -127,5 +127,20 @@ namespace Extensions
         /// <param name="orCondition">The <see cref="FlyweightCondition"/> result of the <see cref="Or(ICondition, ICondition)"/> method</param>
         private static void UpdateOrCondition(ICondition changedCondition, FlyweightCondition orCondition)
             => orCondition.Value |= changedCondition.Value;
+
+        /// <summary>
+        /// Create a new <see cref="ICondition"/> that will be <see langword="true"/> when <paramref name="property"/> will be in range
+        /// </summary>
+        /// <param name="property">The <see cref="IProperty{T}"/></param>
+        /// <param name="minimum">The range minimum</param>
+        /// <param name="maximum">The range maximum</param>
+        /// <param name="isMinimumExcluded">The minimum excluded option in the range check</param>
+        /// <param name="isMaximumExcluded">The maximum excluded option in the range check</param>
+        /// <returns>The new <see cref="ICondition"/></returns>
+        public static ICondition IsInRange(IProperty<double> property, double minimum, double maximum, bool isMinimumExcluded = false, bool isMaximumExcluded = false)
+        {
+            PropertyValueInRange condition = new PropertyValueInRange($"{property.Code}.IsInRange", property, minimum, maximum, isMinimumExcluded, isMaximumExcluded);
+            return condition;
+        }
     }
 }

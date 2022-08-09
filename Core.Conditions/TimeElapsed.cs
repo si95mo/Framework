@@ -31,6 +31,8 @@ namespace Core.Conditions
         /// </summary>
         public BoolParameter Started { get; private set; }
 
+        #region Constructors
+
         /// <summary>
         /// Create a new instance of <see cref="TimeElapsed"/>
         /// </summary>
@@ -65,6 +67,10 @@ namespace Core.Conditions
         /// <summary>
         /// Create a new instance of <see cref="TimeElapsed"/>
         /// </summary>
+        /// <remarks>
+        /// The type of instance of <see cref="TimeElapsed"/> created with this type of constructor is totally automated and does
+        /// not became <see langword="true"/> after a certain amount of time passed, but only when 2 other <see cref="ICondition"/> switch to <see langword="true"/>
+        /// </remarks>
         /// <param name="code">The code</param>
         /// <param name="startCondition">The <see cref="ICondition"/> that will start the timer when will become <see langword="true"/></param>
         /// <param name="endCondition">The <see cref="ICondition"/> that will stop the timer when will become <see langword="true"/></param>
@@ -79,16 +85,9 @@ namespace Core.Conditions
             endCondition.ValueChanged += EndCondition_ValueChanged;
         }
 
-        /// <summary>
-        /// Initialize specific class parameters
-        /// </summary>
-        /// <param name="time">The <see cref="Condition"/> time</param>
-        private void InitializeParameters(TimeSpan time)
-        {
-            Time = new TimeSpanParameter($"{Code}.{nameof(Time)}", time);
-            Started = new BoolParameter($"{Code}.{nameof(Started)}", false);
-            ElapsedTime = new TimeSpanParameter($"{Code}.{nameof(ElapsedTime)}", 0d);
-        }
+        #endregion Constructors
+
+        #region Event handlers
 
         private void StartCondition_ValueChanged(object sender, ValueChangedEventArgs e)
         {
@@ -105,6 +104,21 @@ namespace Core.Conditions
         {
             if ((bool)e.NewValue)
                 tokenSource.Cancel();
+        }
+
+        #endregion Event handlers
+
+        #region Private methods
+
+        /// <summary>
+        /// Initialize specific class parameters
+        /// </summary>
+        /// <param name="time">The <see cref="Condition"/> time</param>
+        private void InitializeParameters(TimeSpan time)
+        {
+            Time = new TimeSpanParameter($"{Code}.{nameof(Time)}", time);
+            Started = new BoolParameter($"{Code}.{nameof(Started)}", false);
+            ElapsedTime = new TimeSpanParameter($"{Code}.{nameof(ElapsedTime)}", 0d);
         }
 
         /// <summary>
@@ -175,6 +189,10 @@ namespace Core.Conditions
             return t;
         }
 
+        #endregion Private methods
+
+        #region Public methods
+
         /// <summary>
         /// Start the timer
         /// </summary>
@@ -183,5 +201,7 @@ namespace Core.Conditions
         /// </remarks>
         public void Start()
             => CreateTimerTask().Start();
+
+        #endregion Public methods
     }
 }
