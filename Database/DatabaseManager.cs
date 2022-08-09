@@ -6,7 +6,7 @@ namespace Database
     /// <summary>
     /// Implement database-related functionalities
     /// </summary>
-    /// <remarks>This class only works with one database connection at time. For multiple (and simultaneous connections see <see cref="Database"/>)</remarks>
+    /// <remarks>This class only works with one database connection at time. For multiple (and simultaneous) connections see <see cref="Database"/></remarks>
     public class DatabaseManager
     {
         private static Database database;
