@@ -192,6 +192,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messages", "Messages\Messag
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mathematics.Interpolation", "Mathematics.Interpolation\Mathematics.Interpolation.csproj", "{0352DD33-CD38-4A3C-B976-744E04DFB8C8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diagnostic.Report", "Diagnostic.Report\Diagnostic.Report.csproj", "{3F66C2AA-116B-4506-B130-09FD63162438}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -518,6 +520,10 @@ Global
 		{0352DD33-CD38-4A3C-B976-744E04DFB8C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0352DD33-CD38-4A3C-B976-744E04DFB8C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0352DD33-CD38-4A3C-B976-744E04DFB8C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F66C2AA-116B-4506-B130-09FD63162438}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F66C2AA-116B-4506-B130-09FD63162438}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F66C2AA-116B-4506-B130-09FD63162438}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F66C2AA-116B-4506-B130-09FD63162438}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -591,6 +597,7 @@ Global
 		{80A12FA0-67D7-46C1-8135-63C8697EB13F} = {6C1F336D-3B00-40B5-967F-F413B52CAC56}
 		{4D109BB1-F427-4C4E-8093-586D5AA31455} = {253BC509-7FA3-40EC-B528-732F961C55F9}
 		{0352DD33-CD38-4A3C-B976-744E04DFB8C8} = {6C42BBB3-9D9F-4CDD-927A-B41641B77BB7}
+		{3F66C2AA-116B-4506-B130-09FD63162438} = {FD407DD8-26D8-458B-A80F-234CD291E8DD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {94CEDAC4-5E2B-4E25-938D-AA666821B1F0}
