@@ -1,7 +1,7 @@
 ﻿using Core.Parameters;
 using LiveCharts;
+using LiveCharts.Helpers;
 using LiveCharts.Wpf;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -30,9 +30,9 @@ namespace UserInterface.Controls
         {
             InitializeComponent();
 
-            chart.DataTooltip.IsEnabled = false;
-            chart.DisableAnimations = true;
+            chart.DataTooltip = null;
             chart.Hoverable = false;
+            chart.DisableAnimations = true;
 
             updateTask = new Task(async () =>
                 {
@@ -65,19 +65,18 @@ namespace UserInterface.Controls
         private void UpdateChartSeries(double[] value)
         {
             series.Values.Clear();
-            value.ToList().ForEach(x => series.Values.Add(x));
+            series.Values = value.AsChartValues();
         }
 
+        /// <summary>
+        /// Set the <see cref="ChartControl"/> associated <see cref="NumericParameter"/>
+        /// </summary>
+        /// <param name="parameter">The <see cref="NumericParameter"/> to connect</param>
         public void SetParameter(NumericParameter parameter)
         {
-            InitChart(parameter.Code);
+            InitializeChart(parameter.Code);
 
-            numericParameter = new NumericParameter(
-                $"{parameter.Code}.ChartNumericParameter",
-                value: parameter.Value,
-                measureUnit: parameter.MeasureUnit,
-                format: parameter.Format
-            );
+            numericParameter = new NumericParameter($"{parameter.Code}.ChartNumericParameter", parameter.Value, parameter.MeasureUnit, parameter.Format);
             parameter.ConnectTo(numericParameter);
 
             if (waveformParameter != null)
@@ -87,16 +86,15 @@ namespace UserInterface.Controls
             numericParameter.ValueChanged += NumericParameter_ValueChanged;
         }
 
+        /// <summary>
+        /// Set the <see cref="ChartControl"/> associated <see cref="WaveformParameter"/>
+        /// </summary>
+        /// <param name="parameter">The <see cref="WaveformParameter"/> to connect</param>
         public void SetParameter(WaveformParameter parameter)
         {
-            InitChart(parameter.Code);
+            InitializeChart(parameter.Code);
 
-            waveformParameter = new WaveformParameter(
-                $"{parameter.Code}.ChartWaveformParameter",
-                value: parameter.Value,
-                measureUnit: parameter.MeasureUnit,
-                format: parameter.Format
-            );
+            waveformParameter = new WaveformParameter($"{parameter.Code}.ChartWaveformParameter", parameter.Value, parameter.MeasureUnit, parameter.Format);
             parameter.ConnectTo(waveformParameter);
 
             if (numericParameter != null)
@@ -110,7 +108,7 @@ namespace UserInterface.Controls
         /// Initialize the chart series
         /// </summary>
         /// <param name="seriesName">The series name</param>
-        private void InitChart(string seriesName)
+        private void InitializeChart(string seriesName)
         {
             series = new LineSeries()
             {
