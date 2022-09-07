@@ -8,8 +8,9 @@ using System.Windows.Forms;
 namespace UserInterface.Controls
 {
     /// <summary>
-    /// Implement a chart <see cref="UserControl"/> that display the values
-    /// of a <see cref="NumericParameter"/> or a <see cref="WaveformParameter"/>
+    /// Implement a chart <see cref="UserControl"/> that display the values of a <see cref="NumericParameter"/> or a <see cref="WaveformParameter"/>.
+    /// If the <see cref="ChartControl"/> should display static data (i.e. no <see cref="NumericParameter"/> or <see cref="WaveformParameter"/>), then use
+    /// <see cref="Series"/> to manipulate the <see cref="ChartControl"/>
     /// </summary>
     public partial class ChartControl : UserControl
     {
@@ -18,10 +19,24 @@ namespace UserInterface.Controls
         private NumericParameter numericParameter;
         private WaveformParameter waveformParameter;
 
-        private LineSeries series;
+        private Series series;
 
         private Task updateTask;
         private bool stopUpdateTask;
+
+        /// <summary>
+        /// The <see cref="LineSeries"/>
+        /// </summary>
+        public Series Series 
+        { 
+            get => series;
+            set
+            {
+                series = value;
+                chart.Series.Clear();
+                chart.Series.Add(series);
+            }
+        }
 
         /// <summary>
         /// Create a new instance of <see cref="ChartControl"/>
