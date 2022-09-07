@@ -2,6 +2,7 @@
 using LiveCharts;
 using LiveCharts.Helpers;
 using LiveCharts.Wpf;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -80,7 +81,7 @@ namespace UserInterface.Controls
         private void UpdateChartSeries(double[] value)
         {
             series.Values.Clear();
-            series.Values = value.AsChartValues();
+            value.ToList().ForEach(x => series.Values.Add(x));
         }
 
         /// <summary>
@@ -142,6 +143,6 @@ namespace UserInterface.Controls
             => UpdateChartSeries();
 
         private void WaveformParameter_ValueChanged(object sender, Core.ValueChangedEventArgs e)
-            => UpdateChartSeries(waveformParameter.Value);
+            => UpdateChartSeries((double[])e.NewValue);
     }
 }
