@@ -1,10 +1,13 @@
-﻿namespace Diagnostic.Report
+﻿using IO;
+using System.Threading.Tasks;
+
+namespace Diagnostic.Report
 {
     /// <summary>
     /// Define the type of record (i.e. the extension)
     /// </summary>
     public enum ReportExtension
-    { 
+    {
         /// <summary>
         /// The report will be saved as a txt
         /// </summary>
@@ -47,11 +50,18 @@
         protected readonly ReportExtension Extension;
 
         /// <summary>
+        /// The <see cref="ReportManager"/> file path
+        /// </summary>
+        public string File { get; protected set; }
+
+        /// <summary>
         /// Initialize the <see cref="ReportManager"/>
         /// </summary>
+        /// <param name="file">The report file path</param>
         /// <param name="extension">The <see cref="ReportExtension"/></param>
-        protected ReportManager(ReportExtension extension)
+        protected ReportManager(string file, ReportExtension extension)
         {
+            File = file;
             Extension = extension;
         }
 
@@ -63,7 +73,7 @@
         {
             string extension = ".";
 
-            switch(Extension)
+            switch (Extension)
             {
                 case ReportExtension.Txt:
                     extension += "txt";
@@ -92,5 +102,18 @@
 
             return extension;
         }
+
+        /// <summary>
+        /// Check if a file is locked
+        /// </summary>
+        /// <returns><see langword="true"/> if the <paramref name="file"/> is not locked, <see langword="false"/> otherwise</returns>
+        protected bool IsFileLocked() => IoUtility.IsFileLocked(File);
+
+        /// <summary>
+        /// Add an <see cref="IReportEntry"/> to the report
+        /// </summary>
+        /// <param name="entry">The <see cref="IReportEntry"/></param>
+        /// <returns>The <see cref="Task"/> that will add the <paramref name="entry"/></returns>
+        public abstract Task AddEntry(IReportEntry entry);
     }
 }
