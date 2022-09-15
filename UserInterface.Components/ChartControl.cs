@@ -33,9 +33,12 @@ namespace UserInterface.Controls
             get => series;
             set
             {
-                series = value;
-                chart.Series.Clear();
-                chart.Series.Add(series);
+                if (value != null)
+                {
+                    series = value;
+                    chart.Series.Clear();
+                    chart.Series.Add(series);
+                }
             }
         }
 
