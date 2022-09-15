@@ -178,7 +178,7 @@ namespace Diagnostic
 
             string now = DateTime.Now.ToString("yyyy-MM-dd");
             path = logPath + $"{now}.log";
-            IOUtility.CreateDirectoryIfNotExists(logPath);
+            IoUtility.CreateDirectoryIfNotExists(logPath);
 
             string data = null;
             if (File.Exists(path))

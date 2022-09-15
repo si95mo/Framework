@@ -39,7 +39,7 @@ namespace UserInterface.Dashboards
             }
             else
             {
-                IOUtility.CreateDirectoryIfNotExists("dashboards");
+                IoUtility.CreateDirectoryIfNotExists("dashboards");
 
                 string serializedDashboard = "";
                 List<DashboardControl> items = new List<DashboardControl>();

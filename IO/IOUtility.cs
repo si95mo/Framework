@@ -9,7 +9,7 @@ namespace IO
     /// Static class that adds extra functions to IO operation.
     /// <see cref="FileHandler"/>
     /// </summary>
-    public class IOUtility
+    public class IoUtility
     {
         /// <summary>
         /// Get to desktop folder.
@@ -50,7 +50,7 @@ namespace IO
         /// Create a directory if not exists at the path specified.
         /// </summary>
         /// <param name="path"> The path where to create the new folder </param>
-        /// <returns> <see langword="true"/>  if the directory has been created, <b>false</b> otherwise</returns>
+        /// <returns> <see langword="true"/> if the directory has been created, <see langword="false"/> otherwise</returns>
         public static bool CreateDirectoryIfNotExists(string path)
         {
             bool directoryCreated = false;
@@ -68,8 +68,7 @@ namespace IO
         /// Extract the icon from all files contained in the folder specified
         /// </summary>
         /// <param name="path"> The folder path </param>
-        /// <returns> A <see cref="List{T}"/> of <see cref="FileItem"/>
-        /// containing the name and the icon of each file </returns>
+        /// <returns> A <see cref="List{T}"/> of <see cref="FileItem"/> containing the name and the icon of each file </returns>
         public static List<FileItem> GetFileIcon(string path)
         {
             List<FileItem> items = new List<FileItem>(); // List of entries
@@ -83,5 +82,35 @@ namespace IO
 
             return items;
         }
+
+        /// <summary>
+        /// Check if a file is locked (i.e. used by another process)
+        /// </summary>
+        /// <param name="file">The <see cref="FileInfo"/></param>
+        /// <returns><see langword="true"/> if the <paramref name="file"/> is not locked, <see langword="false"/> otherwise</returns>
+        public static bool IsFileLocked(FileInfo file)
+        {
+            bool isLocked = false;
+            try
+            {
+                using (FileStream stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None))
+                {
+                    stream.Close();
+                }
+            }
+            catch (IOException)
+            {
+                isLocked = true;
+            }
+
+            return isLocked;
+        }
+
+        /// <summary>
+        /// Check if a file is locked (i.e. used by another process)
+        /// </summary>
+        /// <param name="file">The file path</param>
+        /// <returns><see langword="true"/> if the <paramref name="file"/> is not locked, <see langword="false"/> otherwise</returns>
+        public static bool IsFileLocked(string file) => IsFileLocked(new FileInfo(file));
     }
 }

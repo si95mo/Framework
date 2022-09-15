@@ -48,11 +48,11 @@ namespace Core.Converters.Tests
                 if (saveFiles)
                 {
                     FileHandler.Save(
-                        $"{ai.Value:F6}", IOUtility.GetDesktopFolder() + @"\test_results\raw_simple.log",
+                        $"{ai.Value:F6}", IoUtility.GetDesktopFolder() + @"\test_results\raw_simple.log",
                         FileHandler.SaveMode.Append
                     );
                     FileHandler.Save(
-                        $"{npSimple.Value:F6}", IOUtility.GetDesktopFolder() + @"\test_results\filtered_simple.log",
+                        $"{npSimple.Value:F6}", IoUtility.GetDesktopFolder() + @"\test_results\filtered_simple.log",
                         FileHandler.SaveMode.Append
                     );
                 }
@@ -74,11 +74,11 @@ namespace Core.Converters.Tests
                 if (saveFiles)
                 {
                     FileHandler.Save(
-                        $"{ai.Value:F6}", IOUtility.GetDesktopFolder() + @"\test_results\raw_exp.log",
+                        $"{ai.Value:F6}", IoUtility.GetDesktopFolder() + @"\test_results\raw_exp.log",
                         FileHandler.SaveMode.Append
                     );
                     FileHandler.Save(
-                        $"{npExponential.Value:F6}", IOUtility.GetDesktopFolder() + @"\test_results\filtered_exp.log",
+                        $"{npExponential.Value:F6}", IoUtility.GetDesktopFolder() + @"\test_results\filtered_exp.log",
                         FileHandler.SaveMode.Append
                     );
                 }
