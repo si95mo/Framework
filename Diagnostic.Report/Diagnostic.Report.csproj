@@ -49,6 +49,7 @@
     <Compile Include="HtmlExtensionMethods.cs" />
     <Compile Include="HtmlReportManager.cs" />
     <Compile Include="IReportEntry.cs" />
+    <Compile Include="IReportManager.cs" />
     <Compile Include="JsonReportManager.cs" />
     <Compile Include="ReportEntry.cs" />
     <Compile Include="ReportManager.cs" />

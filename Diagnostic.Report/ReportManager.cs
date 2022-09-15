@@ -5,51 +5,12 @@ using static IO.FileHandler;
 namespace Diagnostic.Report
 {
     /// <summary>
-    /// Define the type of record (i.e. the extension)
+    /// Define a generic report manager (i.e. log a measure or a message that is not log-related to a file). See <see cref="IReportManager"/>
     /// </summary>
-    public enum ReportExtension
+    public abstract class ReportManager : IReportManager
     {
-        /// <summary>
-        /// The report will be saved as a txt
-        /// </summary>
-        Txt = 0,
+        #region Constants
 
-        /// <summary>
-        /// The report will be saved as a csv
-        /// </summary>
-        Csv = 1,
-
-        /// <summary>
-        /// The report will be saved as an xslx
-        /// </summary>
-        Xlsx = 2,
-
-        /// <summary>
-        /// The report will be saved as a pdf
-        /// </summary>
-        Pdf = 3,
-
-        /// <summary>
-        /// The report will be saved as a html
-        /// </summary>
-        Html = 4,
-
-        /// <summary>
-        /// The report will be saved as an xml
-        /// </summary>
-        Xml = 5,
-
-        /// <summary>
-        /// The report will be saved as a json
-        /// </summary>
-        Json = 6
-    }
-
-    /// <summary>
-    /// Define a generic report manager (i.e. log a measure or a message that is not log-related to a file)
-    /// </summary>
-    public abstract class ReportManager
-    {
         /// <summary>
         /// The report file base folder (without slash)
         /// </summary>
@@ -60,20 +21,15 @@ namespace Diagnostic.Report
         /// </summary>
         protected const int MaximumNumberOfRetries = 3;
 
-        /// <summary>
-        /// The <see cref="ReportManager"/> extension
-        /// </summary>
-        protected readonly ReportExtension Extension;
+        #endregion Constants
 
-        /// <summary>
-        /// The <see cref="ReportManager"/> file name
-        /// </summary>
+        #region IReportManager fields
+
+        public ReportExtension Extension { get; protected set; }
         public string FileName { get; protected set; }
-
-        /// <summary>
-        /// The report file path
-        /// </summary>
         public string Path { get; protected set; }
+
+        #endregion IReportManager fields
 
         /// <summary>
         /// Initialize the <see cref="ReportManager"/>
@@ -88,6 +44,19 @@ namespace Diagnostic.Report
             IoUtility.CreateDirectoryIfNotExists("reports");
             Path = $"{BaseFolder}\\{FileName}.{EnumToExtension()}";
         }
+
+        #region IReportManager methods (abstract)
+
+        /// <summary>
+        /// Add an <see cref="IReportEntry"/> to the report
+        /// </summary>
+        /// <param name="entry">The <see cref="IReportEntry"/></param>
+        /// <returns>The <see cref="Task"/> that will add the <paramref name="entry"/></returns>
+        public abstract Task<bool> AddEntry(IReportEntry entry);
+
+        #endregion IReportManager methods (abstract)
+
+        #region Protected methods
 
         /// <summary>
         /// Convert a <see cref="ReportExtension"/> to the relative extension with the dot (e.g. <see cref="ReportExtension.Txt"/> will be converted in ".txt")
@@ -158,11 +127,6 @@ namespace Diagnostic.Report
             return fileUnlocked;
         }
 
-        /// <summary>
-        /// Add an <see cref="IReportEntry"/> to the report
-        /// </summary>
-        /// <param name="entry">The <see cref="IReportEntry"/></param>
-        /// <returns>The <see cref="Task"/> that will add the <paramref name="entry"/></returns>
-        public abstract Task<bool> AddEntry(IReportEntry entry);
+        #endregion Protected methods
     }
 }
