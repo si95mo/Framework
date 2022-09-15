@@ -28,7 +28,6 @@ namespace Diagnostic.Report
             bool succeded = await SaveEntryTextAsync(text, SaveMode.Overwrite); // This method always overwrite the report file and recreate the table
 
             return succeded;
-
         }
     }
 }
