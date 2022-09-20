@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace Diagnostic.Report
 {
@@ -17,7 +18,7 @@ namespace Diagnostic.Report
         public override async Task<bool> AddEntry(IReportEntry entry)
         {
             string text = entry.ToString();
-            bool succeded = await SaveEntryTextAsync(text);
+            bool succeded = await SaveEntryTextAsync($"{text}{Environment.NewLine}");
 
             return succeded;
         }

@@ -5,7 +5,7 @@ using static IO.FileHandler;
 namespace Diagnostic.Report
 {
     /// <summary>
-    /// Define an csv <see cref="ReportManager"/>
+    /// Define an html <see cref="ReportManager"/>
     /// </summary>
     public class HtmlReportManager : ReportManager
     {
