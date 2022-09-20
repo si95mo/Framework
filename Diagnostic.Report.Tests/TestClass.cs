@@ -16,14 +16,28 @@ namespace Diagnostic.Report.Tests
             entry = new ReportEntry(10d, "Entry description", "Entry notes");
         }
 
+        private async Task SaveAndTest(ReportManager manager)
+        {
+            manager.BasePath = IoUtility.GetDesktopFolder();
+
+            bool saved = await manager.AddEntry(entry);
+            saved &= IoUtility.DoesFileExist(manager.Path);
+
+            saved.Should().BeTrue();
+        }
+
         [Test]
         public async Task TestJson()
         {
             JsonReportManager manager = new JsonReportManager("json_report");
-            manager.BasePath = IoUtility.GetDesktopFolder();
+            await SaveAndTest(manager);
+        }
 
-            bool saved = await manager.AddEntry(entry);
-            saved.Should().BeTrue();
+        [Test]
+        public async Task TestXlsx()
+        {
+            XlsxReportManager manager = new XlsxReportManager("xlsx_report");
+            await SaveAndTest(manager);
         }
     }
 }

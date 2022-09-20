@@ -1,5 +1,7 @@
-﻿using Microsoft.Office.Interop.Excel;
+﻿using IO;
+using Microsoft.Office.Interop.Excel;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Diagnostic.Report
@@ -9,7 +11,7 @@ namespace Diagnostic.Report
     /// </summary>
     public class XlsxReportManager : ReportManager
     {
-        private int lastRow;
+        private List<IReportEntry> entries;
 
         /// <summary>
         /// Create a new instance of <see cref="XlsxReportManager"/>
@@ -17,39 +19,52 @@ namespace Diagnostic.Report
         /// <param name="fileName">The report file name (only the file name, no extension and full path)</param>
         public XlsxReportManager(string fileName) : base(fileName, ReportExtension.Xlsx)
         {
-            lastRow = 1;
+            entries = new List<IReportEntry>();
         }
 
         public override async Task<bool> AddEntry(IReportEntry entry)
         {
+            entries.Add(entry);
+            await SaveEntries();
+
+            return true;
+        }
+
+        private async Task SaveEntries()
+        {
             Application excel = new Application();
-            Workbook workBook = excel.Workbooks.Open(Path);
-            Worksheet workSheet = (Worksheet)workBook.Sheets[1];
-            Worksheet sheet = (Worksheet)workBook.ActiveSheet;
+            Workbook workbook = IoUtility.DoesFileExist(Path) ?
+                excel.Workbooks.Open(Path, 0, false, 5, "", "", false, XlPlatform.xlWindows, "", true, false, 0, true, false, false) : 
+                excel.Workbooks.Add();
+            Worksheet worksheet = (Worksheet)workbook.Sheets[1];
+            Worksheet sheet = (Worksheet)workbook.ActiveSheet;
 
-            if (sheet.Cells[1, 1].CompareTo(string.Empty) == 0) // Empty cell, create headers
+            int index = 1;
+
+            // Headers
+            sheet.Cells[index, 1] = "Timestamp";
+            sheet.Cells[index, 2] = "Value";
+            sheet.Cells[index, 3] = "Description";
+            sheet.Cells[index, 4] = "Notes";
+
+            index++;
+
+            // Data
+            for (int i = 0; i < entries.Count; i++)
             {
-                sheet.Cells[1, 1] = "Timestamp";
-                sheet.Cells[1, 2] = "Value";
-                sheet.Cells[1, 3] = "Description";
-                sheet.Cells[1, 4] = "Notes";
+                sheet.Cells[index, 1] = entries[i].Timestamp;
+                sheet.Cells[index, 2] = entries[i].Value;
+                sheet.Cells[index, 3] = entries[i].Description;
+                sheet.Cells[index, 4] = entries[i].Notes;
 
-                lastRow++;
+                index++;
             }
-
-            // Appen
-            sheet.Cells[lastRow, 1] = entry.Timestamp;
-            sheet.Cells[lastRow, 2] = entry.Value;
-            sheet.Cells[lastRow, 3] = entry.Description;
-            sheet.Cells[lastRow, 4] = entry.Notes;
-
-            lastRow++;
 
             excel.Visible = false;
             excel.UserControl = false;
 
             await Task.Run(() =>
-                workBook.SaveAs(
+                workbook.SaveAs(
                     Path,
                     XlFileFormat.xlWorkbookDefault,
                     Type.Missing,
@@ -65,7 +80,7 @@ namespace Diagnostic.Report
                 )
             );
 
-            return true;
+            workbook.Close(true);
         }
     }
 }

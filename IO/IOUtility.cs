@@ -39,7 +39,7 @@ namespace IO
         /// </summary>
         /// <param name="path"> The path to the file to check </param>
         /// <returns> <see langword="true"/>  if the file exists, <b>false</b> otherwise </returns>
-        public static bool DoesFileExists(string path)
+        public static bool DoesFileExist(string path)
         {
             bool doesExists = File.Exists(path);
 

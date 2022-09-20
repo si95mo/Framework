@@ -129,7 +129,7 @@ namespace Diagnostic.Report
         {
             int numberOfRetries = 0;
 
-            if (IoUtility.DoesFileExists(Path))
+            if (IoUtility.DoesFileExist(Path))
                 while (IsFileLocked() && numberOfRetries++ <= MaximumNumberOfRetries)
                     await Task.Delay(1000);
 
