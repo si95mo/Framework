@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using IO;
+using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 
@@ -18,8 +19,10 @@ namespace Diagnostic.Report
 
         public override async Task<bool> AddEntry(IReportEntry entry)
         {
-            string text = JsonConvert.SerializeObject(entry);
-            bool succeded = await SaveEntryTextAsync($"{text}{Environment.NewLine}");
+            string text = IoUtility.DoesFileExist(Path) ? $",{Environment.NewLine}" : string.Empty;
+            text += JsonConvert.SerializeObject(entry, Formatting.Indented);
+
+            bool succeded = await SaveEntryTextAsync($"{text}");
 
             return succeded;
         }

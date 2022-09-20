@@ -37,6 +37,10 @@ namespace Diagnostic.Report.Tests
         public async Task TestXlsx()
         {
             XlsxReportManager manager = new XlsxReportManager("xlsx_report");
+            manager.BasePath = IoUtility.GetDesktopFolder();
+
+            await manager.AddEntry(new ReportEntry(12d, "Another description", "Another note"));
+
             await SaveAndTest(manager);
         }
     }

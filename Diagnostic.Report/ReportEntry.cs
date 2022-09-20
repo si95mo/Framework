@@ -7,8 +7,8 @@ namespace Diagnostic.Report
     /// </summary>
     public class ReportEntry : IReportEntry
     {
-        public object Value { get; set; }
         public DateTime Timestamp { get; set; }
+        public object Value { get; set; }
         public string Description { get; set; }
         public string Notes { get; set; }
 

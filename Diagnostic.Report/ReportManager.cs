@@ -38,7 +38,7 @@ namespace Diagnostic.Report
         public string BasePath
         {
             get => Directory.GetDirectoryRoot(Path);
-            set => Path = $"{value}\\{FileName}.{EnumToExtension()}";
+            set => Path = $"{value}\\{FileName}{EnumToExtension()}";
         }
 
         #endregion IReportManager fields
@@ -55,7 +55,7 @@ namespace Diagnostic.Report
             Extension = extension;
 
             IoUtility.CreateDirectoryIfNotExists("reports");
-            Path = $"{BaseFolder}\\{FileName}.{EnumToExtension()}";
+            Path = $"{BaseFolder}\\{FileName}{EnumToExtension()}";
         }
 
         #region IReportManager methods (abstract)

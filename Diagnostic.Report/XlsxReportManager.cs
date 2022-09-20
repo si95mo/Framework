@@ -9,8 +9,14 @@ namespace Diagnostic.Report
     /// <summary>
     /// Define an xlsx <see cref="ReportManager"/>
     /// </summary>
-    public class XlsxReportManager : ReportManager
+    public class XlsxReportManager : ReportManager, IDisposable
     {
+
+        private Application excel;
+        private Workbook workbook;
+        private Worksheet worksheet;
+        private Worksheet sheet;
+
         private List<IReportEntry> entries;
 
         /// <summary>
@@ -19,6 +25,13 @@ namespace Diagnostic.Report
         /// <param name="fileName">The report file name (only the file name, no extension and full path)</param>
         public XlsxReportManager(string fileName) : base(fileName, ReportExtension.Xlsx)
         {
+            excel = new Application
+            {
+                DisplayAlerts = false,
+                Visible = false,
+                UserControl = false
+            };
+
             entries = new List<IReportEntry>();
         }
 
@@ -30,22 +43,24 @@ namespace Diagnostic.Report
             return true;
         }
 
+        public void Dispose()
+        {
+            workbook.Close(true);
+        }
+
         private async Task SaveEntries()
         {
-            Application excel = new Application();
-            Workbook workbook = IoUtility.DoesFileExist(Path) ?
-                excel.Workbooks.Open(Path, 0, false, 5, "", "", false, XlPlatform.xlWindows, "", true, false, 0, true, false, false) : 
-                excel.Workbooks.Add();
-            Worksheet worksheet = (Worksheet)workbook.Sheets[1];
-            Worksheet sheet = (Worksheet)workbook.ActiveSheet;
+            workbook = IoUtility.DoesFileExist(Path) ? excel.Workbooks.Open(Path, ReadOnly: false) : excel.Workbooks.Add();
+            worksheet = (Worksheet)workbook.Sheets[1];
+            sheet = (Worksheet)workbook.ActiveSheet;
 
             int index = 1;
 
             // Headers
-            sheet.Cells[index, 1] = "Timestamp";
-            sheet.Cells[index, 2] = "Value";
-            sheet.Cells[index, 3] = "Description";
-            sheet.Cells[index, 4] = "Notes";
+            sheet.Cells[index, 1].Value = "Timestamp";
+            sheet.Cells[index, 2].Value = "Value";
+            sheet.Cells[index, 3].Value = "Description";
+            sheet.Cells[index, 4].Value = "Notes";
 
             index++;
 
@@ -59,9 +74,6 @@ namespace Diagnostic.Report
 
                 index++;
             }
-
-            excel.Visible = false;
-            excel.UserControl = false;
 
             await Task.Run(() =>
                 workbook.SaveAs(
@@ -79,8 +91,7 @@ namespace Diagnostic.Report
                     Type.Missing
                 )
             );
-
-            workbook.Close(true);
+            excel.Quit();
         }
     }
 }
