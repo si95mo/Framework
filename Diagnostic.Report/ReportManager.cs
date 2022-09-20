@@ -1,4 +1,6 @@
 ﻿using IO;
+using System;
+using System.IO;
 using System.Threading.Tasks;
 using static IO.FileHandler;
 
@@ -29,6 +31,16 @@ namespace Diagnostic.Report
         public string FileName { get; protected set; }
         public string Path { get; protected set; }
 
+        /// <summary>
+        /// The report file base path (i.e. the folder, no <see cref="FileName"/>)
+        /// </summary>
+        [Obsolete("The report folder should ")]
+        public string BasePath
+        {
+            get => Directory.GetDirectoryRoot(Path);
+            set => Path = $"{value}\\{FileName}.{EnumToExtension()}";
+        }
+
         #endregion IReportManager fields
 
         /// <summary>
@@ -36,6 +48,7 @@ namespace Diagnostic.Report
         /// </summary>
         /// <param name="fileName">The report file name (only the file name, no extension and full path)</param>
         /// <param name="extension">The <see cref="ReportExtension"/></param>
+        /// <remarks>To change the default <see cref="Path"/> use the property <see cref="BasePath"/></remarks>
         protected ReportManager(string fileName, ReportExtension extension)
         {
             FileName = fileName;
@@ -104,7 +117,7 @@ namespace Diagnostic.Report
         /// Check if a file is locked
         /// </summary>
         /// <returns><see langword="true"/> if the <paramref name="file"/> is not locked, <see langword="false"/> otherwise</returns>
-        protected bool IsFileLocked() => IoUtility.IsFileLocked(FileName);
+        protected bool IsFileLocked() => IoUtility.IsFileLocked(Path);
 
         /// <summary>
         /// Save a report entry text asynchronously
@@ -115,8 +128,10 @@ namespace Diagnostic.Report
         protected async Task<bool> SaveEntryTextAsync(string text, SaveMode saveMode = SaveMode.Append)
         {
             int numberOfRetries = 0;
-            while (IsFileLocked() && numberOfRetries++ <= MaximumNumberOfRetries)
-                await Task.Delay(1000);
+
+            if (IoUtility.DoesFileExists(Path))
+                while (IsFileLocked() && numberOfRetries++ <= MaximumNumberOfRetries)
+                    await Task.Delay(1000);
 
             bool fileUnlocked = numberOfRetries <= MaximumNumberOfRetries;
             if (fileUnlocked)

@@ -21,6 +21,7 @@ namespace Diagnostic.Report
         /// <param name="notes">The notes</param>
         public ReportEntry(object value, string description, string notes)
         {
+            Timestamp = DateTime.Now;
             Value = value;
             Description = description;
             Notes = notes;
