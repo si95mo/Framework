@@ -37,10 +37,42 @@ namespace Diagnostic.Report.Tests
         public async Task TestXlsx()
         {
             XlsxReportManager manager = new XlsxReportManager("xlsx_report");
-            manager.BasePath = IoUtility.GetDesktopFolder();
+            manager.BasePath = IoUtility.GetDesktopFolder(); // To test the append
 
             await manager.AddEntry(new ReportEntry(12d, "Another description", "Another note"));
 
+            await SaveAndTest(manager);
+        }
+
+        [Test]
+        public async Task TestHtml()
+        {
+            HtmlReportManager manager = new HtmlReportManager("html_report");
+            manager.BasePath = IoUtility.GetDesktopFolder(); // To test the append
+
+            await manager.AddEntry(new ReportEntry(12d, "Another description", "Another note"));
+
+            await SaveAndTest(manager);
+        }
+
+        [Test]
+        public async Task TestXml()
+        {
+            XmlReportManager manager = new XmlReportManager("xml_report");
+            await SaveAndTest(manager);
+        }
+
+        [Test]
+        public async Task TestTxt()
+        {
+            TextReportManager manager = new TextReportManager("txt_report");
+            await SaveAndTest(manager);
+        }
+
+        [Test]
+        public async Task TestCsv()
+        {
+            CsvReportManager manager = new CsvReportManager("csv_manager");
             await SaveAndTest(manager);
         }
     }

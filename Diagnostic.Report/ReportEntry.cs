@@ -15,6 +15,12 @@ namespace Diagnostic.Report
         /// <summary>
         /// Create a new instance of <see cref="ReportEntry"/>
         /// </summary>
+        public ReportEntry() : this(default, string.Empty, string.Empty)
+        { }
+
+        /// <summary>
+        /// Create a new instance of <see cref="ReportEntry"/>
+        /// </summary>
         /// <remarks>The <see cref="Timestamp"/> is set to <see cref="DateTime.Now"/></remarks>
         /// <param name="value">The value</param>
         /// <param name="description">The description</param>

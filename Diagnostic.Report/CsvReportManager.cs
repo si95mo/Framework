@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IO;
+using System;
 using System.Threading.Tasks;
 
 namespace Diagnostic.Report
@@ -22,6 +23,10 @@ namespace Diagnostic.Report
 
         public override async Task<bool> AddEntry(IReportEntry entry)
         {
+            // Add headers if necessary
+            if (!IoUtility.DoesFileExist(Path))
+                await SaveEntryTextAsync($"Timestamp{Separator}Value{Separator}Description{Separator}Notes{Environment.NewLine}");
+
             string text = $"{entry.Timestamp}{Separator}{entry.Value}{Separator}{entry.Description}{Separator}{entry.Notes}{Environment.NewLine}";
             bool succeded = await SaveEntryTextAsync(text);
 
