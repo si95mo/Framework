@@ -77,8 +77,7 @@ namespace Extensions
             => newCondition.Value = source.Value == false;
 
         /// <summary>
-        /// Create a <see cref="FlyweightCondition"/> that concatenates itself with another <see cref="ICondition"/>
-        /// with an <see langword="and"/> relation
+        /// Create a <see cref="FlyweightCondition"/> that concatenates itself with another <see cref="ICondition"/> with an <see langword="and"/> relation
         /// </summary>
         /// <param name="source">The source <see cref="ICondition"/></param>
         /// <param name="condition">The other condition to which concatenate</param>
@@ -94,8 +93,7 @@ namespace Extensions
         }
 
         /// <summary>
-        /// Update a <see cref="FlyweightCondition"/> by applying an
-        /// <see langword="and"/> operand between two <see langword="bool"/> values
+        /// Update a <see cref="FlyweightCondition"/> by applying an <see langword="and"/> operand between two <see langword="bool"/> values
         /// </summary>
         /// <param name="changedCondition">The sender (the <see cref="ICondition"/> of which the value has changed)</param>
         /// <param name="andCondition">The <see cref="FlyweightCondition"/> result of the <see cref="And(ICondition, ICondition)"/> method</param>
@@ -103,8 +101,7 @@ namespace Extensions
             => andCondition.Value &= changedCondition.Value;
 
         /// <summary>
-        /// Create a <see cref="FlyweightCondition"/> that concatenates itself with another <see cref="ICondition"/>
-        /// with an <see langword="or"/> relation
+        /// Create a <see cref="FlyweightCondition"/> that concatenates itself with another <see cref="ICondition"/> with an <see langword="or"/> relation
         /// </summary>
         /// <param name="source">The source <see cref="ICondition"/></param>
         /// <param name="condition">The other condition to which concatenate</param>
@@ -120,8 +117,7 @@ namespace Extensions
         }
 
         /// <summary>
-        /// Update a <see cref="FlyweightCondition"/> by applying an
-        /// <see langword="or"/> operand between two <see langword="bool"/> values
+        /// Update a <see cref="FlyweightCondition"/> by applying an <see langword="or"/> operand between two <see langword="bool"/> values
         /// </summary>
         /// <param name="changedCondition">The sender (the <see cref="ICondition"/> of which the value has changed)</param>
         /// <param name="orCondition">The <see cref="FlyweightCondition"/> result of the <see cref="Or(ICondition, ICondition)"/> method</param>

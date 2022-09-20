@@ -10,11 +10,6 @@ namespace Core.Parameters
     public class StringParameter : Parameter<string>, IStringParameter
     {
         /// <summary>
-        /// The <see cref="StringParameter"/> value;
-        /// </summary>
-        public override string Value => value;
-
-        /// <summary>
         /// The <see cref="Value"/> as <see cref="double"/>
         /// </summary>
         /// <remarks>If the conversion is not possible, then 0 is returned!</remarks>
@@ -77,19 +72,15 @@ namespace Core.Parameters
         /// </summary>
         /// <param name="code">The code</param>
         public StringParameter(string code) : base(code)
-        {
-            value = "";
-        }
+            => Value = string.Empty;
 
         /// <summary>
         /// Create a new instance of <see cref="StringParameter"/>
         /// </summary>
         /// <param name="code">The code</param>
         /// <param name="value">The initial value</param>
-        public StringParameter(string code, string value) : this(code)
-        {
-            Value = value;
-        }
+        public StringParameter(string code, string value) : this(code) 
+            => Value = value;
 
         /// <summary>
         /// Return a description of the object
@@ -97,10 +88,6 @@ namespace Core.Parameters
         /// </summary>
         /// <returns>The description of the object</returns>
         public override string ToString()
-        {
-            string description = $"{value}";
-
-            return description;
-        }
+            => Value;
     }
 }

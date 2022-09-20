@@ -8,6 +8,8 @@ namespace Core.Parameters
     /// </summary>
     public class WaveformParameter : Parameter<double[]>
     {
+        private double[] value;
+
         /// <summary>
         /// The <see cref="WaveformParameter"/> value
         /// </summary>
@@ -54,8 +56,8 @@ namespace Core.Parameters
         /// <param name="measureUnit">The measure unit</param>
         public WaveformParameter(string code, string measureUnit = "", string format = "") : this(code)
         {
-            this.measureUnit = measureUnit;
-            this.format = format;
+            MeasureUnit = measureUnit;
+            Format = format;
         }
 
         /// <summary>
@@ -72,35 +74,13 @@ namespace Core.Parameters
         }
 
         /// <summary>
-        /// The <see cref="WaveformParameter"/> measure unit
-        /// </summary>
-        public new string MeasureUnit
-        {
-            get => measureUnit;
-            set => measureUnit = value;
-        }
-
-        /// <summary>
-        /// The <see cref="WaveformParameter"/> format
-        /// </summary>
-        public new string Format
-        {
-            get => format;
-            set => format = value;
-        }
-
-        /// <summary>
         /// Return a description of the object
         /// See also <see cref="object.ToString()"/>
         /// </summary>
         /// <returns>The description of the object</returns>
         public override string ToString()
         {
-            string description = double.NaN.ToString();
-
-            if (value != null)
-                description = $"{value.Average().ToString(format)}{measureUnit}";
-
+            string description = value != null ? $"{value.Average().ToString(Format)}{MeasureUnit}" : double.NaN.ToString();
             return description;
         }
     }

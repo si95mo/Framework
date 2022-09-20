@@ -26,8 +26,7 @@ namespace Extensions
         /// <typeparam name="T">The type of the item and the collection</typeparam>
         /// <param name="item">The item to check</param>
         /// <param name="collection">The collection</param>
-        /// <returns><see langword="true"/> if the item is contained in the collection,
-        /// <see langword="false"/> otherwise</returns>
+        /// <returns><see langword="true"/> if the item is contained in the collection, <see langword="false"/> otherwise</returns>
         /// <example>
         /// <code>
         /// int item = 10;
@@ -51,8 +50,7 @@ namespace Extensions
         }
 
         /// <summary>
-        /// Format a <see cref="string"/>. <br/>
-        /// A syntactic sugar of <see cref="string.Format(string, object[])"/>
+        /// Format a <see cref="string"/>. A syntactic sugar of <see cref="string.Format(string, object[])"/>
         /// </summary>
         /// <param name="s">The <see cref="string"/> to format</param>
         /// <param name="args">The arguments</param>
@@ -70,8 +68,7 @@ namespace Extensions
         }
 
         /// <summary>
-        /// Determine whether a value is in the given range
-        /// (inclusive)
+        /// Determine whether a value is in the given range (inclusive)
         /// </summary>
         /// <typeparam name="T">The type of both the value and the limits</typeparam>
         /// <param name="actual">The value to check</param>
@@ -100,8 +97,7 @@ namespace Extensions
         }
 
         /// <summary>
-        /// Determine whether a value is in the given range
-        /// (exclusive)
+        /// Determine whether a value is in the given range (exclusive)
         /// </summary>
         /// <typeparam name="T">The type of the value and the limits</typeparam>
         /// <param name="actual">The value to check</param>
@@ -202,10 +198,8 @@ namespace Extensions
         /// </summary>
         /// <typeparam name="T">The type of the value to test</typeparam>
         /// <param name="value">The value</param>
-        /// <param name="trueFunction">The <see cref="Func{T, TResult}"/> to execute
-        /// if <paramref name="value"/> is <see langword="true"/></param>
-        /// <param name="falseFunction">The <see cref="Func{T, TResult}"/> to execute
-        /// if <paramref name="value"/> is <see langword="false"/></param>
+        /// <param name="trueFunction">The <see cref="Func{T, TResult}"/> to execute if <paramref name="value"/> is <see langword="true"/></param>
+        /// <param name="falseFunction">The <see cref="Func{T, TResult}"/> to execute if <paramref name="value"/> is <see langword="false"/></param>
         /// <returns>The result of the <see cref="Func{T, TResult}"/></returns>
         public static T DoIfTrueIfFalse<T>(this bool value, Func<T> trueFunction, Func<T> falseFunction)
         {
@@ -219,10 +213,8 @@ namespace Extensions
         /// Perform an <see cref="Action"/> based on <paramref name="value"/>
         /// </summary>
         /// <param name="value">The value</param>
-        /// <param name="trueAction">The <see cref="Action"/> to execute
-        /// if <paramref name="value"/> is <see langword="true"/></param>
-        /// <param name="falseAction">The <see cref="Action"/> to execute
-        /// if <paramref name="value"/> is <see langword="false"/></param>
+        /// <param name="trueAction">The <see cref="Action"/> to execute if <paramref name="value"/> is <see langword="true"/></param>
+        /// <param name="falseAction">The <see cref="Action"/> to execute if <paramref name="value"/> is <see langword="false"/></param>
         /// <returns>The result of the <see cref="Action"/></returns>
         public static void DoIfTrueIfFalse(this bool value, Action trueAction, Action falseAction)
         {

@@ -12,14 +12,9 @@ namespace Core.Parameters
     public class EnumParameter<T> : Parameter<T>, IEnumParameter<T> where T : Enum
     {
         /// <summary>
-        /// The <see cref="EnumParameter{T}"/> value
-        /// </summary>
-        public override T Value => value;
-
-        /// <summary>
         /// The <see cref="EnumParameter{T}.Value"/> value as <see cref="int"/>
         /// </summary>
-        public int ValueAsInt => Convert.ToInt32(value);
+        public int ValueAsInt => Convert.ToInt32(Value);
 
         /// <summary>
         /// Create a new instance of <see cref="StringParameter"/>
@@ -33,7 +28,7 @@ namespace Core.Parameters
         /// <param name="code">The code</param>
         public EnumParameter(string code) : base(code)
         {
-            value = default;
+            Value = default;
         }
 
         /// <summary>
@@ -53,7 +48,7 @@ namespace Core.Parameters
         /// <returns>The description of the object</returns>
         public override string ToString()
         {
-            string description = $"{value}";
+            string description = $"{Value}";
 
             return description;
         }

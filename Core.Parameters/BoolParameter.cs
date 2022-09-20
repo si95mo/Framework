@@ -10,11 +10,6 @@ namespace Core.Parameters
     public class BoolParameter : Parameter<bool>, IBoolParameter
     {
         /// <summary>
-        /// The <see cref="BoolParameter"/> value;
-        /// </summary>
-        public override bool Value => value;
-
-        /// <summary>
         /// Create a new instance of <see cref="BoolParameter"/>
         /// </summary>
         public BoolParameter() : this(Guid.NewGuid().ToString())
@@ -44,7 +39,7 @@ namespace Core.Parameters
         /// <returns>The description of the object</returns>
         public override string ToString()
         {
-            string description = $"{value}";
+            string description = $"{Value}";
 
             return description;
         }

@@ -15,42 +15,42 @@ namespace Core.Parameters
         /// <summary>
         /// The code
         /// </summary>
-        protected string code;
+        private string code;
 
         /// <summary>
         /// The value
         /// </summary>
-        protected T value;
+        private T value;
 
         /// <summary>
         /// The measure unit
         /// </summary>
-        protected string measureUnit;
+        private string measureUnit;
 
         /// <summary>
         /// The format
         /// </summary>
-        protected string format;
+        private string format;
 
         /// <summary>
         /// The subscribers
         /// </summary>
-        protected List<IProperty> subscribers;
+        private List<IProperty> subscribers;
 
         /// <summary>
         /// The converter
         /// </summary>
-        protected IConverter<T, T> converter;
+        private IConverter<T, T> converter;
 
         /// <summary>
         /// The object lock
         /// </summary>
-        protected object eventLock = new object();
+        private object eventLock = new object();
 
         /// <summary>
         /// The value changed event handler
         /// </summary>
-        protected EventHandler<ValueChangedEventArgs> ValueChangedHandler;
+        private EventHandler<ValueChangedEventArgs> ValueChangedHandler;
 
         public string Description { get; set; }
 
@@ -112,7 +112,7 @@ namespace Core.Parameters
         /// <summary>
         /// The <see cref="Parameter{T}"/> measure unit
         /// </summary>
-        protected virtual string MeasureUnit
+        public virtual string MeasureUnit
         {
             get => measureUnit;
             set => measureUnit = value;
@@ -121,7 +121,7 @@ namespace Core.Parameters
         /// <summary>
         /// The <see cref="Parameter{T}"/> format
         /// </summary>
-        protected virtual string Format
+        public virtual string Format
         {
             get => format;
             set => format = value;

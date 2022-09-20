@@ -74,9 +74,7 @@ namespace Core.Conditions
         /// </summary>
         /// <param name="e">The <see cref="ValueChangedEventArgs"/></param>
         protected virtual void OnValueChanged(ValueChangedEventArgs e)
-        {
-            ValueChangedHandler?.Invoke(this, e);
-        }
+            => ValueChangedHandler?.Invoke(this, e);
 
         public void ConnectTo(IProperty property)
         {
@@ -92,8 +90,6 @@ namespace Core.Conditions
         /// <param name="sender">The sender</param>
         /// <param name="e">The <see cref="ValueChangedEventArgs"/></param>
         private void PropagateValues(object sender, ValueChangedEventArgs e)
-        {
-            subscribers.ForEach(x => x.ValueAsObject = Value);
-        }
+            => subscribers.ForEach(x => x.ValueAsObject = Value);
     }
 }

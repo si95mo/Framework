@@ -9,11 +9,6 @@ namespace Core.Parameters
     [Serializable]
     public class NumericParameter : Parameter<double>, INumericParameter
     {
-        /// <summary>
-        /// The <see cref="NumericParameter"/> value;
-        /// </summary>
-        public override double Value => value;
-
         public int ValueAsInt => (int)Value;
 
         public float ValueAsFloat => (float)Value;
@@ -43,8 +38,8 @@ namespace Core.Parameters
         /// <param name="measureUnit">The measure unit</param>
         public NumericParameter(string code, string measureUnit = "", string format = "") : this(code)
         {
-            this.measureUnit = measureUnit;
-            this.format = format;
+            this.MeasureUnit = measureUnit;
+            this.Format = format;
         }
 
         /// <summary>
@@ -61,31 +56,13 @@ namespace Core.Parameters
         }
 
         /// <summary>
-        /// The <see cref="NumericParameter"/> measure unit
-        /// </summary>
-        public new string MeasureUnit
-        {
-            get => measureUnit;
-            set => measureUnit = value;
-        }
-
-        /// <summary>
-        /// The <see cref="NumericParameter"/> format
-        /// </summary>
-        public new string Format
-        {
-            get => format;
-            set => format = value;
-        }
-
-        /// <summary>
         /// Return a description of the object
         /// See also <see cref="object.ToString()"/>
         /// </summary>
         /// <returns>The description of the object</returns>
         public override string ToString()
         {
-            string description = $"{value.ToString(format)}{measureUnit}";
+            string description = $"{Value.ToString(Format)}{MeasureUnit}";
 
             return description;
         }

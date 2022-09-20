@@ -43,9 +43,7 @@ namespace Core.Parameters
         /// the trigger will be a rising edge one and if is <see langword="true"/> a falling edge one
         /// </remarks>
         public TriggerParameter(string code, bool value, TimeSpan tOn, TimeSpan preTriggerTime) : this(code, value, tOn)
-        {
-            this.preTriggerTime = preTriggerTime;
-        }
+            => this.preTriggerTime = preTriggerTime;
 
         /// <summary>
         /// Create a new instance of <see cref="TriggerParameter"/>
@@ -81,10 +79,10 @@ namespace Core.Parameters
             if (preTriggerTime != TimeSpan.Zero)
                 await Task.Delay(preTriggerTime);
 
-            Value = !value; // Toggle the trigger value
+            Value = !Value; // Toggle the trigger value
             await Task.Delay(tOn); // And wait the on time
 
-            Value = !value; // Reset the trigger value;
+            Value = !Value; // Reset the trigger value;
         }
 
         /// <summary>

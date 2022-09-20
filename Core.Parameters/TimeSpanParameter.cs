@@ -15,7 +15,7 @@ namespace Core.Parameters
         /// </summary>
         public double ValueAsSeconds
         {
-            get => value.TotalSeconds;
+            get => Value.TotalSeconds;
             set => Value = TimeSpan.FromSeconds(value);
         }
 
@@ -25,7 +25,7 @@ namespace Core.Parameters
         /// </summary>
         public double ValueAsMilliseconds
         {
-            get => value.TotalMilliseconds;
+            get => Value.TotalMilliseconds;
             set => Value = TimeSpan.FromMilliseconds(value);
         }
 
@@ -47,10 +47,8 @@ namespace Core.Parameters
         /// </summary>
         /// <param name="code">The code</param>
         /// <param name="value">The initial value</param>
-        public TimeSpanParameter(string code, TimeSpan value) : base(code)
-        {
-            Value = value;
-        }
+        public TimeSpanParameter(string code, TimeSpan value) : base(code) 
+            => Value = value;
 
         /// <summary>
         /// Create a new instance of <see cref="TimeSpanParameter"/>
@@ -67,7 +65,7 @@ namespace Core.Parameters
         /// <returns>The description of the object</returns>
         public override string ToString()
         {
-            string description = $"{value}";
+            string description = $"{Value}";
             return description;
         }
     }
