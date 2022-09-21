@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Extensions;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using static IO.FileHandler;
 
@@ -10,21 +11,32 @@ namespace Diagnostic.Report
     public class HtmlReportManager : ReportManager
     {
         private List<IReportEntry> entries;
+        private string tableStyle, headerStyle, rowStyle, alternateRowStyle;
 
         /// <summary>
         /// Create a new instance of <see cref="HtmlReportManager"/>
         /// </summary>
-        /// <param name="fileName">The report file name (only the file name, no extension and full path)</param>
-        public HtmlReportManager(string fileName) : base(fileName, ReportExtension.Html)
+        /// <param name="fileName">The report file name (only the file name, no extension and full path)</param><
+        /// <param name="tableStyle">The table style</param>
+        /// <param name="headerStyle">The header style</param>
+        /// <param name="rowStyle">The row style</param>
+        /// <param name="alternateRowStyle">The alternate row style</param>
+        public HtmlReportManager(string fileName, string tableStyle = "", string headerStyle = "", string rowStyle = "", string alternateRowStyle = "") : base(fileName, ReportExtension.Html)
         {
             entries = new List<IReportEntry>();
+
+            this.tableStyle = tableStyle;
+            this.headerStyle = headerStyle;
+            this.rowStyle = rowStyle;
+            this.alternateRowStyle = alternateRowStyle;
         }
 
         public override async Task<bool> AddEntry(IReportEntry entry)
         {
             entries.Add(entry);
 
-            string text = entries.ToHtmlTable();
+            // TODO: Update save logic, should append only (maybe a Queue instead of a list?)
+            string text = entries.ToHtmlTable(tableStyle, headerStyle, rowStyle, alternateRowStyle);
             bool succeded = await SaveEntryTextAsync(text, SaveMode.Overwrite); // This method always overwrite the report file and recreate the table
 
             return succeded;
