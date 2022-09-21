@@ -8,7 +8,7 @@ namespace Diagnostic.Report.Tests
     [TestFixture]
     public class TestClass
     {
-        IReportEntry entry;
+        private IReportEntry entry;
 
         [OneTimeSetUp]
         public void Setup()

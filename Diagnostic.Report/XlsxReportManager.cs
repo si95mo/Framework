@@ -11,7 +11,6 @@ namespace Diagnostic.Report
     /// </summary>
     public class XlsxReportManager : ReportManager, IDisposable
     {
-
         private Application excel;
         private Workbook workbook;
         private Worksheet worksheet;

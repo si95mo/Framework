@@ -1,5 +1,4 @@
-﻿using Core;
-using System.Text;
+﻿using System.Text;
 
 namespace Hardware.Resources
 {

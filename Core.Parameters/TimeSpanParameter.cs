@@ -47,7 +47,7 @@ namespace Core.Parameters
         /// </summary>
         /// <param name="code">The code</param>
         /// <param name="value">The initial value</param>
-        public TimeSpanParameter(string code, TimeSpan value) : base(code) 
+        public TimeSpanParameter(string code, TimeSpan value) : base(code)
             => Value = value;
 
         /// <summary>

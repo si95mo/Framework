@@ -1,6 +1,5 @@
 ﻿using Core.Parameters;
 using LiveCharts;
-using LiveCharts.Helpers;
 using LiveCharts.Wpf;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,8 +27,8 @@ namespace UserInterface.Controls
         /// <summary>
         /// The <see cref="LineSeries"/>
         /// </summary>
-        public Series Series 
-        { 
+        public Series Series
+        {
             get => series;
             set
             {

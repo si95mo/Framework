@@ -14,7 +14,7 @@ namespace Hardware.Modbus
         /// <param name="resource">The <see cref="IResource"/></param>
         /// <param name="address">The address</param>
         /// <param name="function">The modbus function</param>
-        public ModbusDigitalOutput(string code, IResource resource, ushort address, ModbusFunction function = ModbusFunction.WriteSingleCoil) 
+        public ModbusDigitalOutput(string code, IResource resource, ushort address, ModbusFunction function = ModbusFunction.WriteSingleCoil)
             : base(code, resource, address, function, representation: NumericRepresentation.Boolean)
         {
             ValueChanged += ModbusDigitalOutput_ValueChanged;

@@ -79,7 +79,7 @@ namespace Core.Parameters
         /// </summary>
         /// <param name="code">The code</param>
         /// <param name="value">The initial value</param>
-        public StringParameter(string code, string value) : this(code) 
+        public StringParameter(string code, string value) : this(code)
             => Value = value;
 
         /// <summary>

@@ -94,8 +94,8 @@ namespace Hardware.Modbus
         /// <param name="format">The format</param>
         /// <param name="representation">The <see cref="NumericRepresentation"/></param>
         /// <param name="reverse">The reverse option</param>
-        protected ModbusAnalogChannel(string code, IResource resource, ushort address, ModbusFunction function, string measureUnit = "", string format = "0.0", 
-            NumericRepresentation representation = NumericRepresentation.Single, bool reverse = false) 
+        protected ModbusAnalogChannel(string code, IResource resource, ushort address, ModbusFunction function, string measureUnit = "", string format = "0.0",
+            NumericRepresentation representation = NumericRepresentation.Single, bool reverse = false)
             : base(code, measureUnit, format)
         {
             this.resource = resource;

@@ -34,7 +34,7 @@ namespace Hardware.Modbus
         /// <param name="address">The modbus register address</param>
         /// <param name="pollingInterval">The polling interval (in milliseconds)</param>
         /// <param name="function">The modbus function</param>
-        public ModbusDigitalInput(string code, IResource resource, ushort address, int pollingInterval = 100, ModbusFunction function = ModbusFunction.ReadCoil) 
+        public ModbusDigitalInput(string code, IResource resource, ushort address, int pollingInterval = 100, ModbusFunction function = ModbusFunction.ReadCoil)
             : base(code, resource, address, function, representation: NumericRepresentation.Boolean)
         {
             this.pollingInterval = pollingInterval;
