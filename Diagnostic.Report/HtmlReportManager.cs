@@ -35,9 +35,8 @@ namespace Diagnostic.Report
         {
             entries.Add(entry);
 
-            // TODO: Update save logic, should append only (maybe a Queue instead of a list?)
             string text = entries.ToHtmlTable(tableStyle, headerStyle, rowStyle, alternateRowStyle);
-            bool succeded = await SaveEntryTextAsync(text, SaveMode.Overwrite); // This method always overwrite the report file and recreate the table
+            bool succeded = await SaveEntryTextAsync(text, SaveMode.Overwrite); // Always overwrite the report file and recreate the table (the tags must be added at the end of the table)
 
             return succeded;
         }
