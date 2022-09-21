@@ -62,7 +62,7 @@ namespace Hardware.Libnodave
         /// <param name="e">The <see cref="ValueChangedEventArgs"/></param>
         protected override async void PropagateValues(object sender, ValueChangedEventArgs e)
         {
-            await (resource as LibnodaveResource).Receive(code);
+            await (resource as LibnodaveResource).Receive(Code);
             base.PropagateValues(sender, e);
         }
     }

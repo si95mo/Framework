@@ -19,12 +19,10 @@
         /// <param name="resource">The <see cref="IResource"/></param>
         /// <param name="measureUnit">The measure unit</param>
         /// <param name="format">The format</param>
-        protected TwincatChannel(string code, string variableName, IResource resource, string measureUnit, string format) : base(code)
+        protected TwincatChannel(string code, string variableName, IResource resource, string measureUnit, string format) : base(code, measureUnit, format)
         {
             this.variableName = variableName;
             this.resource = resource;
-            this.measureUnit = measureUnit;
-            this.format = format;
 
             this.resource.Channels.Add(this);
         }

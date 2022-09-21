@@ -12,25 +12,7 @@ namespace Core.Parameters
     [Serializable]
     public abstract class Parameter<T> : IParameter<T>
     {
-        /// <summary>
-        /// The code
-        /// </summary>
-        private string code;
-
-        /// <summary>
-        /// The value
-        /// </summary>
         private T value;
-
-        /// <summary>
-        /// The measure unit
-        /// </summary>
-        private string measureUnit;
-
-        /// <summary>
-        /// The format
-        /// </summary>
-        private string format;
 
         /// <summary>
         /// The subscribers
@@ -68,7 +50,7 @@ namespace Core.Parameters
         /// <param name="code">The code</param>
         protected Parameter(string code)
         {
-            this.code = code;
+            Code = code;
 
             value = default;
 
@@ -112,25 +94,17 @@ namespace Core.Parameters
         /// <summary>
         /// The <see cref="Parameter{T}"/> measure unit
         /// </summary>
-        public virtual string MeasureUnit
-        {
-            get => measureUnit;
-            set => measureUnit = value;
-        }
+        public virtual string MeasureUnit { get; set; }
 
         /// <summary>
         /// The <see cref="Parameter{T}"/> format
         /// </summary>
-        public virtual string Format
-        {
-            get => format;
-            set => format = value;
-        }
+        public virtual string Format { get; set; }
 
         /// <summary>
         /// The <see cref="Parameter{T}"/> code
         /// </summary>
-        public string Code => code;
+        public string Code { get; }
 
         /// <summary>
         /// The <see cref="ValueChanged"/> event handler
@@ -166,7 +140,7 @@ namespace Core.Parameters
         /// <param name="property">The destination <see cref="IProperty{T}"/></param>
         public void ConnectTo(IProperty property)
         {
-            property.ValueAsObject = value;
+            property.ValueAsObject = Value;
             subscribers.Add(property);
         }
 

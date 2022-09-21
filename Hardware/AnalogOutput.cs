@@ -20,10 +20,7 @@ namespace Hardware
         /// <param name="code">The code</param>
         /// <param name="format">The format</param>
         /// <param name="measureUnit">The measure unit</param>
-        public AnalogOutput(string code, string measureUnit = "", string format = "0.0") : base(code)
-        {
-            this.measureUnit = measureUnit;
-            this.format = format;
-        }
+        public AnalogOutput(string code, string measureUnit = "", string format = "0.0") : base(code, measureUnit, format)
+        { }
     }
 }

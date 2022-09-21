@@ -15,39 +15,24 @@ namespace Hardware
     public abstract class Channel<T> : IChannel<T>
     {
         /// <summary>
-        /// The code
-        /// </summary>
-        protected string code;
-
-        /// <summary>
         /// The value
         /// </summary>
-        protected T value;
-
-        /// <summary>
-        /// The measure unit
-        /// </summary>
-        protected string measureUnit;
-
-        /// <summary>
-        /// The format
-        /// </summary>
-        protected string format;
+        private T value;
 
         /// <summary>
         /// The subscribers
         /// </summary>
-        protected List<IProperty> subscribers;
+        private List<IProperty> subscribers;
 
         /// <summary>
         /// The object lock
         /// </summary>
-        protected object objectLock = new object();
+        private object objectLock = new object();
 
         /// <summary>
         /// The value changed <see cref="EventHandler"/>
         /// </summary>
-        protected EventHandler<ValueChangedEventArgs> ValueChangedHandler;
+        private EventHandler<ValueChangedEventArgs> ValueChangedHandler;
 
         /// <summary>
         /// The <see cref="Type"/>
@@ -75,7 +60,7 @@ namespace Hardware
         /// <param name="code">The code</param>
         protected Channel(string code)
         {
-            this.code = code;
+            Code = code;
 
             value = default;
 
@@ -93,8 +78,8 @@ namespace Hardware
         /// <param name="format">The format</param>
         protected Channel(string code, string measureUnit, string format) : this(code)
         {
-            this.measureUnit = measureUnit;
-            this.format = format;
+            MeasureUnit = measureUnit;
+            Format = format;
         }
 
         /// <summary>
@@ -135,7 +120,7 @@ namespace Hardware
         /// <summary>
         /// The <see cref="Channel{T}"/> code
         /// </summary>
-        public string Code => code;
+        public string Code { get; }
 
         /// <summary>
         /// The <see cref="Channel{T}"/> value
@@ -175,7 +160,7 @@ namespace Hardware
         /// <summary>
         /// The <see cref="Channel{T}"/> value as <see cref="object"/>
         /// </summary>
-        public virtual object ValueAsObject
+        public object ValueAsObject
         {
             get => Value;
             set => Value = (T)value;
@@ -184,20 +169,12 @@ namespace Hardware
         /// <summary>
         /// The <see cref="Channel{T}"/> measure unit
         /// </summary>
-        public virtual string MeasureUnit
-        {
-            get => measureUnit;
-            set => measureUnit = value;
-        }
+        public string MeasureUnit { get; set; }
 
         /// <summary>
         /// The <see cref="Channel{T}"/> format
         /// </summary>
-        public virtual string Format
-        {
-            get => format;
-            set => format = value;
-        }
+        public string Format { get; set; }
 
         /// <summary>
         /// On value changed event
@@ -249,13 +226,12 @@ namespace Hardware
         /// <returns>The textual description</returns>
         public override string ToString()
         {
-            string description = "";
-            string valueAsString = value.ToString();
+            string description;
 
-            if (double.TryParse(valueAsString, out double result))
-                description = $"{result.ToString(format)}{measureUnit}";
+            if (double.TryParse(value.ToString(), out double result))
+                description = $"{result.ToString(Format)}{MeasureUnit}";
             else
-                description = $"{value}{measureUnit}";
+                description = $"{value}{MeasureUnit}";
 
             return description;
         }

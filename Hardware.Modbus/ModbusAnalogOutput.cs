@@ -20,24 +20,14 @@ namespace Hardware.Modbus
         /// <param name="reverse">The reverse option</param>
         public ModbusAnalogOutput(string code, IResource resource, ushort address, ModbusFunction function = ModbusFunction.WriteSingleHoldingRegister,
             string measureUnit = "", string format = "0.000", NumericRepresentation representation = NumericRepresentation.Single, bool reverse = false)
-            : base(code)
+            : base(code, resource, address, function, measureUnit, format, representation, reverse)
         {
-            this.resource = resource;
-            this.function = function;
-            this.measureUnit = measureUnit;
-            this.format = format;
-            this.representation = representation;
-            this.address = address;
-            this.reverse = reverse;
-
-            resource.Channels.Add(this);
-
             ValueChanged += ModbusAnalogOutput_ValueChanged;
         }
 
         private async void ModbusAnalogOutput_ValueChanged(object sender, ValueChangedEventArgs e)
         {
-            await (resource as ModbusResource).Send(code);
+            await (Resource as ModbusResource).Send(Code);
         }
     }
 }

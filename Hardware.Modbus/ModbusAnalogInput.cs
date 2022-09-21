@@ -40,19 +40,10 @@ namespace Hardware.Modbus
         /// <param name="reverse">The reverse bytes option</param>
         public ModbusAnalogInput(string code, IResource resource, ushort address, ModbusFunction function = ModbusFunction.ReadHoldingRegisters,
             int pollingInterval = 100, string measureUnit = "", string format = "0.000",
-            NumericRepresentation representation = NumericRepresentation.Single, bool reverse = false) : base(code)
+            NumericRepresentation representation = NumericRepresentation.Single, bool reverse = false) 
+            : base(code, resource, address, function, measureUnit, format, representation, reverse)
         {
-            this.resource = resource;
-            this.function = function;
-            this.measureUnit = measureUnit;
-            this.format = format;
-            this.representation = representation;
-            this.address = address;
             this.pollingInterval = pollingInterval;
-            this.reverse = reverse;
-
-            resource.Channels.Add(this);
-
             pollingAction = async () =>
             {
                 while (true)
@@ -71,7 +62,7 @@ namespace Hardware.Modbus
         /// <param name="e">The <see cref="ValueChangedEventArgs"/></param>
         protected override async void PropagateValues(object sender, ValueChangedEventArgs e)
         {
-            await (resource as ModbusResource).Receive(code);
+            await (Resource as ModbusResource).Receive(Code);
             base.PropagateValues(sender, e);
         }
     }

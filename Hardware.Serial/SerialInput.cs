@@ -43,7 +43,7 @@ namespace Hardware.Resources
             this.command = command;
             this.resource = resource;
 
-            value = "";
+            Value = string.Empty;
 
             (resource as SerialResource).DataReceived += SerialInput_DataReceived;
         }
@@ -52,17 +52,6 @@ namespace Hardware.Resources
         {
             // Value = (resource as SerialResource).Receive();
             Value = Encoding.Default.GetString(e.Data);
-        }
-
-        /// <summary>
-        /// Propagate the new value assigned to the
-        /// <see cref="SerialInput"/>
-        /// </summary>
-        /// <param name="sender">The sender</param>
-        /// <param name="e">The <see cref="ValueChangedEventArgs"/></param>
-        protected override void PropagateValues(object sender, ValueChangedEventArgs e)
-        {
-            subscribers.ForEach(x => x.ValueAsObject = Value);
         }
     }
 }

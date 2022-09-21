@@ -9,11 +9,6 @@ namespace Hardware
     public class AnalogInput : Channel<double>, IAnalogInput
     {
         /// <summary>
-        /// The <see cref="AnalogInput"/> value;
-        /// </summary>
-        public override double Value => value;
-
-        /// <summary>
         /// Create a new instance of <see cref="AnalogInput"/>
         /// </summary>
         public AnalogInput() : this(Guid.NewGuid().ToString())
@@ -25,10 +20,7 @@ namespace Hardware
         /// <param name="code">The code</param>
         /// <param name="format">The format</param>
         /// <param name="measureUnit">The measure unit</param>
-        public AnalogInput(string code, string measureUnit = "", string format = "0.0") : base(code)
-        {
-            this.measureUnit = measureUnit;
-            this.format = format;
-        }
+        public AnalogInput(string code, string measureUnit = "", string format = "0.0") : base(code, measureUnit, format)
+        { }
     }
 }

@@ -13,20 +13,16 @@ namespace Hardware.Modbus
         /// <param name="code">The code</param>
         /// <param name="resource">The <see cref="IResource"/></param>
         /// <param name="address">The address</param>
-        public ModbusDigitalOutput(string code, IResource resource, ushort address) : base(code)
+        /// <param name="function">The modbus function</param>
+        public ModbusDigitalOutput(string code, IResource resource, ushort address, ModbusFunction function = ModbusFunction.WriteSingleCoil) 
+            : base(code, resource, address, function, representation: NumericRepresentation.Boolean)
         {
-            this.resource = resource;
-            this.address = address;
-            function = ModbusFunction.WriteSingleCoil;
-
-            resource.Channels.Add(this);
-
             ValueChanged += ModbusDigitalOutput_ValueChanged;
         }
 
         private async void ModbusDigitalOutput_ValueChanged(object sender, ValueChangedEventArgs e)
         {
-            await (resource as ModbusResource).Send(code);
+            await (Resource as ModbusResource).Send(Code);
         }
     }
 }

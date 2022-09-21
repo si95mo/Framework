@@ -33,14 +33,11 @@ namespace Hardware.Modbus
         /// <param name="resource">The <see cref="IResource"/></param>
         /// <param name="address">The modbus register address</param>
         /// <param name="pollingInterval">The polling interval (in milliseconds)</param>
-        public ModbusDigitalInput(string code, IResource resource, ushort address, int pollingInterval = 100) : base(code)
+        /// <param name="function">The modbus function</param>
+        public ModbusDigitalInput(string code, IResource resource, ushort address, int pollingInterval = 100, ModbusFunction function = ModbusFunction.ReadCoil) 
+            : base(code, resource, address, function, representation: NumericRepresentation.Boolean)
         {
-            this.resource = resource;
-            this.address = address;
-            function = ModbusFunction.ReadCoil;
-
-            resource.Channels.Add(this);
-
+            this.pollingInterval = pollingInterval;
             pollingAction = async () =>
             {
                 while (true)
@@ -58,7 +55,7 @@ namespace Hardware.Modbus
         /// <param name="e">The <see cref="ValueChangedEventArgs"/></param>
         protected override async void PropagateValues(object sender, ValueChangedEventArgs e)
         {
-            await (resource as ModbusResource).Receive(code);
+            await (Resource as ModbusResource).Receive(Code);
             base.PropagateValues(sender, e);
         }
     }

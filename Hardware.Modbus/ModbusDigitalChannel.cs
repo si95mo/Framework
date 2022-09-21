@@ -11,22 +11,22 @@ namespace Hardware.Modbus
         /// <summary>
         /// The address
         /// </summary>
-        protected ushort address;
+        private ushort address;
 
         /// <summary>
         /// The <see cref="IResource"/>
         /// </summary>
-        protected IResource resource;
+        private IResource resource;
 
         /// <summary>
         /// The <see cref="ModbusFunction"/>
         /// </summary>
-        protected ModbusFunction function;
+        private ModbusFunction function;
 
         /// <summary>
         /// The <see cref="NumericRepresentation"/>
         /// </summary>
-        protected NumericRepresentation representation = NumericRepresentation.Boolean;
+        private NumericRepresentation representation = NumericRepresentation.Boolean;
 
         /// <summary>
         /// The address
@@ -68,7 +68,7 @@ namespace Hardware.Modbus
         /// Initialize the class attributes with
         /// default parameters
         /// </summary>
-        protected ModbusDigitalChannel() : this(Guid.NewGuid().ToString())
+        protected ModbusDigitalChannel() : this(Guid.NewGuid().ToString(), null, 0, ModbusFunction.ReadCoil)
         { }
 
         /// <summary>
@@ -76,7 +76,23 @@ namespace Hardware.Modbus
         /// default parameters
         /// </summary>
         /// <param name="code">The code</param>
-        protected ModbusDigitalChannel(string code) : base(code)
-        { }
+        /// <param name="resource">The <see cref="IResource"/></param>
+        /// <param name="address">The address</param>
+        /// <param name="function">The <see cref="ModbusFunction"/></param>
+        /// <param name="measureUnit">The measure unit</param>
+        /// <param name="format">The format</param>
+        /// <param name="representation">The <see cref="NumericRepresentation"/></param>
+        /// <param name="reverse">The reverse option</param>
+        protected ModbusDigitalChannel(string code, IResource resource, ushort address, ModbusFunction function, string measureUnit = "", string format = "0.0",
+            NumericRepresentation representation = NumericRepresentation.Single)
+            : base(code, measureUnit, format)
+        {
+            this.resource = resource;
+            this.address = address;
+            this.function = function;
+            this.representation = representation;
+
+            resource.Channels.Add(this);
+        }
     }
 }

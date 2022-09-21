@@ -22,11 +22,9 @@ namespace Hardware.Opc.Ua
         /// <param name="measureUnit">The measure unit</param>
         /// <param name="format">The format</param>
         /// <param name="pollingInterval">The polling interval (in milliseconds)</param>
-        public OpcUaAnalogInput(string code, string namespaceConfiguration, IResource resource, string measureUnit = "",
-            string format = "0.000", int pollingInterval = 100) : base(code, namespaceConfiguration, resource)
+        public OpcUaAnalogInput(string code, string namespaceConfiguration, IResource resource, string measureUnit = "", string format = "0.000", int pollingInterval = 100) 
+            : base(code, namespaceConfiguration, resource)
         {
-            this.measureUnit = measureUnit;
-            this.format = format;
             this.pollingInterval = pollingInterval;
 
             pollingTask = new Task(async () =>

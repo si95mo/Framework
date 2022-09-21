@@ -18,7 +18,7 @@
 
         private async void LibnodaveDigitalOutput_ValueChanged(object sender, Core.ValueChangedEventArgs e)
         {
-            await (resource as LibnodaveResource).Send(code);
+            await (resource as LibnodaveResource).Send(Code);
         }
     }
 }

@@ -20,7 +20,9 @@
         /// <param name="code">THe code</param>
         /// <param name="namespaceConfiguration">The namespace configuration</param>
         /// <param name="resource">The <see cref="IResource"/></param>
-        protected OpcUaAnalogChannel(string code, string namespaceConfiguration, IResource resource) : base(code)
+        /// <param name="measureUnit">The measure unit</param>
+        /// <param name="format">The format</param>
+        protected OpcUaAnalogChannel(string code, string namespaceConfiguration, IResource resource, string measureUnit = "", string format = "0.0") : base(code, measureUnit, format)
         {
             this.namespaceConfiguration = namespaceConfiguration;
             this.resource = resource;
@@ -30,7 +32,7 @@
 
         public override string ToString()
         {
-            string description = $"{value.ToString(format)}{measureUnit}";
+            string description = $"{Value.ToString(Format)}{MeasureUnit}";
 
             return description;
         }

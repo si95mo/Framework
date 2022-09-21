@@ -9,6 +9,8 @@ namespace Hardware
     /// </summary>
     public class MultiSampleAnalogInput : Channel<double[]>
     {
+        private double[] value;
+
         /// <summary>
         /// The <see cref="Channel{T}"/> value
         /// </summary>
@@ -33,11 +35,9 @@ namespace Hardware
         /// <param name="code">The code</param>
         /// <param name="measureUnit">The measure unit</param>
         /// <param name="format">The format</param>
-        public MultiSampleAnalogInput(string code, string measureUnit = "", string format = "") : base(code)
+        public MultiSampleAnalogInput(string code, string measureUnit = "", string format = "") : base(code, measureUnit, format)
         {
             value = new double[0];
-            this.measureUnit = measureUnit;
-            this.format = format;
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Hardware
         public override string ToString()
         {
             double meanValue = value.ToList().Average();
-            string description = $"{meanValue.ToString(format)}{measureUnit}";
+            string description = $"{meanValue.ToString(Format)}{MeasureUnit}";
 
             return description;
         }

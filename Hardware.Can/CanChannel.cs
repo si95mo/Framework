@@ -71,6 +71,8 @@ namespace Hardware.Can
 
         private ICanResource resource;
 
+        private object objectLock = new object();
+
         /// <summary>
         /// The <see cref="DataChanged"/> handler
         /// </summary>
@@ -87,9 +89,8 @@ namespace Hardware.Can
         /// <param name="code">The code</param>
         /// <param name="canId">The can id</param>
         /// <param name="resource">The <see cref="ICanResource"/></param>
-        public CanChannel(string code, int canId, ICanResource resource)
+        public CanChannel(string code, int canId, ICanResource resource) : base(code)
         {
-            this.code = code;
             this.canId = canId;
             this.resource = resource;
 

@@ -18,7 +18,7 @@
 
         private async void OpcUaOutput_ValueChanged(object sender, Core.ValueChangedEventArgs e)
         {
-            await (resource as OpcUaResource).Send(code);
+            await (resource as OpcUaResource).Send(Code);
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Hardware.Tcp
             {
                 if (request.CompareTo(value) != 0)
                 {
-                    Value = "";
+                    Value = string.Empty;
                     request = value;
 
                     if (useSendAndReceive)
@@ -94,14 +94,13 @@ namespace Hardware.Tcp
             : base(code)
         {
             this.request = request;
-            response = "";
+            response = string.Empty;
             this.resource = resource;
 
             this.pollingInterval = pollingInterval;
             this.useSendAndReceive = useSendAndReceive;
 
-            Value = "";
-            value = "";
+            Value = string.Empty;
 
             resource.Channels.Add(this);
 

@@ -41,7 +41,7 @@ namespace Hardware.Resources
             this.command = command;
             this.resource = resource;
 
-            value = "";
+            Value = string.Empty;
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace Hardware.Resources
         /// <param name="e">The <see cref="ValueChangedEventArgs"/></param>
         protected override void PropagateValues(object sender, ValueChangedEventArgs e)
         {
-            (resource as SerialResource).Send(command + value);
+            (resource as SerialResource).Send(command + Value);
             base.PropagateValues(sender, e);
         }
     }

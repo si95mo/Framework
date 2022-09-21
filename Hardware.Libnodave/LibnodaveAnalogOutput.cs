@@ -26,7 +26,7 @@ namespace Hardware.Libnodave
 
         private async void LibnodaveAnalogOutput_ValueChanged(object sender, ValueChangedEventArgs e)
         {
-            await (resource as LibnodaveResource).Send(code);
+            await (resource as LibnodaveResource).Send(Code);
         }
     }
 }
