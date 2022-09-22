@@ -1,4 +1,5 @@
 ﻿using Diagnostic;
+using System;
 using System.Data.SqlClient;
 using System.IO;
 using System.Threading.Tasks;
@@ -39,21 +40,25 @@ namespace Database
         /// <returns>The (async) <see cref="Task{TResult}"/> (of which the result will be <see langword="true"/> if connected, <see langword="false"/> otherwise</returns>
         public async Task<bool> InitializeConnection()
         {
-            await connection.OpenAsync();
-
-            SqlCommand command = new SqlCommand("SELECT @@VERSION", connection);
-            string version = command.ExecuteScalar().ToString();
-
-            bool connected;
-            if (IsConnected)
+            bool connected = false;
+            try
             {
-                await Logger.InfoAsync($"Database connection initialized. Version: {version}");
-                connected = true;
+                await connection.OpenAsync();
+
+                SqlCommand command = new SqlCommand("SELECT @@VERSION", connection);
+                string version = command.ExecuteScalar().ToString();
+
+                if (IsConnected)
+                {
+                    await Logger.InfoAsync($"Database connection initialized. Version: {version}");
+                    connected = true;
+                }
+                else
+                    await Logger.ErrorAsync("Database connection not initialzed on Initialize(string connectionString) method!");
             }
-            else
+            catch(Exception ex)
             {
-                await Logger.ErrorAsync("Database connection not initialzed on Initialize(string connectionString) method!");
-                connected = false;
+                await Logger.ErrorAsync(ex);
             }
 
             return connected;
