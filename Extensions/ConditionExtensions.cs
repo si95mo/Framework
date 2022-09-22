@@ -9,6 +9,14 @@ namespace Extensions
     public static class ConditionExtensions
     {
         /// <summary>
+        /// Add a description to an <see cref="ICondition"/> (in <see cref="ICondition.Description"/>
+        /// </summary>
+        /// <param name="condition">The source <see cref="ICondition"/></param>
+        /// <param name="description">The description</param>
+        public static void WithDescription(this ICondition condition, string description)
+            => condition.Description = description;
+
+        /// <summary>
         /// Create a new <see cref="ICondition"/> that is <see langword="true"/> when <paramref name="source"/> is <see langword="true"/>
         /// </summary>
         /// <param name="source">The source <see cref="ICondition"/></param>
