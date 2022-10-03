@@ -19,9 +19,7 @@ namespace UserInterface.Dashboards
         {
             get
             {
-                double[] value = analogInput != null ?
-                    new double[] { analogInput.Value } : multiSampleAnalogInput.Value;
-
+                double[] value = analogInput != null ? new double[] { analogInput.Value } : multiSampleAnalogInput.Value;
                 return value;
             }
         }

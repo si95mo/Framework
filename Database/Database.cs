@@ -56,7 +56,7 @@ namespace Database
                 else
                     await Logger.ErrorAsync("Database connection not initialzed on Initialize(string connectionString) method!");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 await Logger.ErrorAsync(ex);
             }
@@ -69,12 +69,15 @@ namespace Database
         /// </summary>
         public void Close()
         {
-            connection.Close();
+            if (IsConnected)
+            {
+                connection.Close();
 
-            if (!IsConnected)
-                Logger.Info("Database connection closed");
-            else
-                Logger.Error("Database connection not closed on Close() method!");
+                if (!IsConnected)
+                    Logger.Info("Database connection closed");
+                else
+                    Logger.Error("Database connection not closed on Close() method!");
+            }
         }
 
         /// <summary>

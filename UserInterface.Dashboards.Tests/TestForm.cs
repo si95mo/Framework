@@ -30,14 +30,8 @@ namespace UserInterface.Dashboards.Tests
             digitalInput = new DigitalInput("DigitalInput");
             multiSampleAnalogInput = new MultiSampleAnalogInput("MultiSampleAnalogInput", "V", "0.000");
 
-            analogOutput.ConnectTo(
-                analogInput,
-                new GenericConverter<double, double>(new Func<double, double>((x) => 10 + x))
-            );
-            digitalOutput.ConnectTo(
-                digitalInput,
-                new GenericConverter<bool, bool>(new Func<bool, bool>((x) => !x))
-            );
+            analogOutput.ConnectTo(analogInput, new GenericConverter<double, double>(new Func<double, double>((x) => 10 + x)));
+            digitalOutput.ConnectTo(digitalInput, new GenericConverter<bool, bool>(new Func<bool, bool>((x) => !x)));
 
             Task t = new Task(async () =>
                 {

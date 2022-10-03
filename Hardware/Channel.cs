@@ -192,7 +192,7 @@ namespace Hardware
         /// <param name="channel">The destination <see cref="IChannel"/></param>
         public void ConnectTo(IProperty channel)
         {
-            channel.ValueAsObject = value;
+            channel.ValueAsObject = Value;
             subscribers.Add(channel);
         }
 

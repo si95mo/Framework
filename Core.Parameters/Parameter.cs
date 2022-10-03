@@ -80,7 +80,7 @@ namespace Core.Parameters
         /// <summary>
         /// The <see cref="Parameter{T}"/> value as <see cref="object"/>
         /// </summary>
-        public virtual object ValueAsObject
+        public object ValueAsObject
         {
             get => Value;
             set => Value = (T)value;
@@ -89,17 +89,17 @@ namespace Core.Parameters
         /// <summary>
         /// The <see cref="System.Type"/>
         /// </summary>
-        public virtual Type Type => typeof(T);
+        public Type Type => typeof(T);
 
         /// <summary>
         /// The <see cref="Parameter{T}"/> measure unit
         /// </summary>
-        public virtual string MeasureUnit { get; set; }
+        public string MeasureUnit { get; set; }
 
         /// <summary>
         /// The <see cref="Parameter{T}"/> format
         /// </summary>
-        public virtual string Format { get; set; }
+        public string Format { get; set; }
 
         /// <summary>
         /// The <see cref="Parameter{T}"/> code

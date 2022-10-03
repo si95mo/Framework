@@ -100,8 +100,8 @@ namespace UserInterface.Controls.Tests
             // progressBar
             // 
             this.progressBar.BackColor = System.Drawing.SystemColors.Control;
-            this.progressBar.BarColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(220)))), ((int)(((byte)(4)))));
-            this.progressBar.BarColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(220)))), ((int)(((byte)(4)))));
+            this.progressBar.FirstBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(220)))), ((int)(((byte)(4)))));
+            this.progressBar.SecondBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(220)))), ((int)(((byte)(4)))));
             this.progressBar.BarWidth = 14F;
             this.progressBar.Font = new System.Drawing.Font("Lucida Sans Unicode", 14F);
             this.progressBar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
