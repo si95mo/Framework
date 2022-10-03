@@ -11,8 +11,10 @@ namespace UserInterface.Controls
     /// </summary>
     public partial class DigitalControl : BaseControl
     {
+        private const string True = "T";
+        private const string False = "F";
+
         private object objectLock = new object();
-        private readonly Size initialSize = new Size(60, 60);
 
         private BoolParameter parameter;
 
@@ -50,7 +52,7 @@ namespace UserInterface.Controls
             btnValue.BackColor = Colors.TextColor;
             btnValue.ForeColor = Colors.Grey;
 
-            Size = new Size(150, 40);
+            Size = new Size(128, 32);
         }
 
         /// <summary>
@@ -60,28 +62,63 @@ namespace UserInterface.Controls
         /// <param name="e">The <see cref="EventArgs"/></param>
         private void Control_Cick(object sender, EventArgs e)
         {
-            Point p;
+            UpdatePosition();
+            // Trigger the value changed event
+            Value = !(bool)value;
+        }
+
+        /// <summary>
+        /// Update the <see cref="DigitalControl"/> position
+        /// </summary>
+        private void UpdatePosition()
+        {
+            Point point;
             string text;
 
-            if (btnValue.Location.X == -1)
+            if (btnValue.Location.X == -1) // False ->
             {
-                p = new Point(panel.Size.Width - btnValue.Size.Width, -1);
-                text = "True";
+                point = new Point(panel.Size.Width - btnValue.Size.Width, -1);
+                text = True;
                 panel.BackColor = Colors.Green;
                 btnValue.ForeColor = Colors.Green;
             }
             else
             {
-                p = new Point(-1, -1);
-                text = "False";
+                point = new Point(-1, -1);
+                text = False;
                 panel.BackColor = Colors.Grey;
                 btnValue.ForeColor = Colors.Grey;
             }
 
-            // Trigger the value changed event
-            Value = !(bool)value;
+            btnValue.Location = point;
+            btnValue.Text = text;
+        }
 
-            btnValue.Location = p;
+        /// <summary>
+        /// Update the <see cref="DigitalControl"/> position
+        /// </summary>
+        /// <param name="value">The new value</param>
+        private void UpdatePosition(bool value)
+        {
+            Point point;
+            string text;
+
+            if (value) // New value is true (from false)
+            {
+                point = new Point(panel.Size.Width - btnValue.Size.Width, -1);
+                text = True;
+                panel.BackColor = Colors.Green;
+                btnValue.ForeColor = Colors.Green;
+            }
+            else // New value is false (from true)
+            {
+                point = new Point(-1, -1);
+                text = False;
+                panel.BackColor = Colors.Grey;
+                btnValue.ForeColor = Colors.Grey;
+            }
+
+            btnValue.Location = point;
             btnValue.Text = text;
         }
 
@@ -123,13 +160,17 @@ namespace UserInterface.Controls
         /// <param name="parameter">The <see cref="BoolParameter"/> to connect</param>
         public void SetParameter(BoolParameter parameter)
         {
-            this.parameter = new BoolParameter("DigitalControl.BoolParameter", parameter.Value);
+            this.parameter = new BoolParameter($"DigitalControl.BoolParameter.{parameter.Code}", parameter.Value);
             this.parameter.ConnectTo(parameter);
 
             ValueChanged += DigitalControl_ValueChanged;
+            parameter.ValueChanged += Parameter_ValueChanged;
         }
 
         private void DigitalControl_ValueChanged(object sender, ValueChangedEventArgs e)
-            => parameter.Value = (bool)Value;
+            => parameter.Value = e.NewValueAsBool;
+
+        private void Parameter_ValueChanged(object sender, ValueChangedEventArgs e)
+            => UpdatePosition(e.NewValueAsBool);
     }
 }

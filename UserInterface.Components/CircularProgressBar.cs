@@ -84,7 +84,7 @@ public class CircularProgressBar : UserControl
     }
 
     [Description("First color of the progress bar"), Category("Appearance")]
-    public Color BarColor1
+    public Color FirstBarColor
     {
         get { return firstProgressColor; }
         set
@@ -95,7 +95,7 @@ public class CircularProgressBar : UserControl
     }
 
     [Description("Last color of the progress bar"), Category("Appearance")]
-    public Color BarColor2
+    public Color SecondBarColor
     {
         get { return secondProgressColor; }
         set
@@ -138,7 +138,7 @@ public class CircularProgressBar : UserControl
         }
     }
 
-    [Description("Intermendiate line width"), Category("Appearance")]
+    [Description("Intermediate line width"), Category("Appearance")]
     public int LineWidth
     {
         get { return lineWidth; }
@@ -224,33 +224,16 @@ public class CircularProgressBar : UserControl
 
                 PaintTransparentBackground(this, e);
 
-                // External cirlce
+                // External circle
                 using (Brush mBackColor = new SolidBrush(BackColor))
-                {
-                    graphics.FillEllipse(
-                        mBackColor,
-                        18,
-                        18,
-                        (Width - 0x30) + 12,
-                        (Height - 0x30) + 12
-                    );
-                }
+                    graphics.FillEllipse(mBackColor, 18, 18, (Width - 0x30) + 12, (Height - 0x30) + 12);
 
                 // Internal circle
                 using (Pen pen2 = new Pen(LineColor, LineWidth))
-                {
-                    graphics.DrawEllipse(
-                        pen2,
-                        18,
-                        18,
-                        (Width - 0x30) + 12,
-                        (Height - 0x30) + 12
-                    );
-                }
+                    graphics.DrawEllipse(pen2, 18, 18, (Width - 0x30) + 12, (Height - 0x30) + 12);
 
                 // Progress bar
-                using (LinearGradientBrush brush =
-                    new LinearGradientBrush(ClientRectangle, firstProgressColor, secondProgressColor, GradientMode))
+                using (LinearGradientBrush brush = new LinearGradientBrush(ClientRectangle, firstProgressColor, secondProgressColor, GradientMode))
                 {
                     using (Pen pen = new Pen(brush, BarWidth))
                     {
@@ -268,12 +251,7 @@ public class CircularProgressBar : UserControl
                         }
 
                         // Progress bar draw
-                        graphics.DrawArc(pen,
-                            0x12, 0x12,
-                            (Width - 0x23) - 2,
-                            (Height - 0x23) - 2,
-                            -90,
-                            (int)Math.Round((double)((360.0 / maximum) * value)));
+                        graphics.DrawArc(pen, 0x12, 0x12, (Width - 0x23) - 2, (Height - 0x23) - 2, -90, (int)Math.Round((double)((360.0 / maximum) * value)));
                     }
                 }
 
@@ -299,27 +277,15 @@ public class CircularProgressBar : UserControl
                 {
                     using (Brush FontColor = new SolidBrush(ForeColor))
                     {
-                        int ShadowOffset = 2;
+                        int shadowOffset = 2;
                         SizeF MS = graphics.MeasureString(Text, Font);
                         SolidBrush shadowBrush = new SolidBrush(Color.FromArgb(100, ForeColor));
 
                         // Text effects
-                        graphics.DrawString(
-                            Text,
-                            Font,
-                            shadowBrush,
-                            Convert.ToInt32(Width / 2 - MS.Width / 2) + ShadowOffset,
-                            Convert.ToInt32(Height / 2 - MS.Height / 2) + ShadowOffset
-                        );
+                        // graphics.DrawString(Text, Font, shadowBrush, Convert.ToInt32(Width / 2 - MS.Width / 2) + shadowOffset, Convert.ToInt32(Height / 2 - MS.Height / 2) + shadowOffset);
 
                         // Text
-                        graphics.DrawString(
-                            Text,
-                            Font,
-                            FontColor,
-                            Convert.ToInt32(Width / 2 - MS.Width / 2),
-                            Convert.ToInt32(Height / 2 - MS.Height / 2)
-                        );
+                        graphics.DrawString(Text, Font, FontColor, Convert.ToInt32(Width / 2 - MS.Width / 2), Convert.ToInt32(Height / 2 - MS.Height / 2));
                     }
                 }
 
