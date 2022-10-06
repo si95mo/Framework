@@ -13,12 +13,12 @@ namespace UserInterface.Controls
         /// <summary>
         /// The vertical scrollbar horizontal size
         /// </summary>
-        internal const int SCROLLBAR_HORIZONTAL_SIZE = 23;
+        internal const int ScrollbarHorizontalSize = 23;
 
         /// <summary>
         /// Get the auto scroll option
         /// </summary>
-        public new bool AutoScroll { get; }
+        public new bool AutoScroll { get; set; }
 
         /// <summary>
         /// Get the <see cref="System.Windows.FlowDirection"/> of the control
@@ -28,7 +28,7 @@ namespace UserInterface.Controls
         /// <summary>
         /// Get the wrap contents option
         /// </summary>
-        public new bool WrapContents { get; }
+        public new bool WrapContents { get; set;  }
 
         public VerticalLayoutPanel()
         {
@@ -53,7 +53,7 @@ namespace UserInterface.Controls
         {
             // Resize the control
             // Note: 23 is the vertical scrollbar horizontal size
-            control.Size = new Size(Size.Width - SCROLLBAR_HORIZONTAL_SIZE, control.Size.Height);
+            control.Size = new Size(Size.Width - ScrollbarHorizontalSize, control.Size.Height);
 
             // Then add the resized control
             Controls.Add(control);

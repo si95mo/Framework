@@ -75,6 +75,12 @@ namespace UserInterface.Controls
         public static readonly Color LightYellow = Color.FromArgb(0xFF, 0xFE, 0xED);
 
         /// <summary>
+        /// The yellow <see cref="Color"/>
+        /// defined as 0xFE, 0xD0, 0x00
+        /// </summary>
+        public static readonly Color Yellow = Color.FromArgb(0xFE, 0xD0, 0x00);
+
+        /// <summary>
         /// Define the color for success messages
         /// </summary>
         public static readonly Color Success = Color.SeaGreen;

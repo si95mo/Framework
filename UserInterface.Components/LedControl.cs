@@ -47,14 +47,11 @@ namespace UserInterface.Controls
         /// </summary>
         public LedControl()
         {
-            ControlStyles flag = ControlStyles.DoubleBuffer | ControlStyles.AllPaintingInWmPaint |
-                ControlStyles.ResizeRedraw | ControlStyles.UserPaint | ControlStyles.SupportsTransparentBackColor;
+            ControlStyles flag = ControlStyles.DoubleBuffer | ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw | ControlStyles.UserPaint | ControlStyles.SupportsTransparentBackColor;
             SetStyle(flag, true);
 
             color = Color.Green;
-            timer.Tick += new EventHandler(
-                (object sender, EventArgs e) => { On = !On; }
-            );
+            timer.Tick += new EventHandler((object sender, EventArgs e) => { On = !On; });
         }
 
         /// <summary>
@@ -68,7 +65,7 @@ namespace UserInterface.Controls
             {
                 g.SmoothingMode = SmoothingMode.HighQuality;
                 // Draw the control
-                DrawControl(g, this.On);
+                DrawControl(g, On);
                 // Draw the image to the screen
                 e.Graphics.DrawImageUnscaled(offScreenBmp, 0, 0);
             }
@@ -105,9 +102,9 @@ namespace UserInterface.Controls
         }
 
         /// <summary>
-        /// Causes the <see cref="LedControl"/> to start blinking
+        /// Cause the <see cref="LedControl"/> to start blinking
         /// </summary>
-        /// <param name="interval">The blinking interval (in milliseconds). Set to 0 to stop</param>
+        /// <param name="interval">The blinking interval (in milliseconds)</param>
         public void Blink(int interval)
         {
             if (interval > 0)
@@ -122,6 +119,12 @@ namespace UserInterface.Controls
                 On = false;
             }
         }
+
+        /// <summary>
+        /// Cause the <see cref="LedControl"/> to start blinking
+        /// </summary>
+        /// <param name="time">The blinking period</param>
+        public void Blink(TimeSpan time) => Blink(time.Milliseconds);
 
         /// <summary>
         /// Causes the <see cref="LedControl"/> to stop blinking. <br/>
