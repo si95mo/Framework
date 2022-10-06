@@ -47,6 +47,7 @@
     <Compile Include="StateObject.cs" />
     <Compile Include="TcpChannel.cs" />
     <Compile Include="TcpResource.cs" />
+    <Compile Include="TcpServer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core.DataStructures\Core.DataStructures.csproj">
