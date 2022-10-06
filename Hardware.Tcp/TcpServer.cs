@@ -31,7 +31,7 @@ namespace Hardware.Tcp
     /// </summary>
     public class TcpServer : Resource, IDisposable
     {
-        private readonly TcpListener listener;
+        private TcpListener listener;
         private volatile bool isListening = false;
 
         #region Public properties
@@ -68,15 +68,15 @@ namespace Hardware.Tcp
         public TcpServer(string code, int port, Encoding encoding) : base(code)
         {
             // Get the local ip address
+            string ipAddress = string.Empty;
             using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, 0))
             {
                 socket.Connect("8.8.8.8", 65530);
                 IPEndPoint endPoint = socket.LocalEndPoint as IPEndPoint;
-                IpAddress = endPoint.Address.ToString();
+                ipAddress = endPoint.Address.ToString();
             }
 
-            Port = port;
-            StreamInput = new StreamInput($"{Code}.StreamInput", encoding);
+            InitializeVariables(ipAddress, port, encoding);
         }
 
         /// <summary>
@@ -87,10 +87,21 @@ namespace Hardware.Tcp
         /// <param name="port">The port</param>
         /// <param name="encoding">The <see cref="Encoding"/></param>
         public TcpServer(string code, string ipAddress, int port, Encoding encoding) : base(code)
+            => InitializeVariables(ipAddress, port, encoding);
+
+        /// <summary>
+        /// Initialize the variables
+        /// </summary>
+        /// <param name="ipAddress">The ip address</param>
+        /// <param name="port">The port</param>
+        /// <param name="encoding">The <see cref="Encoding"/></param>
+        private void InitializeVariables(string ipAddress, int port, Encoding encoding)
         {
             IpAddress = ipAddress;
             Port = port;
             StreamInput = new StreamInput($"{Code}.StreamInput", encoding);
+
+            listener = new TcpListener(IPAddress.Parse(IpAddress), Port);
         }
 
         #endregion Constructors
@@ -114,7 +125,7 @@ namespace Hardware.Tcp
 
                 Status.Value = ResourceStatus.Executing;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 HandleException(ex);
             }
@@ -131,7 +142,7 @@ namespace Hardware.Tcp
                 isListening = false;
                 listener.Stop();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 HandleException(ex);
             }

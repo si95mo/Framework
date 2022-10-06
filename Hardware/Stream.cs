@@ -9,10 +9,10 @@ namespace Hardware
     {
         public Encoding Encoding { get; protected set; }
 
-        public string EncodedValue 
-        { 
+        public string EncodedValue
+        {
             get => Encoding.GetString(Value);
-            set => Value = Encoding.GetBytes(value); 
+            set => Value = Encoding.GetBytes(value);
         }
 
         /// <summary>
