@@ -54,9 +54,12 @@
     <Compile Include="IDigitalInput.cs" />
     <Compile Include="IDigitalOutput.cs" />
     <Compile Include="IResource.cs" />
+    <Compile Include="IStream.cs" />
     <Compile Include="MultiSampleAnalogInput.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resource.cs" />
+    <Compile Include="Stream.cs" />
+    <Compile Include="StreamInput.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core.Conditions\Core.Conditions.csproj">
