@@ -1,7 +1,11 @@
-﻿using System;
+﻿using Diagnostic;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Hardware.Tcp
@@ -32,6 +36,9 @@ namespace Hardware.Tcp
     public class TcpServer : Resource, IDisposable
     {
         private TcpListener listener;
+        private CancellationTokenSource tokenSource;
+        private CancellationToken token;
+        private NetworkStream stream;
         private volatile bool isListening = false;
 
         #region Public properties
@@ -97,7 +104,7 @@ namespace Hardware.Tcp
         /// <param name="encoding">The <see cref="Encoding"/></param>
         private void InitializeVariables(string ipAddress, int port, Encoding encoding)
         {
-            IpAddress = ipAddress;
+            IpAddress = ipAddress.CompareTo("localhost") == 0 ? "127.0.0.1" : ipAddress;
             Port = port;
             StreamInput = new StreamInput($"{Code}.StreamInput", encoding);
 
@@ -112,25 +119,63 @@ namespace Hardware.Tcp
             await Restart();
         }
 
-        public override Task Start()
+        public override async Task Start()
         {
             Status.Value = ResourceStatus.Starting;
 
             try
             {
+                listener.Server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true);
+
+                if (token == null)
+                    token = new CancellationToken();
+
+                tokenSource = CancellationTokenSource.CreateLinkedTokenSource(token);
+                token = tokenSource.Token;
+
                 listener.Start();
                 isListening = true;
 
-                WaitForClientConnection();
-
                 Status.Value = ResourceStatus.Executing;
+
+                await Logger.InfoAsync("Waiting for client to connect...");
+                TcpClient client = await listener.AcceptTcpClientAsync();
+                await Logger.WarnAsync("Client connected");
+
+                byte[] buffer = new byte[1024];
+                List<byte> fullBuffer = new List<byte>();
+                int bytesRead = 0;
+                while (!token.IsCancellationRequested)
+                {
+                    stream = client.GetStream();
+
+                    if (stream.CanRead)
+                    {
+                        do
+                        {
+                            if (stream.DataAvailable)
+                                bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+                            else
+                                bytesRead = 0;
+
+                            for (int i = 0; i < bytesRead; i++)
+                                fullBuffer.Add(buffer[i]);
+                        }
+                        while (bytesRead > 0);
+
+                        if (fullBuffer.Count > 0)
+                            StreamInput.Value = fullBuffer.ToArray();
+                    }
+                    else
+                    {
+                        await Task.Delay(TimeSpan.FromMilliseconds(1000d));
+                    }
+                }
             }
             catch (Exception ex)
             {
                 HandleException(ex);
             }
-
-            return Task.CompletedTask;
         }
 
         public override void Stop()
@@ -140,6 +185,10 @@ namespace Hardware.Tcp
             try
             {
                 isListening = false;
+
+                if (tokenSource != null)
+                    tokenSource.Cancel();
+
                 listener.Stop();
             }
             catch (Exception ex)
@@ -149,40 +198,5 @@ namespace Hardware.Tcp
         }
 
         public void Dispose() => Stop();
-
-        #region Helper methods
-
-        /// <summary>
-        /// Wait for a client connection
-        /// </summary>
-        private void WaitForClientConnection()
-            => listener.BeginAcceptTcpClient(HandleClientConnection, listener);
-
-        /// <summary>
-        /// Handle a new client connection
-        /// </summary>
-        /// <param name="result"></param>
-        private void HandleClientConnection(IAsyncResult result)
-        {
-            if (!isListening)
-            {
-                return;
-            }
-
-            var server = result.AsyncState as TcpListener;
-            var client = listener.EndAcceptTcpClient(result);
-
-            WaitForClientConnection();
-
-            NetworkStream stream = client.GetStream();
-            DataReceived.Invoke(this, new DataReceivedEventArgs(stream));
-
-            // Get the data from the network stream and then set it to the StreamInput
-            byte[] buffer = new byte[stream.Length];
-            stream.Read(buffer, 0, (int)stream.Length);
-            StreamInput.Value = buffer;
-        }
-
-        #endregion Helper methods
     }
 }
