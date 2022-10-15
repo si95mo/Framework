@@ -22,15 +22,22 @@ namespace Hardware.Resources.Tests
         [OneTimeSetUp]
         public async Task Setup()
         {
-            resource = new TwincatResource("TwincatResource", amsNetAddress, port);
+            resource = new TwincatResource("TwincatResource", port, 10, 10);
 
             await resource.Start();
             resource.Status.Value.Should().Be(ResourceStatus.Executing);
 
-            analogIn = new TwincatAnalogInput("AnalogInputVariableName", "GVL.AnalogInputs[0]", resource);
+            analogIn = new TwincatAnalogInput("AnalogInputVariableName", "GVL.AnalogInputs[1]", resource);
             digitalIn = new TwincatDigitalInput("DigitalInputVariableName", "GVL.DigitalInputs[0]", resource);
             analogOut = new TwincatAnalogOutput("AnalogOutputVariableName", "GVL.AOut[0]", resource);
             digitalOut = new TwincatDigitalOutput("DigitalOutputVariableName", "GVL.DOUt[0]", resource);
+        }
+
+        
+        [OneTimeTearDown]
+        public void TearDown()
+        {
+            resource.Stop();
         }
 
         [Test]
@@ -41,7 +48,7 @@ namespace Hardware.Resources.Tests
                 analogOut.Value = i;
                 digitalOut.Value = !digitalOut.Value;
 
-                await Task.Delay(1000);
+                await Task.Delay(10);
 
                 Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} >> {analogIn.VariableName}: {analogIn.Value}, {digitalIn.VariableName}: {digitalIn.Value}");
             }

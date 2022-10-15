@@ -20,7 +20,7 @@ namespace Hardware.Twincat
         /// <param name="measureUnit">The measure unit</param>
         /// <param name="format">The format</param>
         public TwincatAnalogInput(string code, string variableName, IResource resource, string measureUnit = "", string format = "0.000")
-            : base(code, variableNamein, resource, measureUnit, format)
+            : base(code, variableName, resource, measureUnit, format)
         {
             if (resource.Status.Value == ResourceStatus.Executing)
                 Attach();

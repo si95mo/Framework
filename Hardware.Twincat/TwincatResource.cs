@@ -67,37 +67,31 @@ namespace Hardware.Twincat
         /// <param name="amsNetAddress">The PLC ams net address</param>
         /// <param name="port">The port number</param>
         /// <param name="pollingInterval">The polling interval (in milliseconds)</param>
-        /// <param name="maximumDelayBetweenNotifications">The maximum delay between each ads notification</param>
-        public TwincatResource(string code, string amsNetAddress, int port, int pollingInterval = 100, int maximumDelayBetweenNotifications = 20) : base(code)
+        /// <param name="maximumDelayBetweenNotifications">The maximum delay between each ads notification (in millisecond)</param>
+        public TwincatResource(string code, string amsNetAddress, int port, int pollingInterval = 100, int maximumDelayBetweenNotifications = 20)
+            : this(code, port, pollingInterval, maximumDelayBetweenNotifications)
         {
-            this.amsNetAddress = amsNetAddress;
-            this.port = port;
-            PollingInterval = pollingInterval;
-            MaximumDelayBetweenNotifications = maximumDelayBetweenNotifications;
-
             initializedWithAddress = true;
-
             address = new AmsAddress(amsNetAddress, port);
-            client = new TcAdsClient();
 
             InitializeResource();
         }
 
         /// <summary>
-        /// Initialize a new instance of <see cref="TwincatResource"/>
-        /// by specifying only the port number of the Ads server
+        /// Initialize a new instance of <see cref="TwincatResource"/> by specifying only the port number of the Ads server
         /// </summary>
         /// <param name="code">The code</param>
         /// <param name="port">The port number</param>
         /// <param name="pollingInterval">The polling interval (in milliseconds)</param>
-        public TwincatResource(string code, int port, int pollingInterval = 100) : base(code)
+        /// <param name="maximumDelayBetweenNotifications">The maximum delay between each ads notification (in millisecond)</param>
+        public TwincatResource(string code, int port, int pollingInterval = 100, int maximumDelayBetweenNotifications = 20) : base(code)
         {
             this.port = port;
-            amsNetAddress = "";
+            amsNetAddress = string.Empty;
             PollingInterval = pollingInterval;
+            MaximumDelayBetweenNotifications = maximumDelayBetweenNotifications;
 
             initializedWithAddress = false;
-
             client = new TcAdsClient();
 
             InitializeResource();
@@ -107,10 +101,7 @@ namespace Hardware.Twincat
         /// Initialize the <see cref="TwincatResource"/> status
         /// </summary>
         private void InitializeResource()
-        {
-            symbolLoader = (AdsSymbolLoader)SymbolLoaderFactory.Create(client, SymbolLoaderSettings.Default);
-            symbolLoader.DefaultNotificationSettings = new NotificationSettings(NotificationTransactionMode, PollingInterval, MaximumDelayBetweenNotifications);            
-
+        {         
             client.AdsNotificationError += (object _, AdsNotificationErrorEventArgs e) =>
             {
                 string failureDescription = e.Exception.Message;
@@ -158,10 +149,13 @@ namespace Hardware.Twincat
                 if (initializedWithAddress)
                     client.Connect(address.NetId, address.Port);
                 else
-                    client.Connect(address);
+                    client.Connect(port);
 
                 if (client.ConnectionState == ConnectionState.Connected)
                 {
+                    symbolLoader = (AdsSymbolLoader)SymbolLoaderFactory.Create(client, SymbolLoaderSettings.Default);
+                    symbolLoader.DefaultNotificationSettings = new NotificationSettings(NotificationTransactionMode, PollingInterval, MaximumDelayBetweenNotifications);
+
                     Status.Value = ResourceStatus.Executing;
                     isOpen = true;
                 }
