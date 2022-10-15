@@ -22,6 +22,9 @@ namespace Hardware.Twincat
         public TwincatAnalogOutput(string code, string variableName, IResource resource, string measureUnit = "",
             string format = "0.000") : base(code, variableName, resource, measureUnit, format)
         {
+            if (resource.Status.Value == ResourceStatus.Executing)
+                Attach();
+
             ValueChanged += TwincatAnalogOutput_ValueChanged;
         }
 
@@ -30,9 +33,9 @@ namespace Hardware.Twincat
             if ((Resource as TwincatResource).TryGetInstance(this, out ISymbol symbol))
             {
                 Symbol = symbol as Symbol;
-                Type managedType = (Symbol.DataType as DataType).ManagedType;
+                ManagedType = (Symbol.DataType as DataType).ManagedType;
 
-                if (managedType.IsNumeric())
+                if (ManagedType.IsNumeric())
                 {
                     if (Symbol?.Connection?.IsConnected == true)
                     {
@@ -40,7 +43,7 @@ namespace Hardware.Twincat
                         {
                             try
                             {
-                                Value = Convert.ToDouble(Symbol.ReadAnyValue(managedType));
+                                Value = Convert.ToDouble(Symbol.ReadAnyValue(ManagedType));
                             }
                             catch (Exception ex)
                             {

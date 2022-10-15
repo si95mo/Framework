@@ -19,6 +19,9 @@ namespace Hardware.Twincat
         public TwincatDigitalOutput(string code, string variableName, IResource resource)
             : base(code, variableName, resource, measureUnit: "", format: "0")
         {
+            if (resource.Status.Value == ResourceStatus.Executing)
+                Attach();
+
             ValueChanged += TwincatAnalogOutput_ValueChanged;
         }
 

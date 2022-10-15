@@ -58,6 +58,7 @@ namespace Hardware.Twincat
         /// <summary>
         /// Create a new instance of <see cref="TwincatResource"/> by specifying both the ams net address and the port of the Ads server
         /// </summary>
+        /// <remarks>If <paramref name="amsNetAddress"/> is equal to <see cref="string.Empty"/>, then the connection will be established to the local ads server</remarks>
         /// <param name="code">The code</param>
         /// <param name="amsNetAddress">The PLC ams net address</param>
         /// <param name="port">The port number</param>
@@ -66,7 +67,7 @@ namespace Hardware.Twincat
         public TwincatResource(string code, string amsNetAddress, int port, int pollingInterval = 100, int maximumDelayBetweenNotifications = 20)
             : this(code, port, pollingInterval, maximumDelayBetweenNotifications)
         {
-            initializedWithAddress = true;
+            initializedWithAddress = amsNetAddress.CompareTo(string.Empty) != 0;
             address = new AmsAddress(amsNetAddress, port);
 
             InitializeResource();
