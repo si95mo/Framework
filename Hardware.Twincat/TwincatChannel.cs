@@ -1,13 +1,21 @@
-﻿namespace Hardware.Twincat
+﻿using System;
+using TwinCAT.Ads.TypeSystem;
+
+namespace Hardware.Twincat
 {
     /// <summary>
     /// Describe a generic Twincat channel
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class TwincatChannel<T> : Channel<T>, ITwincatChannel
+    public abstract class TwincatChannel<T> : Channel<T>, ITwincatChannel
     {
         private string variableName;
-        protected IResource resource;
+
+        protected object LockObject = new object();
+
+        protected Symbol Symbol;
+        protected IResource Resource;
+        protected Type ManagedType;
 
         public string VariableName { get => variableName; protected set => variableName = value; }
 
@@ -22,8 +30,11 @@
         protected TwincatChannel(string code, string variableName, IResource resource, string measureUnit, string format) : base(code, measureUnit, format)
         {
             this.variableName = variableName;
-            this.resource = resource;
-            this.resource.Channels.Add(this);
+            Resource = resource;
+            Resource.Channels.Add(this);
         }
+
+        public abstract void Attach();
+
     }
 }

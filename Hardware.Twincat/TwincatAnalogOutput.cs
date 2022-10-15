@@ -1,4 +1,10 @@
-﻿namespace Hardware.Twincat
+﻿using Diagnostic;
+using Extensions;
+using System;
+using TwinCAT.Ads.TypeSystem;
+using TwinCAT.TypeSystem;
+
+namespace Hardware.Twincat
 {
     /// <summary>
     /// Implement a Twincat analog output
@@ -19,7 +25,49 @@
             ValueChanged += TwincatAnalogOutput_ValueChanged;
         }
 
+        public override void Attach()
+        {
+            if ((Resource as TwincatResource).TryGetInstance(this, out ISymbol symbol))
+            {
+                Symbol = symbol as Symbol;
+                Type managedType = (Symbol.DataType as DataType).ManagedType;
+
+                if (managedType.IsNumeric())
+                {
+                    if (Symbol?.Connection?.IsConnected == true)
+                    {
+                        lock (LockObject)
+                        {
+                            try
+                            {
+                                Value = Convert.ToDouble(Symbol.ReadAnyValue(managedType));
+                            }
+                            catch (Exception ex)
+                            {
+                                Logger.Error($"{ex.Message} occurred when reading {Code}");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         private void TwincatAnalogOutput_ValueChanged(object sender, Core.ValueChangedEventArgs e)
-            => (resource as TwincatResource).Send(Code);
+        {
+            lock(LockObject)
+            {
+                if(Symbol?.Connection?.IsConnected == true)
+                {
+                    try
+                    {
+                        Symbol.WriteValue(Convert.ChangeType(e.NewValueAsDouble, ManagedType));
+                    }
+                    catch(Exception ex)
+                    {
+                        Logger.Error($"{ex.Message} occurred when writing {Code}");
+                    }
+                }
+            }
+        }
     }
 }

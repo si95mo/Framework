@@ -11,5 +11,10 @@ namespace Hardware.Twincat
         /// The Twincat variable name
         /// </summary>
         string VariableName { get; }
+
+        /// <summary>
+        /// Attach the <see cref="ITwincatChannel"/> to the resource instance
+        /// </summary>
+        void Attach();
     }
 }

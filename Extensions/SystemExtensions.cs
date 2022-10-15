@@ -50,5 +50,34 @@ namespace Extensions
             string json = await Task.Factory.StartNew(() => JsonConvert.SerializeObject(source, Formatting.Indented));
             await FileHandler.SaveAsync(json, path);
         }
+
+        /// <summary>
+        /// Define weather a <see cref="Type"/> is numeric or not
+        /// </summary>
+        /// <param name="type">The <see cref="Type"/></param>
+        /// <returns><see langword="true"/> if the <see cref="Type"/> is numeric, <see langword="false"/> otherwise</returns>
+        public static bool IsNumeric(this Type type)
+        {
+            bool isNumeric = false;
+
+            switch (Type.GetTypeCode(type))
+            {
+                case TypeCode.Byte:
+                case TypeCode.SByte:
+                case TypeCode.UInt16:
+                case TypeCode.UInt32:
+                case TypeCode.UInt64:
+                case TypeCode.Int16:
+                case TypeCode.Int32:
+                case TypeCode.Int64:
+                case TypeCode.Decimal:
+                case TypeCode.Double:
+                case TypeCode.Single:
+                    isNumeric = true;
+                    break;
+            }
+
+            return isNumeric;
+        }
     }
 }

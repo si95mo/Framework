@@ -16,5 +16,10 @@
         protected TwincatMultiSampleAnalogInput(string code, string variableName, IResource resource, string measureUnit = "", string format = "0.000")
             : base(code, variableName, resource, measureUnit, format)
         { }
+
+        public override void Attach()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
