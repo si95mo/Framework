@@ -18,10 +18,6 @@ namespace Hardware.Twincat
     public class TwincatResource : Resource
     {
         /// <summary>
-        /// Maximum notifications allowed
-        /// </summary>
-        private const int MaxNotificationsCounter = 512;
-        /// <summary>
         /// The <see cref="AdsTransMode"/>
         /// </summary>
         private const AdsTransMode NotificationTransactionMode = AdsTransMode.OnChange;
@@ -60,8 +56,7 @@ namespace Hardware.Twincat
         public int MaximumDelayBetweenNotifications { get; set; }
 
         /// <summary>
-        /// Create a new instance of <see cref="TwincatResource"/>
-        /// by specifying both the ams net address and the port of the Ads server
+        /// Create a new instance of <see cref="TwincatResource"/> by specifying both the ams net address and the port of the Ads server
         /// </summary>
         /// <param name="code">The code</param>
         /// <param name="amsNetAddress">The PLC ams net address</param>
@@ -80,6 +75,7 @@ namespace Hardware.Twincat
         /// <summary>
         /// Initialize a new instance of <see cref="TwincatResource"/> by specifying only the port number of the Ads server
         /// </summary>
+        /// <remarks>This version of the constructor should be used when the connection has to be established to a local ADS server (only the port is needed in this case)</remarks>
         /// <param name="code">The code</param>
         /// <param name="port">The port number</param>
         /// <param name="pollingInterval">The polling interval (in milliseconds)</param>
