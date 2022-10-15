@@ -3,6 +3,7 @@ using Core.DataStructures;
 using Diagnostic;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using TwinCAT;
 using TwinCAT.Ads;
@@ -236,11 +237,13 @@ namespace Hardware.Twincat
         /// <returns>The async <see cref="Task"/></returns>
         private async Task Receive()
         {
-            int handle;
+            int handle, timeToWait;
             ITwincatChannel twincatChannel;
+            Stopwatch timer;
 
             while (Status.Value == ResourceStatus.Executing)
             {
+                timer = Stopwatch.StartNew();
                 try
                 {
                     foreach (IChannel channel in Channels)
@@ -266,7 +269,14 @@ namespace Hardware.Twincat
                     HandleException(ex);
                 }
 
-                await Task.Delay(PollingInterval);
+                timer.Stop();
+                if (PollingInterval < timer.ElapsedMilliseconds)
+                    await Logger.WarnAsync($"Polling cycle exceeded the set time by {Math.Abs(PollingInterval - timer.ElapsedMilliseconds):0.0}[ms]");
+
+                await Logger.InfoAsync($"Polling cycle took {timer.ElapsedMilliseconds:0.0}[ms]");
+
+                timeToWait = PollingInterval < timer.ElapsedMilliseconds ? PollingInterval : (int)(PollingInterval - timer.ElapsedMilliseconds);
+                await Task.Delay(timeToWait);
             }
         }
 
