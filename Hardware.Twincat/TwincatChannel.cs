@@ -6,13 +6,10 @@
     /// <typeparam name="T"></typeparam>
     public class TwincatChannel<T> : Channel<T>, ITwincatChannel
     {
-        private string variableName, arrayName;
-        private int positionInArray;
+        private string variableName;
         protected IResource resource;
 
         public string VariableName { get => variableName; protected set => variableName = value; }
-        public string ArrayName { get => arrayName; protected set => arrayName = value; }
-        public int PositionInArray { get => positionInArray; protected set => positionInArray = value; }
 
         /// <summary>
         /// Create a new instance of <see cref="TwincatChannel{T}"/>
@@ -25,23 +22,7 @@
         protected TwincatChannel(string code, string variableName, IResource resource, string measureUnit, string format) : base(code, measureUnit, format)
         {
             this.variableName = variableName;
-            if(variableName.Contains("[")) // Array
-            {
-                int indexOfFirstParenthesis = variableName.IndexOf("[");
-                int indexOfSecondParenthesis = variableName.IndexOf("]");
-
-                ArrayName = variableName.Substring(0, indexOfFirstParenthesis);
-                int.TryParse(variableName.Substring(indexOfFirstParenthesis, indexOfSecondParenthesis - indexOfFirstParenthesis - 1), out int index);
-                PositionInArray = index;
-            }
-            else
-            {
-                arrayName = string.Empty;
-                positionInArray = -1;
-            }
-
             this.resource = resource;
-
             this.resource.Channels.Add(this);
         }
     }

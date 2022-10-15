@@ -27,8 +27,8 @@ namespace Hardware.Resources.Tests
             await resource.Start();
             resource.Status.Value.Should().Be(ResourceStatus.Executing);
 
-            analogIn = new TwincatAnalogInput("AnalogInputVariableName", "GVL.AIn[0]", resource);
-            digitalIn = new TwincatDigitalInput("DigitalInputVariableName", "GVL.DIn[0]", resource);
+            analogIn = new TwincatAnalogInput("AnalogInputVariableName", "GVL.AnalogInputs[0]", resource);
+            digitalIn = new TwincatDigitalInput("DigitalInputVariableName", "GVL.DigitalInputs[0]", resource);
             analogOut = new TwincatAnalogOutput("AnalogOutputVariableName", "GVL.AOut[0]", resource);
             digitalOut = new TwincatDigitalOutput("DigitalOutputVariableName", "GVL.DOUt[0]", resource);
         }
