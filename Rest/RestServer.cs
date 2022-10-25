@@ -1,8 +1,10 @@
 ﻿using Diagnostic;
 using Hardware;
 using Nancy;
+using Nancy.Bootstrapper;
 using Nancy.Hosting.Self;
 using Nancy.Testing;
+using Nancy.TinyIoc;
 using System;
 using System.Threading.Tasks;
 
@@ -16,6 +18,7 @@ namespace Rest
         private Uri uri;
         private NancyHost host;
         private HostConfiguration configuration;
+        private NancyBootstrapperWithRequestContainerBase<TinyIoCContainer> bootstrapper;
 
         /// <summary>
         /// The <see cref="RestServer"/> <see cref="System.Uri"/>
@@ -34,16 +37,11 @@ namespace Rest
             configuration = new HostConfiguration();
             configuration.UrlReservations.CreateAutomatically = true;
             configuration.RewriteLocalhost = false;
+            bootstrapper = new DefaultNancyBootstrapper();
 
             this.uri = uri;
 
-            host = new NancyHost(uri, new DefaultNancyBootstrapper(), configuration);
-
-            // Cannot await in the constructor!
-            // Because this call is not awaited, execution of the current method continues before the call is completed
-#pragma warning disable CS4014
-            Start();
-#pragma warning restore CS4014
+            host = new NancyHost(uri, bootstrapper, configuration);
         }
 
         /// <summary>
@@ -56,6 +54,7 @@ namespace Rest
         {
             configuration = new HostConfiguration();
             configuration.UrlReservations.CreateAutomatically = true;
+            this.bootstrapper = bootstrapper;
 
             this.uri = uri;
 
@@ -65,14 +64,29 @@ namespace Rest
         /// <summary>
         /// Start the <see cref="RestServer"/>
         /// </summary>
-        public override async Task Start()
+        public override Task Start()
         {
             Status.Value = ResourceStatus.Starting;
 
-            await Task.Run(() => host.Start());
-            Logger.Log($"{Code} self-hosting on {uri}", Severity.Info);
+            try
+            {
+                host.Start();
+                Logger.Log($"{Code} self-hosting on {uri}", Severity.Info);
+            }
+            catch(Exception ex)
+            {
+                Logger.Error(ex);
+                Logger.Warn($"Attempting to restart {Code} on localhost");
+
+                uri = new Uri($"http://localhost:{uri.Port}");
+                host = new NancyHost(uri, bootstrapper, configuration);
+
+                host.Start();
+            }
 
             Status.Value = ResourceStatus.Executing;
+
+            return Task.CompletedTask;
         }
 
         /// <summary>

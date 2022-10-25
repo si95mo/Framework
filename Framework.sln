@@ -196,6 +196,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diagnostic.Report", "Diagno
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diagnostic.Report.Tests", "Diagnostic.Report.Tests\Diagnostic.Report.Tests.csproj", "{07FC2915-237B-4ABE-8587-2C9A1CED0FFD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hardware.Tcp.IntegrationTest", "Hardware.Tcp.IntegrationTest\Hardware.Tcp.IntegrationTest.csproj", "{1BD94806-6EEF-4253-9614-5A741474918F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -530,6 +532,10 @@ Global
 		{07FC2915-237B-4ABE-8587-2C9A1CED0FFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07FC2915-237B-4ABE-8587-2C9A1CED0FFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07FC2915-237B-4ABE-8587-2C9A1CED0FFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BD94806-6EEF-4253-9614-5A741474918F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BD94806-6EEF-4253-9614-5A741474918F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BD94806-6EEF-4253-9614-5A741474918F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BD94806-6EEF-4253-9614-5A741474918F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -605,6 +611,7 @@ Global
 		{0352DD33-CD38-4A3C-B976-744E04DFB8C8} = {6C42BBB3-9D9F-4CDD-927A-B41641B77BB7}
 		{3F66C2AA-116B-4506-B130-09FD63162438} = {FD407DD8-26D8-458B-A80F-234CD291E8DD}
 		{07FC2915-237B-4ABE-8587-2C9A1CED0FFD} = {FD407DD8-26D8-458B-A80F-234CD291E8DD}
+		{1BD94806-6EEF-4253-9614-5A741474918F} = {6C1F336D-3B00-40B5-967F-F413B52CAC56}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {94CEDAC4-5E2B-4E25-938D-AA666821B1F0}

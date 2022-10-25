@@ -190,9 +190,7 @@ namespace Hardware.Resources
                     {
                         // There might be more data, so store the data received so far
                         state.StringBuilder.Append(Encoding.ASCII.GetString(state.Buffer, 0, bytesRead));
-
-                        if (state.TcpChannel.Value.CompareTo(string.Empty) == 0)
-                            state.TcpChannel.Value = state.StringBuilder.ToString();
+                        state.TcpChannel.Value = state.StringBuilder.ToString();
 
                         // Get the rest of the data
                         client.BeginReceive(
@@ -297,20 +295,25 @@ namespace Hardware.Resources
 
             try
             {
-                ipProperties = IPGlobalProperties.GetIPGlobalProperties();
-                tcpConnections = ipProperties.GetActiveTcpConnections().Where(
-                    x =>
-                        x.LocalEndPoint.Equals(tcp.Client?.LocalEndPoint) &&
-                        x.RemoteEndPoint.Equals(tcp.Client?.RemoteEndPoint)
-                ).ToArray();
-
-                if (tcpConnections != null && tcpConnections.Length > 0)
+                if (IpAddress.CompareTo("localhost") != 0 && IpAddress.CompareTo("127.0.0.1") != 0)
                 {
-                    TcpState stateOfConnection = tcpConnections.First().State;
+                    ipProperties = IPGlobalProperties.GetIPGlobalProperties();
+                    tcpConnections = ipProperties.GetActiveTcpConnections().Where(
+                        x =>
+                            x.LocalEndPoint.Equals(tcp.Client?.LocalEndPoint) &&
+                            x.RemoteEndPoint.Equals(tcp.Client?.RemoteEndPoint)
+                    ).ToArray();
 
-                    if (stateOfConnection == TcpState.Established)
-                        result = true;
+                    if (tcpConnections != null && tcpConnections.Length > 0)
+                    {
+                        TcpState stateOfConnection = tcpConnections.First().State;
+
+                        if (stateOfConnection == TcpState.Established)
+                            result = true;
+                    }
                 }
+                else
+                    result = true;
 
                 return result;
             }
