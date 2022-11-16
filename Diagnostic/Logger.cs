@@ -248,7 +248,7 @@ namespace Diagnostic
         /// <summary>
         /// Simple log method.
         /// Save the text specified as parameter in the log file.
-        /// <see cref="Path"/>
+        /// The file will be saved based on what is specified inside <see cref="Path"/>
         /// </summary>
         /// <param name="text">The text to be saved</param>
         /// <param name="severity">The <see cref="Severity"/></param>
