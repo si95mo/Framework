@@ -20,7 +20,7 @@ namespace Database
         /// Initialize the <see cref="DatabaseManager"/> connection
         /// </summary>
         /// <param name="connectionString">The connection <see cref="string"/></param>
-        /// <returns>The (async) <see cref="Task{TResult}"/> (of which the result will be <see langword="true"/> if connected, <see langword="false"/> otherwise</returns>
+        /// <returns>The (async) <see cref="Task{TResult}"/> (of which the result will be <see langword="true"/> if connected, <see langword="false"/> otherwise)</returns>
         public static async Task<bool> Initialize(string connectionString)
         {
             database = new Database(connectionString);
@@ -33,7 +33,7 @@ namespace Database
         /// Initialize the <see cref="DatabaseManager"/> connection
         /// </summary>
         /// <param name="sqlConnectionBuilder">The <see cref="SqlConnectionStringBuilder"/></param>
-        /// <returns>The (async) <see cref="Task{TResult}"/> (of which the result will be <see langword="true"/> if connected, <see langword="false"/> otherwise</returns>
+        /// <returns>The (async) <see cref="Task{TResult}"/> (of which the result will be <see langword="true"/> if connected, <see langword="false"/> otherwise)</returns>
         public static async Task<bool> Initialize(SqlConnectionStringBuilder sqlConnectionBuilder)
             => await Initialize(sqlConnectionBuilder.ConnectionString);
 
