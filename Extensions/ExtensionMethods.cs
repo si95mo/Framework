@@ -125,6 +125,8 @@ namespace Extensions
             return result;
         }
 
+        #region Actions and functions
+
         /// <summary>
         /// Perform a <see cref="Func{T, TResult}"/> if <paramref name="value"/> is <see langword="true"/>
         /// </summary>
@@ -217,5 +219,7 @@ namespace Extensions
             else
                 falseAction();
         }
+
+        #endregion Actions and functions
     }
 }
