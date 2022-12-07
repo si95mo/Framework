@@ -61,7 +61,7 @@ namespace Extensions
         /// // text == "First 1. Second: 2. Third: 3"
         /// </code>
         /// </example>
-        public static string With(this string s, params object[] args)
+        public static string FormatWith(this string s, params object[] args)
         {
             string result = string.Format(s, args);
             return result;
@@ -134,10 +134,8 @@ namespace Extensions
         /// <returns>The result of the <see cref="Func{T, TResult}"/></returns>
         public static T DoIfTrue<T>(this bool value, Func<T> function)
         {
-            if (value)
-                return function();
-            else
-                return default;
+            T result = value ? function() : default;
+            return result ;
         }
 
         /// <summary>
@@ -175,10 +173,8 @@ namespace Extensions
         /// </example>
         public static T DoIfFalse<T>(this bool value, Func<T> function)
         {
-            if (!value)
-                return function();
-            else
-                return default;
+            T result = !value ? function() : default;
+            return result;
         }
 
         /// <summary>
@@ -203,10 +199,8 @@ namespace Extensions
         /// <returns>The result of the <see cref="Func{T, TResult}"/></returns>
         public static T DoIfTrueIfFalse<T>(this bool value, Func<T> trueFunction, Func<T> falseFunction)
         {
-            if (value)
-                return trueFunction();
-            else
-                return falseFunction();
+            T result = value ? trueFunction() : falseFunction();
+            return result;
         }
 
         /// <summary>

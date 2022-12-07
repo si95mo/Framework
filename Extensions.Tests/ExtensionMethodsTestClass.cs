@@ -38,7 +38,7 @@ namespace Extensions.Tests
         public void FormatWithTest(string first, string second, string third)
         {
             string tmp = text;
-            text.With(first, second, third).Should().Be(string.Format(tmp, first, second, third));
+            text.FormatWith(first, second, third).Should().Be(string.Format(tmp, first, second, third));
         }
 
         [Test]
