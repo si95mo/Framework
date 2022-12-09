@@ -24,8 +24,8 @@ namespace Messages
             Process process = (from p in processes where p.ProcessName.ToUpper().Contains(processName) select p).First();
 
             uint threadId;
-            using (var mmf = MemoryMappedFile.OpenExisting(SharedFilePath, MemoryMappedFileRights.Read))
-            using (var accessor = mmf.CreateViewAccessor(0, IntPtr.Size, MemoryMappedFileAccess.Read))
+            using (var memoryMappedFile = MemoryMappedFile.OpenExisting(SharedFilePath, MemoryMappedFileRights.Read))
+            using (var accessor = memoryMappedFile.CreateViewAccessor(0, IntPtr.Size, MemoryMappedFileAccess.Read))
                 accessor.Read(0, out threadId);
 
             PostThreadMessage(threadId, (uint)MessageType.User, IntPtr.Zero, IntPtr.Zero);
