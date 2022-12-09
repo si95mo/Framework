@@ -77,6 +77,21 @@ namespace Database
             => await database.InsertInto(where, what, values);
 
         /// <summary>
+        /// Execute a delete query
+        /// </summary>
+        /// <param name="from">The from parameter of the query</param>
+        /// <param name="values">The values to insert</param>
+        /// <returns>
+        /// <see langword="true"/> if the query inserted at least a row, <see langword="false"/> otherwise
+        /// </returns>
+        /// <remarks>
+        /// The <paramref name="values"/> must be (an array) of tuples in the form of (<see cref="string"/>, <see cref="object"/>) = (column name, value to insert),
+        /// with the column name with an '@' at the beginning (e.g. "@description")
+        /// </remarks>
+        public static async Task<bool> Delete(string from, params (string Name, object Value)[] values)
+            => await database.Delete(from, values);
+
+        /// <summary>
         /// Execute e generic query to the <see cref="DatabaseManager"/>. <br/>
         /// See also <see cref="SqlCommand.ExecuteNonQuery"/> and <see cref="SqlCommand.ExecuteNonQueryAsync(System.Threading.CancellationToken)"/>
         /// </summary>
