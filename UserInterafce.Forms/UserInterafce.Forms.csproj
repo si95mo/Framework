@@ -7,8 +7,8 @@
     <ProjectGuid>{C0995E8E-9811-4909-8D33-CECEC75E7646}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UserInterafce.Forms</RootNamespace>
-    <AssemblyName>UserInterafce.Forms</AssemblyName>
+    <RootNamespace>UserInterface.Forms</RootNamespace>
+    <AssemblyName>UserInterface.Forms</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -60,6 +60,12 @@
     <Compile Include="CustomMessageBox.Designer.cs">
       <DependentUpon>CustomMessageBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="CustomQuestionBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomQuestionBox.Designer.cs">
+      <DependentUpon>CustomQuestionBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -68,6 +74,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CustomMessageBox.resx">
       <DependentUpon>CustomMessageBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomQuestionBox.resx">
+      <DependentUpon>CustomQuestionBox.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
