@@ -1,6 +1,5 @@
 ﻿using Core.DataStructures;
 using System;
-using System.Threading.Tasks;
 
 namespace Core.Scripting
 {
@@ -27,7 +26,7 @@ namespace Core.Scripting
         /// <summary>
         /// The <see cref="System.Type"/>
         /// </summary>
-        public Type Type => this.GetType();
+        public Type Type => GetType();
 
         /// <summary>
         /// Initialize the new instance with default parameters
@@ -45,10 +44,8 @@ namespace Core.Scripting
         protected Script() : this(Guid.NewGuid().ToString())
         { }
 
-        /// <summary>
-        /// The <see cref="Script"/> to execute
-        /// </summary>
-        /// <returns>The script associated <see cref="Task"/></returns>
-        public abstract Task Execute();
+        public abstract void Run();
+
+        public abstract void Clear();
     }
 }

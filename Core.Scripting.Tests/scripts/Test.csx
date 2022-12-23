@@ -1,23 +1,22 @@
 ﻿using Core.Scripting;
 using System;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ScriptTest
 {
     public class Test : Script
     {
-        private readonly string message;
+        public Test() : base(nameof(Test))
+        { }
 
-        public Test(string code, string message) : base(code)
+        public override void Run()
         {
-            this.message = message;
+            MessageBox.Show($"{DateTime.Now:HH:mm:ss.fff} >> {nameof(Run)} executed");
         }
 
-        public override Task Execute()
+        public override void Clear()
         {
-            MessageBox.Show($"Script executed!{Environment.NewLine}\t{message}");
-            return Task.CompletedTask;
+            MessageBox.Show($"{DateTime.Now:HH:mm:ss.fff} >> {nameof(Clear)} executed");
         }
     }
 }

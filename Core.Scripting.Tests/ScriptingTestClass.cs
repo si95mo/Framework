@@ -24,7 +24,7 @@ namespace Core.Scripting.Tests
         [Test]
         public void TestScript()
         {
-            ScriptManager.ExecuteScripts();
+            ScriptManager.Run();
         }
     }
 }

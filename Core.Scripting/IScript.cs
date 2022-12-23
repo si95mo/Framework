@@ -3,13 +3,18 @@
 namespace Core.Scripting
 {
     /// <summary>
-    /// Describe a generic prototype for scripting
+    /// Describe a generic script prototype
     /// </summary>
     public interface IScript : IProperty
     {
         /// <summary>
-        /// The <see cref="IScript"/> to execute
+        /// The method that will be called at startup
         /// </summary>
-        Task Execute();
+        void Run();
+
+        /// <summary>
+        /// The method that will be called at shutdown
+        /// </summary>
+        void Clear();
     }
 }
