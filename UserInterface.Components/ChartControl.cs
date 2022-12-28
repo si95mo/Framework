@@ -96,7 +96,7 @@ namespace UserInterface.Controls
         {
             InitializeChart(parameter.Code);
 
-            numericParameter = new NumericParameter($"{parameter.Code}.ChartNumericParameter", parameter.Value, parameter.MeasureUnit, parameter.Format);
+            numericParameter = new NumericParameter($"{parameter.Code}.{nameof(ChartControl}{nameof(NumericParameter)}", parameter.Value, parameter.MeasureUnit, parameter.Format);
             parameter.ConnectTo(numericParameter);
 
             //SetAxisMeasureUnit(parameter.MeasureUnit, text);
@@ -117,7 +117,7 @@ namespace UserInterface.Controls
         {
             InitializeChart(parameter.Code);
 
-            waveformParameter = new WaveformParameter($"{parameter.Code}.ChartWaveformParameter", parameter.Value, parameter.MeasureUnit, parameter.Format);
+            waveformParameter = new WaveformParameter($"{parameter.Code}.{nameof(ChartControl}{nameof(WaveformParameter)}", parameter.Value, parameter.MeasureUnit, parameter.Format);
             parameter.ConnectTo(waveformParameter);
 
             //SetAxisMeasureUnit(parameter.MeasureUnit, text);
