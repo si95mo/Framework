@@ -18,14 +18,15 @@ namespace UserInterface.Dashboards
         protected ResizableControl() : base()
         {
             InitializeComponent();
+            KeyDown += Control_KeyDown;
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            base.OnPaint(e);
-
             Rectangle rectangle = new Rectangle(ClientSize.Width - Grab, ClientSize.Height - Grab, Grab, Grab);
             ControlPaint.DrawSizeGrip(e.Graphics, BackColor, rectangle);
+
+            base.OnPaint(e);
         }
 
         protected override void WndProc(ref Message m)
@@ -34,8 +35,8 @@ namespace UserInterface.Dashboards
 
             if (m.Msg == 0x84) // Trap WM_NCHITTEST
             {
-                var pos = PointToClient(new Point(m.LParam.ToInt32()));
-                if (pos.X >= ClientSize.Width - Grab && pos.Y >= ClientSize.Height - Grab)
+                Point position = PointToClient(new Point(m.LParam.ToInt32()));
+                if (position.X >= ClientSize.Width - Grab && position.Y >= ClientSize.Height - Grab)
                     m.Result = new IntPtr(17);  // HT_BOTTOMRIGHT
             }
         }

@@ -6,6 +6,8 @@ using Nancy.Hosting.Self;
 using Nancy.Testing;
 using Nancy.TinyIoc;
 using System;
+using System.Net;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 
 namespace Rest
@@ -62,6 +64,23 @@ namespace Rest
         }
 
         /// <summary>
+        /// Create a new instance of <see cref="RestServer"/> with the machine local ip address 
+        /// </summary>
+        /// <param name="code">The code</param>
+        /// <param name="port">The port number</param>
+        public RestServer(string code, int port) : this(code, new Uri($"{GetLocalIpAddress()}:{port}"))
+        { }
+
+        /// <summary>
+        /// Create a new instance of <see cref="RestServer"/> with the machine local ip address 
+        /// </summary>
+        /// <param name="code">The code</param>
+        /// <param name="port">The port number</param>
+        /// <param name="bootstrapper">The bootstrapper</param>
+        public RestServer(string code, int port, ConfigurableBootstrapper bootstrapper) : this(code, new Uri($"http://{GetLocalIpAddress()}:{port}"), bootstrapper)
+        { }
+
+        /// <summary>
         /// Start the <see cref="RestServer"/>
         /// </summary>
         public override Task Start()
@@ -106,6 +125,33 @@ namespace Rest
         {
             Stop();
             await Start();
+        }
+
+        /// <summary>
+        /// Get the machine local ip address
+        /// </summary>
+        /// <returns>The local ip address</returns>
+        private static string GetLocalIpAddress()
+        {
+            string ipAddress;
+
+            try
+            {
+                using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, 0))
+                {
+                    socket.Connect("8.8.8.8", 65530);
+                    IPEndPoint endPoint = socket.LocalEndPoint as IPEndPoint;
+
+                    ipAddress = endPoint.Address.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                ipAddress = "127.0.0.1";
+            }
+
+            return ipAddress;
         }
     }
 }

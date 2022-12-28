@@ -69,6 +69,10 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="UserInterface.Controls, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Extensions\bin\Debug\UserInterface.Controls.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
@@ -216,10 +220,6 @@
     <ProjectReference Include="..\UserInterafce.Forms\UserInterafce.Forms.csproj">
       <Project>{c0995e8e-9811-4909-8d33-cecec75e7646}</Project>
       <Name>UserInterafce.Forms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\UserInterface.Components\UserInterface.Controls.csproj">
-      <Project>{4944754E-8566-44D6-933F-38F8DDC98F55}</Project>
-      <Name>UserInterface.Controls</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

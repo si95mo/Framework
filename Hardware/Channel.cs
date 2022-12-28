@@ -37,7 +37,7 @@ namespace Hardware
         /// <summary>
         /// The <see cref="Type"/>
         /// </summary>
-        public Type Type => typeof(T);
+        public Type Type => GetType();
 
         /// <summary>
         /// The tags

@@ -70,9 +70,10 @@ namespace UserInterface.Dashboards
             set => _ = value;
         }
 
-        public MultiSampleAnalogReadControl() : base()
+        public MultiSampleAnalogReadControl()
         {
             InitializeComponent();
+            KeyDown += Control_KeyDown;
         }
 
         /// <summary>
@@ -92,7 +93,7 @@ namespace UserInterface.Dashboards
                 {
                     analogInput = channel as AnalogInput;
 
-                    numericParameter = new NumericParameter(channel.Code);
+                    numericParameter = new NumericParameter(channel.Code, (channel as Channel<double>).MeasureUnit, (channel as Channel<double>).Format);
                     channel.ConnectTo(numericParameter);
                     chart.SetParameter(numericParameter);
                 }
@@ -100,7 +101,7 @@ namespace UserInterface.Dashboards
                 {
                     multiSampleAnalogInput = channel as MultiSampleAnalogInput;
 
-                    waveformParameter = new WaveformParameter(channel.Code);
+                    waveformParameter = new WaveformParameter(channel.Code, (channel as Channel<double[]>).MeasureUnit, (channel as Channel<double[]>).Format);
                     channel.ConnectTo(waveformParameter);
                     chart.SetParameter(waveformParameter);
                 }

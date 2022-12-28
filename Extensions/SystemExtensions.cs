@@ -52,6 +52,23 @@ namespace Extensions
         }
 
         /// <summary>
+        /// Serialize an <see cref="object"/> to a json file
+        /// </summary>
+        /// <param name="source">The object to serialize</param>
+        /// <returns>The (sync) <see cref="Task"/> with serialization result</returns>
+        public static async Task<string> Serialize(this object source)
+            => await Task.Factory.StartNew(() => JsonConvert.SerializeObject(source, Formatting.Indented));
+
+        /// <summary>
+        /// Deserialize a json <see cref="string"/> into an <see cref="object"/> of type <see cref="T"/>
+        /// </summary>
+        /// <typeparam name="T">The type of the deserialization</typeparam>
+        /// <param name="source">The source to deserialize</param>
+        /// <returns>The deserialized <see cref="object"/></returns>
+        public static async Task<T> Deserialize<T>(this string source)
+            => await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<T>(source));
+
+        /// <summary>
         /// Define weather a <see cref="Type"/> is numeric or not
         /// </summary>
         /// <param name="type">The <see cref="Type"/></param>

@@ -37,11 +37,13 @@ namespace UserInterface.Dashboards
             // 
             this.dgcChannelValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.dgcChannelValue.BackColor = System.Drawing.SystemColors.Control;
-            this.dgcChannelValue.Font = new System.Drawing.Font("Lucida Sans Unicode", 8F);
-            this.dgcChannelValue.Location = new System.Drawing.Point(50, 61);
+            this.dgcChannelValue.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
+            this.dgcChannelValue.Location = new System.Drawing.Point(73, 61);
             this.dgcChannelValue.Margin = new System.Windows.Forms.Padding(8);
+            this.dgcChannelValue.MaximumSize = new System.Drawing.Size(128, 32);
+            this.dgcChannelValue.MinimumSize = new System.Drawing.Size(45, 24);
             this.dgcChannelValue.Name = "dgcChannelValue";
-            this.dgcChannelValue.Size = new System.Drawing.Size(169, 43);
+            this.dgcChannelValue.Size = new System.Drawing.Size(128, 32);
             this.dgcChannelValue.TabIndex = 8;
             this.dgcChannelValue.Value = false;
             this.dgcChannelValue.ValueChanged += new System.EventHandler<Core.ValueChangedEventArgs>(this.DgcChannelValue_ValueChanged);
@@ -61,9 +63,9 @@ namespace UserInterface.Dashboards
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.dgcChannelValue);
             this.Controls.Add(this.lblChannelName);
+            this.IsDraggable = true;
             this.Margin = new System.Windows.Forms.Padding(8);
             this.Name = "DigitalWriteControl";
             this.Size = new System.Drawing.Size(274, 114);

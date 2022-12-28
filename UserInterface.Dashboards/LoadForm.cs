@@ -3,6 +3,7 @@ using IO;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 using UserInterface.Forms;
 
@@ -28,6 +29,7 @@ namespace UserInterface.Dashboards
             this.dashboard = dashboard;
             this.configPanel = configPanel;
 
+            AcceptButton = btcLoadDashboard;
             txcDashboardName.Focus();
         }
 
@@ -40,27 +42,36 @@ namespace UserInterface.Dashboards
             }
             else
             {
-                string json = await FileHandler.ReadAsync($"dashboards//{txcDashboardName.Text}.json");
-                List<DashboardControl> items = JsonConvert.DeserializeObject<List<DashboardControl>>(json);
-
-                if (items.Count != 0)
+                string dashboardPath = $"dashboards//{txcDashboardName.Text}.json";
+                if (File.Exists(dashboardPath))
                 {
-                    dashboard.Controls.Clear();
+                    string json = await FileHandler.ReadAsync(dashboardPath);
+                    List<DashboardControl> items = JsonConvert.DeserializeObject<List<DashboardControl>>(json);
 
-                    foreach (DashboardControl control in items)
+                    if (items.Count != 0)
                     {
-                        IDashboardControl tmp = (IDashboardControl)Activator.CreateInstance(control.Type);
-                        tmp.SetChannel(control.ChannelCode);
-                        tmp.Description = control.Description;
-                        (tmp as DraggableControl).Size = control.Size;
-                        (tmp as DraggableControl).Location = control.Location;
+                        dashboard.Controls.Clear();
 
-                        HandleNewControl(tmp);
+                        foreach (DashboardControl control in items)
+                        {
+                            IDashboardControl tmp = (IDashboardControl)Activator.CreateInstance(control.Type);
+                            tmp.SetChannel(control.ChannelCode);
+                            tmp.Description = control.Description;
+                            (tmp as DraggableControl).Size = control.Size;
+                            (tmp as DraggableControl).Location = control.Location;
+
+                            HandleNewControl(tmp);
+                        }
                     }
-                }
 
-                Close();
-                Dispose();
+                    Close();
+                    Dispose();
+                }
+                else
+                {
+                    CustomMessageBox.Show(this, "Warning", "Unable to find a dashboard withe the specified name!");
+                    txcDashboardName.Focus();
+                }
             }
         }
 

@@ -41,7 +41,6 @@ namespace UserInterface.Dashboards
             this.Name = "DraggableControl";
             this.Size = new System.Drawing.Size(278, 118);
             this.Load += new System.EventHandler(this.DraggableControl_Load);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Control_KeyDown);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Control_MouseDown);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Control_MouseUp);
             this.ResumeLayout(false);

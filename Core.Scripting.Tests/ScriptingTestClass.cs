@@ -18,7 +18,7 @@ namespace Core.Scripting.Tests
 
         public void InitializeScript()
         {
-            Test _ = new Test("TestScript", "A message!");
+            Test _ = new Test();
         }
 
         [Test]

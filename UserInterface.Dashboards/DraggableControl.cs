@@ -29,12 +29,13 @@ namespace UserInterface.Dashboards
             InitializeComponent();
 
             IsDraggable = false;
+            KeyDown += Control_KeyDown;
         }
 
         private void DraggableControl_Load(object sender, EventArgs e)
             => this.SetDraggable(true);
 
-        private void Control_KeyDown(object sender, KeyEventArgs e)
+        protected void Control_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Cancel || e.KeyCode == Keys.Delete)
             {

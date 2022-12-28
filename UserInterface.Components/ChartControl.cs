@@ -1,6 +1,7 @@
 ﻿using Core.Parameters;
 using LiveCharts;
 using LiveCharts.Wpf;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -70,7 +71,7 @@ namespace UserInterface.Controls
         /// </summary>
         private void UpdateChartSeries()
         {
-            if (series.Values.Count > 0 && series.Values.Count % BufferSize == 0)
+            if (series.Values.Count > 0 && series.Values.Count == BufferSize)
                 series.Values.RemoveAt(0);
 
             series.Values.Add(numericParameter.Value);
@@ -90,12 +91,15 @@ namespace UserInterface.Controls
         /// Set the <see cref="ChartControl"/> associated <see cref="NumericParameter"/>
         /// </summary>
         /// <param name="parameter">The <see cref="NumericParameter"/> to connect</param>
-        public void SetParameter(NumericParameter parameter)
+        /// <param name="text">Additional text to display in the Y-axis</param>
+        public void SetParameter(NumericParameter parameter, string text = "")
         {
             InitializeChart(parameter.Code);
 
             numericParameter = new NumericParameter($"{parameter.Code}.ChartNumericParameter", parameter.Value, parameter.MeasureUnit, parameter.Format);
             parameter.ConnectTo(numericParameter);
+
+            //SetAxisMeasureUnit(parameter.MeasureUnit, text);
 
             if (waveformParameter != null)
                 waveformParameter.ValueChanged -= WaveformParameter_ValueChanged;
@@ -108,12 +112,15 @@ namespace UserInterface.Controls
         /// Set the <see cref="ChartControl"/> associated <see cref="WaveformParameter"/>
         /// </summary>
         /// <param name="parameter">The <see cref="WaveformParameter"/> to connect</param>
-        public void SetParameter(WaveformParameter parameter)
+        /// <param name="text">Additional text to display in the Y-axis</param>
+        public void SetParameter(WaveformParameter parameter, string text = "")
         {
             InitializeChart(parameter.Code);
 
             waveformParameter = new WaveformParameter($"{parameter.Code}.ChartWaveformParameter", parameter.Value, parameter.MeasureUnit, parameter.Format);
             parameter.ConnectTo(waveformParameter);
+
+            //SetAxisMeasureUnit(parameter.MeasureUnit, text);
 
             if (numericParameter != null)
                 numericParameter.ValueChanged -= NumericParameter_ValueChanged;
@@ -139,6 +146,8 @@ namespace UserInterface.Controls
 
             chart.Series.Clear();
             chart.Series.Add(series);
+
+            chart.InvalidateVisual();
         }
 
         private void NumericParameter_ValueChanged(object sender, Core.ValueChangedEventArgs e)
@@ -146,5 +155,26 @@ namespace UserInterface.Controls
 
         private void WaveformParameter_ValueChanged(object sender, Core.ValueChangedEventArgs e)
             => UpdateChartSeries((double[])e.NewValue);
+
+        /// <summary>
+        /// Set the Y-axis label
+        /// </summary>
+        /// <param name="measureUnit"></param>
+        /// <param name="text">Additional text to display</param>
+        private void SetAxisMeasureUnit(string measureUnit, string text = "")
+        {
+            chart.AxisX.Clear();
+            chart.AxisX.Add(new Axis());
+            chart.AxisX[0].Labels = new List<string>();
+
+            chart.AxisX[0].Labels.Add("Time");
+
+            chart.AxisY.Clear();
+            chart.AxisY.Add(new Axis());
+            chart.AxisY[0].Labels = new List<string>();
+
+            string labelText = text == string.Empty ? $"[{measureUnit}]" : $"{text}[{measureUnit}]";
+            chart.AxisY[0].Labels.Add(labelText);
+        }
     }
 }
