@@ -7,7 +7,7 @@ namespace Core.Parameters
     /// See also <see cref="Parameter{T}"/> and <see cref="IParameter{T}"/>
     /// </summary>
     [Serializable]
-    public class TimeSpanParameter : Parameter<TimeSpan>, ITimeSpanParameter
+    public class TimeSpanParameter : Parameter<TimeSpan>
     {
         /// <summary>
         /// Represent the current <see cref="TimeSpan"/> stored in

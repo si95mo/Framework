@@ -6,7 +6,7 @@ namespace Core.Parameters
     /// <summary>
     /// Implement a <see cref="Parameter{T}"/> that represent a trigger
     /// </summary>
-    public class TriggerParameter : Parameter<bool>, IBoolParameter
+    public class TriggerParameter : Parameter<bool>
     {
         private TimeSpan tOn;
         private TimeSpan preTriggerTime;

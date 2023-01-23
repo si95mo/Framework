@@ -7,7 +7,7 @@ namespace Core.Parameters
     /// See also <see cref="Parameter{T}"/> and <see cref="IParameter{T}"/>
     /// </summary>
     [Serializable]
-    public class StringParameter : Parameter<string>, IStringParameter
+    public class StringParameter : Parameter<string>
     {
         /// <summary>
         /// The <see cref="Value"/> as <see cref="double"/>
