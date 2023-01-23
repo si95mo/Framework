@@ -44,9 +44,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoolParameter.cs" />
+    <Compile Include="ContainerParameter.cs" />
     <Compile Include="DifferenceParameter.cs" />
     <Compile Include="DivisionParameter.cs" />
     <Compile Include="EnumParameter.cs" />
+    <Compile Include="IContainerParameter.cs" />
     <Compile Include="IEnumParameter.cs" />
     <Compile Include="INumericParameter.cs" />
     <Compile Include="IParameter.cs" />
@@ -64,6 +66,10 @@
     <ProjectReference Include="..\Core.Converters\Core.Converters.csproj">
       <Project>{7cd54f15-df6a-4829-8afd-e714ecf9f505}</Project>
       <Name>Core.Converters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Core.DataStructures\Core.DataStructures.csproj">
+      <Project>{1967AA9E-7FB5-4B63-AD7B-8394D65B6E8F}</Project>
+      <Name>Core.DataStructures</Name>
     </ProjectReference>
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{75dfacf6-e820-4e3f-83d5-1e21fbc92385}</Project>
