@@ -8,6 +8,11 @@ namespace Core.DataStructures
     /// </summary>
     public class ServiceBroker : IEnumerable<IProperty>
     {
+        /// <summary>
+        /// <see langword="true"/> if the <see cref="ServiceBroker"/> has been initialized, <see langword="false"/> otherwise
+        /// </summary>
+        public static bool Initialized { get; private set; } = false;
+
         private static Bag<IProperty> subscribers;
 
         /// <summary>
@@ -16,6 +21,7 @@ namespace Core.DataStructures
         public static void Initialize()
         {
             subscribers = new Bag<IProperty>();
+            Initialized = true;
         }
 
         /// <summary>
@@ -55,8 +61,7 @@ namespace Core.DataStructures
         }
 
         /// <summary>
-        /// Get the <see cref="IEnumerator{T}"/> used to
-        /// iterate through the <see cref="ServiceBroker"/>
+        /// Get the <see cref="IEnumerator{T}"/> used to iterate through the <see cref="ServiceBroker"/>
         /// </summary>
         /// <returns>The <see cref="IEnumerator{T}"/></returns>
         public IEnumerator<IProperty> GetEnumerator() => subscribers.GetEnumerator();

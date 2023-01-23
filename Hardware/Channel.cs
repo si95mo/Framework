@@ -8,11 +8,65 @@ using System.Collections.Generic;
 namespace Hardware
 {
     /// <summary>
+    /// Provides factory methods for <see cref="IChannel{T}"/>
+    /// </summary>
+    public class Channel
+    {
+
+        /// <summary>
+        /// Factory method that create a new <see cref="IChannel"/> based on <paramref name="type"/>. See also <see cref="New(Type, string)"/>
+        /// </summary>
+        /// <param name="type">The <see cref="string"/> that represent the <see cref="System.Type"/> of the <see cref="IChannel"/> to create</param>
+        /// <param name="code">The code of the new <see cref="IChannel"/></param>
+        /// <returns>
+        /// The created <see cref="IChannel"/> (with the actual type that will be the one specified by <paramref name="type"/>, or <see langword="null"/> if operation failed)
+        /// </returns>
+        public static IChannel New(string type, string code)
+            => New(Type.GetType(type), code);
+
+        /// <summary>
+        /// Factory method that create a new <see cref="IChannel"/> based on <paramref name="type"/>. See also <see cref="New(string, string)"/>
+        /// </summary>
+        /// <param name="type">The <see cref="System.Type"/> of the <see cref="IChannel"/> to create</param>
+        /// <param name="code">The code of the new <see cref="IChannel"/></param>
+        /// <returns>
+        /// The created <see cref="IChannel"/> (with the actual type that will be the one specified by <paramref name="type"/>, or <see langword="null"/> if operation failed)
+        /// </returns>
+        public static IChannel New(Type type, string code)
+        {
+            IChannel channel;
+            switch (type)
+            {
+                case Type t when t == typeof(AnalogInput):
+                    channel = new AnalogInput(code);
+                    break;
+                case Type t when t == typeof(AnalogOutput):
+                    channel = new AnalogOutput(code);
+                    break;
+                case Type t when t == typeof(DigitalInput):
+                    channel = new DigitalInput(code);
+                    break;
+                case Type t when t == typeof(DigitalOutput):
+                    channel = new DigitalOutput(code);
+                    break;
+                case Type t when t == typeof(MultiSampleAnalogInput):
+                    channel = new MultiSampleAnalogInput(code);
+                    break;
+                default:
+                    channel = null;
+                    break;
+            }
+
+            return channel;
+        }
+    }
+
+    /// <summary>
     /// Describe a generic channel.
     /// See also <see cref="IChannel{T}"/>
     /// </summary>
     /// <typeparam name="T">The type of the <see cref="Channel{T}"/></typeparam>
-    public abstract class Channel<T> : IChannel<T>
+    public abstract class Channel<T> : Channel, IChannel<T>
     {
         /// <summary>
         /// The value

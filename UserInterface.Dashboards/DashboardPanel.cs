@@ -1,9 +1,14 @@
 ﻿using Extensions;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace UserInterface.Dashboards
 {
+    [ComVisible(true)]
+    [Guid("CD46781D-B691-4287-B802-C9E2540AF08A")]
+    [ProgId("WpfComHostDemo.WinformHostUserControl")]
+    [ClassInterface(ClassInterfaceType.AutoDispatch)]
     public partial class DashboardPanel : UserControl
     {
         /// <summary>
