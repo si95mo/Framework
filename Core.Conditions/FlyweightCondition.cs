@@ -1,7 +1,7 @@
 ﻿namespace Core.Conditions
 {
     /// <summary>
-    /// Implement a flyweight condition (i.e. a basic type of condition)
+    /// Implement a flyweight condition (i.e. a basic type of condition that just expose a boolean value)
     /// </summary>
     public class FlyweightCondition : Condition
     {

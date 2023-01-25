@@ -16,6 +16,8 @@ namespace Extensions
         public static void WithDescription(this ICondition condition, string description)
             => condition.Description = description;
 
+        #region IsTrue
+
         /// <summary>
         /// Create a new <see cref="ICondition"/> that is <see langword="true"/> when <paramref name="source"/> is <see langword="true"/>
         /// </summary>
@@ -30,19 +32,6 @@ namespace Extensions
         }
 
         /// <summary>
-        /// Create a new <see cref="ICondition"/> that is <see langword="true"/> when <paramref name="source"/> is <see langword="false"/>
-        /// </summary>
-        /// <param name="source">The source <see cref="ICondition"/></param>
-        /// <returns>The new <see cref="ICondition"/></returns>
-        public static ICondition IsFalse(this ICondition source)
-        {
-            FlyweightCondition result = new FlyweightCondition($"{source.Code}.IsFalse", source.Value == false);
-            source.ValueChanged += (sender, e) => UpdateIsFalseCondition(source, result);
-
-            return result;
-        }
-
-        /// <summary>
         /// Create a new <see cref="ICondition"/> that is <see langword="true"/> when <paramref name="source"/> is <see langword="true"/>
         /// </summary>
         /// <param name="source">The source <see cref="IProperty{T}"/></param>
@@ -51,6 +40,23 @@ namespace Extensions
         {
             FlyweightCondition result = new FlyweightCondition($"{source.Code}.IsTrue", source.Value);
             source.ConnectTo(result);
+
+            return result;
+        }
+
+        #endregion IsTrue
+
+        #region IsFalse
+
+        /// <summary>
+        /// Create a new <see cref="ICondition"/> that is <see langword="true"/> when <paramref name="source"/> is <see langword="false"/>
+        /// </summary>
+        /// <param name="source">The source <see cref="ICondition"/></param>
+        /// <returns>The new <see cref="ICondition"/></returns>
+        public static ICondition IsFalse(this ICondition source)
+        {
+            FlyweightCondition result = new FlyweightCondition($"{source.Code}.IsFalse", source.Value == false);
+            source.ValueChanged += (sender, e) => UpdateIsFalseCondition(source, result);
 
             return result;
         }
@@ -84,6 +90,10 @@ namespace Extensions
         private static void UpdateIfFalseCondition(IProperty<bool> source, FlyweightCondition newCondition)
             => newCondition.Value = source.Value == false;
 
+        #endregion IsFalse
+
+        #region And
+
         /// <summary>
         /// Create a <see cref="FlyweightCondition"/> that concatenates itself with another <see cref="ICondition"/> with an <see langword="and"/> relation
         /// </summary>
@@ -107,6 +117,10 @@ namespace Extensions
         /// <param name="andCondition">The <see cref="FlyweightCondition"/> result of the <see cref="And(ICondition, ICondition)"/> method</param>
         private static void UpdateAndCondition(ICondition changedCondition, FlyweightCondition andCondition)
             => andCondition.Value &= changedCondition.Value;
+
+        #endregion And
+
+        #region Or
 
         /// <summary>
         /// Create a <see cref="FlyweightCondition"/> that concatenates itself with another <see cref="ICondition"/> with an <see langword="or"/> relation
@@ -132,6 +146,21 @@ namespace Extensions
         private static void UpdateOrCondition(ICondition changedCondition, FlyweightCondition orCondition)
             => orCondition.Value |= changedCondition.Value;
 
+        #endregion Or
+
+        /// <summary>
+        /// Update a <see cref="FlyweightCondition"/> by applying a <see langword="not"/> operand
+        /// </summary>
+        /// <param name="source">The source <see cref="ICondition"/> of which negate the value</param>
+        /// <returns>The resulted negated <see cref="FlyweightCondition"/></returns>
+        public static FlyweightCondition Negate(this ICondition source)
+        {
+            FlyweightCondition condition = new FlyweightCondition($"{source.Code}.Negated", !source.Value);
+            source.ValueChanged += (sender, e) => condition.Value = !e.NewValueAsBool;
+
+            return condition;
+        }
+
         /// <summary>
         /// Create a new <see cref="ICondition"/> that will be <see langword="true"/> when <paramref name="property"/> will be in range
         /// </summary>
@@ -140,8 +169,8 @@ namespace Extensions
         /// <param name="maximum">The range maximum</param>
         /// <param name="isMinimumExcluded">The minimum excluded option in the range check</param>
         /// <param name="isMaximumExcluded">The maximum excluded option in the range check</param>
-        /// <returns>The new <see cref="ICondition"/></returns>
-        public static ICondition IsInRange(IProperty<double> property, double minimum, double maximum, bool isMinimumExcluded = false, bool isMaximumExcluded = false)
+        /// <returns>The new <see cref="PropertyValueInRange"/></returns>
+        public static PropertyValueInRange IsInRange(IProperty<double> property, double minimum, double maximum, bool isMinimumExcluded = false, bool isMaximumExcluded = false)
         {
             PropertyValueInRange condition = new PropertyValueInRange($"{property.Code}.IsInRange", property, minimum, maximum, isMinimumExcluded, isMaximumExcluded);
             return condition;

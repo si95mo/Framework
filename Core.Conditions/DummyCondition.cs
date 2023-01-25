@@ -2,7 +2,7 @@
 {
     /// <summary>
     /// Create a <see cref="Condition"/> that will retain its value since its not connected
-    /// to anything external
+    /// to anything external (aside from possible connections with <see cref="Condition.ConnectTo(IProperty)"/>)
     /// </summary>
     public class DummyCondition : Condition
     {
