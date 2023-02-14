@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Core.Scripting
+﻿namespace Core.Scripting
 {
     /// <summary>
     /// Describe a generic script prototype

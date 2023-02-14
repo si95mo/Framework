@@ -28,7 +28,7 @@ namespace UserInterface.Controls
         /// <summary>
         /// Get the wrap contents option
         /// </summary>
-        public new bool WrapContents { get; set;  }
+        public new bool WrapContents { get; set; }
 
         public VerticalLayoutPanel()
         {

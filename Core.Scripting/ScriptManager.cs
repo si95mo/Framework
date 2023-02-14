@@ -8,7 +8,6 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace Core.Scripting
 {
@@ -65,13 +64,11 @@ namespace Core.Scripting
         /// </summary>
         public static void Clear()
         {
-            if(!initialized)
+            if (!initialized)
                 Logger.Error("Script manager not initialized, unable to execute the code inside the csx(s)");
             else
             {
-
             }
-
         }
 
         /// <summary>

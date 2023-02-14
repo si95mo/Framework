@@ -17,11 +17,11 @@ namespace Hardware.Tcp.IntegrationTest
             Console.WriteLine("Initializing...");
             await Initialize(IpAddress, Port);
 
-            if(resource.Status.Value == ResourceStatus.Executing)
+            if (resource.Status.Value == ResourceStatus.Executing)
             {
                 Console.WriteLine("Initialization done");
 
-                while(true)
+                while (true)
                 {
                     Console.WriteLine(firstChannel.Code + ": " + firstChannel.Value);
                     Console.WriteLine(secondChannel.Code + ": " + secondChannel.Value);

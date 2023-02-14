@@ -57,15 +57,15 @@ namespace Hardware.Twincat
 
         private void TwincatAnalogOutput_ValueChanged(object sender, Core.ValueChangedEventArgs e)
         {
-            lock(LockObject)
+            lock (LockObject)
             {
-                if(Symbol?.Connection?.IsConnected == true)
+                if (Symbol?.Connection?.IsConnected == true)
                 {
                     try
                     {
                         Symbol.WriteValue(Convert.ChangeType(e.NewValueAsDouble, ManagedType));
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         Logger.Error($"{ex.Message} occurred when writing {Code}");
                     }

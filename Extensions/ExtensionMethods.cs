@@ -137,7 +137,7 @@ namespace Extensions
         public static T DoIfTrue<T>(this bool value, Func<T> function)
         {
             T result = value ? function() : default;
-            return result ;
+            return result;
         }
 
         /// <summary>

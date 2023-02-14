@@ -64,7 +64,7 @@ namespace Rest
         }
 
         /// <summary>
-        /// Create a new instance of <see cref="RestServer"/> with the machine local ip address 
+        /// Create a new instance of <see cref="RestServer"/> with the machine local ip address
         /// </summary>
         /// <param name="code">The code</param>
         /// <param name="port">The port number</param>
@@ -72,7 +72,7 @@ namespace Rest
         { }
 
         /// <summary>
-        /// Create a new instance of <see cref="RestServer"/> with the machine local ip address 
+        /// Create a new instance of <see cref="RestServer"/> with the machine local ip address
         /// </summary>
         /// <param name="code">The code</param>
         /// <param name="port">The port number</param>
@@ -92,7 +92,7 @@ namespace Rest
                 host.Start();
                 Logger.Log($"{Code} self-hosting on {uri}", Severity.Info);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Error(ex);
                 Logger.Warn($"Attempting to restart {Code} on localhost");

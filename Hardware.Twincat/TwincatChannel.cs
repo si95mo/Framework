@@ -35,6 +35,5 @@ namespace Hardware.Twincat
         }
 
         public abstract void Attach();
-
     }
 }

@@ -168,7 +168,7 @@ namespace Hardware.Twincat
         /// <param name="symbolPath">The method instance path (i.e. MAIN.fbCalculator)</param>
         /// <param name="methodName">The method name (i.e. Sum)</param>
         /// <param name="parameters">The array of parameters</param>
-        /// <returns>The result of the call</returns>       
+        /// <returns>The result of the call</returns>
         /// <exception cref="Exception">An <see cref="Exception"/> in case of invalid RPC call</exception>
         public T InvokeRpcMethod<T>(string symbolPath, string methodName, object[] parameters)
         {
@@ -282,38 +282,38 @@ namespace Hardware.Twincat
 
                 if (!parameterType.IsArray)
                 {
-                    if (parameter is double valueAsDouble) 
+                    if (parameter is double valueAsDouble)
                         binaryWriter.Write(valueAsDouble);
-                    else if (parameter is float valueAsFloat) 
+                    else if (parameter is float valueAsFloat)
                         binaryWriter.Write(valueAsFloat);
-                    else if (parameter is string valueAsString) 
+                    else if (parameter is string valueAsString)
                         binaryWriter.Write(valueAsString);
-                    else if (parameter is int valueAsInt) 
+                    else if (parameter is int valueAsInt)
                         binaryWriter.Write(valueAsInt);
-                    else if (parameter is short valueAsShort) 
+                    else if (parameter is short valueAsShort)
                         binaryWriter.Write(valueAsShort);
-                    else if (parameter is bool valueAsBool) 
+                    else if (parameter is bool valueAsBool)
                         binaryWriter.Write(valueAsBool);
-                    else 
+                    else
                         throw new Exception("Invalid parameter type");
                 }
                 else
                 {
                     for (int i = 0; i < (parameter as Array).Length; i++)
                     {
-                        if (parameterType == typeof(double[])) 
+                        if (parameterType == typeof(double[]))
                             binaryWriter.Write((parameter as double[])[i]);
-                        else if (parameterType == typeof(float[])) 
+                        else if (parameterType == typeof(float[]))
                             binaryWriter.Write((parameter as float[])[i]);
-                        else if (parameterType == typeof(string[])) 
+                        else if (parameterType == typeof(string[]))
                             binaryWriter.Write((parameter as string[])[i]);
-                        else if (parameterType == typeof(int[])) 
+                        else if (parameterType == typeof(int[]))
                             binaryWriter.Write((parameter as int[])[i]);
-                        else if (parameterType == typeof(short[])) 
+                        else if (parameterType == typeof(short[]))
                             binaryWriter.Write((parameter as short[])[i]);
-                        else if (parameterType == typeof(bool[])) 
+                        else if (parameterType == typeof(bool[]))
                             binaryWriter.Write((parameter as bool[])[i]);
-                        else 
+                        else
                             throw new Exception("Invalid parameter array type");
                     }
                 }
@@ -369,10 +369,10 @@ namespace Hardware.Twincat
         /// <returns>The size of <paramref name="parameter"/></returns>
         private int GetParameterSize(object parameter)
         {
-            int size = parameter.GetType().IsArray ? 
+            int size = parameter.GetType().IsArray ?
                 GetTypeSizeInBeckhoff(parameter.GetType().GetElementType()) * (parameter as Array).GetLength(0) :
                 GetTypeSizeInBeckhoff(parameter.GetType());
-            
+
             return size;
         }
 

@@ -33,7 +33,6 @@ namespace Hardware.Resources.Tests
             digitalOut = new TwincatDigitalOutput("DigitalOutputVariableName", "GVL.DOUt[0]", resource);
         }
 
-        
         [OneTimeTearDown]
         public void TearDown()
         {

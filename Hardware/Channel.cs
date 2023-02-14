@@ -12,7 +12,6 @@ namespace Hardware
     /// </summary>
     public class Channel
     {
-
         /// <summary>
         /// Factory method that create a new <see cref="IChannel"/> based on <paramref name="type"/>. See also <see cref="New(Type, string)"/>
         /// </summary>
@@ -40,18 +39,23 @@ namespace Hardware
                 case Type t when t == typeof(AnalogInput):
                     channel = new AnalogInput(code);
                     break;
+
                 case Type t when t == typeof(AnalogOutput):
                     channel = new AnalogOutput(code);
                     break;
+
                 case Type t when t == typeof(DigitalInput):
                     channel = new DigitalInput(code);
                     break;
+
                 case Type t when t == typeof(DigitalOutput):
                     channel = new DigitalOutput(code);
                     break;
+
                 case Type t when t == typeof(MultiSampleAnalogInput):
                     channel = new MultiSampleAnalogInput(code);
                     break;
+
                 default:
                     channel = null;
                     break;

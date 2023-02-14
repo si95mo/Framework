@@ -8,7 +8,7 @@ namespace Core.Parameters
     /// Define an abstract container parameter
     /// </summary>
     /// <typeparam name="T">The type of the contained objects</typeparam>
-    public abstract class ContainerParameter<T> : Parameter<T>, IContainerParameter where T: IParameter
+    public abstract class ContainerParameter<T> : Parameter<T>, IContainerParameter where T : IParameter
     {
         /// <summary>
         /// The <see cref="Bag{T}"/> of sub parameters
