@@ -8,9 +8,9 @@ namespace Alarms
     public interface IAlarm
     {
         /// <summary>
-        /// The source that caused the <see cref="IAlarm"/> to <see cref="Fire"/>
+        /// The code of the source that caused the <see cref="IAlarm"/> to <see cref="Fire"/>
         /// </summary>
-        string Source { get; }
+        string SourceCode { get; }
 
         /// <summary>
         /// The <see cref="IAlarm"/> message
@@ -23,8 +23,7 @@ namespace Alarms
         DateTime FiringTime { get; }
 
         /// <summary>
-        /// Fire the <see cref="IAlarm"/> and stop the relative
-        /// <see cref="Source"/> (if possible)
+        /// Fire the <see cref="IAlarm"/> and stop the relative source idenditified by <see cref="SourceCode"/> (if possible)
         /// </summary>
         void Fire();
     }

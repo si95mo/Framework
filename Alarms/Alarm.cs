@@ -13,7 +13,7 @@ namespace Alarms
     public class Alarm : IProperty, IAlarm
     {
         private string code;
-        private string source;
+        private IProperty source;
         private string message;
         private DateTime firingTime;
 
@@ -23,7 +23,7 @@ namespace Alarms
 
         public Type Type => GetType();
 
-        public string Source => source;
+        public string SourceCode => source.Code;
 
         public string Message => message;
 
@@ -33,13 +33,13 @@ namespace Alarms
         /// Create a new instance of <see cref="Alarm"/>
         /// </summary>
         /// <param name="code">The code</param>
-        /// <param name="source">The source</param>
+        /// <param name="sourceCode">The source code</param>
         /// <param name="message">The message</param>
-        /// <param name="firingCondition">The <see cref="ICondition"/> that will cause the </param>
-        public Alarm(string code, string source, string message, ICondition firingCondition)
+        /// <param name="firingCondition">The <see cref="ICondition"/> that will cause the <see cref="Alarm"/> to fire</param>
+        public Alarm(string code, string sourceCode, string message, ICondition firingCondition)
         {
             this.code = code;
-            this.source = source;
+            this.source = ServiceBroker.Get<IProperty>().Get(sourceCode); 
             this.message = message;
 
             firingCondition.ValueChanged += FiringCondition_ValueChanged;
@@ -55,14 +55,12 @@ namespace Alarms
         {
             firingTime = DateTime.Now;
 
-            // Stop the alarm source (if possible)
-            IProperty alarmSource = ServiceBroker.Get<IProperty>().Get(source);
-            if (alarmSource is IResource)
-                (alarmSource as IResource).Stop();
+            if (source is IResource)
+                (source as IResource).Stop();
             else
             {
-                if (alarmSource is IDevice)
-                    (alarmSource as IDevice).Stop();
+                if (source is IDevice)
+                    (source as IDevice).Stop();
             }
         }
 
@@ -70,11 +68,11 @@ namespace Alarms
         /// Create a new <see cref="Alarm"/>
         /// </summary>
         /// <param name="code">The code</param>
-        /// <param name="source">The source</param>
+        /// <param name="sourceCode">The source code</param>
         /// <param name="message">The message</param>
         /// <param name="firingCondition">The <see cref="ICondition"/> that will cause the </param>
         /// <returns>The created new instance of <see cref="Alarm"/></returns>
-        public static Alarm New(string code, string source, string message, ICondition firingCondition)
-            => new Alarm(code, source, message, firingCondition);
+        public static Alarm New(string code, string sourceCode, string message, ICondition firingCondition)
+            => new Alarm(code, sourceCode, message, firingCondition);
     }
 }
