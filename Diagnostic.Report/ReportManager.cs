@@ -34,7 +34,7 @@ namespace Diagnostic.Report
         /// <summary>
         /// The report file base path (i.e. the folder, no <see cref="FileName"/>)
         /// </summary>
-        [Obsolete("The report folder should ")]
+        [Obsolete("The report folder should be fixed (i.e. defined internally)")]
         public string BasePath
         {
             get => Directory.GetDirectoryRoot(Path);
@@ -54,7 +54,7 @@ namespace Diagnostic.Report
             FileName = fileName;
             Extension = extension;
 
-            IoUtility.CreateDirectoryIfNotExists("reports");
+            IoUtility.CreateDirectoryIfNotExists(BaseFolder);
             Path = $"{BaseFolder}\\{FileName}{EnumToExtension()}";
         }
 
