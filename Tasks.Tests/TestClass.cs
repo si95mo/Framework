@@ -50,6 +50,8 @@ namespace Tasks.Tests
             await task;
             timer.Stop();
 
+            Console.WriteLine($"Elapsed milliseconds: {timer.Elapsed.TotalMilliseconds}");
+
             timer.Elapsed.TotalMilliseconds.Should().BeApproximately(2000d, 200d); // 2000ms +/- 200ms
             task.Status.Value.Should().Be(TaskStatus.Faulted);
         }
