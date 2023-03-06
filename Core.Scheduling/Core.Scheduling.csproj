@@ -46,12 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AsyncScheduler.cs" />
     <Compile Include="InstructionScheduler.cs" />
     <Compile Include="IScheduler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MethodScheduler.cs" />
-    <Compile Include="SimpleInstructionScheduler.cs" />
     <Compile Include="SimpleMethodScheduler.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -13,6 +13,18 @@ namespace Extensions
     /// </summary>
     public static class FrameworkExtension
     {
+        #region Parameters
+
+        /// <summary>
+        /// Set a description to the <paramref name="source"/> <see cref="IParameter"/>
+        /// </summary>
+        /// <param name="source">The source <see cref="IParameter"/></param>
+        /// <param name="description">The description</param>
+        public static void WithDescription(IParameter source, string description)
+            => source.Description = description;
+
+        #region Wrappers
+
         /// <summary>
         /// Wrap a <see cref="double"/> to a <see cref="NumericParameter"/>
         /// </summary>
@@ -44,6 +56,12 @@ namespace Extensions
         /// <returns>The <see cref="TimeSpanParameter"/></returns>
         public static TimeSpanParameter WrapToParameter(this TimeSpan source)
             => new TimeSpanParameter($"{nameof(source)}.AsParameter", source);
+
+        #endregion Wrappers
+
+        #endregion Parameters
+
+        #region Generic WaitFor
 
         /// <summary>
         /// Wait for an <see cref="ICondition"/> to be <see langword="true"/> without timeout
@@ -151,5 +169,7 @@ namespace Extensions
         /// </returns>
         public static async Task<bool> WaitFor(this object _, Task t, TimeSpan timeout)
             => await _.WaitFor(t, timeout.Milliseconds);
+
+        #endregion Generic WaitFor
     }
 }

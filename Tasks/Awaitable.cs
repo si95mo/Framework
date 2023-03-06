@@ -2,7 +2,6 @@
 using Core;
 using Core.DataStructures;
 using Core.Parameters;
-using Devices;
 using Diagnostic;
 using System;
 using System.Collections;
@@ -18,20 +17,24 @@ namespace Tasks
     /// </summary>
     public abstract class Awaitable : IAwaitable, IProperty
     {
-        private string code;
         private WaitForHandler waitForHandler;
+        private bool stopRequested;
 
         protected Alarm Alarm;
+
+        #region Public fields
 
         public EnumParameter<TaskStatus> Status { get; }
         public CancellationTokenSource TokenSource { get; }
         public StringParameter WaitState { get; }
 
-        public string Code => code;
+        public string Code {get; private set;}
         public object ValueAsObject { get => Status.Value; set => _ = value; }
         public Type Type => GetType();
         public Bag<IParameter> InputParameters { get; }
         public Bag<IParameter> OutputParameters { get; }
+
+        #endregion Public fields
 
         /// <summary>
         /// Create a new instance of <see cref="Awaitable"/>
@@ -39,7 +42,7 @@ namespace Tasks
         /// <param name="code">The code</param>
         protected Awaitable(string code)
         {
-            this.code = code;
+            Code = code;
             waitForHandler = new WaitForHandler();
 
             Status = new EnumParameter<TaskStatus>($"{Code}.{nameof(Status)}", TaskStatus.Created);
@@ -49,9 +52,6 @@ namespace Tasks
             InputParameters = new Bag<IParameter>();
             OutputParameters = new Bag<IParameter>();
         }
-
-        private void AlarmFired_ValueChanged(object sender, ValueChangedEventArgs e)
-            => Fail("Alarm fired");
 
         #region IAwaitable interface implementation
 
@@ -64,6 +64,7 @@ namespace Tasks
 
         public Task Start()
         {
+            stopRequested = false;
             Status.Value = TaskStatus.WaitingToRun;
 
             Task task = new Task(() =>
@@ -72,20 +73,26 @@ namespace Tasks
 
                     try
                     {
+                        // Iterate through the Execution task state
                         IEnumerable<string> executionState = Execution();
                         foreach (string state in executionState)
                             WaitState.Value = state;
 
+                        // And then through the termination task state
                         IEnumerable terminationState = Termination();
                         foreach (string state in terminationState)
                             WaitState.Value = state;
 
                         Status.Value = TaskStatus.RanToCompletion;
                     }
-                    catch (Exception ex)
-                    {
+                    catch (Exception ex) // This may be cuased by a stop request or an actual exception
+                    {                        
                         Status.Value = TaskStatus.Faulted;
-                        Logger.Error(ex);
+
+                        if (stopRequested)
+                            Logger.Error(ex);
+                        else
+                            Logger.Warn($"Task with code {Code} faulted because a stop has been requested");
                     }
                 },
                 TokenSource.Token
@@ -93,6 +100,17 @@ namespace Tasks
 
             task.Start();
             return task;
+        }
+
+        public void Fail(string reasonOfFailure)
+        {
+            WaitState.Value = reasonOfFailure;
+            Logger.Error($"Task with code {Code} failed, requesting stop. {reasonOfFailure}");
+
+            OnFail();
+            Stop();
+
+            Status.Value = TaskStatus.Faulted;
         }
 
         public TaskAwaiter GetAwaiter()
@@ -103,16 +121,20 @@ namespace Tasks
 
         public virtual void Stop()
         {
+            stopRequested = true;
+
             TokenSource.Cancel();
-            TokenSource.Token.ThrowIfCancellationRequested();
+            TokenSource.Token.ThrowIfCancellationRequested(); // Let the task fail and then stop
 
             Status.Value = TaskStatus.Canceled;
         }
 
         public virtual void Stop(TimeSpan delay)
         {
+            stopRequested = true;
+
             TokenSource.CancelAfter(delay);
-            TokenSource.Token.ThrowIfCancellationRequested();
+            TokenSource.Token.ThrowIfCancellationRequested(); // Let the task fail and then stop
 
             Status.Value = TaskStatus.Canceled;
         }
@@ -120,29 +142,37 @@ namespace Tasks
         public virtual void Stop(int delay)
             => Stop(TimeSpan.FromMilliseconds(delay));
 
-        /// <summary>
-        /// Let the <see cref="Awaitable"/> fail
-        /// </summary>
-        /// <param name="reasonOfFailure"></param>
-        public void Fail(string reasonOfFailure)
-        {
-            WaitState.Value = reasonOfFailure;
-
-            OnFail();
-            Stop();
-
-            Status.Value = TaskStatus.Faulted;
-        }
-
         #endregion IAwaitable interface implementation
 
         #region Protected methods
 
+        #region WaitForHandler
+
+        /// <summary>
+        /// Awaits a fixed time
+        /// </summary>
+        /// <param name="timeToWait">The time to wait</param>
+        /// <returns>The corresponding <see cref="WaitForHandler"/></returns>
         protected WaitForHandler WaitFor(TimeSpan timeToWait) 
             => waitForHandler.Await(timeToWait);
 
+        /// <summary>
+        /// Awaits a .NET <see cref="Task"/>
+        /// </summary>
+        /// <param name="task">The <see cref="Task"/> to wait</param>
+        /// <returns>The corresponding <see cref="WaitForHandler"/></returns>
         protected WaitForHandler WaitFor(Task task)
             => waitForHandler.Await(task);
+
+        /// <summary>
+        /// Awaits an <see cref="IAwaitable"/> task
+        /// </summary>
+        /// <param name="task">The <see cref="IAwaitable"/> to wait</param>
+        /// <returns>The corresponding <see cref="WaitForHandler"/></returns>
+        protected WaitForHandler WaitFor(IAwaitable task) 
+            => waitForHandler.Await(task);
+
+        #endregion WaitForHandler
 
         /// <summary>
         /// Called just before the <see cref="IAwaitable"/> task stop in case of <see cref="Fail(string)"/>
@@ -151,5 +181,12 @@ namespace Tasks
         { }
 
         #endregion Protected methods
+
+        #region Private methods
+
+        private void AlarmFired_ValueChanged(object sender, ValueChangedEventArgs e)
+            => Fail("Alarm fired");
+
+        #endregion Private methods
     }
 }

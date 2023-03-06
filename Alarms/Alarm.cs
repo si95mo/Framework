@@ -25,6 +25,8 @@ namespace Alarms
         public DateTime FiringTime { get; private set; }
         public BoolParameter Fired { get; private set; }
 
+        #region Constructors
+
         /// <summary>
         /// Create a new instance of <see cref="Alarm"/>
         /// </summary>
@@ -51,25 +53,9 @@ namespace Alarms
             this.source = source;
         }
 
-        private void Initialize(string code, string message, ICondition firingCondition)
-        {
-            Code = code;
-            Message = message;
+        #endregion Constructors
 
-            Fired = new BoolParameter($"{Code}.{nameof(Fired)}", false);
-
-            this.firingCondition = firingCondition;
-
-            onFireAction = null;
-
-            this.firingCondition.ValueChanged += FiringCondition_ValueChanged;
-        }
-
-        private void FiringCondition_ValueChanged(object sender, ValueChangedEventArgs e)
-        {
-            if (e.NewValueAsBool)
-                Fire();
-        }
+        #region IAlarm implementation
 
         public void Fire()
         {
@@ -78,6 +64,7 @@ namespace Alarms
 
             onFireAction?.Invoke();
 
+            // Stop the source if possible
             if (source is IResource)
                 (source as IResource).Stop();
             else if (source is IDevice)
@@ -90,12 +77,16 @@ namespace Alarms
             FiringTime = default;
         }
 
+        #endregion IAlarm implementation
+
         /// <summary>
         /// Define the <see cref="Action"/> to invoke in case of <see cref="Fire"/>
         /// </summary>
         /// <param name="onFireAction"></param>
         public void OnFire(Action onFireAction)
             => this.onFireAction = onFireAction;
+
+        #region Factory methods
 
         /// <summary>
         /// Create a new <see cref="Alarm"/>
@@ -118,5 +109,37 @@ namespace Alarms
         /// <returns>The created new instance of <see cref="Alarm"/></returns>
         public static Alarm New(string code, IProperty source, string message, ICondition firingCondition)
             => new Alarm(code, source, message, firingCondition);
+
+        #endregion Factory methods
+
+        #region Private methods
+
+        /// <summary>
+        /// Initialize <see cref="Alarm"/> attributes
+        /// </summary>
+        /// <param name="code">The code</param>
+        /// <param name="message">The message</param>
+        /// <param name="firingCondition">The firing <see cref="ICondition"/></param>
+        private void Initialize(string code, string message, ICondition firingCondition)
+        {
+            Code = code;
+            Message = message;
+
+            Fired = new BoolParameter($"{Code}.{nameof(Fired)}", false);
+
+            this.firingCondition = firingCondition;
+
+            onFireAction = null;
+
+            this.firingCondition.ValueChanged += FiringCondition_ValueChanged;
+        }
+
+        private void FiringCondition_ValueChanged(object sender, ValueChangedEventArgs e)
+        {
+            if (e.NewValueAsBool)
+                Fire();
+        }
+
+        #endregion Private methods
     }
 }

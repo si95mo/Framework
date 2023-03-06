@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExecuteTask.cs" />
     <Compile Include="Parallel.cs" />
     <Compile Include="Pause.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -67,6 +68,10 @@
     <ProjectReference Include="..\Instructions\Instructions.csproj">
       <Project>{c8bdfaee-7c9d-49eb-80ba-7667d4cb0766}</Project>
       <Name>Instructions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tasks\Tasks.csproj">
+      <Project>{34F33C33-F362-4400-9CBD-828B902A9093}</Project>
+      <Name>Tasks</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
