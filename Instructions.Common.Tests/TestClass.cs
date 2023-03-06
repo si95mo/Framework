@@ -13,7 +13,7 @@ namespace Instructions.Common.Tests
     [TestFixture]
     public class TestClass
     {
-        private const double timeoutInMilliseconds = 10000;
+        private const double TimeoutInMilliseconds = 10000;
 
         private InstructionScheduler scheduler;
         private WaitForCondition waitForCondition;
@@ -27,7 +27,7 @@ namespace Instructions.Common.Tests
             firstValue = new NumericParameter("FirstValue");
             secondValue = new NumericParameter("SecondValue");
 
-            TimeSpan timeout = TimeSpan.FromMilliseconds(timeoutInMilliseconds); // 10 seconds
+            TimeSpan timeout = TimeSpan.FromMilliseconds(TimeoutInMilliseconds); // 10 seconds
             TimeSpan conditionTime = TimeSpan.FromMilliseconds(1000); // 1 second
             waitForCondition = new WaitForCondition(timeout, conditionTime, firstValue, secondValue, Operand.GreatherOrEqual);
         }
@@ -63,7 +63,7 @@ namespace Instructions.Common.Tests
             List<IInstruction> executedInstructions = await scheduler.Execute();
             sw.Stop();
 
-            sw.Elapsed.TotalMilliseconds.Should().BeLessThan(timeoutInMilliseconds);
+            sw.Elapsed.TotalMilliseconds.Should().BeLessThan(TimeoutInMilliseconds);
             foreach (IInstruction instruction in executedInstructions)
             {
                 instruction.Succeeded.Value.Should().BeTrue();
@@ -83,7 +83,7 @@ namespace Instructions.Common.Tests
             List<IInstruction> executedInstructions = await scheduler.Execute();
             sw.Stop();
 
-            sw.Elapsed.TotalMilliseconds.Should().BeGreaterThan(timeoutInMilliseconds);
+            sw.Elapsed.TotalMilliseconds.Should().BeGreaterThan(TimeoutInMilliseconds);
             foreach (IInstruction instruction in executedInstructions)
             {
                 instruction.Succeeded.Value.Should().BeFalse();

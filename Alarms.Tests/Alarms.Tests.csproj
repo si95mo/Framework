@@ -1,17 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\NUnit3TestAdapter.4.4.2\build\net462\NUnit3TestAdapter.props" Condition="Exists('..\packages\NUnit3TestAdapter.4.4.2\build\net462\NUnit3TestAdapter.props')" />
+  <Import Project="..\packages\NUnit.3.13.3\build\NUnit.props" Condition="Exists('..\packages\NUnit.3.13.3\build\NUnit.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{34F33C33-F362-4400-9CBD-828B902A9093}</ProjectGuid>
+    <ProjectGuid>{BAFB9004-AF5E-49F7-A4F0-A184713EBC91}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tasks</RootNamespace>
-    <AssemblyName>Tasks</AssemblyName>
+    <RootNamespace>Alarms.Tests</RootNamespace>
+    <AssemblyName>Alarms.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,17 +35,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Nito.AsyncEx.Context, Version=5.1.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Nito.AsyncEx.Context.5.1.2\lib\net461\Nito.AsyncEx.Context.dll</HintPath>
+    <Reference Include="FluentAssertions, Version=6.10.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentAssertions.6.10.0\lib\net47\FluentAssertions.dll</HintPath>
     </Reference>
-    <Reference Include="Nito.AsyncEx.Tasks, Version=5.1.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Nito.AsyncEx.Tasks.5.1.2\lib\net461\Nito.AsyncEx.Tasks.dll</HintPath>
-    </Reference>
-    <Reference Include="Nito.Disposables, Version=2.2.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Nito.Disposables.2.2.1\lib\net461\Nito.Disposables.dll</HintPath>
+    <Reference Include="nunit.framework, Version=3.13.3.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.13.3\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -50,24 +58,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Awaitable.cs" />
-    <Compile Include="AwaitableWithAlarm.cs" />
-    <Compile Include="IAwaitable.cs" />
+    <Compile Include="TestClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WaitForHandler.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Alarms\Alarms.csproj">
-      <Project>{4C9DFD9B-D4EF-4565-9612-CF5096B3CA74}</Project>
+      <Project>{4c9dfd9b-d4ef-4565-9612-cf5096b3ca74}</Project>
       <Name>Alarms</Name>
     </ProjectReference>
     <ProjectReference Include="..\Core.Conditions\Core.Conditions.csproj">
       <Project>{694CD750-5601-4C5F-A881-3B330E4CAF43}</Project>
       <Name>Core.Conditions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Core.DataStructures\Core.DataStructures.csproj">
-      <Project>{1967AA9E-7FB5-4B63-AD7B-8394D65B6E8F}</Project>
-      <Name>Core.DataStructures</Name>
     </ProjectReference>
     <ProjectReference Include="..\Core.Parameters\Core.Parameters.csproj">
       <Project>{B0E053BC-1B89-4C83-B819-5EC032B2566F}</Project>
@@ -77,26 +82,17 @@
       <Project>{75DFACF6-E820-4E3F-83D5-1E21FBC92385}</Project>
       <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Devices\Devices.csproj">
-      <Project>{15F9B789-4478-4B0A-9A2A-C2B78F21CF47}</Project>
-      <Name>Devices</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Diagnostic\Diagnostic.csproj">
-      <Project>{7DEB54D9-B9F1-4B05-8D81-D7B4F77631D1}</Project>
-      <Name>Diagnostic</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Extensions\Extensions.csproj">
-      <Project>{9A12DE29-C4AD-42CE-AB4B-88EBC819E83A}</Project>
+      <Project>{9a12de29-c4ad-42ce-ab4b-88ebc819e83a}</Project>
       <Name>Extensions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\IO\IO.csproj">
-      <Project>{65535B13-4850-4EC8-893D-58F3BC49C457}</Project>
-      <Name>IO</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\NUnit.3.13.3\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit.3.13.3\build\NUnit.props'))" />
+    <Error Condition="!Exists('..\packages\NUnit3TestAdapter.4.4.2\build\net462\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit3TestAdapter.4.4.2\build\net462\NUnit3TestAdapter.props'))" />
+  </Target>
 </Project>

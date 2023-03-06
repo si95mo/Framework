@@ -118,7 +118,7 @@ namespace Extensions.Tests
         }
 
         [Test]
-        private async Task TestWaitFor()
+        public async Task TestWaitFor()
         {
             TcpResource resource = new TcpResource("TcpResource", GetLocalIp(), 10000, 5000);
             TcpChannel channel = new TcpChannel("Channel", resource);

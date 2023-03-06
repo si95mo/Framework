@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.32901.82
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hardware", "Hardware\Hardware.csproj", "{C0F5ECDE-B7AD-42B3-ACF8-D5486B0E4C44}"
 EndProject
@@ -154,8 +154,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mathematics.DifferentialEqu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasks", "Tasks\Tasks.csproj", "{34F33C33-F362-4400-9CBD-828B902A9093}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alarms", "Alarms\Alarms.csproj", "{4C9DFD9B-D4EF-4565-9612-CF5096B3CA74}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hardware.Raspberry.Gpio", "Hardware.Raspberry.Gpio\Hardware.Raspberry.Gpio.csproj", "{FF71DC5D-F34F-4EA5-A6B9-37CCCFB80B64}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hardware.Can.Vector", "Hardware.Can.Vector\Hardware.Can.Vector.csproj", "{80A12FA0-67D7-46C1-8135-63C8697EB13F}"
@@ -196,7 +194,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diagnostic.Report", "Diagno
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diagnostic.Report.Tests", "Diagnostic.Report.Tests\Diagnostic.Report.Tests.csproj", "{07FC2915-237B-4ABE-8587-2C9A1CED0FFD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hardware.Tcp.IntegrationTest", "Hardware.Tcp.IntegrationTest\Hardware.Tcp.IntegrationTest.csproj", "{1BD94806-6EEF-4253-9614-5A741474918F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hardware.Tcp.IntegrationTest", "Hardware.Tcp.IntegrationTest\Hardware.Tcp.IntegrationTest.csproj", "{1BD94806-6EEF-4253-9614-5A741474918F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alarms", "Alarms\Alarms.csproj", "{4C9DFD9B-D4EF-4565-9612-CF5096B3CA74}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alarms.Tests", "Alarms.Tests\Alarms.Tests.csproj", "{BAFB9004-AF5E-49F7-A4F0-A184713EBC91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasks.Tests", "Tasks.Tests\Tasks.Tests.csproj", "{2A6BBE03-309C-4F70-8EC5-3EF70990A232}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -496,10 +500,6 @@ Global
 		{34F33C33-F362-4400-9CBD-828B902A9093}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34F33C33-F362-4400-9CBD-828B902A9093}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34F33C33-F362-4400-9CBD-828B902A9093}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4C9DFD9B-D4EF-4565-9612-CF5096B3CA74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4C9DFD9B-D4EF-4565-9612-CF5096B3CA74}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4C9DFD9B-D4EF-4565-9612-CF5096B3CA74}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4C9DFD9B-D4EF-4565-9612-CF5096B3CA74}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FF71DC5D-F34F-4EA5-A6B9-37CCCFB80B64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FF71DC5D-F34F-4EA5-A6B9-37CCCFB80B64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF71DC5D-F34F-4EA5-A6B9-37CCCFB80B64}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -536,6 +536,18 @@ Global
 		{1BD94806-6EEF-4253-9614-5A741474918F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BD94806-6EEF-4253-9614-5A741474918F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1BD94806-6EEF-4253-9614-5A741474918F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C9DFD9B-D4EF-4565-9612-CF5096B3CA74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C9DFD9B-D4EF-4565-9612-CF5096B3CA74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C9DFD9B-D4EF-4565-9612-CF5096B3CA74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C9DFD9B-D4EF-4565-9612-CF5096B3CA74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAFB9004-AF5E-49F7-A4F0-A184713EBC91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAFB9004-AF5E-49F7-A4F0-A184713EBC91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAFB9004-AF5E-49F7-A4F0-A184713EBC91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAFB9004-AF5E-49F7-A4F0-A184713EBC91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A6BBE03-309C-4F70-8EC5-3EF70990A232}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A6BBE03-309C-4F70-8EC5-3EF70990A232}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A6BBE03-309C-4F70-8EC5-3EF70990A232}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A6BBE03-309C-4F70-8EC5-3EF70990A232}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

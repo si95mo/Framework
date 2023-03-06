@@ -19,8 +19,8 @@ namespace Core.Conditions
 
         public object ValueAsObject
         {
-            get => value;
-            set => this.value = (bool)value;
+            get => Value;
+            set => Value = (bool)value;
         }
 
         public Type Type => typeof(Condition);
