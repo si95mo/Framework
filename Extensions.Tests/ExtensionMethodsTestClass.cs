@@ -131,7 +131,7 @@ namespace Extensions.Tests
             for (int i = 0; i < 10; i++)
             {
                 channel.Request = i.ToString();
-                await this.WaitFor(propertyValueChanged, 5000);
+                await channel.WaitFor(propertyValueChanged, 5000);
             }
         }
 

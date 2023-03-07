@@ -69,7 +69,7 @@ namespace Extensions
         /// <param name="_">The source</param>
         /// <param name="condition">The <see cref="ICondition"/> to wait</param>
         /// <returns>The (async) <see cref="Task"/></returns>
-        public static async Task WaitFor(this object _, ICondition condition)
+        public static async Task WaitFor(this IProperty _, ICondition condition)
         {
             if (!condition.Value)
             {
@@ -99,7 +99,7 @@ namespace Extensions
         /// the <paramref name="condition"/> became <see langword="true"/> before <paramref name="timeout"/> occurred,
         /// <see langword="false"/> otherwise)
         /// </returns>
-        public static async Task<bool> WaitFor(this object _, ICondition condition, int timeout)
+        public static async Task<bool> WaitFor(this IProperty _, ICondition condition, int timeout)
         {
             bool result = true;
 
@@ -132,7 +132,7 @@ namespace Extensions
         /// <param name="_">The source</param>
         /// <param name="timeToWait">The time to wait (as <see cref="TimeSpan"/>)</param>
         /// <returns>The (async) <see cref="Task"/></returns>
-        public static async Task WaitFor(this object _, TimeSpan timeToWait)
+        public static async Task WaitFor(this IProperty _, TimeSpan timeToWait)
             => await Task.Delay(timeToWait);
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace Extensions
         /// <param name="_">The source</param>
         /// <param name="t">The <see cref="Task"/> to wait</param>
         /// <returns>The (async) <see cref="Task"/></returns>
-        public static async Task WaitFor(this object _, Task t)
+        public static async Task WaitFor(this IProperty _, Task t)
             => await t;
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace Extensions
         /// The (async) <see cref="Task{TResult}"/> (<see langword="true"/> if the <see cref="Task"/> completed,
         /// <see langword="false"/> if timeout occurred)
         /// </returns>
-        public static async Task<bool> WaitFor(this object _, Task t, int timeout)
+        public static async Task<bool> WaitFor(this IProperty _, Task t, int timeout)
             => await t.StartWithTimeout(timeout);
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace Extensions
         /// The (async) <see cref="Task{TResult}"/> (<see langword="true"/> if the <see cref="Task"/> completed,
         /// <see langword="false"/> if timeout occurred)
         /// </returns>
-        public static async Task<bool> WaitFor(this object _, Task t, TimeSpan timeout)
+        public static async Task<bool> WaitFor(this IProperty _, Task t, TimeSpan timeout)
             => await _.WaitFor(t, timeout.Milliseconds);
 
         #endregion Generic WaitFor

@@ -2,6 +2,9 @@
 
 namespace Hardware
 {
+    /// <summary>
+    /// Define a <see cref="Service{T}"/> for <see cref="IChannel"/>
+    /// </summary>
     public class ChannelsService : Service<IChannel>
     {
         /// <summary>

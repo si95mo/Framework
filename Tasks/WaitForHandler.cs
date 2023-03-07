@@ -1,4 +1,5 @@
-﻿using Extensions;
+﻿using Core;
+using Extensions;
 using Nito.AsyncEx;
 using System;
 using System.Threading.Tasks;
@@ -6,18 +7,30 @@ using System.Threading.Tasks;
 namespace Tasks
 {
     /// <summary>
-    /// Define an hadler to wait for generic tasks
+    /// Define an handler to wait for generic tasks
     /// </summary>
-    public class WaitForHandler
+    public class WaitForHandler : IProperty
     {
+        #region IProperty (fake) implementation
+
+        public string Code { get; private set; }
+        public object ValueAsObject { get; set; }
+        public Type Type => GetType();
+
+        #endregion IProperty (fake) implementation
+
         /// <summary>
         /// The <see cref="WaitForHandler"/> message
         /// </summary>
         public string Message { get; protected set; }
 
-        public WaitForHandler() 
-        { }
-
+        /// <summary>
+        /// Create a new instance of <see cref="WaitForHandler"/>
+        /// </summary>
+        public WaitForHandler()
+        {
+            Code = Guid.NewGuid().ToString(); // Just assign a unique code
+        }
 
         /// <summary>
         /// Await a specified <see cref="TimeSpan"/>
@@ -80,6 +93,6 @@ namespace Tasks
         /// <param name="waitForHandler">The <see cref="WaitForHandler"/></param>
         /// <returns>The conversion result</returns>
         public static implicit operator string(WaitForHandler waitForHandler)
-            => waitForHandler.Message; 
+            => waitForHandler.Message;
     }
 }

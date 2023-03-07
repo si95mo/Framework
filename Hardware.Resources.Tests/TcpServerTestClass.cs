@@ -37,7 +37,7 @@ namespace Hardware.Resources.Tests
         {
             server.StreamInput.ValueChanged += StreamInput_ValueChanged;
 
-            await this.WaitFor(valueReceivedFromServer);
+            await server.WaitFor(valueReceivedFromServer);
 
             server.StreamInput.Value.Should().NotBeEmpty();
             server.StreamInput.EncodedValue.Should().NotBeNullOrWhiteSpace();

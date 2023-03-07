@@ -58,7 +58,7 @@ namespace Hardware.Resources.Tests
             condition.ValueChanged += Condition_ValueChanged;
 
             System.Diagnostics.Stopwatch timer = System.Diagnostics.Stopwatch.StartNew();
-            await this.WaitFor(condition, 5000);
+            await channel.WaitFor(condition, 5000);
             timer.Stop();
 
             channel.Value.Should().NotBe(""); // The response is sent back from Hercules (manual)

@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Condition.cs" />
     <Compile Include="ConditionsService.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="FlyweightCondition.cs" />
     <Compile Include="DummyCondition.cs" />
     <Compile Include="ICondition.cs" />
