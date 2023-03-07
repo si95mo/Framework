@@ -11,7 +11,7 @@ namespace Hardware
         /// Create a new instance of <see cref="StreamInput"/>
         /// </summary>
         /// <param name="code">The code</param>
-        /// <param name="encoding">The <see cref="Encoding"/></param></para>
+        /// <param name="encoding">The <see cref="Encoding"/></param>
         public StreamInput(string code, Encoding encoding) : base(code, encoding)
         { }
     }

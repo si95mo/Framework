@@ -43,13 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ISerialChannel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SerialInput.cs" />
-    <Compile Include="SerialOutput.cs" />
-    <Compile Include="SerialResource.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="SerialResource.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core.DataStructures\Core.DataStructures.csproj">

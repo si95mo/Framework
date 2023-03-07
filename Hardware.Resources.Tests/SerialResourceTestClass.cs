@@ -1,6 +1,7 @@
 ﻿using Diagnostic;
 using FluentAssertions;
 using NUnit.Framework;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Hardware.Resources.Tests
@@ -14,7 +15,7 @@ namespace Hardware.Resources.Tests
         {
             Logger.Initialize();
 
-            resource = new SerialResource(nameof(resource), "COM3");
+            resource = new SerialResource(nameof(resource), "COM3", Encoding.ASCII);
             await resource.Start();
 
             resource.IsOpen.Should().BeTrue();
@@ -37,10 +38,10 @@ namespace Hardware.Resources.Tests
         {
             if (resource.Status.Value == ResourceStatus.Executing)
             {
-                resource.Send(message);
+                resource.Output.EncodedValue = message;
             }
             else
-                resource.LastFailure.Description.Should().NotBe("");
+                resource.LastFailure.Description.Should().NotBe(string.Empty);
         }
     }
 }

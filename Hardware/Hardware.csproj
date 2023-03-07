@@ -62,6 +62,7 @@
     <Compile Include="ResourcesService.cs" />
     <Compile Include="Stream.cs" />
     <Compile Include="StreamInput.cs" />
+    <Compile Include="StreamResource.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core.Conditions\Core.Conditions.csproj">
