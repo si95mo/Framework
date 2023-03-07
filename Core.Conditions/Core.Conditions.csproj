@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Condition.cs" />
+    <Compile Include="ConditionsService.cs" />
     <Compile Include="FlyweightCondition.cs" />
     <Compile Include="DummyCondition.cs" />
     <Compile Include="ICondition.cs" />
@@ -53,6 +54,10 @@
     <Compile Include="TimeElapsed.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Core.DataStructures\Core.DataStructures.csproj">
+      <Project>{1967aa9e-7fb5-4b63-ad7b-8394d65b6e8f}</Project>
+      <Name>Core.DataStructures</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core.Parameters\Core.Parameters.csproj">
       <Project>{B0E053BC-1B89-4C83-B819-5EC032B2566F}</Project>
       <Name>Core.Parameters</Name>

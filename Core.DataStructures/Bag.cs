@@ -40,6 +40,8 @@ namespace Core.DataStructures
     [Serializable]
     public class Bag<T> : IEnumerable<IProperty>, ISerializable
     {
+        #region Event handlers
+
         /// <summary>
         /// <see cref="EventHandler"/> invoked when an item is added to the <see cref="Bag{T}"/>
         /// </summary>
@@ -50,7 +52,9 @@ namespace Core.DataStructures
         /// </summary>
         public event EventHandler<BagChangedEventArgs<IProperty>> ItemRemoved;
 
-        private readonly Dictionary<string, IProperty> bag;
+        #endregion Event handlers
+
+        #region Public properties
 
         /// <summary>
         /// The number of items in the <see cref="Bag{IProperty}"/>
@@ -66,6 +70,10 @@ namespace Core.DataStructures
         /// The values of the items in the <see cref="Bag{IProperty}"/>
         /// </summary>
         public List<IProperty> Values => bag.Values.ToList();
+
+        #endregion Public properties
+
+        private readonly Dictionary<string, IProperty> bag;
 
         /// <summary>
         /// Create a new instance of <see cref="Bag{IProperty}"/>
@@ -88,16 +96,7 @@ namespace Core.DataStructures
             );
         }
 
-        /// <summary>
-        /// Serialize the instance of <see cref="Bag{T}"/>
-        /// </summary>
-        /// <param name="info">The <see cref="SerializationInfo"/></param>
-        /// <param name="context">The <see cref="StreamingContext"/></param>
-        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
-        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue(nameof(bag), bag);
-        }
+        #region Handlers
 
         /// <summary>
         /// On item added event
@@ -116,6 +115,8 @@ namespace Core.DataStructures
         {
             ItemRemoved?.Invoke(this, e);
         }
+
+        #endregion Handlers
 
         /// <summary>
         /// Add an item to the <see cref="Bag{T}"/>
@@ -210,6 +211,16 @@ namespace Core.DataStructures
         }
 
         /// <summary>
+        /// Check if the <see cref="Bag{T}"/> contains a specific <paramref name="key"/>
+        /// </summary>
+        /// <param name="key">The key to check</param>
+        /// <returns><see langword="true"/> if <paramref name="key"/> is found, <see langword="false"/> otherwise</returns>
+        public bool ContainsKey(string key)
+            => bag.ContainsKey(key);
+
+        #region Interfaces implementation
+
+        /// <summary>
         /// Get the <see cref="IEnumerator{T}"/> used to
         /// iterate through the <see cref="Bag{T}"/>
         /// </summary>
@@ -219,5 +230,18 @@ namespace Core.DataStructures
 
         IEnumerator IEnumerable.GetEnumerator()
             => GetEnumerator();
+
+        /// <summary>
+        /// Serialize the instance of <see cref="Bag{T}"/>
+        /// </summary>
+        /// <param name="info">The <see cref="SerializationInfo"/></param>
+        /// <param name="context">The <see cref="StreamingContext"/></param>
+        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(bag), bag);
+        }
+
+        #endregion Interfaces implementation
     }
 }

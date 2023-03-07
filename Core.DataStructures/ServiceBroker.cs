@@ -14,6 +14,7 @@ namespace Core.DataStructures
         public static bool Initialized { get; private set; } = false;
 
         private static Bag<IProperty> subscribers;
+        private static Bag<IService> services;
 
         /// <summary>
         /// Initialize the <see cref="ServiceBroker"/>
@@ -21,6 +22,8 @@ namespace Core.DataStructures
         public static void Initialize()
         {
             subscribers = new Bag<IProperty>();
+            services = new Bag<IService>();
+
             Initialized = true;
         }
 
@@ -58,6 +61,49 @@ namespace Core.DataStructures
             }
 
             return returnCollection;
+        }
+
+        /// <summary>
+        /// Check if the <see cref="ServiceBroker"/> can provide an <see cref="IService{T}"/> (i.e. the service has already been added
+        /// </summary>
+        /// <param name="code">The code of service to check</param>
+        /// <returns><see langword="true"/> if the service can be provided, <see langword="false"/> otherwise</returns>
+        public bool CanProvide(string code)
+        {
+            bool canProvide = services.ContainsKey(code);
+            if (canProvide)
+            {
+                IService service = services.Get(code);
+                canProvide = service.GetType().IsAssignableFrom(services.Get(service.Code).GetType());
+            }
+
+            return canProvide;
+        }
+
+        /// <summary>
+        /// Check if the <see cref="ServiceBroker"/> can provide an <see cref="IService{T}"/>
+        /// </summary>
+        /// <typeparam name="T">The type of <see cref="IService{T}"/> to check</typeparam>
+        /// <returns><see langword="true"/> if the service can be provided, <see langword="false"/> otherwise</returns>
+        public bool CanProvide<T>() where T : IService
+        {
+            bool canProvide = true;
+            foreach(IService service in services)
+                canProvide &= typeof(T).IsAssignableFrom(service.GetType());
+
+            return canProvide;
+        }
+
+        /// <summary>
+        /// Provide an <see cref="IService"/>
+        /// </summary>
+        /// <typeparam name="T">The type of the <see cref="IService"/> to provide</typeparam>
+        /// <param name="service">The <see cref="IService"/> to provide</param>
+        public void Provide<T>(T service) where T : IService
+        {
+            string code = service.Code;
+            if(!CanProvide(code)) // The service has not been added yet
+                services.Add(service);
         }
 
         /// <summary>
