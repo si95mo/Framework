@@ -31,7 +31,7 @@ namespace Core.Converters
         public ExponentialMovingAverageConverter(double lambda) : base()
         {
             this.lambda = lambda <= 1 && lambda >= 0 ? lambda : 0.5;
-            converter = MovingAverage();
+            Converter = MovingAverage();
         }
 
         /// <summary>

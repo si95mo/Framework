@@ -42,7 +42,7 @@ namespace Core.Converters
             Y0 = y0;
             Y1 = y1;
 
-            converter = InterpolateLinearly();
+            Converter = InterpolateLinearly();
         }
 
         /// <summary>

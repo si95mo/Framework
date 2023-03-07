@@ -20,7 +20,7 @@ namespace Core.Converters
             set
             {
                 windowSize = value;
-                converter = MovingAverage(windowSize);
+                Converter = MovingAverage(windowSize);
             }
         }
 
@@ -31,7 +31,7 @@ namespace Core.Converters
         public SimpleMovingAverageConverter(int windowSize) : base()
         {
             this.windowSize = windowSize;
-            converter = MovingAverage(this.windowSize);
+            Converter = MovingAverage(this.windowSize);
         }
 
         /// <summary>

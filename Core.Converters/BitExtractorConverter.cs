@@ -14,7 +14,7 @@ namespace Core.Converters
         /// <param name="position">The bit position</param>
         public BitExtractorConverter(int position) : base()
         {
-            converter = new Func<double, bool>(x => ExtractBit(x, 1, position) != 0);
+            Converter = new Func<double, bool>(x => ExtractBit(x, 1, position) != 0);
         }
 
         /// <summary>

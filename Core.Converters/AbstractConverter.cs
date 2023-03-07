@@ -9,7 +9,6 @@ namespace Core.Converters
     /// <typeparam name="TOut">The output type of the conversion</typeparam>
     public abstract class AbstractConverter<TIn, TOut> : IConverter<TIn, TOut>
     {
-        protected Func<TIn, TOut> converter;
         protected IProperty<TIn> sourceParameter;
         protected IProperty<TOut> destinationParameter;
 
@@ -17,11 +16,7 @@ namespace Core.Converters
         /// The <see cref="AbstractConverter{TIn, TOut}"/> <see cref="Func{T, TResult}"/>
         /// used in conversion
         /// </summary>
-        public virtual Func<TIn, TOut> Converter
-        {
-            get => converter;
-            set => converter = value;
-        }
+        public virtual Func<TIn, TOut> Converter { get; set; }
 
         /// <summary>
         /// Create a new instance of <see cref="AbstractConverter{TIn, TOut}"/>
@@ -31,14 +26,6 @@ namespace Core.Converters
             sourceParameter = null;
             destinationParameter = null;
         }
-
-        /// <summary>
-        /// Execute the conversion
-        /// </summary>
-        /// <param name="arg">The argument to convert</param>
-        /// <returns>The result of the conversion</returns>
-        public virtual TOut Execute(TIn arg)
-            => converter.Invoke(arg);
 
         /// <summary>
         /// Connects an <see cref="IProperty"/> to another
@@ -54,10 +41,9 @@ namespace Core.Converters
             (sourceParameter as IProperty<TIn>).ConnectTo(this.sourceParameter);
             this.destinationParameter.ConnectTo(destinationParameter as IProperty<TOut>);
 
-            this.destinationParameter.Value =
-                converter.Invoke((sourceParameter as IProperty<TIn>).Value);
+            this.destinationParameter.Value = Converter.Invoke((sourceParameter as IProperty<TIn>).Value);
 
-            this.sourceParameter.ValueChanged += PropagateValues;
+            this.sourceParameter.ValueChanged += SourceParameter_ValueChanged;
         }
 
         /// <summary>
@@ -65,9 +51,9 @@ namespace Core.Converters
         /// </summary>
         /// <param name="sender">The sender</param>
         /// <param name="e">The <see cref="ValueChangedEventArgs"/></param>
-        protected virtual void PropagateValues(object sender, ValueChangedEventArgs e)
+        protected virtual void SourceParameter_ValueChanged(object sender, ValueChangedEventArgs e)
         {
-            destinationParameter.Value = converter.Invoke(sourceParameter.Value);
+            destinationParameter.Value = Converter.Invoke(sourceParameter.Value);
         }
     }
 }

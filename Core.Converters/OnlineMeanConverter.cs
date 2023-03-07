@@ -19,7 +19,7 @@ namespace Core.Converters
             n = 0;
             lastMean = 0d;
 
-            converter = new Func<double, double>(x => CalculateOnlineMean(x));
+            Converter = new Func<double, double>(x => CalculateOnlineMean(x));
         }
 
         /// <summary>
