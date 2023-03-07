@@ -10,13 +10,13 @@ namespace Core.Conditions
     /// Implement a condition that will be <see langword="true"/> after
     /// a time interval elapsed
     /// </summary>
-    public class TimeElapsed : FlyweightCondition
+    public class TimeElapsedCondition : FlyweightCondition
     {
         private CancellationTokenSource tokenSource;
         private bool withEndCondition;
 
         /// <summary>
-        /// The time after which the <see cref="TimeElapsed"/> <see cref="Condition"/>
+        /// The time after which the <see cref="TimeElapsedCondition"/> <see cref="Condition"/>
         /// will be  <see langword="true"/>
         /// </summary>
         public TimeSpanParameter Time { get; set; }
@@ -34,30 +34,30 @@ namespace Core.Conditions
         #region Constructors
 
         /// <summary>
-        /// Create a new instance of <see cref="TimeElapsed"/>
+        /// Create a new instance of <see cref="TimeElapsedCondition"/>
         /// </summary>
         /// <param name="code">The code</param>
         /// <param name="time">The time after which the new instance will be <see langword="true"/> (as a <see cref="TimeSpan"/></param>
-        public TimeElapsed(string code, TimeSpan time) : base(code)
+        public TimeElapsedCondition(string code, TimeSpan time) : base(code)
         {
             InitializeParameters(time);
         }
 
         /// <summary>
-        /// Create a new instance of <see cref="TimeElapsed"/>
+        /// Create a new instance of <see cref="TimeElapsedCondition"/>
         /// </summary>
         /// <param name="code">The code</param>
         /// <param name="time">The time after which the new instance will be <see langword="true"/> (in milliseconds)</param>
-        public TimeElapsed(string code, double time) : this(code, TimeSpan.FromMilliseconds(time))
+        public TimeElapsedCondition(string code, double time) : this(code, TimeSpan.FromMilliseconds(time))
         { }
 
         /// <summary>
-        /// Create a new instance of <see cref="TimeElapsed"/>
+        /// Create a new instance of <see cref="TimeElapsedCondition"/>
         /// </summary>
         /// <param name="code">The code</param>
         /// <param name="time">The time after which the new instance will be <see langword="true"/></param>
         /// <param name="startCondition">The <see cref="ICondition"/> that will start the timer when will become <see langword="true"/></param>
-        public TimeElapsed(string code, TimeSpan time, ICondition startCondition) : this(code, time)
+        public TimeElapsedCondition(string code, TimeSpan time, ICondition startCondition) : this(code, time)
         {
             withEndCondition = false;
 
@@ -65,16 +65,16 @@ namespace Core.Conditions
         }
 
         /// <summary>
-        /// Create a new instance of <see cref="TimeElapsed"/>
+        /// Create a new instance of <see cref="TimeElapsedCondition"/>
         /// </summary>
         /// <remarks>
-        /// The type of instance of <see cref="TimeElapsed"/> created with this type of constructor is totally automated and does
+        /// The type of instance of <see cref="TimeElapsedCondition"/> created with this type of constructor is totally automated and does
         /// not became <see langword="true"/> after a certain amount of time passed, but only when 2 other <see cref="ICondition"/> switch to <see langword="true"/>
         /// </remarks>
         /// <param name="code">The code</param>
         /// <param name="startCondition">The <see cref="ICondition"/> that will start the timer when will become <see langword="true"/></param>
         /// <param name="endCondition">The <see cref="ICondition"/> that will stop the timer when will become <see langword="true"/></param>
-        public TimeElapsed(string code, ICondition startCondition, ICondition endCondition) : base(code)
+        public TimeElapsedCondition(string code, ICondition startCondition, ICondition endCondition) : base(code)
         {
             InitializeParameters(TimeSpan.Zero);
 
@@ -91,7 +91,7 @@ namespace Core.Conditions
 
         private void StartCondition_ValueChanged(object sender, ValueChangedEventArgs e)
         {
-            if ((bool)e.NewValue)
+            if (e.NewValueAsBool)
             {
                 if (!withEndCondition)
                     CreateTimerTask().Start();
@@ -102,7 +102,7 @@ namespace Core.Conditions
 
         private void EndCondition_ValueChanged(object sender, ValueChangedEventArgs e)
         {
-            if ((bool)e.NewValue)
+            if (e.NewValueAsBool)
                 tokenSource.Cancel();
         }
 
