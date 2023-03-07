@@ -1,6 +1,7 @@
 ﻿using Core;
 using Core.Conditions;
 using System;
+using System.Collections.Generic;
 
 namespace Hardware
 {
@@ -13,6 +14,11 @@ namespace Hardware
         /// Define an <see cref="ICondition"/> that enable the <see cref="IChannel"/> write
         /// </summary>
         ICondition WriteEnable { get; set; }
+
+        /// <summary>
+        /// The <see cref="IChannel"/> tags set
+        /// </summary>
+        List<string> Tags { get; set; }
 
         /// <summary>
         /// Connect a <see cref="IProperty"/> to propagate the value

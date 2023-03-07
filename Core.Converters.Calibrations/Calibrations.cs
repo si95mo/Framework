@@ -25,7 +25,10 @@ namespace Core.Converters.Calibrations
         public static AnalogInput CreateCalibratedChannel(AnalogInput rawChannel, double x0, double x1, double y0, double y1,
             string measureUnit = "", string format = "0.0")
         {
-            AnalogInput calibratedChannel = new AnalogInput(rawChannel.Code + "_Calibrated", measureUnit, format);
+            AnalogInput calibratedChannel = new AnalogInput($"{rawChannel.Code}.Calibrated", measureUnit, format);
+            calibratedChannel.Tags.AddRange(rawChannel.Tags);
+            calibratedChannel.Tags.Add("Calibrated");
+
             rawChannel.ConnectTo(calibratedChannel, new LinearInterpolationConverter(x0, x1, y0, y1));
 
             ServiceBroker.Add<IChannel>(calibratedChannel);

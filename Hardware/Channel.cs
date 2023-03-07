@@ -94,88 +94,7 @@ namespace Hardware
         /// </summary>
         private EventHandler<ValueChangedEventArgs> ValueChangedHandler;
 
-        /// <summary>
-        /// The <see cref="Type"/>
-        /// </summary>
-        public Type Type => GetType();
-
-        /// <summary>
-        /// The tags
-        /// </summary>
-        public List<string> Tags { get; set; }
-
-        public ICondition WriteEnable { get; set; }
-
-        /// <summary>
-        /// Initialize the class attributes with
-        /// default parameters
-        /// </summary>
-        protected Channel() : this(Guid.NewGuid().ToString())
-        { }
-
-        /// <summary>
-        /// Initialize the class attributes with
-        /// default parameters
-        /// </summary>
-        /// <param name="code">The code</param>
-        protected Channel(string code)
-        {
-            Code = code;
-
-            value = default;
-
-            subscribers = new List<IProperty>();
-            Tags = new List<string>();
-
-            ValueChanged += PropagateValues;
-        }
-
-        /// <summary>
-        /// Initialize the class attributes
-        /// </summary>
-        /// <param name="code">The code</param>
-        /// <param name="measureUnit">The measure unit</param>
-        /// <param name="format">The format</param>
-        protected Channel(string code, string measureUnit, string format) : this(code)
-        {
-            MeasureUnit = measureUnit;
-            Format = format;
-        }
-
-        /// <summary>
-        /// Initialize the class attributes
-        /// </summary>
-        /// <param name="code">The code</param>
-        /// <param name="measureUnit">The measure unit</param>
-        /// <param name="format">The format</param>
-        /// <param name="resource">The <see cref="IResource"/></param>
-        protected Channel(string code, string measureUnit, string format, IResource resource) : this(code, measureUnit, format)
-        {
-            resource.Channels.Add(this);
-        }
-
-        /// <summary>
-        /// The <see cref="ValueChanged"/> event handler
-        /// for the <see cref="Value"/> property
-        /// </summary>
-        public event EventHandler<ValueChangedEventArgs> ValueChanged
-        {
-            add
-            {
-                lock (objectLock)
-                {
-                    ValueChangedHandler += value;
-                }
-            }
-
-            remove
-            {
-                lock (objectLock)
-                {
-                    ValueChangedHandler -= value;
-                }
-            }
-        }
+        #region IChannel implementation
 
         /// <summary>
         /// The <see cref="Channel{T}"/> code
@@ -235,6 +154,92 @@ namespace Hardware
         /// The <see cref="Channel{T}"/> format
         /// </summary>
         public string Format { get; set; }
+
+        /// <summary>
+        /// The <see cref="Type"/>
+        /// </summary>
+        public Type Type => GetType();
+
+        public List<string> Tags { get; set; }
+        public ICondition WriteEnable { get; set; }
+
+        #endregion IChannel implementation
+
+        #region Constructors
+
+        /// <summary>
+        /// Initialize the class attributes with
+        /// default parameters
+        /// </summary>
+        protected Channel() : this(Guid.NewGuid().ToString())
+        { }
+
+        /// <summary>
+        /// Initialize the class attributes with
+        /// default parameters
+        /// </summary>
+        /// <param name="code">The code</param>
+        protected Channel(string code)
+        {
+            Code = code;
+            Tags = new List<string>();
+
+            value = default;
+
+            subscribers = new List<IProperty>();
+            Tags = new List<string>();
+
+            ValueChanged += PropagateValues;
+        }
+
+        /// <summary>
+        /// Initialize the class attributes
+        /// </summary>
+        /// <param name="code">The code</param>
+        /// <param name="measureUnit">The measure unit</param>
+        /// <param name="format">The format</param>
+        protected Channel(string code, string measureUnit, string format) : this(code)
+        {
+            MeasureUnit = measureUnit;
+            Format = format;
+        }
+
+        /// <summary>
+        /// Initialize the class attributes
+        /// </summary>
+        /// <param name="code">The code</param>
+        /// <param name="measureUnit">The measure unit</param>
+        /// <param name="format">The format</param>
+        /// <param name="resource">The <see cref="IResource"/></param>
+        protected Channel(string code, string measureUnit, string format, IResource resource) : this(code, measureUnit, format)
+        {
+            resource.Channels.Add(this);
+        }
+
+        #endregion Constructors
+
+        /// <summary>
+        /// The <see cref="ValueChanged"/> event handler
+        /// for the <see cref="Value"/> property
+        /// </summary>
+        public event EventHandler<ValueChangedEventArgs> ValueChanged
+        {
+            add
+            {
+                lock (objectLock)
+                {
+                    ValueChangedHandler += value;
+                }
+            }
+
+            remove
+            {
+                lock (objectLock)
+                {
+                    ValueChangedHandler -= value;
+                }
+            }
+        }
 
         /// <summary>
         /// On value changed event

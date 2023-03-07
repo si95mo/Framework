@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using Core.DataStructures;
+using FluentAssertions;
 using Hardware;
 using NUnit.Framework;
 using System;
@@ -14,9 +15,10 @@ namespace Core.Converters.Calibrations.Tests
         [OneTimeSetUp]
         public void Setup()
         {
-            rawChannel = new AnalogInput("RawChannel", "V", "0.000");
+            ServiceBroker.Initialize();
 
             // When raw = 0 -> calibrated = 0; when raw = 10 -> calibrated = 1 => calibrated = raw / 10
+            rawChannel = new AnalogInput("RawChannel", "V", "0.000");            
             calibratedChannel = Calibrations.CreateCalibratedChannel(rawChannel, 0d, 10d, 0d, 1d, "V", "0.000");
         }
 

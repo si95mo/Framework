@@ -104,6 +104,10 @@
       <Project>{f9fbf2f0-d1d9-4ef6-9e06-26545b9ffec8}</Project>
       <Name>Core.Converters.Calibrations</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Core.DataStructures\Core.DataStructures.csproj">
+      <Project>{1967AA9E-7FB5-4B63-AD7B-8394D65B6E8F}</Project>
+      <Name>Core.DataStructures</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Hardware\Hardware.csproj">
       <Project>{C0F5ECDE-B7AD-42B3-ACF8-D5486B0E4C44}</Project>
       <Name>Hardware</Name>
