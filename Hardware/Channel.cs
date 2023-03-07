@@ -13,23 +13,25 @@ namespace Hardware
     public class Channel
     {
         /// <summary>
-        /// Factory method that create a new <see cref="IChannel"/> based on <paramref name="type"/>. See also <see cref="New(Type, string)"/>
+        /// Factory method that create a new <see cref="IChannel"/> based on <paramref name="type"/> (with no value). See also <see cref="New(Type, string)"/>
         /// </summary>
         /// <param name="type">The <see cref="string"/> that represent the <see cref="System.Type"/> of the <see cref="IChannel"/> to create</param>
         /// <param name="code">The code of the new <see cref="IChannel"/></param>
         /// <returns>
-        /// The created <see cref="IChannel"/> (with the actual type that will be the one specified by <paramref name="type"/>, or <see langword="null"/> if operation failed)
+        /// The created <see cref="IChannel"/> (with the actual type that will be the one specified by <paramref name="type"/>, 
+        /// or <see langword="null"/> if operation failed)
         /// </returns>
         public static IChannel New(string type, string code)
             => New(Type.GetType(type), code);
 
         /// <summary>
-        /// Factory method that create a new <see cref="IChannel"/> based on <paramref name="type"/>. See also <see cref="New(string, string)"/>
+        /// Factory method that create a new <see cref="IChannel"/> based on <paramref name="type"/> (with no value). See also <see cref="New(string, string)"/>
         /// </summary>
         /// <param name="type">The <see cref="System.Type"/> of the <see cref="IChannel"/> to create</param>
         /// <param name="code">The code of the new <see cref="IChannel"/></param>
         /// <returns>
-        /// The created <see cref="IChannel"/> (with the actual type that will be the one specified by <paramref name="type"/>, or <see langword="null"/> if operation failed)
+        /// The created <see cref="IChannel"/> (with the actual type that will be the one specified by <paramref name="type"/>, 
+        /// or <see langword="null"/> if operation failed)
         /// </returns>
         public static IChannel New(Type type, string code)
         {
