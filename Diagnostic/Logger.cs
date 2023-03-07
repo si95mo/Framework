@@ -272,9 +272,9 @@ namespace Diagnostic
         /// </remarks>
         public static void Log(Exception ex)
         {
-            bool negatedFlag = CheckException(ex);
+            bool alreadyLogged = HasExceptionAlreadyBeenLogged(ex);
 
-            if (!negatedFlag || !IsSameExceptionAsTheLast(ex))
+            if (!alreadyLogged || !IsSameExceptionAsTheLast(ex))
             {
                 ExceptionEntry entry = BuildLogEntry(ex);
                 AppendText(entry);
@@ -380,9 +380,9 @@ namespace Diagnostic
         /// </remarks>
         public static async Task LogAsync(Exception ex)
         {
-            bool negatedFlag = CheckException(ex);
+            bool alreadyLogged = HasExceptionAlreadyBeenLogged(ex);
 
-            if (!negatedFlag || !IsSameExceptionAsTheLast(ex))
+            if (!alreadyLogged || !IsSameExceptionAsTheLast(ex))
             {
                 ExceptionEntry entry = BuildLogEntry(ex);
                 await AppendTextAsync(entry);
@@ -598,22 +598,20 @@ namespace Diagnostic
         /// Check if an <see cref="Exception"/> has already been logged
         /// </summary>
         /// <param name="ex">The <see cref="Exception"/> to check</param>
-        /// <returns><see langword="false"/> if an <see cref="Exception"/> has not yet been logged, <see langword="true"/> otherwise (negated logic)</returns>
-        private static bool CheckException(Exception ex)
+        /// <returns><see langword="false"/> if an <see cref="Exception"/> has not yet been logged, <see langword="true"/> otherwise</returns>
+        private static bool HasExceptionAlreadyBeenLogged(Exception ex)
         {
-            bool negatedFlag;
+            bool logged;
 
             if (lastException == null) // First exception thrown
             {
                 lastException = ex; // lastException == ex -> true
-                negatedFlag = false; // force the next if to be true: IsSameExceptionAsTheLast -> true, flag -> true
+                logged = false; // force the next if to be true: IsSameExceptionAsTheLast -> true, flag -> true
             }
             else
-            {
-                negatedFlag = lastException != null; // If lastException != null -> true
-            }
+                logged = lastException != null; // If lastException != null -> true
 
-            return negatedFlag;
+            return logged;
         }
 
         /// <summary>
