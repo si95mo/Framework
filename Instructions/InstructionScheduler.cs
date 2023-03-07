@@ -1,12 +1,12 @@
-﻿using Extensions;
-using Instructions;
+﻿using Core.DataStructures;
+using Core.Scheduling;
+using Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Tasks;
 
-namespace Core.Scheduling
+namespace Instructions
 {
     /// <summary>
     /// Implement an <see cref="Instruction"/> scheduler
@@ -17,10 +17,7 @@ namespace Core.Scheduling
         private SortedDictionary<int, Queue<IInstruction>> instructions;
         private bool stop;
 
-        /// <summary>
-        /// The subscribed <see cref="Instruction"/>
-        /// </summary>
-        public ActionQueue<IInstruction> Tasks
+        public ActionQueue<IInstruction> Instructions
         {
             get
             {
@@ -44,7 +41,7 @@ namespace Core.Scheduling
 
         /// <summary>
         /// Add an <see cref="Instruction"/> to the
-        /// <see cref="Tasks"/>
+        /// <see cref="Instructions"/>
         /// </summary>
         /// <param name="instruction">The <see cref="Instruction"/> to add</param>
         public void Add(IInstruction instruction)
@@ -60,7 +57,7 @@ namespace Core.Scheduling
 
         /// <summary>
         /// Execute all the subscribed <see cref="Instruction"/>
-        /// and remove them from <see cref="Tasks"/>
+        /// and remove them from <see cref="Instructions"/>
         /// </summary>
         /// <returns>The <see cref="List{T}"/> with the executed <see cref="Instruction"/></returns>
         public async Task<List<IInstruction>> Execute()
@@ -104,25 +101,14 @@ namespace Core.Scheduling
             instructions.Clear();
         }
 
-        /// <summary>
-        /// Save the execution list
-        /// </summary>
-        /// <param name="fileName">The file path</param>
+        // TODO: implement the method (save execution list for InstructionScheduler)
         public void SaveExecutionList(string fileName)
         {
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// Load the execution list
-        /// </summary>
-        /// <param name="fileName">The file path</param>
+        // TODO: implement the method (load execution list for InstructionScheduler)
         public void LoadExecutionList(string fileName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task Execute(string code)
         {
             throw new NotImplementedException();
         }

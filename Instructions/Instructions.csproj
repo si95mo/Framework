@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Core.Scheduling">
+      <HintPath>..\Core.Scheduling\bin\Debug\Core.Scheduling.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -45,6 +48,7 @@
   <ItemGroup>
     <Compile Include="IInstruction.cs" />
     <Compile Include="Instruction.cs" />
+    <Compile Include="InstructionScheduler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -67,6 +71,10 @@
     <ProjectReference Include="..\Devices\Devices.csproj">
       <Project>{15F9B789-4478-4B0A-9A2A-C2B78F21CF47}</Project>
       <Name>Devices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Extensions\Extensions.csproj">
+      <Project>{9a12de29-c4ad-42ce-ab4b-88ebc819e83a}</Project>
+      <Name>Extensions</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

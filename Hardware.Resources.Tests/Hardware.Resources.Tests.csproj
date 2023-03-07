@@ -173,7 +173,6 @@
     <Compile Include="TcpResourceTestClass.cs" />
     <Compile Include="TcpServerTestClass.cs" />
     <Compile Include="TwincatResourceTestClass.cs" />
-    <Compile Include="WaveformGeneratorResourceTestClass.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -231,10 +230,6 @@
     <ProjectReference Include="..\Hardware.Twincat\Hardware.Twincat.csproj">
       <Project>{6123d049-dc7c-4af1-8d69-b50a2e524528}</Project>
       <Name>Hardware.Twincat</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Hardware.WaveformGenerator\Hardware.WaveformGenerator.csproj">
-      <Project>{EC8F830E-FA5A-4A44-AED4-B8A7C76C82DE}</Project>
-      <Name>Hardware.WaveformGenerator</Name>
     </ProjectReference>
     <ProjectReference Include="..\Hardware\Hardware.csproj">
       <Project>{C0F5ECDE-B7AD-42B3-ACF8-D5486B0E4C44}</Project>
