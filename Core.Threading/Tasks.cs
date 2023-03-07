@@ -25,7 +25,7 @@ namespace Core.Threading
             Stopwatch sw = Stopwatch.StartNew();
             do
             {
-                await Task.Delay(1);
+                await Task.Delay(10);
             } while (stopRequest.Wait((int)Math.Max(0, interval - sw.ElapsedMilliseconds)));
         }
 

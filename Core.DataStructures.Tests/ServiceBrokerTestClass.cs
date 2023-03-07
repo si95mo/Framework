@@ -3,6 +3,7 @@ using FluentAssertions;
 using Hardware;
 using Hardware.Resources;
 using NUnit.Framework;
+using System.Text;
 
 namespace Core.DataStructures.Tests
 {
@@ -28,7 +29,7 @@ namespace Core.DataStructures.Tests
             int index = 0;
             string serialResource = "SerialResource", tcpResource = "TcpResource";
 
-            IResource resource = new SerialResource(serialResource);
+            IResource resource = new SerialResource(serialResource, "COM99", Encoding.ASCII);
             ServiceBroker.Add<IResource>(resource);
 
             ServiceBroker.Get<IResource>().Count.Should().Be(++index);
