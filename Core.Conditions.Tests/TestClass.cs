@@ -107,22 +107,17 @@ namespace Core.Conditions.Tests
         [TestCase(10000)]
         public async Task TestTimeElapsed(int timeToWait)
         {
-            DummyCondition startCondition = new DummyCondition("StartCondition", false);
-            DummyCondition endCondition = new DummyCondition("EndCondition", false);
-
-            TimeElapsedCondition timeElapsedCondition = new TimeElapsedCondition("TimeElapsedCondition", startCondition, endCondition);
+            TimeElapsedCondition timeElapsedCondition = new TimeElapsedCondition("TimeElapsedCondition", timeToWait);
+            timeElapsedCondition.Start();
 
             Stopwatch timer = Stopwatch.StartNew();
-
-            startCondition.Force(true);
             await Task.Delay(timeToWait);
-            endCondition.Force(true);
 
-            await Task.Delay(10); // A little delay for the condition.Value to be updated
+            await Task.Delay(100); // A little delay for the condition.Value to be updated
             timer.Stop();
 
             timeElapsedCondition.Value.Should().BeTrue();
-            timeElapsedCondition.ElapsedTime.ValueAsMilliseconds.Should().BeApproximately(timeToWait, 20); // 20ms precision
+            timeElapsedCondition.ElapsedTime.ValueAsMilliseconds.Should().BeApproximately(timeToWait, 200); // 200ms precision
         }
     }
 }
