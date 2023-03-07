@@ -49,7 +49,7 @@ namespace Core.DataStructures
         /// <typeparam name="T">The type of the collection to return</typeparam>
         /// <returns>The <see cref="Bag{T}"/> containing the item retrieved
         /// from the <see cref="ServiceBroker"/></returns>
-        public static Bag<T> Get<T>() where T : class
+        public static Bag<T> Get<T>() where T : IProperty
         {
             Bag<T> returnCollection = new Bag<T>();
 
@@ -64,11 +64,31 @@ namespace Core.DataStructures
         }
 
         /// <summary>
+        /// Get a specific <see cref="IService"/>, if can be provided
+        /// </summary>
+        /// <typeparam name="T">The type of the <see cref="IService"/> to get</typeparam>
+        /// <returns>The <see cref="IService"/> retrieved, or <see langword="default"/></returns>
+        public static T GetService<T>() where T : IService
+        {
+            T service = default;
+            if (CanProvide<T>())
+            {
+                foreach (IService tmp in services)
+                {
+                    if (tmp.GetType().IsAssignableFrom(typeof(T)))
+                        service = (T)tmp;
+                }
+            }
+
+            return service;
+        }
+
+        /// <summary>
         /// Check if the <see cref="ServiceBroker"/> can provide an <see cref="IService{T}"/> (i.e. the service has already been added
         /// </summary>
         /// <param name="code">The code of service to check</param>
         /// <returns><see langword="true"/> if the service can be provided, <see langword="false"/> otherwise</returns>
-        public bool CanProvide(string code)
+        public static bool CanProvide(string code)
         {
             bool canProvide = services.ContainsKey(code);
             if (canProvide)
@@ -85,11 +105,20 @@ namespace Core.DataStructures
         /// </summary>
         /// <typeparam name="T">The type of <see cref="IService{T}"/> to check</typeparam>
         /// <returns><see langword="true"/> if the service can be provided, <see langword="false"/> otherwise</returns>
-        public bool CanProvide<T>() where T : IService
+        public static bool CanProvide<T>() where T : IService
         {
-            bool canProvide = true;
-            foreach(IService service in services)
-                canProvide &= typeof(T).IsAssignableFrom(service.GetType());
+            bool canProvide = services.Count > 0; // Cannot provide if no services has been added yet
+            if (canProvide)
+            {
+                bool flag = false;
+                foreach (IService service in services)
+                {
+                    if (!flag) // If nothing has been yet found
+                        flag = typeof(T).IsAssignableFrom(service.GetType()); // Try condition and update flag
+                }
+
+                canProvide = flag; // Flag should be true if the condition met once, or false otherwise
+            }
 
             return canProvide;
         }
@@ -99,10 +128,10 @@ namespace Core.DataStructures
         /// </summary>
         /// <typeparam name="T">The type of the <see cref="IService"/> to provide</typeparam>
         /// <param name="service">The <see cref="IService"/> to provide</param>
-        public void Provide<T>(T service) where T : IService
+        public static void Provide<T>(T service) where T : IService
         {
             string code = service.Code;
-            if(!CanProvide(code)) // The service has not been added yet
+            if (!CanProvide(code)) // The service has not been added yet
                 services.Add(service);
         }
 

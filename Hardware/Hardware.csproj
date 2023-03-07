@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChannelsService.cs" />
     <Compile Include="DigitalInput.cs" />
     <Compile Include="AnalogInput.cs" />
     <Compile Include="DigitalOutput.cs" />

@@ -103,6 +103,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Core.Conditions\Core.Conditions.csproj">
+      <Project>{694cd750-5601-4c5f-a881-3b330e4caf43}</Project>
+      <Name>Core.Conditions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core.DataStructures\Core.DataStructures.csproj">
       <Project>{1967aa9e-7fb5-4b63-ad7b-8394d65b6e8f}</Project>
       <Name>Core.DataStructures</Name>

@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using Core.Conditions;
+using FluentAssertions;
 using Hardware;
 using Hardware.Resources;
 using NUnit.Framework;
@@ -88,7 +89,7 @@ namespace Core.DataStructures.Tests
         }
 
         [Test]
-        public void ForeEach()
+        public void ForEach()
         {
             ServiceBroker.Clear();
             ServiceBroker.Get<IProperty>().Count.Should().Be(0);
@@ -100,6 +101,36 @@ namespace Core.DataStructures.Tests
 
             foreach (IProperty item in ServiceBroker.Get<IProperty>())
                 item.Should().NotBe(null);
+        }
+
+        [Test]
+        public void Services()
+        {
+            bool canProvide = ServiceBroker.CanProvide<ConditionsService>();
+            canProvide.Should().BeFalse();
+
+            ConditionsService conditionsService = new ConditionsService(nameof(ConditionsService));
+            ServiceBroker.Provide(conditionsService);
+
+            canProvide = ServiceBroker.CanProvide<ConditionsService>();
+            canProvide.Should().BeTrue();
+
+            DummyCondition condition = new DummyCondition(nameof(DummyCondition));
+            bool added = ServiceBroker.GetService<ConditionsService>().Add(condition);
+            added.Should().BeTrue();
+
+            canProvide = ServiceBroker.CanProvide<ChannelsService>();
+            canProvide.Should().BeFalse();
+
+            ChannelsService channelsService = new ChannelsService(nameof(ChannelsService));
+            ServiceBroker.Provide(channelsService);
+
+            canProvide = ServiceBroker.CanProvide<ChannelsService>();
+            canProvide.Should().BeTrue();
+
+            DigitalInput digitalInput = new DigitalInput(nameof(DigitalInput));
+            added = ServiceBroker.GetService<ChannelsService>().Add(digitalInput);
+            added.Should().BeTrue();
         }
     }
 }
