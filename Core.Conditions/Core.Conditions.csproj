@@ -52,7 +52,7 @@
     <Compile Include="PropertyValueEqualTo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyValueInRange.cs" />
-    <Compile Include="TimeElapsed.cs" />
+    <Compile Include="TimeElapsedCondition.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core.DataStructures\Core.DataStructures.csproj">

@@ -110,7 +110,7 @@ namespace Core.Conditions.Tests
             DummyCondition startCondition = new DummyCondition("StartCondition", false);
             DummyCondition endCondition = new DummyCondition("EndCondition", false);
 
-            TimeElapsed timeElapsedCondition = new TimeElapsed("TimeElapsedCondition", startCondition, endCondition);
+            TimeElapsedCondition timeElapsedCondition = new TimeElapsedCondition("TimeElapsedCondition", startCondition, endCondition);
 
             Stopwatch timer = Stopwatch.StartNew();
 
