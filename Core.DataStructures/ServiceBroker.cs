@@ -84,7 +84,7 @@ namespace Core.DataStructures
         }
 
         /// <summary>
-        /// Check if the <see cref="ServiceBroker"/> can provide an <see cref="IService{T}"/> (i.e. the service has already been added
+        /// Check if the <see cref="ServiceBroker"/> can provide an <see cref="IService{T}"/> (i.e. the service has already been added)
         /// </summary>
         /// <param name="code">The code of service to check</param>
         /// <returns><see langword="true"/> if the service can be provided, <see langword="false"/> otherwise</returns>
