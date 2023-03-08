@@ -163,6 +163,7 @@ namespace Hardware
         public List<string> Tags { get; set; }
         public ICondition WriteEnable { get; set; }
         public ChannelType ChannelType { get; protected set; }
+        public string Description { get; set; }
 
         #endregion IChannel implementation
 
@@ -203,6 +204,7 @@ namespace Hardware
         {
             MeasureUnit = measureUnit;
             Format = format;
+            Description = string.Empty;
         }
 
         /// <summary>

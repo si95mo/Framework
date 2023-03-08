@@ -35,10 +35,9 @@ namespace Hardware
         /// <param name="code">The code</param>
         /// <param name="measureUnit">The measure unit</param>
         /// <param name="format">The format</param>
-        public MultiSampleAnalogInput(string code, string measureUnit = "", string format = "") : base(code, measureUnit, format)
+        public MultiSampleAnalogInput(string code, string measureUnit = "", string format = "0.0") : base(code, measureUnit, format)
         {
-            ChannelType = ChannelType.MultiSampleAnalogInput;
-            value = new double[0];
+            Initialize();
         }
 
         /// <summary>
@@ -46,6 +45,27 @@ namespace Hardware
         /// </summary>
         public MultiSampleAnalogInput() : this(Guid.NewGuid().ToString())
         { }
+
+        /// <summary>
+        /// Create a new instance of <see cref="MultiSampleAnalogInput"/>
+        /// </summary>
+        /// <param name="code">The code</param>
+        /// <param name="resource">The <see cref="IResource"/></param>
+        /// <param name="measureUnit">The measure unit</param>
+        /// <param name="format">The format</param>
+        public MultiSampleAnalogInput(string code, IResource resource, string measureUnit = "", string format = "0.0") : base(code, measureUnit, format, resource)
+        {
+            Initialize();
+        }
+
+        /// <summary>
+        /// Initialize the attributes
+        /// </summary>
+        private void Initialize()
+        {
+            ChannelType = ChannelType.MultiSampleAnalogInput;
+            value = new double[] { 0d };
+        }
 
         /// <summary>
         /// Give a textual description of the <see cref="Channel{T}"/>

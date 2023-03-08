@@ -36,8 +36,33 @@ namespace UserInterface.Controls
             this.parent = parent;
 
             lblCode.Text = channel.Code;
+            lblDescription.Text = channel.Description;
             lblValue.Text = AsciiToByte(channel.ToString());
             lblTimestamp.Text = DateTime.Now.ToString("HH:mm:ss.fff");
+
+            string type = string.Empty;
+            switch (channel.ChannelType)
+            {
+                case ChannelType.AnalogInput:
+                    type = "AI";
+                    break;
+                case ChannelType.AnalogOutput:
+                    type = "AO";
+                    break;
+                case ChannelType.DigitalInput:
+                    type = "DI";
+                    break;
+                case ChannelType.DigitalOutput:
+                    type = "DO";
+                    break;
+                case ChannelType.MultiSampleAnalogInput:
+                    type = "MSAI";
+                    break;
+                case ChannelType.Stream:
+                    type = "S";
+                    break;
+            }
+            lblType.Text = type;
         }
 
         private void ChannelControl_Load(object sender, EventArgs e)

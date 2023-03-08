@@ -96,6 +96,12 @@
     <Compile Include="ChartControlForm.Designer.cs">
       <DependentUpon>ChartControlForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="HardwareControlsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HardwareControlsForm.Designer.cs">
+      <DependentUpon>HardwareControlsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceTestForm.cs">
@@ -146,6 +152,9 @@
   <ItemGroup>
     <EmbeddedResource Include="ChartControlForm.resx">
       <DependentUpon>ChartControlForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HardwareControlsForm.resx">
+      <DependentUpon>HardwareControlsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ResourceTestForm.resx">
       <DependentUpon>ResourceTestForm.cs</DependentUpon>

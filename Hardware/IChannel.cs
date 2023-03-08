@@ -1,5 +1,6 @@
 ﻿using Core;
 using Core.Conditions;
+using Microsoft.SqlServer.Server;
 using System;
 using System.Collections.Generic;
 
@@ -55,6 +56,11 @@ namespace Hardware
         /// The <see cref="Hardware.ChannelType"/>
         /// </summary>
         ChannelType ChannelType { get; }
+
+        /// <summary>
+        /// The <see cref="IChannel"/> description
+        /// </summary>
+        string Description { get; set; }
 
         /// <summary>
         /// The <see cref="IChannel"/> tags set

@@ -38,38 +38,43 @@ namespace UserInterface.Controls
             // 
             // lblResourceCode
             // 
-            this.lblResourceCode.AutoSize = true;
-            this.lblResourceCode.Location = new System.Drawing.Point(3, 10);
+            this.lblResourceCode.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
+            this.lblResourceCode.Location = new System.Drawing.Point(7, 0);
             this.lblResourceCode.Name = "lblResourceCode";
-            this.lblResourceCode.Size = new System.Drawing.Size(80, 13);
+            this.lblResourceCode.Size = new System.Drawing.Size(349, 30);
             this.lblResourceCode.TabIndex = 0;
             this.lblResourceCode.Text = "Resource code";
+            this.lblResourceCode.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblResourceStatus
             // 
             this.lblResourceStatus.AutoSize = true;
-            this.lblResourceStatus.Location = new System.Drawing.Point(138, 10);
+            this.lblResourceStatus.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
+            this.lblResourceStatus.Location = new System.Drawing.Point(362, 4);
             this.lblResourceStatus.Name = "lblResourceStatus";
-            this.lblResourceStatus.Size = new System.Drawing.Size(54, 13);
+            this.lblResourceStatus.Size = new System.Drawing.Size(87, 20);
             this.lblResourceStatus.TabIndex = 1;
             this.lblResourceStatus.Text = "Executing";
             // 
             // lblResourceFailure
             // 
-            this.lblResourceFailure.Location = new System.Drawing.Point(219, 10);
+            this.lblResourceFailure.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
+            this.lblResourceFailure.Location = new System.Drawing.Point(455, 0);
             this.lblResourceFailure.Name = "lblResourceFailure";
-            this.lblResourceFailure.Size = new System.Drawing.Size(345, 13);
+            this.lblResourceFailure.Size = new System.Drawing.Size(528, 30);
             this.lblResourceFailure.TabIndex = 2;
             this.lblResourceFailure.Text = "Resource failure";
+            this.lblResourceFailure.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblFailureTimestamp
             // 
             this.lblFailureTimestamp.AutoSize = true;
-            this.lblFailureTimestamp.Location = new System.Drawing.Point(570, 10);
+            this.lblFailureTimestamp.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
+            this.lblFailureTimestamp.Location = new System.Drawing.Point(989, 5);
             this.lblFailureTimestamp.Name = "lblFailureTimestamp";
-            this.lblFailureTimestamp.Size = new System.Drawing.Size(88, 13);
+            this.lblFailureTimestamp.Size = new System.Drawing.Size(114, 20);
             this.lblFailureTimestamp.TabIndex = 3;
-            this.lblFailureTimestamp.Text = "Failure timestamp";
+            this.lblFailureTimestamp.Text = "00:00:00.000";
             // 
             // btnRestartResource
             // 
@@ -77,7 +82,7 @@ namespace UserInterface.Controls
             this.btnRestartResource.FlatAppearance.BorderSize = 0;
             this.btnRestartResource.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRestartResource.Image = global::UserInterface.Controls.Properties.Resources.Start;
-            this.btnRestartResource.Location = new System.Drawing.Point(692, 0);
+            this.btnRestartResource.Location = new System.Drawing.Point(1109, 0);
             this.btnRestartResource.Name = "btnRestartResource";
             this.btnRestartResource.Size = new System.Drawing.Size(32, 32);
             this.btnRestartResource.TabIndex = 4;
@@ -93,7 +98,7 @@ namespace UserInterface.Controls
             this.Controls.Add(this.lblResourceStatus);
             this.Controls.Add(this.lblResourceCode);
             this.Name = "ResourceControl";
-            this.Size = new System.Drawing.Size(727, 32);
+            this.Size = new System.Drawing.Size(1144, 32);
             this.ResumeLayout(false);
             this.PerformLayout();
 

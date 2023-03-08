@@ -22,5 +22,13 @@ namespace Hardware
         {
             ChannelType = ChannelType.DigitalInput;
         }
+
+        /// <summary>
+        /// Create a new instance of <see cref="DigitalInput"/>
+        /// </summary>
+        /// <param name="code">The code</param>
+        /// <param name="resource">The <see cref="IResource"/></param>
+        public DigitalInput(string code, IResource resource) : base(code, string.Empty, string.Empty, resource)
+        { }
     }
 }
