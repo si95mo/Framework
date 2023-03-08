@@ -21,6 +21,8 @@ namespace Hardware
         /// <param name="format">The format</param>
         /// <param name="measureUnit">The measure unit</param>
         public AnalogOutput(string code, string measureUnit = "", string format = "0.0") : base(code, measureUnit, format)
-        { }
+        {
+            ChannelType = ChannelType.AnalogOutput;
+        }
     }
 }

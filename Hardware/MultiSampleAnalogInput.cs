@@ -37,6 +37,7 @@ namespace Hardware
         /// <param name="format">The format</param>
         public MultiSampleAnalogInput(string code, string measureUnit = "", string format = "") : base(code, measureUnit, format)
         {
+            ChannelType = ChannelType.MultiSampleAnalogInput;
             value = new double[0];
         }
 

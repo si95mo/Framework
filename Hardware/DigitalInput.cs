@@ -19,6 +19,8 @@ namespace Hardware
         /// </summary>
         /// <param name="code">The code</param>
         public DigitalInput(string code) : base(code)
-        { }
+        {
+            ChannelType = ChannelType.DigitalInput;
+        }
     }
 }

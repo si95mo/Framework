@@ -162,6 +162,7 @@ namespace Hardware
 
         public List<string> Tags { get; set; }
         public ICondition WriteEnable { get; set; }
+        public ChannelType ChannelType { get; protected set; }
 
         #endregion IChannel implementation
 

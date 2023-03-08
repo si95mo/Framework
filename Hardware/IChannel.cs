@@ -6,6 +6,42 @@ using System.Collections.Generic;
 namespace Hardware
 {
     /// <summary>
+    /// Define the <see cref="IChannel"/> type
+    /// </summary>
+    public enum ChannelType
+    {
+        /// <summary>
+        /// An analog input
+        /// </summary>
+        AnalogInput = 0,
+
+        /// <summary>
+        /// An analog output
+        /// </summary>
+        AnalogOutput = 1,
+
+        /// <summary>
+        /// A digital input
+        /// </summary>
+        DigitalInput = 2,
+
+        /// <summary>
+        /// A digital output
+        /// </summary>
+        DigitalOutput = 3,
+
+        /// <summary>
+        /// A multi sample analog input
+        /// </summary>
+        MultiSampleAnalogInput = 4,
+
+        /// <summary>
+        /// A stream
+        /// </summary>
+        Stream = 5
+    }
+
+    /// <summary>
     /// Describe a generic (hardware) channel
     /// </summary>
     public interface IChannel : IProperty
@@ -14,6 +50,11 @@ namespace Hardware
         /// Define an <see cref="ICondition"/> that enable the <see cref="IChannel"/> write
         /// </summary>
         ICondition WriteEnable { get; set; }
+
+        /// <summary>
+        /// The <see cref="Hardware.ChannelType"/>
+        /// </summary>
+        ChannelType ChannelType { get; }
 
         /// <summary>
         /// The <see cref="IChannel"/> tags set
