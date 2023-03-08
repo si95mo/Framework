@@ -1,5 +1,6 @@
 ﻿using Core.DataStructures;
 using Hardware;
+using System.Linq.Expressions;
 
 namespace Core.Converters.Calibrations
 {
@@ -8,6 +9,8 @@ namespace Core.Converters.Calibrations
     /// </summary>
     public static class Calibrations
     {
+        private const string Tag = "Calibrated";
+
         /// <summary>
         /// Create a calibrated <see cref="AnalogInput"/> based on the <paramref name="rawChannel"/> <see cref="AnalogInput"/>
         /// </summary>
@@ -27,7 +30,7 @@ namespace Core.Converters.Calibrations
         {
             AnalogInput calibratedChannel = new AnalogInput($"{rawChannel.Code}.Calibrated", measureUnit, format);
             calibratedChannel.Tags.AddRange(rawChannel.Tags);
-            calibratedChannel.Tags.Add("Calibrated");
+            calibratedChannel.Tags.Add(Tag);
 
             rawChannel.ConnectTo(calibratedChannel, new LinearInterpolationConverter(x0, x1, y0, y1));
 
@@ -53,7 +56,10 @@ namespace Core.Converters.Calibrations
         public static AnalogOutput CreateCalibratedChannel(AnalogOutput rawChannel, double x0, double x1, double y0, double y1,
             string measureUnit = "", string format = "0.0")
         {
-            AnalogOutput calibratedChannel = new AnalogOutput(rawChannel.Code + "_Calibrated", measureUnit, format);
+            AnalogOutput calibratedChannel = new AnalogOutput($"{rawChannel.Code}.Calibrated", measureUnit, format);
+            calibratedChannel.Tags.AddRange(rawChannel.Tags);
+            calibratedChannel.Tags.Add(Tag);
+
             calibratedChannel.ConnectTo(rawChannel, new LinearInterpolationConverter(x0, x1, y0, y1));
 
             ServiceBroker.Add<IChannel>(calibratedChannel);
