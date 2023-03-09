@@ -9,8 +9,8 @@
     <ProjectGuid>{BAFB9004-AF5E-49F7-A4F0-A184713EBC91}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Alarms.Tests</RootNamespace>
-    <AssemblyName>Alarms.Tests</AssemblyName>
+    <RootNamespace>DiagnosticMessages.Tests</RootNamespace>
+    <AssemblyName>DiagnosticMessages.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -66,9 +66,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Alarms\DiagnosticMessage.csproj">
+    <ProjectReference Include="..\DiagnosticMessages\DiagnosticMessages.csproj">
       <Project>{4c9dfd9b-d4ef-4565-9612-cf5096b3ca74}</Project>
-      <Name>DiagnosticMessage</Name>
+      <Name>DiagnosticMessages</Name>
     </ProjectReference>
     <ProjectReference Include="..\Core.Conditions\Core.Conditions.csproj">
       <Project>{694CD750-5601-4C5F-A881-3B330E4CAF43}</Project>

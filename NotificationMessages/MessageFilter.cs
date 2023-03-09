@@ -1,7 +1,7 @@
 ﻿using Diagnostic;
 using System.Windows.Forms;
 
-namespace Messages
+namespace NotificationMessages
 {
     internal enum MessageType
     {

@@ -1,4 +1,4 @@
-﻿using Alarms;
+﻿using DiagnosticMessages;
 using Core.Conditions;
 
 namespace Tasks

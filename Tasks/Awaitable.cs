@@ -1,4 +1,4 @@
-﻿using Alarms;
+﻿using DiagnosticMessages;
 using Core;
 using Core.DataStructures;
 using Core.Parameters;

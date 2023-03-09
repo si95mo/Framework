@@ -1,7 +1,7 @@
 ﻿using Core;
 using System;
 
-namespace Alarms
+namespace DiagnosticMessages
 {
     /// <summary>
     /// Define a basic diagnostic message interface

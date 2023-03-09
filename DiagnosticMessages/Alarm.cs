@@ -4,34 +4,38 @@ using Devices;
 using Hardware;
 using System;
 
-namespace Alarms
+namespace DiagnosticMessages
 {
     /// <summary>
-    /// Implement the <see cref="IDiagnosticMessage"/> interface as a warn
+    /// Implement the <see cref="IDiagnosticMessage"/> interface as an alarm
     /// </summary>
-    public class Warn : DiagnosticMessage
+    public class Alarm : DiagnosticMessage
     {
+        #region Constructors
+
         /// <summary>
-        /// Create a new instance of <see cref="Warn"/>
+        /// Create a new instance of <see cref="Alarm"/>
         /// </summary>
         /// <remarks>The instance will automatically be added to the <see cref="DiagnosticMessagesService"/>, if possible</remarks>
-        /// <param name="code"></param>
-        /// <param name="sourceCode"></param>
-        /// <param name="message"></param>
-        /// <param name="firingCondition"></param>
-        public Warn(string code, string sourceCode, string message, ICondition firingCondition) : base(code, sourceCode, message, firingCondition)
+        /// <param name="code">The code</param>
+        /// <param name="sourceCode">The source code</param>
+        /// <param name="message">The message</param>
+        /// <param name="firingCondition">The <see cref="ICondition"/> that will cause the <see cref="Alarm"/> to fire</param>
+        public Alarm(string code, string sourceCode, string message, ICondition firingCondition) : base(code, sourceCode, message, firingCondition)
         { }
 
         /// <summary>
-        /// Create a new instance of <see cref="Warn"/>
+        /// Create a new instance of <see cref="Alarm"/>
         /// </summary>
         /// <remarks>The instance will automatically be added to the <see cref="DiagnosticMessagesService"/>, if possible</remarks>
-        /// <param name="code"></param>
-        /// <param name="source"></param>
-        /// <param name="message"></param>
-        /// <param name="firingCondition"></param>
-        public Warn(string code, IProperty source, string message, ICondition firingCondition) : base(code, source, message, firingCondition)
+        /// <param name="code">The code</param>
+        /// <param name="source">The source <see cref="IProperty"/></param>
+        /// <param name="message">The message</param>
+        /// <param name="firingCondition">The <see cref="ICondition"/> that will cause the <see cref="Alarm"/> to fire</param>
+        public Alarm(string code, IProperty source, string message, ICondition firingCondition) : base(code, source, message, firingCondition)
         { }
+
+        #endregion Constructors
 
         #region IDiagnosticMessage implementation
 
@@ -61,8 +65,8 @@ namespace Alarms
         /// <param name="message">The message</param>
         /// <param name="firingCondition">The <see cref="ICondition"/> that will cause the </param>
         /// <returns>The created new instance of <see cref="Alarm"/></returns>
-        public static Warn New(string code, string sourceCode, string message, ICondition firingCondition)
-            => new Warn(code, sourceCode, message, firingCondition);
+        public static Alarm New(string code, string sourceCode, string message, ICondition firingCondition)
+            => new Alarm(code, sourceCode, message, firingCondition);
 
         /// <summary>
         /// Create a new <see cref="Alarm"/>
@@ -72,8 +76,8 @@ namespace Alarms
         /// <param name="message">The message</param>
         /// <param name="firingCondition">The <see cref="ICondition"/> that will cause the </param>
         /// <returns>The created new instance of <see cref="Alarm"/></returns>
-        public static Warn New(string code, IProperty source, string message, ICondition firingCondition)
-            => new Warn(code, source, message, firingCondition);
+        public static Alarm New(string code, IProperty source, string message, ICondition firingCondition)
+            => new Alarm(code, source, message, firingCondition);
 
         #endregion Factory methods
     }

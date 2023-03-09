@@ -4,7 +4,7 @@ using System.IO.MemoryMappedFiles;
 using System.Linq;
 using System.Runtime.InteropServices;
 
-namespace Messages
+namespace NotificationMessages
 {
     /// <summary>
     /// Implement a notification sender

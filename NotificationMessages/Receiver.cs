@@ -4,7 +4,7 @@ using System.IO.MemoryMappedFiles;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace Messages
+namespace NotificationMessages
 {
     /// <summary>
     /// Implement a notification receiver
@@ -12,7 +12,7 @@ namespace Messages
     public class Receiver : IDisposable
     {
         /// <summary>
-        /// The shared file path. See <see cref="Receiver.SharedFilePath"/>
+        /// The shared file path. See <see cref="Sender.SharedFilePath"/>
         /// </summary>
         public string SharedFilePath { get; set; } = string.Empty;
 

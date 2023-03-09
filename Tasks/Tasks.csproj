@@ -60,9 +60,9 @@
     <Compile Include="WaitForHandler.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Alarms\DiagnosticMessage.csproj">
+    <ProjectReference Include="..\DiagnosticMessages\DiagnosticMessages.csproj">
       <Project>{4C9DFD9B-D4EF-4565-9612-CF5096B3CA74}</Project>
-      <Name>DiagnosticMessage</Name>
+      <Name>DiagnosticMessages</Name>
     </ProjectReference>
     <ProjectReference Include="..\Core.Conditions\Core.Conditions.csproj">
       <Project>{694CD750-5601-4C5F-A881-3B330E4CAF43}</Project>

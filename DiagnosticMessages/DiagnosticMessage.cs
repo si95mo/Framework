@@ -4,7 +4,7 @@ using Core.DataStructures;
 using Core.Parameters;
 using System;
 
-namespace Alarms
+namespace DiagnosticMessages
 {
     /// <summary>
     /// Define a basic (i.e. abstract) implementation of an <see cref="IDiagnosticMessage"/>
