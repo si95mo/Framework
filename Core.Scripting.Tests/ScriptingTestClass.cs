@@ -2,6 +2,8 @@
 using Diagnostic;
 using NUnit.Framework;
 using ScriptTest;
+using System;
+using System.IO;
 
 namespace Core.Scripting.Tests
 {
@@ -11,8 +13,14 @@ namespace Core.Scripting.Tests
         public void Setup()
         {
             Logger.Initialize();
+
+            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Meta", "Test", "scripts");
+
             ServiceBroker.Initialize();
-            InitializeScript();
+
+            ScriptsService ss = new ScriptsService("ScriptsService", path);
+            ServiceBroker.Provide(ss);
+
             ScriptManager.Initialize();
         }
 

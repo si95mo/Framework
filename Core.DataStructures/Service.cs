@@ -19,7 +19,7 @@ namespace Core.DataStructures
         /// <summary>
         /// The <see cref="Bag{T}"/> with all the <see cref="Service{T}"/> subscribers
         /// </summary>
-        protected Bag<T> Subscribers { get; }
+        public Bag<T> Subscribers { get; protected set; }
 
         /// <summary>
         /// Initialize the <see cref="Service{T}"/> variables
@@ -49,6 +49,9 @@ namespace Core.DataStructures
             T item = Subscribers.Get(code);
             return item;
         }
+
+        public Bag<T> GetAll()
+            => Subscribers;
 
         #endregion IService implementation
     }

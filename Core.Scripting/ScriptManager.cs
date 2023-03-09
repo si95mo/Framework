@@ -2,9 +2,12 @@
 using Diagnostic;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Emit;
 using Microsoft.CodeAnalysis.Scripting;
 using System;
+using System.Collections.Generic;
+using System.Configuration.Assemblies;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -36,12 +39,18 @@ namespace Core.Scripting
         {
             try
             {
-                scripts = ServiceBroker.Get<IScript>();
+                // If the ServiceBroker can provide the service
+                if (ServiceBroker.CanProvide<ScriptsService>())
+                    scripts = ServiceBroker.GetService<ScriptsService>().Subscribers; // Get the scripts from there
+                else
+                    scripts = ServiceBroker.Get<IScript>(); // Otherwise get them in the misc collection
+
                 initialized = true;
             }
             catch (Exception ex)
             {
                 Logger.Log(ex);
+                initialized = false;
             }
         }
 
@@ -68,6 +77,8 @@ namespace Core.Scripting
                 Logger.Error("Script manager not initialized, unable to execute the code inside the csx(s)");
             else
             {
+                foreach (IScript script in scripts)
+                    script.Clear();
             }
         }
 
@@ -76,7 +87,7 @@ namespace Core.Scripting
         /// </summary>
         /// <param name="scriptPath">The csx file with the script to execute</param>
         /// <returns>The relative <see cref="Assembly"/></returns>
-        private Assembly Compile(string scriptPath)
+        internal static Assembly Compile(string scriptPath)
         {
             ScriptOptions options = ScriptOptions.Default;
             byte[] assemblyBinaryContent;
@@ -86,7 +97,23 @@ namespace Core.Scripting
             Script<object> roslynScript = CSharpScript.Create(script, options);
             Compilation compilation = roslynScript.GetCompilation();
 
-            compilation = compilation.WithOptions(compilation.Options.WithOptimizationLevel(OptimizationLevel.Release).WithOutputKind(OutputKind.DynamicallyLinkedLibrary));
+            compilation = compilation.WithOptions(
+                compilation.Options.WithOptimizationLevel(OptimizationLevel.Release).WithOutputKind(OutputKind.DynamicallyLinkedLibrary)
+            );
+
+            // Gathering all using directives in the compilation
+            UsingDirectiveSyntax[] usings = compilation.SyntaxTrees.Select(
+                tree => tree.GetRoot().ChildNodes().OfType<UsingDirectiveSyntax>()
+            ).SelectMany(s => s).ToArray();
+
+            // For each using directive add a MetadataReference to it
+            List<MetadataReference> references = new List<MetadataReference>();
+            string directory = Directory.GetCurrentDirectory();
+            foreach (var u in usings)
+                references.Add(MetadataReference.CreateFromFile(Path.Combine(directory, u.Name.ToString() + ".dll")));
+
+            //add the reference list to the compilation
+            compilation = compilation.AddReferences(references);
 
             using (MemoryStream assemblyStream = new MemoryStream())
             {
@@ -105,8 +132,5 @@ namespace Core.Scripting
             Assembly assembly = Assembly.Load(assemblyBinaryContent);
             return assembly;
         }
-
-        private void ExecuteScript(string methodName)
-        { }
     }
 }
