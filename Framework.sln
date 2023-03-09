@@ -186,7 +186,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diagnostic.Report.Tests", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hardware.Tcp.IntegrationTest", "Hardware.Tcp.IntegrationTest\Hardware.Tcp.IntegrationTest.csproj", "{1BD94806-6EEF-4253-9614-5A741474918F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alarms", "Alarms\Alarms.csproj", "{4C9DFD9B-D4EF-4565-9612-CF5096B3CA74}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiagnosticMessage", "Alarms\DiagnosticMessage.csproj", "{4C9DFD9B-D4EF-4565-9612-CF5096B3CA74}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alarms.Tests", "Alarms.Tests\Alarms.Tests.csproj", "{BAFB9004-AF5E-49F7-A4F0-A184713EBC91}"
 EndProject

@@ -15,12 +15,19 @@ namespace Tasks
     /// <summary>
     /// Implement generic aspects of the <see cref="IAwaitable"/> interface
     /// </summary>
+    /// <remarks>
+    /// <see cref="Awaitable"/> gives the possibility to have an <see cref="Alarm"/>, but the logic must be implemented.
+    /// For a default firing logic implementation, consider using <see cref="AwaitableWithAlarm"/> instead 
+    /// (with both an <see cref="Alarm"/> and a <see cref="Warn"/> already implemented).
+    /// Note that only an <see cref="Alarm"/> fired will trigger the <see cref="Fail(string)"/> method, not a <see cref="Warn"/>
+    /// </remarks>
     public abstract class Awaitable : IAwaitable, IProperty
     {
         private WaitForHandler waitForHandler;
         private bool stopRequested;
 
         protected Alarm Alarm;
+        protected Warn Warn;
 
         #region Public fields
 
