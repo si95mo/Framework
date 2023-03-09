@@ -12,12 +12,12 @@ namespace UserInterface.Controls.Tests
 
             ResourceControl resourceControl;
             ChannelControl channelControl;
-            foreach(IResource resource in ServiceBroker.Get<IResource>())
+            foreach (IResource resource in ServiceBroker.Get<IResource>())
             {
                 resourceControl = new ResourceControl(resource);
                 resourceFlowLayout.Controls.Add(resourceControl);
 
-                foreach(IChannel channel in resource.Channels)
+                foreach (IChannel channel in resource.Channels)
                 {
                     channelControl = new ChannelControl(channel);
                     channelsLayoutPanel.Controls.Add(channelControl);

@@ -1,5 +1,4 @@
 ﻿using Core.Parameters;
-using Core.Scheduling;
 using Extensions;
 using FluentAssertions;
 using NUnit.Framework;

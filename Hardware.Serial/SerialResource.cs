@@ -121,6 +121,7 @@ namespace Hardware.Resources
                 HandleException(ex);
             }
         }
+
         /// <summary>
         /// Stop the <see cref="SerialResource"/>
         /// </summary>
@@ -195,7 +196,6 @@ namespace Hardware.Resources
 
             kickoffRead();
         }
-
 
         /// <summary>
         /// Send a command via serial protocol

@@ -98,7 +98,7 @@ namespace Alarms
             Fired = new BoolParameter($"{Code}.{nameof(Fired)}", false);
 
             // Add this element to the DiagnosticMessagesService, if possible
-            if(ServiceBroker.CanProvide<DiagnosticMessagesService>())
+            if (ServiceBroker.CanProvide<DiagnosticMessagesService>())
                 ServiceBroker.GetService<DiagnosticMessagesService>().Add(this);
 
             FiringCondition.ValueChanged += FiringCondition_ValueChanged;

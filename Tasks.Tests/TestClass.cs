@@ -1,12 +1,10 @@
-﻿using Core.Conditions;
+﻿using Diagnostic;
 using FluentAssertions;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Extensions;
-using Diagnostic;
 
 namespace Tasks.Tests
 {
@@ -35,13 +33,13 @@ namespace Tasks.Tests
     [TestFixture]
     public class TestClass
     {
-        [OneTimeSetUp] 
+        [OneTimeSetUp]
         public void SetUp()
         {
             Logger.Initialize();
         }
 
-        [Test] 
+        [Test]
         public async Task Test()
         {
             IAwaitable task = new FunctionTask("Code");

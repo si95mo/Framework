@@ -1,5 +1,4 @@
-﻿using Extensions;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Hardware;
 using Hardware.Resources;
 using Hardware.Tcp;

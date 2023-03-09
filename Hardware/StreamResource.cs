@@ -11,6 +11,7 @@ namespace Hardware
         /// The input <see cref="Stream"/>
         /// </summary>
         public Stream Input { get; protected set; }
+
         /// <summary>
         /// The output <see cref="Stream"/>
         /// </summary>

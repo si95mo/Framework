@@ -23,7 +23,7 @@ namespace UserInterface.Controls.Tests
             MultiSampleAnalogInput msAnalogInput;
             Stream stream;
 
-            for(int i = 1; i <= 10; i++)
+            for (int i = 1; i <= 10; i++)
             {
                 resource = new ResourceSimulator(i.ToString());
 

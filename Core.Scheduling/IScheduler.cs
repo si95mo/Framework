@@ -1,11 +1,10 @@
 ﻿using Core.DataStructures;
 using Instructions;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Core.Scheduling
-{  
+{
     /// <summary>
     /// Describe a generic scheduler prototype
     /// </summary>

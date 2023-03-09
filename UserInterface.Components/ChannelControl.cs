@@ -46,18 +46,23 @@ namespace UserInterface.Controls
                 case ChannelType.AnalogInput:
                     type = "AI";
                     break;
+
                 case ChannelType.AnalogOutput:
                     type = "AO";
                     break;
+
                 case ChannelType.DigitalInput:
                     type = "DI";
                     break;
+
                 case ChannelType.DigitalOutput:
                     type = "DO";
                     break;
+
                 case ChannelType.MultiSampleAnalogInput:
                     type = "MSAI";
                     break;
+
                 case ChannelType.Stream:
                     type = "S";
                     break;

@@ -13,7 +13,7 @@ namespace Hardware
         /// Create a new instance of <see cref="ResourceSimulator"/>
         /// </summary>
         /// <param name="code"></param>
-        public ResourceSimulator(string code) : base(code) 
+        public ResourceSimulator(string code) : base(code)
         { }
 
         public override Task Restart()

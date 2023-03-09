@@ -32,7 +32,7 @@ namespace Hardware
         /// <param name="resource">The <see cref="IResource"/></param>
         /// <param name="format">The format</param>
         /// <param name="measureUnit">The measure unit</param>
-        public AnalogInput(string code, IResource resource, string measureUnit = "", string format = "0.0") : base(code, measureUnit, format, resource) 
+        public AnalogInput(string code, IResource resource, string measureUnit = "", string format = "0.0") : base(code, measureUnit, format, resource)
         { }
     }
 }

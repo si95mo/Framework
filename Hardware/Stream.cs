@@ -31,7 +31,7 @@ namespace Hardware
         /// <param name="code"></param>
         /// <param name="encoding">The <see cref="System.Text.Encoding"/></param>
         /// <param name="resource">The <see cref="IResource"/></param>
-        public Stream(string code, Encoding encoding, IResource resource) :base(code, string.Empty, string.Empty, resource)
+        public Stream(string code, Encoding encoding, IResource resource) : base(code, string.Empty, string.Empty, resource)
         {
             Initialize(encoding);
         }

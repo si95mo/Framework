@@ -1,6 +1,5 @@
 ﻿using Core.DataStructures;
 using Hardware;
-using System.Linq.Expressions;
 
 namespace Core.Converters.Calibrations
 {

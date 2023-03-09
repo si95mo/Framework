@@ -21,7 +21,7 @@ namespace Diagnostic.Report
         /// <param name="headerStyle">The header style</param>
         /// <param name="rowStyle">The row style</param>
         /// <param name="alternateRowStyle">The alternate row style</param>
-        public HtmlReportManager(string fileName, string tableStyle = "", string headerStyle = "", string rowStyle = "", string alternateRowStyle = "") 
+        public HtmlReportManager(string fileName, string tableStyle = "", string headerStyle = "", string rowStyle = "", string alternateRowStyle = "")
             : base(fileName, ReportExtension.Html)
         {
             entries = new List<IReportEntry>();
@@ -38,7 +38,7 @@ namespace Diagnostic.Report
 
             string text = entries.ToHtmlTable(tableStyle, headerStyle, rowStyle, alternateRowStyle);
             // Always overwrite the report file and recreate the table (the tags must be added at the end of the table)
-            bool succeded = await SaveEntryTextAsync(text, SaveMode.Overwrite); 
+            bool succeded = await SaveEntryTextAsync(text, SaveMode.Overwrite);
 
             return succeded;
         }

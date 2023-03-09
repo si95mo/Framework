@@ -17,7 +17,7 @@ namespace Tasks
     /// </summary>
     /// <remarks>
     /// <see cref="Awaitable"/> gives the possibility to have an <see cref="Alarm"/>, but the logic must be implemented.
-    /// For a default firing logic implementation, consider using <see cref="AwaitableWithAlarm"/> instead 
+    /// For a default firing logic implementation, consider using <see cref="AwaitableWithAlarm"/> instead
     /// (with both an <see cref="Alarm"/> and a <see cref="Warn"/> already implemented).
     /// Note that only an <see cref="Alarm"/> fired will trigger the <see cref="Fail(string)"/> method, not a <see cref="Warn"/>
     /// </remarks>
@@ -35,7 +35,7 @@ namespace Tasks
         public CancellationTokenSource TokenSource { get; }
         public StringParameter WaitState { get; }
 
-        public string Code {get; private set;}
+        public string Code { get; private set; }
         public object ValueAsObject { get => Status.Value; set => _ = value; }
         public Type Type => GetType();
         public Bag<IParameter> InputParameters { get; }
@@ -93,7 +93,7 @@ namespace Tasks
                         Status.Value = TaskStatus.RanToCompletion;
                     }
                     catch (Exception ex) // This may be cuased by a stop request or an actual exception
-                    {                        
+                    {
                         Status.Value = TaskStatus.Faulted;
 
                         if (stopRequested)
@@ -160,7 +160,7 @@ namespace Tasks
         /// </summary>
         /// <param name="timeToWait">The time to wait</param>
         /// <returns>The corresponding <see cref="WaitForHandler"/></returns>
-        protected WaitForHandler WaitFor(TimeSpan timeToWait) 
+        protected WaitForHandler WaitFor(TimeSpan timeToWait)
             => waitForHandler.Await(timeToWait);
 
         /// <summary>
@@ -176,7 +176,7 @@ namespace Tasks
         /// </summary>
         /// <param name="task">The <see cref="IAwaitable"/> to wait</param>
         /// <returns>The corresponding <see cref="WaitForHandler"/></returns>
-        protected WaitForHandler WaitFor(IAwaitable task) 
+        protected WaitForHandler WaitFor(IAwaitable task)
             => waitForHandler.Await(task);
 
         #endregion WaitForHandler
@@ -184,7 +184,7 @@ namespace Tasks
         /// <summary>
         /// Called just before the <see cref="IAwaitable"/> task stop in case of <see cref="Fail(string)"/>
         /// </summary>
-        protected virtual void OnFail() 
+        protected virtual void OnFail()
         { }
 
         #endregion Protected methods
