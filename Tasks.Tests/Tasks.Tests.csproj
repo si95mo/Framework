@@ -69,6 +69,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Core.DataStructures\Core.DataStructures.csproj">
+      <Project>{1967AA9E-7FB5-4B63-AD7B-8394D65B6E8F}</Project>
+      <Name>Core.DataStructures</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DiagnosticMessages\DiagnosticMessages.csproj">
       <Project>{4C9DFD9B-D4EF-4565-9612-CF5096B3CA74}</Project>
       <Name>DiagnosticMessages</Name>

@@ -29,6 +29,8 @@ namespace Tasks
         protected Alarm Alarm;
         protected Warn Warn;
 
+        protected Scheduler Scheduler;
+
         #region Public fields
 
         public EnumParameter<TaskStatus> Status { get; }
@@ -47,10 +49,16 @@ namespace Tasks
         /// Create a new instance of <see cref="Awaitable"/>
         /// </summary>
         /// <param name="code">The code</param>
-        protected Awaitable(string code)
+        /// <param name="scheduler">The <see cref="Scheduler"/> to use</param>
+        protected Awaitable(string code, Scheduler scheduler = null)
         {
             Code = code;
             waitForHandler = new WaitForHandler();
+
+            if (scheduler != null)
+                Scheduler = scheduler;
+            else
+                Scheduler = (Scheduler)ServiceBroker.GetService<SchedulersService>().GetDefaultScheduler();
 
             Status = new EnumParameter<TaskStatus>($"{Code}.{nameof(Status)}", TaskStatus.Created);
             TokenSource = new CancellationTokenSource();
@@ -105,7 +113,7 @@ namespace Tasks
                 TokenSource.Token
             );
 
-            task.Start();
+            task.Start(Scheduler);
             return task;
         }
 

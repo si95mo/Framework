@@ -14,7 +14,8 @@ namespace Tasks
         /// Create a new instance of <see cref="AwaitableWithAlarm"/>
         /// </summary>
         /// <param name="code">The code</param>
-        public AwaitableWithAlarm(string code) : base(code)
+        /// <param name="scheduler">The <see cref="Scheduler"/> to use</param>
+        public AwaitableWithAlarm(string code, Scheduler scheduler = null) : base(code, scheduler)
         {
             alarmCondition = new DummyCondition($"{Code}.AlarmCondition", false);
             warnCondition = new DummyCondition($"{Code}.WarnCondition", false);

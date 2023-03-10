@@ -1,4 +1,5 @@
-﻿using Diagnostic;
+﻿using Core.DataStructures;
+using Diagnostic;
 using FluentAssertions;
 using NUnit.Framework;
 using System;
@@ -10,7 +11,7 @@ namespace Tasks.Tests
 {
     public class FunctionTask : AwaitableWithAlarm
     {
-        public FunctionTask(string code) : base(code)
+        public FunctionTask(string code, Scheduler scheduler = null) : base(code, scheduler)
         { }
 
         public override IEnumerable<string> Execution()
@@ -37,12 +38,20 @@ namespace Tasks.Tests
         public void SetUp()
         {
             Logger.Initialize();
+            ServiceBroker.Initialize();
         }
 
         [Test]
         public async Task Test()
         {
-            IAwaitable task = new FunctionTask("Code");
+            Scheduler scheduler = new Scheduler(maxDegreesOfParallelism: 10);
+            List<IAwaitable> tasks = new List<IAwaitable>();
+            for(int i = 0; i < 20; i++)
+                tasks.Add(new FunctionTask(i.ToString(), scheduler));
+
+            tasks.ForEach((x) => x.Start());
+
+            IAwaitable task = new FunctionTask("Code", scheduler);
 
             Stopwatch timer = Stopwatch.StartNew();
             await task;
