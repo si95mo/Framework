@@ -36,7 +36,7 @@ namespace DiagnosticMessages
         /// <param name="sourceCode">The source code</param>
         /// <param name="message">The message</param>
         /// <param name="firingCondition">The <see cref="ICondition"/> that will cause the <see cref="Alarm"/> to fire</param>
-        public DiagnosticMessage(string code, string sourceCode, string message, ICondition firingCondition)
+        public DiagnosticMessage(string code, string sourceCode, string message, ICondition firingCondition = null)
         {
             Initialize(code, message, firingCondition);
             Source = ServiceBroker.Get<IProperty>().Get(sourceCode);
@@ -49,7 +49,7 @@ namespace DiagnosticMessages
         /// <param name="source">The source <see cref="IProperty"/></param>
         /// <param name="message">The message</param>
         /// <param name="firingCondition">The <see cref="ICondition"/> that will cause the <see cref="Alarm"/> to fire</param>
-        public DiagnosticMessage(string code, IProperty source, string message, ICondition firingCondition)
+        public DiagnosticMessage(string code, IProperty source, string message, ICondition firingCondition = null)
         {
             Initialize(code, message, firingCondition);
             Source = source;
@@ -101,7 +101,8 @@ namespace DiagnosticMessages
             if (ServiceBroker.CanProvide<DiagnosticMessagesService>())
                 ServiceBroker.GetService<DiagnosticMessagesService>().Add(this);
 
-            FiringCondition.ValueChanged += FiringCondition_ValueChanged;
+            if (FiringCondition != null)
+                FiringCondition.ValueChanged += FiringCondition_ValueChanged;
         }
 
         private void FiringCondition_ValueChanged(object sender, ValueChangedEventArgs e)

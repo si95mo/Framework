@@ -21,7 +21,8 @@ namespace DiagnosticMessages
         /// <param name="sourceCode">The source code</param>
         /// <param name="message">The message</param>
         /// <param name="firingCondition">The <see cref="ICondition"/> that will cause the <see cref="Alarm"/> to fire</param>
-        public Alarm(string code, string sourceCode, string message, ICondition firingCondition) : base(code, sourceCode, message, firingCondition)
+        public Alarm(string code, string sourceCode, string message, ICondition firingCondition = null) 
+            : base(code, sourceCode, message, firingCondition)
         { }
 
         /// <summary>
@@ -32,7 +33,8 @@ namespace DiagnosticMessages
         /// <param name="source">The source <see cref="IProperty"/></param>
         /// <param name="message">The message</param>
         /// <param name="firingCondition">The <see cref="ICondition"/> that will cause the <see cref="Alarm"/> to fire</param>
-        public Alarm(string code, IProperty source, string message, ICondition firingCondition) : base(code, source, message, firingCondition)
+        public Alarm(string code, IProperty source, string message, ICondition firingCondition = null) 
+            : base(code, source, message, firingCondition)
         { }
 
         #endregion Constructors

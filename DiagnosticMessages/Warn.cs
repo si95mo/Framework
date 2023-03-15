@@ -19,7 +19,8 @@ namespace DiagnosticMessages
         /// <param name="sourceCode"></param>
         /// <param name="message"></param>
         /// <param name="firingCondition"></param>
-        public Warn(string code, string sourceCode, string message, ICondition firingCondition) : base(code, sourceCode, message, firingCondition)
+        public Warn(string code, string sourceCode, string message, ICondition firingCondition = null) 
+            : base(code, sourceCode, message, firingCondition)
         { }
 
         /// <summary>
@@ -30,7 +31,8 @@ namespace DiagnosticMessages
         /// <param name="source"></param>
         /// <param name="message"></param>
         /// <param name="firingCondition"></param>
-        public Warn(string code, IProperty source, string message, ICondition firingCondition) : base(code, source, message, firingCondition)
+        public Warn(string code, IProperty source, string message, ICondition firingCondition = null) 
+            : base(code, source, message, firingCondition)
         { }
 
         #region IDiagnosticMessage implementation
