@@ -51,7 +51,7 @@ namespace UserInterface.Controls.Tests
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new HardwareControlsForm());
+            Application.Run(new TasksForm());
         }
     }
 }

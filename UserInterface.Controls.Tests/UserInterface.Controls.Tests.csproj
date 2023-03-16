@@ -116,6 +116,12 @@
     <Compile Include="SpectrumPlotterForm.Designer.cs">
       <DependentUpon>SpectrumPlotterForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="TasksForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TasksForm.Designer.cs">
+      <DependentUpon>TasksForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="TestForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -140,6 +146,10 @@
       <Project>{55CB7D92-F9F3-43B8-8A82-D886FC194106}</Project>
       <Name>Signal.Processing</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Tasks\Tasks.csproj">
+      <Project>{34F33C33-F362-4400-9CBD-828B902A9093}</Project>
+      <Name>Tasks</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UserInterafce.Forms\UserInterafce.Forms.csproj">
       <Project>{C0995E8E-9811-4909-8D33-CECEC75E7646}</Project>
       <Name>UserInterafce.Forms</Name>
@@ -161,6 +171,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SpectrumPlotterForm.resx">
       <DependentUpon>SpectrumPlotterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TasksForm.resx">
+      <DependentUpon>TasksForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TestForm.resx">
       <DependentUpon>TestForm.cs</DependentUpon>
