@@ -21,7 +21,7 @@ namespace Tasks
     /// (with both an <see cref="Alarm"/> and a <see cref="Warn"/> already implemented).
     /// Note that only an <see cref="Alarm"/> fired will trigger the <see cref="Fail(string)"/> method, not a <see cref="Warn"/>
     /// </remarks>
-    public abstract class Awaitable : IAwaitable, IProperty
+    public abstract class Awaitable : IAwaitable
     {
         private WaitForHandler waitForHandler;
         private bool stopRequested;
@@ -136,22 +136,28 @@ namespace Tasks
 
         public virtual void Stop()
         {
-            stopRequested = true;
+            if (Status.Value == TaskStatus.Running || Status.Value == TaskStatus.WaitingToRun)
+            {
+                stopRequested = true;
 
-            TokenSource.Cancel();
-            TokenSource.Token.ThrowIfCancellationRequested(); // Let the task fail and then stop
+                TokenSource.Cancel();
+                TokenSource.Token.ThrowIfCancellationRequested(); // Let the task fail and then stop
 
-            Status.Value = TaskStatus.Canceled;
+                Status.Value = TaskStatus.Canceled;
+            }
         }
 
         public virtual void Stop(TimeSpan delay)
         {
-            stopRequested = true;
+            if (Status.Value == TaskStatus.Running || Status.Value == TaskStatus.WaitingToRun)
+            {
+                stopRequested = true;
 
-            TokenSource.CancelAfter(delay);
-            TokenSource.Token.ThrowIfCancellationRequested(); // Let the task fail and then stop
+                TokenSource.CancelAfter(delay);
+                TokenSource.Token.ThrowIfCancellationRequested(); // Let the task fail and then stop
 
-            Status.Value = TaskStatus.Canceled;
+                Status.Value = TaskStatus.Canceled;
+            }
         }
 
         public virtual void Stop(int delay)

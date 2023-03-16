@@ -60,6 +60,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scheduler.cs" />
     <Compile Include="SchedulersService.cs" />
+    <Compile Include="TasksService.cs" />
     <Compile Include="WaitForHandler.cs" />
   </ItemGroup>
   <ItemGroup>

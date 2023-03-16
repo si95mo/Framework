@@ -1,4 +1,5 @@
-﻿using Core.DataStructures;
+﻿using Core;
+using Core.DataStructures;
 using Core.Parameters;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace Tasks
     /// <summary>
     /// Define a generic awaitable task
     /// </summary>
-    public interface IAwaitable
+    public interface IAwaitable : IProperty
     {
         /// <summary>
         /// The <see cref="IAwaitable"/> <see cref="TaskStatus"/>
