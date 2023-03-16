@@ -212,6 +212,18 @@
     <Compile Include="SaveTestProgramPanel.Designer.cs">
       <DependentUpon>SaveTestProgramPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="SchedulerControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SchedulerControl.Designer.cs">
+      <DependentUpon>SchedulerControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaskControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TaskControl.Designer.cs">
+      <DependentUpon>TaskControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="TextControl.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -293,6 +305,12 @@
     <EmbeddedResource Include="SaveTestProgramPanel.resx">
       <DependentUpon>SaveTestProgramPanel.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SchedulerControl.resx">
+      <DependentUpon>SchedulerControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TaskControl.resx">
+      <DependentUpon>TaskControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TextControl.resx">
       <DependentUpon>TextControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -333,6 +351,10 @@
     <ProjectReference Include="..\IO\IO.csproj">
       <Project>{65535B13-4850-4EC8-893D-58F3BC49C457}</Project>
       <Name>IO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tasks\Tasks.csproj">
+      <Project>{34F33C33-F362-4400-9CBD-828B902A9093}</Project>
+      <Name>Tasks</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
