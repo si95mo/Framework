@@ -61,6 +61,7 @@ namespace Tasks
         public Scheduler(string code, int maxDegreesOfParallelism = 100)
         {
             Code = code;
+            MaxDeegreesOfParallelism = maxDegreesOfParallelism;
 
             RunningTasks = new NumericParameter($"{Code}.{nameof(RunningTasks)}", measureUnit: string.Empty, format: "0", value: 0d);
             Load = new NumericParameter($"{Code}.{nameof(Load)}", measureUnit: "%", format: "0.00", value: 0d);
@@ -68,7 +69,6 @@ namespace Tasks
             RunningTasks.ConnectTo(Load, new GenericConverter<double, double>(new Func<double, double>((x) => x / MaxDeegreesOfParallelism * 100d)));
 
             tasks = new LinkedList<Task>();
-            MaxDeegreesOfParallelism = maxDegreesOfParallelism;
         }
 
         #endregion Constructors
@@ -100,10 +100,7 @@ namespace Tasks
             {
                 tasks.AddLast(task);
                 if (RunningTasks.ValueAsInt < MaxDeegreesOfParallelism)
-                {
-                    ++RunningTasks.Value;
                     NotifyThreadPoolOfPendingWork();
-                }
             }
         }
 
@@ -152,18 +149,17 @@ namespace Tasks
                             lock (tasks)
                             {
                                 if (tasks.Count == 0)
-                                {
-                                    --RunningTasks.Value;
                                     break;
-                                }
 
                                 nextTask = tasks.First?.Value;
-
                                 tasks.RemoveFirst();
-                                RunningTasks.Value = tasks.Count;
                             }
 
-                            TryExecuteTask(nextTask);
+                            ++RunningTasks.Value;
+                            bool executed = TryExecuteTask(nextTask);
+
+                            if(executed)
+                                RunningTasks.Value = RunningTasks.Value > 0 ? RunningTasks.Value - 1 : 0d;
                         }
                     }
                     finally { currentThreadIsProcessingTasks = false; }
