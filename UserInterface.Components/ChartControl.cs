@@ -96,7 +96,12 @@ namespace UserInterface.Controls
         {
             InitializeChart(parameter.Code);
 
-            numericParameter = new NumericParameter($"{parameter.Code}.{nameof(ChartControl)}{nameof(NumericParameter)}", parameter.Value, parameter.MeasureUnit, parameter.Format);
+            numericParameter = new NumericParameter(
+                $"{parameter.Code}.{nameof(ChartControl)}{nameof(NumericParameter)}", 
+                parameter.Value, 
+                parameter.MeasureUnit, 
+                parameter.Format
+            );
             parameter.ConnectTo(numericParameter);
 
             //SetAxisMeasureUnit(parameter.MeasureUnit, text);
@@ -117,7 +122,12 @@ namespace UserInterface.Controls
         {
             InitializeChart(parameter.Code);
 
-            waveformParameter = new WaveformParameter($"{parameter.Code}.{nameof(ChartControl)}{nameof(WaveformParameter)}", parameter.Value, parameter.MeasureUnit, parameter.Format);
+            waveformParameter = new WaveformParameter(
+                $"{parameter.Code}.{nameof(ChartControl)}{nameof(WaveformParameter)}",
+                parameter.Value,
+                parameter.MeasureUnit,
+                parameter.Format
+            );
             parameter.ConnectTo(waveformParameter);
 
             //SetAxisMeasureUnit(parameter.MeasureUnit, text);
@@ -165,9 +175,10 @@ namespace UserInterface.Controls
         {
             chart.AxisX.Clear();
             chart.AxisX.Add(new Axis());
-            chart.AxisX[0].Labels = new List<string>();
-
-            chart.AxisX[0].Labels.Add("Time");
+            chart.AxisX[0].Labels = new List<string>
+            {
+                "Time"
+            };
 
             chart.AxisY.Clear();
             chart.AxisY.Add(new Axis());
