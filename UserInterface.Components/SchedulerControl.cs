@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media;
+using System.Windows.Media.Converters;
 using Tasks;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -29,9 +30,12 @@ namespace UserInterface.Controls
             {
                 Title = "Load",
                 Values = new ChartValues<double>(),
-                PointGeometry = null
+                PointGeometry = null,
+                Stroke = Brushes.Red,
+                Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0))
             };
-            
+            series.Fill.Opacity = 0.1;
+
             chart.AxisY.Clear();
             chart.AxisY.Add(new Axis());
             chart.AxisY[0].MinValue = -4d;
