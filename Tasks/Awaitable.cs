@@ -34,7 +34,7 @@ namespace Tasks
         #region Public fields
 
         public EnumParameter<TaskStatus> Status { get; }
-        public CancellationTokenSource TokenSource { get; }
+        public CancellationTokenSource TokenSource { get; private set; }
         public StringParameter WaitState { get; }
 
         public string Code { get; private set; }
@@ -80,6 +80,10 @@ namespace Tasks
         public Task Start()
         {
             stopRequested = false;
+
+            TokenSource.Dispose();
+            TokenSource = new CancellationTokenSource();
+
             Status.Value = TaskStatus.WaitingToRun;
 
             Task task = new Task(() =>
@@ -91,16 +95,22 @@ namespace Tasks
                         // Iterate through the Execution task state
                         IEnumerable<string> executionState = Execution();
                         foreach (string state in executionState)
-                            WaitState.Value = state;
+                        {
+                            // Exit loop if task has been canceled
+                            if (TokenSource.Token.IsCancellationRequested)
+                                break;
 
-                        // And then through the termination task state
+                            WaitState.Value = state;
+                        }
+
+                        // And then through the termination task state (that should be canceled)
                         IEnumerable terminationState = Termination();
                         foreach (string state in terminationState)
                             WaitState.Value = state;
 
                         Status.Value = TaskStatus.RanToCompletion;
                     }
-                    catch (Exception ex) // This may be cuased by a stop request or an actual exception
+                    catch (Exception ex) // This may be caused by a stop request or an actual exception
                     {
                         Status.Value = TaskStatus.Faulted;
 
@@ -139,9 +149,7 @@ namespace Tasks
             if (Status.Value == TaskStatus.Running || Status.Value == TaskStatus.WaitingToRun)
             {
                 stopRequested = true;
-
-                TokenSource.Cancel();
-                TokenSource.Token.ThrowIfCancellationRequested(); // Let the task fail and then stop
+                TokenSource.Cancel(); 
 
                 Status.Value = TaskStatus.Canceled;
             }
@@ -152,9 +160,7 @@ namespace Tasks
             if (Status.Value == TaskStatus.Running || Status.Value == TaskStatus.WaitingToRun)
             {
                 stopRequested = true;
-
                 TokenSource.CancelAfter(delay);
-                TokenSource.Token.ThrowIfCancellationRequested(); // Let the task fail and then stop
 
                 Status.Value = TaskStatus.Canceled;
             }
