@@ -3,6 +3,7 @@ using Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -56,9 +57,17 @@ namespace Tasks
                     {
                         // Iterate through the Execution task state
                         bool exitCycle = false;
-                        Action execution = new Action(() =>
+                        ManualResetEventSlim stopRequest = new ManualResetEventSlim(false);
+
+                        Stopwatch timer;
+                        IEnumerable<string> executionState;
+                        while (!exitCycle)
+                        {
+                            timer = Stopwatch.StartNew();
+
+                            do
                             {
-                                IEnumerable<string> executionState = Execution();
+                                executionState = Execution();
                                 foreach (string state in executionState)
                                 {
                                     // Exit loop if task has been canceled
@@ -70,9 +79,12 @@ namespace Tasks
 
                                     WaitState.Value = state;
                                 }
-                            }
-                        );
-                        execution.TimedWhile(() => !exitCycle, (int)CycleTime.TotalMilliseconds);
+                            } while (stopRequest.Wait((int)Math.Max(0, CycleTime.TotalMilliseconds - timer.ElapsedMilliseconds)));
+
+                            timer.Stop();
+                            if (timer.ElapsedMilliseconds > CycleTime.TotalMilliseconds + 10) // Plus 10ms of threshold
+                                Logger.Warn($"{Code} cycle time of {CycleTime.TotalMilliseconds} [ms] exceeded. Last cycle took {timer.ElapsedMilliseconds} [ms]");
+                        }
 
                         // And then through the termination task state (that should be canceled)
                         IEnumerable terminationState = Termination();
