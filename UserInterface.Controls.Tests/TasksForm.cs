@@ -26,6 +26,9 @@ namespace UserInterface.Controls.Tests
                 ServiceBroker.GetService<TasksService>().Add(task);
             }
 
+            CyclicFunctionTask cyclicTask = new CyclicFunctionTask(Name + ".Cyclic", TimeSpan.FromMilliseconds(10d));
+            ServiceBroker.GetService<TasksService>().Add(cyclicTask);
+
             foreach(IAwaitable t in ServiceBroker.GetService<TasksService>().GetAll())
             {
                 TaskControl taskControl = new TaskControl(t);
@@ -55,5 +58,27 @@ namespace UserInterface.Controls.Tests
             }
         }
 
+        public class CyclicFunctionTask : CyclicAwaitable
+        {
+            private int counter;
+
+            public CyclicFunctionTask(string code, TimeSpan cycleTime, Scheduler scheduler = null) : base(code, cycleTime, scheduler)
+            {
+                counter = 0;
+            }
+
+            public override IEnumerable<string> Execution()
+            {
+                yield return "Incrementing counter";
+                counter++;
+
+                yield return "Cycle done";
+            }
+
+            public override IEnumerable<string> Termination()
+            {
+                return base.Termination();
+            }
+        }
     }
 }

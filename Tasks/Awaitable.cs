@@ -24,17 +24,17 @@ namespace Tasks
     public abstract class Awaitable : IAwaitable
     {
         private WaitForHandler waitForHandler;
-        private bool stopRequested;
 
         protected Alarm Alarm;
         protected Warn Warn;
 
         protected Scheduler Scheduler;
+        protected bool StopRequested;
 
         #region Public fields
 
         public EnumParameter<TaskStatus> Status { get; }
-        public CancellationTokenSource TokenSource { get; private set; }
+        public CancellationTokenSource TokenSource { get; protected set; }
         public StringParameter WaitState { get; }
 
         public string Code { get; private set; }
@@ -77,9 +77,9 @@ namespace Tasks
             yield return "Done";
         }
 
-        public Task Start()
+        public virtual Task Start()
         {
-            stopRequested = false;
+            StopRequested = false;
 
             TokenSource.Dispose();
             TokenSource = new CancellationTokenSource();
@@ -114,7 +114,7 @@ namespace Tasks
                     {
                         Status.Value = TaskStatus.Faulted;
 
-                        if (stopRequested)
+                        if (StopRequested)
                             Logger.Error(ex);
                         else
                             Logger.Warn($"Task with code {Code} faulted because a stop has been requested");
@@ -148,7 +148,7 @@ namespace Tasks
         {
             if (Status.Value == TaskStatus.Running || Status.Value == TaskStatus.WaitingToRun)
             {
-                stopRequested = true;
+                StopRequested = true;
                 TokenSource.Cancel(); 
 
                 Status.Value = TaskStatus.Canceled;
@@ -159,7 +159,7 @@ namespace Tasks
         {
             if (Status.Value == TaskStatus.Running || Status.Value == TaskStatus.WaitingToRun)
             {
-                stopRequested = true;
+                StopRequested = true;
                 TokenSource.CancelAfter(delay);
 
                 Status.Value = TaskStatus.Canceled;

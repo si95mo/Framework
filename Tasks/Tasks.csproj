@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Awaitable.cs" />
     <Compile Include="AwaitableWithAlarm.cs" />
+    <Compile Include="CyclicAwaitable.cs" />
     <Compile Include="IAwaitable.cs" />
     <Compile Include="IScheduler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
