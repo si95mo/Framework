@@ -16,8 +16,11 @@ namespace UserInterface.Controls.Tests
             ServiceBroker.Provide(new TasksService());
             ServiceBroker.Provide(new SchedulersService());
 
-            Scheduler scheduler = new Scheduler(maxDegreesOfParallelism: 4);
-            ServiceBroker.GetService<SchedulersService>().Add(scheduler);
+            Scheduler defaultScheduler = new Scheduler("DefaultScheduler", maxDegreesOfParallelism: 4);
+            ServiceBroker.GetService<SchedulersService>().Add(defaultScheduler);
+
+            Scheduler otherScheduler = new Scheduler(maxDegreesOfParallelism: 4);
+            ServiceBroker.GetService<SchedulersService>().Add(otherScheduler);
 
             FunctionTask task;
             for (int i = 0; i < 10; i++)
@@ -26,17 +29,20 @@ namespace UserInterface.Controls.Tests
                 ServiceBroker.GetService<TasksService>().Add(task);
             }
 
-            CyclicFunctionTask cyclicTask = new CyclicFunctionTask(Name + ".Cyclic", TimeSpan.FromMilliseconds(10d));
+            CyclicFunctionTask cyclicTask = new CyclicFunctionTask(Name + ".Cyclic", TimeSpan.FromMilliseconds(1000d));
             ServiceBroker.GetService<TasksService>().Add(cyclicTask);
 
             foreach(IAwaitable t in ServiceBroker.GetService<TasksService>().GetAll())
             {
                 TaskControl taskControl = new TaskControl(t);
-                flowLayout.Controls.Add(taskControl);
+                taskFlowLayout.Controls.Add(taskControl);
             }
 
-            SchedulerControl schedulerControl = new SchedulerControl(ServiceBroker.GetService<SchedulersService>().GetDefaultScheduler());
-            flowLayout.Controls.Add(schedulerControl);
+            foreach(IScheduler scheduler in  ServiceBroker.GetService<SchedulersService>().GetAll())
+            {
+                SchedulerControl schedulerControl = new SchedulerControl(scheduler);
+                schedulerFlowLayout.Controls.Add(schedulerControl);
+            }
 
             CenterToScreen();
         }

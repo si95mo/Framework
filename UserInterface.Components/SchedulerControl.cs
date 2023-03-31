@@ -22,6 +22,8 @@ namespace UserInterface.Controls
         {
             InitializeComponent();
 
+            lblCode.Text = scheduler.Code;
+
             chart.DataTooltip = null;
             chart.Hoverable = false;
             chart.DisableAnimations = true;
