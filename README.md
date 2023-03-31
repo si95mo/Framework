@@ -4,9 +4,12 @@
  
  The **basic logic** and structure of the framework is:
  - At the lowest level the Hardware resource is responsible of the communication (e.g. modbus, OPC UA, TCP, CAN, ADS ...)
- - In combination with the resource, various type of channels are present (digital and analog input and output channel specialized in the associated resource)
+ - In combination with the resource, various type of channels are present (digital and analog input and output channel specialized in the associated resource, if needed)
  - Above this stage, there are general input/output digital and analog channel which may be connected to the specified ones and can be used in various part of the application
- - In parallel to this, there is the ServiceBroker, that can store various property to make them available in each part of the application
+   - The framework implemnts the connection between channels and in general between each property, with also Converters. The default connection simply update the value of each involved propery. This beahaviour can be modified by applying a Converter (generic, in which the conversion funciton must be specified, or the ones available like an online moving average for example)
+ - In parallel to this, there is the ServiceBroker, that can store various properties to make them available in each part of the application
+ - There is also a level that implement Tasks with the connected Scheduler logic. Alarm logic to stop automatically a Task is also implemented (and it's connected to the Condition part)
+ - Conditions are implemented to give extended boolean functionalities and can be retrieved via the ServiceBroker
 
 This represent the core logic that should be followed and used in higher level of each application.
  
