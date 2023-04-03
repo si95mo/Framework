@@ -1,6 +1,8 @@
 ﻿using Core;
+using Diagnostic;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Configuration
 {
@@ -49,8 +51,13 @@ namespace Configuration
         {
             this.code = code;
 
-            ConfigurationHandler.Initialize(path);
-            items = ConfigurationHandler.Parse();
+            if (File.Exists(path))
+            {
+                ConfigurationHandler.Initialize(path);
+                items = ConfigurationHandler.Parse();
+            }
+            else
+                Logger.Warn($"Configuration file not found at {path}");
         }
 
         public void ConnectTo(IProperty property)

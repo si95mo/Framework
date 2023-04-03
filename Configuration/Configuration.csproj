@@ -55,6 +55,10 @@
       <Project>{75DFACF6-E820-4E3F-83D5-1E21FBC92385}</Project>
       <Name>Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Diagnostic\Diagnostic.csproj">
+      <Project>{7DEB54D9-B9F1-4B05-8D81-D7B4F77631D1}</Project>
+      <Name>Diagnostic</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IO\IO.csproj">
       <Project>{65535B13-4850-4EC8-893D-58F3BC49C457}</Project>
       <Name>IO</Name>

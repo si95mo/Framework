@@ -1,19 +1,21 @@
 ﻿using LiveCharts;
 using LiveCharts.Wpf;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media;
-using System.Windows.Media.Converters;
 using Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace UserInterface.Controls
 {
     public partial class SchedulerControl : UserControl
     {
         public const int BufferSize = 128;
+        public const double Opacity = 0.1;
+
+        private readonly Color green = Color.FromRgb(0xBD, 0xDC, 0x04);
+        private readonly Color yellow = Color.FromRgb(0xFE, 0xD0, 0x00);
+        private readonly Color red = Color.FromRgb(0xD2, 0x04, 0x2D);
 
         private readonly IScheduler scheduler;
         private Series series;
@@ -33,10 +35,10 @@ namespace UserInterface.Controls
                 Title = "Load",
                 Values = new ChartValues<double>(),
                 PointGeometry = null,
-                Stroke = Brushes.Red,
-                Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0))
+                Stroke = new SolidColorBrush(green),
+                Fill = new SolidColorBrush(green)
             };
-            series.Fill.Opacity = 0.1;
+            series.Fill.Opacity = Opacity;
 
             chart.AxisY.Clear();
             chart.AxisY.Add(new Axis());
@@ -48,6 +50,7 @@ namespace UserInterface.Controls
             chart.InvalidateVisual();
 
             this.scheduler = scheduler;
+            UpdateChartColor(scheduler.Load.Value);
 
             Task t = new Task(async () =>
                 {
@@ -63,6 +66,8 @@ namespace UserInterface.Controls
                 }
             );
             t.Start();
+
+            scheduler.Load.ValueChanged += Load_ValueChanged;
         }
 
         private void UpdateChart(double load)
@@ -71,6 +76,37 @@ namespace UserInterface.Controls
                 series.Values.RemoveAt(0);
 
             series.Values.Add(load);
+        }
+
+        private void UpdateChartColor(double load)
+        {
+            LineSeries series = chart.Series[0] as LineSeries;
+
+            if (load <= 33.333)
+            {
+                series.Stroke = new SolidColorBrush(green);
+                series.Fill = new SolidColorBrush(green);
+            }
+            else if (load <= 66.666)
+            {
+                series.Stroke = new SolidColorBrush(yellow);
+                series.Fill = new SolidColorBrush(yellow);
+            }
+            else // load > 66.666
+            {
+                series.Stroke = new SolidColorBrush(red);
+                series.Fill = new SolidColorBrush(red);
+            }
+
+            series.Fill.Opacity = Opacity;
+        }
+
+        private void Load_ValueChanged(object sender, Core.ValueChangedEventArgs e)
+        {
+            if (!InvokeRequired)
+                UpdateChartColor(e.NewValueAsDouble);
+            else
+                BeginInvoke(new Action(() => Load_ValueChanged(sender, e)));
         }
     }
 }

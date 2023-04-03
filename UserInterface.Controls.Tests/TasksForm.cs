@@ -19,7 +19,7 @@ namespace UserInterface.Controls.Tests
             Scheduler defaultScheduler = new Scheduler("DefaultScheduler", maxDegreesOfParallelism: 4);
             ServiceBroker.GetService<SchedulersService>().Add(defaultScheduler);
 
-            Scheduler otherScheduler = new Scheduler(maxDegreesOfParallelism: 4);
+            Scheduler otherScheduler = new Scheduler(maxDegreesOfParallelism: 11);
             ServiceBroker.GetService<SchedulersService>().Add(otherScheduler);
 
             FunctionTask task;
@@ -32,13 +32,19 @@ namespace UserInterface.Controls.Tests
             CyclicFunctionTask cyclicTask = new CyclicFunctionTask(Name + ".Cyclic", TimeSpan.FromMilliseconds(1000d));
             ServiceBroker.GetService<TasksService>().Add(cyclicTask);
 
-            foreach(IAwaitable t in ServiceBroker.GetService<TasksService>().GetAll())
+            for (int i = 0; i < 10; i++)
+            {
+                cyclicTask = new CyclicFunctionTask($"{Name}.Cyclic.{i}", TimeSpan.FromMilliseconds(1000d), otherScheduler);
+                ServiceBroker.GetService<TasksService>().Add(cyclicTask);
+            }
+
+            foreach (IAwaitable t in ServiceBroker.GetService<TasksService>().GetAll())
             {
                 TaskControl taskControl = new TaskControl(t);
                 taskFlowLayout.Controls.Add(taskControl);
             }
 
-            foreach(IScheduler scheduler in  ServiceBroker.GetService<SchedulersService>().GetAll())
+            foreach (IScheduler scheduler in ServiceBroker.GetService<SchedulersService>().GetAll())
             {
                 SchedulerControl schedulerControl = new SchedulerControl(scheduler);
                 schedulerFlowLayout.Controls.Add(schedulerControl);
@@ -85,6 +91,12 @@ namespace UserInterface.Controls.Tests
             {
                 return base.Termination();
             }
+        }
+
+        private void TasksForm_Load(object sender, EventArgs e)
+        {
+            foreach (IAwaitable task in ServiceBroker.GetService<TasksService>().GetAll())
+                task.Start();
         }
     }
 }

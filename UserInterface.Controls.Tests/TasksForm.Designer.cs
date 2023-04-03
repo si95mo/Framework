@@ -60,6 +60,7 @@
             this.Controls.Add(this.taskFlowLayout);
             this.Name = "TasksForm";
             this.Text = "TasksForm";
+            this.Load += new System.EventHandler(this.TasksForm_Load);
             this.ResumeLayout(false);
 
         }
