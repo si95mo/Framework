@@ -1,8 +1,8 @@
-﻿using DiagnosticMessages;
-using Core;
+﻿using Core;
 using Core.DataStructures;
 using Core.Parameters;
 using Diagnostic;
+using DiagnosticMessages;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -149,7 +149,7 @@ namespace Tasks
             if (Status.Value == TaskStatus.Running || Status.Value == TaskStatus.WaitingToRun)
             {
                 StopRequested = true;
-                TokenSource.Cancel(); 
+                TokenSource.Cancel();
 
                 Status.Value = TaskStatus.Canceled;
             }

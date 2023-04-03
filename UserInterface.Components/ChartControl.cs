@@ -97,9 +97,9 @@ namespace UserInterface.Controls
             InitializeChart(parameter.Code);
 
             numericParameter = new NumericParameter(
-                $"{parameter.Code}.{nameof(ChartControl)}{nameof(NumericParameter)}", 
-                parameter.Value, 
-                parameter.MeasureUnit, 
+                $"{parameter.Code}.{nameof(ChartControl)}{nameof(NumericParameter)}",
+                parameter.Value,
+                parameter.MeasureUnit,
                 parameter.Format
             );
             parameter.ConnectTo(numericParameter);

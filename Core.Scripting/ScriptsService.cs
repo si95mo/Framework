@@ -2,7 +2,6 @@
 using Core.DataStructures;
 using System.IO;
 using System.Reflection;
-using System.Runtime.Remoting.Contexts;
 
 namespace Core.Scripting
 {
@@ -18,7 +17,7 @@ namespace Core.Scripting
         /// Create a new instance of <see cref="ScriptsService"/>
         /// </summary>
         /// <param name="path">The startup catalog path</param>
-        public ScriptsService(string path) : base() 
+        public ScriptsService(string path) : base()
         {
             ReadStartup(path);
         }
@@ -43,7 +42,7 @@ namespace Core.Scripting
             Configuration.Configuration configuration = new Configuration.Configuration(path: configPath);
 
             string code, csxPath;
-            foreach(ConfigurationItem item in configuration.Items.Values) 
+            foreach (ConfigurationItem item in configuration.Items.Values)
             {
                 csxPath = Path.Combine(Path.GetDirectoryName(configPath), item.Name);
                 Assembly assembly = ScriptManager.Compile(csxPath);

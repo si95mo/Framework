@@ -1,8 +1,5 @@
 ﻿using Core.DataStructures;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CSharp;
 using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Reflection;
 

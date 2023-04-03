@@ -1,5 +1,4 @@
 ﻿using Hardware;
-using Newtonsoft.Json;
 using System;
 
 namespace UserInterface.Dashboards

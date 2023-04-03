@@ -42,7 +42,7 @@ namespace Tasks
         public NumericParameter RunningTasks { get; protected set; }
         public NumericParameter Load { get; protected set; }
 
-        #endregion IScheduler implementation
+        #endregion IScheduelr implementation
 
         #region Constructors
 
@@ -123,7 +123,7 @@ namespace Tasks
         /// </summary>
         /// <param name="task">The <see cref="Task"/> to dequeue</param>
         /// <returns><see langword="true"/> if the <paramref name="task"/> has been removed, <see langword="false"/> otherwise</returns>
-        protected sealed override bool TryDequeue(Task task)
+        protected override sealed bool TryDequeue(Task task)
         {
             lock (tasks)
                 return tasks.Remove(task);
@@ -158,7 +158,7 @@ namespace Tasks
                             ++RunningTasks.Value;
                             bool executed = TryExecuteTask(nextTask);
 
-                            if(executed)
+                            if (executed)
                                 RunningTasks.Value = RunningTasks.Value > 0 ? RunningTasks.Value - 1 : 0d;
                         }
                     }
