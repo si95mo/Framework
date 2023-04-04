@@ -1,5 +1,4 @@
 ﻿using Core.DataStructures;
-using Instructions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -31,7 +30,7 @@ namespace Core.Scheduling
         /// Execute the item stored
         /// </summary>
         /// <returns>The item executed</returns>
-        Task<List<IInstruction>> Execute();
+        Task<List<T>> Execute();
 
         /// <summary>
         /// Save the execution list

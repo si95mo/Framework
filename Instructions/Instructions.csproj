@@ -33,9 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Core.Scheduling">
-      <HintPath>..\Core.Scheduling\bin\Debug\Core.Scheduling.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -63,6 +60,10 @@
     <ProjectReference Include="..\Core.Scheduling.Wrapper\Core.Scheduling.Wrapper.csproj">
       <Project>{7EDD29C2-D0C7-4990-BDEE-117EBC9DEB72}</Project>
       <Name>Core.Scheduling.Wrapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Core.Scheduling\Core.Scheduling.csproj">
+      <Project>{9f1eabb2-f717-46a7-a46c-ce773d25a1ae}</Project>
+      <Name>Core.Scheduling</Name>
     </ProjectReference>
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{75DFACF6-E820-4E3F-83D5-1E21FBC92385}</Project>

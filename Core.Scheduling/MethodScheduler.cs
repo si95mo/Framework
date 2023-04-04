@@ -1,6 +1,5 @@
 ﻿using Core.DataStructures;
 using Extensions;
-using Instructions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -120,8 +119,7 @@ namespace Core.Scheduling
         /// <returns>The executed <see cref="Method"/></returns>
         public abstract Method Execute();
 
-        // TODO: remove method scheduler
-        Task<List<IInstruction>> IScheduler<Method>.Execute()
+        Task<List<Method>> IScheduler<Method>.Execute()
         {
             throw new NotImplementedException();
         }

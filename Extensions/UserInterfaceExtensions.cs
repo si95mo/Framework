@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using UserInterface.Dashboards;
 
 namespace Extensions
 {
@@ -20,20 +19,6 @@ namespace Extensions
                 updateAction();
             else
                 source.BeginInvoke(crossThreadMethod, args);
-        }
-
-        /// <summary>
-        /// Set the <see cref="DraggableControl"/> draggable option
-        /// </summary>
-        /// <param name="source">The source <see cref="Control"/></param>
-        /// <param name="isDraggable">
-        /// <see langword="true"/> if the <see cref="DraggableControl"/> will be draggable,
-        /// <see langword="false"/> otherwise
-        /// </param>
-        public static void SetDraggable(this DraggableControl source, bool isDraggable)
-        {
-            source.IsDraggable = isDraggable;
-            source.Draggable(isDraggable);
         }
     }
 }

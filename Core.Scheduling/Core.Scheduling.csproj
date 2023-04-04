@@ -76,10 +76,6 @@
       <Project>{7DEB54D9-B9F1-4B05-8D81-D7B4F77631D1}</Project>
       <Name>Diagnostic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Instructions\Instructions.csproj">
-      <Project>{C8BDFAEE-7C9D-49EB-80BA-7667D4CB0766}</Project>
-      <Name>Instructions</Name>
-    </ProjectReference>
     <ProjectReference Include="..\IO\IO.csproj">
       <Project>{65535B13-4850-4EC8-893D-58F3BC49C457}</Project>
       <Name>IO</Name>
