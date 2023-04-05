@@ -36,7 +36,8 @@ namespace UserInterface.Controls
                 Values = new ChartValues<double>(),
                 PointGeometry = null,
                 Stroke = new SolidColorBrush(green),
-                Fill = new SolidColorBrush(green)
+                Fill = new SolidColorBrush(green),
+                LineSmoothness = 0.1
             };
             series.Fill.Opacity = Opacity;
 
