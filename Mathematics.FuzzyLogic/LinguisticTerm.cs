@@ -33,14 +33,13 @@ namespace Mathematics.FuzzyLogic
     /// </summary>
     public class LinguisticTerm
     {
-        private FuzzyTerm fuzzyTerm;
         private string name;
         private MembershipFunctionType functionType;
 
         /// <summary>
         /// The associated <see cref="AI.Fuzzy.Library.FuzzyTerm"/>
         /// </summary>
-        internal FuzzyTerm FuzzyTerm => fuzzyTerm;
+        internal FuzzyTerm FuzzyTerm;
 
         /// <summary>
         /// The <see cref="LinguisticTerm"/> name
@@ -63,7 +62,7 @@ namespace Mathematics.FuzzyLogic
         /// <param name="membershipFunction">The <see cref="IMembershipFunction"/></param>
         protected LinguisticTerm(string name, IMembershipFunction membershipFunction)
         {
-            fuzzyTerm = new FuzzyTerm(name, membershipFunction);
+            FuzzyTerm = new FuzzyTerm(name, membershipFunction);
 
             this.name = name;
             functionType = MembershipFunctionType.Trapezoidal;
@@ -82,8 +81,10 @@ namespace Mathematics.FuzzyLogic
         {
             TrapezoidMembershipFunction membershipFunction = new TrapezoidMembershipFunction(x1, x2, x3, x4);
 
-            LinguisticTerm linguisticTerm = new LinguisticTerm(name, membershipFunction);
-            linguisticTerm.FunctionType = MembershipFunctionType.Trapezoidal;
+            LinguisticTerm linguisticTerm = new LinguisticTerm(name, membershipFunction)
+            {
+                FunctionType = MembershipFunctionType.Trapezoidal
+            };
 
             return linguisticTerm;
         }
@@ -100,8 +101,10 @@ namespace Mathematics.FuzzyLogic
         {
             TriangularMembershipFunction membershipFunction = new TriangularMembershipFunction(x1, x2, x3);
 
-            LinguisticTerm linguisticTerm = new LinguisticTerm(name, membershipFunction);
-            linguisticTerm.FunctionType = MembershipFunctionType.Triangular;
+            LinguisticTerm linguisticTerm = new LinguisticTerm(name, membershipFunction)
+            {
+                FunctionType = MembershipFunctionType.Triangular
+            };
 
             return linguisticTerm;
         }
@@ -117,8 +120,10 @@ namespace Mathematics.FuzzyLogic
         {
             NormalMembershipFunction membershipFunction = new NormalMembershipFunction(center, sigma);
 
-            LinguisticTerm linguisticTerm = new LinguisticTerm(name, membershipFunction);
-            linguisticTerm.FunctionType = MembershipFunctionType.Normal;
+            LinguisticTerm linguisticTerm = new LinguisticTerm(name, membershipFunction)
+            {
+                FunctionType = MembershipFunctionType.Normal
+            };
 
             return linguisticTerm;
         }
@@ -133,8 +138,10 @@ namespace Mathematics.FuzzyLogic
         {
             ConstantMembershipFunction membershipFunction = new ConstantMembershipFunction(value);
 
-            LinguisticTerm linguisticTerm = new LinguisticTerm(name, membershipFunction);
-            linguisticTerm.FunctionType = MembershipFunctionType.Constant;
+            LinguisticTerm linguisticTerm = new LinguisticTerm(name, membershipFunction)
+            {
+                FunctionType = MembershipFunctionType.Constant
+            };
 
             return linguisticTerm;
         }
