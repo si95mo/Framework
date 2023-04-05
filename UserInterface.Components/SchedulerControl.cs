@@ -51,7 +51,7 @@ namespace UserInterface.Controls
             chart.InvalidateVisual();
 
             this.scheduler = scheduler;
-            UpdateChartColor(scheduler.Load.Value);
+            UpdateControl(scheduler.Load.Value);
 
             Task t = new Task(async () =>
                 {
@@ -79,7 +79,7 @@ namespace UserInterface.Controls
             series.Values.Add(load);
         }
 
-        private void UpdateChartColor(double load)
+        private void UpdateControl(double load)
         {
             LineSeries series = chart.Series[0] as LineSeries;
 
@@ -100,12 +100,14 @@ namespace UserInterface.Controls
             }
 
             series.Fill.Opacity = Opacity;
+
+            lblLoad.Text = scheduler.Load.ToString();
         }
 
         private void Load_ValueChanged(object sender, Core.ValueChangedEventArgs e)
         {
             if (!InvokeRequired)
-                UpdateChartColor(e.NewValueAsDouble);
+                UpdateControl(e.NewValueAsDouble);
             else
                 BeginInvoke(new Action(() => Load_ValueChanged(sender, e)));
         }
