@@ -37,12 +37,12 @@ namespace Tasks
 
         #endregion IProperty implementation
 
-        #region IScheduelr implementation
+        #region IScheduler implementation
 
         public NumericParameter RunningTasks { get; protected set; }
         public NumericParameter Load { get; protected set; }
 
-        #endregion IScheduelr implementation
+        #endregion IScheduler implementation
 
         #region Constructors
 
@@ -119,7 +119,7 @@ namespace Tasks
         }
 
         /// <summary>
-        /// Attempts to remove a previously scheduled task from the scheduler.
+        /// Attempts to remove a previously scheduled task from the scheduler
         /// </summary>
         /// <param name="task">The <see cref="Task"/> to dequeue</param>
         /// <returns><see langword="true"/> if the <paramref name="task"/> has been removed, <see langword="false"/> otherwise</returns>
@@ -162,7 +162,10 @@ namespace Tasks
                                 RunningTasks.Value = RunningTasks.Value > 0 ? RunningTasks.Value - 1 : 0d;
                         }
                     }
-                    finally { currentThreadIsProcessingTasks = false; }
+                    finally 
+                    { 
+                        currentThreadIsProcessingTasks = false; 
+                    }
                 },
                 null
             );
