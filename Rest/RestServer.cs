@@ -148,6 +148,8 @@ namespace Rest
             catch (Exception ex)
             {
                 Logger.Error(ex);
+                Logger.Warn("Unable to find local machine IP address. Using localhost instead (127.0.0.1)");
+
                 ipAddress = "127.0.0.1";
             }
 
