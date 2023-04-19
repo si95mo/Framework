@@ -118,5 +118,24 @@ namespace Core.Conditions.Tests
             timeElapsedCondition.Value.Should().BeTrue();
             timeElapsedCondition.ElapsedTime.ValueAsMilliseconds.Should().BeApproximately(timeToWait, 200); // 200ms precision
         }
+
+        [Test]
+        [TestCase(2000)]
+        public async Task TestIsStableFor(double stabilizationTime)
+        {
+            DummyCondition dummy = new DummyCondition(Guid.NewGuid().ToString(), true);
+            ICondition condition = dummy.IsStableFor(stabilizationTime);
+
+            await Task.Delay((int)(stabilizationTime / 2));
+            condition.Value.Should().BeFalse();
+
+            dummy.Force(false);
+
+            await Task.Delay((int)(stabilizationTime / 2)); // Plus a small delay
+            condition.Value.Should().BeFalse();
+
+            await Task.Delay((int)(stabilizationTime / 2 + 100));
+            condition.Value.Should().BeTrue();
+        }
     }
 }

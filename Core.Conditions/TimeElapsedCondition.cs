@@ -1,6 +1,7 @@
 ﻿using Core.Parameters;
 using System;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Core.Conditions
@@ -26,6 +27,8 @@ namespace Core.Conditions
         /// The started state
         /// </summary>
         public BoolParameter Started { get; private set; }
+
+        private CancellationTokenSource tokenSource;
 
         #region Constructors
 
@@ -60,6 +63,8 @@ namespace Core.Conditions
             Time = new TimeSpanParameter($"{Code}.{nameof(Time)}", time);
             Started = new BoolParameter($"{Code}.{nameof(Started)}", false);
             ElapsedTime = new TimeSpanParameter($"{Code}.{nameof(ElapsedTime)}", 0d);
+
+            tokenSource = new CancellationTokenSource();
         }
 
         /// <summary>
@@ -68,6 +73,9 @@ namespace Core.Conditions
         /// <returns>The timer (async) <see cref="Task"/></returns>
         private Task CreateTimerTask()
         {
+            tokenSource.Cancel();
+            tokenSource = new CancellationTokenSource();
+
             Task t = new Task(async () =>
                 {
                     Stopwatch timer;
@@ -88,7 +96,8 @@ namespace Core.Conditions
 
                         Started.Value = false;
                     }
-                }
+                },
+                tokenSource.Token
             );
 
             return t;
@@ -99,7 +108,7 @@ namespace Core.Conditions
         #region Public methods
 
         /// <summary>
-        /// Start the timer
+        /// (Re)start the timer
         /// </summary>
         /// <remarks>
         /// Only to use in case of no <see cref="Condition"/> passed in the constructor!
