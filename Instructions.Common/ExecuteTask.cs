@@ -1,4 +1,5 @@
-﻿using Core.Parameters;
+﻿using Core.DataStructures;
+using Core.Parameters;
 using System.Threading.Tasks;
 using Tasks;
 
@@ -22,7 +23,18 @@ namespace Instructions.Common
 
         public override async Task ExecuteInstruction()
         {
-            await task;
+            if(ServiceBroker.CanProvide<TasksService>())
+            {
+                TasksService service= ServiceBroker.GetService<TasksService>();
+
+                task = service.Get(taskCode.Value);
+                if (task != default)
+                    await task;
+                else
+                    Fail();
+            }
+            else
+                Fail();
         }
     }
 }

@@ -1,4 +1,9 @@
-﻿namespace Core.Conditions
+﻿using Core.Converters;
+using System;
+using System.Runtime.InteropServices;
+using System.Threading.Tasks;
+
+namespace Core.Conditions
 {
     public static class Extensions
     {
@@ -169,5 +174,10 @@
             PropertyValueInRange condition = new PropertyValueInRange($"{property.Code}.IsInRange", property, minimum, maximum, isMinimumExcluded, isMaximumExcluded);
             return condition;
         }
+
+        //public static FlyweightCondition IsStableFor(this ICondition source, TimeSpan stabilizationTime)
+        //{
+        //    FlyweightCondition condition = new FlyweightCondition($"{source.Code}.IsStableFor", source.Value);
+        //}
     }
 }

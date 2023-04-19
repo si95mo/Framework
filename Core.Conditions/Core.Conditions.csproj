@@ -55,6 +55,10 @@
     <Compile Include="TimeElapsedCondition.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Core.Converters\Core.Converters.csproj">
+      <Project>{7CD54F15-DF6A-4829-8AFD-E714ECF9F505}</Project>
+      <Name>Core.Converters</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core.DataStructures\Core.DataStructures.csproj">
       <Project>{1967aa9e-7fb5-4b63-ad7b-8394d65b6e8f}</Project>
       <Name>Core.DataStructures</Name>
