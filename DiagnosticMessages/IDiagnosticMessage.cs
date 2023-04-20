@@ -24,6 +24,11 @@ namespace DiagnosticMessages
         DateTime FiringTime { get; }
 
         /// <summary>
+        /// The fired <see cref="EventHandler"/>
+        /// </summary>
+        event EventHandler<FiredEventArgs> Fired;
+
+        /// <summary>
         /// Fire the <see cref="IDiagnosticMessage"/> and stop the relative source idenditified by <see cref="SourceCode"/> (if possible)
         /// </summary>
         void Fire();

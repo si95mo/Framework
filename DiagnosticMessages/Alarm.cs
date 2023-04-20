@@ -43,9 +43,7 @@ namespace DiagnosticMessages
 
         public override void Fire()
         {
-            Fired.Value = true;
             FiringTime = DateTime.Now;
-
             OnFireAction?.Invoke();
 
             // Stop the source if possible
@@ -56,6 +54,8 @@ namespace DiagnosticMessages
                 else if (Source is IDevice)
                     (Source as IDevice).Stop();
             }
+
+            OnMessageFired(new FiredEventArgs(FiringTime));
         }
 
         #endregion IDiagnosticMessage implementation

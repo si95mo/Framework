@@ -39,10 +39,10 @@ namespace DiagnosticMessages
 
         public override void Fire()
         {
-            Fired.Value = true;
             FiringTime = DateTime.Now;
-
             OnFireAction?.Invoke();
+
+            OnMessageFired(new FiredEventArgs(FiringTime));
         }
 
         #endregion IDiagnosticMessage implementation

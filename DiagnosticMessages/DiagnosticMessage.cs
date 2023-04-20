@@ -3,9 +3,36 @@ using Core.Conditions;
 using Core.DataStructures;
 using Core.Parameters;
 using System;
+using System.Diagnostics;
 
 namespace DiagnosticMessages
 {
+    /// <summary>
+    /// Define the <see cref="EventArgs"/> in case of a <see cref="DiagnosticMessage"/> fired event
+    /// </summary>
+    public class FiredEventArgs : EventArgs
+    {
+        /// <summary>
+        /// The timestamp
+        /// </summary>
+        public DateTime Timestamp { get; private set; }
+
+        /// <summary>
+        /// Create a new instance of <see cref="FiredEventArgs"/>
+        /// </summary>
+        public FiredEventArgs() : this(DateTime.Now)
+        { }
+
+        /// <summary>
+        /// Create a new instance of <see cref="FiredEventArgs"/>
+        /// </summary>
+        /// <param name="timestamp">The timestamp</param>
+        public FiredEventArgs(DateTime timestamp)
+        {
+            Timestamp = timestamp;
+        }
+    }
+
     /// <summary>
     /// Define a basic (i.e. abstract) implementation of an <see cref="IDiagnosticMessage"/>
     /// </summary>
@@ -15,6 +42,8 @@ namespace DiagnosticMessages
         protected ICondition FiringCondition;
         protected Action OnFireAction;
 
+        private object eventLock = new object();
+
         #region Public properties
 
         public string Code { get; private set; }
@@ -23,7 +52,6 @@ namespace DiagnosticMessages
         public string SourceCode => Source.Code;
         public string Message { get; set; }
         public DateTime FiringTime { get; protected set; }
-        public BoolParameter Fired { get; private set; }
 
         #endregion Public properties
 
@@ -63,7 +91,6 @@ namespace DiagnosticMessages
 
         public virtual void Reset()
         {
-            Fired.Value = false;
             FiringTime = default;
         }
 
@@ -95,8 +122,6 @@ namespace DiagnosticMessages
             FiringCondition = firingCondition;
             OnFireAction = null;
 
-            Fired = new BoolParameter($"{Code}.{nameof(Fired)}", false);
-
             // Add this element to the DiagnosticMessagesService, if possible
             if (ServiceBroker.CanProvide<DiagnosticMessagesService>())
                 ServiceBroker.GetService<DiagnosticMessagesService>().Add(this);
@@ -112,5 +137,41 @@ namespace DiagnosticMessages
         }
 
         #endregion Private methods
+
+        #region Event handler
+
+        /// <summary>
+        /// The <see cref="ValueChanged"/> event handler
+        /// for the <see cref="Value"/> property
+        /// </summary>
+        public event EventHandler<FiredEventArgs> Fired
+        {
+            add
+            {
+                lock (eventLock)
+                    FiredHandler += value;
+            }
+            remove
+            {
+                lock (eventLock)
+                    FiredHandler -= value;
+            }
+        }
+
+        /// <summary>
+        /// The value changed event handler
+        /// </summary>
+        private EventHandler<FiredEventArgs> FiredHandler;
+
+        /// <summary>
+        /// On value changed event
+        /// </summary>
+        /// <param name="e">The <see cref="ValueChangedEventArgs"/></param>
+        protected virtual void OnMessageFired(FiredEventArgs e)
+        {
+            FiredHandler?.Invoke(this, e);
+        }
+
+        #endregion Event handler
     }
 }
