@@ -66,6 +66,7 @@
     <Compile Include="CustomQuestionBox.Designer.cs">
       <DependentUpon>CustomQuestionBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="DiagnositcMessagesHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -80,6 +81,18 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Core.DataStructures\Core.DataStructures.csproj">
+      <Project>{1967AA9E-7FB5-4B63-AD7B-8394D65B6E8F}</Project>
+      <Name>Core.DataStructures</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{75DFACF6-E820-4E3F-83D5-1E21FBC92385}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DiagnosticMessages\DiagnosticMessages.csproj">
+      <Project>{4C9DFD9B-D4EF-4565-9612-CF5096B3CA74}</Project>
+      <Name>DiagnosticMessages</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UserInterface.Components\UserInterface.Controls.csproj">
       <Project>{4944754E-8566-44D6-933F-38F8DDC98F55}</Project>
       <Name>UserInterface.Controls</Name>

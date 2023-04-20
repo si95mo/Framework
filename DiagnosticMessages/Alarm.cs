@@ -1,6 +1,7 @@
 ﻿using Core;
 using Core.Conditions;
 using Devices;
+using Diagnostic;
 using Hardware;
 using System;
 
@@ -55,7 +56,8 @@ namespace DiagnosticMessages
                     (Source as IDevice).Stop();
             }
 
-            OnMessageFired(new FiredEventArgs(FiringTime));
+            Logger.Warn($"Alarm fired. {Message}");
+            OnMessageFired(new FiredEventArgs(FiringTime, Message));
         }
 
         #endregion IDiagnosticMessage implementation

@@ -1,9 +1,7 @@
 ﻿using Core;
 using Core.Conditions;
 using Core.DataStructures;
-using Core.Parameters;
 using System;
-using System.Diagnostics;
 
 namespace DiagnosticMessages
 {
@@ -18,18 +16,26 @@ namespace DiagnosticMessages
         public DateTime Timestamp { get; private set; }
 
         /// <summary>
+        /// The message
+        /// </summary>
+        public string Message { get; private set; }
+
+        /// <summary>
         /// Create a new instance of <see cref="FiredEventArgs"/>
         /// </summary>
-        public FiredEventArgs() : this(DateTime.Now)
+        /// <param name="message">The message</param>
+        public FiredEventArgs(string message) : this(DateTime.Now, message)
         { }
 
         /// <summary>
         /// Create a new instance of <see cref="FiredEventArgs"/>
         /// </summary>
         /// <param name="timestamp">The timestamp</param>
-        public FiredEventArgs(DateTime timestamp)
+        /// <param name="message">The message</param>
+        public FiredEventArgs(DateTime timestamp, string message)
         {
             Timestamp = timestamp;
+            Message = message;
         }
     }
 

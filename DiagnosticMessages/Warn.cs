@@ -1,7 +1,6 @@
 ﻿using Core;
 using Core.Conditions;
-using Devices;
-using Hardware;
+using Diagnostic;
 using System;
 
 namespace DiagnosticMessages
@@ -42,7 +41,8 @@ namespace DiagnosticMessages
             FiringTime = DateTime.Now;
             OnFireAction?.Invoke();
 
-            OnMessageFired(new FiredEventArgs(FiringTime));
+            Logger.Warn($"Warn fired. {Message}");
+            OnMessageFired(new FiredEventArgs(FiringTime, Message));
         }
 
         #endregion IDiagnosticMessage implementation
