@@ -1,5 +1,7 @@
-﻿using Core.DataStructures;
+﻿using Core.Conditions;
+using Core.DataStructures;
 using Diagnostic;
+using DiagnosticMessages;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -119,8 +121,14 @@ namespace Core.Scripting
                 EmitResult result = compilation.Emit(assemblyStream);
                 if (!result.Success)
                 {
+                    DummyCondition condition = new DummyCondition(Guid.NewGuid().ToString());
+                    Warn warn = Warn.New($"{nameof(ScriptManager)}.{nameof(Warn)}", "Error when compiling a script", condition.IsTrue(), sourceCode: null);
+
                     string errors = string.Join(Environment.NewLine, result.Diagnostics.Select((x) => x));
-                    throw new Exception("Compilation errors: " + Environment.NewLine + errors);
+                    Logger.Error($"Compilation errors found:{Environment.NewLine}{errors}");
+
+                    warn.Fire();
+                    condition.Force(true); // Fire the alarm
                 }
 
                 assemblyBinaryContent = assemblyStream.ToArray();

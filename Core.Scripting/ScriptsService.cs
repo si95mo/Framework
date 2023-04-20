@@ -41,17 +41,11 @@ namespace Core.Scripting
             configPath = Path.Combine(configPath, CsxFileName);
             Configuration.Configuration configuration = new Configuration.Configuration(path: configPath);
 
-            string code, csxPath;
+            string csxPath;
             foreach (ConfigurationItem item in configuration.Items.Values)
             {
                 csxPath = Path.Combine(Path.GetDirectoryName(configPath), item.Name);
                 Assembly assembly = ScriptManager.Compile(csxPath);
-
-                //string codeText = File.ReadAllText(csxPath);
-
-                //int indexOfClass = codeText.IndexOf(ClassKeyword);
-                //string className = codeText.Substring(indexOfClass + ClassKeyword.Length, codeText.Length - (indexOfClass + ClassKeyword.Length));
-                //className = className.Substring(0, className.IndexOf(" ")).Trim();
 
                 string typeName = Path.GetFileNameWithoutExtension(item.Name);
                 IScript script = Script.NewInstance(assembly, item.Name, typeName);

@@ -104,6 +104,10 @@
       <Project>{EE43F7DF-EF10-4293-86A5-CD2069CBCFAF}</Project>
       <Name>Configuration</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Core.Conditions\Core.Conditions.csproj">
+      <Project>{694CD750-5601-4C5F-A881-3B330E4CAF43}</Project>
+      <Name>Core.Conditions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core.DataStructures\Core.DataStructures.csproj">
       <Project>{1967aa9e-7fb5-4b63-ad7b-8394d65b6e8f}</Project>
       <Name>Core.DataStructures</Name>
@@ -111,6 +115,10 @@
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{75dfacf6-e820-4e3f-83d5-1e21fbc92385}</Project>
       <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DiagnosticMessages\DiagnosticMessages.csproj">
+      <Project>{4C9DFD9B-D4EF-4565-9612-CF5096B3CA74}</Project>
+      <Name>DiagnosticMessages</Name>
     </ProjectReference>
     <ProjectReference Include="..\Diagnostic\Diagnostic.csproj">
       <Project>{7DEB54D9-B9F1-4B05-8D81-D7B4F77631D1}</Project>
