@@ -20,10 +20,10 @@ namespace Tasks
             alarmCondition = new DummyCondition($"{Code}.AlarmCondition", false);
             warnCondition = new DummyCondition($"{Code}.WarnCondition", false);
 
-            Alarm = Alarm.New($"{Code}.Alarm", this, "Alarm fired", alarmCondition.IsTrue());
+            Alarm = Alarm.New($"{Code}.Alarm", "Alarm fired", alarmCondition.IsTrue(), this);
             Alarm.OnFire(() => Fail(Alarm.Message));
 
-            Warn = Warn.New($"{Code}.Warn", this, "Warn fires", warnCondition.IsTrue());
+            Warn = Warn.New($"{Code}.Warn", "Warn fired", warnCondition.IsTrue(), this);
             Warn.OnFire(() => Fail(Warn.Message));
         }
 

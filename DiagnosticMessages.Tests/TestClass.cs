@@ -22,7 +22,7 @@ namespace DiagnosticMessages.Tests
             parameter = new NumericParameter();
             condition = new DummyCondition("InitialCondition", false);
 
-            alarm = Alarm.New("Alarm", parameter, "Message", condition.IsTrue());
+            alarm = Alarm.New("Alarm", "Message", condition.IsTrue(), parameter);
 
             conditionIsTrue = condition.IsTrue();
 
@@ -32,7 +32,7 @@ namespace DiagnosticMessages.Tests
 
         private void Condition_ValueChanged(object sender, Core.ValueChangedEventArgs e)
         {
-            Console.WriteLine($"{(sender as ICondition).Code} valuechanged event handler fired");
+            Console.WriteLine($"{(sender as ICondition).Code} ValueChanged event handler fired");
         }
 
         [Test]

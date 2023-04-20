@@ -19,8 +19,8 @@ namespace DiagnosticMessages
         /// <param name="sourceCode"></param>
         /// <param name="message"></param>
         /// <param name="firingCondition"></param>
-        public Warn(string code, string sourceCode, string message, ICondition firingCondition = null) 
-            : base(code, sourceCode, message, firingCondition)
+        public Warn(string code, string message, string sourceCode = null, ICondition firingCondition = null) 
+            : base(code, message, sourceCode, firingCondition)
         { }
 
         /// <summary>
@@ -31,8 +31,8 @@ namespace DiagnosticMessages
         /// <param name="source"></param>
         /// <param name="message"></param>
         /// <param name="firingCondition"></param>
-        public Warn(string code, IProperty source, string message, ICondition firingCondition = null) 
-            : base(code, source, message, firingCondition)
+        public Warn(string code, string message, IProperty source = null, ICondition firingCondition = null) 
+            : base(code, message, source, firingCondition)
         { }
 
         #region IDiagnosticMessage implementation
@@ -43,12 +43,6 @@ namespace DiagnosticMessages
             FiringTime = DateTime.Now;
 
             OnFireAction?.Invoke();
-
-            // Stop the source if possible
-            if (Source is IResource)
-                (Source as IResource).Stop();
-            else if (Source is IDevice)
-                (Source as IDevice).Stop();
         }
 
         #endregion IDiagnosticMessage implementation
@@ -59,12 +53,12 @@ namespace DiagnosticMessages
         /// Create a new <see cref="Alarm"/>
         /// </summary>
         /// <param name="code">The code</param>
-        /// <param name="sourceCode">The source code</param>
         /// <param name="message">The message</param>
-        /// <param name="firingCondition">The <see cref="ICondition"/> that will cause the </param>
-        /// <returns>The created new instance of <see cref="Alarm"/></returns>
-        public static Warn New(string code, string sourceCode, string message, ICondition firingCondition)
-            => new Warn(code, sourceCode, message, firingCondition);
+        /// <param name="sourceCode">The source code</param>
+        /// <param name="firingCondition">The <see cref="ICondition"/> that will cause the <see cref="Warn"/> to fire</param>
+        /// <returns>The created new instance of <see cref="Warn"/></returns>
+        public static Warn New(string code, string message, ICondition firingCondition, string sourceCode = null)
+            => new Warn(code, message, sourceCode, firingCondition);
 
         /// <summary>
         /// Create a new <see cref="Alarm"/>
@@ -72,10 +66,10 @@ namespace DiagnosticMessages
         /// <param name="code">The code</param>
         /// <param name="source">The source <see cref="IProperty"/></param>
         /// <param name="message">The message</param>
-        /// <param name="firingCondition">The <see cref="ICondition"/> that will cause the </param>
-        /// <returns>The created new instance of <see cref="Alarm"/></returns>
-        public static Warn New(string code, IProperty source, string message, ICondition firingCondition)
-            => new Warn(code, source, message, firingCondition);
+        /// <param name="firingCondition">The <see cref="ICondition"/> that will cause the <see cref="Warn"/> to fire</param>
+        /// <returns>The created new instance of <see cref="Warn"/></returns>
+        public static Warn New(string code, string message, ICondition firingCondition, IProperty source = null)
+            => new Warn(code, message, source, firingCondition);
 
         #endregion Factory methods
     }

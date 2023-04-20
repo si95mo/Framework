@@ -33,23 +33,23 @@ namespace DiagnosticMessages
         /// Create a new instance of <see cref="Alarm"/>
         /// </summary>
         /// <param name="code">The code</param>
-        /// <param name="sourceCode">The source code</param>
         /// <param name="message">The message</param>
+        /// <param name="sourceCode">The source code</param>
         /// <param name="firingCondition">The <see cref="ICondition"/> that will cause the <see cref="Alarm"/> to fire</param>
-        public DiagnosticMessage(string code, string sourceCode, string message, ICondition firingCondition = null)
+        public DiagnosticMessage(string code, string message, string sourceCode = null, ICondition firingCondition = null)
         {
             Initialize(code, message, firingCondition);
-            Source = ServiceBroker.Get<IProperty>().Get(sourceCode);
+            Source = sourceCode != null ? ServiceBroker.Get<IProperty>().Get(sourceCode) : null;
         }
 
         /// <summary>
         /// Create a new instance of <see cref="Alarm"/>
         /// </summary>
         /// <param name="code">The code</param>
-        /// <param name="source">The source <see cref="IProperty"/></param>
         /// <param name="message">The message</param>
+        /// <param name="source">The source <see cref="IProperty"/></param>
         /// <param name="firingCondition">The <see cref="ICondition"/> that will cause the <see cref="Alarm"/> to fire</param>
-        public DiagnosticMessage(string code, IProperty source, string message, ICondition firingCondition = null)
+        public DiagnosticMessage(string code, string message, IProperty source = null, ICondition firingCondition = null)
         {
             Initialize(code, message, firingCondition);
             Source = source;
