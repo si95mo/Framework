@@ -11,12 +11,7 @@ namespace Hardware.Resources.Tests
     public class LibnodaveResourceTestClass
     {
         private LibnodaveResource resource;
-
-        private LibnodaveDigitalInput digitalInput;
-        private LibnodaveDigitalOutput digitalOutput;
-
         private LibnodaveAnalogInput analogInput;
-        private LibnodaveAnalogOutput analogOutput;
 
         [OneTimeSetUp]
         [Timeout(10000)]

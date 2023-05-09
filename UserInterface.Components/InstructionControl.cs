@@ -54,15 +54,16 @@ namespace UserInterface.Controls
             {
                 foreach (var p in pars.ToList())
                 {
-                    lblParam = new Label();
-                    lblParam.AutoSize = true;
-                    lblParam.Text = p.Code;
-                    lblParam.Location = new Point(
-                        lblMethodNamePlaceholder.Location.X + 10,
-                        lblMethodNamePlaceholder.Location.Y + 10
-                            + index++ * (lblMethodNamePlaceholder.Size.Height + controlLocationOffset)
-                    );
-                    lblParam.Size = lblMethodNamePlaceholder.Size;
+                    lblParam = new Label
+                    {
+                        AutoSize = true,
+                        Text = p.Code,
+                        Location = new Point(
+                            lblMethodNamePlaceholder.Location.X + 10,
+                            lblMethodNamePlaceholder.Location.Y + 10 + index++ * (lblMethodNamePlaceholder.Size.Height + controlLocationOffset)
+                        ),
+                        Size = lblMethodNamePlaceholder.Size
+                    };
 
                     if (
                         p.GetType() == typeof(NumericParameter) ||
@@ -70,11 +71,10 @@ namespace UserInterface.Controls
                         p.GetType() == typeof(TimeSpanParameter)
                     )
                     {
-                        var txtCtrl = new TextControl();
-                        txtCtrl.Location = new Point(
-                            lblInstructionName.Location.X,
-                            lblParam.Location.Y - 4
-                        );
+                        var txtCtrl = new TextControl
+                        {
+                            Location = new Point(lblInstructionName.Location.X, lblParam.Location.Y - 4)
+                        };
 
                         // AddElementToCollection(lblParam, txtCtrl);
                     }
@@ -82,24 +82,24 @@ namespace UserInterface.Controls
                     {
                         if (p.GetType() == typeof(BoolParameter))
                         {
-                            var diCtrl = new DigitalControl();
-                            diCtrl.Location = new Point(
-                                lblInstructionName.Location.X,
-                                lblParam.Location.Y - 4
-                            );
+                            var diCtrl = new DigitalControl
+                            {
+                                Location = new Point(lblInstructionName.Location.X, lblParam.Location.Y - 4)
+                            };
 
                             AddElementToCollection(lblParam, diCtrl);
                         }
                         else
                         {
-                            var cbxCtrl = new ComboControl();
-                            cbxCtrl.Location = new Point(
-                                lblInstructionName.Location.X,
-                                lblParam.Location.Y - 4
-                            );
+                            var cbxCtrl = new ComboControl
+                            {
+                                Location = new Point(lblInstructionName.Location.X, lblParam.Location.Y - 4)
+                            };
 
-                            BindingSource bs = new BindingSource();
-                            bs.DataSource = Enum.GetValues(p.Type);
+                            BindingSource bs = new BindingSource
+                            {
+                                DataSource = Enum.GetValues(p.Type)
+                            };
                             cbxCtrl.DataSource = bs;
 
                             AddElementToCollection(lblParam, cbxCtrl);
@@ -124,7 +124,6 @@ namespace UserInterface.Controls
 
         /// <summary>
         /// Add a <see cref="Instruction"/> to the <see cref="InstructionScheduler"/>
-        /// <see cref="ActionQueue{T}"/>
         /// </summary>
         /// <param name="sender">The sender</param>
         /// <param name="e">The <see cref="EventArgs"/></param>

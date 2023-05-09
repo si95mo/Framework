@@ -8,7 +8,9 @@ using System;
 namespace DiagnosticMessages
 {
     /// <summary>
-    /// Implement the <see cref="IDiagnosticMessage"/> interface as an alarm
+    /// Implement the <see cref="IDiagnosticMessage"/> interface as an alarm. <br/>
+    /// If <see cref="DiagnosticMessage.Source"/> is not <see langword="null"/>, in the fire event 
+    /// the relative <c>Stop</c> method will be called in case of a <see cref="IResource"/> or <see cref="IDevice"/>
     /// </summary>
     public class Alarm : DiagnosticMessage
     {
@@ -44,9 +46,6 @@ namespace DiagnosticMessages
 
         public override void Fire()
         {
-            FiringTime = DateTime.Now;
-            OnFireAction?.Invoke();
-
             // Stop the source if possible
             if (Source != null)
             {
@@ -56,8 +55,7 @@ namespace DiagnosticMessages
                     (Source as IDevice).Stop();
             }
 
-            Logger.Warn($"Alarm fired. {Message}");
-            OnMessageFired(new FiredEventArgs(FiringTime, Message));
+            base.Fire();
         }
 
         #endregion IDiagnosticMessage implementation

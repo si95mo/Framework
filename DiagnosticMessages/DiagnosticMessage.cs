@@ -1,6 +1,7 @@
 ﻿using Core;
 using Core.Conditions;
 using Core.DataStructures;
+using Diagnostic;
 using System;
 
 namespace DiagnosticMessages
@@ -10,6 +11,11 @@ namespace DiagnosticMessages
     /// </summary>
     public class FiredEventArgs : EventArgs
     {
+        /// <summary>
+        /// The <see cref="DiagnosticMessage.Code"/>
+        /// </summary>
+        public string Code { get; private set; }
+
         /// <summary>
         /// The timestamp
         /// </summary>
@@ -23,17 +29,20 @@ namespace DiagnosticMessages
         /// <summary>
         /// Create a new instance of <see cref="FiredEventArgs"/>
         /// </summary>
+        /// <param name="code">The code</param>
         /// <param name="message">The message</param>
-        public FiredEventArgs(string message) : this(DateTime.Now, message)
+        public FiredEventArgs(string code, string message) : this(code, DateTime.Now, message)
         { }
 
         /// <summary>
         /// Create a new instance of <see cref="FiredEventArgs"/>
         /// </summary>
+        /// <param name="code">The code</param>
         /// <param name="timestamp">The timestamp</param>
         /// <param name="message">The message</param>
-        public FiredEventArgs(DateTime timestamp, string message)
+        public FiredEventArgs(string code, DateTime timestamp, string message)
         {
+            Code = code;
             Timestamp = timestamp;
             Message = message;
         }
@@ -93,7 +102,14 @@ namespace DiagnosticMessages
 
         #region IDiagnosticMessage implementation
 
-        public abstract void Fire();
+        public virtual void Fire()
+        {
+            FiringTime = DateTime.Now;
+            OnFireAction?.Invoke();
+
+            Logger.Warn($"Warn fired. {Message}");
+            OnMessageFired(new FiredEventArgs(Code, FiringTime, Message));
+        }
 
         public virtual void Reset()
         {

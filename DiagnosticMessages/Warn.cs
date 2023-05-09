@@ -38,11 +38,7 @@ namespace DiagnosticMessages
 
         public override void Fire()
         {
-            FiringTime = DateTime.Now;
-            OnFireAction?.Invoke();
-
-            Logger.Warn($"Warn fired. {Message}");
-            OnMessageFired(new FiredEventArgs(FiringTime, Message));
+            base.Fire();
         }
 
         #endregion IDiagnosticMessage implementation

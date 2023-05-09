@@ -58,7 +58,7 @@ namespace Tasks
             if (scheduler != null)
                 Scheduler = scheduler;
             else
-                Scheduler = (Scheduler)ServiceBroker.GetService<SchedulersService>().GetDefaultScheduler();
+                Scheduler = (Scheduler)ServiceBroker.GetService<SchedulersService>().DefaultScheduler;
 
             Status = new EnumParameter<TaskStatus>($"{Code}.{nameof(Status)}", TaskStatus.Created);
             TokenSource = new CancellationTokenSource();

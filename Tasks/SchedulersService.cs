@@ -1,5 +1,4 @@
 ﻿using Core.DataStructures;
-using System.Linq;
 
 namespace Tasks
 {
@@ -9,34 +8,37 @@ namespace Tasks
     public class SchedulersService : Service<IScheduler>
     {
         /// <summary>
+        /// The default <see cref="IScheduler"/>
+        /// </summary>
+        public IScheduler DefaultScheduler { get; private set; }
+
+        /// <summary>
         /// Create a new instance of <see cref="SchedulersService"/>
         /// </summary>
-        public SchedulersService() : base()
-        { }
+        /// <param name="maxDegreesOfParallelism">The maximum degrees of parallelism of the <see cref="DefaultScheduler"/></param>
+        public SchedulersService(int maxDegreesOfParallelism = 100) : base()
+        {
+            CreateDefaultScheduler(maxDegreesOfParallelism);
+        }
 
         /// <summary>
         /// Create a new instance of <see cref="SchedulersService"/>
         /// </summary>
         /// <param name="code">The code</param>
-        public SchedulersService(string code) : base(code)
-        { }
+        /// <param name="maxDegreesOfParallelism">The maximum degrees of parallelism of the <see cref="DefaultScheduler"/></param>
+        public SchedulersService(string code, int maxDegreesOfParallelism = 100) : base(code)
+        {
+            CreateDefaultScheduler(maxDegreesOfParallelism);
+        }
 
         /// <summary>
-        /// Get the default <see cref="IScheduler"/>
+        /// Create the <see cref="DefaultScheduler"/>
         /// </summary>
-        /// <returns>The default <see cref="IScheduler"/></returns>
-        public IScheduler GetDefaultScheduler()
+        /// <param name="maxDegreesOfParallelism">The maximum degrees of parallelism of the <see cref="DefaultScheduler"/></param>
+        private void CreateDefaultScheduler(int maxDegreesOfParallelism)
         {
-            IScheduler scheduler;
-            if (Subscribers.Count == 0) // If there are no subscribers
-            {
-                scheduler = new Scheduler(); // Create a new scheduler
-                Add(scheduler); // And add it
-            }
-            else
-                scheduler = (IScheduler)GetAll().ElementAt(0); // Else get the first scheduler that has subscribed
-
-            return scheduler;
+            DefaultScheduler = new Scheduler(maxDegreesOfParallelism);
+            Add(DefaultScheduler);
         }
     }
 }
