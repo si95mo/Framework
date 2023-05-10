@@ -18,9 +18,9 @@ namespace Diagnostic.Report
         public override async Task<bool> AddEntry(IReportEntry entry)
         {
             string text = entry.ToString();
-            bool succeded = await SaveEntryTextAsync($"{text}{Environment.NewLine}");
+            bool succeeded = await SaveEntryTextAsync($"{text}{Environment.NewLine}");
 
-            return succeded;
+            return succeeded;
         }
     }
 }

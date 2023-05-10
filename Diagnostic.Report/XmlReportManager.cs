@@ -27,9 +27,9 @@ namespace Diagnostic.Report
                 text = writer.ToString();
             }
 
-            bool succeded = await SaveEntryTextAsync(text);
+            bool succeeded = await SaveEntryTextAsync(text);
 
-            return succeded;
+            return succeeded;
         }
     }
 }

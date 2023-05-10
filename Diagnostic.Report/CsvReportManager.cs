@@ -28,9 +28,9 @@ namespace Diagnostic.Report
                 await SaveEntryTextAsync($"Timestamp{Separator}Value{Separator}Description{Separator}Notes{Environment.NewLine}");
 
             string text = $"{entry.Timestamp}{Separator}{entry.Value}{Separator}{entry.Description}{Separator}{entry.Notes}{Environment.NewLine}";
-            bool succeded = await SaveEntryTextAsync(text);
+            bool succeeded = await SaveEntryTextAsync(text);
 
-            return succeded;
+            return succeeded;
         }
     }
 }

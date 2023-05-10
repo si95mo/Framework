@@ -38,9 +38,9 @@ namespace Diagnostic.Report
 
             string text = entries.ToHtmlTable(tableStyle, headerStyle, rowStyle, alternateRowStyle);
             // Always overwrite the report file and recreate the table (the tags must be added at the end of the table)
-            bool succeded = await SaveEntryTextAsync(text, SaveMode.Overwrite);
+            bool succeeded = await SaveEntryTextAsync(text, SaveMode.Overwrite);
 
-            return succeded;
+            return succeeded;
         }
     }
 }
