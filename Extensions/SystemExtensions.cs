@@ -4,6 +4,7 @@ using OX.Copyable;
 using System;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using System.Text.RegularExpressions;
 
 namespace Extensions
 {
@@ -96,5 +97,13 @@ namespace Extensions
 
             return isNumeric;
         }
+
+        /// <summary>
+        /// Convert a pascal case <see cref="string"/> to an sentence string (i.e. PascalCase -> Pascal case)
+        /// </summary>
+        /// <param name="source">The <see cref="string"/> to convert</param>
+        /// <returns>The converted <see cref="string"/></returns>
+        public static string FromPascalToSentenceCase(this string source)
+            => Regex.Replace(source, "[a-z][A-Z]", (x) => $"{x.Value[0]} {char.ToLower(x.Value[1])}");
     }
 }
