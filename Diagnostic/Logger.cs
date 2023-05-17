@@ -125,13 +125,7 @@ namespace Diagnostic
 
         #region Private variables
 
-        private static string path = "log.txt";
         private static Exception lastException = null;
-
-        private static Severity minimumSeverityLevel = Severity.Debug;
-
-        private static bool initialized = false;
-
         private static readonly SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
 
         #endregion Private variables
@@ -145,18 +139,18 @@ namespace Diagnostic
         /// Please note that the default minimum level
         /// is <see cref="Severity.Debug"/>
         /// </remarks>
-        public static Severity MinimumSeverityLevel => minimumSeverityLevel;
+        public static Severity MinimumSeverityLevel { get; private set; } = Severity.Debug;
 
         /// <summary>
         /// The log file path
         /// </summary>
-        public static string Path => path;
+        public static string Path { get; private set; } = "log.txt";
 
         /// <summary>
         /// Define whether the <see cref="Logger"/> has been initialized by calling <see cref="Initialize(string, int)"/> -
         /// <see langword="true"/> - or not - <see langword="false"/>
         /// </summary>
-        public static bool Initialized => initialized;
+        public static bool Initialized { get; private set; } = false;
 
         #endregion Public properties
 
@@ -177,12 +171,12 @@ namespace Diagnostic
             DeleteOldLogs(logPath, daysOfLogsToKeepSaved);
 
             string now = DateTime.Now.ToString("yyyy-MM-dd");
-            path = logPath + $"{now}.log";
+            Path = logPath + $"{now}.log";
             IoUtility.CreateDirectoryIfNotExists(logPath);
 
             string data = null;
-            if (File.Exists(path))
-                data = Read(path);
+            if (File.Exists(Path))
+                data = Read(Path);
 
             if (data == null || data?.CompareTo("") == 0)
             {
@@ -217,7 +211,7 @@ namespace Diagnostic
             else
                 AppendText(DailySeparator);
 
-            initialized = true;
+            Initialized = true;
         }
 
         /// <summary>
@@ -232,15 +226,15 @@ namespace Diagnostic
         /// <param name="level">The <see cref="Severity"/> level</param>
         public static void SetMinimumSeverityLevel(Severity level)
         {
-            Severity oldSeverity = minimumSeverityLevel;
+            Severity oldSeverity = MinimumSeverityLevel;
 
             if ((int)level < (int)Severity.Warn)
-                minimumSeverityLevel = level;
+                MinimumSeverityLevel = level;
             else
-                minimumSeverityLevel = Severity.Warn;
+                MinimumSeverityLevel = Severity.Warn;
 
-            if (oldSeverity != minimumSeverityLevel)
-                Warn($"Minimum level set from {GetReadableSeverityAsString(oldSeverity)} to {GetReadableSeverityAsString(minimumSeverityLevel)}.");
+            if (oldSeverity != MinimumSeverityLevel)
+                Warn($"Minimum level set from {GetReadableSeverityAsString(oldSeverity)} to {GetReadableSeverityAsString(MinimumSeverityLevel)}.");
         }
 
         #region Synchronous logging methods
@@ -619,7 +613,7 @@ namespace Diagnostic
         /// </summary>
         /// <param name="text">The text to append</param>
         private static void AppendText(string text)
-            => Save(text, path, SaveMode.Append);
+            => Save(text, Path, SaveMode.Append);
 
         /// <summary>
         /// Append text on the log file asynchronously. See <see cref="FileHandler.SaveAsync(string, string, SaveMode)"/>
@@ -632,7 +626,7 @@ namespace Diagnostic
             if (hasToWait)
                 await semaphore.WaitAsync();
 
-            await SaveAsync(text, path, SaveMode.Append);
+            await SaveAsync(text, Path, SaveMode.Append);
 
             if (hasToWait)
                 semaphore.Release();
@@ -763,7 +757,7 @@ namespace Diagnostic
         /// <returns> <see langword="true"/> if the level to test is higher (or equals) to <see cref="MinimumSeverityLevel"/>, <see langword="false"/> otherwise </returns>
         private static bool HasHigherSeverityLevel(Severity level)
         {
-            bool isHigher = (int)minimumSeverityLevel <= (int)level;
+            bool isHigher = (int)MinimumSeverityLevel <= (int)level;
             return isHigher;
         }
 
