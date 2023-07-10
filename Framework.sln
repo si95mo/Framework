@@ -87,7 +87,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database.Tests", "Database.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rest", "Rest\Rest.csproj", "{19F7A860-0B47-4D98-A429-26521BB990A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Configuration", "Configuration\Configuration.csproj", "{EE43F7DF-EF10-4293-86A5-CD2069CBCFAF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Configurations", "Configurations\Configurations.csproj", "{EE43F7DF-EF10-4293-86A5-CD2069CBCFAF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{09E339FE-BC22-453C-B845-2044A68EB16D}"
 	ProjectSection(SolutionItems) = preProject
@@ -170,7 +170,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ui", "ui", "{74277CD5-E06B-
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "io", "io", "{9A397340-330A-45D7-B262-9C1CC03ABE50}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Configuration.Tests", "Configuration.Tests\Configuration.Tests.csproj", "{9448BA7C-D04A-4DAD-91E6-3E8A77AD504F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Configurations.Tests", "Configurations.Tests\Configurations.Tests.csproj", "{9448BA7C-D04A-4DAD-91E6-3E8A77AD504F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "db", "db", "{253BC509-7FA3-40EC-B528-732F961C55F9}"
 EndProject

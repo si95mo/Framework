@@ -13,6 +13,8 @@ namespace UserInterface.Controls
         private IChannel channel;
         private Panel parent;
 
+        private bool initialized = false;
+
         /// <summary>
         /// Create a new instance of <see cref="ChannelControl"/>
         /// </summary>
@@ -67,7 +69,14 @@ namespace UserInterface.Controls
                     type = "S";
                     break;
             }
+
             lblType.Text = type;
+
+            lblTags.Text = string.Empty;
+            channel.Tags.ForEach((x) => lblTags.Text += $"{x} ");
+            lblTags.Text = lblTags.Text.Trim();
+
+            initialized = true;
         }
 
         private void ChannelControl_Load(object sender, EventArgs e)
@@ -91,6 +100,34 @@ namespace UserInterface.Controls
             }
             else
                 BeginInvoke(new Action(() => Channel_ValueChanged(sender, e)));
+        }
+
+        protected override void OnResize(EventArgs e)
+        {
+            if (initialized)
+            {
+                base.OnResize(e);
+
+                lblTimestamp.Location = new Point(Size.Width - lblTimestamp.Size.Width - 16, lblTimestamp.Location.Y);
+
+                pnlTags.Location = new Point(lblTimestamp.Location.X - pnlTags.Size.Width - 2, lblTimestamp.Location.Y);
+                //pnlTags.Size = new Size(pnlTags.Size.Width + offset - 8, pnlTags.Size.Height);
+
+                lblValue.Location = new Point(pnlTags.Location.X - pnlTags.Size.Width - 2, lblTimestamp.Location.Y);
+                //lblValue.Size = new Size(lblValue.Size.Width + offset - 8, lblValue.Size.Height);
+
+                lblType.Location = new Point(lblValue.Location.X - lblValue.Size.Width - 2, lblTimestamp.Location.Y);
+                //lblType.Size = new Size(lblType.Size.Width + offset - 8, lblType.Size.Height);
+
+                lblCode.Location = new Point(2, lblTimestamp.Location.Y);
+                //lblCode.Size = new Size(lblCode.Size.Width + offset - 8, lblCode.Size.Height);
+
+                lblDescription.Location = new Point(lblCode.Location.X + lblCode.Size.Width + 2, lblTimestamp.Location.Y);
+                int offset = lblType.Location.X - lblCode.Size.Width - lblCode.Location.X;
+                lblDescription.Size = new Size(offset, lblDescription.Size.Height);
+            }
+
+            initialized = false;
         }
 
         /// <summary>

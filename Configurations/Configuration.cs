@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Configuration
+namespace Configurations
 {
     /// <summary>
     /// Handle the configuration file in memory

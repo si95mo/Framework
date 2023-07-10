@@ -97,6 +97,7 @@ namespace UserInterface.Controls
             this.Controls.Add(this.lblResourceFailure);
             this.Controls.Add(this.lblResourceStatus);
             this.Controls.Add(this.lblResourceCode);
+            this.MaximumSize = new System.Drawing.Size(1920, 32);
             this.Name = "ResourceControl";
             this.Size = new System.Drawing.Size(1144, 32);
             this.ResumeLayout(false);

@@ -23,6 +23,7 @@ namespace Hardware.Snap7
             NumericRepresentation numericRepresentation, bool reverse = false, string measureUnit = "", string format = "0.000")
             : base(code, memoryAddress, dataBlock, resource, representationBytes, numericRepresentation, reverse, measureUnit, format)
         {
+            ChannelType = ChannelType.AnalogOutput;
             ValueChanged += Snap7AnalogOutput_ValueChanged;
         }
 

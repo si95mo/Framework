@@ -22,6 +22,7 @@ namespace Hardware.Modbus
             string measureUnit = "", string format = "0.000", NumericRepresentation representation = NumericRepresentation.Single, bool reverse = false)
             : base(code, resource, address, function, measureUnit, format, representation, reverse)
         {
+            ChannelType = ChannelType.AnalogOutput;
             ValueChanged += ModbusAnalogOutput_ValueChanged;
         }
 

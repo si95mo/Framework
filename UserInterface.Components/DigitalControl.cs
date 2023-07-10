@@ -2,6 +2,7 @@
 using Core.Parameters;
 using System;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace UserInterface.Controls
 {
@@ -47,7 +48,8 @@ namespace UserInterface.Controls
         {
             InitializeComponent();
 
-            value = false;
+            Value = false;
+            UpdatePosition();
 
             btnValue.BackColor = Colors.TextColor;
             btnValue.ForeColor = Colors.Grey;
@@ -62,9 +64,10 @@ namespace UserInterface.Controls
         /// <param name="e">The <see cref="EventArgs"/></param>
         private void Control_Cick(object sender, EventArgs e)
         {
-            UpdatePosition();
             // Trigger the value changed event
             Value = !(bool)value;
+
+            UpdatePosition();
         }
 
         /// <summary>
@@ -75,23 +78,23 @@ namespace UserInterface.Controls
             Point point;
             string text;
 
-            if (btnValue.Location.X == -1) // False ->
+            if ((bool)Value)
             {
                 point = new Point(panel.Size.Width - btnValue.Size.Width, -1);
-                text = True;
+                //text = True;
                 panel.BackColor = Colors.Green;
                 btnValue.ForeColor = Colors.Green;
             }
             else
             {
                 point = new Point(-1, -1);
-                text = False;
+                //text = False;
                 panel.BackColor = Colors.Grey;
                 btnValue.ForeColor = Colors.Grey;
             }
 
             btnValue.Location = point;
-            btnValue.Text = text;
+            //btnValue.Text = text;
         }
 
         /// <summary>
@@ -106,20 +109,20 @@ namespace UserInterface.Controls
             if (value) // New value is true (from false)
             {
                 point = new Point(panel.Size.Width - btnValue.Size.Width, -1);
-                text = True;
+                //text = True;
                 panel.BackColor = Colors.Green;
                 btnValue.ForeColor = Colors.Green;
             }
             else // New value is false (from true)
             {
                 point = new Point(-1, -1);
-                text = False;
+                //text = False;
                 panel.BackColor = Colors.Grey;
                 btnValue.ForeColor = Colors.Grey;
             }
 
             btnValue.Location = point;
-            btnValue.Text = text;
+            //btnValue.Text = text;
         }
 
         /// <summary>
@@ -172,5 +175,13 @@ namespace UserInterface.Controls
 
         private void Parameter_ValueChanged(object sender, ValueChangedEventArgs e)
             => UpdatePosition(e.NewValueAsBool);
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            panel.Size = Size;
+            btnValue.Size = new Size(Size.Width / 2, Size.Height);
+
+            base.OnPaint(e);
+        }
     }
 }

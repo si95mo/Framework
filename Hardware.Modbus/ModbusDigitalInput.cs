@@ -46,6 +46,8 @@ namespace Hardware.Modbus
                     await Task.Delay(pollingInterval);
                 }
             };
+
+            ChannelType = ChannelType.DigitalInput;
         }
 
         /// <summary>

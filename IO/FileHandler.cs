@@ -52,17 +52,25 @@ namespace IO
                 switch (mode)
                 {
                     case SaveMode.Overwrite:
-                        using (sw = new StreamWriter(path, false, Encoding.UTF8))
-                            sw.WriteLine(text);
+                        try
+                        {
+                            using (sw = new StreamWriter(path, false, Encoding.UTF8))
+                                sw.WriteLine(text);
+                        }
+                        catch { }
                         break;
 
                     case SaveMode.Append:
-                        using (sw = new StreamWriter(path, true, Encoding.UTF8))
-                            sw.WriteLine(text);
+                        try
+                        {
+                            using (sw = new StreamWriter(path, true, Encoding.UTF8))
+                                sw.WriteLine(text);
+                        }
+                        catch { }
                         break;
                 }
 
-                sw.Close();
+                sw?.Close();
             }
         }
 

@@ -92,6 +92,7 @@ namespace Hardware.Modbus
             this.function = function;
             this.representation = representation;
 
+            Tags.Add("Modbus");
             resource.Channels.Add(this);
         }
     }

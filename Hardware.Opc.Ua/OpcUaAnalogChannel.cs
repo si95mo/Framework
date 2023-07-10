@@ -27,6 +27,7 @@
             this.namespaceConfiguration = namespaceConfiguration;
             this.resource = resource;
 
+            Tags.Add("OPC-UA");
             resource.Channels.Add(this);
         }
 

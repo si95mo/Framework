@@ -16,6 +16,11 @@ namespace UserInterface.Forms
         public CustomForm()
         {
             InitializeComponent();
+
+            Rectangle workingArea = Screen.FromHandle(Handle).WorkingArea;
+
+            MaximizedBounds = new Rectangle(0, 0, workingArea.Width, workingArea.Height);
+            WindowState = FormWindowState.Maximized;
         }
 
         // Mouse drag variables
@@ -52,11 +57,19 @@ namespace UserInterface.Forms
         private void Form_Load(object sender, EventArgs e)
         {
             lblFormName.Text = Text;
-            controlBox.Location = new Point(
-                Size.Width - controlBox.Size.Width - 4,
-                controlBox.Location.Y
-            );
+            controlBox.Location = new Point(Size.Width - controlBox.Size.Width - 4, controlBox.Location.Y);
             borderUpPanel.Size = new Size(Size.Width + 2, borderUpPanel.Size.Height);
+        }
+
+        /// <summary>
+        /// Adjust the <see cref="CustomForm"/> size. Should be called inside the constructor of the derived classes
+        /// </summary>
+        protected void AdjustSize()
+        {
+            Rectangle workingArea = Screen.FromHandle(Handle).WorkingArea;
+
+            MaximizedBounds = new Rectangle(0, 0, workingArea.Width, workingArea.Height);
+            WindowState = FormWindowState.Maximized;
         }
 
         /// <summary>

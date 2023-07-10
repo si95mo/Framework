@@ -17,6 +17,7 @@ namespace Hardware.Modbus
         public ModbusDigitalOutput(string code, IResource resource, ushort address, ModbusFunction function = ModbusFunction.WriteSingleCoil)
             : base(code, resource, address, function, representation: NumericRepresentation.Boolean)
         {
+            ChannelType = ChannelType.DigitalOutput;
             ValueChanged += ModbusDigitalOutput_ValueChanged;
         }
 

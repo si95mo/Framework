@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Configurations">
+      <HintPath>..\Configurations\bin\Debug\Configurations.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeAnalysis, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeAnalysis.Common.4.5.0\lib\netstandard2.0\Microsoft.CodeAnalysis.dll</HintPath>
     </Reference>
@@ -100,10 +103,6 @@
     <Compile Include="ScriptsService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Configuration\Configuration.csproj">
-      <Project>{EE43F7DF-EF10-4293-86A5-CD2069CBCFAF}</Project>
-      <Name>Configuration</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Core.Conditions\Core.Conditions.csproj">
       <Project>{694CD750-5601-4C5F-A881-3B330E4CAF43}</Project>
       <Name>Core.Conditions</Name>

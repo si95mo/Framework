@@ -50,6 +50,8 @@ namespace Hardware.Snap7
                 }
             };
             pollingAction();
+
+            ChannelType = ChannelType.DigitalInput;
         }
 
         /// <summary>

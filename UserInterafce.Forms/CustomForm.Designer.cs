@@ -76,10 +76,10 @@ namespace UserInterface.Forms
             // borderUpPanel
             // 
             this.borderUpPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(220)))), ((int)(((byte)(4)))));
-            this.borderUpPanel.Location = new System.Drawing.Point(-2, -2);
+            this.borderUpPanel.Location = new System.Drawing.Point(0, 0);
             this.borderUpPanel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.borderUpPanel.Name = "borderUpPanel";
-            this.borderUpPanel.Size = new System.Drawing.Size(1920, 15);
+            this.borderUpPanel.Size = new System.Drawing.Size(400, 13);
             this.borderUpPanel.TabIndex = 11;
             // 
             // CustomForm

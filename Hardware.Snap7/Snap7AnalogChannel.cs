@@ -69,6 +69,8 @@ namespace Hardware.Snap7
             this.reverse = reverse;
 
             this.resource = resource;
+
+            Tags.Add("S7");
             resource.Channels.Add(this);
         }
 

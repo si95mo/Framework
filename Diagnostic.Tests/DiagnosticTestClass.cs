@@ -13,10 +13,7 @@ namespace Diagnostic.Tests
         [OneTimeSetUp]
         public void Setup()
         {
-            string path = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
-                @"test_results//test_logs//"
-            );
+            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), @"test_results//test_logs//");
 
             Logger.Initialize(path);
             LogReader.StartRead();

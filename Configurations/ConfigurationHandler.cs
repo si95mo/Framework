@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Web.Script.Serialization;
 
-namespace Configuration
+namespace Configurations
 {
     /// <summary>
     /// Handle the configuration file read operations

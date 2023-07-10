@@ -104,6 +104,7 @@ namespace Hardware.Modbus
             this.representation = representation;
             this.reverse = reverse;
 
+            Tags.Add("Modbus");
             resource.Channels.Add(this);
         }
     }

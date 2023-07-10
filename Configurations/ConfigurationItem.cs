@@ -1,4 +1,4 @@
-﻿namespace Configuration
+﻿namespace Configurations
 {
     /// <summary>
     /// Define a configuration file item

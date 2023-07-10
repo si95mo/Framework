@@ -35,10 +35,13 @@ namespace UserInterface.Controls
             this.lblTimestamp = new UserInterface.Controls.LabelControl();
             this.lblValue = new UserInterface.Controls.LabelControl();
             this.lblCode = new UserInterface.Controls.LabelControl();
+            this.lblTags = new UserInterface.Controls.LabelControl();
+            this.pnlTags.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlTags
             // 
+            this.pnlTags.Controls.Add(this.lblTags);
             this.pnlTags.Location = new System.Drawing.Point(788, 6);
             this.pnlTags.Name = "pnlTags";
             this.pnlTags.Size = new System.Drawing.Size(198, 20);
@@ -95,6 +98,16 @@ namespace UserInterface.Controls
             this.lblCode.TabIndex = 2;
             this.lblCode.Text = "Channel code";
             // 
+            // lblTags
+            // 
+            this.lblTags.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
+            this.lblTags.Location = new System.Drawing.Point(3, 0);
+            this.lblTags.Name = "lblTags";
+            this.lblTags.Size = new System.Drawing.Size(50, 20);
+            this.lblTags.TabIndex = 5;
+            this.lblTags.Text = "MSAI";
+            this.lblTags.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // ChannelControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -105,9 +118,11 @@ namespace UserInterface.Controls
             this.Controls.Add(this.lblTimestamp);
             this.Controls.Add(this.lblValue);
             this.Controls.Add(this.lblCode);
+            this.MaximumSize = new System.Drawing.Size(1920, 32);
             this.Name = "ChannelControl";
             this.Size = new System.Drawing.Size(1144, 32);
             this.Load += new System.EventHandler(this.ChannelControl_Load);
+            this.pnlTags.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -121,5 +136,6 @@ namespace UserInterface.Controls
         private LabelControl lblType;
         private System.Windows.Forms.Panel pnlTags;
         private LabelControl lblDescription;
+        private LabelControl lblTags;
     }
 }

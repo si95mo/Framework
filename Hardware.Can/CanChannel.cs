@@ -97,6 +97,7 @@ namespace Hardware.Can
             data = new byte[8];
             canFrame = new CanFrame(canId, data);
 
+            Tags.Add("CAN");
             resource.Channels.Add(this);
         }
 

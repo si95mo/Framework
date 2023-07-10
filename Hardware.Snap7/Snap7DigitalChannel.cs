@@ -55,6 +55,8 @@ namespace Hardware.Snap7
             representationBytes = RepresentationBytes.One;
 
             this.resource = resource;
+
+            Tags.Add("S7");
             resource.Channels.Add(this);
         }
 

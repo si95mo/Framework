@@ -22,7 +22,7 @@ namespace UserInterface.Controls
         private readonly ToolTip tip;
         private readonly Panel parent;
 
-        private readonly bool initialized = false;
+        private bool initialized = false;
 
         /// <summary>
         /// Create a new instance of <see cref="ResourceControl"/>
@@ -130,7 +130,7 @@ namespace UserInterface.Controls
 
                     case ResourceStatus.Starting:
                         btnRestartResource.Image = Resources.Stop;
-                        BackColor = notStopped;
+                        BackColor = notExecuting;
                         btnRestartResource.FlatAppearance.BorderColor = BackColor;
                         break;
 
@@ -180,25 +180,14 @@ namespace UserInterface.Controls
 
         protected override void OnResize(EventArgs e)
         {
-            if (initialized)
+            if (initialized && Size.Width <= 1920)
             {
                 base.OnResize(e);
                 int offset = Size.Width - btnRestartResource.Size.Width - btnRestartResource.Location.X;
 
-                btnRestartResource.Location = new Point(
-                    Size.Width - btnRestartResource.Size.Width - 2,
-                    btnRestartResource.Location.Y
-                );
-
-                lblFailureTimestamp.Location = new Point(
-                    btnRestartResource.Location.X - lblFailureTimestamp.Size.Width - 2,
-                    lblFailureTimestamp.Location.Y
-                );
-
-                lblResourceFailure.Size = new Size(
-                    lblResourceFailure.Size.Width + offset - 8,
-                    lblResourceFailure.Size.Height
-                );
+                btnRestartResource.Location = new Point(Size.Width - btnRestartResource.Size.Width - 2, btnRestartResource.Location.Y);
+                lblFailureTimestamp.Location = new Point(btnRestartResource.Location.X - lblFailureTimestamp.Size.Width - 2, lblFailureTimestamp.Location.Y);
+                lblResourceFailure.Size = new Size(lblResourceFailure.Size.Width + offset - 8, lblResourceFailure.Size.Height);
             }
         }
 

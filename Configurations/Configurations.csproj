@@ -7,8 +7,8 @@
     <ProjectGuid>{EE43F7DF-EF10-4293-86A5-CD2069CBCFAF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Configuration</RootNamespace>
-    <AssemblyName>Configuration</AssemblyName>
+    <RootNamespace>Configurations</RootNamespace>
+    <AssemblyName>Configurations</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -21,7 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Configuration.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\Configurations.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>

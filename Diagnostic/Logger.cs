@@ -144,7 +144,8 @@ namespace Diagnostic
         /// <summary>
         /// The log file path
         /// </summary>
-        public static string Path { get; private set; } = "log.txt";
+        public static string Path { get; private set; } = "log.log";
+        public static string ErrorsPath { get; private set; } = "errors.log";
 
         /// <summary>
         /// Define whether the <see cref="Logger"/> has been initialized by calling <see cref="Initialize(string, int)"/> -
@@ -170,46 +171,18 @@ namespace Diagnostic
         {
             DeleteOldLogs(logPath, daysOfLogsToKeepSaved);
 
+            string errorsPath = System.IO.Path.Combine(logPath, "errors\\");
+            DeleteOldLogs(errorsPath, daysOfLogsToKeepSaved);
+
             string now = DateTime.Now.ToString("yyyy-MM-dd");
             Path = logPath + $"{now}.log";
             IoUtility.CreateDirectoryIfNotExists(logPath);
 
-            string data = null;
-            if (File.Exists(Path))
-                data = Read(Path);
+            ErrorsPath = errorsPath + $"{now}.log";
+            IoUtility.CreateDirectoryIfNotExists(errorsPath);
 
-            if (data == null || data?.CompareTo("") == 0)
-            {
-                string header = $"UTC time: {GetUtcDateTime()} - Application: {AppDomain.CurrentDomain.FriendlyName} - User: {Environment.UserName}";
-
-                AppendText(header);
-                AppendText(DailySeparator);
-
-                string lineTimestamp = "", lineType = "", lineLogEntryDescription = "";
-                for (int i = 0; i <= EntryDescriptionLength; i++)
-                {
-                    if (i <= LineTypeLength)
-                        lineType += "*";
-
-                    if (i <= LineTimestampLength)
-                        lineTimestamp += "*";
-
-                    lineLogEntryDescription += "*";
-                }
-
-                // 23 = LINE_TIMESTAMP_LENGTH
-                // 5  = LINE_TYPE_LENGTH - 1
-                // 70 = ENTRY_DESCRIPTION_LENGTH
-                header = string.Format("{0, 23}|{1, 5}|{2, 70}", lineTimestamp, lineType, lineLogEntryDescription);
-                header += Environment.NewLine;
-                header += string.Format("{0, 23} | {1, 5} | {2, 40}", "TIMESTAMP", "TYPE", "LOG ENTRY DESCRIPTION");
-                header += Environment.NewLine;
-                header += string.Format("{0, 23}|{1, 5}|{2, 70}", lineTimestamp, lineType, lineLogEntryDescription);
-
-                AppendText(header);
-            }
-            else
-                AppendText(DailySeparator);
+            InitializeFile(Path);
+            InitializeFile(ErrorsPath);
 
             Initialized = true;
         }
@@ -251,7 +224,10 @@ namespace Diagnostic
             if (HasHigherSeverityLevel(severity))
             {
                 string log = BuildLogEntry(text, severity);
-                AppendText(log);
+                AppendText(log, Path);
+
+                if (severity == Severity.Error || severity == Severity.Fatal)
+                    AppendText(log, ErrorsPath);
             }
         }
 
@@ -271,7 +247,8 @@ namespace Diagnostic
             if (!alreadyLogged || !IsSameExceptionAsTheLast(ex))
             {
                 ExceptionEntry entry = BuildLogEntry(ex);
-                AppendText(entry);
+                AppendText(entry, Path);
+                AppendText(entry, ErrorsPath);
             }
         }
 
@@ -358,7 +335,10 @@ namespace Diagnostic
             if (HasHigherSeverityLevel(severity))
             {
                 string log = BuildLogEntry(text, severity) + Environment.NewLine;
-                await AppendTextAsync(log, hasToWait: true);
+                await AppendTextAsync(log, Path, hasToWait: true);
+
+                if (severity == Severity.Error || severity == Severity.Fatal)
+                    await AppendTextAsync(log, ErrorsPath, hasToWait: true);
             }
         }
 
@@ -379,7 +359,8 @@ namespace Diagnostic
             if (!alreadyLogged || !IsSameExceptionAsTheLast(ex))
             {
                 ExceptionEntry entry = BuildLogEntry(ex);
-                await AppendTextAsync(entry);
+                await AppendTextAsync(entry, Path);
+                await AppendTextAsync(entry, ErrorsPath);
             }
         }
 
@@ -456,6 +437,50 @@ namespace Diagnostic
         #endregion Public methods
 
         #region Helper methods
+
+        /// <summary>
+        /// Initialize the file on <see cref="Initialize(string, int)"/>
+        /// </summary>
+        /// <param name="path">The path of the log file</param>
+        private static void InitializeFile(string path)
+        {
+            string data = null;
+            if (File.Exists(path))
+                data = Read(path);
+
+            if (data == null || data?.CompareTo("") == 0)
+            {
+                string header = $"UTC time: {GetUtcDateTime()} - Application: {AppDomain.CurrentDomain.FriendlyName} - User: {Environment.UserName}";
+
+                AppendText(header, path);
+                AppendText(DailySeparator, path);
+
+                string lineTimestamp = "", lineType = "", lineLogEntryDescription = "";
+                for (int i = 0; i <= EntryDescriptionLength; i++)
+                {
+                    if (i <= LineTypeLength)
+                        lineType += "*";
+
+                    if (i <= LineTimestampLength)
+                        lineTimestamp += "*";
+
+                    lineLogEntryDescription += "*";
+                }
+
+                // 23 = LINE_TIMESTAMP_LENGTH
+                // 5  = LINE_TYPE_LENGTH - 1
+                // 70 = ENTRY_DESCRIPTION_LENGTH
+                header = string.Format("{0, 23}|{1, 5}|{2, 70}", lineTimestamp, lineType, lineLogEntryDescription);
+                header += Environment.NewLine;
+                header += string.Format("{0, 23} | {1, 5} | {2, 40}", "TIMESTAMP", "TYPE", "LOG ENTRY DESCRIPTION");
+                header += Environment.NewLine;
+                header += string.Format("{0, 23}|{1, 5}|{2, 70}", lineTimestamp, lineType, lineLogEntryDescription);
+
+                AppendText(header, path);
+            }
+            else
+                AppendText(DailySeparator, path);
+        }
 
         /// <summary>
         /// Delete the old logs if necessary
@@ -612,8 +637,8 @@ namespace Diagnostic
         /// Append text on the log file. See <see cref="FileHandler.Save(string, string, SaveMode)"/>.
         /// </summary>
         /// <param name="text">The text to append</param>
-        private static void AppendText(string text)
-            => Save(text, Path, SaveMode.Append);
+        private static void AppendText(string text, string path)
+            => Save(text, path, SaveMode.Append);
 
         /// <summary>
         /// Append text on the log file asynchronously. See <see cref="FileHandler.SaveAsync(string, string, SaveMode)"/>
@@ -621,12 +646,12 @@ namespace Diagnostic
         /// <param name="text">The text to append</param>
         /// <param name="hasToWait"><see langword="true"/> if the task has to wait for a semaphore, <see langword="false"/> otherwise</param>
         /// <returns>The async <see cref="Task"/></returns>
-        private static async Task AppendTextAsync(string text, bool hasToWait = true)
+        private static async Task AppendTextAsync(string text, string path, bool hasToWait = true)
         {
             if (hasToWait)
                 await semaphore.WaitAsync();
 
-            await SaveAsync(text, Path, SaveMode.Append);
+            await SaveAsync(text, path, SaveMode.Append);
 
             if (hasToWait)
                 semaphore.Release();
@@ -636,10 +661,10 @@ namespace Diagnostic
         /// Append an <see cref="ExceptionEntry"/> to the log file
         /// </summary>
         /// <param name="entry">The <see cref="ExceptionEntry"/> containing the element to append</param>
-        private static void AppendText(ExceptionEntry entry)
+        private static void AppendText(ExceptionEntry entry, string path)
         {
-            AppendText(entry.ToString());
-            AppendText(EntrySeparator + Environment.NewLine);
+            AppendText(entry.ToString(), path);
+            AppendText(EntrySeparator + Environment.NewLine, path);
         }
 
         /// <summary>
@@ -647,14 +672,14 @@ namespace Diagnostic
         /// </summary>
         /// <param name="entry">The <see cref="ExceptionEntry"/> containing the element to append</param>
         /// <returns>The async <see cref="Task"/></returns>
-        private static async Task AppendTextAsync(ExceptionEntry entry)
+        private static async Task AppendTextAsync(ExceptionEntry entry, string path)
         {
             // Here, hasToAwait has been set to false because the method enter the semaphore once and then release it
             // at the end of all the operations. So, there's no need to await another time inside the AppendTextAsync method!
             await semaphore.WaitAsync();
 
-            await AppendTextAsync(entry.ToString(), hasToWait: false);
-            await AppendTextAsync(EntrySeparator + Environment.NewLine, hasToWait: false);
+            await AppendTextAsync(entry.ToString(), path, hasToWait: false);
+            await AppendTextAsync(EntrySeparator + Environment.NewLine, path, hasToWait: false);
 
             semaphore.Release();
         }

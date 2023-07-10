@@ -52,6 +52,8 @@ namespace Hardware.Modbus
                     await Task.Delay(pollingInterval);
                 }
             };
+
+            ChannelType = ChannelType.AnalogInput;
         }
 
         /// <summary>

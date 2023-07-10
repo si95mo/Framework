@@ -13,17 +13,17 @@ namespace Core.Scripting
         /// <summary>
         /// The code
         /// </summary>
-        protected string code;
+        public string Code { get; protected set; }
 
         /// <summary>
-        /// The code
+        /// The message to show
         /// </summary>
-        public string Code => code;
+        public string Message { get; set; }
 
         /// <summary>
         /// The value as object
         /// </summary>
-        public object ValueAsObject { get => code; set => _ = value; }
+        public object ValueAsObject { get => Code; set => _ = value; }
 
         /// <summary>
         /// The <see cref="System.Type"/>
@@ -36,7 +36,9 @@ namespace Core.Scripting
         /// <param name="code">The code</param>
         protected Script(string code)
         {
-            this.code = code;
+            Code = code;
+            Message = string.Empty;
+
             ServiceBroker.Add<IScript>(this);
         }
 

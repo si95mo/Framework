@@ -15,6 +15,7 @@
         public Snap7DigitalOutput(string code, int memoryAddress, int dataBlock, IResource resource)
             : base(code, memoryAddress, dataBlock, resource)
         {
+            ChannelType = ChannelType.DigitalOutput;
             ValueChanged += Snap7DigitalOutput_ValueChanged;
         }
 

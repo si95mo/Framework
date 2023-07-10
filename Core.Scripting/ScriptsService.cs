@@ -1,4 +1,4 @@
-﻿using Configuration;
+﻿using Configurations;
 using Core.DataStructures;
 using System.IO;
 using System.Reflection;
@@ -39,7 +39,7 @@ namespace Core.Scripting
         private void ReadStartup(string configPath)
         {
             configPath = Path.Combine(configPath, CsxFileName);
-            Configuration.Configuration configuration = new Configuration.Configuration(path: configPath);
+            Configuration configuration = new Configuration(path: configPath);
 
             string csxPath;
             foreach (ConfigurationItem item in configuration.Items.Values)
