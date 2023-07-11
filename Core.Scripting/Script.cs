@@ -1,4 +1,5 @@
 ﻿using Core.DataStructures;
+using Diagnostic;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -39,7 +40,10 @@ namespace Core.Scripting
             Code = code;
             Message = string.Empty;
 
-            ServiceBroker.Add<IScript>(this);
+            if (ServiceBroker.CanProvide<ScriptsService>())
+                ServiceBroker.GetService<ScriptsService>().Add(this);
+            else
+                Logger.Error($"{nameof(ServiceBroker)} cannot provide {nameof(ScriptsService)}, unable to add the script with code {Code} to the repository");
         }
 
         /// <summary>

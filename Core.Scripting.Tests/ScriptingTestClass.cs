@@ -24,15 +24,11 @@ namespace Core.Scripting.Tests
             ScriptManager.Initialize();
         }
 
-        public void InitializeScript()
-        {
-            Test _ = new Test();
-        }
-
         [Test]
         public void TestScript()
         {
             ScriptManager.Run();
+            ScriptManager.Clear();
         }
     }
 }

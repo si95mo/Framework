@@ -10,7 +10,6 @@ namespace Core.Scripting
     /// </summary>
     public class ScriptsService : Service<IScript>
     {
-        private const string ClassKeyword = "class ";
         private const string CsxFileName = "startup.json";
 
         /// <summary>
