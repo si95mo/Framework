@@ -163,7 +163,9 @@ namespace Hardware
         public List<string> Tags { get; set; }
         public ICondition WriteEnable { get; set; }
         public ChannelType ChannelType { get; protected set; }
+        public bool ReadOnly => ChannelType == ChannelType.AnalogInput || ChannelType == ChannelType.AnalogInput || ChannelType == ChannelType.MultiSampleAnalogInput;
         public string Description { get; set; }
+        public string Symbolic { get; set; }
 
         #endregion IChannel implementation
 
@@ -205,6 +207,7 @@ namespace Hardware
             MeasureUnit = measureUnit;
             Format = format;
             Description = string.Empty;
+            Symbolic = string.Empty;
         }
 
         /// <summary>

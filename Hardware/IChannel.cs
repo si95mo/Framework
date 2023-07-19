@@ -57,9 +57,19 @@ namespace Hardware
         ChannelType ChannelType { get; }
 
         /// <summary>
+        /// The readonly option (<see langword="true"/> if an input, <see langword="false"/> otherwise)
+        /// </summary>
+        bool ReadOnly { get; }
+
+        /// <summary>
         /// The <see cref="IChannel"/> description
         /// </summary>
         string Description { get; set; }
+
+        /// <summary>
+        /// The <see cref="IChannel"/> symbolic
+        /// </summary>
+        string Symbolic { get; set; }   
 
         /// <summary>
         /// The <see cref="IChannel"/> tags set
