@@ -46,7 +46,7 @@ namespace Database
                 await connection.OpenAsync();
 
                 SqlCommand command = new SqlCommand("SELECT @@VERSION", connection);
-                string version = command.ExecuteScalar().ToString();
+                string version = (await command.ExecuteScalarAsync()).ToString();
 
                 if (IsConnected)
                 {
