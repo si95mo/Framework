@@ -5,7 +5,7 @@ namespace Hardware.Twincat
     /// <summary>
     /// Describe a generic prototype for a Twincat channel
     /// </summary>
-    public interface ITwincatChannel : IProperty
+    public interface ITwincatChannel : IProperty, IChannel
     {
         /// <summary>
         /// The Twincat variable name

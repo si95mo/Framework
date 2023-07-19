@@ -17,7 +17,7 @@ namespace Hardware.Twincat
         /// <param name="variableName">The variable name</param>
         /// <param name="resource">The <see cref="IResource"/></param>
         public TwincatDigitalInput(string code, string variableName, IResource resource)
-            : base(code, variableName, resource, measureUnit: "", format: "0")
+            : base(code, variableName, resource, measureUnit: "", format: "0", ChannelType.DigitalInput)
         {
             if (resource.Status.Value == ResourceStatus.Executing)
                 Attach();

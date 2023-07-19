@@ -14,7 +14,7 @@
         /// <param name="measureUnit">The measure unit</param>
         /// <param name="format">The format</param>
         protected TwincatMultiSampleAnalogInput(string code, string variableName, IResource resource, string measureUnit = "", string format = "0.000")
-            : base(code, variableName, resource, measureUnit, format)
+            : base(code, variableName, resource, measureUnit, format, ChannelType.MultiSampleAnalogInput)
         { }
 
         public override void Attach()

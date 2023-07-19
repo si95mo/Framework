@@ -1,8 +1,13 @@
 ﻿using Core;
 using Diagnostic;
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Runtime.Remoting.Channels;
+using System.Text.RegularExpressions;
+using System.Text;
 using System.Threading.Tasks;
 using TwinCAT;
 using TwinCAT.Ads;
@@ -391,6 +396,48 @@ namespace Hardware.Twincat
 
         #endregion RPC implementation
 
+        /// <summary>
+        /// Export all the <see cref="TwincatResource"/> channels into a GVL txt file
+        /// </summary>
+        /// <param name="path">The GVL txt file path</param>
+        public void ExportChannelsToGvl(string path)
+        {
+            using (StreamWriter sw = new StreamWriter(path, false, Encoding.UTF8))
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine("{attribute 'qualified_only'}");
+                sb.AppendLine("VAR_GLOBAL");
+                sb.AppendLine($"// {DateTime.Now:yyyy/MM/dd, HH:mm:ss.fff} -- GVL created automatically, check correctness");
+
+                IEnumerable<ITwincatChannel> adsChannels = Channels.ToList().Cast<IChannel>().OfType<ITwincatChannel>();
+                int n = adsChannels.Select((x) => x.VariableName.Split('.').Last().Count()).Max();
+                IEnumerable<ITwincatChannel> sortedChannels = adsChannels.OrderBy(
+                    (x) => GetSymbol(x.Description.Split(':').First()) + !x.ReadOnly + !(x.ValueAsObject is bool) + x.VariableName
+                );
+                string lastDescription = string.Empty;
+                foreach (ITwincatChannel channel in sortedChannels)
+                {
+                    if (lastDescription != channel.Description)
+                    {
+                        lastDescription = channel.Description;
+                        sb.AppendLine($"{Environment.NewLine}// {channel.Description}");
+                    }
+
+                    string variableName = channel.VariableName.Split('.').Last();
+                    sb.AppendFormat(
+                        "\t{0} AT {1} : {2}; // {3}",
+                        variableName,
+                        channel.ReadOnly ? "%I*" : "%Q*",
+                        channel.ValueAsObject is bool ? "BOOL" : "INT",
+                        channel.Symbolic
+                    ).AppendLine();
+                }
+
+                sb.AppendLine("END_VAR");
+                sw.Write(sb.ToString());
+            }
+        }
+
         #region Helper methods
 
         /// <summary>
@@ -438,6 +485,14 @@ namespace Hardware.Twincat
         /// <returns><see langword=""="true"/> if the operation succeeded, <see langword="false"/> otherwise</returns>
         internal bool TryGetInstance(ITwincatChannel channel, out ISymbol symbol)
             => symbolLoader.Symbols.TryGetInstance(channel.VariableName, out symbol);
+
+        private string GetSymbol(string code)
+        {
+            string result = Regex.Replace(code, @"\d", "") +
+                Regex.Replace(code, @"\D", "0").Substring(Math.Max(code.Length - 2, 0), Math.Min(2, code.Length));
+
+            return result;
+        }
 
         #endregion Helper methods
     }

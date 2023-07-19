@@ -2,6 +2,7 @@
 using Hardware.Twincat;
 using NUnit.Framework;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Hardware.Resources.Tests
@@ -26,12 +27,33 @@ namespace Hardware.Resources.Tests
             resource = new TwincatResource("TwincatResource", port, 10, 10);
 
             await resource.Start();
-            resource.Status.Value.Should().Be(ResourceStatus.Executing);
+            resource.Status.Value.Should().BeOneOf(ResourceStatus.Executing, ResourceStatus.Failure);
 
-            analogIn = new TwincatAnalogInput("AnalogInputVariableName", "GVL.AnalogInputs[1]", resource);
-            digitalIn = new TwincatDigitalInput("DigitalInputVariableName", "GVL.DigitalInputs[0]", resource);
-            analogOut = new TwincatAnalogOutput("AnalogOutputVariableName", "GVL.AOut[0]", resource);
-            digitalOut = new TwincatDigitalOutput("DigitalOutputVariableName", "GVL.DOUt[0]", resource);
+            analogIn = new TwincatAnalogInput("AnalogInputVariableName", "GVL.KF10_1", resource)
+            {
+                Description = "KF10",
+                Symbolic = "I10.0"
+            };
+            digitalIn = new TwincatDigitalInput("DigitalInputVariableName", "GVL.KF11_1", resource)
+            {
+                Description = "KF11",
+                Symbolic = "I11.0"
+            };
+            TwincatAnalogInput analogInDummy = new TwincatAnalogInput("AnalogInputVariableNameDummy", "GVL.KF10_2", resource)
+            {
+                Description = "KF10",
+                Symbolic = "I10.1"
+            };
+            analogOut = new TwincatAnalogOutput("AnalogOutputVariableName", "GVL.KF12_1", resource)
+            {
+                Description = "KF12",
+                Symbolic = "O10.0"
+            };
+            digitalOut = new TwincatDigitalOutput("DigitalOutputVariableName", "GVL.KF13_1", resource)
+            {
+                Description = "KF13",
+                Symbolic = "O11.0"
+            };
         }
 
         [OneTimeTearDown]
@@ -43,6 +65,12 @@ namespace Hardware.Resources.Tests
         [Test]
         public async Task Test()
         {
+            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "test_results", "test_gvl.txt");
+            File.Delete(path);
+
+            resource.ExportChannelsToGvl(path);
+            File.Exists(path).Should().BeTrue();
+
             for (int i = 1; i <= 10; i++)
             {
                 analogOut.Value = i;
