@@ -16,12 +16,10 @@ namespace Hardware
         public ResourceSimulator(string code) : base(code)
         { }
 
-        public override Task Restart()
+        public override async Task Restart()
         {
-            Start();
             Stop();
-
-            return Task.CompletedTask;
+            await Start();
         }
 
         public override Task Start()
