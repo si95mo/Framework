@@ -7,9 +7,9 @@ namespace Engines
     /// </summary>
     public abstract class Engine : IEngine
     {
-        public abstract bool ExecuteWithBoolReturn(string script);
-        public abstract double ExecuteWithDoubleReturn(string script);
-        public abstract string ExecuteWithStringReturn(string script);
+        public abstract bool ExecuteAsBool(string script);
+        public abstract double ExecuteAsDouble(string script);
+        public abstract string ExecuteAsString(string script);
 
         /// <summary>
         /// Define a generic method that execute a <paramref name="script"/>

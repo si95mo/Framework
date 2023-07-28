@@ -25,11 +25,11 @@ namespace Engines.Tests
         {
             object result = null;
             if (type.IsNumeric())
-                result = engine.ExecuteWithDoubleReturn(script);
+                result = engine.ExecuteAsDouble(script);
             else if(type == typeof(bool))
-                result = engine.ExecuteWithBoolReturn(script);
+                result = engine.ExecuteAsBool(script);
             else if (type == typeof(string))
-                result = engine.ExecuteWithStringReturn(script);
+                result = engine.ExecuteAsString(script);
 
             result.Should().NotBeNull();
             result.Should().BeEquivalentTo(expected);

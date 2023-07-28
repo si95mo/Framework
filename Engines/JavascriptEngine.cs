@@ -1,9 +1,6 @@
 ﻿using Diagnostic;
 using Esprima.Ast;
-using System;
 using JintEngine = Jint.Engine;
-using Extensions;
-using Jint;
 
 namespace Engines
 {
@@ -23,13 +20,13 @@ namespace Engines
             Logger.Info($"{nameof(JavascriptEngine)} initialized");
         }
 
-        public override bool ExecuteWithBoolReturn(string script)
+        public override bool ExecuteAsBool(string script)
             => Execute<bool>(script);
 
-        public override double ExecuteWithDoubleReturn(string script)
+        public override double ExecuteAsDouble(string script)
             => Execute<double>(script);
 
-        public override string ExecuteWithStringReturn(string script)
+        public override string ExecuteAsString(string script)
             => Execute<string>(script);
 
         protected override T Execute<T>(string script) 
