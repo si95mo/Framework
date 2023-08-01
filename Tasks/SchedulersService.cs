@@ -37,7 +37,7 @@ namespace Tasks
         /// <param name="maxDegreesOfParallelism">The maximum degrees of parallelism of the <see cref="DefaultScheduler"/></param>
         private void CreateDefaultScheduler(int maxDegreesOfParallelism)
         {
-            DefaultScheduler = new Scheduler(maxDegreesOfParallelism);
+            DefaultScheduler = new Scheduler("DefaultScheduler", maxDegreesOfParallelism);
             Add(DefaultScheduler);
         }
     }

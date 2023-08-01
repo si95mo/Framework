@@ -16,10 +16,10 @@ namespace UserInterface.Controls.Tests
             ServiceBroker.Provide(new TasksService());
             ServiceBroker.Provide(new SchedulersService());
 
-            Scheduler defaultScheduler = new Scheduler("DefaultScheduler", maxDegreesOfParallelism: 4);
+            Scheduler defaultScheduler = new Scheduler("AdditionalScheduler", maxDegreesOfParallelism: 4);
             ServiceBroker.GetService<SchedulersService>().Add(defaultScheduler);
 
-            Scheduler otherScheduler = new Scheduler(maxDegreesOfParallelism: 11);
+            Scheduler otherScheduler = new Scheduler("CyclicScheduler", maxDegreesOfParallelism: 11);
             ServiceBroker.GetService<SchedulersService>().Add(otherScheduler);
 
             FunctionTask task;

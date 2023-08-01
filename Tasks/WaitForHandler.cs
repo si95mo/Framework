@@ -88,7 +88,7 @@ namespace Tasks
         }
 
         /// <summary>
-        /// Implicitally convert an <see cref="WaitForHandler"/> to <see cref="string"/>.
+        /// Implicitly convert an <see cref="WaitForHandler"/> to <see cref="string"/>.
         /// </summary>
         /// <param name="waitForHandler">The <see cref="WaitForHandler"/></param>
         /// <returns>The conversion result</returns>

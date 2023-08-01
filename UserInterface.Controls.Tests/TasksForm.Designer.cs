@@ -45,6 +45,7 @@
             // schedulerFlowLayout
             // 
             this.schedulerFlowLayout.AutoScroll = true;
+            this.schedulerFlowLayout.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.schedulerFlowLayout.Location = new System.Drawing.Point(0, 504);
             this.schedulerFlowLayout.Name = "schedulerFlowLayout";
             this.schedulerFlowLayout.Size = new System.Drawing.Size(1181, 318);

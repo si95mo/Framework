@@ -15,9 +15,6 @@ namespace Tasks
     {
         #region Private attributes
 
-        // The maximum concurrency level allowed by this scheduler.
-        public int MaxDeegreesOfParallelism { get; private set; }
-
         // A list of tasks that are currently scheduled or running.
         private readonly LinkedList<Task> tasks;
 
@@ -38,6 +35,8 @@ namespace Tasks
         #endregion IProperty implementation
 
         #region IScheduler implementation
+
+        public int MaxDeegreesOfParallelism { get; private set; }
 
         public NumericParameter RunningTasks { get; protected set; }
         public NumericParameter Load { get; protected set; }
