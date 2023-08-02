@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -112,12 +113,12 @@ namespace Diagnostic
         #region Private constants
 
         private const string DailySeparator = "****************************************************" +
-            "****************************************************";
+            "**************************************************************************************";
 
         private const string EntrySeparator = "----------------------------------------------------" +
-            "----------------------------------------------------";
+            "--------------------------------------------------------------------------------------";
 
-        private const int EntryDescriptionLength = 70; // Header entry description length
+        private const int EntryDescriptionLength = 104; // Header entry description length
         private const int LineTypeLength = 6;          // Header type length
         private const int LineTimestampLength = 23;    // Header timestamp length
 
@@ -450,7 +451,51 @@ namespace Diagnostic
 
             if (data == null || data?.CompareTo("") == 0)
             {
-                string header = $"UTC time: {GetUtcDateTime()} - Application: {AppDomain.CurrentDomain.FriendlyName} - User: {Environment.UserName}";
+                string header = $"UTC time: {GetUtcDateTime()}, current zone time ({TimeZone.CurrentTimeZone.StandardName}): {GetDateTime()}{Environment.NewLine}" +
+                    $"User name: {Environment.UserName}{Environment.NewLine}" +
+                    $"User domain name: {Environment.UserDomainName}{Environment.NewLine}" +
+                    $"Application friendly name: {AppDomain.CurrentDomain.FriendlyName}{Environment.NewLine}" +
+                    $"# Application additional information #{Environment.NewLine}" +
+                    $"\tApplication id: {AppDomain.CurrentDomain.Id}{Environment.NewLine}" +
+                    $"\tApplication base directory: {AppDomain.CurrentDomain.BaseDirectory}{Environment.NewLine}" +
+                    $"\tApplication current directory: {Environment.CurrentDirectory}{Environment.NewLine}" +
+                    $"\tApplication command line: {Environment.CommandLine}{Environment.NewLine}" +
+                    $"\tApplication 64-bit: {Environment.Is64BitProcess}{Environment.NewLine}" +
+                    $"# OS additional information #{Environment.NewLine}" +
+                    $"\tOS version: {Environment.OSVersion}{Environment.NewLine}" +
+                    $"\tOS 64-bit: {Environment.Is64BitOperatingSystem}{Environment.NewLine}" +
+                    $"# Machine additional information #{Environment.NewLine}" +
+                    $"\tMachine processor count: {Environment.ProcessorCount}{Environment.NewLine}" +
+                    $"\tMachine processor architecture: {Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE")}{Environment.NewLine}" +
+                    $"\tMachine processor model: {Environment.GetEnvironmentVariable("PROCESSOR_IDENTIFIER")}{Environment.NewLine}" +
+                    $"\tMachine processor level: {Environment.GetEnvironmentVariable("PROCESSOR_LEVEL")}{Environment.NewLine}" +
+                    $"\tCLR version: {Environment.Version}{Environment.NewLine}";
+
+                StringBuilder systemInfo = new StringBuilder();
+                systemInfo.AppendFormat($"\tLogical drives:{Environment.NewLine}");
+                foreach (DriveInfo DriveInfo1 in DriveInfo.GetDrives())
+                {
+                    try
+                    {
+                        systemInfo.AppendFormat(
+                            "\t\t- Drive: {0}\n" +
+                            "\t\t\tVolume label: {1}\n" +
+                            "\t\t\tDrive type: {2}\n" +
+                            "\t\t\tDrive format: {3}\n" +
+                            "\t\t\tTotal size [GB]: {4}\n" +
+                            "\t\t\tAvailable free space [GB]: {5}\n",
+                            DriveInfo1.Name, 
+                            DriveInfo1.VolumeLabel,
+                            DriveInfo1.DriveType,
+                            DriveInfo1.DriveFormat, 
+                            DriveInfo1.TotalSize / 1024 / 1024 / 1024, // From B to GB
+                            DriveInfo1.AvailableFreeSpace / 1024 / 1024 / 1024 // From B to GB
+                        );
+                    }
+                    catch
+                    { }
+                }
+                header += systemInfo.ToString();
 
                 AppendText(header, path);
                 AppendText(DailySeparator, path);
@@ -467,12 +512,12 @@ namespace Diagnostic
                     lineLogEntryDescription += "*";
                 }
 
-                // 23 = LINE_TIMESTAMP_LENGTH
-                // 5  = LINE_TYPE_LENGTH - 1
-                // 70 = ENTRY_DESCRIPTION_LENGTH
+                // 23 = LineTimestampLength
+                // 5  = LineTypeLength - 1
+                // 70 = EntryDescriptionLength
                 header = string.Format("{0, 23}|{1, 5}|{2, 70}", lineTimestamp, lineType, lineLogEntryDescription);
                 header += Environment.NewLine;
-                header += string.Format("{0, 23} | {1, 5} | {2, 40}", "TIMESTAMP", "TYPE", "LOG ENTRY DESCRIPTION");
+                header += string.Format("{0, 23} | {1, 5} | {2, 56}", "TIMESTAMP", "TYPE", "LOG ENTRY DESCRIPTION");
                 header += Environment.NewLine;
                 header += string.Format("{0, 23}|{1, 5}|{2, 70}", lineTimestamp, lineType, lineLogEntryDescription);
 
@@ -514,7 +559,7 @@ namespace Diagnostic
                 string extension = new FileInfo(file).Extension;
 
                 string[] str = file.Split('-');
-                int year = int.Parse(str[0].Replace("logs\\", string.Empty));
+                int year = int.Parse(str[0].Replace("logs\\", string.Empty).Replace("errors\\", string.Empty)); // Remove initial folders
                 int month = int.Parse(str[1]);
                 int day = int.Parse(str[2].Replace(extension, string.Empty));
 
