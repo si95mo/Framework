@@ -512,12 +512,11 @@ namespace Diagnostic
             foreach (string file in files)
             {
                 string extension = new FileInfo(file).Extension;
-                string replace = extension.CompareTo(".log") == 0 ? "_log.log" : "_log.txt";
 
                 string[] str = file.Split('-');
-                int year = int.Parse(str[0].Replace("logs\\", ""));
+                int year = int.Parse(str[0].Replace("logs\\", string.Empty));
                 int month = int.Parse(str[1]);
-                int day = int.Parse(str[2].Replace(replace, ""));
+                int day = int.Parse(str[2].Replace(extension, string.Empty));
 
                 DateTime date = new DateTime(year, month, day);
                 int days = DateTime.Now.Subtract(date).Days;
