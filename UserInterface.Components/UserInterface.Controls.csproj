@@ -248,6 +248,12 @@
     <Compile Include="TextControl.Designer.cs">
       <DependentUpon>TextControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="TreeViewControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TreeViewControl.Designer.cs">
+      <DependentUpon>TreeViewControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="VerticalLayoutPanel.cs">
       <SubType>Component</SubType>
     </Compile>

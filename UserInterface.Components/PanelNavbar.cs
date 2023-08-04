@@ -148,18 +148,41 @@ namespace UserInterface.Controls
         /// <summary>
         /// Set the actual <see cref="LabelControl"/> for the <see cref="ActualUserControl"/>
         /// </summary>
-        /// <param name="index"></param>
+        /// <param name="index">The index of the label to set as defautl"/></param>
         public void SetActualLabel(int index = 0)
         {
             LabelControl label = Labels[index];
             UpdateLabels(label);
         }
 
+        #region Event handlers
+
         private void LabelControl_Click(object sender, EventArgs e)
         {
-            UpdateLabels(sender as LabelControl);
+            UpdateLabels(sender as LabelControl); // Bold style on the selected labels
         }
 
+        private void PbxClose_Click(object sender, EventArgs e)
+        {
+            ContainerForm?.Close(); // Close the container form
+        }
+
+        private void PbxClose_MouseDown(object sender, MouseEventArgs e)
+        {
+            PbxClose.BackColor = ControlPaint.Light(Colors.Grey); // Change back color for the close control
+        }
+
+        private void PbxClose_MouseUp(object sender, MouseEventArgs e)
+        {
+            PbxClose.BackColor = Colors.Grey; // Reset back color for the close control
+        }
+
+        #endregion Event handlers
+
+        /// <summary>
+        /// Update the labels (set the correct <see cref="ActualUserControl"/> and the bold style in the navbar)
+        /// </summary>
+        /// <param name="sender">The sender <see cref="Label"/> (<see cref="LabelControl"/> at runtime)</param>
         private void UpdateLabels(Label sender)
         {
             foreach (LabelControl label in LayoutPanel.Controls)
@@ -169,11 +192,6 @@ namespace UserInterface.Controls
 
             ActualUserControl = UserControls[castedSender.Text];
             castedSender.Font = new Font(castedSender.Font, FontStyle.Bold);
-        }
-
-        private void PbxClose_Click(object sender, EventArgs e)
-        {
-            ContainerForm?.Close();
         }
     }
 

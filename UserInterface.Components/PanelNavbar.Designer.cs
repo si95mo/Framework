@@ -44,6 +44,7 @@
             // 
             // PbxClose
             // 
+            this.PbxClose.Cursor = System.Windows.Forms.Cursors.Hand;
             this.PbxClose.Image = global::UserInterface.Controls.Properties.Resources.ImageShutdown;
             this.PbxClose.Location = new System.Drawing.Point(1860, 0);
             this.PbxClose.Name = "PbxClose";
@@ -52,6 +53,8 @@
             this.PbxClose.TabIndex = 3;
             this.PbxClose.TabStop = false;
             this.PbxClose.Click += new System.EventHandler(this.PbxClose_Click);
+            this.PbxClose.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PbxClose_MouseDown);
+            this.PbxClose.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PbxClose_MouseUp);
             // 
             // PbxLogo
             // 
