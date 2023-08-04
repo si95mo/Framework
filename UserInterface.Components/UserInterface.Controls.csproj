@@ -182,11 +182,29 @@
     <Compile Include="PanelControl.Designer.cs">
       <DependentUpon>PanelControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="PanelNavbar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PanelNavbar.Designer.cs">
+      <DependentUpon>PanelNavbar.cs</DependentUpon>
+    </Compile>
     <Compile Include="PanelSelectorControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="PanelSelectorControl.Designer.cs">
       <DependentUpon>PanelSelectorControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PanelSubNavbar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PanelSubNavbar.Designer.cs">
+      <DependentUpon>PanelSubNavbar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PanelWithNavbar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PanelWithNavbar.Designer.cs">
+      <DependentUpon>PanelWithNavbar.cs</DependentUpon>
     </Compile>
     <Compile Include="ParameterControl.cs">
       <SubType>UserControl</SubType>
@@ -289,8 +307,17 @@
     <EmbeddedResource Include="PanelControl.resx">
       <DependentUpon>PanelControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="PanelNavbar.resx">
+      <DependentUpon>PanelNavbar.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PanelSelectorControl.resx">
       <DependentUpon>PanelSelectorControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PanelSubNavbar.resx">
+      <DependentUpon>PanelSubNavbar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PanelWithNavbar.resx">
+      <DependentUpon>PanelWithNavbar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ParameterControl.resx">
       <DependentUpon>ParameterControl.cs</DependentUpon>
@@ -391,6 +418,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\chevron-up-solid.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\META_logo_ORIZZONTALE_colori.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

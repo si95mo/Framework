@@ -32,13 +32,25 @@
             this.schedulerFlowLayout = new System.Windows.Forms.FlowLayoutPanel();
             this.SuspendLayout();
             // 
+            // lblFormName
+            // 
+            this.lblFormName.Margin = new System.Windows.Forms.Padding(12, 0, 12, 0);
+            this.lblFormName.Size = new System.Drawing.Size(155, 25);
+            this.lblFormName.Text = "CustomForm";
+            // 
+            // controlBox
+            // 
+            this.controlBox.Location = new System.Drawing.Point(492, 20);
+            this.controlBox.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            // 
             // taskFlowLayout
             // 
             this.taskFlowLayout.AutoScroll = true;
             this.taskFlowLayout.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.taskFlowLayout.Location = new System.Drawing.Point(0, 0);
+            this.taskFlowLayout.Location = new System.Drawing.Point(0, 56);
+            this.taskFlowLayout.Margin = new System.Windows.Forms.Padding(5);
             this.taskFlowLayout.Name = "taskFlowLayout";
-            this.taskFlowLayout.Size = new System.Drawing.Size(1181, 498);
+            this.taskFlowLayout.Size = new System.Drawing.Size(1000, 900);
             this.taskFlowLayout.TabIndex = 1;
             this.taskFlowLayout.WrapContents = false;
             // 
@@ -46,23 +58,31 @@
             // 
             this.schedulerFlowLayout.AutoScroll = true;
             this.schedulerFlowLayout.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.schedulerFlowLayout.Location = new System.Drawing.Point(0, 504);
+            this.schedulerFlowLayout.Location = new System.Drawing.Point(1010, 56);
+            this.schedulerFlowLayout.Margin = new System.Windows.Forms.Padding(5);
             this.schedulerFlowLayout.Name = "schedulerFlowLayout";
-            this.schedulerFlowLayout.Size = new System.Drawing.Size(1181, 318);
+            this.schedulerFlowLayout.Size = new System.Drawing.Size(900, 900);
             this.schedulerFlowLayout.TabIndex = 2;
             this.schedulerFlowLayout.WrapContents = false;
             // 
             // TasksForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1181, 822);
+            this.ClientSize = new System.Drawing.Size(1940, 1100);
             this.Controls.Add(this.schedulerFlowLayout);
             this.Controls.Add(this.taskFlowLayout);
+            this.Location = new System.Drawing.Point(0, 0);
+            this.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.Name = "TasksForm";
             this.Text = "TasksForm";
             this.Load += new System.EventHandler(this.TasksForm_Load);
+            this.Controls.SetChildIndex(this.taskFlowLayout, 0);
+            this.Controls.SetChildIndex(this.schedulerFlowLayout, 0);
+            this.Controls.SetChildIndex(this.lblFormName, 0);
+            this.Controls.SetChildIndex(this.controlBox, 0);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

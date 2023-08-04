@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace UserInterface.Controls
 {
@@ -35,6 +36,8 @@ namespace UserInterface.Controls
             Location = new Point(0, 0);
             Visible = false;
             Enabled = false;
+
+            AutoScaleMode = AutoScaleMode.Inherit;
 
             SendToBack();
         }

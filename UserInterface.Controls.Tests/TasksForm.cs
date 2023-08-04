@@ -3,10 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Tasks;
+using UserInterface.Forms;
 
 namespace UserInterface.Controls.Tests
 {
-    public partial class TasksForm : Form
+    public partial class TasksForm : CustomForm
     {
         public TasksForm()
         {

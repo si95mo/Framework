@@ -1,7 +1,6 @@
-﻿
-namespace UserInterface.Controls
+﻿namespace UserInterface.Controls
 {
-    partial class PanelControl
+    partial class PanelSubNavbar
     {
         /// <summary> 
         /// Required designer variable.
@@ -29,20 +28,22 @@ namespace UserInterface.Controls
         /// </summary>
         private void InitializeComponent()
         {
+            ((System.ComponentModel.ISupportInitialize)(this.PbxLogo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PbxClose)).BeginInit();
             this.SuspendLayout();
             // 
-            // PanelControl
+            // LayoutPanel
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
+            this.LayoutPanel.Size = new System.Drawing.Size(1920, 62);
+            // 
+            // PanelSubNavbar
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Control;
-            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
-            this.MaximumSize = new System.Drawing.Size(1920, 840);
-            this.MinimumSize = new System.Drawing.Size(1920, 840);
-            this.Name = "PanelControl";
-            this.Size = new System.Drawing.Size(1918, 838);
+            this.LayoutSize = new System.Drawing.Size(1920, 62);
+            this.Name = "PanelSubNavbar";
+            ((System.ComponentModel.ISupportInitialize)(this.PbxLogo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PbxClose)).EndInit();
             this.ResumeLayout(false);
 
         }

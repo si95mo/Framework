@@ -20,6 +20,7 @@ namespace UserInterface.Controls
 
             FlatStyle = FlatStyle.Flat;
             FlatAppearance.BorderColor = Colors.Grey;
+            FlatAppearance.MouseDownBackColor = Colors.Green;
 
             ForeColor = Colors.TextColor;
             BackColor = Colors.Grey;

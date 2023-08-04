@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using UserInterface.Controls;
 
 namespace UserInterface.Forms
 {
@@ -10,6 +11,11 @@ namespace UserInterface.Forms
     /// </summary>
     public partial class CustomForm : Form
     {
+        public const int PanelWithNavbarX = 0;
+        public const int PanelWithNavbarY = 60;
+
+        private bool invokedFromThis;
+
         /// <summary>
         /// Create a new instance of <see cref="CustomForm"/>
         /// </summary>
@@ -21,6 +27,8 @@ namespace UserInterface.Forms
 
             MaximizedBounds = new Rectangle(0, 0, workingArea.Width, workingArea.Height);
             WindowState = FormWindowState.Maximized;
+
+            invokedFromThis = false;
         }
 
         // Mouse drag variables
@@ -79,5 +87,35 @@ namespace UserInterface.Forms
         /// <param name="message">The message</param>
         protected void ShowAlert(string title = "Attention", string message = "Attention message")
             => CustomMessageBox.Show(this, title, message);
+
+        /// <summary>
+        /// Show a question
+        /// </summary>
+        /// <param name="title">The title</param>
+        /// <param name="message">The message</param>
+        protected DialogResult AskQuestion(string title, string message)
+            => CustomQuestionBox.Show(this, title, message);
+
+        private void CustomForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!(sender is CustomMessageBox) && !(sender is CustomQuestionBox) && !invokedFromThis)
+            {
+                DialogResult result = AskQuestion("Attention", "Do you really want to exit?"); // Return OK or Cancel
+                if (result == DialogResult.No || result == DialogResult.Cancel) // Add No for future upgrades
+                {
+                    e.Cancel = true;
+                    invokedFromThis = false;
+                }
+                else
+                {
+                    invokedFromThis = true;
+
+                    Close();
+                    Dispose();
+
+                    Application.Exit(); // Force exit
+                }
+            }
+        }
     }
 }

@@ -97,6 +97,7 @@ namespace UserInterface.Forms
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "CustomForm";
             this.Text = "CustomForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CustomForm_FormClosing);
             this.Load += new System.EventHandler(this.Form_Load);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form_MouseDown);
             this.ResumeLayout(false);
