@@ -122,6 +122,8 @@ namespace Diagnostic
         private const int LineTypeLength = 6;          // Header type length
         private const int LineTimestampLength = 23;    // Header timestamp length
 
+        private const int UtfSignatureSize = 3; // In bytes
+
         #endregion Private constants
 
         #region Private variables
@@ -445,11 +447,9 @@ namespace Diagnostic
         /// <param name="path">The path of the log file</param>
         private static void InitializeFile(string path)
         {
-            string data = null;
-            if (File.Exists(path))
-                data = Read(path);
-
-            if (data == null || data?.CompareTo("") == 0)
+            // If file doesn't exist or it exists but has a size of 3B or less print headers
+            // 3B are the UTF-8 signature and are always present in an UTF-8 encoded file
+            if (!File.Exists(path) || (File.Exists(path) && new FileInfo(path).Length <= UtfSignatureSize)) 
             {
                 string header = $"UTC time: {GetUtcDateTime()}, current zone time ({TimeZone.CurrentTimeZone.StandardName}): {GetDateTime()}{Environment.NewLine}" +
                     $"User name: {Environment.UserName}{Environment.NewLine}" +
@@ -473,7 +473,7 @@ namespace Diagnostic
 
                 StringBuilder systemInfo = new StringBuilder();
                 systemInfo.AppendFormat($"\tLogical drives:{Environment.NewLine}");
-                foreach (DriveInfo DriveInfo1 in DriveInfo.GetDrives())
+                foreach (DriveInfo driveInfo in DriveInfo.GetDrives())
                 {
                     try
                     {
@@ -484,16 +484,18 @@ namespace Diagnostic
                             "\t\t\tDrive format: {3}\n" +
                             "\t\t\tTotal size [GB]: {4}\n" +
                             "\t\t\tAvailable free space [GB]: {5}\n",
-                            DriveInfo1.Name, 
-                            DriveInfo1.VolumeLabel,
-                            DriveInfo1.DriveType,
-                            DriveInfo1.DriveFormat, 
-                            DriveInfo1.TotalSize / 1024 / 1024 / 1024, // From B to GB
-                            DriveInfo1.AvailableFreeSpace / 1024 / 1024 / 1024 // From B to GB
+                            driveInfo.Name, 
+                            driveInfo.VolumeLabel,
+                            driveInfo.DriveType,
+                            driveInfo.DriveFormat, 
+                            driveInfo.TotalSize / 1024 / 1024 / 1024, // From B to GB
+                            driveInfo.AvailableFreeSpace / 1024 / 1024 / 1024 // From B to GB
                         );
                     }
-                    catch
-                    { }
+                    catch (Exception ex) // This should not throw any Exception, just for precaution
+                    {
+                        systemInfo.AppendLine(ex.Message);
+                    }
                 }
                 header += systemInfo.ToString();
 
