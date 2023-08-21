@@ -79,6 +79,13 @@
     <Compile Include="SplashForm.Designer.cs">
       <DependentUpon>SplashForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Toaster.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Toaster.Designer.cs">
+      <DependentUpon>Toaster.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UiService.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CustomForm.resx">
@@ -96,6 +103,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SplashForm.resx">
       <DependentUpon>SplashForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Toaster.resx">
+      <DependentUpon>Toaster.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

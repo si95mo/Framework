@@ -99,6 +99,17 @@ namespace Extensions
         }
 
         /// <summary>
+        /// Define weather an <see cref="object"/> is numeric or not
+        /// </summary>
+        /// <param name="source">The <see cref="object"/></param>
+        /// <returns><see langword="true"/> if the <see cref="object"/> is numeric, <see langword="false"/> otherwise</returns>
+        public static bool IsNumeric(this object source)
+        {
+            Type type = source.GetType();
+            return type.IsNumeric();
+        }
+
+        /// <summary>
         /// Convert a pascal case <see cref="string"/> to an sentence string (i.e. PascalCase -> Pascal case)
         /// </summary>
         /// <param name="source">The <see cref="string"/> to convert</param>

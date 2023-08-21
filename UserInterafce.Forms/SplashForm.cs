@@ -14,16 +14,19 @@ namespace UserInterface.Forms
         private const string BaseStateMessage = "State:";
 
         /// <summary>
-        /// The collection of action to perform in the <see cref="SplashForm"/>, by name
+        /// The collection of action to perform in the <see cref="SplashForm"/> at startup, by name
         /// </summary>
-        public Dictionary<string, Func<Task>> Actions { get; private set; }
+        public Dictionary<string, Func<Task>> StartupActions { get; private set; }
+
+        /// <summary>
+        /// The collection of action to perform in the <see cref="SplashForm"/> at close, by name
+        /// </summary>
+        public Dictionary<string, Func<Task>> DisposeActions { get; private set; }
 
         /// <summary>
         /// The <see cref="Form"/> to launch after initialization completed
         /// </summary>
         public Form FormToLaunch { get; private set; }
-
-        public Task DisposingTask { get; private set; }
 
         protected SplashForm()
         {
@@ -34,17 +37,17 @@ namespace UserInterface.Forms
         /// <summary>
         /// Create a new instance of <see cref="SplashForm"/>
         /// </summary>
-        /// <param name="actions">The collection of actions to do in order to initialize the application</param>
+        /// <param name="startupActions">The collection of actions to do in order to initialize the application</param>
         /// <param name="formToLaunch">The <see cref="Form"/> to launch after the initialization</param>
         /// <param name="customerLogoImagePath">The customer logo image path</param>
         /// <param name="projectCode">The project code (i.e. the text shown on the <paramref name="formToLaunch"/>)</param>
-        /// <param name="disposingTask">The (eventual) disposing <see cref="Task"/> to call on shut down</param>
-        public SplashForm(Dictionary<string, Func<Task>> actions, Form formToLaunch, string customerLogoImagePath, string projectCode, Task disposingTask = null) 
-            : this()
+        /// <param name="disposeActions">The (eventual) disposing <see cref="Task"/> to call on shut down</param>
+        public SplashForm(Dictionary<string, Func<Task>> startupActions, Form formToLaunch, string customerLogoImagePath, string projectCode, 
+            Dictionary<string, Func<Task>> disposeActions = null) : this()
         {
-            Actions = actions;
+            StartupActions = startupActions;
             FormToLaunch = formToLaunch;
-            DisposingTask = disposingTask;
+            DisposeActions = disposeActions;
 
             if (File.Exists(customerLogoImagePath))
             {
@@ -65,13 +68,7 @@ namespace UserInterface.Forms
 
             FormToLaunch.AutoScaleMode = AutoScaleMode.Inherit;
             FormToLaunch.StartPosition = FormStartPosition.CenterScreen;
-            FormToLaunch.Closed += async (s, args) =>
-            {
-                if (DisposingTask != null)
-                    await DisposingTask;
-
-                Close();
-            };
+            FormToLaunch.Closed += FormToLaunch_Closed;
             FormToLaunch.Show();
         }
 
@@ -79,26 +76,27 @@ namespace UserInterface.Forms
         {
             if (!InvokeRequired)
             {
-                int increment = 100 / Actions.Count;
+                int increment = 100 / StartupActions.Count;
                 int counter = 0;
 
                 Stopwatch timer = Stopwatch.StartNew();
                 await Logger.DebugAsync($"Initialization starting");
 
                 // Step 0
-                lblStatus.Text = $"{BaseStateMessage} application initialization... ({++counter} / {Actions.Count})";
+                lblStatus.Text = $"{BaseStateMessage} application initialization... ({++counter} / {StartupActions.Count})";
                 prbProgress.Value = 0;
                 await Task.Delay(TimeSpan.FromMilliseconds(500d));
 
-                foreach(KeyValuePair<string, Func<Task>> action in Actions)
+                foreach(KeyValuePair<string, Func<Task>> action in StartupActions)
                 {
-                    lblStatus.Text = $"{BaseStateMessage} {action.Key} ({++counter} / {Actions.Count})";
+                    lblStatus.Text = $"{BaseStateMessage} {action.Key} ({++counter} / {StartupActions.Count})";
                     prbProgress.Value += increment;
+
                     await action.Value();
                 }
 
                 // Last step
-                lblStatus.Text = $"{BaseStateMessage} initialization completed... ({++counter} / {Actions.Count})";
+                lblStatus.Text = $"{BaseStateMessage} initialization completed... ({++counter} / {StartupActions.Count})";
                 prbProgress.Value = 100;
 
                 timer.Stop();
@@ -106,6 +104,40 @@ namespace UserInterface.Forms
             }
             else
                 BeginInvoke(new Action(async () => await InitializeAsync()));
+        }
+
+        private async void FormToLaunch_Closed(object sender, EventArgs e)
+        {
+            if (DisposeActions != null)
+            {
+                if (!InvokeRequired)
+                {
+                    Show(this); // Previously hidden
+
+                    int increment = 100 / DisposeActions.Count;
+                    int counter = 0;
+
+                    Stopwatch timer = Stopwatch.StartNew();
+                    await Logger.DebugAsync($"Shut down starting");
+
+                    // Step 0
+                    lblStatus.Text = $"{BaseStateMessage} application shutting down... ({++counter} / {DisposeActions.Count})";
+                    prbProgress.Value = 0;
+                    await Task.Delay(TimeSpan.FromMilliseconds(1000d));
+
+                    foreach (KeyValuePair<string, Func<Task>> action in DisposeActions)
+                    {
+                        lblStatus.Text = $"{BaseStateMessage} {action.Key} ({++counter} / {DisposeActions.Count})";
+                        prbProgress.Value += increment;
+
+                        await action.Value();
+                    }
+                }
+                else
+                    BeginInvoke(new Action(() => FormToLaunch_Closed(sender, e)));
+            }
+
+            Close();
         }
     }
 }

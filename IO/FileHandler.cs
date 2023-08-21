@@ -58,6 +58,11 @@ namespace IO
                                 sw.WriteLine(text);
                         }
                         catch { }
+                        finally
+                        { 
+                            sw.Close();
+                            sw.Dispose();
+                        }
                         break;
 
                     case SaveMode.Append:
@@ -67,6 +72,11 @@ namespace IO
                                 sw.WriteLine(text);
                         }
                         catch { }
+                        finally
+                        {
+                            sw.Close();
+                            sw.Dispose();
+                        }
                         break;
                 }
 
@@ -88,7 +98,16 @@ namespace IO
 
             using (FileStream stream = new FileStream(path, fileMode, FileAccess.Write, FileShare.ReadWrite, 4096, true))
             {
-                await stream.WriteAsync(encodedText, 0, encodedText.Length);
+                try
+                {
+                    await stream.WriteAsync(encodedText, 0, encodedText.Length);
+                }
+                catch { }
+                finally
+                {
+                    stream.Close();
+                    stream.Dispose();
+                }
             }
         }
 
