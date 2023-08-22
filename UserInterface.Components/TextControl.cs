@@ -19,12 +19,31 @@ namespace UserInterface.Controls
         public bool NumericsOnly { get; set; }
 
         /// <summary>
+        /// Define the text placeholder to use. Leave empty for no placeholder
+        /// </summary>
+        [Description("Add a placeholder text"), Category("Data")]
+        public string PlaceholderText 
+        { 
+            get => placeholderText; 
+            set
+            {
+                placeholderText = value;
+                if (placeholderText != string.Empty)
+                    SetPlaceholderText();
+            }
+        }
+
+        private string placeholderText;
+        private readonly Color placeholderColor = ControlPaint.LightLight(Colors.TextColor);
+
+        /// <summary>
         /// Creates a new instance of <see cref="TextControl"/>
         /// </summary>
         public TextControl()
         {
             InitializeComponent();
 
+            PlaceholderText = string.Empty;
             NumericsOnly = false;
             Font = new Font("Lucida Sans Unicode", 12f);
 
@@ -58,6 +77,34 @@ namespace UserInterface.Controls
                     SelectionStart = Text.Length;
                     SelectionLength = 0;
                 }
+            }
+        }
+
+        protected override void OnEnter(EventArgs e) // Cursor enters the text control
+        {
+            ResetPlaceholderText(); // Remove placeholder text
+        }
+
+        protected override void OnLeave(EventArgs e) // Cursor leaves the text control
+        {
+            SetPlaceholderText(); // Apply placeholder text
+        }
+
+        private void SetPlaceholderText()
+        {
+            if (Text == string.Empty)
+            {
+                Text = PlaceholderText;
+                ForeColor = placeholderColor;
+            }
+        }
+
+        private void ResetPlaceholderText()
+        {
+            if (PlaceholderText != string.Empty && Text == PlaceholderText)
+            {
+                Text = string.Empty;
+                ForeColor = Colors.TextColor;
             }
         }
     }
