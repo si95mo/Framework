@@ -130,6 +130,7 @@ namespace Diagnostic
 
         private static Exception lastException = null;
         private static readonly SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
+        private static readonly object sync = new object();
 
         #endregion Private variables
 
@@ -449,7 +450,7 @@ namespace Diagnostic
         {
             // If file doesn't exist or it exists but has a size of 3B or less print headers
             // 3B are the UTF-8 signature and are always present in an UTF-8 encoded file
-            if (!File.Exists(path) || (File.Exists(path) && new FileInfo(path).Length <= UtfSignatureSize)) 
+            if (!File.Exists(path) || (File.Exists(path) && new FileInfo(path).Length <= UtfSignatureSize))
             {
                 string header = $"UTC time: {GetUtcDateTime()}, current zone time ({TimeZone.CurrentTimeZone.StandardName}): {GetDateTime()}{Environment.NewLine}" +
                     $"User name: {Environment.UserName}{Environment.NewLine}" +
@@ -484,10 +485,10 @@ namespace Diagnostic
                             "\t\t\tDrive format: {3}\n" +
                             "\t\t\tTotal size [GB]: {4}\n" +
                             "\t\t\tAvailable free space [GB]: {5}\n",
-                            driveInfo.Name, 
+                            driveInfo.Name,
                             driveInfo.VolumeLabel,
                             driveInfo.DriveType,
-                            driveInfo.DriveFormat, 
+                            driveInfo.DriveFormat,
                             driveInfo.TotalSize / 1024 / 1024 / 1024, // From B to GB
                             driveInfo.AvailableFreeSpace / 1024 / 1024 / 1024 // From B to GB
                         );
@@ -684,7 +685,10 @@ namespace Diagnostic
         /// </summary>
         /// <param name="text">The text to append</param>
         private static void AppendText(string text, string path)
-            => Save(text, path, SaveMode.Append);
+        {
+            lock (sync)
+                Save(text, path, SaveMode.Append);
+        }
 
         /// <summary>
         /// Append text on the log file asynchronously. See <see cref="FileHandler.SaveAsync(string, string, SaveMode)"/>
