@@ -5,6 +5,9 @@ using System;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
+using System.Linq;
+using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 
 namespace Extensions
 {
@@ -116,5 +119,30 @@ namespace Extensions
         /// <returns>The converted <see cref="string"/></returns>
         public static string FromPascalToSentenceCase(this string source)
             => Regex.Replace(source, "[a-z][A-Z]", (x) => $"{x.Value[0]} {char.ToLower(x.Value[1])}");
+
+        /// <summary>
+        /// Convert a <see cref="string"/> to a pascal case string (i.e. PascalCase)
+        /// </summary>
+        /// <param name="source">The <see cref="string"/> to convert</param>
+        /// <returns>The converted <see cref="string"/></returns>
+        public static string ToPascalCase(this string source)
+        {
+            Regex invalidChars = new Regex("[^_a-zA-Z0-9]");
+            Regex whiteSpace = new Regex(@"(?<=\s)");
+            Regex startsWithLowerCaseChar = new Regex("^[a-z]");
+            Regex firstCharFollowedByUpperCasesOnly = new Regex("(?<=[A-Z])[A-Z0-9]+$");
+            Regex lowerCaseNextToNumber = new Regex("(?<=[0-9])[a-z]");
+            Regex upperCaseInside = new Regex("(?<=[A-Z])[A-Z]+?((?=[A-Z][a-z])|(?=[0-9]))");
+
+            IEnumerable<string> pascalCase = invalidChars.Replace(whiteSpace.Replace(source, "_"), string.Empty) // White spaces with _, invalid chars with ""                
+                .Split(new char[] { '_' }, StringSplitOptions.RemoveEmptyEntries) // Underscores                                                                                  
+                .Select(w => startsWithLowerCaseChar.Replace(w, m => m.Value.ToUpper())) // First letter to uppercase                                                                                        
+                .Select(w => firstCharFollowedByUpperCasesOnly.Replace(w, m => m.Value.ToLower())) // Other letters to lower case
+                .Select(w => lowerCaseNextToNumber.Replace(w, m => m.Value.ToUpper())) // Upper case in case of numbers
+                .Select(w => upperCaseInside.Replace(w, m => m.Value.ToLower())); // Lower case bwetween upper case
+
+            string result = string.Concat(pascalCase);
+            return result;
+        }
     }
 }
