@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace UserInterface.Controls
+namespace UserInterface.Controls.Panels
 {
     public partial class PanelSubNavbar : PanelNavbar
     {

@@ -1,4 +1,4 @@
-﻿namespace UserInterface.Controls
+﻿namespace UserInterface.Controls.Panels
 {
     partial class PanelWithNavbar
     {
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.panelContainer = new System.Windows.Forms.Panel();
-            this.PanelNavbar = new UserInterface.Controls.PanelSubNavbar();
+            this.PanelNavbar = new UserInterface.Controls.Panels.PanelSubNavbar();
             this.SuspendLayout();
             // 
             // panelContainer
@@ -56,6 +56,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.Controls.Add(this.panelContainer);
             this.Controls.Add(this.PanelNavbar);
             this.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));

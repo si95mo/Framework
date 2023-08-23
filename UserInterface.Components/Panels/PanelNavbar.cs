@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace UserInterface.Controls
+namespace UserInterface.Controls.Panels
 {
     /// <summary>
     /// Define a panel that can be used to build a custom navbar

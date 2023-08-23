@@ -1,4 +1,6 @@
 ﻿
+using UserInterface.Controls.Panels;
+
 namespace UserInterface.Controls.Tests
 {
     partial class TestForm
@@ -37,7 +39,7 @@ namespace UserInterface.Controls.Tests
             this.progressBar = new CircularProgressBar();
             this.ledControl = new UserInterface.Controls.LedControl();
             this.btnCustomMessageBox = new UserInterface.Controls.ButtonControl();
-            this.panelControl = new UserInterface.Controls.PanelControl();
+            this.panelControl = new UserInterface.Controls.Panels.PanelControl();
             ((System.ComponentModel.ISupportInitialize)(this.dgvControl)).BeginInit();
             this.SuspendLayout();
             // 

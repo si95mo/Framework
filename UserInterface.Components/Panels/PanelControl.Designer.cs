@@ -1,5 +1,5 @@
 ﻿
-namespace UserInterface.Controls
+namespace UserInterface.Controls.Panels
 {
     partial class PanelControl
     {
@@ -35,14 +35,14 @@ namespace UserInterface.Controls
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Control;
+            this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.Margin = new System.Windows.Forms.Padding(5);
             this.MaximumSize = new System.Drawing.Size(1920, 840);
             this.MinimumSize = new System.Drawing.Size(1920, 840);
             this.Name = "PanelControl";
-            this.Size = new System.Drawing.Size(1918, 838);
+            this.Size = new System.Drawing.Size(1920, 840);
             this.ResumeLayout(false);
 
         }

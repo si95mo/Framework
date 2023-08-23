@@ -1,4 +1,4 @@
-﻿namespace UserInterface.Controls
+﻿namespace UserInterface.Controls.Panels
 {
     partial class PanelNavbar
     {

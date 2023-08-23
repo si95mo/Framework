@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace UserInterface.Controls
+namespace UserInterface.Controls.Panels
 {
     /// <summary>
     /// Implement a panel control

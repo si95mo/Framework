@@ -170,22 +170,28 @@
     <Compile Include="LoadTestProgramPanel.Designer.cs">
       <DependentUpon>LoadTestProgramPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Panels\MainPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Panels\MainPanel.Designer.cs">
+      <DependentUpon>MainPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="MethodControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="MethodControl.Designer.cs">
       <DependentUpon>MethodControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="PanelControl.cs">
+    <Compile Include="Panels\PanelControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="PanelControl.Designer.cs">
+    <Compile Include="Panels\PanelControl.Designer.cs">
       <DependentUpon>PanelControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="PanelNavbar.cs">
+    <Compile Include="Panels\PanelNavbar.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="PanelNavbar.Designer.cs">
+    <Compile Include="Panels\PanelNavbar.Designer.cs">
       <DependentUpon>PanelNavbar.cs</DependentUpon>
     </Compile>
     <Compile Include="PanelSelectorControl.cs">
@@ -194,16 +200,16 @@
     <Compile Include="PanelSelectorControl.Designer.cs">
       <DependentUpon>PanelSelectorControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="PanelSubNavbar.cs">
+    <Compile Include="Panels\PanelSubNavbar.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="PanelSubNavbar.Designer.cs">
+    <Compile Include="Panels\PanelSubNavbar.Designer.cs">
       <DependentUpon>PanelSubNavbar.cs</DependentUpon>
     </Compile>
-    <Compile Include="PanelWithNavbar.cs">
+    <Compile Include="Panels\PanelWithNavbar.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="PanelWithNavbar.Designer.cs">
+    <Compile Include="Panels\PanelWithNavbar.Designer.cs">
       <DependentUpon>PanelWithNavbar.cs</DependentUpon>
     </Compile>
     <Compile Include="ParameterControl.cs">
@@ -235,6 +241,12 @@
     </Compile>
     <Compile Include="SchedulerControl.Designer.cs">
       <DependentUpon>SchedulerControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Panels\SubPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Panels\SubPanel.Designer.cs">
+      <DependentUpon>SubPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="TaskControl.cs">
       <SubType>UserControl</SubType>
@@ -307,22 +319,25 @@
     <EmbeddedResource Include="LoadTestProgramPanel.resx">
       <DependentUpon>LoadTestProgramPanel.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Panels\MainPanel.resx">
+      <DependentUpon>MainPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MethodControl.resx">
       <DependentUpon>MethodControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PanelControl.resx">
+    <EmbeddedResource Include="Panels\PanelControl.resx">
       <DependentUpon>PanelControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PanelNavbar.resx">
+    <EmbeddedResource Include="Panels\PanelNavbar.resx">
       <DependentUpon>PanelNavbar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PanelSelectorControl.resx">
       <DependentUpon>PanelSelectorControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PanelSubNavbar.resx">
+    <EmbeddedResource Include="Panels\PanelSubNavbar.resx">
       <DependentUpon>PanelSubNavbar.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PanelWithNavbar.resx">
+    <EmbeddedResource Include="Panels\PanelWithNavbar.resx">
       <DependentUpon>PanelWithNavbar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ParameterControl.resx">
@@ -340,6 +355,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SchedulerControl.resx">
       <DependentUpon>SchedulerControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\SubPanel.resx">
+      <DependentUpon>SubPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TaskControl.resx">
       <DependentUpon>TaskControl.cs</DependentUpon>
