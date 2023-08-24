@@ -109,6 +109,7 @@
     <Compile Include="CircularProgressBar.Designer.cs">
       <DependentUpon>CircularProgressBar.cs</DependentUpon>
     </Compile>
+    <Compile Include="Classes\FontAwesomeIcons.cs" />
     <Compile Include="ClockControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -121,7 +122,7 @@
     <Compile Include="CloseApplicationControl.Designer.cs">
       <DependentUpon>CloseApplicationControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Colors.cs" />
+    <Compile Include="Classes\Colors.cs" />
     <Compile Include="ComboControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
