@@ -11,7 +11,11 @@ namespace UserInterface.Controls
     public partial class TreeViewControl : TreeView
     {
         [DllImport("uxtheme.dll", CharSet = CharSet.Unicode)]
-        private extern static int SetWindowTheme(IntPtr hWnd, string pszSubAppName, string pszSubIdList);
+        private extern static int SetWindowTheme(IntPtr hWnd, string pszSubAppName, string pszSubIdList); 
+        [DllImport("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, Int32 wMsg, bool wParam, Int32 lParam);
+
+        private const int WM_SETREDRAW = 11;
 
         /// <summary>
         /// Create a new instance of <see cref="TreeViewControl"/>
@@ -31,7 +35,6 @@ namespace UserInterface.Controls
             Focus();
         }
 
-
         /// <summary>
         /// Add a new <see cref="TreeNode"/> to <paramref name="root"/>
         /// </summary>
@@ -41,6 +44,25 @@ namespace UserInterface.Controls
         {
             TreeNode leaf = new TreeNode(leafText);
             root.Nodes.Add(leaf);
+        }
+
+        /// <summary>
+        /// Suspend the redraw of the control, must be followed by <see cref="ResumeDrawing(Control)"/>
+        /// </summary>
+        /// <param name="parent"></param>
+        public static void SuspendDrawing(Control parent)
+        {
+            SendMessage(parent.Handle, WM_SETREDRAW, false, 0);
+        }
+
+        /// <summary>
+        /// Resume the redraw of the control. Must be preceded by <see cref="SuspendDrawing(Control)"/>
+        /// </summary>
+        /// <param name="parent"></param>
+        public static void ResumeDrawing(Control parent)
+        {
+            SendMessage(parent.Handle, WM_SETREDRAW, true, 0);
+            parent.Refresh();
         }
 
         protected override void CreateHandle()

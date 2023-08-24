@@ -14675,7 +14675,7 @@ namespace UserInterface.Controls
         public const string Equal = "\u003d";
 
         /// <summary>
-        /// fa-eraser unicode value ("\uf12d").
+        /// fa-eraser unicode value ("\u232B").
         /// <para/>
         /// This icon supports the following styles: Light (Pro), Regular (Pro), Solid, Duotone (Pro), Thin (Pro)
         /// <para/>
@@ -14684,7 +14684,7 @@ namespace UserInterface.Controls
         /// See https://fontawesome.com/icons/eraser
         /// </summary>
         [Description("eraser")]
-        public const string Eraser = "\uf12d";
+        public const string Eraser = "\u232B";
 
         /// <summary>
         /// fa-erlang unicode value ("\uf39d").

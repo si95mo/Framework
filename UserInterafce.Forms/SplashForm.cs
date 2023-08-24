@@ -52,7 +52,12 @@ namespace UserInterface.Forms
             if (File.Exists(customerLogoImagePath))
             {
                 pbxClient.Image = new Bitmap(customerLogoImagePath);
-                pbxClient.SizeMode = PictureBoxSizeMode.StretchImage;
+
+                Size imageSize = pbxClient.Image.Size;
+                Size fitSize = pbxClient.ClientSize;
+                pbxClient.SizeMode = imageSize.Width > fitSize.Width || imageSize.Height > fitSize.Height ?
+                    PictureBoxSizeMode.Zoom : 
+                    PictureBoxSizeMode.CenterImage;
             }
             else
                 Logger.Error($"Unable to load customer logo on {nameof(SplashForm)}. File specified at \"{customerLogoImagePath}\" does not exist");
