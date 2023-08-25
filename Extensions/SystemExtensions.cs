@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 using System.Linq;
-using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Extensions
 {
@@ -143,6 +143,84 @@ namespace Extensions
 
             string result = string.Concat(pascalCase);
             return result;
+        }
+
+        private const string Indentation = "    ";
+
+        /// <summary>
+        /// Format a <see cref="string"/> with json contents, beautifying it
+        /// </summary>
+        /// <param name="source">The <see cref="string"/> to format</param>
+        /// <returns>The formatted <see cref="string"/></returns>
+        public static string FormatJson(this string source)
+        {
+            int indent = 0;
+            bool quoted = false;
+            StringBuilder stringBuilder = new StringBuilder();
+
+            for (int i = 0; i < source.Length; i++)
+            {
+                char character = source[i];
+                switch (character)
+                {
+                    case '{':
+                    case '[':
+                        stringBuilder.Append(character);
+
+                        if (!quoted)
+                        {
+                            stringBuilder.AppendLine();
+                            Enumerable.Range(0, ++indent).ForEach((x) => stringBuilder.Append(Indentation));
+                        }
+                        break;
+                    case '}':
+                    case ']':
+                        if (!quoted)
+                        {
+                            stringBuilder.AppendLine();
+                            Enumerable.Range(0, --indent).ForEach((x) => stringBuilder.Append(Indentation));
+                        }
+
+                        stringBuilder.Append(character);
+                        break;
+                    case '"':
+                        stringBuilder.Append(character);
+                        bool escaped = false;
+                        int index = i;
+
+                        while (index > 0 && source[--index] == '\\')
+                            escaped = !escaped;
+
+                        if (!escaped)
+                            quoted = !quoted;
+                        break;
+                    case ',':
+                        stringBuilder.Append(character);
+                        if (!quoted)
+                        {
+                            stringBuilder.AppendLine();
+                            Enumerable.Range(0, indent).ForEach((x) => stringBuilder.Append(Indentation));
+                        }
+                        break;
+                    case ':':
+                        stringBuilder.Append(character);
+                        if (!quoted)
+                            stringBuilder.Append(" ");
+                        break;
+                    default:
+                        stringBuilder.Append(character);
+                        break;
+                }
+            }
+
+            string formattedSource = stringBuilder.ToString();
+            return formattedSource;
+        }
+
+        private static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
+        {
+            foreach (T item in source)
+                action(item);
         }
     }
 }
