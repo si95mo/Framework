@@ -37,6 +37,7 @@ namespace UserInterface.Forms
             controlBox.Enabled = false;
 
             MouseDown -= Form_MouseDown;
+            FormClosing -= CustomForm_FormClosing;
         }
 
         private void BtnClose_Click(object sender, EventArgs e)

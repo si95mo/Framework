@@ -96,13 +96,15 @@ namespace UserInterface.Forms
         protected DialogResult AskQuestion(string title, string message)
             => CustomQuestionBox.Show(this, title, message);
 
-        private void CustomForm_FormClosing(object sender, FormClosingEventArgs e)
+        protected void CustomForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (!(sender is CustomMessageBox) && !(sender is CustomQuestionBox) && !invokedFromThis)
             {
                 DialogResult result = AskQuestion("Attention", "Do you really want to exit?"); // Return OK or Cancel
                 if (result == DialogResult.No || result == DialogResult.Cancel) // Add No for future upgrades
                 {
+                    TopMost = true;
+
                     e.Cancel = true;
                     invokedFromThis = false;
                 }
@@ -115,6 +117,8 @@ namespace UserInterface.Forms
 
                     Application.Exit(); // Force exit
                 }
+
+                TopMost = false;
             }
         }
     }

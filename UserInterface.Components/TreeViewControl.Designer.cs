@@ -28,7 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // TreeViewControl
+            // 
+            this.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.This_DrawNode);
+            this.ResumeLayout(false);
+
         }
 
         #endregion

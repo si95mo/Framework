@@ -22,6 +22,8 @@ namespace UserInterface.Controls
         /// </summary>
         public TreeViewControl() : base()
         {
+            DrawMode = TreeViewDrawMode.OwnerDrawText;
+
             BackColor = SystemColors.Control;
             AfterSelect += TreeViewControl_AfterSelect;
         }
@@ -88,6 +90,25 @@ namespace UserInterface.Controls
                 else
                     ResetFonts(node.Nodes, nodeToExclude);
             }
+        }
+
+        private void This_DrawNode(object sender, DrawTreeNodeEventArgs e)
+        {
+            if (e.Node.IsSelected)
+            {
+                if (Focused)
+                {
+                    SolidBrush greenBrush = new SolidBrush(Colors.Green);
+                    e.Graphics.FillRectangle(greenBrush, e.Bounds);
+                }
+            }
+            else
+            {
+                SolidBrush whiteBrush = new SolidBrush(BackColor);
+                e.Graphics.FillRectangle(whiteBrush, e.Bounds);
+            }
+
+            TextRenderer.DrawText(e.Graphics, e.Node.Text, e.Node.TreeView.Font, e.Node.Bounds, e.Node.ForeColor);
         }
     }
 }

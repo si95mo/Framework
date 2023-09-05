@@ -79,13 +79,13 @@
             // 
             // prbProgress
             // 
-            this.prbProgress.BackColor = System.Drawing.SystemColors.Control;
+            this.prbProgress.BackColor = System.Drawing.Color.White;
             this.prbProgress.BarWidth = 14F;
             this.prbProgress.FirstBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(220)))), ((int)(((byte)(4)))));
             this.prbProgress.Font = new System.Drawing.Font("Lucida Sans Unicode", 14F);
-            this.prbProgress.ForeColor = System.Drawing.Color.DimGray;
+            this.prbProgress.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.prbProgress.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.ForwardDiagonal;
-            this.prbProgress.LineColor = System.Drawing.Color.DimGray;
+            this.prbProgress.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.prbProgress.LineWidth = 1;
             this.prbProgress.Location = new System.Drawing.Point(141, 216);
             this.prbProgress.Maximum = ((long)(100));
@@ -102,6 +102,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(500, 500);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lblStatus);

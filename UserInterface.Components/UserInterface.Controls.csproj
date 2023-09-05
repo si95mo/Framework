@@ -73,6 +73,12 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArrayViewControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ArrayViewControl.Designer.cs">
+      <DependentUpon>ArrayViewControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="BaseAutomaticButton.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -275,6 +281,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ArrayViewControl.resx">
+      <DependentUpon>ArrayViewControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="BaseAutomaticButton.resx">
       <DependentUpon>BaseAutomaticButton.cs</DependentUpon>
     </EmbeddedResource>
@@ -365,6 +374,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TextControl.resx">
       <DependentUpon>TextControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TreeViewControl.resx">
+      <DependentUpon>TreeViewControl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

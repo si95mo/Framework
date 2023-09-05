@@ -186,12 +186,16 @@ namespace UserInterface.Controls.Panels
         private void UpdateLabels(Label sender)
         {
             foreach (LabelControl label in LayoutPanel.Controls)
+            {
                 label.Font = new Font(label.Font, FontStyle.Regular);
+                label.BorderStyle = BorderStyle.None;
+            }
 
             LabelControl castedSender = sender as LabelControl;
+            castedSender.Font = new Font(castedSender.Font, FontStyle.Bold);
+            castedSender.BorderStyle = BorderStyle.FixedSingle;
 
             ActualUserControl = UserControls[castedSender.Text];
-            castedSender.Font = new Font(castedSender.Font, FontStyle.Bold);
         }
     }
 
