@@ -56,7 +56,8 @@ namespace UserInterface.Controls.Tests
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new TasksForm());
+            //Application.Run(new TasksForm());
+            Application.Run(new TreeViewTestForm());
         }
     }
 }

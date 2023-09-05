@@ -22,9 +22,13 @@ namespace UserInterface.Controls
         /// </summary>
         public TreeViewControl() : base()
         {
+            InitializeComponent();
+
             DrawMode = TreeViewDrawMode.OwnerDrawText;
 
             BackColor = SystemColors.Control;
+            ForeColor = Colors.TextColor;
+
             AfterSelect += TreeViewControl_AfterSelect;
         }
 
@@ -34,7 +38,6 @@ namespace UserInterface.Controls
             e.Node.Text = e.Node.Text;
 
             ResetFonts(Nodes, e.Node);
-            Focus();
         }
 
         /// <summary>
@@ -65,6 +68,22 @@ namespace UserInterface.Controls
         {
             SendMessage(parent.Handle, WM_SETREDRAW, true, 0);
             parent.Refresh();
+        }
+
+        /// <summary>
+        /// Get the root <see cref="TreeNode"/>
+        /// </summary>
+        /// <returns>The root <see cref="TreeNode"/></returns>
+        public TreeNode GetRootNode()
+        {
+            TreeNode node = SelectedNode;
+            while (node.Parent != null)
+                node = node.Parent;
+
+            if (node == null && Nodes.Count > 0)
+                node = Nodes[0];
+
+            return node;
         }
 
         protected override void CreateHandle()

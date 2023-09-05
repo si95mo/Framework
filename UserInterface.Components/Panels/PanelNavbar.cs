@@ -148,7 +148,7 @@ namespace UserInterface.Controls.Panels
         /// <summary>
         /// Set the actual <see cref="LabelControl"/> for the <see cref="ActualUserControl"/>
         /// </summary>
-        /// <param name="index">The index of the label to set as defautl"/></param>
+        /// <param name="index">The index of the label to set as default"/></param>
         public void SetActualLabel(int index = 0)
         {
             LabelControl label = Labels[index];
@@ -188,11 +188,13 @@ namespace UserInterface.Controls.Panels
             foreach (LabelControl label in LayoutPanel.Controls)
             {
                 label.Font = new Font(label.Font, FontStyle.Regular);
+                label.BackColor = Color.Transparent;
                 label.BorderStyle = BorderStyle.None;
             }
 
             LabelControl castedSender = sender as LabelControl;
             castedSender.Font = new Font(castedSender.Font, FontStyle.Bold);
+            castedSender.BackColor = ControlPaint.Light(BackColor);
             castedSender.BorderStyle = BorderStyle.FixedSingle;
 
             ActualUserControl = UserControls[castedSender.Text];

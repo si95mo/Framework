@@ -32,6 +32,7 @@
             // 
             // TreeViewControl
             // 
+            this.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.This_DrawNode);
             this.ResumeLayout(false);
 
