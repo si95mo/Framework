@@ -64,8 +64,8 @@ namespace UserInterface.Forms
         /// <param name="e">The <see cref="EventArgs"/></param>
         private void Form_Load(object sender, EventArgs e)
         {
-            lblFormName.Text = Text;
-            controlBox.Location = new Point(Size.Width - controlBox.Size.Width - 4, controlBox.Location.Y);
+            LblFormName.Text = Text;
+            ControlBox.Location = new Point(Size.Width - ControlBox.Size.Width - 4, ControlBox.Location.Y);
             borderUpPanel.Size = new Size(Size.Width + 2, borderUpPanel.Size.Height);
         }
 

@@ -45,13 +45,13 @@ namespace UserInterface.Controls.Tests
             // 
             // lblFormName
             // 
-            this.lblFormName.Margin = new System.Windows.Forms.Padding(12, 0, 12, 0);
-            this.lblFormName.Size = new System.Drawing.Size(145, 25);
-            this.lblFormName.Text = "CustomForm";
+            this.LblFormName.Margin = new System.Windows.Forms.Padding(12, 0, 12, 0);
+            this.LblFormName.Size = new System.Drawing.Size(145, 25);
+            this.LblFormName.Text = "CustomForm";
             // 
             // controlBox
             // 
-            this.controlBox.Location = new System.Drawing.Point(631, 14);
+            this.ControlBox.Location = new System.Drawing.Point(631, 14);
             // 
             // dgvControl
             // 
@@ -176,8 +176,8 @@ namespace UserInterface.Controls.Tests
             this.Controls.SetChildIndex(this.ledControl, 0);
             this.Controls.SetChildIndex(this.progressBar, 0);
             this.Controls.SetChildIndex(this.dgvControl, 0);
-            this.Controls.SetChildIndex(this.lblFormName, 0);
-            this.Controls.SetChildIndex(this.controlBox, 0);
+            this.Controls.SetChildIndex(this.LblFormName, 0);
+            this.Controls.SetChildIndex(this.ControlBox, 0);
             this.Controls.SetChildIndex(this.btnCustomMessageBox, 0);
             this.Controls.SetChildIndex(this.panelControl, 0);
             ((System.ComponentModel.ISupportInitialize)(this.dgvControl)).EndInit();

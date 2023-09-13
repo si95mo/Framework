@@ -37,13 +37,13 @@ namespace UserInterface.Forms
             // 
             // lblFormName
             // 
-            this.lblFormName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
-            this.lblFormName.Size = new System.Drawing.Size(155, 25);
-            this.lblFormName.Text = "CustomForm";
+            this.LblFormName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.LblFormName.Size = new System.Drawing.Size(155, 25);
+            this.LblFormName.Text = "CustomForm";
             // 
             // controlBox
             // 
-            this.controlBox.Location = new System.Drawing.Point(295, 13);
+            this.ControlBox.Location = new System.Drawing.Point(295, 13);
             // 
             // btnClose
             // 
@@ -82,9 +82,9 @@ namespace UserInterface.Forms
             this.Controls.Add(this.btnClose);
             this.Name = "CustomMessageBox";
             this.Text = "CustomMessageBox";
-            this.Controls.SetChildIndex(this.controlBox, 0);
+            this.Controls.SetChildIndex(this.ControlBox, 0);
             this.Controls.SetChildIndex(this.btnClose, 0);
-            this.Controls.SetChildIndex(this.lblFormName, 0);
+            this.Controls.SetChildIndex(this.LblFormName, 0);
             this.Controls.SetChildIndex(this.lblMessage, 0);
             this.ResumeLayout(false);
             this.PerformLayout();

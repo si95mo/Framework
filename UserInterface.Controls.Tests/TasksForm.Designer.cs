@@ -34,14 +34,14 @@
             // 
             // lblFormName
             // 
-            this.lblFormName.Margin = new System.Windows.Forms.Padding(12, 0, 12, 0);
-            this.lblFormName.Size = new System.Drawing.Size(155, 25);
-            this.lblFormName.Text = "CustomForm";
+            this.LblFormName.Margin = new System.Windows.Forms.Padding(12, 0, 12, 0);
+            this.LblFormName.Size = new System.Drawing.Size(155, 25);
+            this.LblFormName.Text = "CustomForm";
             // 
             // controlBox
             // 
-            this.controlBox.Location = new System.Drawing.Point(492, 20);
-            this.controlBox.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.ControlBox.Location = new System.Drawing.Point(492, 20);
+            this.ControlBox.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             // 
             // taskFlowLayout
             // 
@@ -79,8 +79,8 @@
             this.Load += new System.EventHandler(this.TasksForm_Load);
             this.Controls.SetChildIndex(this.taskFlowLayout, 0);
             this.Controls.SetChildIndex(this.schedulerFlowLayout, 0);
-            this.Controls.SetChildIndex(this.lblFormName, 0);
-            this.Controls.SetChildIndex(this.controlBox, 0);
+            this.Controls.SetChildIndex(this.LblFormName, 0);
+            this.Controls.SetChildIndex(this.ControlBox, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -31,15 +31,16 @@
             this.LayoutPanel = new System.Windows.Forms.Panel();
             this.PbxClose = new System.Windows.Forms.PictureBox();
             this.PbxLogo = new System.Windows.Forms.PictureBox();
+            this.LblVersion = new UserInterface.Controls.LabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.PbxClose)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PbxLogo)).BeginInit();
             this.SuspendLayout();
             // 
             // LayoutPanel
             // 
-            this.LayoutPanel.Location = new System.Drawing.Point(-1, -1);
+            this.LayoutPanel.Location = new System.Drawing.Point(189, -1);
             this.LayoutPanel.Name = "LayoutPanel";
-            this.LayoutPanel.Size = new System.Drawing.Size(1728, 62);
+            this.LayoutPanel.Size = new System.Drawing.Size(1538, 62);
             this.LayoutPanel.TabIndex = 1;
             // 
             // PbxClose
@@ -66,11 +67,22 @@
             this.PbxLogo.TabIndex = 2;
             this.PbxLogo.TabStop = false;
             // 
+            // LblVersion
+            // 
+            this.LblVersion.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblVersion.Location = new System.Drawing.Point(0, -1);
+            this.LblVersion.Name = "LblVersion";
+            this.LblVersion.Size = new System.Drawing.Size(183, 61);
+            this.LblVersion.TabIndex = 4;
+            this.LblVersion.Text = "v1.2.3";
+            this.LblVersion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // PanelNavbar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.Controls.Add(this.LblVersion);
             this.Controls.Add(this.LayoutPanel);
             this.Controls.Add(this.PbxClose);
             this.Controls.Add(this.PbxLogo);
@@ -88,5 +100,6 @@
         protected System.Windows.Forms.PictureBox PbxLogo;
         protected System.Windows.Forms.PictureBox PbxClose;
         protected System.Windows.Forms.Panel LayoutPanel;
+        protected LabelControl LblVersion;
     }
 }

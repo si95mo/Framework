@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace UserInterface.Controls.Panels
@@ -37,9 +38,14 @@ namespace UserInterface.Controls.Panels
         public Size LayoutSize { get => LayoutPanel.Size; set => LayoutPanel.Size = value; }
 
         /// <summary>
-        /// The <see cref="ControlCollection"/> with all the displayabale <see cref="UserControl"/>
+        /// The <see cref="Control.ControlCollection"/> with all the displayabale <see cref="UserControl"/>
         /// </summary>
         public ControlCollection LayoutControls => LayoutPanel.Controls;
+
+        /// <summary>
+        /// The version <see cref="LabelControl"/>. Can be used to add info the default assembly version
+        /// </summary>
+        public LabelControl VersionLabel => LblVersion;
 
         /// <summary>
         /// The actual user control
@@ -77,8 +83,11 @@ namespace UserInterface.Controls.Panels
             InitializeComponent();
 
             AutoScaleMode = AutoScaleMode.Inherit;
-
             LayoutPanel.BackColor = Colors.Grey;
+
+            VersionLabel.Text = Assembly.GetEntryAssembly().GetName().Version.ToString();
+            if(!VersionLabel.Text.StartsWith("v"))
+                VersionLabel.Text = $"v{VersionLabel.Text}";
 
             UserControls = new Dictionary<string, Control>();
             Labels = new List<LabelControl>();

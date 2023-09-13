@@ -36,13 +36,13 @@ namespace UserInterface.Forms
             // 
             // lblFormName
             // 
-            this.lblFormName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
-            this.lblFormName.Size = new System.Drawing.Size(155, 25);
-            this.lblFormName.Text = "CustomForm";
+            this.LblFormName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.LblFormName.Size = new System.Drawing.Size(155, 25);
+            this.LblFormName.Text = "CustomForm";
             // 
             // controlBox
             // 
-            this.controlBox.Location = new System.Drawing.Point(518, 13);
+            this.ControlBox.Location = new System.Drawing.Point(518, 13);
             // 
             // lblMessage
             // 
@@ -96,8 +96,8 @@ namespace UserInterface.Forms
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.lblMessage);
             this.Name = "CustomQuestionBox";
-            this.Controls.SetChildIndex(this.lblFormName, 0);
-            this.Controls.SetChildIndex(this.controlBox, 0);
+            this.Controls.SetChildIndex(this.LblFormName, 0);
+            this.Controls.SetChildIndex(this.ControlBox, 0);
             this.Controls.SetChildIndex(this.lblMessage, 0);
             this.Controls.SetChildIndex(this.btnOk, 0);
             this.Controls.SetChildIndex(this.btnCanc, 0);

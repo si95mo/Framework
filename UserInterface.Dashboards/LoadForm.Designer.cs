@@ -36,12 +36,12 @@ namespace UserInterface.Dashboards
             // 
             // lblFormName
             // 
-            this.lblFormName.Size = new System.Drawing.Size(145, 25);
-            this.lblFormName.Text = "CustomForm";
+            this.LblFormName.Size = new System.Drawing.Size(145, 25);
+            this.LblFormName.Text = "CustomForm";
             // 
             // controlBox
             // 
-            this.controlBox.Location = new System.Drawing.Point(413, 13);
+            this.ControlBox.Location = new System.Drawing.Point(413, 13);
             // 
             // btcLoadDashboard
             // 
@@ -87,8 +87,8 @@ namespace UserInterface.Dashboards
             this.Controls.Add(this.labelControl1);
             this.Name = "LoadForm";
             this.Text = "LoadForm";
-            this.Controls.SetChildIndex(this.lblFormName, 0);
-            this.Controls.SetChildIndex(this.controlBox, 0);
+            this.Controls.SetChildIndex(this.LblFormName, 0);
+            this.Controls.SetChildIndex(this.ControlBox, 0);
             this.Controls.SetChildIndex(this.labelControl1, 0);
             this.Controls.SetChildIndex(this.txcDashboardName, 0);
             this.Controls.SetChildIndex(this.btcLoadDashboard, 0);

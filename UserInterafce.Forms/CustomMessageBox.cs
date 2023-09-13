@@ -31,10 +31,10 @@ namespace UserInterface.Forms
             lblMessage.Text = message;
 
             int labelVerticalLocation = (Size.Height - lblMessage.Size.Height) / 2;
-            lblMessage.Location = new Point(lblFormName.Location.X, labelVerticalLocation);
+            lblMessage.Location = new Point(LblFormName.Location.X, labelVerticalLocation);
 
-            controlBox.Visible = false;
-            controlBox.Enabled = false;
+            ControlBox.Visible = false;
+            ControlBox.Enabled = false;
 
             MouseDown -= Form_MouseDown;
             FormClosing -= CustomForm_FormClosing;

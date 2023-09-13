@@ -34,12 +34,12 @@ namespace UserInterface.Controls.Tests
             // 
             // lblFormName
             // 
-            this.lblFormName.Size = new System.Drawing.Size(145, 25);
-            this.lblFormName.Text = "CustomForm";
+            this.LblFormName.Size = new System.Drawing.Size(145, 25);
+            this.LblFormName.Text = "CustomForm";
             // 
             // controlBox
             // 
-            this.controlBox.Location = new System.Drawing.Point(1030, 13);
+            this.ControlBox.Location = new System.Drawing.Point(1030, 13);
             // 
             // flowLayoutPanel
             // 
@@ -57,8 +57,8 @@ namespace UserInterface.Controls.Tests
             this.Name = "ResourceTestForm";
             this.Text = "ResourceTestForm";
             this.Load += new System.EventHandler(this.ResourceTestForm_Load);
-            this.Controls.SetChildIndex(this.lblFormName, 0);
-            this.Controls.SetChildIndex(this.controlBox, 0);
+            this.Controls.SetChildIndex(this.LblFormName, 0);
+            this.Controls.SetChildIndex(this.ControlBox, 0);
             this.Controls.SetChildIndex(this.layoutPanel, 0);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -32,12 +32,12 @@
             // 
             // lblFormName
             // 
-            this.lblFormName.Size = new System.Drawing.Size(155, 25);
-            this.lblFormName.Text = "CustomForm";
+            this.LblFormName.Size = new System.Drawing.Size(155, 25);
+            this.LblFormName.Text = "CustomForm";
             // 
             // controlBox
             // 
-            this.controlBox.Location = new System.Drawing.Point(696, 13);
+            this.ControlBox.Location = new System.Drawing.Point(696, 13);
             // 
             // CustomSubForm
             // 

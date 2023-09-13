@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -10,7 +11,10 @@ namespace UserInterface.Controls.Panels
         {
             InitializeComponent();
 
+            LblVersion.Visible = false;
+
             LayoutSize = Size;
+            LayoutPanel.Location = new Point(0, 0);
             LayoutPanel.BackColor = Colors.Grey;
 
             PbxClose.Enabled = false;

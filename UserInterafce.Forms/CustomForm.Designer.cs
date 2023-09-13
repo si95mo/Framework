@@ -30,52 +30,52 @@ namespace UserInterface.Forms
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CustomForm));
-            this.lblFormName = new System.Windows.Forms.Label();
-            this.controlBox = new MetroSet_UI.Controls.MetroSetControlBox();
+            this.LblFormName = new System.Windows.Forms.Label();
+            this.ControlBox = new MetroSet_UI.Controls.MetroSetControlBox();
             this.borderUpPanel = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
-            // lblFormName
+            // LblFormName
             // 
-            this.lblFormName.AutoSize = true;
-            this.lblFormName.Font = new System.Drawing.Font("Lucida Sans Unicode", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFormName.Location = new System.Drawing.Point(16, 14);
-            this.lblFormName.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
-            this.lblFormName.Name = "lblFormName";
-            this.lblFormName.Size = new System.Drawing.Size(64, 25);
-            this.lblFormName.TabIndex = 9;
-            this.lblFormName.Text = "----";
+            this.LblFormName.AutoSize = true;
+            this.LblFormName.Font = new System.Drawing.Font("Lucida Sans Unicode", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblFormName.Location = new System.Drawing.Point(16, 14);
+            this.LblFormName.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.LblFormName.Name = "LblFormName";
+            this.LblFormName.Size = new System.Drawing.Size(64, 25);
+            this.LblFormName.TabIndex = 9;
+            this.LblFormName.Text = "----";
             // 
-            // controlBox
+            // ControlBox
             // 
-            this.controlBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.controlBox.CloseHoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(183)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.controlBox.CloseHoverForeColor = System.Drawing.Color.White;
-            this.controlBox.CloseNormalForeColor = System.Drawing.Color.Gray;
-            this.controlBox.DisabledForeColor = System.Drawing.Color.DimGray;
-            this.controlBox.IsDerivedStyle = true;
-            this.controlBox.Location = new System.Drawing.Point(286, 13);
-            this.controlBox.Margin = new System.Windows.Forms.Padding(4);
-            this.controlBox.MaximizeBox = false;
-            this.controlBox.MaximizeHoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
-            this.controlBox.MaximizeHoverForeColor = System.Drawing.Color.Gray;
-            this.controlBox.MaximizeNormalForeColor = System.Drawing.Color.Gray;
-            this.controlBox.MinimizeBox = true;
-            this.controlBox.MinimizeHoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
-            this.controlBox.MinimizeHoverForeColor = System.Drawing.Color.Gray;
-            this.controlBox.MinimizeNormalForeColor = System.Drawing.Color.Gray;
-            this.controlBox.Name = "controlBox";
-            this.controlBox.Size = new System.Drawing.Size(100, 25);
-            this.controlBox.Style = MetroSet_UI.Enums.Style.Light;
-            this.controlBox.StyleManager = null;
-            this.controlBox.TabIndex = 10;
-            this.controlBox.Text = "metroSetControlBox1";
-            this.controlBox.ThemeAuthor = "Narwin";
-            this.controlBox.ThemeName = "MetroLite";
+            this.ControlBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ControlBox.CloseHoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(183)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.ControlBox.CloseHoverForeColor = System.Drawing.Color.White;
+            this.ControlBox.CloseNormalForeColor = System.Drawing.Color.Gray;
+            this.ControlBox.DisabledForeColor = System.Drawing.Color.DimGray;
+            this.ControlBox.IsDerivedStyle = true;
+            this.ControlBox.Location = new System.Drawing.Point(286, 13);
+            this.ControlBox.Margin = new System.Windows.Forms.Padding(4);
+            this.ControlBox.MaximizeBox = false;
+            this.ControlBox.MaximizeHoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.ControlBox.MaximizeHoverForeColor = System.Drawing.Color.Gray;
+            this.ControlBox.MaximizeNormalForeColor = System.Drawing.Color.Gray;
+            this.ControlBox.MinimizeBox = true;
+            this.ControlBox.MinimizeHoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.ControlBox.MinimizeHoverForeColor = System.Drawing.Color.Gray;
+            this.ControlBox.MinimizeNormalForeColor = System.Drawing.Color.Gray;
+            this.ControlBox.Name = "ControlBox";
+            this.ControlBox.Size = new System.Drawing.Size(100, 25);
+            this.ControlBox.Style = MetroSet_UI.Enums.Style.Light;
+            this.ControlBox.StyleManager = null;
+            this.ControlBox.TabIndex = 10;
+            this.ControlBox.Text = "metroSetControlBox1";
+            this.ControlBox.ThemeAuthor = "Narwin";
+            this.ControlBox.ThemeName = "MetroLite";
             // 
             // borderUpPanel
             // 
-            this.borderUpPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(220)))), ((int)(((byte)(4)))));
+            this.borderUpPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(199)))), ((int)(((byte)(209)))), ((int)(((byte)(23)))));
             this.borderUpPanel.Location = new System.Drawing.Point(0, 0);
             this.borderUpPanel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.borderUpPanel.Name = "borderUpPanel";
@@ -88,8 +88,8 @@ namespace UserInterface.Forms
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(399, 261);
             this.Controls.Add(this.borderUpPanel);
-            this.Controls.Add(this.controlBox);
-            this.Controls.Add(this.lblFormName);
+            this.Controls.Add(this.ControlBox);
+            this.Controls.Add(this.LblFormName);
             this.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -107,7 +107,7 @@ namespace UserInterface.Forms
 
         #endregion
         private System.Windows.Forms.Panel borderUpPanel;
-        protected System.Windows.Forms.Label lblFormName;
-        protected MetroSet_UI.Controls.MetroSetControlBox controlBox;
+        protected System.Windows.Forms.Label LblFormName;
+        protected MetroSet_UI.Controls.MetroSetControlBox ControlBox;
     }
 }
