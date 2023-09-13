@@ -73,7 +73,7 @@ namespace Tasks
             return this;
         }
 
-        private void WaitState_ValueChanged(object sender, Core.ValueChangedEventArgs e)
+        private void WaitState_ValueChanged(object sender, ValueChangedEventArgs e)
             => Message = e.NewValueAsString;
 
         /// <summary>
