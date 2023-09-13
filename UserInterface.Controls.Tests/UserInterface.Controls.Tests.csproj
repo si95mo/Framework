@@ -70,12 +70,21 @@
     <Reference Include="LiveCharts.Wpf, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
       <HintPath>..\packages\LiveCharts.Wpf.0.9.7\lib\net45\LiveCharts.Wpf.dll</HintPath>
     </Reference>
-    <Reference Include="MetroSet UI, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null" />
+    <Reference Include="MetroSet UI, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroSet_UI.2.0.0\lib\net45\MetroSet UI.dll</HintPath>
+    </Reference>
+    <Reference Include="ModernWpf, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c99d0cfbea7491ef, processorArchitecture=MSIL">
+      <HintPath>..\packages\ModernWpf.2.0.0-alpha97\lib\net40-Client\ModernWpf.dll</HintPath>
+    </Reference>
+    <Reference Include="ModernWpf.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c99d0cfbea7491ef, processorArchitecture=MSIL">
+      <HintPath>..\packages\ModernWpf.Core.2.0.0-beta01\lib\net40-Client\ModernWpf.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Windows.Forms" />
@@ -95,6 +104,12 @@
     </Compile>
     <Compile Include="ChartControlForm.Designer.cs">
       <DependentUpon>ChartControlForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataGridTestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataGridTestForm.Designer.cs">
+      <DependentUpon>DataGridTestForm.cs</DependentUpon>
     </Compile>
     <Compile Include="HardwareControlsForm.cs">
       <SubType>Form</SubType>
@@ -168,6 +183,9 @@
   <ItemGroup>
     <EmbeddedResource Include="ChartControlForm.resx">
       <DependentUpon>ChartControlForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataGridTestForm.resx">
+      <DependentUpon>DataGridTestForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HardwareControlsForm.resx">
       <DependentUpon>HardwareControlsForm.cs</DependentUpon>
