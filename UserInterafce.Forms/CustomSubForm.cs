@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.IO.Ports;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using UserInterface.Controls;
@@ -32,6 +33,38 @@ namespace UserInterface.Forms
 
             // Remove closing event handler, a close of this form should not invoke the parent event handler
             FormClosing -= CustomForm_FormClosing;
+        }
+
+        /// <summary>
+        /// <see cref="Control.Show())"/> this form with default appearance
+        /// </summary>
+        /// <param name="text">The <see cref="Text"/> to show</param>
+        /// <param name="opacity">The opacity of the <see cref="CustomSubForm"/></param>
+        public void ShowAsModalForm(string text = "", double opacity = 0.9)
+        {
+            AutoScaleMode = AutoScaleMode.Inherit;
+            TopMost = true;
+            Opacity = opacity;
+            Text = text;
+            Location = new Point((1920 - Size.Width) / 2, (840 - Size.Height) / 2);
+
+            Show();
+        }
+
+        /// <summary>
+        /// <see cref="Form.ShowDialog())"/> this form with default appearance
+        /// </summary>
+        /// <param name="text">The <see cref="Text"/> to show</param>
+        /// <param name="opacity">The opacity of the <see cref="CustomSubForm"/></param>
+        public DialogResult ShowAsExclusiveModalForm(string text = "", double opacity = 0.9)
+        {
+            AutoScaleMode = AutoScaleMode.Inherit;
+            TopMost = true;
+            Opacity = opacity;
+            Text = FindForm().Text + text;
+            Location = new Point((1920 - Size.Width) / 2, (840 - Size.Height) / 2);
+
+            return ShowDialog();
         }
 
         protected override void OnPaint(PaintEventArgs e)

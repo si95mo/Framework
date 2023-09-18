@@ -83,6 +83,9 @@ namespace UserInterface.Forms
         /// <summary>
         /// Show an alert message
         /// </summary>
+        /// <remarks>
+        /// This method call <see cref="CustomMessageBox.Show(Form, string, string)"/> and pass <see langword="this"/> in the first parameter
+        /// </remarks>
         /// <param name="title">The title</param>
         /// <param name="message">The message</param>
         protected void ShowAlert(string title = "Attention", string message = "Attention message")
