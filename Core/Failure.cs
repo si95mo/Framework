@@ -57,7 +57,7 @@ namespace Core
         /// </summary>
         public Failure()
         {
-            description = "";
+            description = string.Empty;
             Timestamp = new DateTime();
         }
 
@@ -124,7 +124,7 @@ namespace Core
         /// </summary>
         public void Clear()
         {
-            description = "";
+            description = string.Empty;
             Timestamp = new DateTime();
         }
 

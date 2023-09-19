@@ -1,8 +1,7 @@
 ﻿namespace Core.Conditions
 {
     /// <summary>
-    /// Implement an <see cref="ICondition"/> that will be <see langword="true"/>
-    /// when the value of a <see cref="IProperty"/> change
+    /// Implement an <see cref="ICondition"/> that will be <see langword="true"/> when the value of a <see cref="IProperty"/> change
     /// </summary>
     public class PropertyValueChanged : FlyweightCondition
     {
@@ -12,9 +11,8 @@
         /// The value of the <see cref="PropertyValueChanged"/>
         /// </summary>
         /// <remarks>
-        /// <see cref="Value"/> will be <see langword="true"/> when the <see cref="IProperty"/> associated
-        /// with the <see cref="PropertyValueChanged"/> change its value and will automatically
-        /// become <see langword="false"/> once it will be accessed via the <see cref="Value"/> property getter!
+        /// <see cref="Value"/> will be <see langword="true"/> when the <see cref="IProperty"/> associated with the <see cref="PropertyValueChanged"/> 
+        /// change its value and will automatically become <see langword="false"/> once it will be accessed via the <see cref="Value"/> property getter!
         /// </remarks>
         public override bool Value
         {

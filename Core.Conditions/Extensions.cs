@@ -1,5 +1,7 @@
 ﻿using Core.Converters;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
@@ -117,6 +119,32 @@ namespace Core.Conditions
         private static void UpdateAndCondition(ICondition changedCondition, ICondition andCondition)
             => andCondition.Value &= changedCondition.Value;
 
+        /// <summary>
+        /// Ands all the <see cref="ICondition"/> contained in <paramref name="source"/>
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="source"/> only have one element, than the result will be that element itself. If <paramref name="source"/> contains no
+        /// elements, then the result will be <see langword="null"/>
+        /// </remarks>
+        /// <param name="source">The <see cref="IEnumerable{T}"/> with all the <see cref="ICondition"/> to and</param>
+        /// <returns>The result <see cref="ICondition"/></returns>
+        public static ICondition And(this IEnumerable<ICondition> source)
+        {
+            ICondition result;
+            if (source.Count() > 1) // At lest 2 conditions in the collection
+            {
+                result = source.First();
+                foreach(ICondition condition in source.Skip(1)) // First element already taken into account
+                    result = result.And(condition); // And through all the collection elements
+            }
+            else if (source.Count() == 1)
+                result = source.ElementAt(0);
+            else
+                result = null;
+
+            return result;
+        }
+
         #endregion And
 
         #region Or
@@ -144,6 +172,32 @@ namespace Core.Conditions
         /// <param name="orCondition">The <see cref="FlyweightCondition"/> result of the <see cref="Or(ICondition, ICondition)"/> method</param>
         private static void UpdateOrCondition(ICondition changedCondition, ICondition orCondition)
             => orCondition.Value |= changedCondition.Value;
+
+        /// <summary>
+        /// Ors all the <see cref="ICondition"/> contained in <paramref name="source"/>
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="source"/> only have one element, than the result will be that element itself. If <paramref name="source"/> contains no
+        /// elements, then the result will be <see langword="null"/>
+        /// </remarks>
+        /// <param name="source">The <see cref="IEnumerable{T}"/> with all the <see cref="ICondition"/> to or</param>
+        /// <returns>The result <see cref="ICondition"/></returns>
+        public static ICondition Or(this IEnumerable<ICondition> source)
+        {
+            ICondition result;
+            if (source.Count() > 1) // At lest 2 conditions in the collection
+            {
+                result = source.First();
+                foreach (ICondition condition in source.Skip(1)) // First element already taken into account
+                    result = result.Or(condition); // And through all the collection elements
+            }
+            else if (source.Count() == 1)
+                result = source.ElementAt(0);
+            else
+                result = null;
+
+            return result;
+        }
 
         #endregion Or
 

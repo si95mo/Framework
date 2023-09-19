@@ -1,8 +1,8 @@
 ﻿namespace Core.Conditions
 {
     /// <summary>
-    /// Create a <see cref="Condition"/> that will retain its value since its not connected
-    /// to anything external (aside from possible connections with <see cref="Condition.ConnectTo(IProperty)"/>)
+    /// Create a <see cref="Condition"/> that will retain its value since its not connected to anything external 
+    /// (aside from possible connections with <see cref="Condition.ConnectTo(IProperty)"/>)
     /// </summary>
     public class DummyCondition : Condition
     {
@@ -27,8 +27,7 @@
         /// Force the <see cref="DummyCondition"/> value to change
         /// </summary>
         /// <remarks>
-        /// This is the only way to change the <see cref="DummyCondition"/> value
-        /// (other than a <see cref="IProperty{T}.ConnectTo(IProperty)"/>)!
+        /// This is the only way to change the <see cref="DummyCondition"/> value (other than a <see cref="IProperty{T}.ConnectTo(IProperty)"/>)!
         /// </remarks>
         /// <param name="value">The new value</param>
         public void Force(bool value) => Value = value;
