@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -7,6 +8,9 @@ namespace UserInterface.Controls.Panels
 {
     public partial class PanelSubNavbar : PanelNavbar
     {
+        [Description("Use UTC time"), Category("Data")]
+        public bool UseUtcTime { get; set; } = false;
+
         public PanelSubNavbar() : base()
         {
             InitializeComponent();
@@ -37,21 +41,26 @@ namespace UserInterface.Controls.Panels
                     while (true)
                     {
                         if (!InvokeRequired)
-                            UpdateDateAndTime(DateTime.Now);
+                            UpdateDateAndTime();
                         else
-                            BeginInvoke(new Action(() => UpdateDateAndTime(DateTime.Now)));
+                            BeginInvoke(new Action(() => UpdateDateAndTime()));
 
-                        await Task.Delay(500); // Wait for 500ms, maximum time to not lose time information
+                        await Task.Delay(30000); // Wait for 30000ms (30s), maximum time to not lose time information displaying only up to minutes
                     }
                 }
             );
             task.Start();
         }
 
-        private void UpdateDateAndTime(DateTime dateTime)
+        /// <summary>
+        /// Update the date and time controls with <see cref="DateTime.Now"/>
+        /// </summary>
+        private void UpdateDateAndTime()
         {
-            lblTime.Text = dateTime.ToString("HH:mm:ss");
-            lblDate.Text = dateTime.ToString("yyyy/MM/dd");
+            DateTime now = UseUtcTime ? DateTime.UtcNow : DateTime.Now;
+
+            lblTime.Text = now.ToString("HH:mm");
+            lblDate.Text = now.ToString("yyyy/MM/dd");
         }
     }
 }
