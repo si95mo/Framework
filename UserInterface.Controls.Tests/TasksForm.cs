@@ -1,6 +1,9 @@
 ﻿using Core.DataStructures;
+using Diagnostic;
+using Diagnostic.Messages;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Tasks;
 using UserInterface.Forms;
 
@@ -8,39 +11,47 @@ namespace UserInterface.Controls.Tests
 {
     public partial class TasksForm : CustomForm
     {
+        private Alarm alarm;
+
         public TasksForm()
         {
             InitializeComponent();
 
+            Logger.Initialize();
+
             ServiceBroker.Initialize();
             ServiceBroker.Provide(new TasksService());
-            ServiceBroker.Provide(new SchedulersService());
+            ServiceBroker.Provide(new SchedulersService(maxDegreesOfParallelism: 4));
+            ServiceBroker.Provide(new DiagnosticMessagesService());
 
-            Scheduler defaultScheduler = new Scheduler("AdditionalScheduler", maxDegreesOfParallelism: 4);
-            ServiceBroker.GetService<SchedulersService>().Add(defaultScheduler);
+            Scheduler cyclicScheduler = new Scheduler("CyclicScheduler", maxDegreesOfParallelism: 25);
+            alarm = new Alarm("Alarm", "Alarm fired", string.Empty, null);
 
-            Scheduler otherScheduler = new Scheduler("CyclicScheduler", maxDegreesOfParallelism: 11);
-            ServiceBroker.GetService<SchedulersService>().Add(otherScheduler);
+            AlarmMonitor.Initialize();
 
             for (int i = 0; i < 10; i++)
             {
                 new FunctionTask(Name + i);
             }
 
-            new CyclicFunctionTask(Name + ".Cyclic", TimeSpan.FromMilliseconds(1000d));
-
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 2; i++)
             {
-                new CyclicFunctionTask($"{Name}.Cyclic.{i}", TimeSpan.FromMilliseconds(1000d), otherScheduler);
+                new CyclicFunctionTaskThatWontStop($"{Name}.CyclicThatWontStop.{i}", TimeSpan.FromMilliseconds(1000d), cyclicScheduler);
             }
 
-            foreach (IAwaitable t in ServiceBroker.GetService<TasksService>().GetAll())
+            new CyclicFunctionTask(Name + ".Cyclic", TimeSpan.FromMilliseconds(1000d));
+            for (int i = 0; i < 10; i++)
+            {
+                new CyclicFunctionTask($"{Name}.Cyclic.{i}", TimeSpan.FromMilliseconds(1000d), cyclicScheduler);
+            }
+
+            foreach (IAwaitable t in ServiceBroker.GetService<TasksService>().GetAll().Cast<IAwaitable>())
             {
                 TaskControl taskControl = new TaskControl(t);
                 taskFlowLayout.Controls.Add(taskControl);
             }
 
-            foreach (IScheduler scheduler in ServiceBroker.GetService<SchedulersService>().GetAll())
+            foreach (IScheduler scheduler in ServiceBroker.GetService<SchedulersService>().GetAll().Cast<IScheduler>())
             {
                 SchedulerControl schedulerControl = new SchedulerControl(scheduler);
                 schedulerFlowLayout.Controls.Add(schedulerControl);
@@ -49,50 +60,96 @@ namespace UserInterface.Controls.Tests
             CenterToScreen();
         }
 
-        public class FunctionTask : Awaitable
-        {
-            public FunctionTask(string code, Scheduler scheduler = null) : base(code, scheduler)
-            { }
-
-            public override IEnumerable<string> Execution()
-            {
-                for (int i = 0; i < 10; i++)
-                {
-                    yield return WaitFor(TimeSpan.FromSeconds(1d))
-                        .WithMessage($"Step {i + 1}, waiting 1 second");
-                }
-
-                yield return "Done";
-            }
-        }
-
-        public class CyclicFunctionTask : CyclicAwaitable
-        {
-            private int counter;
-
-            public CyclicFunctionTask(string code, TimeSpan cycleTime, Scheduler scheduler = null) : base(code, cycleTime, scheduler)
-            {
-                counter = 0;
-            }
-
-            public override IEnumerable<string> Execution()
-            {
-                yield return "Incrementing counter";
-                counter++;
-
-                yield return "Cycle done";
-            }
-
-            public override IEnumerable<string> Termination()
-            {
-                return base.Termination();
-            }
-        }
-
         private void TasksForm_Load(object sender, EventArgs e)
         {
-            foreach (IAwaitable task in ServiceBroker.GetService<TasksService>().GetAll())
+            foreach (IAwaitable task in ServiceBroker.GetService<TasksService>().GetAll().Cast<IAwaitable>())
+            {
                 task.Start();
+            }
+        }
+
+        private void BtnFireAlarm_Click(object sender, EventArgs e)
+        {
+            if (!alarm.Active)
+            {
+                alarm.Fire($"Alarm fired @{DateTime.Now}");
+            }
+        }
+
+        private void BtnReserAlarm_Click(object sender, EventArgs e)
+        {
+            if(alarm.Active)
+            {
+                alarm.Reset();
+
+                foreach (IAwaitable task in ServiceBroker.GetService<TasksService>().GetAll().Cast<IAwaitable>())
+                {
+                    task.Start();
+                }
+            }
         }
     }
+
+    #region Custom tasks classes
+
+    public class FunctionTask : Awaitable
+    {
+        public FunctionTask(string code, Scheduler scheduler = null) : base(code, scheduler)
+        { }
+
+        public override IEnumerable<string> Execution()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                yield return WaitFor(TimeSpan.FromSeconds(1d))
+                    .WithMessage($"Step {i + 1}, waiting 1 second");
+            }
+
+            yield return "Done";
+        }
+    }
+
+    public class CyclicFunctionTask : CyclicAwaitable
+    {
+        private int counter;
+
+        public CyclicFunctionTask(string code, TimeSpan cycleTime, Scheduler scheduler = null) : base(code, cycleTime, scheduler)
+        {
+            counter = 0;
+        }
+
+        public override IEnumerable<string> Execution()
+        {
+            yield return "Incrementing counter";
+            counter++;
+
+            yield return "Cycle done";
+        }
+
+        public override IEnumerable<string> Termination()
+        {
+            return base.Termination();
+        }
+    }
+
+    [DontStopInAlarm]
+    public class CyclicFunctionTaskThatWontStop : CyclicAwaitable
+    {
+        private int counter;
+
+        public CyclicFunctionTaskThatWontStop(string code, TimeSpan cycleTime, Scheduler scheduler = null) : base(code, cycleTime, scheduler)
+        {
+            counter = 0;
+        }
+
+        public override IEnumerable<string> Execution()
+        {
+            yield return "Incrementing counter";
+            counter++;
+
+            yield return "Cycle done";
+        }
+    }
+
+    #endregion Custom tasks classes
 }

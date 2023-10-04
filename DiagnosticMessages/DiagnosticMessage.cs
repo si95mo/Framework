@@ -74,6 +74,7 @@ namespace Diagnostic.Messages
         public string Message { get; set; }
         public string LongText { get; set; }
         public DateTime FiringTime { get; protected set; }
+        public bool Active => FiringTime != default;
 
         #endregion Public properties
 

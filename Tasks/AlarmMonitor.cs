@@ -13,7 +13,7 @@ namespace Tasks
     /// Define a class that will monitor all the <see cref="Alarm"/> contained in the <see cref="DiagnosticMessagesService"/> and if one fires then will
     /// stop all the <see cref="IAwaitable"/> tasks in the <see cref="TasksService"/> not marked with the <see cref="DontStopInAlarm"/> <see cref="Attribute"/>
     /// </summary>
-    internal static class AlarmMonitor
+    public static class AlarmMonitor
     {
         private static DiagnosticMessagesService alarmsService;
         private static TasksService tasksService;
@@ -46,6 +46,14 @@ namespace Tasks
                 Logger.Error($"{nameof(TasksService)} not provided by the {nameof(ServiceBroker)}. {nameof(AlarmMonitor)} will use its own");
             }
 
+            foreach(IDiagnosticMessage message in alarmsService.GetAll())
+            {
+                if(message is Alarm alarm)
+                {
+                    Bind(alarm);
+                }
+            }
+
             alarmsService.Subscribers.Added += DiagnosticMessage_Added;
         }
 
@@ -71,7 +79,7 @@ namespace Tasks
             // Get all the tasks that must be stopped (the ones not marked with the DontStopInAlarm attribute)
             IEnumerable<IAwaitable> tasksToStop = tasksService
                 .GetAll()
-                .Where((x) => Attribute.GetCustomAttribute(typeof(DontStopInAlarm), x.GetType()) != null)
+                .Where((x) => !Attribute.IsDefined(x.GetType(), typeof(DontStopInAlarm)))
                 .Cast<IAwaitable>();
 
             // Then try to stop all the tasks in parallel, if possible

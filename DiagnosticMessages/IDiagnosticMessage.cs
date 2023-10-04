@@ -29,6 +29,11 @@ namespace Diagnostic.Messages
         DateTime FiringTime { get; }
 
         /// <summary>
+        /// Tha active state
+        /// </summary>
+        bool Active { get; }
+
+        /// <summary>
         /// The fired <see cref="EventHandler"/>
         /// </summary>
         event EventHandler<FiredEventArgs> Fired;

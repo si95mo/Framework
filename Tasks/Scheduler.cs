@@ -1,5 +1,7 @@
 ﻿using Core.Converters;
+using Core.DataStructures;
 using Core.Parameters;
+using Diagnostic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,6 +70,15 @@ namespace Tasks
             RunningTasks.ConnectTo(Load, new GenericConverter<double, double>(new Func<double, double>((x) => x / MaxDeegreesOfParallelism * 100d)));
 
             tasks = new LinkedList<Task>();
+
+            if(ServiceBroker.CanProvide<SchedulersService>())
+            {
+                ServiceBroker.GetService<SchedulersService>().Add(this);
+            }
+            else
+            {
+                Logger.Warn($"{nameof(ServiceBroker)} couldn't provide {nameof(SchedulersService)} when creating scheduler '{code}'");
+            }
         }
 
         #endregion Constructors

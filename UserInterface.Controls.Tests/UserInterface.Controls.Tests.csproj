@@ -151,6 +151,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Core.Conditions\Core.Conditions.csproj">
+      <Project>{694CD750-5601-4C5F-A881-3B330E4CAF43}</Project>
+      <Name>Core.Conditions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DiagnosticMessages\DiagnosticMessages.csproj">
+      <Project>{4c9dfd9b-d4ef-4565-9612-cf5096b3ca74}</Project>
+      <Name>DiagnosticMessages</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Hardware.Modbus\Hardware.Modbus.csproj">
       <Project>{FA1A2A2F-C31D-4588-AFDD-EFCBE654E93D}</Project>
       <Name>Hardware.Modbus</Name>
@@ -158,6 +166,10 @@
     <ProjectReference Include="..\Hardware.Tcp\Hardware.Tcp.csproj">
       <Project>{281409C8-104C-4167-B5E9-DA9032034803}</Project>
       <Name>Hardware.Tcp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IO\IO.csproj">
+      <Project>{65535B13-4850-4EC8-893D-58F3BC49C457}</Project>
+      <Name>IO</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mathematics\Mathematics.csproj">
       <Project>{CFE7C7F0-3A06-42EC-905B-4B9DB2358BC1}</Project>
