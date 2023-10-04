@@ -56,9 +56,13 @@ namespace Tasks
             waitForHandler = new WaitForHandler();
 
             if (scheduler != null)
+            {
                 Scheduler = scheduler;
+            }
             else
+            {
                 Scheduler = (Scheduler)ServiceBroker.GetService<SchedulersService>().DefaultScheduler;
+            }
 
             Status = new EnumParameter<TaskStatus>($"{Code}.{nameof(Status)}", TaskStatus.Created);
             TokenSource = new CancellationTokenSource();
@@ -66,6 +70,8 @@ namespace Tasks
 
             InputParameters = new Bag<IParameter>();
             OutputParameters = new Bag<IParameter>();
+
+            ServiceBroker.GetService<TasksService>().Add(this);
         }
 
         #region IAwaitable interface implementation

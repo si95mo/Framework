@@ -62,12 +62,12 @@ namespace Hardware
         bool ReadOnly { get; }
 
         /// <summary>
-        /// The <see cref="IChannel"/> description
+        /// The <see cref="IChannel"/> description (as a human readable <see cref="string"/>
         /// </summary>
         string Description { get; set; }
 
         /// <summary>
-        /// The <see cref="IChannel"/> symbolic
+        /// The <see cref="IChannel"/> symbolic (as in the electrical schema)
         /// </summary>
         string Symbolic { get; set; }   
 

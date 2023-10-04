@@ -13,8 +13,8 @@ namespace Core.DataStructures.Tests
         {
             bag = new Bag<IChannel<double>>();
 
-            bag.ItemAdded += Bag_ItemAdded;
-            bag.ItemRemoved += Bag_ItemRemoved;
+            bag.Added += Bag_ItemAdded;
+            bag.Removed += Bag_ItemRemoved;
 
             var input = new AnalogInput("AiFirst");
             bag.Add(input);

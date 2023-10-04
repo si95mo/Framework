@@ -56,8 +56,8 @@ namespace Hardware.Opc.Ua
             readRequests = new Dictionary<string, ReadRequest>();
             writeRequests = new Dictionary<string, WriteRequest>();
 
-            Channels.ItemAdded += Channels_ItemAdded;
-            Channels.ItemRemoved += Channels_ItemRemoved;
+            Channels.Added += Channels_ItemAdded;
+            Channels.Removed += Channels_ItemRemoved;
         }
 
         private void Channels_ItemAdded(object sender, BagChangedEventArgs<IProperty> e)

@@ -3,7 +3,7 @@
     /// <summary>
     /// Define a generic analog output
     /// </summary>
-    public interface IAnalogOutput : IChannel<double>
+    public interface IAnalogOutput : IAnalogChannel
     {
     }
 }

@@ -28,7 +28,7 @@ namespace Core.DataStructures
         /// <param name="item">The item</param>
         public BagChangedEventArgs(T item)
         {
-            this.Item = item;
+            Item = item;
         }
     }
 
@@ -45,12 +45,12 @@ namespace Core.DataStructures
         /// <summary>
         /// <see cref="EventHandler"/> invoked when an item is added to the <see cref="Bag{T}"/>
         /// </summary>
-        public event EventHandler<BagChangedEventArgs<IProperty>> ItemAdded;
+        public event EventHandler<BagChangedEventArgs<IProperty>> Added;
 
         /// <summary>
-        /// <see cref="EventHandler"/> invoked when an item is removed to the <see cref="Bag{T}"/>
+        /// <see cref="EventHandler"/> invoked when an item is removed from the <see cref="Bag{T}"/>
         /// </summary>
-        public event EventHandler<BagChangedEventArgs<IProperty>> ItemRemoved;
+        public event EventHandler<BagChangedEventArgs<IProperty>> Removed;
 
         #endregion Event handlers
 
@@ -90,10 +90,7 @@ namespace Core.DataStructures
         /// <param name="context">The <see cref="StreamingContext"/></param>
         protected Bag(SerializationInfo info, StreamingContext context)
         {
-            bag = (Dictionary<string, IProperty>)info.GetValue(
-                nameof(bag),
-                typeof(Dictionary<string, IProperty>)
-            );
+            bag = (Dictionary<string, IProperty>)info.GetValue(nameof(bag), typeof(Dictionary<string, IProperty>));
         }
 
         #region Handlers
@@ -104,7 +101,7 @@ namespace Core.DataStructures
         /// <param name="e">The <see cref="BagChangedEventArgs{T}"/></param>
         protected virtual void OnItemAdded(BagChangedEventArgs<IProperty> e)
         {
-            ItemAdded?.Invoke(this, e);
+            Added?.Invoke(this, e);
         }
 
         /// <summary>
@@ -113,7 +110,7 @@ namespace Core.DataStructures
         /// <param name="e">The <see cref="BagChangedEventArgs{T}"/></param>
         protected virtual void OnItemRemoved(BagChangedEventArgs<IProperty> e)
         {
-            ItemRemoved?.Invoke(this, e);
+            Removed?.Invoke(this, e);
         }
 
         #endregion Handlers
@@ -185,8 +182,7 @@ namespace Core.DataStructures
         /// Retrieve an item from the <see cref="Bag{IProperty}"/>
         /// </summary>
         /// <param name="code">The code</param>
-        /// <returns>The object if the code is found
-        ///  in the <see cref="Bag{T}"/>, <see langword="default"/> otherwise</returns>
+        /// <returns>The object if the code is found in the <see cref="Bag{T}"/>, or <see langword="default"/> otherwise</returns>
         public T Get(string code)
         {
             T item = bag.ContainsKey(code) ? (T)bag[code] : default;

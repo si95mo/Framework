@@ -27,7 +27,7 @@ namespace Hardware.Raspberry
 
             pollingTask = null;
 
-            Channels.ItemAdded += Channels_ItemAdded;
+            Channels.Added += Channels_ItemAdded;
         }
 
         private void Channels_ItemAdded(object sender, BagChangedEventArgs<IProperty> e)

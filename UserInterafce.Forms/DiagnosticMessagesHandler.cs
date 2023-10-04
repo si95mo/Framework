@@ -1,4 +1,5 @@
 ﻿using Core.DataStructures;
+using Diagnostic;
 using Diagnostic.Messages;
 using System;
 using System.Linq;
@@ -11,7 +12,16 @@ namespace UserInterface.Forms
 
         public static void Initialize()
         {
-            service = ServiceBroker.CanProvide<DiagnosticMessagesService>() ? ServiceBroker.GetService<DiagnosticMessagesService>() : new DiagnosticMessagesService();
+            if (ServiceBroker.CanProvide<DiagnosticMessagesService>())
+            {
+                service = ServiceBroker.GetService<DiagnosticMessagesService>();
+            }
+            else
+            {
+                service = new DiagnosticMessagesService();
+                Logger.Warn($"{nameof(DiagnosticMessagesService)} not provided by the {nameof(ServiceBroker)}. {nameof(DiagnosticMessagesHandler)} will use its own");
+            }
+
             foreach (IDiagnosticMessage message in service.GetAll().Cast<IDiagnosticMessage>())
             {
                 message.Fired += Message_Fired;

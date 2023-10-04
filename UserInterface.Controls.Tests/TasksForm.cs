@@ -1,7 +1,6 @@
 ﻿using Core.DataStructures;
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using Tasks;
 using UserInterface.Forms;
 
@@ -23,20 +22,16 @@ namespace UserInterface.Controls.Tests
             Scheduler otherScheduler = new Scheduler("CyclicScheduler", maxDegreesOfParallelism: 11);
             ServiceBroker.GetService<SchedulersService>().Add(otherScheduler);
 
-            FunctionTask task;
             for (int i = 0; i < 10; i++)
             {
-                task = new FunctionTask(Name + i);
-                ServiceBroker.GetService<TasksService>().Add(task);
+                new FunctionTask(Name + i);
             }
 
-            CyclicFunctionTask cyclicTask = new CyclicFunctionTask(Name + ".Cyclic", TimeSpan.FromMilliseconds(1000d));
-            ServiceBroker.GetService<TasksService>().Add(cyclicTask);
+            new CyclicFunctionTask(Name + ".Cyclic", TimeSpan.FromMilliseconds(1000d));
 
             for (int i = 0; i < 10; i++)
             {
-                cyclicTask = new CyclicFunctionTask($"{Name}.Cyclic.{i}", TimeSpan.FromMilliseconds(1000d), otherScheduler);
-                ServiceBroker.GetService<TasksService>().Add(cyclicTask);
+                new CyclicFunctionTask($"{Name}.Cyclic.{i}", TimeSpan.FromMilliseconds(1000d), otherScheduler);
             }
 
             foreach (IAwaitable t in ServiceBroker.GetService<TasksService>().GetAll())

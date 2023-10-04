@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="ActionQueue.cs" />
     <Compile Include="Bag.cs" />
+    <Compile Include="DataStructuresExtensions.cs" />
     <Compile Include="IService.cs" />
     <Compile Include="Method.cs" />
     <Compile Include="MethodParameter.cs" />
