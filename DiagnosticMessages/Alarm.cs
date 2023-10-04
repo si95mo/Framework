@@ -1,11 +1,9 @@
 ﻿using Core;
 using Core.Conditions;
 using Devices;
-using Diagnostic;
 using Hardware;
-using System;
 
-namespace DiagnosticMessages
+namespace Diagnostic.Messages
 {
     /// <summary>
     /// Implement the <see cref="IDiagnosticMessage"/> interface as an alarm. <br/>
@@ -24,7 +22,7 @@ namespace DiagnosticMessages
         /// <param name="message">The message</param>
         /// <param name="sourceCode">The source code</param>
         /// <param name="firingCondition">The <see cref="ICondition"/> that will cause the <see cref="Alarm"/> to fire</param>
-        public Alarm(string code, string message, string sourceCode = null, ICondition firingCondition = null) 
+        public Alarm(string code, string message, string sourceCode = "", ICondition firingCondition = null) 
             : base(code, message, sourceCode, firingCondition)
         { }
 
@@ -49,10 +47,17 @@ namespace DiagnosticMessages
             // Stop the source if possible
             if (Source != null)
             {
-                if (Source is IResource)
-                    (Source as IResource).Stop();
-                else if (Source is IDevice)
-                    (Source as IDevice).Stop();
+                if (Source is IResource resource)
+                {
+                    if (resource.Status.Value == ResourceStatus.Executing) // Stop only if the resource is in executing state
+                    {
+                        resource.Stop();
+                    }
+                }
+                else if (Source is IDevice device)
+                {
+                    device.Stop();
+                }
             }
 
             base.Fire();
@@ -70,7 +75,7 @@ namespace DiagnosticMessages
         /// <param name="firingCondition">The <see cref="ICondition"/> that will cause the </param>
         /// <param name="sourceCode">The source code</param>
         /// <returns>The created new instance of <see cref="Alarm"/></returns>
-        public static Alarm New(string code, string message, ICondition firingCondition, string sourceCode = null)
+        public static Alarm New(string code, string message, ICondition firingCondition = null, string sourceCode = "")
             => new Alarm(code, message, sourceCode, firingCondition);
 
         /// <summary>
@@ -81,7 +86,7 @@ namespace DiagnosticMessages
         /// <param name="firingCondition">The <see cref="ICondition"/> that will cause the </param>
         /// <param name="source">The source <see cref="IProperty"/></param>
         /// <returns>The created new instance of <see cref="Alarm"/></returns>
-        public static Alarm New(string code, string message, ICondition firingCondition, IProperty source = null)
+        public static Alarm New(string code, string message, ICondition firingCondition = null, IProperty source = null)
             => new Alarm(code, message, source, firingCondition);
 
         #endregion Factory methods

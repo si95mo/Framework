@@ -19,6 +19,8 @@ namespace Tasks
 
         #endregion IProperty (fake) implementation
 
+        private Action actionWhenDone, actionInTheMeanwhile;
+
         /// <summary>
         /// The <see cref="WaitForHandler"/> message
         /// </summary>
@@ -77,13 +79,25 @@ namespace Tasks
             => Message = e.NewValueAsString;
 
         /// <summary>
-        /// Add a custom description as the <see cref="WaitForHandler.Message"/>
+        /// Add a custom description message as the <see cref="Message"/>
         /// </summary>
-        /// <param name="description">The custom description to set</param>
+        /// <param name="message7">The custom description message to set</param>
         /// <returns>The <see cref="WaitForHandler"/></returns>
-        public WaitForHandler WithDescription(string description)
+        public WaitForHandler WithMessage(string message)
         {
-            Message = description;
+            Message = message;
+            return this;
+        }
+
+        public WaitForHandler WhenDone(Action action)
+        {
+            actionWhenDone = action;
+            return this;
+        }
+
+        public WaitForHandler InTheMeanwhile(Action action)
+        {
+            actionInTheMeanwhile = action;
             return this;
         }
 

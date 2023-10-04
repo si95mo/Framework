@@ -1,6 +1,6 @@
 ﻿using Core.DataStructures;
 
-namespace DiagnosticMessages
+namespace Diagnostic.Messages
 {
     /// <summary>
     /// Define a <see cref="Service{T}"/> for <see cref="IDiagnosticMessage"/>

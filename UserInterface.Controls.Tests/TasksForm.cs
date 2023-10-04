@@ -64,7 +64,7 @@ namespace UserInterface.Controls.Tests
                 for (int i = 0; i < 10; i++)
                 {
                     yield return WaitFor(TimeSpan.FromSeconds(1d))
-                        .WithDescription($"Step {i + 1}, waiting 1 second");
+                        .WithMessage($"Step {i + 1}, waiting 1 second");
                 }
 
                 yield return "Done";

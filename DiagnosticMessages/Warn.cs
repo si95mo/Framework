@@ -1,9 +1,7 @@
 ﻿using Core;
 using Core.Conditions;
-using Diagnostic;
-using System;
 
-namespace DiagnosticMessages
+namespace Diagnostic.Messages
 {
     /// <summary>
     /// Implement the <see cref="IDiagnosticMessage"/> interface as a warn
@@ -18,7 +16,7 @@ namespace DiagnosticMessages
         /// <param name="sourceCode"></param>
         /// <param name="message"></param>
         /// <param name="firingCondition"></param>
-        public Warn(string code, string message, string sourceCode = null, ICondition firingCondition = null) 
+        public Warn(string code, string message, string sourceCode = "", ICondition firingCondition = null) 
             : base(code, message, sourceCode, firingCondition)
         { }
 
@@ -53,7 +51,7 @@ namespace DiagnosticMessages
         /// <param name="sourceCode">The source code</param>
         /// <param name="firingCondition">The <see cref="ICondition"/> that will cause the <see cref="Warn"/> to fire</param>
         /// <returns>The created new instance of <see cref="Warn"/></returns>
-        public static Warn New(string code, string message, ICondition firingCondition, string sourceCode = null)
+        public static Warn New(string code, string message, ICondition firingCondition, string sourceCode = "")
             => new Warn(code, message, sourceCode, firingCondition);
 
         /// <summary>

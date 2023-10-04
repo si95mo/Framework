@@ -88,7 +88,7 @@ namespace UserInterface.Forms
         /// </remarks>
         /// <param name="title">The title</param>
         /// <param name="message">The message</param>
-        protected void ShowAlert(string title = "Attention", string message = "Attention message")
+        public void ShowAlert(string title = "Attention", string message = "Attention message")
             => CustomMessageBox.Show(this, title, message);
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace UserInterface.Forms
         /// </summary>
         /// <param name="title">The title</param>
         /// <param name="message">The message</param>
-        protected DialogResult AskQuestion(string title, string message)
+        public DialogResult AskQuestion(string title, string message)
             => CustomQuestionBox.Show(this, title, message);
 
         protected void CustomForm_FormClosing(object sender, FormClosingEventArgs e)

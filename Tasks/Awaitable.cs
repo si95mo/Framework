@@ -2,7 +2,7 @@
 using Core.DataStructures;
 using Core.Parameters;
 using Diagnostic;
-using DiagnosticMessages;
+using Diagnostic.Messages;
 using System;
 using System.Collections;
 using System.Collections.Generic;

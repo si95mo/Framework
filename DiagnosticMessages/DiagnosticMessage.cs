@@ -1,10 +1,10 @@
 ﻿using Core;
 using Core.Conditions;
 using Core.DataStructures;
-using Diagnostic;
 using System;
+using System.Runtime.Remoting.Contexts;
 
-namespace DiagnosticMessages
+namespace Diagnostic.Messages
 {
     /// <summary>
     /// Define the <see cref="EventArgs"/> in case of a <see cref="DiagnosticMessage"/> fired event
@@ -27,11 +27,16 @@ namespace DiagnosticMessages
         public string Message { get; private set; }
 
         /// <summary>
+        /// The long text
+        /// </summary>
+        public string LongText { get; private set; }
+
+        /// <summary>
         /// Create a new instance of <see cref="FiredEventArgs"/>
         /// </summary>
         /// <param name="code">The code</param>
         /// <param name="message">The message</param>
-        public FiredEventArgs(string code, string message) : this(code, DateTime.Now, message)
+        public FiredEventArgs(string code, string message, string longText) : this(code, DateTime.Now, message, longText)
         { }
 
         /// <summary>
@@ -40,11 +45,12 @@ namespace DiagnosticMessages
         /// <param name="code">The code</param>
         /// <param name="timestamp">The timestamp</param>
         /// <param name="message">The message</param>
-        public FiredEventArgs(string code, DateTime timestamp, string message)
+        public FiredEventArgs(string code, DateTime timestamp, string message, string longText)
         {
             Code = code;
             Timestamp = timestamp;
             Message = message;
+            LongText = longText;
         }
     }
 
@@ -66,6 +72,7 @@ namespace DiagnosticMessages
         public Type Type => GetType();
         public string SourceCode => Source.Code;
         public string Message { get; set; }
+        public string LongText { get; set; }
         public DateTime FiringTime { get; protected set; }
 
         #endregion Public properties
@@ -79,10 +86,10 @@ namespace DiagnosticMessages
         /// <param name="message">The message</param>
         /// <param name="sourceCode">The source code</param>
         /// <param name="firingCondition">The <see cref="ICondition"/> that will cause the <see cref="Alarm"/> to fire</param>
-        public DiagnosticMessage(string code, string message, string sourceCode = null, ICondition firingCondition = null)
+        public DiagnosticMessage(string code, string message, string sourceCode = "", ICondition firingCondition = null)
         {
             Initialize(code, message, firingCondition);
-            Source = sourceCode != null ? ServiceBroker.Get<IProperty>().Get(sourceCode) : null;
+            Source = sourceCode != string.Empty ? ServiceBroker.Get<IProperty>().Get(sourceCode) : null;
         }
 
         /// <summary>
@@ -108,7 +115,13 @@ namespace DiagnosticMessages
             OnFireAction?.Invoke();
 
             Logger.Warn($"Warn fired. {Message}");
-            OnMessageFired(new FiredEventArgs(Code, FiringTime, Message));
+            OnMessageFired(new FiredEventArgs(Code, FiringTime, Message, LongText));
+        }
+
+        public virtual void Fire(string longText)
+        {
+            LongText = longText;
+            Fire();
         }
 
         public virtual void Reset()
@@ -143,6 +156,7 @@ namespace DiagnosticMessages
             Message = message;
             FiringCondition = firingCondition;
             OnFireAction = null;
+            LongText = string.Empty;
 
             // Add this element to the DiagnosticMessagesService, if possible
             if (ServiceBroker.CanProvide<DiagnosticMessagesService>())

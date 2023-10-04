@@ -1,5 +1,5 @@
 ﻿using Core.Conditions;
-using DiagnosticMessages;
+using Diagnostic.Messages;
 
 namespace Tasks
 {

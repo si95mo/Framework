@@ -5,7 +5,7 @@ using NUnit.Framework;
 using System;
 using System.Threading.Tasks;
 
-namespace DiagnosticMessages.Tests
+namespace Diagnostic.Messages.Tests
 {
     [TestFixture]
     public class TestClass

@@ -1,9 +1,6 @@
-﻿using Core.Converters;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 
 namespace Core.Conditions
 {
@@ -255,5 +252,35 @@ namespace Core.Conditions
         /// <returns>The stabilized <see cref="ICondition"/></returns>
         public static ICondition IsStableFor(this ICondition source, double stabilizationTimeInMilliseconds)
             => source.IsStableFor(TimeSpan.FromMilliseconds(stabilizationTimeInMilliseconds));
+
+        /// <summary>
+        /// Create a new <see cref="ICondition"/> that will be <see langword="true"/> when <paramref name="source"/> will have its <see cref="IProperty{T}.Value"/>
+        /// equal to <paramref name="value"/>
+        /// </summary>
+        /// <typeparam name="T">The type of the <see cref="IProperty{T}"/> and <paramref name="value"/></typeparam>
+        /// <param name="source">The source <see cref="IProperty{T}"/></param>
+        /// <param name="value">The value to test</param>
+        /// <returns>The equal to <see cref="ICondition"/></returns>
+        public static ICondition IsEqualTo<T>(this IProperty<T> source, T value)
+        {
+            ICondition condition = new PropertyValueEqualTo<T>($"{source.Code}.IsEuqualTo", source, value);
+            return condition;
+        }
+
+        /// <summary>
+        /// Create a new <see cref="ICondition"/> that will be <see langword="true"/> when <paramref name="source"/> will have its <see cref="IProperty{T}.Value"/>
+        /// not equal to <paramref name="value"/>
+        /// </summary>
+        /// <typeparam name="T">The type of the <see cref="IProperty{T}"/> and <paramref name="value"/></typeparam>
+        /// <param name="source">The source <see cref="IProperty{T}"/></param>
+        /// <param name="value">The value to test</param>
+        /// <returns>The not equal to <see cref="ICondition"/></returns>
+        public static ICondition IsNotEqualTo<T>(this IProperty<T> source, T value)
+        {
+            ICondition condition = source.IsEqualTo(value);
+            condition = condition.Negate();
+
+            return condition;
+        }
     }
 }

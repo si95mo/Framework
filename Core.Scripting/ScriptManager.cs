@@ -1,7 +1,7 @@
 ﻿using Core.Conditions;
 using Core.DataStructures;
 using Diagnostic;
-using DiagnosticMessages;
+using Diagnostic.Messages;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.CSharp.Syntax;

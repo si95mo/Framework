@@ -1,7 +1,7 @@
 ﻿using Core;
 using System;
 
-namespace DiagnosticMessages
+namespace Diagnostic.Messages
 {
     /// <summary>
     /// Define a basic diagnostic message interface
@@ -19,6 +19,11 @@ namespace DiagnosticMessages
         string Message { get; }
 
         /// <summary>
+        /// The <see cref="IDiagnosticMessage"/> long text
+        /// </summary>
+        string LongText { get; }
+
+        /// <summary>
         /// The <see cref="IDiagnosticMessage"/> firing time (as <see cref="DateTime"/>
         /// </summary>
         DateTime FiringTime { get; }
@@ -29,9 +34,14 @@ namespace DiagnosticMessages
         event EventHandler<FiredEventArgs> Fired;
 
         /// <summary>
-        /// Fire the <see cref="IDiagnosticMessage"/> and stop the relative source idenditified by <see cref="SourceCode"/> (if possible)
+        /// Fire the <see cref="IDiagnosticMessage"/> and stop the relative source identified by <see cref="SourceCode"/> (if possible)
         /// </summary>
         void Fire();
+
+        /// <summary>
+        /// Fire the <see cref="IDiagnosticMessage"/> with a long text and stop the relative source identified by <see cref="SourceCode"/> (if possible)
+        /// </summary>
+        void Fire(string longText);
 
         /// <summary>
         /// Reset the <see cref="IDiagnosticMessage"/>
