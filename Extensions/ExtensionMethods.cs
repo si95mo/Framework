@@ -12,7 +12,7 @@ namespace Extensions
     public static class ExtensionMethods
     {
         /// <summary>
-        /// Perform an async for each, in parallel
+        /// Perform an async foreach, in parallel
         /// </summary>
         /// <param name="source">The source collection</param>
         /// <param name="function">The <see cref="Func{T, TResult}"/> to execute</param>
