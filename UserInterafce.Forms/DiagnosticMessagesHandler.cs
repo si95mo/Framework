@@ -33,6 +33,7 @@ namespace UserInterface.Forms
             DateTime timestamp = e.Timestamp;
             string message = e.Message;
             string longText = e.LongText;
+            IDiagnosticMessage diagnosticMessage = e.DiagnosticMessage;
 
             // Show a new notification here
         }

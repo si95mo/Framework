@@ -32,11 +32,17 @@ namespace Diagnostic.Messages
         public string LongText { get; private set; }
 
         /// <summary>
+        /// The <see cref="IDiagnosticMessage"/> involved
+        /// </summary>
+        public IDiagnosticMessage DiagnosticMessage { get; private set; }
+
+        /// <summary>
         /// Create a new instance of <see cref="FiredEventArgs"/>
         /// </summary>
         /// <param name="code">The code</param>
         /// <param name="message">The message</param>
-        public FiredEventArgs(string code, string message, string longText) : this(code, DateTime.Now, message, longText)
+        public FiredEventArgs(string code, string message, string longText, IDiagnosticMessage diagnosticMessage) 
+            : this(code, DateTime.Now, message, longText, diagnosticMessage)
         { }
 
         /// <summary>
@@ -45,12 +51,13 @@ namespace Diagnostic.Messages
         /// <param name="code">The code</param>
         /// <param name="timestamp">The timestamp</param>
         /// <param name="message">The message</param>
-        public FiredEventArgs(string code, DateTime timestamp, string message, string longText)
+        public FiredEventArgs(string code, DateTime timestamp, string message, string longText, IDiagnosticMessage diagnosticMessage)
         {
             Code = code;
             Timestamp = timestamp;
             Message = message;
             LongText = longText;
+            DiagnosticMessage = diagnosticMessage;
         }
     }
 
@@ -116,7 +123,7 @@ namespace Diagnostic.Messages
             OnFireAction?.Invoke();
 
             Logger.Warn($"Warn fired. {Message}");
-            OnMessageFired(new FiredEventArgs(Code, FiringTime, Message, LongText));
+            OnMessageFired(new FiredEventArgs(Code, FiringTime, Message, LongText, this));
         }
 
         public virtual void Fire(string longText)

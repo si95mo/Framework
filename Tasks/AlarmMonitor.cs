@@ -29,7 +29,7 @@ namespace Tasks
             {
                 alarmsService = ServiceBroker.GetService<DiagnosticMessagesService>();
             }
-            else 
+            else
             {
                 alarmsService = new DiagnosticMessagesService();
                 Logger.Error($"{nameof(DiagnosticMessagesService)} not provided by the {nameof(ServiceBroker)}. {nameof(AlarmMonitor)} will use its own");
@@ -46,32 +46,31 @@ namespace Tasks
                 Logger.Error($"{nameof(TasksService)} not provided by the {nameof(ServiceBroker)}. {nameof(AlarmMonitor)} will use its own");
             }
 
-            foreach(IDiagnosticMessage message in alarmsService.GetAll())
+            // The bind all the possible alarms already present in the service
+            foreach (IDiagnosticMessage message in alarmsService.GetAll().Cast<IDiagnosticMessage>())
             {
-                if(message is Alarm alarm)
-                {
-                    Bind(alarm);
-                }
+                Bind(message);
             }
 
+            // And prepare to bind the ones that will be added later
             alarmsService.Subscribers.Added += DiagnosticMessage_Added;
         }
 
         private static void DiagnosticMessage_Added(object sender, BagChangedEventArgs<Core.IProperty> e)
         {
-            if(e.Item is Alarm alarm) // Only alarms, not warnings
-            {
-                Bind(alarm);
-            }
+            Bind(e.Item as IDiagnosticMessage);
         }
 
         /// <summary>
         /// Bind an <see cref="Alarm"/> to the <see cref="Alarm_FiredAsync(object, FiredEventArgs)"/> event handler
         /// </summary>
-        /// <param name="alarm">The <see cref="Alarm"/> to bind</param>
-        private static void Bind(Alarm alarm)
+        /// <param name="message">The <see cref="IDiagnosticMessage"/> to bind (only if it's an <see cref="Alarm"/>)</param>
+        private static void Bind(IDiagnosticMessage message)
         {
-            alarm.Fired += Alarm_FiredAsync;
+            if (message != null && message is Alarm alarm)
+            {
+                alarm.Fired += Alarm_FiredAsync;
+            }
         }
 
         private static async void Alarm_FiredAsync(object sender, FiredEventArgs e)
