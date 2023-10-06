@@ -65,7 +65,9 @@ namespace Core.Scripting
             else
             {
                 foreach (IScript script in scripts)
+                {
                     script.Run();
+                }
             }
         }
 
@@ -79,7 +81,9 @@ namespace Core.Scripting
             else
             {
                 foreach (IScript script in scripts)
+                {
                     script.Clear();
+                }
             }
         }
 

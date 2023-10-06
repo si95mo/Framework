@@ -11,15 +11,10 @@ namespace Core.Scripting
     /// </summary>
     public abstract class Script : IScript
     {
-        /// <summary>
-        /// The code
-        /// </summary>
         public string Code { get; protected set; }
-
-        /// <summary>
-        /// The message to show
-        /// </summary>
-        public string Message { get; set; }
+        public string Description { get; set; } = string.Empty;
+        public bool Ran { get; protected set; }
+        public bool Cleared { get; protected set; }
 
         /// <summary>
         /// The value as object
@@ -38,7 +33,6 @@ namespace Core.Scripting
         protected Script(string code)
         {
             Code = code;
-            Message = string.Empty;
 
             if (ServiceBroker.CanProvide<ScriptsService>())
                 ServiceBroker.GetService<ScriptsService>().Add(this);
@@ -52,9 +46,17 @@ namespace Core.Scripting
         protected Script() : this(Guid.NewGuid().ToString())
         { }
 
-        public abstract void Run();
+        public virtual void Run()
+        {
+            Ran = true;
+            Cleared = false;
+        }
 
-        public abstract void Clear();
+        public virtual void Clear()
+        {
+            Ran = false;
+            Cleared = true;
+        }
 
         public virtual IScript New(Assembly assembly, string code, string typeName)
             => NewInstance(assembly, code, typeName);

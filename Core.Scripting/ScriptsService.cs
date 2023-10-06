@@ -48,6 +48,8 @@ namespace Core.Scripting
 
                 string typeName = Path.GetFileNameWithoutExtension(item.Name);
                 IScript script = Script.NewInstance(assembly, item.Name, typeName);
+                script.Description = item.Value.Description;
+
                 Add(script);
             }
         }

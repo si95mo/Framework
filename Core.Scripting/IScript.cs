@@ -8,6 +8,19 @@ namespace Core.Scripting
     public interface IScript : IProperty
     {
         /// <summary>
+        /// The <see cref="IScript"/> description
+        /// </summary>
+        string Description { get; set; }
+        /// <summary>
+        /// The ran status
+        /// </summary>
+        bool Ran { get; }
+        /// <summary>
+        /// The cleared status
+        /// </summary>
+        bool Cleared { get; }
+
+        /// <summary>
         /// The method that will be called at startup
         /// </summary>
         void Run();

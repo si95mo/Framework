@@ -1,14 +1,18 @@
 ﻿using Core.DataStructures;
 using Diagnostic;
+using FluentAssertions;
 using NUnit.Framework;
 using ScriptTest;
 using System;
 using System.IO;
+using System.Linq;
 
 namespace Core.Scripting.Tests
 {
     public class ScriptingTestClass
     {
+        private ScriptsService ss;
+
         [OneTimeSetUp]
         public void Setup()
         {
@@ -18,7 +22,7 @@ namespace Core.Scripting.Tests
 
             ServiceBroker.Initialize();
 
-            ScriptsService ss = new ScriptsService("ScriptsService", path);
+            ss = new ScriptsService("ScriptsService", path);
             ServiceBroker.Provide(ss);
 
             ScriptManager.Initialize();
@@ -28,7 +32,12 @@ namespace Core.Scripting.Tests
         public void TestScript()
         {
             ScriptManager.Run();
+            (ss.ToList().FirstOrDefault() as IScript).Ran.Should().BeTrue();
+            (ss.ToList().FirstOrDefault() as IScript).Cleared.Should().BeFalse();
+
             ScriptManager.Clear();
+            (ss.ToList().FirstOrDefault() as IScript).Ran.Should().BeFalse();
+            (ss.ToList().FirstOrDefault() as IScript).Cleared.Should().BeTrue();
         }
     }
 }
