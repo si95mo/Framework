@@ -86,7 +86,7 @@
       <DependentUpon>SplashForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Toaster.cs">
-      <SubType>UserControl</SubType>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Toaster.Designer.cs">
       <DependentUpon>Toaster.cs</DependentUpon>

@@ -158,7 +158,7 @@ namespace UserInterface.Forms
             await Task.Delay(TimeSpan.FromMilliseconds(1000d));
 
             // Step 0
-            lblStatus.Text = $"{BaseStateMessage} application shutting down... ({1} / {(DisposeActions.Count > 0 ? DisposeActions.Count : 1)})";
+            lblStatus.Text = $"{BaseStateMessage} application shutting down... ({1} / {(DisposeActions?.Count > 0 ? DisposeActions.Count : 1)})";
             prbProgress.Value = 0;
             await Task.Delay(TimeSpan.FromMilliseconds(1000d));
 

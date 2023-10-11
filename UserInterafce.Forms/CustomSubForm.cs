@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Drawing;
-using System.IO.Ports;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using UserInterface.Controls;
 
 namespace UserInterface.Forms
 {
@@ -36,7 +34,8 @@ namespace UserInterface.Forms
         }
 
         /// <summary>
-        /// <see cref="Control.Show())"/> this form with default appearance
+        /// <see cref="Control.Show())"/> this form with default appearance. <br/>
+        /// Use <see cref="ShowAsExclusiveModalForm(string, double)"/> to show this form as modal
         /// </summary>
         /// <param name="text">The <see cref="Text"/> to show</param>
         /// <param name="opacity">The opacity of the <see cref="CustomSubForm"/></param>
@@ -52,7 +51,8 @@ namespace UserInterface.Forms
         }
 
         /// <summary>
-        /// <see cref="Form.ShowDialog())"/> this form with default appearance
+        /// <see cref="Form.ShowDialog())"/> this form with default appearance. <br/>
+        /// Use <see cref="ShowAsModalForm(string, double)"/> to do not show this form as modal
         /// </summary>
         /// <param name="text">The <see cref="Text"/> to show</param>
         /// <param name="opacity">The opacity of the <see cref="CustomSubForm"/></param>

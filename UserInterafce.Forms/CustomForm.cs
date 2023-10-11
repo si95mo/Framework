@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using UserInterface.Controls;
@@ -14,6 +15,10 @@ namespace UserInterface.Forms
         public const int PanelWithNavbarX = 0;
         public const int PanelWithNavbarY = 60;
 
+        [Browsable(true)]
+        [Category("Behavior")]
+        public bool FullSize { get; set; } = true;
+
         private bool invokedFromThis;
 
         /// <summary>
@@ -23,12 +28,23 @@ namespace UserInterface.Forms
         {
             InitializeComponent();
 
-            Rectangle workingArea = Screen.FromHandle(Handle).WorkingArea;
-
-            MaximizedBounds = new Rectangle(0, 0, workingArea.Width, workingArea.Height);
-            WindowState = FormWindowState.Maximized;
+            if(FullSize)
+            {
+                Rectangle workingArea = Screen.FromHandle(Handle).WorkingArea;
+                MaximizedBounds = new Rectangle(0, 0, workingArea.Width, workingArea.Height);
+                WindowState = FormWindowState.Maximized;
+            }
 
             invokedFromThis = false;
+        }
+
+        /// <summary>
+        /// Create a new instance of <see cref="CustomForm"/> with the option to automatically set its dimensions to full size
+        /// </summary>
+        /// <param name="fullSize">The full size option</param>
+        public CustomForm(bool fullSize) : this()
+        {
+            FullSize = fullSize;
         }
 
         // Mouse drag variables

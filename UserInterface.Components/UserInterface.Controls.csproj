@@ -219,6 +219,12 @@
     <Compile Include="Panels\PanelWithNavbar.Designer.cs">
       <DependentUpon>PanelWithNavbar.cs</DependentUpon>
     </Compile>
+    <Compile Include="PanelWithLed.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PanelWithLed.Designer.cs">
+      <DependentUpon>PanelWithLed.cs</DependentUpon>
+    </Compile>
     <Compile Include="ParameterControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -350,12 +356,16 @@
     <EmbeddedResource Include="Panels\PanelWithNavbar.resx">
       <DependentUpon>PanelWithNavbar.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="PanelWithLed.resx">
+      <DependentUpon>PanelWithLed.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ParameterControl.resx">
       <DependentUpon>ParameterControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ResourceControl.resx">
       <DependentUpon>ResourceControl.cs</DependentUpon>
