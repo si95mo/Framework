@@ -170,6 +170,16 @@ namespace Extensions
         public static async Task<bool> WaitFor(this IProperty _, Task t, TimeSpan timeout)
             => await _.WaitFor(t, timeout.Milliseconds);
 
+        /// <summary>
+        /// Wait for a <see cref="Task{TResult}"/> to complete
+        /// </summary>
+        /// <typeparam name="T">The type of the <see cref="Task{TResult}"/> result</typeparam>
+        /// <param name="_">The source</param>
+        /// <param name="t">The <see cref="Task{TResult}"/> to wait</param>
+        /// <returns>The (async) <see cref="Task{TResult}"/></returns>
+        public static async Task<T> WaitFor<T>(this IProperty _, Task<T> t)
+            => await t;
+
         #endregion Generic WaitFor
     }
 }

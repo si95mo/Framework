@@ -19,8 +19,6 @@ namespace Tasks
 
         #endregion IProperty (fake) implementation
 
-        private Action actionWhenDone, actionInTheMeanwhile;
-
         /// <summary>
         /// The <see cref="WaitForHandler"/> message
         /// </summary>
@@ -61,6 +59,22 @@ namespace Tasks
         }
 
         /// <summary>
+        /// Await a .NET <see cref="Task{TResult}"/>
+        /// </summary>
+        /// <typeparam name="T">The type of the <see cref="Task{TResult}"/> to await</typeparam>
+        /// <param name="task">The <see cref="Task{TResult}"/> to wait</param>
+        /// <param name="result">The <paramref name="task"/> execution result</param>
+        /// <returns>The <see cref="WaitForHandler"/></returns>
+        public WaitForHandler Await<T>(Task<T> task, out T result)
+        {
+            T localResult = default;
+            AsyncContext.Run(async () => localResult = await this.WaitFor(task));
+
+            result = localResult;
+            return this;
+        }
+
+        /// <summary>
         /// Await an <see cref="IAwaitable"/> task
         /// </summary>
         /// <param name="task">The <see cref="IAwaitable"/> to wait</param>
@@ -86,18 +100,6 @@ namespace Tasks
         public WaitForHandler WithMessage(string message)
         {
             Message = message;
-            return this;
-        }
-
-        public WaitForHandler WhenDone(Action action)
-        {
-            actionWhenDone = action;
-            return this;
-        }
-
-        public WaitForHandler InTheMeanwhile(Action action)
-        {
-            actionInTheMeanwhile = action;
             return this;
         }
 

@@ -198,6 +198,15 @@ namespace Tasks
             => waitForHandler.Await(task);
 
         /// <summary>
+        /// Awaits a .NET <see cref="Task"/>
+        /// </summary>
+        /// <param name="task">The <see cref="Task"/> to wait</param>
+        /// <param name="result">The result of <paramref name="task"/> execution</param>
+        /// <returns>The corresponding <see cref="WaitForHandler"/></returns>
+        protected WaitForHandler WaitFor<T>(Task<T> task, out T result)
+            => waitForHandler.Await(task, out result);
+
+        /// <summary>
         /// Awaits an <see cref="IAwaitable"/> task
         /// </summary>
         /// <param name="task">The <see cref="IAwaitable"/> to wait</param>
