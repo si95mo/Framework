@@ -1,5 +1,7 @@
 ﻿using Core;
 using Core.Conditions;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Extensions
 {
@@ -95,17 +97,40 @@ namespace Extensions
         #region And
 
         /// <summary>
-        /// Create a <see cref="FlyweightCondition"/> that concatenates itself with another <see cref="ICondition"/> with an <see langword="and"/> relation
+        /// Create a <see cref="ICondition"/> that concatenates itself with another <see cref="ICondition"/> with an <see langword="and"/> relation
         /// </summary>
         /// <param name="source">The source <see cref="ICondition"/></param>
         /// <param name="condition">The other condition to which concatenate</param>
-        /// <returns>The concatenated <see cref="FlyweightCondition"/></returns>
-        public static FlyweightCondition And(this ICondition source, ICondition condition)
+        /// <returns>The concatenated <see cref="ICondition"/></returns>
+        public static ICondition And(this ICondition source, ICondition condition)
         {
             FlyweightCondition andCondition = new FlyweightCondition($"{source.Code}.And.{condition.Code}", source.Value & condition.Value);
 
             source.ValueChanged += (sender, e) => UpdateAndCondition(source, andCondition);
             condition.ValueChanged += (sender, e) => UpdateAndCondition(condition, andCondition);
+
+            return andCondition;
+        }
+
+        /// <summary>
+        /// Create a <see cref="ICondition"/> that ands all the <see cref="ICondition"/> contained in the <see cref="IEnumerable{T}"/>
+        /// </summary>
+        /// <remarks>
+        /// This method returns a <see langword="null"/> if <paramref name="source"/> contains no elements
+        /// </remarks>
+        /// <param name="source">The source <see cref="ICondition"/></param>
+        /// <returns>The concatenated <see cref="ICondition"/></returns>
+        public static ICondition And(this IEnumerable<ICondition> source)
+        {
+            ICondition andCondition = null;
+            if (source.Any())
+            {
+                andCondition = source.ElementAt(0);
+                foreach(ICondition newCondition in source.Skip(1))
+                {
+                    andCondition.And(newCondition);
+                }
+            }
 
             return andCondition;
         }
@@ -123,17 +148,40 @@ namespace Extensions
         #region Or
 
         /// <summary>
-        /// Create a <see cref="FlyweightCondition"/> that concatenates itself with another <see cref="ICondition"/> with an <see langword="or"/> relation
+        /// Create a <see cref="ICondition"/> that concatenates itself with another <see cref="ICondition"/> with an <see langword="or"/> relation
         /// </summary>
         /// <param name="source">The source <see cref="ICondition"/></param>
         /// <param name="condition">The other condition to which concatenate</param>
-        /// <returns>The concatenated <see cref="FlyweightCondition"/></returns>
-        public static FlyweightCondition Or(this ICondition source, ICondition condition)
+        /// <returns>The concatenated <see cref="ICondition"/></returns>
+        public static ICondition Or(this ICondition source, ICondition condition)
         {
             FlyweightCondition orCondition = new FlyweightCondition($"{source.Code}.And.{condition.Code}", source.Value | condition.Value);
 
             source.ValueChanged += (sender, e) => UpdateOrCondition(source, orCondition);
             condition.ValueChanged += (sender, e) => UpdateOrCondition(condition, orCondition);
+
+            return orCondition;
+        }
+
+        /// <summary>
+        /// Create a <see cref="ICondition"/> that ors all <see cref="ICondition"/> contained in the <see cref="IEnumerable{T}"/>
+        /// </summary>
+        /// <remarks>
+        /// This method returns a <see langword="null"/> if <paramref name="source"/> contains no elements
+        /// </remarks>
+        /// <param name="source">The source <see cref="ICondition"/></param>
+        /// <returns>The concatenated <see cref="ICondition"/></returns>
+        public static ICondition Or(this IEnumerable<ICondition> source)
+        {
+            ICondition orCondition = null;
+            if (source.Any())
+            {
+                orCondition = source.ElementAt(0);
+                foreach (ICondition newCondition in source.Skip(1))
+                {
+                    orCondition.Or(newCondition);
+                }
+            }
 
             return orCondition;
         }
