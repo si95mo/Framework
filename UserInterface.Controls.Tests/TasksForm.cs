@@ -1,8 +1,10 @@
-﻿using Core.DataStructures;
+﻿using Core.Conditions;
+using Core.DataStructures;
 using Diagnostic;
 using Diagnostic.Messages;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Tasks;
 using UserInterface.Forms;
@@ -28,6 +30,14 @@ namespace UserInterface.Controls.Tests
             alarm = new Alarm("Alarm", "Alarm fired", string.Empty, null);
 
             AlarmMonitor.Initialize();
+
+            lblSchedulerLoad.SetProperty(cyclicScheduler.Load);
+            panelWithLed.InitializeLed(
+                (cyclicScheduler.Load.IsInRange(0d, 25d), Colors.LightBlue),
+                (cyclicScheduler.Load.IsInRange(25d, 50d, isMinimumExcluded: true), Colors.LightYellow),
+                (cyclicScheduler.Load.IsInRange(50d, 75d, isMinimumExcluded: true), Colors.Yellow),
+                (cyclicScheduler.Load.IsInRange(75d, 100d, isMinimumExcluded: true), Colors.Red)
+            );
 
             for (int i = 0; i < 10; i++)
             {
