@@ -1,4 +1,4 @@
-﻿using Extensions;
+﻿using Core.Conditions;
 using FluentAssertions;
 using Hardware;
 using NUnit.Framework;

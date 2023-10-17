@@ -65,7 +65,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConditionExtensions.cs" />
     <Compile Include="ConsoleExtensions.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="FrameworkExtensions.cs" />
