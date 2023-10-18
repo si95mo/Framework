@@ -35,7 +35,7 @@ namespace Instructions.Common
                 (instruction as Instruction).OnStop();
 
                 if (instruction.Failed.Value)
-                    Fail();
+                    Fail(instruction.ReasonOfFailure);
                 else
                     Succeeded.Value = true;
             }

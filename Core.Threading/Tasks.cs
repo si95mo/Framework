@@ -8,7 +8,7 @@ namespace Core.Threading
     /// <summary>
     /// Class that provides useful methods for tasks
     /// </summary>
-    public class Tasks
+    public static class Tasks
     {
         /// <summary>
         /// Perform no operation for the specified amount of time.

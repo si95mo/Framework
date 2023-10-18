@@ -96,11 +96,15 @@ namespace Instructions.Common
             waitTask = Task.Run(async () =>
                 {
                     while (!TestCondition())
+                    {
                         await Task.Delay(pollingInterval);
+                    }
 
                     Stopwatch sw = Stopwatch.StartNew();
                     while (sw.Elapsed.TotalMilliseconds < conditionTime.Value.TotalMilliseconds != !TestCondition())
+                    {
                         await Task.Delay(pollingInterval);
+                    }
 
                     sw.Stop();
                 }
@@ -113,9 +117,13 @@ namespace Instructions.Common
         {
             Task completedTask = await Task.WhenAny(waitTask, Task.Delay(timeout.Value));
             if (completedTask != waitTask)
-                Fail();
+            {
+                Fail("Timeout for condition elapsed");
+            }
             else
+            {
                 Succeeded.Value = true;
+            }
         }
 
         /// <summary>

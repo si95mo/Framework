@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.Conditions;
 using Extensions;
 using Nito.AsyncEx;
 using System;
@@ -88,6 +89,38 @@ namespace Tasks
 
             return this;
         }
+
+        /// <summary>
+        /// Await an <see cref="ICondition"/> to be <see langword="true"/>
+        /// </summary>
+        /// <param name="condition">The <see cref="ICondition"/> to wait</param>
+        /// <returns>The <see cref="WaitForHandler"/><returns>
+        public WaitForHandler Await(ICondition condition)
+        {
+            AsyncContext.Run(async () => await this.WaitFor(condition));
+            return this;
+        }
+
+        /// <summary>
+        /// Await an <see cref="ICondition"/> to be <see langword="true"/> with a timeout
+        /// </summary>
+        /// <param name="condition">The <see cref="ICondition"/> to wait</param>
+        /// <param name="timeoutInMilliseconds">The timeout in milliseconds</param>
+        /// <returns>The <see cref="WaitForHandler"/><returns>
+        public WaitForHandler Await(ICondition condition, int timeoutInMilliseconds)
+        {
+            AsyncContext.Run(async () => await this.WaitFor(condition, timeoutInMilliseconds));
+            return this;
+        }
+
+        /// <summary>
+        /// Await an <see cref="ICondition"/> to be <see langword="true"/> with a timeout
+        /// </summary>
+        /// <param name="condition">The <see cref="ICondition"/> to wait</param>
+        /// <param name="timeout">The timeout <see cref="TimeSpan"/></param>
+        /// <returns>The <see cref="WaitForHandler"/><returns>
+        public WaitForHandler Await(ICondition condition, TimeSpan timeout)
+            => Await(condition, (int)timeout.TotalMilliseconds);
 
         private void WaitState_ValueChanged(object sender, ValueChangedEventArgs e)
             => Message = e.NewValueAsString;

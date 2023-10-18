@@ -38,7 +38,7 @@ namespace Instructions.Common
         public override async Task ExecuteInstruction()
         {
             Stopwatch sw = Stopwatch.StartNew();
-            await Task.Delay(time.Value);
+            await Core.Threading.Tasks.NoOperation((int)time.Value.TotalMilliseconds, clockRate: 1);
             sw.Stop();
 
             ElapsedTime.Value = TimeSpan.FromMilliseconds(sw.Elapsed.TotalMilliseconds);

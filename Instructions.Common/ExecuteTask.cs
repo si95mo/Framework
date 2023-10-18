@@ -23,18 +23,18 @@ namespace Instructions.Common
 
         public override async Task ExecuteInstruction()
         {
-            if(ServiceBroker.CanProvide<TasksService>())
+            if (ServiceBroker.CanProvide<TasksService>())
             {
-                TasksService service= ServiceBroker.GetService<TasksService>();
+                TasksService service = ServiceBroker.GetService<TasksService>();
 
                 task = service.Get(taskCode.Value);
                 if (task != default)
                     await task;
                 else
-                    Fail();
+                    Fail($"No task with code \"{taskCode.Value}\" found");
             }
             else
-                Fail();
+                Fail($"Tasks service not initialized");
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.Conditions;
 using Core.DataStructures;
 using Core.Parameters;
 using System.Threading.Tasks;
@@ -46,6 +47,11 @@ namespace Hardware
         /// </summary>
         bool IsOpen
         { get; }
+
+        /// <summary>
+        /// The <see cref="IResource"/> operating state (i.e. <see cref="Status"/> is <see cref="ResourceStatus.Executing"/>)
+        /// </summary>
+        ICondition IsExecuting { get; }
 
         /// <summary>
         /// The <see cref="IResource"/> <see cref="Bag{T}"/>

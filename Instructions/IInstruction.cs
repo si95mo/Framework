@@ -56,6 +56,11 @@ namespace Instructions
         { get; set; }
 
         /// <summary>
+        /// The <see cref="IInstruction"/> reason of failure
+        /// </summary>
+        string ReasonOfFailure { get; }
+
+        /// <summary>
         /// Execute the <see cref="IInstruction"/>
         /// </summary>
         Task ExecuteInstruction();

@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.Conditions;
 using Core.DataStructures;
 using Core.Parameters;
 using Diagnostic;
@@ -33,6 +34,8 @@ namespace Hardware
         /// </summary>
         private Bag<IChannel> channels;
 
+        public ICondition IsExecuting { get; private set; }
+
         /// <summary>
         /// Create a new instance of <see cref="Resource"/>
         /// </summary>
@@ -44,6 +47,7 @@ namespace Hardware
             status = new EnumParameter<ResourceStatus>(nameof(Status), ResourceStatus.Stopped);
             failure = new Failure();
 
+            IsExecuting = Status.IsEqualTo(ResourceStatus.Executing);
             Status.ValueChanged += Status_ValueChanged;
         }
 

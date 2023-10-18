@@ -53,6 +53,8 @@ namespace Instructions
             set => order = value;
         }
 
+        public string ReasonOfFailure { get; protected set; }
+
         public Type Type => GetType();
 
         /// <summary>
@@ -160,6 +162,12 @@ namespace Instructions
         {
             Failed.Value = true;
             OnFail();
+        }
+
+        protected void Fail(string reasonOfFailure)
+        {
+            ReasonOfFailure = reasonOfFailure;
+            Fail();
         }
     }
 }

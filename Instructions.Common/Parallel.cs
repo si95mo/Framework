@@ -40,7 +40,7 @@ namespace Instructions.Common
                 if (instructions[i].Failed.Value)
                 {
                     flag = true;
-                    Fail();
+                    Fail(instructions[i].ReasonOfFailure);
                 }
                 else
                     Succeeded.Value = true;
