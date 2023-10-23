@@ -1,4 +1,6 @@
-﻿namespace Core.Conditions
+﻿using System.Runtime.CompilerServices;
+
+namespace Core.Conditions
 {
     /// <summary>
     /// Define the basic prototype for a condition
@@ -9,5 +11,12 @@
         /// The <see cref="ICondition"/> description
         /// </summary>
         string Description { get; set; }
+
+
+        /// <summary>
+        /// Get the <see cref="TaskAwaiter"/> to use the <see langword="await"/> keyword
+        /// </summary>
+        /// <returns>The <see cref="TaskAwaiter"/></returns>
+        TaskAwaiter GetAwaiter();
     }
 }

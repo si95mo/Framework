@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Core.Conditions
 {
@@ -67,6 +68,11 @@ namespace Core.Conditions
                 lock (eventLock)
                     ValueChangedHandler -= value;
             }
+        }
+
+        public TaskAwaiter GetAwaiter()
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>

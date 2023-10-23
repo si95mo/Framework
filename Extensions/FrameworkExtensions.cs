@@ -77,7 +77,9 @@ namespace Extensions
                 EventHandler<ValueChangedEventArgs> eventHandler = (__, e) =>
                 {
                     if ((bool)e.NewValue)
+                    {
                         tokenSource.Cancel();
+                    }
                 };
 
                 condition.ValueChanged += eventHandler;
@@ -85,7 +87,9 @@ namespace Extensions
                 condition.ValueChanged -= eventHandler;
             }
             else
+            {
                 await Task.CompletedTask;
+            }
         }
 
         /// <summary>

@@ -27,9 +27,17 @@
         /// Force the <see cref="DummyCondition"/> value to change
         /// </summary>
         /// <remarks>
-        /// This is the only way to change the <see cref="DummyCondition"/> value (other than a <see cref="IProperty{T}.ConnectTo(IProperty)"/>)!
+        /// This is the only way to change the <see cref="DummyCondition"/> value (other than a <see cref="IProperty{T}.ConnectTo(IProperty)"/> or <see cref="Toggle"/>)!
         /// </remarks>
         /// <param name="value">The new value</param>
-        public void Force(bool value) => Value = value;
+        public void Force(bool value) 
+            => Value = value;
+
+        /// <summary>
+        /// Force the <see cref="DummyCondition"/> value to toggle (if <see langword="true"/> will become <see langword="false"/> and vice-versa).
+        /// Also <see cref="Force(bool)"/> can be used, but without regarding of the actual <see cref="DummyCondition"/> value
+        /// </summary>
+        public void Toggle()
+            => Value = !Value;
     }
 }
