@@ -647,11 +647,13 @@ namespace Core.Conditions
             if (!condition.Value)
             {
                 CancellationTokenSource tokenSource = new CancellationTokenSource();
-                EventHandler<ValueChangedEventArgs> eventHandler = (__, e) =>
+                void eventHandler(object __, ValueChangedEventArgs e)
                 {
                     if ((bool)e.NewValue)
+                    {
                         tokenSource.Cancel();
-                };
+                    }
+                }
 
                 condition.ValueChanged += eventHandler;
 
