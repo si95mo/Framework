@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace Core.Conditions
 {
@@ -593,5 +596,77 @@ namespace Core.Conditions
         }
 
         #endregion Equality
+
+        #region WaitFor
+
+
+        /// <summary>
+        /// Wait for an <see cref="ICondition"/> to be <see langword="true"/> without timeout
+        /// </summary>
+        /// <param name="_">The source</param>
+        /// <param name="condition">The <see cref="ICondition"/> to wait</param>
+        /// <returns>The (async) <see cref="Task"/></returns>
+        public static async Task WaitFor(this IProperty _, ICondition condition)
+        {
+            if (!condition.Value)
+            {
+                CancellationTokenSource tokenSource = new CancellationTokenSource();
+                EventHandler<ValueChangedEventArgs> eventHandler = (__, e) =>
+                {
+                    if ((bool)e.NewValue)
+                    {
+                        tokenSource.Cancel();
+                    }
+                };
+
+                condition.ValueChanged += eventHandler;
+                await Task.Delay(-1, tokenSource.Token).ContinueWith((x) => { }); // Prevent the exception throw;
+                condition.ValueChanged -= eventHandler;
+            }
+            else
+            {
+                await Task.CompletedTask;
+            }
+        }
+
+        /// <summary>
+        /// Wait for an <see cref="ICondition"/> to be <see langword="true"/> with a timeout
+        /// </summary>
+        /// <param name="_">The source</param>
+        /// <param name="condition">The <see cref="ICondition"/> to wait</param>
+        /// <param name="timeout">The timeout (in milliseconds)</param>
+        /// <returns>
+        /// The (async) <see cref="Task{T}"/> (in which the result will be <see langword="true"/> if
+        /// the <paramref name="condition"/> became <see langword="true"/> before <paramref name="timeout"/> occurred,
+        /// <see langword="false"/> otherwise)
+        /// </returns>
+        public static async Task<bool> WaitFor(this IProperty _, ICondition condition, int timeout)
+        {
+            bool result = true;
+
+            if (!condition.Value)
+            {
+                CancellationTokenSource tokenSource = new CancellationTokenSource();
+                EventHandler<ValueChangedEventArgs> eventHandler = (__, e) =>
+                {
+                    if ((bool)e.NewValue)
+                        tokenSource.Cancel();
+                };
+
+                condition.ValueChanged += eventHandler;
+
+                Stopwatch timer = Stopwatch.StartNew();
+                await Task.Delay(timeout, tokenSource.Token).ContinueWith((x) => { }); // Prevent the exception throw
+                timer.Stop();
+
+                condition.ValueChanged -= eventHandler;
+
+                result = timer.Elapsed.TotalMilliseconds <= timeout;
+            }
+
+            return result;
+        }
+
+        #endregion WaitFor
     }
 }

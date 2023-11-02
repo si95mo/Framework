@@ -14,7 +14,7 @@ namespace Core.Conditions
 
 
         /// <summary>
-        /// Get the <see cref="TaskAwaiter"/> to use the <see langword="await"/> keyword
+        /// Get the <see cref="TaskAwaiter"/> to use the <see langword="await"/> keyword. Will await until the <see cref="ICondition"/> will be true
         /// </summary>
         /// <returns>The <see cref="TaskAwaiter"/></returns>
         TaskAwaiter GetAwaiter();

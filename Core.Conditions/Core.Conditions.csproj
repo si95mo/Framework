@@ -45,6 +45,7 @@
     <Compile Include="Condition.cs" />
     <Compile Include="ConditionsService.cs" />
     <Compile Include="CoditionsExtensions.cs" />
+    <Compile Include="ConstantCondition.cs" />
     <Compile Include="FlyweightCondition.cs" />
     <Compile Include="DummyCondition.cs" />
     <Compile Include="ICondition.cs" />

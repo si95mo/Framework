@@ -61,18 +61,23 @@ namespace Core.Conditions
             add
             {
                 lock (eventLock)
+                {
                     ValueChangedHandler += value;
+                }
             }
             remove
             {
                 lock (eventLock)
+                {
                     ValueChangedHandler -= value;
+                }
             }
         }
 
         public TaskAwaiter GetAwaiter()
         {
-            throw new NotImplementedException();
+            TaskAwaiter awaiter = this.WaitFor(this.IsTrue()).GetAwaiter();
+            return awaiter;
         }
 
         /// <summary>
