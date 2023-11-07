@@ -69,7 +69,7 @@ namespace Hardware
         /// <summary>
         /// The <see cref="IChannel"/> symbolic (as in the electrical schema)
         /// </summary>
-        string Symbolic { get; set; }   
+        string Symbolic { get; set; }
 
         /// <summary>
         /// The <see cref="IChannel"/> tags set

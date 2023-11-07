@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Core.Conditions
 {
@@ -334,18 +334,18 @@ namespace Core.Conditions
         /// <param name="isMinimumExcluded">The minimum excluded option in the range check</param>
         /// <param name="isMaximumExcluded">The maximum excluded option in the range check</param>
         /// <returns>The new <see cref="ICondition"/></returns>
-        public static ICondition IsInRange<T>(this IProperty<T> property, T minimum, T maximum, bool isMinimumExcluded = false, bool isMaximumExcluded = false) 
+        public static ICondition IsInRange<T>(this IProperty<T> property, T minimum, T maximum, bool isMinimumExcluded = false, bool isMaximumExcluded = false)
             where T : struct, IComparable, IComparable<T>, IConvertible, IEquatable<T>, IFormattable
         {
             ICondition condition;
             if (property is IProperty<double> castedProperty)
             {
                 condition = new PropertyValueInRange(
-                    $"{property.Code}.IsInRange", 
-                    castedProperty, 
-                    Convert.ToDouble(minimum), 
-                    Convert.ToDouble(maximum), 
-                    isMinimumExcluded, 
+                    $"{property.Code}.IsInRange",
+                    castedProperty,
+                    Convert.ToDouble(minimum),
+                    Convert.ToDouble(maximum),
+                    isMinimumExcluded,
                     isMaximumExcluded
                 );
             }
@@ -366,8 +366,8 @@ namespace Core.Conditions
         /// <param name="isMinimumExcluded">The minimum excluded option in the range check</param>
         /// <param name="isMaximumExcluded">The maximum excluded option in the range check</param>
         /// <returns>The new <see cref="ICondition"/></returns>
-        public static ICondition IsInRange(this IProperty<double> property, IProperty<double> minimum, IProperty<double> maximum, 
-            bool isMinimumExcluded = false, bool isMaximumExcluded = false) 
+        public static ICondition IsInRange(this IProperty<double> property, IProperty<double> minimum, IProperty<double> maximum,
+            bool isMinimumExcluded = false, bool isMaximumExcluded = false)
         {
             ICondition condition;
             if (property is IProperty<double> castedProperty)
@@ -377,7 +377,7 @@ namespace Core.Conditions
                     castedProperty,
                     minimum,
                     maximum,
-                    isMinimumExcluded, 
+                    isMinimumExcluded,
                     isMaximumExcluded
                 );
             }
@@ -414,7 +414,7 @@ namespace Core.Conditions
         /// <param name="isMinimumExcluded">The minimum excluded option in the range check</param>
         /// <param name="isMaximumExcluded">The maximum excluded option in the range check</param>
         /// <returns>The new <see cref="ICondition"/></returns>
-        public static ICondition IsNotInRange<T>(this IProperty<T> property, T minimum, T maximum, bool isMinimumExcluded = false, bool isMaximumExcluded = false) 
+        public static ICondition IsNotInRange<T>(this IProperty<T> property, T minimum, T maximum, bool isMinimumExcluded = false, bool isMaximumExcluded = false)
             where T : struct, IComparable, IComparable<T>, IConvertible, IEquatable<T>, IFormattable
             => property.IsInRange(minimum, maximum, isMinimumExcluded, isMaximumExcluded).Not();
 
@@ -427,7 +427,7 @@ namespace Core.Conditions
         /// <param name="isMinimumExcluded">The minimum excluded option in the range check</param>
         /// <param name="isMaximumExcluded">The maximum excluded option in the range check</param>
         /// <returns>The new <see cref="ICondition"/></returns>
-        public static ICondition IsNotInRange(this IProperty<double> property, IProperty<double> minimum, IProperty<double> maximum, 
+        public static ICondition IsNotInRange(this IProperty<double> property, IProperty<double> minimum, IProperty<double> maximum,
             bool isMinimumExcluded = false, bool isMaximumExcluded = false)
             => property.IsInRange(minimum, maximum, isMinimumExcluded, isMaximumExcluded).Not();
 
@@ -436,7 +436,7 @@ namespace Core.Conditions
         #region Is stable for
 
         /// <summary>
-        /// Create a new <see cref="ICondition"/> that will be <see langword="true"/> when <paramref name="source"/> 
+        /// Create a new <see cref="ICondition"/> that will be <see langword="true"/> when <paramref name="source"/>
         /// will be stable for at least <paramref name="stabilizationTime"/>
         /// </summary>
         /// <param name="source">The source <see cref="ICondition"/></param>
@@ -453,7 +453,7 @@ namespace Core.Conditions
         }
 
         /// <summary>
-        /// Create a new <see cref="ICondition"/> that will be <see langword="true"/> when <paramref name="source"/> 
+        /// Create a new <see cref="ICondition"/> that will be <see langword="true"/> when <paramref name="source"/>
         /// will be stable for at least <paramref name="stabilizationTimeInMilliseconds"/>
         /// </summary>
         /// <param name="source">The source <see cref="ICondition"/></param>
@@ -461,7 +461,6 @@ namespace Core.Conditions
         /// <returns>The stabilized <see cref="ICondition"/></returns>
         public static ICondition IsStableFor(this ICondition source, double stabilizationTimeInMilliseconds)
             => source.IsStableFor(TimeSpan.FromMilliseconds(stabilizationTimeInMilliseconds));
-
 
         #endregion Is stable for
 
@@ -497,7 +496,7 @@ namespace Core.Conditions
             return condition;
         }
 
-        #endregion Is equal to
+        #endregion Is equal
 
         #region Is not equal to
 
@@ -598,7 +597,6 @@ namespace Core.Conditions
         #endregion Equality
 
         #region WaitFor
-
 
         /// <summary>
         /// Wait for an <see cref="ICondition"/> to be <see langword="true"/> without timeout

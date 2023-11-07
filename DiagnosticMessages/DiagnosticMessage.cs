@@ -2,7 +2,6 @@
 using Core.Conditions;
 using Core.DataStructures;
 using System;
-using System.Runtime.Remoting.Contexts;
 
 namespace Diagnostic.Messages
 {
@@ -41,7 +40,7 @@ namespace Diagnostic.Messages
         /// </summary>
         /// <param name="code">The code</param>
         /// <param name="message">The message</param>
-        public FiredEventArgs(string code, string message, string longText, IDiagnosticMessage diagnosticMessage) 
+        public FiredEventArgs(string code, string message, string longText, IDiagnosticMessage diagnosticMessage)
             : this(code, DateTime.Now, message, longText, diagnosticMessage)
         { }
 

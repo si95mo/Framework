@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using UserInterface.Controls;
 
 namespace UserInterface.Forms
 {
@@ -28,7 +27,7 @@ namespace UserInterface.Forms
         {
             InitializeComponent();
 
-            if(FullSize)
+            if (FullSize)
             {
                 Rectangle workingArea = Screen.FromHandle(Handle).WorkingArea;
                 MaximizedBounds = new Rectangle(0, 0, workingArea.Width, workingArea.Height);

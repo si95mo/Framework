@@ -67,7 +67,9 @@ namespace UserInterface.Controls.Panels
         /// Fired when the <see cref="ActualUserControl"/> changes
         /// </summary>
         public event ActualUserControlHandler ActualUserControlChanged;
+
         public delegate void ActualUserControlHandler(object source, ActualUserControlEventArgs e);
+
         protected virtual void OnActualUserControlChanged()
         {
             ActualUserControlChanged?.Invoke(this, new ActualUserControlEventArgs(ActualUserControl));
@@ -86,7 +88,7 @@ namespace UserInterface.Controls.Panels
             LayoutPanel.BackColor = Colors.Grey;
 
             VersionLabel.Text = Assembly.GetEntryAssembly().GetName().Version.ToString();
-            if(!VersionLabel.Text.StartsWith("v"))
+            if (!VersionLabel.Text.StartsWith("v"))
                 VersionLabel.Text = $"v{VersionLabel.Text}";
 
             UserControls = new Dictionary<string, Control>();

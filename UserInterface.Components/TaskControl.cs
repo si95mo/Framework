@@ -38,7 +38,7 @@ namespace UserInterface.Controls
             {
                 if (i == 0)
                     waitStates[i] = lblWaitState1;
-                else if(i == 1)
+                else if (i == 1)
                     waitStates[i] = lblWaitState2;
                 else if (i == 2)
                     waitStates[i] = lblWaitState3;
@@ -94,9 +94,9 @@ namespace UserInterface.Controls
 
                 lblTaskWaitState.Text = waitState;
 
-                if(Size == expandedSize && bufferIndex == 0) // Clean buffers only if the control is actually expanded
+                if (Size == expandedSize && bufferIndex == 0) // Clean buffers only if the control is actually expanded
                 {
-                    for(int i = 0; i < BufferSize; i++)
+                    for (int i = 0; i < BufferSize; i++)
                     {
                         buffer[i] = string.Empty;
                         waitStates[i].Text = string.Empty;
@@ -107,7 +107,7 @@ namespace UserInterface.Controls
                 buffer[bufferIndex % BufferSize] = waitStateWithInfos;
                 waitStates[bufferIndex % BufferSize].Text = waitStateWithInfos; // Increment counter here
 
-                if(bufferIndex++ == BufferSize) // Reset index and clean the buffers
+                if (bufferIndex++ == BufferSize) // Reset index and clean the buffers
                     bufferIndex = 0;
             }
             else

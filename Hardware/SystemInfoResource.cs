@@ -46,9 +46,9 @@ namespace Hardware
             AddChannel(new AnalogInput("Hours", format: "0"), () => double.Parse(DateTime.Now.ToString("HH")));
             AddChannel(new AnalogInput("Minutes", format: "0"), () => double.Parse(DateTime.Now.ToString("mm")));
             AddChannel(new AnalogInput("Seconds", format: "0"), () => double.Parse(DateTime.Now.ToString("ss")));
-            AddChannel(new AnalogInput("Milliseconds", format: "0"), () =>  double.Parse(DateTime.Now.ToString("fff")));
+            AddChannel(new AnalogInput("Milliseconds", format: "0"), () => double.Parse(DateTime.Now.ToString("fff")));
             AddChannel(
-                new AnalogInput("CalendarWeek", format: "0"), 
+                new AnalogInput("CalendarWeek", format: "0"),
                 () =>
                 {
                     DateTime time = DateTime.Now;

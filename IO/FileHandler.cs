@@ -59,7 +59,7 @@ namespace IO
                         }
                         catch { }
                         finally
-                        { 
+                        {
                             sw.Close();
                             sw.Dispose();
                         }

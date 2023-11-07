@@ -8,7 +8,9 @@ namespace Engines
     public abstract class Engine : IEngine
     {
         public abstract bool ExecuteAsBool(string script);
+
         public abstract double ExecuteAsDouble(string script);
+
         public abstract string ExecuteAsString(string script);
 
         /// <summary>

@@ -16,7 +16,7 @@ namespace Diagnostic.Messages
         /// <param name="sourceCode"></param>
         /// <param name="message"></param>
         /// <param name="firingCondition"></param>
-        public Warn(string code, string message, string sourceCode = "", ICondition firingCondition = null) 
+        public Warn(string code, string message, string sourceCode = "", ICondition firingCondition = null)
             : base(code, message, sourceCode, firingCondition)
         { }
 
@@ -28,7 +28,7 @@ namespace Diagnostic.Messages
         /// <param name="source"></param>
         /// <param name="message"></param>
         /// <param name="firingCondition"></param>
-        public Warn(string code, string message, IProperty source = null, ICondition firingCondition = null) 
+        public Warn(string code, string message, IProperty source = null, ICondition firingCondition = null)
             : base(code, message, source, firingCondition)
         { }
 

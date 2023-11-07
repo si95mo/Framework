@@ -149,6 +149,7 @@ namespace Diagnostic
         /// The log file path
         /// </summary>
         public static string Path { get; private set; } = "log.log";
+
         public static string ErrorsPath { get; private set; } = "errors.log";
 
         /// <summary>

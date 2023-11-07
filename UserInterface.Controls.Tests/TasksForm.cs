@@ -4,7 +4,6 @@ using Diagnostic;
 using Diagnostic.Messages;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using Tasks;
 using UserInterface.Forms;
@@ -88,7 +87,7 @@ namespace UserInterface.Controls.Tests
 
         private void BtnReserAlarm_Click(object sender, EventArgs e)
         {
-            if(alarm.Active)
+            if (alarm.Active)
             {
                 alarm.Reset();
 

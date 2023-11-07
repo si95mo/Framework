@@ -7,7 +7,7 @@ namespace Diagnostic.Messages
 {
     /// <summary>
     /// Implement the <see cref="IDiagnosticMessage"/> interface as an alarm. <br/>
-    /// If <see cref="DiagnosticMessage.Source"/> is not <see langword="null"/>, in the fire event 
+    /// If <see cref="DiagnosticMessage.Source"/> is not <see langword="null"/>, in the fire event
     /// the relative <c>Stop</c> method will be called in case of a <see cref="IResource"/> or <see cref="IDevice"/>
     /// </summary>
     public class Alarm : DiagnosticMessage
@@ -22,7 +22,7 @@ namespace Diagnostic.Messages
         /// <param name="message">The message</param>
         /// <param name="sourceCode">The source code</param>
         /// <param name="firingCondition">The <see cref="ICondition"/> that will cause the <see cref="Alarm"/> to fire</param>
-        public Alarm(string code, string message, string sourceCode = "", ICondition firingCondition = null) 
+        public Alarm(string code, string message, string sourceCode = "", ICondition firingCondition = null)
             : base(code, message, sourceCode, firingCondition)
         { }
 
@@ -34,7 +34,7 @@ namespace Diagnostic.Messages
         /// <param name="message">The message</param>
         /// <param name="source">The source <see cref="IProperty"/></param>
         /// <param name="firingCondition">The <see cref="ICondition"/> that will cause the <see cref="Alarm"/> to fire</param>
-        public Alarm(string code, string message, IProperty source = null, ICondition firingCondition = null) 
+        public Alarm(string code, string message, IProperty source = null, ICondition firingCondition = null)
             : base(code, message, source, firingCondition)
         { }
 

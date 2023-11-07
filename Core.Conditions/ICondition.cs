@@ -12,7 +12,6 @@ namespace Core.Conditions
         /// </summary>
         string Description { get; set; }
 
-
         /// <summary>
         /// Get the <see cref="TaskAwaiter"/> to use the <see langword="await"/> keyword. Will await until the <see cref="ICondition"/> will be true
         /// </summary>

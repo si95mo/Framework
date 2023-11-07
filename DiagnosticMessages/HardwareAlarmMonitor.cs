@@ -87,7 +87,7 @@ namespace Diagnostic.Messages
         /// </remarks>
         public static void AddAlarm()
         {
-            if(ServiceBroker.CanProvide<ResourcesService>())
+            if (ServiceBroker.CanProvide<ResourcesService>())
             {
                 ResourcesService resourcesService = ServiceBroker.GetService<ResourcesService>();
                 AddAlarm(resourcesService.GetAll().Cast<IResource>());
@@ -121,12 +121,12 @@ namespace Diagnostic.Messages
         }
 
         /// <summary>
-        /// Add a new <see cref="Alarm"/> and <see cref="Warn"/> for an <see cref="IAnalogChannel"/> that will fire based on 
+        /// Add a new <see cref="Alarm"/> and <see cref="Warn"/> for an <see cref="IAnalogChannel"/> that will fire based on
         /// <paramref name="minValue"/> and <paramref name="maxValue"/> for the <see cref="Alarm"/> and <paramref name="preMinValue"/> and <paramref name="preMaxValue"/>
         /// for the <see cref="Warn"/>. See also <see cref="AddAlarm(IAnalogChannel, double, double, double, double, double)"/>
         /// </summary>
         /// <remarks>
-        /// The <see cref="Alarm"/> and <see cref="Warn"/> messages will be 
+        /// The <see cref="Alarm"/> and <see cref="Warn"/> messages will be
         /// "<c><paramref name="channel"/>.Description (<paramref name="channel"/>.Symbolic) value is <paramref name="channel"/>.Value, outside of (lowLim, highLim)</c>"
         /// </remarks>
         /// <typeparam name="T">The type of the <paramref name="channel"/> and <paramref name="alarmValue"/></typeparam>
@@ -152,12 +152,12 @@ namespace Diagnostic.Messages
         }
 
         /// <summary>
-        /// Add a new <see cref="Alarm"/> and <see cref="Warn"/> for an <see cref="IAnalogChannel"/> that will fire based on 
+        /// Add a new <see cref="Alarm"/> and <see cref="Warn"/> for an <see cref="IAnalogChannel"/> that will fire based on
         /// <paramref name="minValue"/> and <paramref name="maxValue"/> for the <see cref="Alarm"/> and <paramref name="preMinValue"/> and <paramref name="preMaxValue"/>
         /// for the <see cref="Warn"/>. See also <see cref="AddAlarm(IAnalogChannel, double, double, double, double, TimeSpan)"/>
         /// </summary>
         /// <remarks>
-        /// The <see cref="Alarm"/> and <see cref="Warn"/> messages will be 
+        /// The <see cref="Alarm"/> and <see cref="Warn"/> messages will be
         /// "<c><paramref name="channel"/>.Description (<paramref name="channel"/>.Symbolic) value is <paramref name="channel"/>.Value, outside of (lowLim, highLim)</c>"
         /// </remarks>
         /// <typeparam name="T">The type of the <paramref name="channel"/> and <paramref name="alarmValue"/></typeparam>

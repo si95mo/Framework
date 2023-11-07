@@ -46,7 +46,7 @@ namespace Tasks.Tests
         {
             Scheduler scheduler = new Scheduler(maxDegreesOfParallelism: 10);
             List<IAwaitable> tasks = new List<IAwaitable>();
-            for(int i = 0; i < 20; i++)
+            for (int i = 0; i < 20; i++)
                 tasks.Add(new FunctionTask(i.ToString(), scheduler));
 
             tasks.ForEach((x) => x.Start());

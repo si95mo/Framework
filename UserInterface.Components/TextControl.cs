@@ -22,9 +22,9 @@ namespace UserInterface.Controls
         /// Define the text placeholder to use. Leave empty for no placeholder
         /// </summary>
         [Description("Add a placeholder text"), Category("Data")]
-        public string PlaceholderText 
-        { 
-            get => placeholderText; 
+        public string PlaceholderText
+        {
+            get => placeholderText;
             set
             {
                 placeholderText = value;

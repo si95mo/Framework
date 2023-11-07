@@ -28,14 +28,16 @@ namespace UserInterface.Forms
         {
             lblMessage.Text = message;
 
-            switch(toasterType)
+            switch (toasterType)
             {
                 case ToasterType.Message:
                     BackColor = Colors.LightBlue;
                     break;
+
                 case ToasterType.Warning:
                     BackColor = Colors.LightYellow;
                     break;
+
                 case ToasterType.Error:
                     BackColor = Colors.Red;
                     break;

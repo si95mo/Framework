@@ -19,7 +19,7 @@ namespace UserInterface.Forms
             int nBottomRect,   // y-coordinate of lower-right corner
             int nWidthEllipse, // width of ellipse
             int nHeightEllipse // height of ellipse
-        ); 
+        );
 
         /// <summary>
         /// Create a new instance of <see cref="CustomSubForm"/>

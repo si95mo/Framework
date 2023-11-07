@@ -1,7 +1,7 @@
 ﻿using Hardware;
+using Newtonsoft.Json;
 using System;
 using System.Drawing;
-using Newtonsoft.Json;
 
 namespace UserInterface.Dashboards
 {

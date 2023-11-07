@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Windows.Forms;
 
 namespace UserInterface.Controls
@@ -101,7 +100,5 @@ namespace UserInterface.Controls
             else
                 BeginInvoke(new Action(() => UpdateView(array))); // Locked on last element
         }
-
-
     }
 }

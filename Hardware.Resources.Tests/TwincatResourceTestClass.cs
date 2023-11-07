@@ -11,7 +11,8 @@ namespace Hardware.Resources.Tests
     public class TwincatResourceTestClass
     {
         // Check which is correct for the local ads server. The amsnet address is not used in case of a local ads server
-        private readonly string amsNetAddress = "169.254.174.61.1.1"; 
+        private readonly string amsNetAddress = "169.254.174.61.1.1";
+
         private readonly int port = 851; // TwinCAT - local ads server
 
         private TwincatResource resource;

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -66,7 +65,7 @@ namespace UserInterface.Forms
         /// <param name="customerLogoImagePath">The customer logo image path</param>
         /// <param name="projectCode">The project code (i.e. the text shown on the <paramref name="formToLaunch"/>)</param>
         /// <param name="disposeActions">The (eventual) disposing <see cref="Task"/> to call on shut down</param>
-        public SplashForm(Dictionary<string, Func<Task>> startupActions, Type formToLaunchType, string customerLogoImagePath, string projectCode, 
+        public SplashForm(Dictionary<string, Func<Task>> startupActions, Type formToLaunchType, string customerLogoImagePath, string projectCode,
             Dictionary<string, Func<Task>> disposeActions = null) : this()
         {
             StartupActions = startupActions;
@@ -81,7 +80,7 @@ namespace UserInterface.Forms
                 Size imageSize = pbxClient.Image.Size;
                 Size fitSize = pbxClient.ClientSize;
                 pbxClient.SizeMode = imageSize.Width > fitSize.Width || imageSize.Height > fitSize.Height ?
-                    PictureBoxSizeMode.Zoom : 
+                    PictureBoxSizeMode.Zoom :
                     PictureBoxSizeMode.CenterImage;
             }
             else
@@ -133,7 +132,7 @@ namespace UserInterface.Forms
                 prbProgress.Value = 0;
                 await Task.Delay(TimeSpan.FromMilliseconds(500d));
 
-                foreach(KeyValuePair<string, Func<Task>> action in StartupActions)
+                foreach (KeyValuePair<string, Func<Task>> action in StartupActions)
                 {
                     lblStatus.Text = $"{BaseStateMessage} {action.Key} ({++counter} / {StartupActions.Count})";
                     prbProgress.Value += increment;
@@ -165,7 +164,7 @@ namespace UserInterface.Forms
             if (DisposeActions != null)
             {
                 if (!InvokeRequired)
-                    await DisposeAsync();      
+                    await DisposeAsync();
                 else
                     BeginInvoke(new Action(() => FormToLaunch_Closed(sender, e)));
             }

@@ -11,10 +11,12 @@ namespace Core.Scripting
         /// The <see cref="IScript"/> description
         /// </summary>
         string Description { get; set; }
+
         /// <summary>
         /// The ran status
         /// </summary>
         bool Ran { get; }
+
         /// <summary>
         /// The cleared status
         /// </summary>

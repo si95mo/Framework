@@ -71,7 +71,7 @@ namespace Tasks
 
             tasks = new LinkedList<Task>();
 
-            if(ServiceBroker.CanProvide<SchedulersService>())
+            if (ServiceBroker.CanProvide<SchedulersService>())
             {
                 ServiceBroker.GetService<SchedulersService>().Add(this);
             }
@@ -172,9 +172,9 @@ namespace Tasks
                                 RunningTasks.Value = RunningTasks.Value > 0 ? RunningTasks.Value - 1 : 0d;
                         }
                     }
-                    finally 
-                    { 
-                        currentThreadIsProcessingTasks = false; 
+                    finally
+                    {
+                        currentThreadIsProcessingTasks = false;
                     }
                 },
                 null

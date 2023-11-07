@@ -9,7 +9,7 @@ namespace Engines
     /// </summary>
     public class JavascriptEngine : Engine
     {
-        JintEngine engine;
+        private JintEngine engine;
 
         /// <summary>
         /// Create a new instance of <see cref="JavascriptEngine"/>
@@ -29,7 +29,7 @@ namespace Engines
         public override string ExecuteAsString(string script)
             => Execute<string>(script);
 
-        protected override T Execute<T>(string script) 
+        protected override T Execute<T>(string script)
         {
             // Add return statement before the script
             script = $"return {script}";

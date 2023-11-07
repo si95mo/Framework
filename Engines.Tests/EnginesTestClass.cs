@@ -1,7 +1,7 @@
-﻿using NUnit.Framework;
-using System;
-using Extensions;
+﻿using Extensions;
 using FluentAssertions;
+using NUnit.Framework;
+using System;
 
 namespace Engines.Tests
 {
@@ -26,7 +26,7 @@ namespace Engines.Tests
             object result = null;
             if (type.IsNumeric())
                 result = engine.ExecuteAsDouble(script);
-            else if(type == typeof(bool))
+            else if (type == typeof(bool))
                 result = engine.ExecuteAsBool(script);
             else if (type == typeof(string))
                 result = engine.ExecuteAsString(script);

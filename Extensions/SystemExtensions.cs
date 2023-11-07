@@ -1,13 +1,13 @@
 ﻿using Diagnostic;
 using IO;
+using Newtonsoft.Json;
 using OX.Copyable;
 using System;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using System.Text.RegularExpressions;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Extensions
 {
@@ -134,9 +134,9 @@ namespace Extensions
             Regex lowerCaseNextToNumber = new Regex("(?<=[0-9])[a-z]");
             Regex upperCaseInside = new Regex("(?<=[A-Z])[A-Z]+?((?=[A-Z][a-z])|(?=[0-9]))");
 
-            IEnumerable<string> pascalCase = invalidChars.Replace(whiteSpace.Replace(source, "_"), string.Empty) // White spaces with _, invalid chars with ""                
-                .Split(new char[] { '_' }, StringSplitOptions.RemoveEmptyEntries) // Underscores                                                                                  
-                .Select(w => startsWithLowerCaseChar.Replace(w, m => m.Value.ToUpper())) // First letter to uppercase                                                                                        
+            IEnumerable<string> pascalCase = invalidChars.Replace(whiteSpace.Replace(source, "_"), string.Empty) // White spaces with _, invalid chars with ""
+                .Split(new char[] { '_' }, StringSplitOptions.RemoveEmptyEntries) // Underscores
+                .Select(w => startsWithLowerCaseChar.Replace(w, m => m.Value.ToUpper())) // First letter to uppercase
                 .Select(w => firstCharFollowedByUpperCasesOnly.Replace(w, m => m.Value.ToLower())) // Other letters to lower case
                 .Select(w => lowerCaseNextToNumber.Replace(w, m => m.Value.ToUpper())) // Upper case in case of numbers
                 .Select(w => upperCaseInside.Replace(w, m => m.Value.ToLower())); // Lower case bwetween upper case
@@ -173,6 +173,7 @@ namespace Extensions
                             Enumerable.Range(0, ++indent).ForEach((x) => stringBuilder.Append(Indentation));
                         }
                         break;
+
                     case '}':
                     case ']':
                         if (!quoted)
@@ -183,6 +184,7 @@ namespace Extensions
 
                         stringBuilder.Append(character);
                         break;
+
                     case '"':
                         stringBuilder.Append(character);
                         bool escaped = false;
@@ -194,6 +196,7 @@ namespace Extensions
                         if (!escaped)
                             quoted = !quoted;
                         break;
+
                     case ',':
                         stringBuilder.Append(character);
                         if (!quoted)
@@ -202,11 +205,13 @@ namespace Extensions
                             Enumerable.Range(0, indent).ForEach((x) => stringBuilder.Append(Indentation));
                         }
                         break;
+
                     case ':':
                         stringBuilder.Append(character);
                         if (!quoted)
                             stringBuilder.Append(" ");
                         break;
+
                     default:
                         stringBuilder.Append(character);
                         break;
