@@ -17,6 +17,17 @@ namespace Core.Conditions
         public static void WithDescription(this ICondition condition, string description)
             => condition.Description = description;
 
+        /// <summary>
+        /// Create a new <see cref="ICondition"/> (<see cref="ConstantCondition"/>) based on <paramref name="source"/> value
+        /// </summary>
+        /// <param name="source">The source to convert</param>
+        /// <returns>The result <see cref="ICondition"/></returns>
+        public static ICondition AsConstantCondition(this bool source)
+        {
+            ICondition condition = new ConstantCondition("As constant condition", source);
+            return condition;
+        }
+
         #region IsTrue
 
         /// <summary>
@@ -145,6 +156,15 @@ namespace Core.Conditions
             return andCondition;
         }
 
+        /// <summary>
+        /// Ands all the <see cref="ICondition"/> contained in <paramref name="conditions"/> with <paramref name="source"/>
+        /// </summary>
+        /// <param name="source">The initial <see cref="ICondition"/>to and</param>
+        /// <param name="conditions">The collection of <see cref="ICondition"/> to and</param>
+        /// <returns>The result <see cref="ICondition"/></returns>
+        public static ICondition And(this ICondition source, params ICondition[] conditions)
+            => conditions.And().And(source);
+
         #endregion And
 
         #region Or
@@ -197,6 +217,15 @@ namespace Core.Conditions
             return orCondition;
         }
 
+        /// <summary>
+        /// Ors all the <see cref="ICondition"/> contained in <paramref name="conditions"/> with <paramref name="source"/>
+        /// </summary>
+        /// <param name="source">The initial <see cref="ICondition"/>to or</param>
+        /// <param name="conditions">The collection of <see cref="ICondition"/> to or</param>
+        /// <returns>The result <see cref="ICondition"/></returns>
+        public static ICondition Or(this ICondition source, params ICondition[] conditions)
+            => conditions.Or().Or(source);
+
         #endregion Or
 
         #region Xor
@@ -239,6 +268,15 @@ namespace Core.Conditions
 
             return xorCondition;
         }
+
+        /// <summary>
+        /// Xors all the <see cref="ICondition"/> contained in <paramref name="conditions"/> with <paramref name="source"/>
+        /// </summary>
+        /// <param name="source">The initial <see cref="ICondition"/>to xor</param>
+        /// <param name="conditions">The collection of <see cref="ICondition"/> to xor</param>
+        /// <returns>The result <see cref="ICondition"/></returns>
+        public static ICondition Xor(this ICondition source, params ICondition[] conditions)
+            => conditions.Xor().Xor(source);
 
         /// <summary>
         /// Update a <see cref="FlyweightCondition"/> by applying an <see langword="xor"/> operand between two <see langword="bool"/> values
@@ -286,6 +324,15 @@ namespace Core.Conditions
 
             return nandCondition;
         }
+
+        /// <summary>
+        /// Nands all the <see cref="ICondition"/> contained in <paramref name="conditions"/> with <paramref name="source"/>
+        /// </summary>
+        /// <param name="source">The initial <see cref="ICondition"/>to nand</param>
+        /// <param name="conditions">The collection of <see cref="ICondition"/> to nand</param>
+        /// <returns>The result <see cref="ICondition"/></returns>
+        public static ICondition Nand(this ICondition source, params ICondition[] conditions)
+            => conditions.Nand().Nand(source);
 
         #endregion Nand
 
