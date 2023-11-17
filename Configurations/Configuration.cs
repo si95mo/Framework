@@ -7,9 +7,9 @@ using System.IO;
 namespace Configurations
 {
     /// <summary>
-    /// Handle the configuration file in memory
+    /// Handle the <see cref="IConfiguration"/> file in memory
     /// </summary>
-    public class Configuration : IProperty<Dictionary<string, ConfigurationItem>>
+    public class Configuration : IConfiguration
     {
         private string code;
         private Dictionary<string, ConfigurationItem> items;
@@ -47,7 +47,7 @@ namespace Configurations
         /// <remarks>By default, <paramref name="code"/> is equal to <paramref name="path"/> (changeable by specifying a value to <paramref name="code"/>)</remarks>
         /// <param name="code">The code</param>
         /// <param name="path">The configuration file path</param>
-        public Configuration(string code = "config/config.json", string path = "config/config.json")
+        public Configuration(string code = "Configuration", string path = "config/config.json")
         {
             this.code = code;
 
@@ -57,7 +57,7 @@ namespace Configurations
                 items = ConfigurationHandler.Parse();
             }
             else
-                Logger.Warn($"Configuration file not found at {path}");
+                Logger.Warn($"Configuration file not found @ {path}");
         }
 
         public void ConnectTo(IProperty property)
