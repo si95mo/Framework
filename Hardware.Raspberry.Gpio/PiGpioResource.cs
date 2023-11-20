@@ -1,5 +1,9 @@
 ﻿using Core;
 using Core.DataStructures;
+using Diagnostic;
+using System;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Unosquare.RaspberryIO;
 
@@ -10,7 +14,7 @@ namespace Hardware.Raspberry
     /// </summary>
     public class PiGpioResource : Resource
     {
-        private int pollingInterval;
+        private int pollingIntervalInMilliseconds;
 
         private Task pollingTask;
 
@@ -20,10 +24,10 @@ namespace Hardware.Raspberry
         /// Create a new instance of <see cref="PiGpioResource"/>
         /// </summary>
         /// <param name="code">The code</param>
-        /// <param name="pollingInterval">The polling interval (in milliseconds)</param>
-        public PiGpioResource(string code, int pollingInterval) : base(code)
+        /// <param name="pollingIntervalInMilliseconds">The polling interval (in milliseconds)</param>
+        public PiGpioResource(string code, int pollingIntervalInMilliseconds) : base(code)
         {
-            this.pollingInterval = pollingInterval;
+            this.pollingIntervalInMilliseconds = pollingIntervalInMilliseconds;
 
             pollingTask = null;
 
@@ -59,7 +63,7 @@ namespace Hardware.Raspberry
         public override void Stop()
         {
             Status.Value = ResourceStatus.Stopping;
-            Task.Delay(2 * pollingInterval);
+            Task.Delay(2 * pollingIntervalInMilliseconds);
             Status.Value = pollingTask.Status == TaskStatus.RanToCompletion ? ResourceStatus.Stopped : ResourceStatus.Failure;
         }
 
@@ -79,18 +83,33 @@ namespace Hardware.Raspberry
         {
             Task t = new Task(async () =>
                 {
+                    Stopwatch timer = Stopwatch.StartNew();
                     while (Status.Value == ResourceStatus.Executing)
                     {
-                        foreach (IChannel channel in Channels)
+                        timer.Restart();
+                        foreach (IPiChannel channel in Channels.OfType<IPiChannel>()) // The polling task is only for the inputs. The write operation is async
                         {
-                            if (channel is IPiChannel piChannel)
+                            if (channel is PiDigitalInput inputChannel)
                             {
-                                if (piChannel is PiInputChannel)
-                                    (piChannel as PiInputChannel).Value = Pi.Gpio[piChannel.PinNumber].Read();
+                                inputChannel.Value = Pi.Gpio[channel.PinNumber].Read();
+                            }
+                            else if (channel is PiOneWireInput oneWireChannel)
+                            {
+                                oneWireChannel.Read();
                             }
                         }
 
-                        await Task.Delay(pollingInterval);
+                        timer.Stop();
+                        int elapsedMilliseconds = (int)timer.ElapsedMilliseconds;
+
+                        int timeToWait = pollingIntervalInMilliseconds - elapsedMilliseconds;
+                        if (timeToWait < 0)
+                        {
+                            await Logger.WarnAsync($"{Code} polling cycle exceeded the wanted time by {Math.Abs(timeToWait)}[ms]");
+                            timeToWait = 0;
+                        }
+
+                        await Task.Delay(timeToWait);
                     }
                 }
             );

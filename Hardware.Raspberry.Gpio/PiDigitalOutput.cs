@@ -5,23 +5,23 @@ namespace Hardware.Raspberry
     /// <summary>
     /// Implement an output GPIO <see cref="PiChannel{T}"/>
     /// </summary>
-    public class PiOutputChannel : PiChannel<bool>
+    public class PiDigitalOutput : PiChannel<bool>
     {
         private IResource resource;
 
         /// <summary>
-        /// Create a new instance of <see cref="PiOutputChannel"/>
+        /// Create a new instance of <see cref="PiDigitalOutput"/>
         /// </summary>
-        public PiOutputChannel() : base()
+        public PiDigitalOutput() : base()
         { }
 
         /// <summary>
-        /// Create a new instance of <see cref="PiOutputChannel"/>
+        /// Create a new instance of <see cref="PiDigitalOutput"/>
         /// </summary>
         /// <param name="code">The code</param>
         /// <param name="pinNumber">The pin number</param>
         /// <param name="resource">The <see cref="IResource"/></param>
-        public PiOutputChannel(string code, int pinNumber, IResource resource) : base(code, pinNumber, resource)
+        public PiDigitalOutput(string code, int pinNumber, IResource resource) : base(code, pinNumber, resource)
         {
             PinMode = GpioPinDriveMode.Output;
             this.resource = resource;

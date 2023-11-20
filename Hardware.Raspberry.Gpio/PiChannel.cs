@@ -16,13 +16,13 @@ namespace Hardware.Raspberry
         public int PinNumber { get => pinNumber; set => pinNumber = value; }
 
         /// <summary>
-        /// Create a new instance of <see cref="PiInputChannel"/>
+        /// Create a new instance of <see cref="PiDigitalInput"/>
         /// </summary>
         protected PiChannel() : base(Guid.NewGuid().ToString())
         { }
 
         /// <summary>
-        /// Create a new instance of <see cref="PiInputChannel"/>
+        /// Create a new instance of <see cref="PiDigitalInput"/>
         /// </summary>
         /// <param name="code">The code</param>
         /// <param name="pinNumber">The pin number</param>
