@@ -7,6 +7,5 @@ namespace Configurations
     /// Define a basic configuration
     /// </summary>
     public interface IConfiguration : IProperty<Dictionary<string, ConfigurationItem>>
-    {
-    }
+    { }
 }

@@ -57,7 +57,9 @@ namespace Configurations
                 items = ConfigurationHandler.Parse();
             }
             else
+            {
                 Logger.Warn($"Configuration file not found @ {path}");
+            }
         }
 
         public void ConnectTo(IProperty property)
