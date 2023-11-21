@@ -207,12 +207,18 @@ namespace Diagnostic
             Severity oldSeverity = MinimumSeverityLevel;
 
             if ((int)level < (int)Severity.Warn)
+            {
                 MinimumSeverityLevel = level;
+            }
             else
+            {
                 MinimumSeverityLevel = Severity.Warn;
+            }
 
             if (oldSeverity != MinimumSeverityLevel)
+            {
                 Warn($"Minimum level set from {GetReadableSeverityAsString(oldSeverity)} to {GetReadableSeverityAsString(MinimumSeverityLevel)}.");
+            }
         }
 
         #region Synchronous logging methods
@@ -232,7 +238,9 @@ namespace Diagnostic
                 AppendText(log, Path);
 
                 if (severity == Severity.Error || severity == Severity.Fatal)
+                {
                     AppendText(log, ErrorsPath);
+                }
             }
         }
 
@@ -252,6 +260,7 @@ namespace Diagnostic
             if (!alreadyLogged || !IsSameExceptionAsTheLast(ex))
             {
                 ExceptionEntry entry = BuildLogEntry(ex);
+
                 AppendText(entry, Path);
                 AppendText(entry, ErrorsPath);
             }
@@ -343,7 +352,9 @@ namespace Diagnostic
                 await AppendTextAsync(log, Path, hasToWait: true);
 
                 if (severity == Severity.Error || severity == Severity.Fatal)
+                {
                     await AppendTextAsync(log, ErrorsPath, hasToWait: true);
+                }
             }
         }
 
@@ -364,6 +375,7 @@ namespace Diagnostic
             if (!alreadyLogged || !IsSameExceptionAsTheLast(ex))
             {
                 ExceptionEntry entry = BuildLogEntry(ex);
+
                 await AppendTextAsync(entry, Path);
                 await AppendTextAsync(entry, ErrorsPath);
             }
@@ -508,10 +520,14 @@ namespace Diagnostic
                 for (int i = 0; i <= EntryDescriptionLength; i++)
                 {
                     if (i <= LineTypeLength)
+                    {
                         lineType += "*";
+                    }
 
                     if (i <= LineTimestampLength)
+                    {
                         lineTimestamp += "*";
+                    }
 
                     lineLogEntryDescription += "*";
                 }
@@ -528,7 +544,9 @@ namespace Diagnostic
                 AppendText(header, path);
             }
             else
+            {
                 AppendText(DailySeparator, path);
+            }
         }
 
         /// <summary>
@@ -540,7 +558,9 @@ namespace Diagnostic
         {
             string[] files;
             if (Directory.Exists(logPath))
+            {
                 files = Directory.GetFiles(logPath);
+            }
             else
             {
                 Directory.CreateDirectory(logPath);
@@ -548,7 +568,9 @@ namespace Diagnostic
             }
 
             if (timeSpanAsDays != -1)
+            {
                 DeleteLogs(timeSpanAsDays, files);
+            }
         }
 
         /// <summary>
@@ -571,7 +593,9 @@ namespace Diagnostic
                 int days = DateTime.Now.Subtract(date).Days;
 
                 if (days > timeSpanAsDays)
+                {
                     File.Delete(file);
+                }
             }
         }
 
@@ -617,9 +641,13 @@ namespace Diagnostic
             {
                 counter++;
                 if (counter != 25 && counter != 33)
+                {
                     line += "-"; // Normal line separator
+                }
                 else
+                {
                     line += "|"; // Add this char in these position for a table-like appearance
+                }
             }
 
             log += Environment.NewLine + line;
@@ -676,7 +704,9 @@ namespace Diagnostic
                 logged = false; // force the next if to be true: IsSameExceptionAsTheLast -> true, flag -> true
             }
             else
+            {
                 logged = lastException != null; // If lastException != null -> true
+            }
 
             return logged;
         }
@@ -700,12 +730,16 @@ namespace Diagnostic
         private static async Task AppendTextAsync(string text, string path, bool hasToWait = true)
         {
             if (hasToWait)
+            {
                 await semaphore.WaitAsync();
+            }
 
             await SaveAsync(text, path, SaveMode.Append);
 
             if (hasToWait)
+            {
                 semaphore.Release();
+            }
         }
 
         /// <summary>
