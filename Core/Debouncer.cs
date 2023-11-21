@@ -55,25 +55,25 @@ namespace Core
             }
 
             ThreadPool.QueueUserWorkItem(_ =>
-            {
-                try
                 {
-                    if (!reset.WaitOne(debounceTime))
+                    try
                     {
-                        action();
-                    }
-                }
-                finally
-                {
-                    lock (sync)
-                    {
-                        using (reset)
+                        if (!reset.WaitOne(debounceTime))
                         {
-                            resets.Remove(reset);
+                            action();
+                        }
+                    }
+                    finally
+                    {
+                        lock (sync)
+                        {
+                            using (reset)
+                            {
+                                resets.Remove(reset);
+                            }
                         }
                     }
                 }
-            }
             );
         }
 
