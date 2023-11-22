@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.Conditions;
 using Core.DataStructures;
 using Core.Parameters;
 using Diagnostic;
@@ -33,6 +34,8 @@ namespace Tasks
 
         #region Public fields
 
+        public ICondition Running { get; private set; }
+        public ICondition Completed { get; private set; }
         public EnumParameter<TaskStatus> Status { get; }
         public CancellationTokenSource TokenSource { get; protected set; }
         public StringParameter WaitState { get; }
@@ -67,6 +70,9 @@ namespace Tasks
             Status = new EnumParameter<TaskStatus>($"{Code}.{nameof(Status)}", TaskStatus.Created);
             TokenSource = new CancellationTokenSource();
             WaitState = new StringParameter($"{Code}.{nameof(WaitState)}", string.Empty);
+
+            Running = Status.IsEqualTo(TaskStatus.Running);
+            Completed = Status.IsEqualTo(TaskStatus.RanToCompletion);
 
             InputParameters = new Bag<IParameter>();
             OutputParameters = new Bag<IParameter>();
@@ -133,7 +139,7 @@ namespace Tasks
             return task;
         }
 
-        public void Fail(string reasonOfFailure)
+        public string Fail(string reasonOfFailure)
         {
             WaitState.Value = reasonOfFailure;
             Logger.Error($"Task with code {Code} failed, requesting stop. {reasonOfFailure}");
@@ -142,6 +148,8 @@ namespace Tasks
             Stop();
 
             Status.Value = TaskStatus.Faulted;
+
+            return reasonOfFailure;
         }
 
         public TaskAwaiter GetAwaiter()

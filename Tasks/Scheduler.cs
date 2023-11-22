@@ -93,9 +93,13 @@ namespace Tasks
                 Monitor.TryEnter(tasks, ref lockTaken);
 
                 if (lockTaken)
+                {
                     return tasks.ToArray();
+                }
                 else
+                {
                     throw new NotSupportedException();
+                }
             }
             finally
             {
@@ -110,7 +114,9 @@ namespace Tasks
             {
                 tasks.AddLast(task);
                 if (RunningTasks.ValueAsInt < MaxDeegreesOfParallelism)
+                {
                     NotifyThreadPoolOfPendingWork();
+                }
             }
         }
 
@@ -118,12 +124,19 @@ namespace Tasks
         {
             bool result = true;
             if (!currentThreadIsProcessingTasks)
+            {
                 result = false;
+            }
+
             if (taskWasPreviouslyQueued)
+            {
                 TryDequeue(task);
+            }
 
             if (result)
+            {
                 result &= TryExecuteTask(task);
+            }
 
             return result;
         }
@@ -136,7 +149,9 @@ namespace Tasks
         protected override sealed bool TryDequeue(Task task)
         {
             lock (tasks)
+            {
                 return tasks.Remove(task);
+            }
         }
 
         #endregion TaskScheduler implementation
@@ -159,7 +174,9 @@ namespace Tasks
                             lock (tasks)
                             {
                                 if (tasks.Count == 0)
+                                {
                                     break;
+                                }
 
                                 nextTask = tasks.First?.Value;
                                 tasks.RemoveFirst();
@@ -169,7 +186,9 @@ namespace Tasks
                             bool executed = TryExecuteTask(nextTask);
 
                             if (executed)
+                            {
                                 RunningTasks.Value = RunningTasks.Value > 0 ? RunningTasks.Value - 1 : 0d;
+                            }
                         }
                     }
                     finally

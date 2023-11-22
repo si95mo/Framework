@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.Conditions;
 using Core.DataStructures;
 using Core.Parameters;
 using System;
@@ -14,6 +15,16 @@ namespace Tasks
     /// </summary>
     public interface IAwaitable : IProperty
     {
+        /// <summary>
+        /// Determines whether the <see cref="IAwaitable"/> task is running
+        /// </summary>
+        ICondition Running { get; }
+
+        /// <summary>
+        /// Determines whether the <see cref="IAwaitable"/> task is completed (i.e. executed with success)
+        /// </summary>
+        ICondition Completed { get; }
+
         /// <summary>
         /// The <see cref="IAwaitable"/> <see cref="TaskStatus"/>
         /// </summary>
@@ -86,6 +97,7 @@ namespace Tasks
         /// Let the <see cref="IAwaitable"/> task fail
         /// </summary>
         /// <param name="reasonOfFailure">The reason of failure</param>
-        void Fail(string reasonOfFailure);
+        /// <returns>The <paramref name="reasonOfFailure"/></returns>
+        string Fail(string reasonOfFailure);
     }
 }
