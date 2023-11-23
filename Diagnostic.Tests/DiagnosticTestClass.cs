@@ -75,10 +75,7 @@ namespace Diagnostic.Tests
         [Test]
         public async Task LogAsyncTest()
         {
-            string path = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
-                @"test_results//test_logs_async//"
-            );
+            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), @"test_results//test_logs_async//");
             Logger.Initialize(path);
 
             int n = 0;
@@ -101,10 +98,7 @@ namespace Diagnostic.Tests
         [Test]
         public async Task ConcurrencyTest()
         {
-            string path = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
-                @"test_results//test_logs_async//"
-            );
+            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), @"test_results//test_logs_async//");
             Logger.Initialize(path);
             Logger.SetMinimumSeverityLevel(Severity.Trace);
 

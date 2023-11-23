@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -99,8 +100,8 @@ namespace Diagnostic
 
             public override string ToString()
             {
-                string header = $"{Timestamp} | {Severity} | {Source}{Environment.NewLine}";
-                string message = $"\t\tException message: {Message}{Environment.NewLine}";
+                string header = $"{Timestamp} | {Severity} | {Source}| ";
+                string message = $"Exception message: {Message}{Environment.NewLine}";
                 string stackTrace = $"\t\tStack-trace: {StackTrace}{Environment.NewLine}";
 
                 string description = header + message + stackTrace;
@@ -230,11 +231,12 @@ namespace Diagnostic
         /// </summary>
         /// <param name="text">The text to be saved</param>
         /// <param name="severity">The <see cref="Severity"/></param>
-        public static void Log(string text, Severity severity = Severity.Info)
+        /// <param name="callerName">The caller name (leave empty for actual caller method name)</param>
+        public static void Log(string text, Severity severity = Severity.Info, [CallerMemberName] string callerName = "")
         {
             if (HasHigherSeverityLevel(severity))
             {
-                string log = BuildLogEntry(text, severity);
+                string log = BuildLogEntry(text, severity, callerName);
                 AppendText(log, Path);
 
                 if (severity == Severity.Error || severity == Severity.Fatal)
@@ -249,17 +251,16 @@ namespace Diagnostic
         /// </summary>
         /// <param name="ex">The exception to log</param>
         /// <remarks>
-        /// The entry will be saved <b>only</b> if it differs from
-        /// the last one saved in the log file (i.e. different type <b>and</b>
+        /// The entry will be saved <b>only</b> if it differs from the last one saved in the log file (i.e. different type <b>and</b>
         /// different message <b>and</b> different stack trace)!
         /// </remarks>
-        public static void Log(Exception ex)
+        public static void Log(Exception ex, [CallerMemberName] string callerName = "")
         {
             bool alreadyLogged = HasExceptionAlreadyBeenLogged(ex);
 
             if (!alreadyLogged || !IsSameExceptionAsTheLast(ex))
             {
-                ExceptionEntry entry = BuildLogEntry(ex);
+                ExceptionEntry entry = BuildLogEntry(ex, callerName);
 
                 AppendText(entry, Path);
                 AppendText(entry, ErrorsPath);
@@ -269,68 +270,76 @@ namespace Diagnostic
         /// <summary>
         /// Save the text specified as <see cref="Severity.Trace"/>
         /// in the log file. <br/>
-        /// See also <see cref="Log(string, Severity)"/>
+        /// See also <see cref="Log(string, Severity, string)"/>
         /// </summary>
         /// <param name="text">The text to log</param>
-        public static void Trace(string text)
-            => Log(text, Severity.Trace);
+        /// <param name="callerName">The caller name (leave empty for actual caller method name)</param>
+        public static void Trace(string text, [CallerMemberName] string callerName = "")
+            => Log(text, Severity.Trace, callerName);
 
         /// <summary>
         /// Save the text specified as <see cref="Severity.Debug"/>
         /// in the log file. <br/>
-        /// See also <see cref="Log(string, Severity)"/>
+        /// See also <see cref="Log(string, Severity, string)"/>
         /// </summary>
         /// <param name="text">The text to log</param>
-        public static void Debug(string text)
-            => Log(text, Severity.Debug);
+        /// <param name="callerName">The caller name (leave empty for actual caller method name)</param>
+        public static void Debug(string text, [CallerMemberName] string callerName = "")
+            => Log(text, Severity.Debug, callerName);
 
         /// <summary>
         /// Save the text specified as <see cref="Severity.Info"/>
         /// in the log file. <br/>
-        /// See also <see cref="Log(string, Severity)"/>
+        /// See also <see cref="Log(string, Severity, string)"/>
         /// </summary>
         /// <param name="text">The text to log</param>
-        public static void Info(string text)
-            => Log(text, Severity.Info);
+        /// <param name="callerName">The caller name (leave empty for actual caller method name)</param>
+        public static void Info(string text, [CallerMemberName] string callerName = "")
+            => Log(text, Severity.Info, callerName);
 
         /// <summary>
         /// Save the text specified as <see cref="Severity.Warn"/>
         /// in the log file. <br/>
-        /// See also <see cref="Log(string, Severity)"/>
+        /// See also <see cref="Log(string, Severity, string)"/>
         /// </summary>
         /// <param name="text">The text to log</param>
-        public static void Warn(string text)
-            => Log(text, Severity.Warn);
+        /// <param name="callerName">The caller name (leave empty for actual caller method name)</param>
+        public static void Warn(string text, [CallerMemberName] string callerName = "")
+            => Log(text, Severity.Warn, callerName);
 
         /// <summary>
         /// Save the text specified as <see cref="Severity.Error"/>
         /// in the log file. <br/>
-        /// See also <see cref="Log(string, Severity)"/>
+        /// See also <see cref="Log(string, Severity, string)"/>
         /// </summary>
         /// <remarks>If the log is required after an <see cref="Exception"/>
         /// occurred, consider using the method <see cref="Log(Exception)"/> instead!</remarks>
         /// <param name="text">The text to log</param>
-        public static void Error(string text)
-            => Log(text, Severity.Error);
+        /// <param name="callerName">The caller name (leave empty for actual caller method name)</param>
+        public static void Error(string text, [CallerMemberName] string callerName = "")
+            => Log(text, Severity.Error, callerName);
 
         /// <summary>
         /// Save the <see cref="Exception"/> to the log file.
-        /// See also <see cref="Log(Exception)"/>
+        /// See also <see cref="Log(Exception, string)"/>
         /// </summary>
         /// <param name="ex">The <see cref="Exception"/> occurred</param>
-        public static void Error(Exception ex)
+        /// <param name="callerName">The caller name (leave empty for actual caller method name)</param>
+        public static void Error(Exception ex, [CallerMemberName] string callerName = "")
             => Log(ex);
 
         /// <summary>
         /// Save the text specified as <see cref="Severity.Fatal"/>
         /// in the log file. <br/>
-        /// See also <see cref="Log(string, Severity)"/>
+        /// See also <see cref="Log(string, Severity, string)"/>
         /// </summary>
-        /// <remarks>If the log is required after an <see cref="Exception"/>
-        /// occurred, consider using the method <see cref="Log(Exception)"/> instead!</remarks>
+        /// <remarks>
+        /// If the log is required after an <see cref="Exception"/> occurred, consider using the method <see cref="Log(Exception)"/> instead!
+        /// </remarks>
         /// <param name="text">The text to log</param>
-        public static void Fatal(string text)
-            => Log(text, Severity.Fatal);
+        /// <param name="callerName">The caller name (leave empty for actual caller method name)</param>
+        public static void Fatal(string text, [CallerMemberName] string callerName = "")
+            => Log(text, Severity.Fatal, callerName);
 
         #endregion Synchronous logging methods
 
@@ -343,12 +352,13 @@ namespace Diagnostic
         /// </summary>
         /// <param name="text">The text to be saved</param>
         /// <param name="severity">The <see cref="Severity"/></param>
+        /// <param name="callerName">The caller name (leave empty for actual caller method name)</param>
         /// <returns>The async <see cref="Task"/></returns>
-        public static async Task LogAsync(string text, Severity severity = Severity.Info)
+        public static async Task LogAsync(string text, Severity severity = Severity.Info, [CallerMemberName] string callerName = "")
         {
             if (HasHigherSeverityLevel(severity))
             {
-                string log = BuildLogEntry(text, severity) + Environment.NewLine;
+                string log = BuildLogEntry(text, severity, callerName) + Environment.NewLine;
                 await AppendTextAsync(log, Path, hasToWait: true);
 
                 if (severity == Severity.Error || severity == Severity.Fatal)
@@ -362,19 +372,19 @@ namespace Diagnostic
         /// Append asynchronously to the log file a description of the <see cref="Exception"/> occurred
         /// </summary>
         /// <param name="ex">The exception to log</param>
+        /// <param name="callerName">The caller name (leave empty for actual caller method name)</param>
         /// <returns>The async <see cref="Task"/></returns>
         /// <remarks>
-        /// The entry will be saved <b>only</b> if it differs from
-        /// the last one saved in the log file (i.e. different type <b>and</b>
+        /// The entry will be saved <b>only</b> if it differs from the last one saved in the log file (i.e. different type <b>and</b>
         /// different message <b>and</b> different stack trace)!
         /// </remarks>
-        public static async Task LogAsync(Exception ex)
+        public static async Task LogAsync(Exception ex, [CallerMemberName] string callerName = "")
         {
             bool alreadyLogged = HasExceptionAlreadyBeenLogged(ex);
 
             if (!alreadyLogged || !IsSameExceptionAsTheLast(ex))
             {
-                ExceptionEntry entry = BuildLogEntry(ex);
+                ExceptionEntry entry = BuildLogEntry(ex, callerName);
 
                 await AppendTextAsync(entry, Path);
                 await AppendTextAsync(entry, ErrorsPath);
@@ -384,19 +394,21 @@ namespace Diagnostic
         /// <summary>
         /// Save asynchronously the text specified as <see cref="Severity.Trace"/>
         /// in the log file. <br/>
-        /// See also <see cref="LogAsync(string, Severity)"/>
+        /// See also <see cref="LogAsync(string, Severity, string)"/>
         /// </summary>
         /// <param name="text">The text to log</param>
+        /// <param name="callerName">The caller name (leave empty for actual caller method name)</param>
         /// <returns>The async <see cref="Task"/></returns>
-        public static async Task TraceAsync(string text)
-            => await LogAsync(text, Severity.Trace);
+        public static async Task TraceAsync(string text, [CallerMemberName] string callerName = "")
+            => await LogAsync(text, Severity.Trace, callerName);
 
         /// <summary>
         /// Save asynchronously the text specified as <see cref="Severity.Debug"/>
         /// in the log file. <br/>
-        /// See also <see cref="LogAsync(string, Severity)"/>
+        /// See also <see cref="LogAsync(string, Severity, string)"/>
         /// </summary>
         /// <param name="text">The text to log</param>
+        /// <param name="callerName">The caller name (leave empty for actual caller method name)</param>
         /// <returns>The async <see cref="Task"/></returns>
         public static async Task DebugAsync(string text)
             => await LogAsync(text, Severity.Debug);
@@ -404,32 +416,35 @@ namespace Diagnostic
         /// <summary>
         /// Save asynchronously the text specified as <see cref="Severity.Info"/>
         /// in the log file. <br/>
-        /// See also <see cref="LogAsync(string, Severity)"/>
+        /// See also <see cref="LogAsync(string, Severity, string)"/>
         /// </summary>
         /// <param name="text">The text to log</param>
+        /// <param name="callerName">The caller name (leave empty for actual caller method name)</param>
         /// <returns>The async <see cref="Task"/></returns>
-        public static async Task InfoAsync(string text)
-            => await LogAsync(text, Severity.Info);
+        public static async Task InfoAsync(string text, [CallerMemberName] string callerName = "")
+            => await LogAsync(text, Severity.Info, callerName);
 
         /// <summary>
         /// Save asynchronously the text specified as <see cref="Severity.Warn"/>
         /// in the log file. <br/>
-        /// See also <see cref="LogAsync(string, Severity)"/>
+        /// See also <see cref="LogAsync(string, Severity, string)"/>
         /// </summary>
         /// <param name="text">The text to log</param>
+        /// <param name="callerName">The caller name (leave empty for actual caller method name)</param>
         /// <returns>The async <see cref="Task"/></returns>
-        public static async Task WarnAsync(string text)
-            => await LogAsync(text, Severity.Warn);
+        public static async Task WarnAsync(string text, [CallerMemberName] string callerName = "")
+            => await LogAsync(text, Severity.Warn, callerName);
 
         /// <summary>
         /// Save asynchronously the text specified as <see cref="Severity.Error"/>
         /// in the log file. <br/>
-        /// See also <see cref="LogAsync(string, Severity)"/>
+        /// See also <see cref="LogAsync(string, Severity, string)"/>
         /// </summary>
         /// <param name="text">The text to log</param>
+        /// <param name="callerName">The caller name (leave empty for actual caller method name)</param>
         /// <returns>The async <see cref="Task"/></returns>
-        public static async Task ErrorAsync(string text)
-            => await LogAsync(text, Severity.Error);
+        public static async Task ErrorAsync(string text, [CallerMemberName] string callerName = "")
+            => await LogAsync(text, Severity.Error, callerName);
 
         /// <summary>
         /// Save asynchronously the <see cref="Exception"/> to the log file.
@@ -442,12 +457,13 @@ namespace Diagnostic
         /// <summary>
         /// Save asynchronously the text specified as <see cref="Severity.Fatal"/>
         /// in the log file. <br/>
-        /// See also <see cref="LogAsync(string, Severity)"/>
+        /// See also <see cref="LogAsync(string, Severity, string)"/>
         /// </summary>
         /// <param name="text">The text to log</param>
+        /// <param name="callerName">The caller name (leave empty for actual caller method name)</param>
         /// <returns>The async <see cref="Task"/></returns>
-        public static async Task FatalAsync(string text)
-            => await LogAsync(text, Severity.Fatal);
+        public static async Task FatalAsync(string text, [CallerMemberName] string callerName = "")
+            => await LogAsync(text, Severity.Fatal, callerName);
 
         #endregion Asynchronous logging methods
 
@@ -537,9 +553,9 @@ namespace Diagnostic
                 // 70 = EntryDescriptionLength
                 header = string.Format("{0, 23}|{1, 5}|{2, 70}", lineTimestamp, lineType, lineLogEntryDescription);
                 header += Environment.NewLine;
-                header += string.Format("{0, 23} | {1, 5} | {2, 56}", "TIMESTAMP", "TYPE", "LOG ENTRY DESCRIPTION");
+                header += string.Format("{0, 23} | {1, 5} | {2, 7} | {3, 56}", "TIMESTAMP", "TYPE", "SOURCE", "LOG ENTRY DESCRIPTION");
                 header += Environment.NewLine;
-                header += string.Format("{0, 23}|{1, 5}|{2, 70}", lineTimestamp, lineType, lineLogEntryDescription);
+                header += string.Format("{0, 23}|{1, 5}|{2, 7}|{3, 70}", lineTimestamp, lineType, "*********", lineLogEntryDescription);
 
                 AppendText(header, path);
             }
@@ -629,10 +645,11 @@ namespace Diagnostic
         /// </summary>
         /// <param name="text">The text to log</param>
         /// <param name="severity">The <see cref="Severity"/> of the entry</param>
+        /// <param name="callerName">The caller name</param>
         /// <returns>The new entry to log</returns>
-        private static string BuildLogEntry(string text, Severity severity)
+        private static string BuildLogEntry(string text, Severity severity, string callerName)
         {
-            string log = $"{GetDateTime()} | {GetSeverityAsString(severity)} | {text}";
+            string log = $"{GetDateTime()} | {GetSeverityAsString(severity)} | {callerName} | {text}";
 
             string line = "";
 
@@ -640,7 +657,7 @@ namespace Diagnostic
             for (int i = 0; i < log.Length; i++)
             {
                 counter++;
-                if (counter != 25 && counter != 33)
+                if (counter != 25 && counter != 33 && counter != 48)
                 {
                     line += "-"; // Normal line separator
                 }
@@ -659,14 +676,15 @@ namespace Diagnostic
         /// Build a new log entry
         /// </summary>
         /// <param name="ex">The <see cref="Exception"/> to log</param>
+        /// <param name="callerName">The caller name</param>
         /// <returns>A <see cref="ExceptionEntry"/> containing the new entry</returns>
-        private static ExceptionEntry BuildLogEntry(Exception ex)
+        private static ExceptionEntry BuildLogEntry(Exception ex, string callerName)
         {
             lastException = ex;
 
             string message = ex.Message;
             string stackTrace = ex.StackTrace;
-            string source = ex.Source;
+            string source = ex.Source ?? callerName;
             string type = ex.GetType().ToString();
 
             StackTrace st = new StackTrace(ex, true);
@@ -715,16 +733,20 @@ namespace Diagnostic
         /// Append text on the log file. See <see cref="FileHandler.Save(string, string, SaveMode)"/>.
         /// </summary>
         /// <param name="text">The text to append</param>
+        /// <param name="path">The path</param>
         private static void AppendText(string text, string path)
         {
             lock (sync)
+            {
                 Save(text, path, SaveMode.Append);
+            }
         }
 
         /// <summary>
         /// Append text on the log file asynchronously. See <see cref="FileHandler.SaveAsync(string, string, SaveMode)"/>
         /// </summary>
         /// <param name="text">The text to append</param>
+        /// <param name="path">The path</param>
         /// <param name="hasToWait"><see langword="true"/> if the task has to wait for a semaphore, <see langword="false"/> otherwise</param>
         /// <returns>The async <see cref="Task"/></returns>
         private static async Task AppendTextAsync(string text, string path, bool hasToWait = true)
@@ -746,6 +768,7 @@ namespace Diagnostic
         /// Append an <see cref="ExceptionEntry"/> to the log file
         /// </summary>
         /// <param name="entry">The <see cref="ExceptionEntry"/> containing the element to append</param>
+        /// <param name="path">The path</param>
         private static void AppendText(ExceptionEntry entry, string path)
         {
             AppendText(entry.ToString(), path);
@@ -756,6 +779,7 @@ namespace Diagnostic
         /// Append asynchronously an <see cref="ExceptionEntry"/> to the log file
         /// </summary>
         /// <param name="entry">The <see cref="ExceptionEntry"/> containing the element to append</param>
+        /// <param name="path">The path</param>
         /// <returns>The async <see cref="Task"/></returns>
         private static async Task AppendTextAsync(ExceptionEntry entry, string path)
         {
