@@ -485,7 +485,7 @@ namespace Diagnostic
             // 3B are the UTF-8 signature and are always present in an UTF-8 encoded file
             if (!File.Exists(path) || (File.Exists(path) && new FileInfo(path).Length <= UtfSignatureSize))
             {
-                string header = $"UTC time: {GetUtcDateTime()}, current zone time ({TimeZone.CurrentTimeZone.StandardName}): {GetDateTime()}{Environment.NewLine}" +
+                string header = $"UTC time: {GetUtcDateTime()}, current time zone ({TimeZone.CurrentTimeZone.StandardName}): {GetDateTime()}{Environment.NewLine}" +
                     $"User name: {Environment.UserName}{Environment.NewLine}" +
                     $"User domain name: {Environment.UserDomainName}{Environment.NewLine}" +
                     $"Application friendly name: {AppDomain.CurrentDomain.FriendlyName}{Environment.NewLine}" +
