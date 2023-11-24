@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
@@ -163,6 +164,11 @@ namespace Diagnostic
         /// </summary>
         public static bool Initialized { get; private set; } = false;
 
+        /// <summary>
+        /// <see langword="true"/> to log also uncaught <see cref="Exception"/> from external code, <see langword="false"/> otherwise
+        /// </summary>
+        public static bool LogExternalExceptions { get; private set; }
+
         #endregion Public properties
 
         #region Public methods
@@ -177,7 +183,8 @@ namespace Diagnostic
         /// </remarks>
         /// <param name="logPath">The path of the log file</param>
         /// <param name="daysOfLogsToKeepSaved">The number of days of logs to keep saved up to now; -1 equals no file deleted</param>
-        public static void Initialize(string logPath = "logs\\", int daysOfLogsToKeepSaved = -1)
+        /// <param name="logExternalExceptions"><see langword="true"/> to log also uncaught <see cref="Exception"/> from external code, <see langword="false"/> otherwise</param>
+        public static void Initialize(string logPath = "logs\\", int daysOfLogsToKeepSaved = -1, bool logExternalExceptions = false)
         {
             DeleteOldLogs(logPath, daysOfLogsToKeepSaved);
 
@@ -194,6 +201,9 @@ namespace Diagnostic
             InitializeFile(Path);
             InitializeFile(ErrorsPath);
 
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
+            LogExternalExceptions = logExternalExceptions;
             Initialized = true;
         }
 
@@ -900,5 +910,33 @@ namespace Diagnostic
         }
 
         #endregion Helper methods
+
+        #region Event handlers
+
+        /// <summary>
+        /// Log eventually uncaught exceptions, form both the actual written code and (eventually) external code
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private static async void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            if (e.ExceptionObject is Exception ex)
+            {
+                if (ex.TargetSite.DeclaringType.Assembly == Assembly.GetExecutingAssembly()) // Actual written code, no external sources. Always log theese exceptions
+                {
+                    await ErrorAsync(ex);
+                }
+                else if (LogExternalExceptions) // External source exception, if enabled
+                {
+                    await ErrorAsync($"Exception thrown from external code. Its message is \"{ex.Message}\"");
+                }
+            }
+            else
+            {
+                await ErrorAsync("Uncaught exception thrown, unable to process it");
+            }
+        }
+
+        #endregion Event handlers
     }
 }
