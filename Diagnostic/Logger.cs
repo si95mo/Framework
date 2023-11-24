@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 
 namespace Diagnostic
 {
+    #region Enums
+
     /// <summary>
     /// Represent the severity of the entry to log
     /// </summary>
@@ -61,6 +63,8 @@ namespace Diagnostic
         Fatal = 5
     }
 
+    #endregion Enums
+
     /// <summary>
     /// Class that implements logging functionalities.
     /// </summary>
@@ -100,7 +104,7 @@ namespace Diagnostic
 
             public override string ToString()
             {
-                string header = $"{Timestamp} | {Severity} | {Source}| ";
+                string header = $"{Timestamp} | {Severity} | {Source} | ";
                 string message = $"Exception message: {Message}{Environment.NewLine}";
                 string stackTrace = $"\t\tStack-trace: {StackTrace}{Environment.NewLine}";
 
@@ -699,8 +703,8 @@ namespace Diagnostic
 
             ExceptionEntry entry = CreateEntry(
                 Severity.Error,
-                $"{source} - {type} on line {line} (method: {methodName}, file: {fileName})",
-                message,
+                source,
+                $"{type} on line {line} (method: {methodName}, file: {fileName}). {message}",
                 stackTrace
             );
 
