@@ -53,10 +53,12 @@
     <Compile Include="IEnumParameter.cs" />
     <Compile Include="INumericParameter.cs" />
     <Compile Include="IParameter.cs" />
+    <Compile Include="IStreamParameter.cs" />
     <Compile Include="MultiplicationParameter.cs" />
     <Compile Include="NumericParameter.cs" />
     <Compile Include="Parameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StreamParameter.cs" />
     <Compile Include="StringParameter.cs" />
     <Compile Include="SumParameter.cs" />
     <Compile Include="TimeSpanParameter.cs" />
