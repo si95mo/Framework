@@ -1,9 +1,8 @@
 ﻿namespace Core.Parameters
 {
     /// <summary>
-    /// Implement a numeric parameter with a clamp logic.
+    /// Implement a numeric parameter with a clamp logic (w/ inclusive limits).
     /// See also <see cref="Parameter{T}"/>, <see cref="NumericParameter"/> and <see cref="IParameter{T}"/>
-    /// </summary>
     /// </summary>
     public class ClampParameter : NumericParameter
     {
@@ -38,6 +37,7 @@
         /// <summary>
         /// Create a new instance of <see cref="ClampParameter"/>
         /// </summary>
+        /// <remarks>The limits are inclusive</remarks>
         /// <param name="code">The code</param>
         /// <param name="minimum">The minimum value</param>
         /// <param name="maximum">The maximum value</param>
@@ -50,6 +50,7 @@
         /// <summary>
         /// Create a new instance of <see cref="ClampParameter"/>
         /// </summary>
+        /// <remarks>The limits are inclusive</remarks>
         /// <param name="code">The code</param>
         /// <param name="minimum">The minimum value</param>
         /// <param name="maximum">The maximum value</param>
@@ -73,16 +74,27 @@
         /// <returns>The clamped value</returns>
         private double Clamp(double value)
         {
-            if(value < Minimum.Value)
+            if(value <= Minimum.Value)
             {
                 value = Minimum.Value;
             }
-            else if(value > Maximum.Value)
+            else if(value >= Maximum.Value)
             {
                 value = Maximum.Value;
             }
 
             return value;
+        }
+
+        /// <summary>
+        /// Return a description of the object. See also <see cref="object.ToString()"/>
+        /// </summary>
+        /// <returns>The description of the object</returns>
+        public override string ToString()
+        {
+            string description = $"{Value.ToString(Format)}{MeasureUnit}, in [{Minimum.Value.ToString(Format)}, {Maximum.Value.ToString(Format)}]";
+
+            return description;
         }
     }
 }

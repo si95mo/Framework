@@ -56,8 +56,7 @@ namespace Core.Parameters
         }
 
         /// <summary>
-        /// Return a description of the object
-        /// See also <see cref="object.ToString()"/>
+        /// Return a description of the object. See also <see cref="object.ToString()"/>
         /// </summary>
         /// <returns>The description of the object</returns>
         public override string ToString()
