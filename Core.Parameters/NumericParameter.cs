@@ -38,8 +38,8 @@ namespace Core.Parameters
         /// <param name="measureUnit">The measure unit</param>
         public NumericParameter(string code, string measureUnit = "", string format = "") : this(code)
         {
-            this.MeasureUnit = measureUnit;
-            this.Format = format;
+            MeasureUnit = measureUnit;
+            Format = format;
         }
 
         /// <summary>

@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoolParameter.cs" />
+    <Compile Include="ClampParameter.cs" />
     <Compile Include="ContainerParameter.cs" />
     <Compile Include="DifferenceParameter.cs" />
     <Compile Include="DivisionParameter.cs" />
