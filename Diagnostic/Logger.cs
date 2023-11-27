@@ -105,7 +105,8 @@ namespace Diagnostic
 
             public override string ToString()
             {
-                string header = $"{Timestamp} | {Severity} | {Source} | ";
+                string callerName = ResizeString(Source);
+                string header = $"{Timestamp} | {Severity} | {callerName} | ";
                 string message = $"Exception message: {Message}{Environment.NewLine}";
                 string stackTrace = $"\t\tStack-trace: {StackTrace}{Environment.NewLine}";
 
@@ -119,16 +120,18 @@ namespace Diagnostic
         #region Private constants
 
         private const string DailySeparator = "****************************************************" +
-            "**************************************************************************************";
+            "*************************************************************************************************************************";
 
         private const string EntrySeparator = "----------------------------------------------------" +
-            "--------------------------------------------------------------------------------------";
+            "-------------------------------------------------------------------------------------------------------------------------";
 
         private const int EntryDescriptionLength = 104; // Header entry description length
         private const int LineTypeLength = 6;          // Header type length
         private const int LineTimestampLength = 23;    // Header timestamp length
 
         private const int UtfSignatureSize = 3; // In bytes
+
+        private const int MaxSourceLenght = 32; // Characters
 
         #endregion Private constants
 
@@ -462,7 +465,7 @@ namespace Diagnostic
 
         /// <summary>
         /// Save asynchronously the <see cref="Exception"/> to the log file.
-        /// See also <see cref="LogAsync(Exception)"/>
+        /// See also <see cref="LogAsync(Exception, string)"/>
         /// </summary>
         /// <param name="ex">The <see cref="Exception"/> occurred</param>
         public static async Task ErrorAsync(Exception ex)
@@ -564,12 +567,25 @@ namespace Diagnostic
 
                 // 23 = LineTimestampLength
                 // 5  = LineTypeLength - 1
+                // x  = Source
                 // 70 = EntryDescriptionLength
-                header = string.Format("{0, 23}|{1, 5}|{2, 70}", lineTimestamp, lineType, lineLogEntryDescription);
+                header = string.Format(
+                    "{0, 23}|{1, 5}|{2, 32}|{3, 70}",
+                    lineTimestamp, 
+                    lineType, 
+                    new string(Enumerable.Repeat('*', MaxSourceLenght + 2).ToArray()),
+                    lineLogEntryDescription
+                );
                 header += Environment.NewLine;
-                header += string.Format("{0, 23} | {1, 5} | {2, 7} | {3, 56}", "TIMESTAMP", "TYPE", "SOURCE", "LOG ENTRY DESCRIPTION");
+                header += string.Format("{0, 23} | {1, 5} | {2, 32} | {3, 56}", "TIMESTAMP", "TYPE", "SOURCE", "LOG ENTRY DESCRIPTION");
                 header += Environment.NewLine;
-                header += string.Format("{0, 23}|{1, 5}|{2, 7}|{3, 70}", lineTimestamp, lineType, "*********", lineLogEntryDescription);
+                header += string.Format(
+                    "{0, 23}|{1, 5}|{2, 32}|{3, 70}", 
+                    lineTimestamp, 
+                    lineType, 
+                    new string(Enumerable.Repeat('*', MaxSourceLenght + 2).ToArray()),
+                    lineLogEntryDescription
+                );
 
                 AppendText(header, path);
             }
@@ -663,6 +679,7 @@ namespace Diagnostic
         /// <returns>The new entry to log</returns>
         private static string BuildLogEntry(string text, Severity severity, string callerName)
         {
+            callerName = ResizeString(callerName);
             string log = $"{GetDateTime()} | {GetSeverityAsString(severity)} | {callerName} | {text}";
 
             string line = "";
@@ -671,7 +688,7 @@ namespace Diagnostic
             for (int i = 0; i < log.Length; i++)
             {
                 counter++;
-                if (counter != 25 && counter != 33 && counter != 48)
+                if (counter != 25 && counter != 33 && counter != 68)
                 {
                     line += "-"; // Normal line separator
                 }
@@ -907,6 +924,19 @@ namespace Diagnostic
         {
             bool isHigher = (int)MinimumSeverityLevel <= (int)level;
             return isHigher;
+        }
+
+        /// <summary>
+        /// Resize a <see cref="string"/> to be shorter than <see cref="MaxSourceLenght"/>
+        /// </summary>
+        /// <param name="str">The <see cref="string"/> to resize</param>
+        /// <returns>The resized string</returns>
+        private static string ResizeString(string str)
+        {
+            string resized = str.Length > MaxSourceLenght ? 
+                str = new string(str.Take(MaxSourceLenght).ToArray()) : 
+                str + new string(Enumerable.Repeat(' ', MaxSourceLenght - str.Length).ToArray());
+            return resized;
         }
 
         #endregion Helper methods
