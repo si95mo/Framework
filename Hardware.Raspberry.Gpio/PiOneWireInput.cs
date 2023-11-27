@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unosquare.RaspberryIO.Abstractions;
+﻿using Unosquare.RaspberryIO.Abstractions;
 
 namespace Hardware.Raspberry
 {
@@ -31,7 +26,6 @@ namespace Hardware.Raspberry
         /// </summary>
         internal void Read()
         {
-
         }
     }
 }

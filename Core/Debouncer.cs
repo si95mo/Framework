@@ -30,7 +30,7 @@ namespace Core
         /// Create a new instance of <see cref="Debouncer"/>
         /// </summary>
         /// <param name="debounceTimeInMilliseconds">The debounce time in milliseconds</param>
-        public Debouncer(double debounceTimeInMilliseconds) : this(TimeSpan.FromMilliseconds(debounceTimeInMilliseconds)) 
+        public Debouncer(double debounceTimeInMilliseconds) : this(TimeSpan.FromMilliseconds(debounceTimeInMilliseconds))
         { }
 
         /// <summary>

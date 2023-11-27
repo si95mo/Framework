@@ -8,8 +8,8 @@
     {
         private double value;
 
-        public override double Value 
-        { 
+        public override double Value
+        {
             get => base.Value;
             set
             {
@@ -74,11 +74,11 @@
         /// <returns>The clamped value</returns>
         private double Clamp(double value)
         {
-            if(value <= Minimum.Value)
+            if (value <= Minimum.Value)
             {
                 value = Minimum.Value;
             }
-            else if(value >= Maximum.Value)
+            else if (value >= Maximum.Value)
             {
                 value = Maximum.Value;
             }

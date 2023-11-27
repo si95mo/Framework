@@ -571,8 +571,8 @@ namespace Diagnostic
                 // 70 = EntryDescriptionLength
                 header = string.Format(
                     "{0, 23}|{1, 5}|{2, 32}|{3, 70}",
-                    lineTimestamp, 
-                    lineType, 
+                    lineTimestamp,
+                    lineType,
                     new string(Enumerable.Repeat('*', MaxSourceLenght + 2).ToArray()),
                     lineLogEntryDescription
                 );
@@ -580,9 +580,9 @@ namespace Diagnostic
                 header += string.Format("{0, 23} | {1, 5} | {2, 32} | {3, 56}", "TIMESTAMP", "TYPE", "SOURCE", "LOG ENTRY DESCRIPTION");
                 header += Environment.NewLine;
                 header += string.Format(
-                    "{0, 23}|{1, 5}|{2, 32}|{3, 70}", 
-                    lineTimestamp, 
-                    lineType, 
+                    "{0, 23}|{1, 5}|{2, 32}|{3, 70}",
+                    lineTimestamp,
+                    lineType,
                     new string(Enumerable.Repeat('*', MaxSourceLenght + 2).ToArray()),
                     lineLogEntryDescription
                 );
@@ -933,8 +933,8 @@ namespace Diagnostic
         /// <returns>The resized string</returns>
         private static string ResizeString(string str)
         {
-            string resized = str.Length > MaxSourceLenght ? 
-                str = new string(str.Take(MaxSourceLenght).ToArray()) : 
+            string resized = str.Length > MaxSourceLenght ?
+                str = new string(str.Take(MaxSourceLenght).ToArray()) :
                 str + new string(Enumerable.Repeat(' ', MaxSourceLenght - str.Length).ToArray());
             return resized;
         }
