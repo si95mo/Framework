@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Core.DataStructures
 {
@@ -52,6 +53,12 @@ namespace Core.DataStructures
 
         public Bag<T> GetAll()
             => Subscribers;
+
+        public T Get<T>()
+        {
+            T item = Subscribers.OfType<T>().FirstOrDefault();
+            return item;
+        }
 
         #endregion IService implementation
     }

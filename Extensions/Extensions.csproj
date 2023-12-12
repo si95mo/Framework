@@ -80,6 +80,10 @@
       <Project>{694CD750-5601-4C5F-A881-3B330E4CAF43}</Project>
       <Name>Core.Conditions</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Core.Converters\Core.Converters.csproj">
+      <Project>{7CD54F15-DF6A-4829-8AFD-E714ECF9F505}</Project>
+      <Name>Core.Converters</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core.Parameters\Core.Parameters.csproj">
       <Project>{B0E053BC-1B89-4C83-B819-5EC032B2566F}</Project>
       <Name>Core.Parameters</Name>

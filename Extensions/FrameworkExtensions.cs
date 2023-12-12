@@ -1,6 +1,8 @@
 ﻿using Core;
+using Core.Converters;
 using Core.Parameters;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace Extensions
@@ -19,6 +21,24 @@ namespace Extensions
         /// <param name="description">The description</param>
         public static void WithDescription(IParameter source, string description)
             => source.Description = description;
+
+        public static NumericParameter Resample(this NumericParameter source)
+        {
+            NumericParameter destination = new NumericParameter(Guid.NewGuid().ToString(), source.Value, source.MeasureUnit, source.Format);
+
+            Stopwatch timer = Stopwatch.StartNew();
+            source.ConnectTo(
+                destination,
+                new GenericConverter<double, double>((x) =>
+                    {
+                        double y = timer.Elapsed.TotalMilliseconds >= 200d ? x : destination.Value; // 5Hz of refresh rate
+                        return y;
+                    }
+                )
+            );
+
+            return destination;
+        }
 
         #region Wrappers
 

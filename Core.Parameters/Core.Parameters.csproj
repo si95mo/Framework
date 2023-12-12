@@ -58,6 +58,7 @@
     <Compile Include="NumericParameter.cs" />
     <Compile Include="Parameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RingBufferParameter.cs" />
     <Compile Include="StreamParameter.cs" />
     <Compile Include="StringParameter.cs" />
     <Compile Include="SumParameter.cs" />

@@ -36,5 +36,12 @@
         /// </summary>
         /// <returns>The <see cref="Bag{T}"/> with all the subscribers</returns>
         Bag<T> GetAll();
+
+        /// <summary>
+        /// Get the first or default item
+        /// </summary>
+        /// <typeparam name="T">The type of the item to retrieve</typeparam>
+        /// <returns>The retrieved item</returns>
+        T Get<T>();
     }
 }

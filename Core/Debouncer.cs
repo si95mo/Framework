@@ -10,6 +10,11 @@ namespace Core
     /// </summary>
     public class Debouncer : IDisposable
     {
+        /// <summary>
+        /// The debounce <see cref="TimeSpan"/>
+        /// </summary>
+        public TimeSpan DebounceTime => debounceTime;
+
         private readonly TimeSpan debounceTime;
         private readonly HashSet<ManualResetEvent> resets;
         private readonly object sync;
