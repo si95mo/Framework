@@ -62,6 +62,21 @@ namespace Configurations
             }
         }
 
+        public bool TryGetSection(string sectionName, out dynamic value)
+        {
+            bool found = Value.TryGetValue(sectionName, out ConfigurationItem item);
+            if (found)
+            {
+                value = item.Value;
+            }
+            else
+            {
+                value = null;
+            }
+
+            return found;
+        }
+
         public void ConnectTo(IProperty property)
         {
             throw new NotImplementedException();

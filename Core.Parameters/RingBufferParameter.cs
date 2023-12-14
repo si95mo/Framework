@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Timers;
 
 namespace Core.Parameters
 {
@@ -25,6 +29,16 @@ namespace Core.Parameters
         public TimeSpan DebounceTime => debounceTime;
 
         /// <summary>
+        /// The sampling frequency (in Hz)
+        /// </summary>
+        public double SamplingFrequency { get; private set; }
+
+        /// <summary>
+        /// The index of the last added item in the buffer
+        /// </summary>
+        public NumericParameter LastAddedItemIndex { get; private set; }
+
+        /// <summary>
         /// The <see cref="EventHandler{TEventArgs}"/> of <see cref="ValueChangedEventArgs"/> for when the circular buffer is full 
         /// (i.e. a cycle done, starting to overwrite the oldest added elements)
         /// </summary>
@@ -36,8 +50,9 @@ namespace Core.Parameters
 
         private readonly TimeSpan debounceTime;
         private readonly Debouncer debouncer;
+        private readonly Queue<double> times;
 
-        private int index;
+        private Stopwatch timer;
 
         /// <summary>
         /// Create a new instance of <see cref="RingBufferParameter{TP, TV}"/>
@@ -47,7 +62,7 @@ namespace Core.Parameters
         /// <param name="property">The <see cref="IProperty"/></param>
         /// <param name="bufferSize">The buffer size</param>
         /// <param name="debounceTimeInMilliseconds">The debounce time in milliseconds</param>
-        public RingBufferParameter(string code, TProperty property, int bufferSize, double debounceTimeInMilliseconds = 0d, string measureUnit = "", string format = "0.000") 
+        public RingBufferParameter(string code, TProperty property, int bufferSize, double debounceTimeInMilliseconds = 0d, string measureUnit = "", string format = "0.000")
             : this(code, property, bufferSize, TimeSpan.FromMilliseconds(debounceTimeInMilliseconds), measureUnit, format)
         { }
 
@@ -68,11 +83,14 @@ namespace Core.Parameters
             BufferSize = bufferSize;
 
             Value = new TValue[bufferSize];
+            LastAddedItemIndex = new NumericParameter($"{Code}.{nameof(LastAddedItemIndex)}", measureUnit: "#", format: "0", value: 0d);
+
+            times = new Queue<double>();
 
             this.debounceTime = debounceTime;
-            index = 0;
 
             debouncer = new Debouncer(debounceTime);
+            timer = Stopwatch.StartNew();
             property.ValueChanged += Property_ValueChanged;
         }
 
@@ -90,11 +108,21 @@ namespace Core.Parameters
 
         private void UpdateBuffer(TProperty item)
         {
-            Value[index++ % BufferSize] = item.Value;
+            timer.Stop();
 
-            if (index == BufferSize)
+            // Simple moving average for the sampling frequency
+            if (times.Count > 16)
             {
-                index = 0;
+                times.Dequeue();
+            }
+            times.Enqueue(1d / timer.Elapsed.TotalSeconds);
+            SamplingFrequency = times.Average();
+
+            Value[(int)(LastAddedItemIndex.Value++ % BufferSize)] = item.Value;
+
+            if (LastAddedItemIndex.ValueAsInt == BufferSize)
+            {
+                LastAddedItemIndex.Value = 0d;
                 BufferFull?.Invoke(this, new ValueChangedEventArgs(EventArgs.Empty, Value));
             }
         }
