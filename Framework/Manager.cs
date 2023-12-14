@@ -16,6 +16,8 @@ namespace Framework
     /// </summary>
     public static class Manager
     {
+        private const int NumberOfServices = 8;
+
         /// <summary>
         /// Initialize the framework
         /// </summary>
@@ -102,37 +104,42 @@ namespace Framework
         /// <returns>The (async) <see cref="Task"/></returns>
         private static async Task InitializeServicesAsync(string scriptsPath = null, int maxDegreesOfParallelism = 100)
         {
+            int counter = 0;
+            await Logger.WarnAsync("Services creation started");
+
             ConfigurationsService configurations = new ConfigurationsService();
             ServiceBroker.Provide(configurations);
-            await Logger.InfoAsync($"{nameof(ConfigurationsService)} created");
+            await Logger.WarnAsync($"{++counter}/{NumberOfServices} - {nameof(ConfigurationsService)} created");
 
             ResourcesService resources = new ResourcesService();
             ServiceBroker.Provide(resources);
-            await Logger.InfoAsync($"{nameof(ResourcesService)} created");
+            await Logger.WarnAsync($"{++counter}/{NumberOfServices} - {nameof(ResourcesService)} created");
 
             ChannelsService channels = new ChannelsService();
             ServiceBroker.Provide(channels);
-            await Logger.InfoAsync($"{nameof(ChannelsService)} created");
+            await Logger.WarnAsync($"{++counter}/{NumberOfServices} - {nameof(ChannelsService)} created");
 
             ConditionsService conditions = new ConditionsService();
             ServiceBroker.Provide(conditions);
-            await Logger.InfoAsync($"{nameof(ConditionsService)} created");
+            await Logger.WarnAsync($"{++counter}/{NumberOfServices} - {nameof(ConditionsService)} created");
 
             DiagnosticMessagesService messages = new DiagnosticMessagesService();
             ServiceBroker.Provide(messages);
-            await Logger.InfoAsync($"{nameof(DiagnosticMessagesService)} created");
-
-            TasksService tasks = new TasksService();
-            ServiceBroker.Provide(tasks);
-            await Logger.InfoAsync($"{nameof(TasksService)} created");
+            await Logger.WarnAsync($"{++counter}/{NumberOfServices} - {nameof(DiagnosticMessagesService)} created");
 
             SchedulersService schedulers = new SchedulersService(maxDegreesOfParallelism);
             ServiceBroker.Provide(schedulers);
-            await Logger.InfoAsync($"{nameof(SchedulersService)} created");
+            await Logger.WarnAsync($"{++counter}/{NumberOfServices} - {nameof(SchedulersService)} created");
+
+            TasksService tasks = new TasksService();
+            ServiceBroker.Provide(tasks);
+            await Logger.WarnAsync($"{++counter}/{NumberOfServices} - {nameof(TasksService)} created");
 
             ScriptsService scripts = new ScriptsService(scriptsPath);
             ServiceBroker.Provide(scripts);
-            await Logger.InfoAsync($"{nameof(ScriptsService)} created");
+            await Logger.WarnAsync($"{++counter}/{NumberOfServices} - {nameof(ScriptsService)} created");
+
+            await Logger.WarnAsync("Services creation terminated");
         }
 
         /// <summary>

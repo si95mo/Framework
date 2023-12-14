@@ -15,6 +15,11 @@ namespace Tasks
     /// </summary>
     public class Scheduler : TaskScheduler, IScheduler
     {
+        /// <summary>
+        /// The default <see cref="Scheduler.Code"/>
+        /// </summary>
+        public const string DefaultSchedulerCode = "DefaultScheduler";
+
         #region Private attributes
 
         // A list of tasks that are currently scheduled or running.
@@ -71,13 +76,16 @@ namespace Tasks
 
             tasks = new LinkedList<Task>();
 
-            if (ServiceBroker.CanProvide<SchedulersService>())
+            if (Code != DefaultSchedulerCode)
             {
-                ServiceBroker.GetService<SchedulersService>().Add(this);
-            }
-            else
-            {
-                Logger.Warn($"{nameof(ServiceBroker)} couldn't provide {nameof(SchedulersService)} when creating scheduler '{code}'");
+                if (ServiceBroker.CanProvide<SchedulersService>())
+                {
+                    ServiceBroker.GetService<SchedulersService>().Add(this);
+                }
+                else
+                {
+                    Logger.Warn($"{nameof(ServiceBroker)} couldn't provide {nameof(SchedulersService)} when creating scheduler '{code}'");
+                }
             }
         }
 

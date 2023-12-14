@@ -1,4 +1,5 @@
 ﻿using Core.DataStructures;
+using Diagnostic;
 
 namespace Tasks
 {
@@ -37,8 +38,17 @@ namespace Tasks
         /// <param name="maxDegreesOfParallelism">The maximum degrees of parallelism of the <see cref="DefaultScheduler"/></param>
         private void CreateDefaultScheduler(int maxDegreesOfParallelism)
         {
-            DefaultScheduler = new Scheduler("DefaultScheduler", maxDegreesOfParallelism);
+            DefaultScheduler = new Scheduler(Scheduler.DefaultSchedulerCode, maxDegreesOfParallelism);
             Add(DefaultScheduler);
+
+            if(Subscribers.ContainsKey(Scheduler.DefaultSchedulerCode))
+            {
+                Logger.Info("Default scheduler created");
+            }
+            else
+            {
+                Logger.Error("Error when creating the default scheduler");
+            }
         }
     }
 }
