@@ -12,7 +12,6 @@ namespace Configurations
     public class Configuration : IConfiguration
     {
         private string code;
-        private Dictionary<string, ConfigurationItem> items;
 
         #region IProperty implementation
 
@@ -39,7 +38,7 @@ namespace Configurations
         /// The collection of <see cref="ConfigurationItem"/> stored in <see cref="Configuration"/>.
         /// The same as <see cref="Value"/>
         /// </summary>
-        public Dictionary<string, ConfigurationItem> Items => items;
+        public Dictionary<string, ConfigurationItem> Items { get; private set; }
 
         /// <summary>
         /// Create a new instance of <see cref="Configuration"/>
@@ -54,7 +53,7 @@ namespace Configurations
             if (File.Exists(path))
             {
                 ConfigurationHandler.Initialize(path);
-                items = ConfigurationHandler.Parse();
+                Items = ConfigurationHandler.Parse();
             }
             else
             {
@@ -79,7 +78,7 @@ namespace Configurations
 
         public void ConnectTo(IProperty property)
         {
-            throw new NotImplementedException();
+            Logger.Error($"Trying to connect a {nameof(Configuration)}, operation not allowed");
         }
     }
 }
