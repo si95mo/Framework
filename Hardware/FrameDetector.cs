@@ -7,16 +7,17 @@ namespace Hardware
     /// <summary>
     /// Define a frame detector for data transfered with a <see cref="StreamResource"/>
     /// </summary>
-    public class FrameDetector
+    public class FrameDetector : IFrameDetector
     {
-        /// <summary>
-        /// The terminator sequence of the frame
-        /// </summary>
-        public byte[] TerminatorSequence { get; internal set; }
+        public byte[] TerminatorSequence { get; set; }
 
         private readonly ConcurrentQueue<byte[]> queue;
         private readonly List<byte> buffer;
 
+        /// <summary>
+        /// Create a new instance of <see cref="FrameDetector"/>
+        /// </summary>
+        /// <param name="terminatorSequence">The terminator sequence</param>
         public FrameDetector(byte[] terminatorSequence)
         {
             queue = new ConcurrentQueue<byte[]>();
@@ -25,21 +26,12 @@ namespace Hardware
             TerminatorSequence = terminatorSequence;
         }
 
-        /// <summary>
-        /// Try to get the last retrieved frame data
-        /// </summary>
-        /// <param name="data">The data retrieved</param>
-        /// <returns>The operation result</returns>
         public bool TryGet(out byte[] data)
         {
             bool result = queue.TryDequeue(out data);
             return result;
         }
 
-        /// <summary>
-        /// Add new bytes to the frame
-        /// </summary>
-        /// <param name="data">The data to add</param>
         public void Add(byte[] data)
         {
             if (DetectFrame(data, out int position))
@@ -53,6 +45,15 @@ namespace Hardware
             else
             {
                 buffer.AddRange(data); // Otherwise simply add data
+            }
+        }
+
+        public void Clear()
+        {
+            buffer.Clear();
+            while(queue.Any())
+            {
+                queue.TryDequeue(out byte[] _);
             }
         }
 

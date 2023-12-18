@@ -20,12 +20,12 @@ namespace Hardware
         /// <summary>
         /// The terminator sequence in the stream
         /// </summary>
-        public byte[] TerminatorSequence {get => FrameDetector.TerminatorSequence; protected set => FrameDetector.TerminatorSequence = value; }
+        public byte[] TerminatorSequence { get => FrameDetector.TerminatorSequence; protected set => FrameDetector.TerminatorSequence = value; }
 
         /// <summary>
         /// The <see cref="FrameDetector"/>
         /// </summary>
-        public FrameDetector FrameDetector { get; protected set; }
+        public IFrameDetector FrameDetector { get; protected set; }
 
         /// <summary>
         /// Create a new instance of <see cref="StreamResource"/>

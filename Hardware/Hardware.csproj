@@ -58,6 +58,7 @@
     <Compile Include="IDigitalChannel.cs" />
     <Compile Include="IDigitalInput.cs" />
     <Compile Include="IDigitalOutput.cs" />
+    <Compile Include="IFrameDetector.cs" />
     <Compile Include="IResource.cs" />
     <Compile Include="IStream.cs" />
     <Compile Include="MultiSampleAnalogInput.cs" />
