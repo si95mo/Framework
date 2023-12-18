@@ -26,6 +26,7 @@ namespace Configurations
         #region IProperty<T> implementation
 
         public event EventHandler<ValueChangedEventArgs> ValueChanged;
+        public event EventHandler<ValueSetEventArgs> ValueSet;
 
         /// <summary>
         /// The <see cref="IProperty"/> value. The same as <see cref="Items"/>

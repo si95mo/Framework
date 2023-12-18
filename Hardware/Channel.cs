@@ -117,9 +117,15 @@ namespace Hardware
                         Logger.Warn($"Attempting to write {Code} with write disabled");
                 }
                 else
+                {
                     UpdateValue(value);
+                }
+
+                ValueSet?.Invoke(this, new ValueSetEventArgs(Value));
             }
         }
+
+        public event EventHandler<ValueSetEventArgs> ValueSet;
 
         /// <summary>
         /// Update the <see cref="Channel{T}"/> <see cref="Value"/>

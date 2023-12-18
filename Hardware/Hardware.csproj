@@ -50,6 +50,7 @@
     <Compile Include="AnalogOutput.cs" />
     <Compile Include="Channel.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="FrameDetector.cs" />
     <Compile Include="IAnalogChannel.cs" />
     <Compile Include="IAnalogInput.cs" />
     <Compile Include="IAnalogOutput.cs" />

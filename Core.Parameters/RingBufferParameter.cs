@@ -91,10 +91,10 @@ namespace Core.Parameters
 
             debouncer = new Debouncer(debounceTime);
             timer = Stopwatch.StartNew();
-            property.ValueChanged += Property_ValueChanged;
+            property.ValueSet += Property_ValueSet;
         }
 
-        private void Property_ValueChanged(object sender, ValueChangedEventArgs e)
+        private void Property_ValueSet(object sender, ValueSetEventArgs e)
         {
             if (debounceTime > TimeSpan.Zero)
             {

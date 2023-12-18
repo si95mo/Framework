@@ -37,6 +37,8 @@ namespace Core.Conditions
                     this.value = value;
                     OnValueChanged(new ValueChangedEventArgs(oldValue, this.value));
                 }
+
+                ValueSet?.Invoke(this, new ValueSetEventArgs(Value));
             }
         }
 
@@ -73,6 +75,8 @@ namespace Core.Conditions
                 }
             }
         }
+
+        public event EventHandler<ValueSetEventArgs> ValueSet;
 
         public TaskAwaiter GetAwaiter()
         {

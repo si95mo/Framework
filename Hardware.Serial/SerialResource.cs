@@ -1,7 +1,9 @@
 ﻿using Core;
 using Diagnostic;
 using System;
+using System.Collections.Generic;
 using System.IO.Ports;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -31,7 +33,8 @@ namespace Hardware.Resources
         /// <param name="code">The code</param>
         /// <param name="portName">The port name</param>
         /// <param name="encoding">The <see cref="Encoding"/></param>
-        public SerialResource(string code, string portName, Encoding encoding) : base(code, encoding)
+        /// <param name="terminatorSequence">The terminator sequence in the stream</param>
+        public SerialResource(string code, string portName, Encoding encoding, string terminatorSequence) : base(code, encoding, terminatorSequence)
         {
             port = new SerialPort(portName);
 
@@ -45,12 +48,13 @@ namespace Hardware.Resources
         /// <param name="code">The code</param>
         /// <param name="portName">The port name</param>
         /// <param name="encoding">The <see cref="Encoding"/></param>
+        /// <param name="terminatorSequence">The terminator sequence in the stream</param>
         /// <param name="baudRate">The baud rate</param>
         /// <param name="parity">The parity type</param>
         /// <param name="dataBits">Data bits number</param>
         /// <param name="stopBits">Stop bit type</param>
-        public SerialResource(string code, string portName, Encoding encoding, int baudRate = 9600, Parity parity = Parity.None,
-            int dataBits = 8, StopBits stopBits = StopBits.One) : this(code, portName, encoding)
+        public SerialResource(string code, string portName, Encoding encoding, string terminatorSequence, int baudRate = 9600, Parity parity = Parity.None,
+            int dataBits = 8, StopBits stopBits = StopBits.One) : this(code, portName, encoding, terminatorSequence)
         {
             port.PortName = portName;
             port.BaudRate = baudRate;
@@ -89,7 +93,11 @@ namespace Hardware.Resources
         /// <param name="data"></param>
         public virtual void OnDataReceived(byte[] data)
         {
-            Input.Value = data;
+            FrameDetector.Add(data);
+            if (FrameDetector.TryGet(out byte[] frame))
+            {
+                Input.Value = frame;
+            }
         }
 
         #endregion Event handlers
@@ -112,7 +120,9 @@ namespace Hardware.Resources
                 Status.Value = IsOpen ? ResourceStatus.Executing : ResourceStatus.Failure;
 
                 if (Status.Value == ResourceStatus.Failure)
+                {
                     HandleException("Error on Start");
+                }
                 else
                     ContinuousRead();
             }
@@ -132,7 +142,9 @@ namespace Hardware.Resources
             Status.Value = !IsOpen ? ResourceStatus.Stopped : ResourceStatus.Failure;
 
             if (Status.Value == ResourceStatus.Failure)
+            {
                 HandleException("Error on Stop");
+            }
         }
 
         /// <summary>

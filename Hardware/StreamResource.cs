@@ -18,6 +18,16 @@ namespace Hardware
         public Stream Output { get; protected set; }
 
         /// <summary>
+        /// The terminator sequence in the stream
+        /// </summary>
+        public byte[] TerminatorSequence {get => FrameDetector.TerminatorSequence; protected set => FrameDetector.TerminatorSequence = value; }
+
+        /// <summary>
+        /// The <see cref="FrameDetector"/>
+        /// </summary>
+        public FrameDetector FrameDetector { get; protected set; }
+
+        /// <summary>
         /// Create a new instance of <see cref="StreamResource"/>
         /// </summary>
         /// <param name="code"></param>
@@ -29,10 +39,13 @@ namespace Hardware
         /// </summary>
         /// <param name="code">The code</param>
         /// <param name="encoding">The <see cref="Encoding"/></param>
-        protected StreamResource(string code, Encoding encoding) : base(code)
+        /// <param name="terminatorSequence">The terminator sequence in the stream</param>
+        protected StreamResource(string code, Encoding encoding, string terminatorSequence) : base(code)
         {
             Input = new Stream($"{Code}.{nameof(Input)}", encoding);
             Output = new Stream($"{Code}.{nameof(Output)}", encoding);
+
+            FrameDetector = new FrameDetector(encoding.GetBytes(terminatorSequence));
 
             Channels.Add(Input);
             Channels.Add(Output);

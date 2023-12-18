@@ -1,6 +1,7 @@
 ﻿using Diagnostic;
 using FluentAssertions;
 using NUnit.Framework;
+using System;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,7 +16,7 @@ namespace Hardware.Resources.Tests
         {
             Logger.Initialize();
 
-            resource = new SerialResource(nameof(resource), "COM3", Encoding.ASCII);
+            resource = new SerialResource(nameof(resource), "COM3", Encoding.ASCII, Environment.NewLine);
             await resource.Start();
 
             resource.IsOpen.Should().BeTrue();

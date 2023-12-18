@@ -207,6 +207,115 @@ namespace Core
     }
 
     /// <summary>
+    /// Handles the property value set event.
+    /// See also <see cref="EventArgs"/>
+    /// </summary>
+    public class ValueSetEventArgs : EventArgs
+    {
+        /// <summary>
+        /// The value set
+        /// </summary>
+        public readonly object Value;
+
+        #region OldValue casted properties
+
+        /// <summary>
+        /// The value as <see cref="double"/>
+        /// </summary>
+        /// <remarks>
+        /// If the conversion throws an <see cref="Exception"/>, <see cref="double.NaN"/> is returned
+        /// </remarks>
+        public double OldValueAsDouble
+        {
+            get
+            {
+                double value = double.NaN;
+                try
+                {
+                    value = Convert.ToDouble(Value);
+                }
+                catch { }
+
+                return value;
+            }
+        }
+
+        /// <summary>
+        /// The value as <see cref="int"/>
+        /// </summary>
+        /// <remarks>
+        /// If the conversion throws an <see cref="Exception"/>, <see cref="int.MinValue"/> is returned
+        /// </remarks>
+        public int OldValueAsInt
+        {
+            get
+            {
+                int value = int.MinValue;
+                try
+                {
+                    value = Convert.ToInt32(Value);
+                }
+                catch { }
+
+                return value;
+            }
+        }
+
+        /// <summary>
+        /// The value as <see cref="bool"/>
+        /// </summary>
+        /// <remarks>
+        /// If the conversion throws an <see cref="Exception"/>, <see langword="false"/> is returned
+        /// </remarks>
+        public bool OldValueAsBool
+        {
+            get
+            {
+                bool value = false;
+                try
+                {
+                    value = Convert.ToBoolean(Value);
+                }
+                catch { }
+
+                return value;
+            }
+        }
+
+        /// <summary>
+        /// The value as <see cref="string"/>
+        /// </summary>
+        /// <remarks>
+        /// If the conversion throws an <see cref="Exception"/>, <see cref="string.Empty"/> is returned
+        /// </remarks>
+        public string OldValueAsString
+        {
+            get
+            {
+                string value = string.Empty;
+                try
+                {
+                    value = Convert.ToString(Value);
+                }
+                catch { }
+
+                return value;
+            }
+        }
+
+        #endregion OldValue casted properties
+
+        /// <summary>
+        /// Create a new instance of <see cref="ValueSetEventArgs"/>
+        /// </summary>
+        /// <param name="value">The value set</param>
+        public ValueSetEventArgs(object value)
+        {
+            Value = value;
+        }
+    }
+
+    /// <summary>
     /// Describe a generic property
     /// </summary>
     public interface IProperty
@@ -248,10 +357,14 @@ namespace Core
         }
 
         /// <summary>
-        /// The <see cref="ValueChanged"/> event handler
-        /// for the <see cref="Value"/> property
+        /// The <see cref="ValueChanged"/> event handler for the <see cref="Value"/> property
         /// </summary>
         event EventHandler<ValueChangedEventArgs> ValueChanged;
+
+        /// <summary>
+        /// The <see cref="ValueSet"/> event handler for the <see cref="Value"/> property
+        /// </summary>
+        event EventHandler<ValueSetEventArgs> ValueSet;
 
         /// <summary>
         /// Connects an <see cref="IProperty"/> to another

@@ -34,6 +34,8 @@ namespace Core.Parameters
         /// </summary>
         private EventHandler<ValueChangedEventArgs> ValueChangedHandler;
 
+        public event EventHandler<ValueSetEventArgs> ValueSet;
+
         public string Description { get; set; }
 
         /// <summary>
@@ -74,6 +76,8 @@ namespace Core.Parameters
                     this.value = value;
                     OnValueChanged(new ValueChangedEventArgs(oldValue, this.value));
                 }
+
+                ValueSet?.Invoke(this, new ValueSetEventArgs(Value));
             }
         }
 
