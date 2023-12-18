@@ -60,7 +60,7 @@ namespace Hardware
                     break;
 
                 case ResourceStatus.Executing:
-                    Logger.Log($"{code} executing", Severity.Info);
+                    Logger.Log($"{code} executing", Severity.Warn);
                     break;
 
                 case ResourceStatus.Stopping:
@@ -68,7 +68,7 @@ namespace Hardware
                     break;
 
                 case ResourceStatus.Stopped:
-                    Logger.Log($"{code} stopped", Severity.Info);
+                    Logger.Log($"{code} stopped", Severity.Warn);
                     break;
 
                 case ResourceStatus.Failure:

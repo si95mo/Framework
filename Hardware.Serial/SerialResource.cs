@@ -124,7 +124,9 @@ namespace Hardware.Resources
                     HandleException("Error on Start");
                 }
                 else
+                {
                     ContinuousRead();
+                }
             }
             catch (Exception ex)
             {

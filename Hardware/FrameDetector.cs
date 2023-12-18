@@ -44,7 +44,7 @@ namespace Hardware
         {
             if (DetectFrame(data, out int position))
             {
-                buffer.AddRange(data.Skip(TerminatorSequence.Length).Take(position)); // Enqueue the byte up until terminator sequence
+                buffer.AddRange(data.Take(position)); // Enqueue the byte up until terminator sequence
                 queue.Enqueue(buffer.ToArray());
 
                 buffer.Clear(); // Then take the remaining bytes on data
