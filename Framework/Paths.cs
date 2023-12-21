@@ -23,6 +23,11 @@ namespace Framework
         public const string Configuration = @"config";
 
         /// <summary>
+        /// The report folder
+        /// </summary>
+        public const string Reports = @"reports";
+
+        /// <summary>
         /// The application folder
         /// </summary>
         public static string Application => AppDomain.CurrentDomain.BaseDirectory;
