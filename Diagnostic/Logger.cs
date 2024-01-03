@@ -183,7 +183,7 @@ namespace Diagnostic
         /// If the <paramref name="daysOfLogsToKeepSaved"/> is equal to -1 no log file will be deleted (i.e. all the logs will be kept saved in the disk),
         /// otherwise logs older than the actual day minus the time span specified will be deleted (e.g. if today is 10/01/2021 and
         /// <paramref name="daysOfLogsToKeepSaved"/> is 10, then all the logs up to 30/12/2020 will be deleted). <br/>
-        /// The source column will have its maximum size set to 32 characters, if any it's longer than that it will be truncated
+        /// The source column will have its maximum size set to 32 characters, if anything it's longer than that it will be truncated
         /// </remarks>
         /// <param name="logPath">The path of the log file, leave <see langword="null"/> to use the default one</param>
         /// <param name="daysOfLogsToKeepSaved">The number of days of logs to keep saved up to now; -1 equals no file deleted</param>

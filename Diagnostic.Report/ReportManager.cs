@@ -38,7 +38,7 @@ namespace Diagnostic.Report
         public string BasePath
         {
             get => Directory.GetDirectoryRoot(Path);
-            set => Path = $"{value}\\{FileName}{EnumToExtension()}";
+            set => Path = System.IO.Path.Combine(value, $"{FileName}{EnumToExtension()}");
         }
 
         #endregion IReportManager fields
@@ -54,8 +54,8 @@ namespace Diagnostic.Report
             FileName = fileName;
             Extension = extension;
 
-            IoUtility.CreateDirectoryIfNotExists(BaseFolder);
-            Path = $"{BaseFolder}\\{FileName}{EnumToExtension()}";
+            IoUtility.CreateDirectoryIfNotExists(Paths.Reports);
+            Path = System.IO.Path.Combine(Paths.Reports, $"{FileName}{EnumToExtension()}");
         }
 
         #region IReportManager methods (abstract)
@@ -130,14 +130,22 @@ namespace Diagnostic.Report
             int numberOfRetries = 0;
 
             if (IoUtility.DoesFileExist(Path))
+            {
                 while (IsFileLocked() && numberOfRetries++ <= MaximumNumberOfRetries)
+                {
                     await Task.Delay(1000);
+                }
+            }
 
             bool fileUnlocked = numberOfRetries <= MaximumNumberOfRetries;
             if (fileUnlocked)
+            {
                 await SaveAsync(text, Path, saveMode);
+            }
             else
+            {
                 await Logger.WarnAsync($"Unable to add an entry to {Path} after {MaximumNumberOfRetries} tries");
+            }
 
             return fileUnlocked;
         }
