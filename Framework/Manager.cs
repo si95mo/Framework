@@ -27,14 +27,14 @@ namespace Framework
         /// <param name="logExternalExceptions">The option to log external exceptions</param>
         /// <param name="scriptsPath">The scripts path (<see langword="null"/> to skip)</param>
         /// <param name="maxDegreesOfParallelism">The maximum number of tasks that the scheduler car run in parallel</param>
-        /// <param name="configPath">The configuration file path</param>
+        /// <param name="configFileName">The configuration file name</param>
         /// <returns>The (async) <see cref="Task{TResult}"/> with the read <see cref="Configuration"/></returns>
-        public static async Task<Configuration> InitializeAsync(string logsPath = "logs\\", int daysOfLogsToKeepSaved = -1, bool logExternalExceptions = false, 
-            string scriptsPath = null, int maxDegreesOfParallelism = 100, string configPath = "config\\config.json")
+        public static async Task<Configuration> InitializeAsync(string logsPath = null, int daysOfLogsToKeepSaved = -1, bool logExternalExceptions = false, 
+            string scriptsPath = null, int maxDegreesOfParallelism = 100, string configFileName = "config.json")
         {
             await InitializeFrameworkAsync(logsPath, daysOfLogsToKeepSaved, logExternalExceptions);
             await InitializeServicesAsync(scriptsPath, maxDegreesOfParallelism);
-            Configuration configuration = await ReadConfigurationAsync(configPath);
+            Configuration configuration = await ReadConfigurationAsync(configFileName);
 
             return configuration;
         }
@@ -53,14 +53,14 @@ namespace Framework
         /// <param name="logExternalExceptions">The option to log external exceptions</param>
         /// <param name="scriptsPath">The scripts path (<see langword="null"/> to skip)</param>
         /// <param name="maxDegreesOfParallelism">The maximum number of tasks that the scheduler car run in parallel</param>
-        /// <param name="configPath">The configuration file path</param>
+        /// <param name="configFileName">The configuration file name</param>
         /// <returns>The (async) <see cref="Task{TResult}"/> with the read <see cref="Configuration"/></returns>
-        public static async Task<Configuration> InitializeAsync(CustomForm form, string logsPath = "logs\\", int daysOfLogsToKeepSaved = -1, bool logExternalExceptions = false,
-            string scriptsPath = null, int maxDegreesOfParallelism = 100, string configPath = "config\\config.json")
+        public static async Task<Configuration> InitializeAsync(CustomForm form, string logsPath = null, int daysOfLogsToKeepSaved = -1, bool logExternalExceptions = false,
+            string scriptsPath = null, int maxDegreesOfParallelism = 100, string configFileName = "config.json")
         {
             await InitializeFrameworkAsync(logsPath, daysOfLogsToKeepSaved, logExternalExceptions);
             await InitializeServicesAsync(scriptsPath, maxDegreesOfParallelism);
-            Configuration configuration = await ReadConfigurationAsync(configPath);
+            Configuration configuration = await ReadConfigurationAsync(configFileName);
             await InitializeUiAsync(form);
 
             return configuration;
@@ -87,7 +87,7 @@ namespace Framework
         /// <param name="daysOfLogsToKeepSaved">The number of days of logs to keep saved (-1 means keep everything)</param>
         /// <param name="logExternalExceptions">The option to log external exceptions</param>
         /// <returns>The (async) <see cref="Task"/></returns>
-        private static async Task InitializeFrameworkAsync(string logsPath = "logs\\", int daysOfLogsToKeepSaved = -1, bool logExternalExceptions = false)
+        private static async Task InitializeFrameworkAsync(string logsPath = null, int daysOfLogsToKeepSaved = -1, bool logExternalExceptions = false)
         {
             Logger.Initialize(logsPath, daysOfLogsToKeepSaved, logExternalExceptions);
             await Logger.InfoAsync($"{nameof(Logger)} initialized");
@@ -99,7 +99,7 @@ namespace Framework
         /// <summary>
         /// Initialize all the needed services
         /// </summary>
-        /// <param name="scriptsPath">The scripts path (<see langword="null"/> to skip)</param>
+        /// <param name="scriptsPath">The scripts path (<see langword="null"/> to use the default one)</param>
         /// <param name="maxDegreesOfParallelism">The maximum number of tasks that the scheduler car run in parallel</param>
         /// <returns>The (async) <see cref="Task"/></returns>
         private static async Task InitializeServicesAsync(string scriptsPath = null, int maxDegreesOfParallelism = 100)
@@ -145,11 +145,11 @@ namespace Framework
         /// <summary>
         /// Read the configuration file
         /// </summary>
-        /// <param name="configPath">The configuration file path</param>
+        /// <param name="configName">The configuration file name</param>
         /// <returns>The (async) <see cref="Task{TResult}"/> with the read <see cref="Configuration"/></returns>
-        private static async Task<Configuration> ReadConfigurationAsync(string configPath = "config\\config.json")
+        private static async Task<Configuration> ReadConfigurationAsync(string configName = "config.json")
         {
-            Configuration configuration = new Configuration(path: configPath);
+            Configuration configuration = new Configuration(fileName: configName);
             ServiceBroker.GetService<ConfigurationsService>().Add(configuration);
 
             await Logger.InfoAsync("Configuration file processed");

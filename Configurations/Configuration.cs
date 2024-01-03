@@ -1,5 +1,6 @@
 ﻿using Core;
 using Diagnostic;
+using IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -44,13 +45,14 @@ namespace Configurations
         /// <summary>
         /// Create a new instance of <see cref="Configuration"/>
         /// </summary>
-        /// <remarks>By default, <paramref name="code"/> is equal to <paramref name="path"/> (changeable by specifying a value to <paramref name="code"/>)</remarks>
+        /// <remarks>By default, <paramref name="code"/> is equal to <paramref name="fileName"/> (changeable by specifying a value to <paramref name="code"/>)</remarks>
         /// <param name="code">The code</param>
-        /// <param name="path">The configuration file path</param>
-        public Configuration(string code = "Configuration", string path = "config/config.json")
+        /// <param name="fileName">The configuration file path</param>
+        public Configuration(string code = "Configuration", string fileName = "config.json")
         {
             this.code = code;
 
+            string path = Path.Combine(Paths.Configuration, fileName);
             if (File.Exists(path))
             {
                 ConfigurationHandler.Initialize(path);
@@ -58,7 +60,7 @@ namespace Configurations
             }
             else
             {
-                Logger.Warn($"Configuration file not found @ {path}");
+                Logger.Warn($"Configuration file {fileName} not found @ {path}");
             }
         }
 

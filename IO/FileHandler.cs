@@ -241,5 +241,26 @@ namespace IO
 
             return isModified;
         }
+
+        /// <summary>
+        /// Go up from <paramref name="path"/> by <paramref name="numberOfLevels"/>
+        /// </summary>
+        /// <remarks>
+        /// For example, '<c>C:\P1\P2\P3</c>' → '<c>C:\P1\P2</c>'' with <paramref name="numberOfLevels"/> = 1
+        /// </remarks>
+        /// <param name="path">The initial path from which start</param>
+        /// <param name="numberOfLevels">THe number of levels to go up</param>
+        /// <returns></returns>
+        public static string GoUp(string path, int numberOfLevels = 1)
+        {
+            StringBuilder sb = new StringBuilder();
+            for(int i =  0; i < numberOfLevels; i++)
+            {
+                sb.Append(@"../");
+            }
+
+            string newPath = Path.GetFullPath(Path.Combine(path, sb.ToString()));
+            return newPath;
+        }
     }
 }

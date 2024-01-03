@@ -185,22 +185,24 @@ namespace Diagnostic
         /// <paramref name="daysOfLogsToKeepSaved"/> is 10, then all the logs up to 30/12/2020 will be deleted). <br/>
         /// The source column will have its maximum size set to 32 characters, if any it's longer than that it will be truncated
         /// </remarks>
-        /// <param name="logPath">The path of the log file</param>
+        /// <param name="logPath">The path of the log file, leave <see langword="null"/> to use the default one</param>
         /// <param name="daysOfLogsToKeepSaved">The number of days of logs to keep saved up to now; -1 equals no file deleted</param>
         /// <param name="logExternalExceptions"><see langword="true"/> to log also uncaught <see cref="Exception"/> from external code, <see langword="false"/> otherwise</param>
-        public static void Initialize(string logPath = "logs\\", int daysOfLogsToKeepSaved = -1, bool logExternalExceptions = false)
+        public static void Initialize(string logPath = null, int daysOfLogsToKeepSaved = -1, bool logExternalExceptions = false)
         {
-            DeleteOldLogs(logPath, daysOfLogsToKeepSaved);
+            string path = logPath ?? Paths.Logs;
+            DeleteOldLogs(path, daysOfLogsToKeepSaved);
 
-            string errorsPath = System.IO.Path.Combine(logPath, "errors\\");
+            string errorsPath = System.IO.Path.Combine(path, "errors");
             DeleteOldLogs(errorsPath, daysOfLogsToKeepSaved);
 
             string now = DateTime.Now.ToString("yyyy-MM-dd");
-            Path = logPath + $"{now}.log";
-            IoUtility.CreateDirectoryIfNotExists(logPath);
+            Path = System.IO.Path.Combine(path, $"{now}.log");
+            IoUtility.CreateDirectoryIfNotExists(path);
 
-            ErrorsPath = errorsPath + $"{now}.log";
-            IoUtility.CreateDirectoryIfNotExists(errorsPath);
+            path = logPath != null ? System.IO.Path.Combine(logPath, "errors") : Paths.Errors;
+            ErrorsPath = System.IO.Path.Combine(path, $"{now}.log");
+            IoUtility.CreateDirectoryIfNotExists(path);
 
             InitializeFile(Path);
             InitializeFile(ErrorsPath);

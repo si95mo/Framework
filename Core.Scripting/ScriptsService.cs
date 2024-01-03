@@ -16,9 +16,10 @@ namespace Core.Scripting
         /// <summary>
         /// Create a new instance of <see cref="ScriptsService"/>
         /// </summary>
-        /// <param name="path">The startup catalog path</param>
+        /// <param name="path">The startup catalog path, leave <see langword="null"/> for the default one</param>
         public ScriptsService(string path = null) : base()
         {
+            path = path ?? Path.Combine(IO.Paths.Scripts, CsxFileName);
             ReadStartup(path);
         }
 
@@ -26,39 +27,47 @@ namespace Core.Scripting
         /// Create a new instance of <see cref="ScriptsService"/>
         /// </summary>
         /// <param name="code">The code</param>
-        /// <param name="path">The startup catalog path</param>
+        /// <param name="path">The startup catalog path, leave <see langword="null"/> for the default one</param>
         public ScriptsService(string code, string path = null) : base(code)
         {
+            path = path ?? IO.Paths.Scripts;
             ReadStartup(path);
         }
 
         /// <summary>
         /// Read the startup configuration file and parse all the found <see cref="Script"/>
         /// </summary>
-        /// <param name="configPath">The configuration file path</param>
-        private void ReadStartup(string configPath)
+        /// <param name="path">The startup catalog pat</param>
+        private void ReadStartup(string path)
         {
-            if (configPath != null)
+            if (File.Exists(path))
             {
-                configPath = Path.Combine(configPath, CsxFileName);
-                Configuration configuration = new Configuration(path: configPath);
-
-                string csxPath;
-                foreach (ConfigurationItem item in configuration.Items.Values)
+                if (path != null)
                 {
-                    csxPath = Path.Combine(Path.GetDirectoryName(configPath), item.Name);
-                    Assembly assembly = ScriptManager.Compile(csxPath);
+                    path = Path.Combine(path, CsxFileName);
+                    Configuration configuration = new Configuration(fileName: path);
 
-                    string typeName = Path.GetFileNameWithoutExtension(item.Name);
-                    IScript script = Script.NewInstance(assembly, item.Name, typeName);
-                    script.Description = item.Value.Description;
+                    string csxPath;
+                    foreach (ConfigurationItem item in configuration.Items.Values)
+                    {
+                        csxPath = Path.Combine(Path.GetDirectoryName(path), item.Name);
+                        Assembly assembly = ScriptManager.Compile(csxPath);
 
-                    Add(script);
+                        string typeName = Path.GetFileNameWithoutExtension(item.Name);
+                        IScript script = Script.NewInstance(assembly, item.Name, typeName);
+                        script.Description = item.Value.Description;
+
+                        Add(script);
+                    }
+                }
+                else
+                {
+                    Logger.Warn("No path provided for the scripts location");
                 }
             }
             else
             {
-                Logger.Warn("No path provided for the scripts location");
+                Logger.Error($"Scripts catalog file @ '{path}' not found");
             }
         }
     }

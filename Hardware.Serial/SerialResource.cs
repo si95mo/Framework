@@ -138,7 +138,10 @@ namespace Hardware.Resources
         public override void Stop()
         {
             Status.Value = ResourceStatus.Stopping;
+
             port.Close();
+            FrameDetector.Clear();
+
             Status.Value = !IsOpen ? ResourceStatus.Stopped : ResourceStatus.Failure;
 
             if (Status.Value == ResourceStatus.Failure)

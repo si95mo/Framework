@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Framework
+namespace IO
 {
     /// <summary>
     /// Provides the <b>default</b> paths used by the framework
@@ -27,6 +27,11 @@ namespace Framework
         /// The report folder
         /// </summary>
         public static readonly string Reports = @"reports" + Path.DirectorySeparatorChar;
+
+        /// <summary>
+        /// The script folder
+        /// </summary>
+        public static readonly string Scripts = @"scripts" + Path.DirectorySeparatorChar;
 
         /// <summary>
         /// The application folder

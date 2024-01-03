@@ -13,6 +13,7 @@ namespace Hardware
 
         private readonly ConcurrentQueue<byte[]> queue;
         private readonly List<byte> buffer;
+        private readonly object sync = new object();
 
         /// <summary>
         /// Create a new instance of <see cref="FrameDetector"/>
@@ -28,32 +29,43 @@ namespace Hardware
 
         public bool TryGet(out byte[] data)
         {
-            bool result = queue.TryDequeue(out data);
+            bool result = false;
+            lock (sync)
+            {
+                result = queue.TryDequeue(out data);
+            }
+
             return result;
         }
 
         public void Add(byte[] data)
         {
-            if (DetectFrame(data, out int position))
+            lock (sync)
             {
-                buffer.AddRange(data.Take(position)); // Enqueue the byte up until terminator sequence
-                queue.Enqueue(buffer.ToArray());
+                if (DetectFrame(data, out int position))
+                {
+                    buffer.AddRange(data.Take(position)); // Enqueue the byte up until terminator sequence
+                    queue.Enqueue(buffer.ToArray());
 
-                buffer.Clear(); // Then take the remaining bytes on data
-                buffer.AddRange(data.Skip(position + TerminatorSequence.Length));
-            }
-            else
-            {
-                buffer.AddRange(data); // Otherwise simply add data
+                    buffer.Clear(); // Then take the remaining bytes on data
+                    buffer.AddRange(data.Skip(position + TerminatorSequence.Length));
+                }
+                else
+                {
+                    buffer.AddRange(data); // Otherwise simply add data
+                }
             }
         }
 
         public void Clear()
         {
-            buffer.Clear();
-            while(queue.Any())
+            lock (sync)
             {
-                queue.TryDequeue(out byte[] _);
+                buffer.Clear();
+                while (queue.Any())
+                {
+                    queue.TryDequeue(out byte[] _);
+                }
             }
         }
 
