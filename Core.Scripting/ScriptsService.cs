@@ -30,7 +30,7 @@ namespace Core.Scripting
         /// <param name="path">The startup catalog path, leave <see langword="null"/> for the default one</param>
         public ScriptsService(string code, string path = null) : base(code)
         {
-            path = path ?? IO.Paths.Scripts;
+            path = path ?? Path.Combine(IO.Paths.Scripts, CsxFileName);
             ReadStartup(path);
         }
 
