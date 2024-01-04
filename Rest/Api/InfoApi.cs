@@ -1,7 +1,10 @@
 ﻿using Nancy;
 using Nancy.Extensions;
 using Nancy.Routing;
+using Newtonsoft.Json;
+using System;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Rest.Api
@@ -52,6 +55,24 @@ namespace Rest.Api
                     }
 
                     return table.ToString();
+                }
+            );
+
+            Get("info/version/assembly", args =>
+                {
+                    Version version = typeof(RestServer).Assembly.GetName().Version;
+                    string json = JsonConvert.SerializeObject(version, Formatting.Indented);
+
+                    return json;
+                }
+            );
+
+            Get("info/version/application", args =>
+                {
+                    Version version = Assembly.GetExecutingAssembly().GetName().Version;
+                    string json = JsonConvert.SerializeObject(version, Formatting.Indented);
+
+                    return json;
                 }
             );
         }
