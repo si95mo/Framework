@@ -5,6 +5,7 @@ using OX.Copyable;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -226,6 +227,22 @@ namespace Extensions
         {
             foreach (T item in source)
                 action(item);
+        }
+
+
+        /// <summary>
+        /// Set the flags so that private and public fields from instances will be found
+        /// </summary>
+        /// <typeparam name="T">The <see cref="Type"/> of the field to retrieve</typeparam>
+        /// <param name="source">The source <see cref="object"/></param>
+        /// <param name="name">The field name</param>
+        /// <returns>The value of the <paramref name="source"/> field</returns>
+        public static T GetFieldValue<T>(this object source, string name)
+        {
+            var bindingFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+            var field = source.GetType().GetField(name, bindingFlags);
+
+            return (T)field?.GetValue(source);
         }
     }
 }

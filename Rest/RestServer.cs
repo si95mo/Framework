@@ -5,6 +5,7 @@ using Nancy.Bootstrapper;
 using Nancy.Hosting.Self;
 using Nancy.Testing;
 using Nancy.TinyIoc;
+using Rest.Api;
 using System;
 using System.Net;
 using System.Net.Sockets;
@@ -20,7 +21,7 @@ namespace Rest
         private Uri uri;
         private NancyHost host;
         private HostConfiguration configuration;
-        private NancyBootstrapperWithRequestContainerBase<TinyIoCContainer> bootstrapper;
+        internal NancyBootstrapperWithRequestContainerBase<TinyIoCContainer> Bootstrapper;
 
         /// <summary>
         /// The <see cref="RestServer"/> <see cref="System.Uri"/>
@@ -39,11 +40,13 @@ namespace Rest
             configuration = new HostConfiguration();
             configuration.UrlReservations.CreateAutomatically = true;
             configuration.RewriteLocalhost = false;
-            bootstrapper = new DefaultNancyBootstrapper();
+            Bootstrapper = new DefaultNancyBootstrapper();
 
             this.uri = uri;
 
-            host = new NancyHost(uri, bootstrapper, configuration);
+            host = new NancyHost(uri, Bootstrapper, configuration);
+
+            InfoApi.Server = this;
         }
 
         /// <summary>
@@ -56,11 +59,13 @@ namespace Rest
         {
             configuration = new HostConfiguration();
             configuration.UrlReservations.CreateAutomatically = true;
-            this.bootstrapper = bootstrapper;
+            Bootstrapper = bootstrapper;
 
             this.uri = uri;
 
             host = new NancyHost(uri, bootstrapper, configuration);
+
+            InfoApi.Server = this;
         }
 
         /// <summary>
@@ -98,7 +103,7 @@ namespace Rest
                 Logger.Warn($"Attempting to restart {Code} on localhost");
 
                 uri = new Uri($"http://localhost:{uri.Port}");
-                host = new NancyHost(uri, bootstrapper, configuration);
+                host = new NancyHost(uri, Bootstrapper, configuration);
 
                 host.Start();
             }
