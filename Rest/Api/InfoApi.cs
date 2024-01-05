@@ -2,13 +2,18 @@
 using Nancy.Extensions;
 using Nancy.Routing;
 using Newtonsoft.Json;
+using Rest.TransferModel.System.Server;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 
 namespace Rest.Api
 {
+    /// <summary>
+    /// Provides REST call to retrieve common informations about the <see cref="RestServer"/>
+    /// </summary>
     public class InfoApi : NancyModule
     {
         private const int ModuleNameLength = 32;
@@ -32,21 +37,27 @@ namespace Rest.Api
 
                     if (Server != null)
                     {
-                        foreach (INancyModule module in Server.Bootstrapper.GetAllModules(new NancyContext()))
+                        IEnumerable<INancyModule> modules = Server.Bootstrapper.GetAllModules(new NancyContext());
+                        if(modules.Any())
+                        {
+                            table.AddHorizontalLine(ModuleNameLength + MethodLength + RouteLength + 7);
+                        }
+
+                        foreach (INancyModule module in modules)
                         {
                             routes.Clear();
 
-                            foreach(Route route in module.Routes)
+                            foreach (Route route in module.Routes)
                             {
                                 routes.AppendLine(
-                                    $"| {new string(Enumerable.Repeat(' ', ModuleNameLength).ToArray()) } | " +
+                                    $"| {new string(Enumerable.Repeat(' ', ModuleNameLength).ToArray())} | " +
                                     $"{route.Description.Method,MethodLength}{route.Description.Path,RouteLength} |"
                                 );
                             }
 
-                            table.AppendLine($"| {module.GetModuleName(), ModuleNameLength} | {new string(Enumerable.Repeat(' ', MethodLength + RouteLength).ToArray())} |");
-                            table.AppendLine(routes.ToString());
-                            table.AppendLine(new string(Enumerable.Repeat(' ', ModuleNameLength + MethodLength + RouteLength + 4).ToArray())); // 4 additional white spaces
+                            table.AppendLine($"| {module.GetModuleName(),ModuleNameLength} | {new string(Enumerable.Repeat(' ', MethodLength + RouteLength).ToArray())} |");
+                            table.AppendLine(routes.ToString().TrimEnd(Environment.NewLine.ToCharArray()));
+                            table.AddHorizontalLine(ModuleNameLength + MethodLength + RouteLength + 7);
                         }
                     }
                     else
@@ -71,6 +82,15 @@ namespace Rest.Api
                 {
                     Version version = Assembly.GetExecutingAssembly().GetName().Version;
                     string json = JsonConvert.SerializeObject(version, Formatting.Indented);
+
+                    return json;
+                }
+            );
+
+            Get("info/server", args =>
+                {
+                    ServerInformation info = new ServerInformation(Server);
+                    string json = JsonConvert.SerializeObject(info, Formatting.Indented);
 
                     return json;
                 }

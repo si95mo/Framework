@@ -57,7 +57,10 @@ namespace Rest
         /// <param name="bootstrapper">The bootstrapper</param>
         public RestServer(string code, Uri uri, ConfigurableBootstrapper bootstrapper) : base(code)
         {
-            configuration = new HostConfiguration();
+            configuration = new HostConfiguration
+            {
+                RewriteLocalhost = true
+            };
             configuration.UrlReservations.CreateAutomatically = true;
             Bootstrapper = bootstrapper;
 

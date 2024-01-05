@@ -17,7 +17,7 @@ namespace Rest.Tests
             ConfigurableBootstrapper bootstrapper = new ConfigurableBootstrapper((x) => x.AddInfo());
             try
             {
-                server = new RestServer(nameof(RestServer), 12345, bootstrapper);
+                server = new RestServer(nameof(RestServer), 60000, bootstrapper);
 
                 await server.Start();
                 server.Status.Value.Should().Be(Hardware.ResourceStatus.Executing);

@@ -1,5 +1,7 @@
 ﻿using Nancy;
 using Rest.Api;
+using System.Linq;
+using System.Text;
 using static Nancy.Testing.ConfigurableBootstrapper;
 
 namespace Rest
@@ -25,5 +27,15 @@ namespace Rest
         /// <param name="source">The <see cref="ConfigurableBootstrapperConfigurator"/> of the <see cref="RestServer"/></param>
         public static void AddInfo(this ConfigurableBootstrapperConfigurator source)
             => source.AddModule<InfoApi>();
+
+        /// <summary>
+        /// Add an horizontal line to a <see cref="StringBuilder"/>
+        /// </summary>
+        /// <param name="source">The <see cref="StringBuilder"/></param>
+        /// <param name="length">The length of the line</param>
+        internal static void AddHorizontalLine(this StringBuilder source, int length)
+        {
+            source.AppendLine(new string(Enumerable.Repeat('-', length).ToArray())); // Plus white spaces and pipes
+        }
     }
 }
