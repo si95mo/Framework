@@ -20,6 +20,8 @@ namespace UserInterface.Forms
         {
             InitializeComponent();
 
+            AutoScaleMode = AutoScaleMode.Inherit;
+
             ShowInTaskbar = false;
             Owner = container;
 
@@ -28,10 +30,11 @@ namespace UserInterface.Forms
             StartPosition = FormStartPosition.Manual;
 
             Text = title;
-            lblMessage.Text = message;
+            txbMessage.Text = message;
 
-            int labelVerticalLocation = (Size.Height - lblMessage.Size.Height) / 2;
-            lblMessage.Location = new Point(LblFormName.Location.X, labelVerticalLocation);
+            int textBoxVerticalLocation = LblFormName.Location.Y + LblFormName.Height + 4;
+            txbMessage.Location = new Point(LblFormName.Location.X, textBoxVerticalLocation);
+            txbMessage.Size = new Size(btnClose.Width + btnClose.Location.X - txbMessage.Location.X, btnClose.Height + btnClose.Location.Y - textBoxVerticalLocation);
 
             ControlBox.Visible = false;
             ControlBox.Enabled = false;

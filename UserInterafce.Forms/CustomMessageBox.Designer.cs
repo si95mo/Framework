@@ -32,16 +32,16 @@ namespace UserInterface.Forms
         private void InitializeComponent()
         {
             this.btnClose = new UserInterface.Controls.ButtonControl();
-            this.lblMessage = new System.Windows.Forms.Label();
+            this.txbMessage = new UserInterface.Controls.TextControl();
             this.SuspendLayout();
             // 
-            // lblFormName
+            // LblFormName
             // 
             this.LblFormName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
             this.LblFormName.Size = new System.Drawing.Size(155, 25);
             this.LblFormName.Text = "CustomForm";
             // 
-            // controlBox
+            // ControlBox
             // 
             this.ControlBox.Location = new System.Drawing.Point(295, 13);
             // 
@@ -61,16 +61,21 @@ namespace UserInterface.Forms
             this.btnClose.UseVisualStyleBackColor = false;
             this.btnClose.Click += new System.EventHandler(this.BtnClose_Click);
             // 
-            // lblMessage
+            // txbMessage
             // 
-            this.lblMessage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.lblMessage.AutoSize = true;
-            this.lblMessage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
-            this.lblMessage.Location = new System.Drawing.Point(17, 110);
-            this.lblMessage.Name = "lblMessage";
-            this.lblMessage.Size = new System.Drawing.Size(58, 20);
-            this.lblMessage.TabIndex = 12;
-            this.lblMessage.Text = "label1";
+            this.txbMessage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(52)))), ((int)(((byte)(52)))));
+            this.txbMessage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txbMessage.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
+            this.txbMessage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.txbMessage.Location = new System.Drawing.Point(12, 42);
+            this.txbMessage.Multiline = true;
+            this.txbMessage.Name = "txbMessage";
+            this.txbMessage.NumericsOnly = false;
+            this.txbMessage.PlaceholderText = "";
+            this.txbMessage.ReadOnly = true;
+            this.txbMessage.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txbMessage.Size = new System.Drawing.Size(730, 194);
+            this.txbMessage.TabIndex = 13;
             // 
             // CustomMessageBox
             // 
@@ -78,21 +83,22 @@ namespace UserInterface.Forms
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(52)))), ((int)(((byte)(52)))));
             this.ClientSize = new System.Drawing.Size(753, 248);
-            this.Controls.Add(this.lblMessage);
             this.Controls.Add(this.btnClose);
+            this.Controls.Add(this.txbMessage);
+            this.Location = new System.Drawing.Point(0, 0);
             this.Name = "CustomMessageBox";
             this.Text = "CustomMessageBox";
+            this.Controls.SetChildIndex(this.txbMessage, 0);
             this.Controls.SetChildIndex(this.ControlBox, 0);
             this.Controls.SetChildIndex(this.btnClose, 0);
             this.Controls.SetChildIndex(this.LblFormName, 0);
-            this.Controls.SetChildIndex(this.lblMessage, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Label lblMessage;
         protected ButtonControl btnClose;
+        private TextControl txbMessage;
     }
 }

@@ -41,9 +41,19 @@ namespace UserInterface.Forms
         /// Create a new instance of <see cref="CustomForm"/> with the option to automatically set its dimensions to full size
         /// </summary>
         /// <param name="fullSize">The full size option</param>
-        public CustomForm(bool fullSize) : this()
+        public CustomForm(bool fullSize)
         {
+            InitializeComponent();
+
+            if (fullSize)
+            {
+                Rectangle workingArea = Screen.FromHandle(Handle).WorkingArea;
+                MaximizedBounds = new Rectangle(0, 0, workingArea.Width, workingArea.Height);
+                WindowState = FormWindowState.Maximized;
+            }
+
             FullSize = fullSize;
+            invokedFromThis = false;
         }
 
         // Mouse drag variables

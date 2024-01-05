@@ -159,6 +159,12 @@
     <Compile Include="DigitalControl.Designer.cs">
       <DependentUpon>DigitalControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="DynamicJsonPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DynamicJsonPanel.designer.cs">
+      <DependentUpon>DynamicJsonPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="InstructionControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -325,6 +331,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DigitalControl.resx">
       <DependentUpon>DigitalControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DynamicJsonPanel.resx">
+      <DependentUpon>DynamicJsonPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="InstructionControl.resx">
       <DependentUpon>InstructionControl.cs</DependentUpon>

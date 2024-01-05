@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Extensions;
+using System;
+using System.Dynamic;
 using System.Windows.Forms;
 
 namespace UserInterface.Controls
@@ -71,7 +73,9 @@ namespace UserInterface.Controls
                 UpdateView(buffer);
             }
             else
+            {                
                 UpdateView(new[] { ViewArray[0] }); // Locked on first element
+            }
         }
 
         private void BtnClick_Next(object sender, EventArgs e)
@@ -86,7 +90,9 @@ namespace UserInterface.Controls
                 UpdateView(buffer);
             }
             else
+            {
                 UpdateView(new[] { ViewArray[ViewArray.Length - 1] });
+            }
         }
 
         private void UpdateView(object[] array)
@@ -95,10 +101,31 @@ namespace UserInterface.Controls
             {
                 int n = Math.Min(MaxItemsShown, array.Length);
                 for (int i = 0; i < n; i++)
-                    TextControls[i].Text = array[i] != null ? array[i].ToString() : string.Empty;
+                {
+                    if (array[i] == null)
+                    {
+                        TextControls[i].Text = string.Empty;
+                    }
+                    else if (array[i] is ExpandoObject expando)
+                    {
+                        TextControls[i].Text = expando.CustomToString();
+                        ToolTip tip = new ToolTip
+                        {
+                            ToolTipIcon = ToolTipIcon.Info,
+                            IsBalloon = true
+                        };
+                        tip.SetToolTip(TextControls[i], TextControls[i].Text);
+                    }
+                    else
+                    {
+                        TextControls[i].Text = array[i].ToString();
+                    }
+                }
             }
             else
+            {
                 BeginInvoke(new Action(() => UpdateView(array))); // Locked on last element
+            }
         }
     }
 }

@@ -46,12 +46,13 @@
             // 
             this.txb10.BackColor = System.Drawing.SystemColors.Control;
             this.txb10.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txb10.Enabled = false;
             this.txb10.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
+            this.txb10.ForeColor = System.Drawing.SystemColors.GrayText;
             this.txb10.Location = new System.Drawing.Point(320, 5);
             this.txb10.Name = "txb10";
             this.txb10.NumericsOnly = false;
             this.txb10.PlaceholderText = "";
+            this.txb10.ReadOnly = true;
             this.txb10.Size = new System.Drawing.Size(32, 25);
             this.txb10.TabIndex = 2;
             // 
@@ -59,12 +60,13 @@
             // 
             this.txb9.BackColor = System.Drawing.SystemColors.Control;
             this.txb9.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txb9.Enabled = false;
             this.txb9.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
+            this.txb9.ForeColor = System.Drawing.SystemColors.GrayText;
             this.txb9.Location = new System.Drawing.Point(288, 5);
             this.txb9.Name = "txb9";
             this.txb9.NumericsOnly = false;
             this.txb9.PlaceholderText = "";
+            this.txb9.ReadOnly = true;
             this.txb9.Size = new System.Drawing.Size(32, 25);
             this.txb9.TabIndex = 2;
             // 
@@ -72,12 +74,13 @@
             // 
             this.txb8.BackColor = System.Drawing.SystemColors.Control;
             this.txb8.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txb8.Enabled = false;
             this.txb8.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
+            this.txb8.ForeColor = System.Drawing.SystemColors.GrayText;
             this.txb8.Location = new System.Drawing.Point(256, 5);
             this.txb8.Name = "txb8";
             this.txb8.NumericsOnly = false;
             this.txb8.PlaceholderText = "";
+            this.txb8.ReadOnly = true;
             this.txb8.Size = new System.Drawing.Size(32, 25);
             this.txb8.TabIndex = 2;
             // 
@@ -85,12 +88,13 @@
             // 
             this.txb7.BackColor = System.Drawing.SystemColors.Control;
             this.txb7.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txb7.Enabled = false;
             this.txb7.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
+            this.txb7.ForeColor = System.Drawing.SystemColors.GrayText;
             this.txb7.Location = new System.Drawing.Point(224, 5);
             this.txb7.Name = "txb7";
             this.txb7.NumericsOnly = false;
             this.txb7.PlaceholderText = "";
+            this.txb7.ReadOnly = true;
             this.txb7.Size = new System.Drawing.Size(32, 25);
             this.txb7.TabIndex = 2;
             // 
@@ -98,12 +102,13 @@
             // 
             this.txb6.BackColor = System.Drawing.SystemColors.Control;
             this.txb6.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txb6.Enabled = false;
             this.txb6.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
+            this.txb6.ForeColor = System.Drawing.SystemColors.GrayText;
             this.txb6.Location = new System.Drawing.Point(192, 5);
             this.txb6.Name = "txb6";
             this.txb6.NumericsOnly = false;
             this.txb6.PlaceholderText = "";
+            this.txb6.ReadOnly = true;
             this.txb6.Size = new System.Drawing.Size(32, 25);
             this.txb6.TabIndex = 2;
             // 
@@ -111,12 +116,13 @@
             // 
             this.txb5.BackColor = System.Drawing.SystemColors.Control;
             this.txb5.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txb5.Enabled = false;
             this.txb5.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
+            this.txb5.ForeColor = System.Drawing.SystemColors.GrayText;
             this.txb5.Location = new System.Drawing.Point(160, 5);
             this.txb5.Name = "txb5";
             this.txb5.NumericsOnly = false;
             this.txb5.PlaceholderText = "";
+            this.txb5.ReadOnly = true;
             this.txb5.Size = new System.Drawing.Size(32, 25);
             this.txb5.TabIndex = 2;
             // 
@@ -124,12 +130,13 @@
             // 
             this.txb4.BackColor = System.Drawing.SystemColors.Control;
             this.txb4.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txb4.Enabled = false;
             this.txb4.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
+            this.txb4.ForeColor = System.Drawing.SystemColors.GrayText;
             this.txb4.Location = new System.Drawing.Point(128, 5);
             this.txb4.Name = "txb4";
             this.txb4.NumericsOnly = false;
             this.txb4.PlaceholderText = "";
+            this.txb4.ReadOnly = true;
             this.txb4.Size = new System.Drawing.Size(32, 25);
             this.txb4.TabIndex = 2;
             // 
@@ -137,12 +144,13 @@
             // 
             this.txb3.BackColor = System.Drawing.SystemColors.Control;
             this.txb3.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txb3.Enabled = false;
             this.txb3.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
+            this.txb3.ForeColor = System.Drawing.SystemColors.GrayText;
             this.txb3.Location = new System.Drawing.Point(96, 5);
             this.txb3.Name = "txb3";
             this.txb3.NumericsOnly = false;
             this.txb3.PlaceholderText = "";
+            this.txb3.ReadOnly = true;
             this.txb3.Size = new System.Drawing.Size(32, 25);
             this.txb3.TabIndex = 2;
             // 
@@ -150,12 +158,13 @@
             // 
             this.txb2.BackColor = System.Drawing.SystemColors.Control;
             this.txb2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txb2.Enabled = false;
             this.txb2.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
+            this.txb2.ForeColor = System.Drawing.SystemColors.GrayText;
             this.txb2.Location = new System.Drawing.Point(64, 5);
             this.txb2.Name = "txb2";
             this.txb2.NumericsOnly = false;
             this.txb2.PlaceholderText = "";
+            this.txb2.ReadOnly = true;
             this.txb2.Size = new System.Drawing.Size(32, 25);
             this.txb2.TabIndex = 2;
             // 
@@ -163,12 +172,13 @@
             // 
             this.txb1.BackColor = System.Drawing.SystemColors.Control;
             this.txb1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txb1.Enabled = false;
             this.txb1.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
+            this.txb1.ForeColor = System.Drawing.SystemColors.GrayText;
             this.txb1.Location = new System.Drawing.Point(32, 5);
             this.txb1.Name = "txb1";
             this.txb1.NumericsOnly = false;
             this.txb1.PlaceholderText = "";
+            this.txb1.ReadOnly = true;
             this.txb1.Size = new System.Drawing.Size(32, 25);
             this.txb1.TabIndex = 2;
             // 
