@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using OX.Copyable;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -243,6 +244,23 @@ namespace Extensions
             var field = source.GetType().GetField(name, bindingFlags);
 
             return (T)field?.GetValue(source);
+        }
+
+        /// <summary>
+        /// Implements a custom <c>ToString()</c> method for <see cref="ExpandoObject"/>
+        /// </summary>
+        /// <param name="source">The source <see cref="ExpandoObject"/></param>
+        /// <returns>The custom literal description of <paramref name="source"/></returns>
+        public static string CustomToString(this ExpandoObject source)
+        {
+            string description = string.Empty;
+            foreach(KeyValuePair<string, object> item in source)
+            {
+                description += $"{item.Key}: {item.Value}, ";
+            }
+
+            description = description.TrimEnd(new[] { ',', ' ' });
+            return description;
         }
     }
 }

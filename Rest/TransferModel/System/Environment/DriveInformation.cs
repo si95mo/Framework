@@ -48,5 +48,11 @@ namespace Rest.TransferModel.System.Environment
             TotalSize = driveInfo.TotalSize / Math.Pow(1024d, 3d);
             AvailableFreeSpace = driveInfo.AvailableFreeSpace / Math.Pow(1024d, 3d);
         }
+
+        public override string ToString()
+        {
+            string description = Name ?? "Unknown";
+            return description;
+        }
     }
 }

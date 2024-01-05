@@ -96,13 +96,17 @@ namespace Rest
         }
 
         /// <summary>
-        /// Perform and async GET with the actual
-        /// <see cref="Request"/>
+        /// Perform and async GET with the actual <see cref="Request"/>
         /// </summary>
         /// <returns>The GET result</returns>
-        public async Task<string> Get()
+        public async Task<string> GetAsync()
         {
-            string actualRequest = $"{uri}/{request}";
+            string uriToUse = uri.ToString();
+            if (uriToUse.EndsWith("/"))
+            {
+                uriToUse = uriToUse.TrimEnd('/');
+            }
+            string actualRequest = $"{uriToUse}/{request}";
 
             try
             {
@@ -121,12 +125,24 @@ namespace Rest
         }
 
         /// <summary>
-        /// Perform and async POST with the actual
-        /// <see cref="Request"/>
+        /// Perform a GET request
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <returns>The GET result</returns>
+        public async Task<string> GetAsync(string request)
+        {
+            Request = request;
+            string response = await GetAsync();
+
+            return response;
+        }
+
+        /// <summary>
+        /// Perform and async POST with the actual <see cref="Request"/>
         /// </summary>
         /// <param name="data">The data to send (as json)</param>
         /// <returns>The POST result</returns>
-        public async Task<string> Post(object data)
+        public async Task<string> PostAsync(object data)
         {
             string json = JsonConvert.SerializeObject(data);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -147,6 +163,20 @@ namespace Rest
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Perform and async POST with the actual <see cref="Request"/>
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="data">The data to send (as json)</param>
+        /// <returns>The POST result</returns>
+        public async Task<string> PostAsync(string request, object data)
+        {
+            Request = request;
+            string response = await PostAsync(data);
+
+            return response;
         }
     }
 }
