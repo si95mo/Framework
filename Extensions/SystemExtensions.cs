@@ -247,7 +247,7 @@ namespace Extensions
         }
 
         /// <summary>
-        /// Implements a custom <c>ToString()</c> method for <see cref="ExpandoObject"/>
+        /// Implements a custom <c>ToString()</c> method for <see cref="ExpandoObject"/> in the form of <c>"Key 1": "Value 1", ..., "Key n": "Value n"</c>
         /// </summary>
         /// <param name="source">The source <see cref="ExpandoObject"/></param>
         /// <returns>The custom literal description of <paramref name="source"/></returns>
