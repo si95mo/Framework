@@ -147,17 +147,33 @@ namespace Hardware
         /// Handle the operations to perform in case of an <see cref="Exception"/>
         /// </summary>
         /// <remarks>
-        /// This method should be called inside each try-catch block in each concrete class
-        /// that inherits from <see cref="Resource"/>. <br/>
-        /// This method set the <see cref="Status"/> to <see cref="ResourceStatus.Failure"/>,
-        /// set the <see cref="LastFailure"/> accordingly and log the <paramref name="ex"/>
+        /// This method should be called inside each try-catch block in each concrete class that inherits from <see cref="Resource"/>. <br/>
+        /// This method set the <see cref="Status"/> to <see cref="ResourceStatus.Failure"/>, set the <see cref="LastFailure"/> accordingly and log the <paramref name="ex"/>
         /// </remarks>
         /// <param name="ex">The <see cref="Exception"/> occurred</param>
         protected void HandleException(Exception ex)
         {
             failure = new Failure(ex);
             Status.Value = ResourceStatus.Failure;
+
             Logger.Log(ex);
+        }
+
+        /// <summary>
+        /// Handle the operations to perform in case of an <see cref="Exception"/> asynchronously
+        /// </summary>
+        /// <remarks>
+        /// This method should be called inside each try-catch block in each concrete class that inherits from <see cref="Resource"/>. <br/>
+        /// This method set the <see cref="Status"/> to <see cref="ResourceStatus.Failure"/>, set the <see cref="LastFailure"/> accordingly and log the <paramref name="ex"/>
+        /// </remarks>
+        /// <param name="ex">The <see cref="Exception"/> occurred</param>
+        /// <returns>The (async) <see cref="Task"/></returns>
+        protected async Task HandleExceptionAsync(Exception ex)
+        {
+            failure = new Failure(ex);
+            Status.Value = ResourceStatus.Failure;
+
+            await Logger.ErrorAsync(ex);
         }
 
         /// <summary>
@@ -174,7 +190,27 @@ namespace Hardware
         {
             failure = new Failure(message);
             Status.Value = ResourceStatus.Failure;
-            Logger.Log(message, Severity.Error);
+
+            Logger.Error(message);
+        }
+
+        /// <summary>
+        /// Handle the operations to perform in case of a generic <see cref="Resource"/> failure asynchronously
+        /// </summary>
+        /// <remarks>
+        /// This method should be called inside each if-else block in each concrete class
+        /// that inherits from <see cref="Resource"/>. <br/>
+        /// This method set the <see cref="Status"/> to <see cref="ResourceStatus.Failure"/>,
+        /// set the <see cref="LastFailure"/> accordingly and log the <paramref name="message"/>
+        /// </remarks>
+        /// <param name="message">The error message</param>
+        /// <returns>The (async) <see cref="Task"/></returns>
+        protected async Task HandleExceptionAsync(string message)
+        {
+            failure = new Failure(message);
+            Status.Value = ResourceStatus.Failure;
+
+            await Logger.ErrorAsync(message);
         }
     }
 }
