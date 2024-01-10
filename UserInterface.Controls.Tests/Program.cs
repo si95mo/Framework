@@ -2,6 +2,7 @@
 using Hardware;
 using System;
 using System.Windows.Forms;
+using UserInterface.Forms;
 
 namespace UserInterface.Controls.Tests
 {
@@ -56,7 +57,9 @@ namespace UserInterface.Controls.Tests
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new TasksForm());
+
+            CustomForm form = new TasksForm();
+            Application.Run(form);
             //Application.Run(new TreeViewTestForm());
         }
     }

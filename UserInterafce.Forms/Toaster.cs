@@ -11,9 +11,12 @@ namespace UserInterface.Forms
         {
             InitializeComponent();
 
-            timer.Interval = 10000; // 10s
-            timer.Enabled = true;
-            timer.Start();
+            StartPosition = FormStartPosition.Manual;
+            TopMost = true;
+
+            // Adjust labels Z-value to avoid overlapping in the close label
+            lblClose.BringToFront();
+            lblMessage.SendToBack();
         }
 
         #region Public methods
@@ -24,7 +27,8 @@ namespace UserInterface.Forms
         /// <param name="message">The message to display</param>
         /// <param name="toasterType">The <see cref="ToasterType"/></param>
         /// <param name="owner">The <see cref="Toaster"/> owner (i.e. who calls the <see cref="Form.ShowDialog()"/></param>
-        public void ShowToaster(string message, ToasterType toasterType, Form owner)
+        /// <param name="displayDurationInMilliseconds">The <see cref="Toaster"/> display duration, in milliseconds</param>
+        public void ShowToaster(string message, ToasterType toasterType, Form owner, int displayDurationInMilliseconds = 10000)
         {
             lblMessage.Text = message;
 
@@ -47,9 +51,16 @@ namespace UserInterface.Forms
             Point ownerLocation = owner.Location;
 
             // Center the control based on the owner that called it
-            Location = new Point((ownerSize.Width - Width) / 2, ownerLocation.Y - (Height + Height / 2));
+            int x = (ownerSize.Width - Width) / 2;
+            int y = ownerLocation.Y + UiService.ToasterCounter == 1 ? UiService.ToasterCounter * Height + Height / 2 : UiService.ToasterCounter * (Height + 8) + Height / 2;
+            Location = new Point(x, y);
 
-            ShowDialog(owner);
+            Show();
+
+            // Start the timer
+            timer.Interval = displayDurationInMilliseconds;
+            timer.Enabled = true;
+            timer.Start();
         }
 
         /// <summary>
@@ -59,8 +70,9 @@ namespace UserInterface.Forms
         /// <param name="message">The message to display</param>
         /// <param name="toasterType">The <see cref="ToasterType"/></param>
         /// <param name="owner">The <see cref="Toaster"/> owner (i.e. who calls the <see cref="Form.ShowDialog()"/></param>
-        public static void ShowToaster(Toaster toaster, string message, ToasterType toasterType, Form owner)
-            => toaster.ShowToaster(message, toasterType, owner);
+        /// <param name="displayDurationInMilliseconds">The <see cref="Toaster"/> display duration, in milliseconds</param>
+        public static void ShowToaster(Toaster toaster, string message, ToasterType toasterType, Form owner, int displayDurationInMilliseconds = 10000)
+            => toaster.ShowToaster(message, toasterType, owner, displayDurationInMilliseconds);
 
         #endregion Public methods
 
@@ -75,7 +87,7 @@ namespace UserInterface.Forms
         {
             if (!InvokeRequired)
             {
-                DestroyHandle();
+                DestroyToaster();
             }
             else
             {

@@ -59,9 +59,13 @@ namespace UserInterface.Controls
             // ExpandoObject supports IDictionary so we can extend it like this
             IDictionary<string, object> expandoDictionary = expandoObject;
             if (expandoDictionary.ContainsKey(propertyName))
+            {
                 expandoDictionary[propertyName] = propertyValue;
+            }
             else
+            {
                 expandoDictionary.Add(propertyName, propertyValue);
+            }
         }
 
         private readonly Dictionary<string, Control> values;
@@ -117,7 +121,9 @@ namespace UserInterface.Controls
                 }
             }
             else
+            {
                 BeginInvoke(new Action(() => UpdateText(json, controlsEnabled)));
+            }
         }
 
         private void SetDeserializedJson(bool controlsEnabled, ExpandoObject deserializedJson)
@@ -125,9 +131,12 @@ namespace UserInterface.Controls
             if (deserializedJson != null)
             {
                 values.Clear();
+                pnlContainer.Controls.Clear();
+                Controls.Clear();
+                Controls.Add(pnlContainer);
 
-                Control control = null;
-                int offset = 0, factor = 0, numberOfResizes = 0;
+                Control control;
+                int offset = 0, factor, numberOfResizes = 0;
                 foreach (KeyValuePair<string, object> property in deserializedJson)
                 {
                     if (property.Value as IEnumerable<object> != null) // Array

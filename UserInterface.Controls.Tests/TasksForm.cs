@@ -5,6 +5,7 @@ using Diagnostic.Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
 using Tasks;
 using UserInterface.Forms;
 
@@ -13,6 +14,7 @@ namespace UserInterface.Controls.Tests
     public partial class TasksForm : CustomForm
     {
         private Alarm alarm;
+        private readonly UiService uiService;
 
         public TasksForm()
         {
@@ -24,6 +26,9 @@ namespace UserInterface.Controls.Tests
             ServiceBroker.Provide(new TasksService());
             ServiceBroker.Provide(new SchedulersService(maxDegreesOfParallelism: 4));
             ServiceBroker.Provide(new DiagnosticMessagesService());
+
+            uiService = new UiService(this);
+            ServiceBroker.Provide(uiService);
 
             Scheduler cyclicScheduler = new Scheduler("CyclicScheduler", maxDegreesOfParallelism: 25);
             alarm = new Alarm("Alarm", "Alarm fired", string.Empty, null);
@@ -75,6 +80,10 @@ namespace UserInterface.Controls.Tests
             {
                 task.Start();
             }
+
+            uiService.ShowToaster($"{DateTime.Now:HH:mm:ss.fff} >> Toaster test 1", ToasterType.Message, TimeSpan.FromSeconds(5d));
+            uiService.ShowToaster($"{DateTime.Now:HH:mm:ss.fff} >> Toaster test 2", ToasterType.Warning, TimeSpan.FromSeconds(5d));
+            uiService.ShowToaster($"{DateTime.Now:HH:mm:ss.fff} >> Toaster test 3", ToasterType.Error, TimeSpan.FromSeconds(5d));
         }
 
         private void BtnFireAlarm_Click(object sender, EventArgs e)

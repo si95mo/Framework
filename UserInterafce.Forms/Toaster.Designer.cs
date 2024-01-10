@@ -41,7 +41,8 @@
             this.lblClose.Name = "lblClose";
             this.lblClose.Size = new System.Drawing.Size(20, 20);
             this.lblClose.TabIndex = 0;
-            this.lblClose.Text = "X";
+            this.lblClose.Text = "x";
+            this.lblClose.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblClose.Click += new System.EventHandler(this.LblClose_Click);
             // 
             // timer
@@ -52,6 +53,7 @@
             // 
             // lblMessage
             // 
+            this.lblMessage.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblMessage.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
             this.lblMessage.Location = new System.Drawing.Point(0, 0);
             this.lblMessage.Name = "lblMessage";
