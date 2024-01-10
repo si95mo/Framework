@@ -8,31 +8,19 @@ namespace Core
     /// </summary>
     public class Failure : IFailure
     {
-        private string description;
         private DateTime timestamp;
 
         /// <summary>
-        /// The object lock
+        /// The lock <see cref="object"/>
         /// </summary>
-        protected object objectLock = new object();
+        protected object Sync = new object();
 
-        /// <summary>
-        /// The value changed <see cref="EventHandler"/>
-        /// </summary>
-        protected EventHandler<ValueChangedEventArgs> ValueChangedHandler;
+        #region IFailure properties implementation
 
-        /// <summary>
-        /// The <see cref="Failure"/> description
-        /// </summary>
-        public string Description
-        {
-            get => description;
-            set => description = value;
-        }
+        public event EventHandler<ValueChangedEventArgs> FailureChanged;
 
-        /// <summary>
-        /// The <see cref="Failure"/> timestamp
-        /// </summary>
+        public string Description { get; set; }
+
         public DateTime Timestamp
         {
             get => timestamp;
@@ -40,25 +28,38 @@ namespace Core
             {
                 if (!value.Equals(timestamp))
                 {
-                    DateTime oldTimestamp = timestamp;
-                    timestamp = value;
-                    OnValueChanged(new ValueChangedEventArgs(oldTimestamp, timestamp));
+                    lock (Sync)
+                    {
+                        IFailure oldFailure = FromFailure(this);
+
+                        DateTime oldTimestamp = timestamp;
+                        timestamp = value;
+
+                        FailureChanged?.Invoke(this, new ValueChangedEventArgs(oldFailure, this));
+                    }
                 }
             }
         }
+
+        public Exception Exception { get; set; }
 
         /// <summary>
         /// The <see cref="Failure"/> default value
         /// </summary>
         public IFailure Default => new Failure();
 
+        #endregion IFailure properties implementation
+
+        #region Constructors
+
         /// <summary>
         /// Create a new instance of <see cref="Failure"/>
         /// </summary>
         public Failure()
         {
-            description = string.Empty;
+            Description = string.Empty;
             Timestamp = new DateTime();
+            Exception = default;
         }
 
         /// <summary>
@@ -68,8 +69,9 @@ namespace Core
         /// <param name="timestamp">The timestamp</param>
         public Failure(string description, DateTime timestamp)
         {
-            this.description = description;
+            Description = description;
             Timestamp = timestamp;
+            Exception = default;
         }
 
         /// <summary>
@@ -82,61 +84,99 @@ namespace Core
         /// <summary>
         /// Create a new instance of <see cref="Failure"/>
         /// </summary>
-        /// <param name="ex">The <see cref="Exception"/> occurred</param>
-        public Failure(Exception ex) : this(ex.Message, DateTime.Now)
+        /// <param name="ex">The <see cref="System.Exception"/> occurred</param>
+        public Failure(Exception ex) : this(ex, DateTime.Now)
         { }
 
         /// <summary>
-        /// The <see cref="EventHandler"/> for the
-        /// value changed event
+        /// Create a new instance of <see cref="Failure"/>
         /// </summary>
-        public event EventHandler<ValueChangedEventArgs> ValueChanged
+        /// <param name="ex">The <see cref="System.Exception"/> occurred</param>
+        /// <param name="timestamp">The timestamp</param>
+        public Failure(Exception ex, DateTime timestamp) : this(ex.Message, timestamp)
         {
-            add
-            {
-                lock (objectLock)
-                {
-                    ValueChangedHandler += value;
-                }
-            }
-
-            remove
-            {
-                lock (objectLock)
-                {
-                    ValueChangedHandler -= value;
-                }
-            }
+            Exception = ex;
         }
 
-        /// <summary>
-        /// On value changed event
-        /// </summary>
-        /// <param name="e">The <see cref="ValueChangedEventArgs"/></param>
-        protected virtual void OnValueChanged(ValueChangedEventArgs e)
-        {
-            ValueChangedHandler?.Invoke(this, e);
-        }
+        #endregion Constructors
+
+        #region IFailure methods implementation
 
         /// <summary>
-        /// Clear the <see cref="Failure"/>,
-        /// resetting it to default values
+        /// Clear the <see cref="Failure"/>, resetting it to default values
         /// </summary>
         public void Clear()
         {
-            description = string.Empty;
-            Timestamp = new DateTime();
+            lock (Sync)
+            {
+                Description = string.Empty;
+                Exception = default;
+                Timestamp = new DateTime(); // ValueChanged
+            }
         }
 
+        public void Update(string description, Exception ex = default)
+        {
+            lock (Sync)
+            {
+                Description = description;
+                Exception = ex;
+                Timestamp = DateTime.Now; // ValueChanged
+            }
+        }
+
+        #endregion IFailure methods implementation
+
         /// <summary>
-        /// Return a description of the object
-        /// See also <see cref="object.ToString()"/>
+        /// Return a description of the object. See also <see cref="object.ToString()"/>
         /// </summary>
         /// <returns>The description of the object</returns>
         public override string ToString()
         {
-            string description = $"{timestamp:yyyy/MM/dd-HH:mm:ss:fff}; {this.description}";
+            string description = $"{timestamp:yyyy/MM/dd-HH:mm:ss:fff}; {Description}";
             return description;
         }
+
+        #region Factory methods
+
+        /// <summary>
+        /// Create a new <see cref="IFailure"/> from an <see cref="Exception"/>
+        /// </summary>
+        /// <param name="ex">The <see cref="Exception"/></param>
+        /// <returns>The new <see cref="IFailure"/></returns>
+        public static IFailure FromException(Exception ex)
+        {
+            Failure failure = new Failure(ex);
+            return failure;
+        }
+
+        /// <summary>
+        /// Create a new <see cref="IFailure"/> from an error message
+        /// </summary>
+        /// <param name="message">The error message</param>
+        /// <returns>The new <see cref="IFailure"/></returns>
+        public static IFailure FromErrorMessage(string message)
+        {
+            Failure failure = new Failure(message);
+            return failure;
+        }
+
+        /// <summary>
+        /// Create a new <see cref="IFailure"/> from an existing one
+        /// </summary>
+        /// <param name="failure">The original <see cref="IFailure"/></param>
+        /// <returns>The new <see cref="IFailure"/></returns>
+        public static IFailure FromFailure(IFailure failure)
+        {
+            Failure copy = new Failure(failure.Description, failure.Timestamp);
+            if (failure.Exception != default)
+            {
+                copy.Exception = failure.Exception;
+            }
+
+            return copy;
+        }
+
+        #endregion Factory methods
     }
 }

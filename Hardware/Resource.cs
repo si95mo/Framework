@@ -153,7 +153,7 @@ namespace Hardware
         /// <param name="ex">The <see cref="Exception"/> occurred</param>
         protected void HandleException(Exception ex)
         {
-            failure = new Failure(ex);
+            failure.Update(ex.Message, ex);
             Status.Value = ResourceStatus.Failure;
 
             Logger.Log(ex);
@@ -170,7 +170,7 @@ namespace Hardware
         /// <returns>The (async) <see cref="Task"/></returns>
         protected async Task HandleExceptionAsync(Exception ex)
         {
-            failure = new Failure(ex);
+            failure.Update(ex.Message, ex);
             Status.Value = ResourceStatus.Failure;
 
             await Logger.ErrorAsync(ex);
@@ -188,7 +188,7 @@ namespace Hardware
         /// <param name="message">The error message</param>
         protected void HandleException(string message)
         {
-            failure = new Failure(message);
+            failure.Update(message);
             Status.Value = ResourceStatus.Failure;
 
             Logger.Error(message);
@@ -207,7 +207,7 @@ namespace Hardware
         /// <returns>The (async) <see cref="Task"/></returns>
         protected async Task HandleExceptionAsync(string message)
         {
-            failure = new Failure(message);
+            failure.Update(message);
             Status.Value = ResourceStatus.Failure;
 
             await Logger.ErrorAsync(message);
