@@ -28,7 +28,8 @@ namespace Core.Converters
         /// </summary>
         /// <remarks>If <paramref name="lambda"/> is not between 0 and 1, a value of 0.5 is assigned by default</remarks>
         /// <param name="lambda">The forgetting factor (in 0 and 1, inclusive)</param>
-        public ExponentialMovingAverageConverter(double lambda) : base()
+        /// <param name="onValueChange">The option to trigger the update on value change or set event</param>
+        public ExponentialMovingAverageConverter(double lambda, bool onValueChange = true) : base(onValueChange)
         {
             this.lambda = lambda <= 1 && lambda >= 0 ? lambda : 0.5;
             Converter = MovingAverage();

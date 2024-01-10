@@ -12,7 +12,8 @@ namespace Core.Converters
         /// Create a new instance of <see cref="BitExtractorConverter"/>
         /// </summary>
         /// <param name="position">The bit position</param>
-        public BitExtractorConverter(int position) : base()
+        /// <param name="onValueChange">The option to trigger update on value change or set event</param>
+        public BitExtractorConverter(int position, bool onValueChange = true) : base(onValueChange)
         {
             Converter = new Func<double, bool>(x => ExtractBit(x, 1, position) != 0);
         }

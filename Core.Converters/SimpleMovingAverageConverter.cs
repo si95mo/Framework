@@ -28,7 +28,8 @@ namespace Core.Converters
         /// Initialize a new instance of <see cref="SimpleMovingAverageConverter"/>
         /// </summary>
         /// <param name="windowSize">The moving average window size</param>
-        public SimpleMovingAverageConverter(int windowSize) : base()
+        /// <param name="onValueChange">The option to trigger the update on value change or set event</param>
+        public SimpleMovingAverageConverter(int windowSize, bool onValueChange = true) : base(onValueChange)
         {
             this.windowSize = windowSize;
             Converter = MovingAverage(this.windowSize);

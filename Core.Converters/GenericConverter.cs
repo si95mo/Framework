@@ -13,7 +13,8 @@ namespace Core.Converters
         /// Initialize a new instance of <see cref="GenericConverter{TIn, TOut}"/>
         /// </summary>
         /// <param name="converter">The conversion <see cref="Func{T, TResult}"/></param>
-        public GenericConverter(Func<TIn, TOut> converter) : base()
+        /// <param name="onValueChange">The option to trigger the update on value change or set event</param>
+        public GenericConverter(Func<TIn, TOut> converter, bool onValueChange = true) : base(onValueChange)
         {
             Converter = converter;
         }

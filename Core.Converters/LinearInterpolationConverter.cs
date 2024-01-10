@@ -35,7 +35,8 @@ namespace Core.Converters
         /// <param name="x1">The source second value</param>
         /// <param name="y0">The destination first value</param>
         /// <param name="y1">The destination second value</param>
-        public LinearInterpolationConverter(double x0, double x1, double y0, double y1) : base()
+        /// <param name="onValueChange">The option to trigger the update on value change or set event</param>
+        public LinearInterpolationConverter(double x0, double x1, double y0, double y1, bool onValueChange = true) : base(onValueChange)
         {
             X0 = x0;
             X1 = x1;

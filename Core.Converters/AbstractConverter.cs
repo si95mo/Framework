@@ -12,6 +12,8 @@ namespace Core.Converters
         protected IProperty<TIn> sourceParameter;
         protected IProperty<TOut> destinationParameter;
 
+        public bool OnValueChange { get; protected set; }
+
         /// <summary>
         /// The <see cref="AbstractConverter{TIn, TOut}"/> <see cref="Func{T, TResult}"/>
         /// used in conversion
@@ -21,10 +23,12 @@ namespace Core.Converters
         /// <summary>
         /// Create a new instance of <see cref="AbstractConverter{TIn, TOut}"/>
         /// </summary>
-        protected AbstractConverter()
+        protected AbstractConverter(bool onValueChange)
         {
             sourceParameter = null;
             destinationParameter = null;
+
+            OnValueChange = onValueChange;
         }
 
         /// <summary>
@@ -43,7 +47,15 @@ namespace Core.Converters
 
             this.destinationParameter.Value = Converter.Invoke((sourceParameter as IProperty<TIn>).Value);
 
-            this.sourceParameter.ValueChanged += SourceParameter_ValueChanged;
+            if (OnValueChange)
+            {
+                this.sourceParameter.ValueChanged += SourceParameter_ValueChanged;
+
+            }
+            else
+            {
+                this.sourceParameter.ValueSet += SourceParameter_ValueSet;
+            }
         }
 
         /// <summary>
@@ -52,6 +64,11 @@ namespace Core.Converters
         /// <param name="sender">The sender</param>
         /// <param name="e">The <see cref="ValueChangedEventArgs"/></param>
         protected virtual void SourceParameter_ValueChanged(object sender, ValueChangedEventArgs e)
+        {
+            destinationParameter.Value = Converter.Invoke(sourceParameter.Value);
+        }
+
+        private void SourceParameter_ValueSet(object sender, ValueSetEventArgs e)
         {
             destinationParameter.Value = Converter.Invoke(sourceParameter.Value);
         }

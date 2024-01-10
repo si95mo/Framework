@@ -14,7 +14,8 @@ namespace Core.Converters
         /// <summary>
         /// Create a new instance of <see cref="OnlineMeanConverter"/>
         /// </summary>
-        public OnlineMeanConverter() : base()
+        /// <param name="onValueChange">The option to trigger the update on value change or set event</param>
+        public OnlineMeanConverter(bool onValueChange = true) : base(onValueChange)
         {
             n = 0;
             lastMean = 0d;
