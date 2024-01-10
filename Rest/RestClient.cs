@@ -2,6 +2,7 @@
 using Diagnostic;
 using Newtonsoft.Json;
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -135,6 +136,32 @@ namespace Rest
             string response = await GetAsync();
 
             return response;
+        }
+
+        public async Task<byte[]> GetBytesAsync(string request)
+        {
+            string uriToUse = uri.ToString();
+            if (uriToUse.EndsWith("/"))
+            {
+                uriToUse = uriToUse.TrimEnd('/');
+            }
+            string actualRequest = $"{uriToUse}/{request}";
+
+            byte[] buffer = Enumerable.Empty<byte>().ToArray();
+            try
+            {
+                response = await client.GetAsync(actualRequest);
+                buffer = await response.Content.ReadAsByteArrayAsync();
+
+                connected = true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Log(ex);
+                connected = false;
+            }
+
+            return buffer;
         }
 
         /// <summary>
