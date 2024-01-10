@@ -14,38 +14,25 @@ namespace Hardware.Resources
     /// Implement a resource that communicates via the tcp protocol.
     /// See also <see cref="IResource"/>
     /// </summary>
-    public class TcpResource : Resource
+    public class TcpResource : StreamResource
     {
-        /// <summary>
-        /// The ip address
-        /// </summary>
-        protected string ipAddress;
-
-        /// <summary>
-        /// The port number
-        /// </summary>
-        protected int port;
-
-        /// <summary>
-        /// The underling <see cref="TcpClient"/>
-        /// </summary>
-        protected TcpClient tcp;
 
         /// <summary>
         /// The <see cref="TcpResource"/> operating state
         /// </summary>
-        public override bool IsOpen => tcp.Connected;
+        public override bool IsOpen => client.Connected;
 
         /// <summary>
         /// The <see cref="TcpResource"/> ip address
         /// </summary>
-        public string IpAddress => ipAddress;
+        public string IpAddress { get; private set; }
 
         /// <summary>
         /// The <see cref="TcpResource"/> port number
         /// </summary>
-        public int Port => port;
+        public int Port { get; private set; }
 
+        private TcpClient client;
         private IPGlobalProperties ipProperties;
         private TcpConnectionInformation[] tcpConnections;
 
@@ -63,10 +50,10 @@ namespace Hardware.Resources
         /// <param name="code">The code</param>
         public TcpResource(string code) : base(code)
         {
-            ipAddress = "";
-            port = 0;
+            IpAddress = "";
+            Port = 0;
 
-            tcp = new TcpClient();
+            client = new TcpClient();
 
             sendDone = new ManualResetEventSlim(false);
             receiveDone = new ManualResetEventSlim(false);
@@ -83,10 +70,10 @@ namespace Hardware.Resources
         {
             try
             {
-                this.ipAddress = ipAddress;
-                this.port = port;
+                IpAddress = ipAddress;
+                Port = port;
 
-                tcp = new TcpClient
+                client = new TcpClient
                 {
                     ReceiveTimeout = timeout,
                     SendTimeout = timeout
@@ -105,34 +92,20 @@ namespace Hardware.Resources
         public void Send(ITcpChannel channel)
         {
             if (Status.Value == ResourceStatus.Executing)
-            {
-                // Convert the string data to byte data using ASCII encoding
-                byte[] byteData = Encoding.ASCII.GetBytes(channel.Request);
-
-                // Begin sending the data to the remote device
-                tcp.Client.BeginSend(
-                    byteData,
-                    0,
-                    byteData.Length,
-                    0,
-                    new AsyncCallback(SendCallback),
-                    tcp.Client
-                );
+            {                
+                byte[] byteData = Encoding.ASCII.GetBytes(channel.Request); // Convert the string data to byte data using ASCII encoding                
+                client.Client.BeginSend(byteData, 0, byteData.Length, 0, new AsyncCallback(SendCallback), client.Client); // Begin sending the data to the remote device
             }
         }
 
         private void SendCallback(IAsyncResult asyncResult)
         {
             try
-            {
-                // Retrieve the socket from the state object.
-                Socket client = (Socket)asyncResult.AsyncState;
-
-                // Complete sending the data to the remote device
-                int bytesSent = client.EndSend(asyncResult);
-
-                // Signal that all bytes have been sent
-                sendDone.Set();
+            {                
+                Socket client = (Socket)asyncResult.AsyncState; // Retrieve the socket from the state object
+                int bytesSent = client.EndSend(asyncResult); // Complete sending the data to the remote device
+                                
+                sendDone.Set(); // Signal that all bytes have been sent
             }
             catch (Exception ex)
             {
@@ -152,18 +125,11 @@ namespace Hardware.Resources
                 {
                     // Create the state object
                     StateObject state = new StateObject();
-                    state.Socket = tcp.Client;
+                    state.Socket = client.Client;
                     state.TcpChannel = channel;
 
                     // Begin receiving the data from the remote device
-                    tcp.Client.BeginReceive(
-                        state.Buffer,
-                        0,
-                        StateObject.BufferSize,
-                        0,
-                        new AsyncCallback(ReceiveCallback),
-                        state
-                    );
+                    client.Client.BeginReceive(state.Buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReceiveCallback), state);
                 }
             }
             catch (Exception e)
@@ -193,20 +159,15 @@ namespace Hardware.Resources
                         state.TcpChannel.Value = state.StringBuilder.ToString();
 
                         // Get the rest of the data
-                        client.BeginReceive(
-                            state.Buffer,
-                            0,
-                            StateObject.BufferSize,
-                            0,
-                            new AsyncCallback(ReceiveCallback),
-                            state
-                        );
+                        client.BeginReceive(state.Buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReceiveCallback), state);
                     }
                     else
                     {
                         // All the data has arrived; put it in response
                         if (state.StringBuilder.Length > 1)
+                        {
                             state.TcpChannel.Value = state.StringBuilder.ToString();
+                        }
 
                         // Signal that all bytes have been received
                         receiveDone.Set();
@@ -252,19 +213,17 @@ namespace Hardware.Resources
         {
             LastFailure.Clear();
             Status.Value = ResourceStatus.Starting;
-            tcp = new TcpClient();
+            client = new TcpClient();
 
             try
             {
-                await tcp.ConnectAsync(ipAddress, port);
+                await client.ConnectAsync(IpAddress, Port);
 
-                if (TestConnection())
-                    Status.Value = ResourceStatus.Executing;
-                else
-                    Status.Value = ResourceStatus.Failure;
-
+                Status.Value = TestConnection() ? ResourceStatus.Executing : ResourceStatus.Failure;
                 if (Status.Value == ResourceStatus.Failure)
+                {
                     LastFailure = new Failure("Error occurred while opening the port!", DateTime.Now);
+                }
             }
             catch (Exception ex)
             {
@@ -278,7 +237,7 @@ namespace Hardware.Resources
         public override void Stop()
         {
             Status.Value = ResourceStatus.Stopping;
-            tcp.Close();
+            client.Close();
             Status.Value = ResourceStatus.Stopped;
         }
 
@@ -299,28 +258,28 @@ namespace Hardware.Resources
                 {
                     ipProperties = IPGlobalProperties.GetIPGlobalProperties();
                     tcpConnections = ipProperties.GetActiveTcpConnections().Where(
-                        x =>
-                            x.LocalEndPoint.Equals(tcp.Client?.LocalEndPoint) &&
-                            x.RemoteEndPoint.Equals(tcp.Client?.RemoteEndPoint)
+                        (x) => x.LocalEndPoint.Equals(client.Client?.LocalEndPoint) && x.RemoteEndPoint.Equals(client.Client?.RemoteEndPoint)
                     ).ToArray();
 
                     if (tcpConnections != null && tcpConnections.Length > 0)
                     {
                         TcpState stateOfConnection = tcpConnections.First().State;
-
                         if (stateOfConnection == TcpState.Established)
+                        {
                             result = true;
+                        }
                     }
                 }
                 else
+                {
                     result = true;
+                }
 
                 return result;
             }
             catch (Exception ex)
             {
                 HandleException(ex);
-
                 return result;
             }
         }

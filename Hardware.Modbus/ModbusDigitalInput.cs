@@ -1,6 +1,5 @@
 ﻿using Core;
 using System;
-using System.Threading.Tasks;
 
 namespace Hardware.Modbus
 {
@@ -38,27 +37,7 @@ namespace Hardware.Modbus
             : base(code, resource, address, function, representation: NumericRepresentation.Boolean)
         {
             this.pollingInterval = pollingInterval;
-            pollingAction = async () =>
-            {
-                while (true)
-                {
-                    await (resource as ModbusResource).Receive(code);
-                    await Task.Delay(pollingInterval);
-                }
-            };
-
             ChannelType = ChannelType.DigitalInput;
-        }
-
-        /// <summary>
-        /// Propagate the value changed event
-        /// </summary>
-        /// <param name="sender">The sender</param>
-        /// <param name="e">The <see cref="ValueChangedEventArgs"/></param>
-        protected override async void PropagateValues(object sender, ValueChangedEventArgs e)
-        {
-            await (Resource as ModbusResource).Receive(Code);
-            base.PropagateValues(sender, e);
         }
     }
 }
