@@ -84,9 +84,12 @@
     <Compile Include="Api\UtilityApi.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Api\InfoApi.cs" />
+    <Compile Include="Helpers.cs" />
     <Compile Include="RestClient.cs" />
     <Compile Include="RestServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TransferModel\Info\RouteInformation.cs" />
+    <Compile Include="TransferModel\Info\ModuleInformation.cs" />
     <Compile Include="TransferModel\System\Environment\DriveInformation.cs" />
     <Compile Include="TransferModel\System\Environment\EnvironmentInformation.cs" />
     <Compile Include="TransferModel\System\Hardware\CpuInformation.cs" />

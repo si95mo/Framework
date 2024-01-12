@@ -37,6 +37,9 @@ namespace Rest.Api
 
                     if (Server != null)
                     {
+                        //StringBuilder html = Helpers.CreateHtmlDocument();
+                        //html = Helpers.AddTitle(html, "Available HTML modules");
+
                         IEnumerable<INancyModule> modules = Server.Bootstrapper.GetAllModules(new NancyContext());
                         if(modules.Any())
                         {
@@ -51,11 +54,11 @@ namespace Rest.Api
                             {
                                 routes.AppendLine(
                                     $"| {new string(Enumerable.Repeat(' ', ModuleNameLength).ToArray())} | " +
-                                    $"{route.Description.Method,MethodLength}{route.Description.Path,RouteLength} |"
+                                    $"{route.Description.Method, MethodLength}{route.Description.Path, RouteLength} |"
                                 );
                             }
 
-                            table.AppendLine($"| {module.GetModuleName(),ModuleNameLength} | {new string(Enumerable.Repeat(' ', MethodLength + RouteLength).ToArray())} |");
+                            table.AppendLine($"| {module.GetModuleName(), ModuleNameLength} | {new string(Enumerable.Repeat(' ', MethodLength + RouteLength).ToArray())} |");
                             table.AppendLine(routes.ToString().TrimEnd(Environment.NewLine.ToCharArray()));
                             table.AddHorizontalLine(ModuleNameLength + MethodLength + RouteLength + 7);
                         }
