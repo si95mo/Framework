@@ -60,6 +60,20 @@ namespace Tasks
         }
 
         /// <summary>
+        /// Await a collection of .NET <see cref="Task"/>
+        /// </summary>
+        /// <param name="task">The <see cref="Task"/> collection to wait</param>
+        /// <returns>The <see cref="WaitForHandler"/></returns>
+        public WaitForHandler Await(Task[] tasks)
+        {
+            foreach (Task task in tasks)
+            {
+                Await(task);
+            }
+            return this;
+        }
+
+        /// <summary>
         /// Await a .NET <see cref="Task{TResult}"/>
         /// </summary>
         /// <typeparam name="T">The type of the <see cref="Task{TResult}"/> to await</typeparam>
@@ -87,6 +101,20 @@ namespace Tasks
 
             task.WaitState.ValueChanged -= WaitState_ValueChanged;
 
+            return this;
+        }
+
+        /// <summary>
+        /// Await a collection of <see cref="IAwaitable"/> tasks
+        /// </summary>
+        /// <param name="task">The <see cref="IAwaitable"/> collection to wait</param>
+        /// <returns>The <see cref="WaitForHandler"/></returns>
+        public WaitForHandler Await(IAwaitable[] tasks)
+        {
+            foreach (IAwaitable task in tasks)
+            {
+                Await(task);
+            }
             return this;
         }
 
