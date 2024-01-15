@@ -21,7 +21,11 @@ namespace Rest
         private Uri uri;
         private NancyHost host;
         private HostConfiguration configuration;
-        internal NancyBootstrapperWithRequestContainerBase<TinyIoCContainer> Bootstrapper;
+
+        /// <summary>
+        /// The <see cref="RestServer"/> bootstrapper
+        /// </summary>
+        public NancyBootstrapperWithRequestContainerBase<TinyIoCContainer> Bootstrapper { get; private set; }
 
         /// <summary>
         /// The <see cref="RestServer"/> <see cref="System.Uri"/>

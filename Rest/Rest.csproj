@@ -97,6 +97,7 @@
     <Compile Include="TransferModel\System\Server\ServerInformation.cs" />
     <Compile Include="TransferModel\System\TimestampInformation.cs" />
     <Compile Include="TransferModel\Utility\EchoInformation.cs" />
+    <Compile Include="TransferModel\Utility\NotFoundInformation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
