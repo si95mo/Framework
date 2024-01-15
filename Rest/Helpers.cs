@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Rest.TransferModel.Info;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,7 +20,8 @@ namespace Rest
                 "<head>\r\n" +
                 "<style>\r\n" +
                 "table {\r\n" +
-                "  font-family: arial, sans-serif;\r\n" +
+                "  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', " +
+                "       Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, sans-serif;\r\n" +
                 "  border-collapse: collapse;\r\n" +
                 "  width: 100%;\r\n" +
                 "}\r\n" +
@@ -27,11 +29,15 @@ namespace Rest
                 "td, th {\r\n" +
                 "  border: 1px solid #dddddd;\r\n" +
                 "  text-align: left;\r\n" +
+                "  color: #f0f0f0ff;\r\n" +
                 "  padding: 16px;\r\n" +
                 "}\r\n" +
                 "\r\n" +
                 "tr:nth-child(even) {\r\n" +
-                "  background-color: #dddddd;\r\n" +
+                "  background-color: #2e2e2eff;\r\n" +
+                "}\r\n" +
+                "tr:nth-child(odd) {\r\n" +
+                "  background-color: #121212ff;\r\n" +
                 "}\r\n" +
                 "</style>\r\n" +
                 "</head>\r\n" +
@@ -48,7 +54,7 @@ namespace Rest
         /// <returns>The updated <paramref name="html"/> <see cref="StringBuilder"/></returns>
         public static StringBuilder AddTitle(StringBuilder html, string title)
         {
-            html.Append($"<h2>{title}</h2>\r\n");
+            html.Append($"<h2 style=\"text-align: center; color: #dc2f2fff;background-color: #2e2e2e2e;\">{title}</h2>");
             return html;
         }
 
@@ -56,26 +62,29 @@ namespace Rest
         /// Add a table to an existing html document
         /// </summary>
         /// <param name="html">The existing html <see cref="StringBuilder"/></param>
-        /// <param name="headers">The table headers</param>
-        /// <param name="contents">The table contents</param>
+        /// <param name="modules">The table headers</param>
+        /// <param name="routes">The table contents</param>
         /// <returns>The updated <paramref name="html"/> <see cref="StringBuilder"/></returns>
-        public static StringBuilder AddTable(StringBuilder html, IEnumerable<string> headers, IEnumerable<IEnumerable<string>> contents)
+        public static StringBuilder AddTable(StringBuilder html, IEnumerable<ModuleInformation> modules, IEnumerable<IEnumerable<RouteInformation>> routes)
         {
-            html.Append("<table>\r\n  <tr>\r\n");
-            foreach (string header in headers)
-            {
-                html.Append($"    <th>{header}</th>\r\n");
-            }
-            foreach (IEnumerable<string> content in contents)
-            {
-                html.Append("  </tr>\r\n  <tr>\r\n");
+            html.Append("<table>\r\n");
 
-                foreach (string item in content)
+            int counter = 0;
+            foreach (ModuleInformation module in modules)
+            {
+                html.Append($"  <tr>\r\n    <th>{module}</th>\r\n");
+                html.Append($"  </tr>\r\n  <tr>\r\n");
+
+                IEnumerable<RouteInformation> moduleRoutes = routes.Skip(counter++).FirstOrDefault();
+                foreach (RouteInformation route in moduleRoutes)
                 {
-                    html.Append($"    <td>{item}</td>\r\n");
+                    html.Append($"    <td>{route}</td>\r\n");
                 }
+
+                html.Append($"  </tr>\r\n");
             }
-            html.Append("  </tr>\r\n</table>\r\n");
+
+            html.Append("</table>\r\n");
 
             return html;
         }

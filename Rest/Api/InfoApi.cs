@@ -2,7 +2,9 @@
 using Nancy.Extensions;
 using Nancy.Routing;
 using Newtonsoft.Json;
+using Rest.TransferModel.Info;
 using Rest.TransferModel.System.Server;
+using Rest.TransferModel.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,56 +34,30 @@ namespace Rest.Api
         {
             Get("info/modules", args =>
                 {
-                    StringBuilder table = new StringBuilder();
-                    StringBuilder routes = new StringBuilder();
-
                     if (Server != null)
                     {
                         StringBuilder htmlBuilder = Helpers.CreateHtmlDocument();
                         htmlBuilder = Helpers.AddTitle(htmlBuilder, "Available HTML modules");
 
                         IEnumerable<INancyModule> modules = Server.Bootstrapper.GetAllModules(new NancyContext());
-                        IEnumerable<string> headers = modules.Select((x) => x.GetModuleName());
-                        IEnumerable<IEnumerable<string>> contents = modules
+                        IEnumerable<ModuleInformation> modulesInformation = modules.Select((x) => new ModuleInformation(x.GetModuleName(), default));
+                        IEnumerable<IEnumerable<RouteInformation>> routesInformation = modules
                             .Select((x) => x.Routes)
-                            .Select((x) =>
-                                x.Select((y) => $"{y.Description.Method}, {y.Description.Path}")
-                            );
+                            .Select((x) => x.Select((y) => new RouteInformation(y)));
 
-                        htmlBuilder = Helpers.AddTable(htmlBuilder, headers, contents);
+                        htmlBuilder = Helpers.AddTable(htmlBuilder, modulesInformation, routesInformation);
                         string html = Helpers.CloseHtmlDocument(htmlBuilder);
 
                         return html;
-
-                        //IEnumerable<INancyModule> modules = Server.Bootstrapper.GetAllModules(new NancyContext());
-                        //if(modules.Any())
-                        //{
-                        //    table.AddHorizontalLine(ModuleNameLength + MethodLength + RouteLength + 7);
-                        //}
-
-                        //foreach (INancyModule module in modules)
-                        //{
-                        //    routes.Clear();
-
-                        //    foreach (Route route in module.Routes)
-                        //    {
-                        //        routes.AppendLine(
-                        //            $"| {new string(Enumerable.Repeat(' ', ModuleNameLength).ToArray())} | " +
-                        //            $"{route.Description.Method, MethodLength}{route.Description.Path, RouteLength} |"
-                        //        );
-                        //    }
-
-                        //    table.AppendLine($"| {module.GetModuleName(), ModuleNameLength} | {new string(Enumerable.Repeat(' ', MethodLength + RouteLength).ToArray())} |");
-                        //    table.AppendLine(routes.ToString().TrimEnd(Environment.NewLine.ToCharArray()));
-                        //    table.AddHorizontalLine(ModuleNameLength + MethodLength + RouteLength + 7);
-                        //}
                     }
                     else
                     {
-                        table.AppendLine("| No REST server provided |");
-                    }
+                        string message = "No REST server provided";
+                        ErrorInformation errorInformation = new ErrorInformation(message, new ArgumentException(message, "info/modules"));
 
-                    return table.ToString();
+                        string json = errorInformation.Serialize();
+                        return json;
+                    }
                 }
             );
 

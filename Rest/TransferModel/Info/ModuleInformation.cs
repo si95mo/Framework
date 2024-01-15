@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
 namespace Rest.TransferModel.Info
 {
-    public class ModuleInformation
+    public class ModuleInformation : Information
     {
         public string Name { get; set; } = string.Empty;
         public RouteInformation[] Routes { get; set; } = Enumerable.Empty<RouteInformation>().ToArray();
@@ -19,5 +15,8 @@ namespace Rest.TransferModel.Info
             Name = name;
             Routes = routes;
         }
+
+        public override string ToString()
+            => Name;
     }
 }
