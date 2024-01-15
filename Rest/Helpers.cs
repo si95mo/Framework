@@ -1,4 +1,7 @@
-﻿using System.Text;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace Rest
 {
@@ -56,16 +59,17 @@ namespace Rest
         /// <param name="headers">The table headers</param>
         /// <param name="contents">The table contents</param>
         /// <returns>The updated <paramref name="html"/> <see cref="StringBuilder"/></returns>
-        public static StringBuilder AddTable(StringBuilder html, string[] headers, string[][] contents)
+        public static StringBuilder AddTable(StringBuilder html, IEnumerable<string> headers, IEnumerable<IEnumerable<string>> contents)
         {
             html.Append("<table>\r\n  <tr>\r\n");
             foreach (string header in headers)
             {
                 html.Append($"    <th>{header}</th>\r\n");
             }
-            foreach (string[] content in contents)
+            foreach (IEnumerable<string> content in contents)
             {
                 html.Append("  </tr>\r\n  <tr>\r\n");
+
                 foreach (string item in content)
                 {
                     html.Append($"    <td>{item}</td>\r\n");

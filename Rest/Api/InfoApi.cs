@@ -37,31 +37,44 @@ namespace Rest.Api
 
                     if (Server != null)
                     {
-                        //StringBuilder html = Helpers.CreateHtmlDocument();
-                        //html = Helpers.AddTitle(html, "Available HTML modules");
+                        StringBuilder htmlBuilder = Helpers.CreateHtmlDocument();
+                        htmlBuilder = Helpers.AddTitle(htmlBuilder, "Available HTML modules");
 
                         IEnumerable<INancyModule> modules = Server.Bootstrapper.GetAllModules(new NancyContext());
-                        if(modules.Any())
-                        {
-                            table.AddHorizontalLine(ModuleNameLength + MethodLength + RouteLength + 7);
-                        }
+                        IEnumerable<string> headers = modules.Select((x) => x.GetModuleName());
+                        IEnumerable<IEnumerable<string>> contents = modules
+                            .Select((x) => x.Routes)
+                            .Select((x) =>
+                                x.Select((y) => $"{y.Description.Method}, {y.Description.Path}")
+                            );
 
-                        foreach (INancyModule module in modules)
-                        {
-                            routes.Clear();
+                        htmlBuilder = Helpers.AddTable(htmlBuilder, headers, contents);
+                        string html = Helpers.CloseHtmlDocument(htmlBuilder);
 
-                            foreach (Route route in module.Routes)
-                            {
-                                routes.AppendLine(
-                                    $"| {new string(Enumerable.Repeat(' ', ModuleNameLength).ToArray())} | " +
-                                    $"{route.Description.Method, MethodLength}{route.Description.Path, RouteLength} |"
-                                );
-                            }
+                        return html;
 
-                            table.AppendLine($"| {module.GetModuleName(), ModuleNameLength} | {new string(Enumerable.Repeat(' ', MethodLength + RouteLength).ToArray())} |");
-                            table.AppendLine(routes.ToString().TrimEnd(Environment.NewLine.ToCharArray()));
-                            table.AddHorizontalLine(ModuleNameLength + MethodLength + RouteLength + 7);
-                        }
+                        //IEnumerable<INancyModule> modules = Server.Bootstrapper.GetAllModules(new NancyContext());
+                        //if(modules.Any())
+                        //{
+                        //    table.AddHorizontalLine(ModuleNameLength + MethodLength + RouteLength + 7);
+                        //}
+
+                        //foreach (INancyModule module in modules)
+                        //{
+                        //    routes.Clear();
+
+                        //    foreach (Route route in module.Routes)
+                        //    {
+                        //        routes.AppendLine(
+                        //            $"| {new string(Enumerable.Repeat(' ', ModuleNameLength).ToArray())} | " +
+                        //            $"{route.Description.Method, MethodLength}{route.Description.Path, RouteLength} |"
+                        //        );
+                        //    }
+
+                        //    table.AppendLine($"| {module.GetModuleName(), ModuleNameLength} | {new string(Enumerable.Repeat(' ', MethodLength + RouteLength).ToArray())} |");
+                        //    table.AppendLine(routes.ToString().TrimEnd(Environment.NewLine.ToCharArray()));
+                        //    table.AddHorizontalLine(ModuleNameLength + MethodLength + RouteLength + 7);
+                        //}
                     }
                     else
                     {
