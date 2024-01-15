@@ -2,7 +2,7 @@
 
 namespace Rest.TransferModel.System
 {
-    public class TimestampInformation
+    public class TimestampInformation : Information
     {
         public DateTime Value { get; set; } = DateTime.MinValue;
 

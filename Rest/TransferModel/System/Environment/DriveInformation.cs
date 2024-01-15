@@ -8,7 +8,7 @@ namespace Rest.TransferModel.System.Environment
     /// <summary>
     /// Provide a transfer model for the drive information call
     /// </summary>
-    public class DriveInformation
+    public class DriveInformation : Information
     {
         /// <summary>
         /// The drive name

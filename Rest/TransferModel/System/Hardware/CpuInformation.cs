@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace Rest.TransferModel.System.Hardware
 {
-    public class CpuInformation
+    public class CpuInformation : Information
     {
         public string VendorId { get; private set; }
         public int CpuFamily { get; private set; }

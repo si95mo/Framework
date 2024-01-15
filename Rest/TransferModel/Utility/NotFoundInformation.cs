@@ -1,6 +1,6 @@
 ﻿namespace Rest.TransferModel.Utility
 {
-    public class NotFoundInformation
+    public class NotFoundInformation : Information
     {
         private const string HeaderConst = "Not found";
         

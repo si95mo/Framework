@@ -12,7 +12,7 @@ namespace Rest.TransferModel.System.Environment
     /// <summary>
     /// Provide a transfer model for the environment information call
     /// </summary>
-    public class EnvironmentInformation
+    public class EnvironmentInformation : Information
     {
         /// <summary>
         /// The OS description

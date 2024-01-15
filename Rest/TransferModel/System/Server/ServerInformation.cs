@@ -5,7 +5,7 @@ using System;
 
 namespace Rest.TransferModel.System.Server
 {
-    public class ServerInformation
+    public class ServerInformation : Information
     {
         /// <summary>
         /// The server code

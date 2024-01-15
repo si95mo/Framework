@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace Rest.TransferModel.System.Hardware
 {
-    public class CpuInformationMatch
+    public class CpuInformationMatch : Information
     {
         public Regex Regex { get; private set; }
         public Action<string> Update { get; private set; }

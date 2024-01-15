@@ -252,7 +252,7 @@ namespace Diagnostic
         /// <param name="text">The text to be saved</param>
         /// <param name="severity">The <see cref="Severity"/></param>
         /// <param name="callerName">The caller name (leave empty for actual caller method name)</param>
-        public static void Log(string text, Severity severity = Severity.Info, [CallerMemberName] string callerName = "")
+        public static string Log(string text, Severity severity = Severity.Info, [CallerMemberName] string callerName = "")
         {
             if (HasHigherSeverityLevel(severity))
             {
@@ -263,7 +263,11 @@ namespace Diagnostic
                 {
                     AppendText(log, ErrorsPath);
                 }
+
+                return log;
             }
+
+            return text;
         }
 
         /// <summary>
@@ -274,7 +278,7 @@ namespace Diagnostic
         /// The entry will be saved <b>only</b> if it differs from the last one saved in the log file (i.e. different type <b>and</b>
         /// different message <b>and</b> different stack trace)!
         /// </remarks>
-        public static void Log(Exception ex, [CallerMemberName] string callerName = "")
+        public static string Log(Exception ex, [CallerMemberName] string callerName = "")
         {
             bool alreadyLogged = HasExceptionAlreadyBeenLogged(ex);
 
@@ -284,7 +288,11 @@ namespace Diagnostic
 
                 AppendText(entry, Path);
                 AppendText(entry, ErrorsPath);
+
+                return entry.ToString();
             }
+
+            return "Already logged";
         }
 
         /// <summary>
@@ -374,7 +382,7 @@ namespace Diagnostic
         /// <param name="severity">The <see cref="Severity"/></param>
         /// <param name="callerName">The caller name (leave empty for actual caller method name)</param>
         /// <returns>The async <see cref="Task"/></returns>
-        public static async Task LogAsync(string text, Severity severity = Severity.Info, [CallerMemberName] string callerName = "")
+        public static async Task<string> LogAsync(string text, Severity severity = Severity.Info, [CallerMemberName] string callerName = "")
         {
             if (HasHigherSeverityLevel(severity))
             {
@@ -385,7 +393,11 @@ namespace Diagnostic
                 {
                     await AppendTextAsync(log, ErrorsPath, hasToWait: true);
                 }
+
+                return log;
             }
+
+            return string.Empty;
         }
 
         /// <summary>
@@ -398,7 +410,7 @@ namespace Diagnostic
         /// The entry will be saved <b>only</b> if it differs from the last one saved in the log file (i.e. different type <b>and</b>
         /// different message <b>and</b> different stack trace)!
         /// </remarks>
-        public static async Task LogAsync(Exception ex, [CallerMemberName] string callerName = "")
+        public static async Task<string> LogAsync(Exception ex, [CallerMemberName] string callerName = "")
         {
             bool alreadyLogged = HasExceptionAlreadyBeenLogged(ex);
 
@@ -408,7 +420,11 @@ namespace Diagnostic
 
                 await AppendTextAsync(entry, Path);
                 await AppendTextAsync(entry, ErrorsPath);
+
+                return entry.ToString();
             }
+
+            return "Already logged";
         }
 
         /// <summary>
@@ -419,7 +435,7 @@ namespace Diagnostic
         /// <param name="text">The text to log</param>
         /// <param name="callerName">The caller name (leave empty for actual caller method name)</param>
         /// <returns>The async <see cref="Task"/></returns>
-        public static async Task TraceAsync(string text, [CallerMemberName] string callerName = "")
+        public static async Task<string> TraceAsync(string text, [CallerMemberName] string callerName = "")
             => await LogAsync(text, Severity.Trace, callerName);
 
         /// <summary>
@@ -430,7 +446,7 @@ namespace Diagnostic
         /// <param name="text">The text to log</param>
         /// <param name="callerName">The caller name (leave empty for actual caller method name)</param>
         /// <returns>The async <see cref="Task"/></returns>
-        public static async Task DebugAsync(string text)
+        public static async Task<string> DebugAsync(string text, [CallerMemberName] string callerName = "")
             => await LogAsync(text, Severity.Debug);
 
         /// <summary>
@@ -441,7 +457,7 @@ namespace Diagnostic
         /// <param name="text">The text to log</param>
         /// <param name="callerName">The caller name (leave empty for actual caller method name)</param>
         /// <returns>The async <see cref="Task"/></returns>
-        public static async Task InfoAsync(string text, [CallerMemberName] string callerName = "")
+        public static async Task<string> InfoAsync(string text, [CallerMemberName] string callerName = "")
             => await LogAsync(text, Severity.Info, callerName);
 
         /// <summary>
@@ -452,7 +468,7 @@ namespace Diagnostic
         /// <param name="text">The text to log</param>
         /// <param name="callerName">The caller name (leave empty for actual caller method name)</param>
         /// <returns>The async <see cref="Task"/></returns>
-        public static async Task WarnAsync(string text, [CallerMemberName] string callerName = "")
+        public static async Task<string> WarnAsync(string text, [CallerMemberName] string callerName = "")
             => await LogAsync(text, Severity.Warn, callerName);
 
         /// <summary>
@@ -463,7 +479,7 @@ namespace Diagnostic
         /// <param name="text">The text to log</param>
         /// <param name="callerName">The caller name (leave empty for actual caller method name)</param>
         /// <returns>The async <see cref="Task"/></returns>
-        public static async Task ErrorAsync(string text, [CallerMemberName] string callerName = "")
+        public static async Task<string> ErrorAsync(string text, [CallerMemberName] string callerName = "")
             => await LogAsync(text, Severity.Error, callerName);
 
         /// <summary>
@@ -471,7 +487,7 @@ namespace Diagnostic
         /// See also <see cref="LogAsync(Exception, string)"/>
         /// </summary>
         /// <param name="ex">The <see cref="Exception"/> occurred</param>
-        public static async Task ErrorAsync(Exception ex)
+        public static async Task<string> ErrorAsync(Exception ex)
             => await LogAsync(ex);
 
         /// <summary>
@@ -482,7 +498,7 @@ namespace Diagnostic
         /// <param name="text">The text to log</param>
         /// <param name="callerName">The caller name (leave empty for actual caller method name)</param>
         /// <returns>The async <see cref="Task"/></returns>
-        public static async Task FatalAsync(string text, [CallerMemberName] string callerName = "")
+        public static async Task<string> FatalAsync(string text, [CallerMemberName] string callerName = "")
             => await LogAsync(text, Severity.Fatal, callerName);
 
         #endregion Asynchronous logging methods

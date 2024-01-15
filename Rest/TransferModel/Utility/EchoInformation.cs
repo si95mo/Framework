@@ -2,7 +2,7 @@
 
 namespace Rest.TransferModel.Utility
 {
-    public class EchoInformation
+    public class EchoInformation : Information
     {
         public DateTime Timestamp { get; set; } = DateTime.MinValue;
         public string Value { get; set; } = string.Empty;
