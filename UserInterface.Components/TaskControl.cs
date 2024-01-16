@@ -14,9 +14,8 @@ namespace UserInterface.Controls
         private readonly Size expandedSize = new Size(1144, 232);
 
         private IAwaitable task;
-        private string[] buffer; // Wait states buffer
         private int bufferIndex;
-        private Label[] waitStates;
+        private Label[] taskWaitStateLabels;
 
         public TaskControl(IAwaitable task)
         {
@@ -30,52 +29,55 @@ namespace UserInterface.Controls
             lblTaskWaitState.Text = task.WaitState.ToString();
 
             this.task = task;
-            buffer = new string[BufferSize];
-            waitStates = new Label[BufferSize];
+            taskWaitStateLabels = new Label[BufferSize];
 
             // Create an array for the wait state labels (the designer labels are only for visualization, the is done through the array)
             for (int i = 0; i < BufferSize; i++)
             {
                 if (i == 0)
                 {
-                    waitStates[i] = lblWaitState1;
+                    taskWaitStateLabels[i] = lblWaitState1;
                 }
                 else if (i == 1)
                 {
-                    waitStates[i] = lblWaitState2;
+                    taskWaitStateLabels[i] = lblWaitState2;
                 }
                 else if (i == 2)
                 {
-                    waitStates[i] = lblWaitState3;
+                    taskWaitStateLabels[i] = lblWaitState3;
                 }
                 else if (i == 3)
                 {
-                    waitStates[i] = lblWaitState4;
+                    taskWaitStateLabels[i] = lblWaitState4;
                 }
                 else if (i == 4)
                 {
-                    waitStates[i] = lblWaitState5;
+                    taskWaitStateLabels[i] = lblWaitState5;
                 }
                 else if (i == 5)
                 {
-                    waitStates[i] = lblWaitState6;
+                    taskWaitStateLabels[i] = lblWaitState6;
                 }
                 else if (i == 6)
                 {
-                    waitStates[i] = lblWaitState7;
+                    taskWaitStateLabels[i] = lblWaitState7;
                 }
                 else if (i == 7)
                 {
-                    waitStates[i] = lblWaitState8;
+                    taskWaitStateLabels[i] = lblWaitState8;
                 }
 
-                waitStates[i].Text = string.Empty;
+                taskWaitStateLabels[i].Text = string.Empty;
             }
 
             bufferIndex = 0;
 
             task.Status.ValueChanged += TaskStatus_ValueChanged;
             task.WaitState.ValueChanged += WaitState_ValueChanged;
+
+            lblTaskCode.DoubleClick += Control_DoubleClick;
+            lblTaskWaitState.DoubleClick += Control_DoubleClick;
+            lblTaskStatus.DoubleClick += Control_DoubleClick;
 
             Size = notExpandedSize;
         }
@@ -93,6 +95,10 @@ namespace UserInterface.Controls
                     btnStop.Enabled = false;
 
                     bufferIndex = 0;
+                    for (int i = 0; i < BufferSize; i++)
+                    {
+                        taskWaitStateLabels[i].Text = string.Empty;
+                    }
                 }
                 else if (task.Status.Value == TaskStatus.WaitingToRun || task.Status.Value == TaskStatus.Running)
                 {
@@ -114,18 +120,24 @@ namespace UserInterface.Controls
 
                 lblTaskWaitState.Text = waitState;
 
-                if (Size == expandedSize && bufferIndex == 0) // Clean buffers only if the control is actually expanded
+                if (Size == expandedSize && (bufferIndex + 1) % BufferSize == 0) // Clean buffers only if the control is actually expanded
                 {
                     for (int i = 0; i < BufferSize; i++)
                     {
-                        buffer[i] = string.Empty;
-                        waitStates[i].Text = string.Empty;
+                        taskWaitStateLabels[i].Text = string.Empty;
                     }
                 }
 
                 string waitStateWithInfo = $"{DateTime.Now:HH:mm:ss.fff} → {waitState}";
-                buffer[bufferIndex % BufferSize] = waitStateWithInfo;
-                waitStates[bufferIndex++ % BufferSize].Text = waitStateWithInfo; // Increment counter here
+                taskWaitStateLabels[++bufferIndex % BufferSize].Text = waitStateWithInfo; // Increment counter here
+
+                if (bufferIndex % BufferSize == 0)
+                {
+                    for (int i = 1; i < BufferSize; i++)
+                    {
+                        taskWaitStateLabels[i].Text = string.Empty;
+                    }
+                }
             }
             else
             {
@@ -162,6 +174,11 @@ namespace UserInterface.Controls
             {
                 BeginInvoke(new Action(() => PbxDetails_Click(sender, e)));
             }
+        }
+
+        private void Control_DoubleClick(object sender, EventArgs e)
+        {
+            PbxDetails_Click(this, new EventArgs());
         }
     }
 }

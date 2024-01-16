@@ -216,6 +216,7 @@
             this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "TaskControl";
             this.Size = new System.Drawing.Size(1144, 232);
+            this.DoubleClick += new System.EventHandler(this.Control_DoubleClick);
             ((System.ComponentModel.ISupportInitialize)(this.pbxDetails)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
