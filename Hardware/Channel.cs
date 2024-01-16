@@ -259,8 +259,7 @@ namespace Hardware
         }
 
         /// <summary>
-        /// Connects an <see cref="IChannel"/> to another
-        /// in order to propagate its value;
+        /// Connects an <see cref="IChannel"/> to another in order to propagate its value;
         /// </summary>
         /// <param name="channel">The destination <see cref="IChannel"/></param>
         public void ConnectTo(IProperty channel)
@@ -270,9 +269,7 @@ namespace Hardware
         }
 
         /// <summary>
-        /// Connects an <see cref="IChannel"/> to another
-        /// in order to propagate its value converted.
-        /// See also <see cref="ConnectTo(IProperty)"/>
+        /// Connects an <see cref="IChannel"/> to another in order to propagate its value converted. See also <see cref="ConnectTo(IProperty)"/>
         /// </summary>
         /// <param name="channel">The destination <see cref="IChannel"/></param>
         /// <param name="converter">The <see cref="IConverter{TIn, TOut}"/></param>
@@ -282,9 +279,7 @@ namespace Hardware
         }
 
         /// <summary>
-        /// <see cref="ValueChanged"/> event handler that manages
-        /// the propagation of the values to subscribers.
-        /// See <see cref="ConnectTo(IProperty)"/>
+        /// <see cref="ValueChanged"/> event handler that manages the propagation of the values to subscribers. See <see cref="ConnectTo(IProperty)"/>
         /// </summary>
         /// <param name="sender">The sender</param>
         /// <param name="e">The <see cref="ValueChangedEventArgs"/></param>
