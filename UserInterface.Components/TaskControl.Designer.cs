@@ -116,81 +116,81 @@
             // 
             // lblWaitState8
             // 
-            this.lblWaitState8.AutoSize = true;
             this.lblWaitState8.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
-            this.lblWaitState8.Location = new System.Drawing.Point(93, 202);
+            this.lblWaitState8.Location = new System.Drawing.Point(0, 202);
+            this.lblWaitState8.Margin = new System.Windows.Forms.Padding(0);
             this.lblWaitState8.Name = "lblWaitState8";
-            this.lblWaitState8.Size = new System.Drawing.Size(117, 20);
+            this.lblWaitState8.Size = new System.Drawing.Size(1143, 24);
             this.lblWaitState8.TabIndex = 19;
             this.lblWaitState8.Text = "labelControl8";
             // 
             // lblWaitState7
             // 
-            this.lblWaitState7.AutoSize = true;
             this.lblWaitState7.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
-            this.lblWaitState7.Location = new System.Drawing.Point(93, 178);
+            this.lblWaitState7.Location = new System.Drawing.Point(0, 178);
+            this.lblWaitState7.Margin = new System.Windows.Forms.Padding(0);
             this.lblWaitState7.Name = "lblWaitState7";
-            this.lblWaitState7.Size = new System.Drawing.Size(117, 20);
+            this.lblWaitState7.Size = new System.Drawing.Size(1143, 24);
             this.lblWaitState7.TabIndex = 18;
             this.lblWaitState7.Text = "labelControl7";
             // 
             // lblWaitState6
             // 
-            this.lblWaitState6.AutoSize = true;
             this.lblWaitState6.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
-            this.lblWaitState6.Location = new System.Drawing.Point(93, 154);
+            this.lblWaitState6.Location = new System.Drawing.Point(0, 154);
+            this.lblWaitState6.Margin = new System.Windows.Forms.Padding(0);
             this.lblWaitState6.Name = "lblWaitState6";
-            this.lblWaitState6.Size = new System.Drawing.Size(117, 20);
+            this.lblWaitState6.Size = new System.Drawing.Size(1143, 24);
             this.lblWaitState6.TabIndex = 17;
             this.lblWaitState6.Text = "labelControl6";
             // 
             // lblWaitState5
             // 
-            this.lblWaitState5.AutoSize = true;
             this.lblWaitState5.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
-            this.lblWaitState5.Location = new System.Drawing.Point(93, 130);
+            this.lblWaitState5.Location = new System.Drawing.Point(0, 130);
+            this.lblWaitState5.Margin = new System.Windows.Forms.Padding(0);
             this.lblWaitState5.Name = "lblWaitState5";
-            this.lblWaitState5.Size = new System.Drawing.Size(117, 20);
+            this.lblWaitState5.Size = new System.Drawing.Size(1143, 24);
             this.lblWaitState5.TabIndex = 16;
             this.lblWaitState5.Text = "labelControl5";
             // 
             // lblWaitState4
             // 
-            this.lblWaitState4.AutoSize = true;
             this.lblWaitState4.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
-            this.lblWaitState4.Location = new System.Drawing.Point(93, 106);
+            this.lblWaitState4.Location = new System.Drawing.Point(0, 106);
+            this.lblWaitState4.Margin = new System.Windows.Forms.Padding(0);
             this.lblWaitState4.Name = "lblWaitState4";
-            this.lblWaitState4.Size = new System.Drawing.Size(117, 20);
+            this.lblWaitState4.Size = new System.Drawing.Size(1143, 24);
             this.lblWaitState4.TabIndex = 15;
             this.lblWaitState4.Text = "labelControl4";
             // 
             // lblWaitState3
             // 
-            this.lblWaitState3.AutoSize = true;
             this.lblWaitState3.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
-            this.lblWaitState3.Location = new System.Drawing.Point(93, 82);
+            this.lblWaitState3.Location = new System.Drawing.Point(0, 82);
+            this.lblWaitState3.Margin = new System.Windows.Forms.Padding(0);
             this.lblWaitState3.Name = "lblWaitState3";
-            this.lblWaitState3.Size = new System.Drawing.Size(117, 20);
+            this.lblWaitState3.Size = new System.Drawing.Size(1143, 24);
             this.lblWaitState3.TabIndex = 14;
             this.lblWaitState3.Text = "labelControl3";
             // 
             // lblWaitState2
             // 
-            this.lblWaitState2.AutoSize = true;
             this.lblWaitState2.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
-            this.lblWaitState2.Location = new System.Drawing.Point(93, 58);
+            this.lblWaitState2.Location = new System.Drawing.Point(0, 58);
+            this.lblWaitState2.Margin = new System.Windows.Forms.Padding(0);
             this.lblWaitState2.Name = "lblWaitState2";
-            this.lblWaitState2.Size = new System.Drawing.Size(117, 20);
+            this.lblWaitState2.Size = new System.Drawing.Size(1143, 24);
             this.lblWaitState2.TabIndex = 13;
             this.lblWaitState2.Text = "labelControl2";
             // 
             // lblWaitState1
             // 
-            this.lblWaitState1.AutoSize = true;
             this.lblWaitState1.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
-            this.lblWaitState1.Location = new System.Drawing.Point(93, 34);
+            this.lblWaitState1.Location = new System.Drawing.Point(0, 34);
+            this.lblWaitState1.Margin = new System.Windows.Forms.Padding(0);
             this.lblWaitState1.Name = "lblWaitState1";
-            this.lblWaitState1.Size = new System.Drawing.Size(117, 20);
+            this.lblWaitState1.Size = new System.Drawing.Size(1143, 24);
             this.lblWaitState1.TabIndex = 12;
             this.lblWaitState1.Text = "labelControl1";
             // 
