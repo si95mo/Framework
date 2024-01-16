@@ -81,14 +81,17 @@ namespace UserInterface.Controls.Tests
                 task.Start();
             }
 
-            uiService.ShowToaster($"{DateTime.Now:HH:mm:ss.fff} >> Toaster message test 1", ToasterType.Message, TimeSpan.FromSeconds(5d));
-            uiService.ShowToaster($"{DateTime.Now:HH:mm:ss.fff} >> Toaster warning test 2", ToasterType.Warning, TimeSpan.FromSeconds(5d));
-            uiService.ShowToaster($"{DateTime.Now:HH:mm:ss.fff} >> Toaster error test 3", ToasterType.Error, TimeSpan.FromSeconds(5d));
+            uiService.ShowToaster($"{DateTime.Now:HH:mm:ss.fff} >> Toaster message test 1", ToasterType.Message, TimeSpan.FromSeconds(2d));
+            uiService.ShowToaster($"{DateTime.Now:HH:mm:ss.fff} >> Toaster warning test 2", ToasterType.Warning, TimeSpan.FromSeconds(4d));
+            uiService.ShowToaster($"{DateTime.Now:HH:mm:ss.fff} >> Toaster error test 3", ToasterType.Error, TimeSpan.FromSeconds(6d));
             uiService.ShowToaster(
-                $"{DateTime.Now:HH:mm:ss.fff} >> Toaster message with a long text {new string(Enumerable.Repeat(' ', 32).ToArray())} test 4", 
+                $"{DateTime.Now:HH:mm:ss.fff} >> Toaster long text {new string(Enumerable.Repeat('x', 128).ToArray())} test",
                 ToasterType.Message,
-                TimeSpan.FromSeconds(20d)
+                TimeSpan.FromSeconds(8d)
             );
+
+            uiService.ShowToaster("Message 1", ToasterType.Message, TimeSpan.FromSeconds(5d));
+            uiService.ShowToaster("Message 2", ToasterType.Error, TimeSpan.FromSeconds(30d));
         }
 
         private void BtnFireAlarm_Click(object sender, EventArgs e)

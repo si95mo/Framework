@@ -13,6 +13,7 @@ namespace UserInterface.Forms
 
             StartPosition = FormStartPosition.Manual;
             TopMost = true;
+            ShowInTaskbar = false;
 
             // Adjust labels Z-value to avoid overlapping in the close label
             lblClose.BringToFront();
@@ -30,6 +31,7 @@ namespace UserInterface.Forms
         /// <param name="displayDurationInMilliseconds">The <see cref="Toaster"/> display duration, in milliseconds</param>
         public void ShowToaster(string message, ToasterType toasterType, Form owner, int displayDurationInMilliseconds = 10000)
         {
+            Text = message;
             lblMessage.Text = message;
 
             switch (toasterType)
@@ -47,14 +49,7 @@ namespace UserInterface.Forms
                     break;
             }
 
-            Size ownerSize = owner.Size;
-            Point ownerLocation = owner.Location;
-
-            // Center the control based on the owner that called it
-            int x = (ownerSize.Width - Width) / 2;
-            int y = ownerLocation.Y + UiService.ToasterCounter == 1 ? UiService.ToasterCounter * Height + Height / 2 : UiService.ToasterCounter * (Height + 8) + Height / 2;
-            Location = new Point(x, y);
-
+            MoveToLocation(owner, UiService.ToasterCounter);
             Show();
 
             // Start the timer
@@ -112,5 +107,24 @@ namespace UserInterface.Forms
         }
 
         #endregion Private methods
+
+        #region Internal methods
+
+        /// <summary>
+        /// Move the <see cref="Toaster"/> to its default location in the screen, given <see cref="UiService.ToasterCounter"/>
+        /// </summary>
+        /// <param name="owner">The <see cref="Toaster"/> owner (i.e. who calls the <see cref="Form.ShowDialog()"/></param>
+        internal void MoveToLocation(Form owner, int toasterCounter)
+        {
+            Size ownerSize = owner.Size;
+            Point ownerLocation = owner.Location;
+
+            // Center the control based on the owner that called it
+            int x = (ownerSize.Width - Width) / 2;
+            int y = ownerLocation.Y + toasterCounter == 1 ? toasterCounter * Height + Height / 2 : toasterCounter * (Height + 8) + Height / 2;
+            Location = new Point(x, y);
+        }
+
+        #endregion Internal methods
     }
 }

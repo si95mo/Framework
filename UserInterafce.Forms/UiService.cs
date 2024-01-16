@@ -1,6 +1,7 @@
 ﻿using Core;
 using Core.DataStructures;
 using System;
+using System.Collections.Generic;
 
 namespace UserInterface.Forms
 {
@@ -23,7 +24,9 @@ namespace UserInterface.Forms
         /// The actual number of <see cref="Toaster"/> shown
         /// </summary>
         internal static int ToasterCounter { get; private set; } = 0;
+
         private static readonly object sync = new object();
+        private static readonly List<Toaster> activeToasters = new List<Toaster>();
 
         /// <summary>
         /// The parent <see cref="CustomForm"/>
@@ -57,17 +60,29 @@ namespace UserInterface.Forms
         /// <param name="displayDurationInMilliseconds">The <see cref="Toaster"/> display duration, in milliseconds</param>
         public void ShowToaster(string message, ToasterType toasterType, int displayDurationInMilliseconds = 10000)
         {
+            Toaster toaster;
             lock (sync)
             {
+                toaster = new Toaster();
+                activeToasters.Add(toaster);
+
                 ToasterCounter++;
             }
 
-            Toaster toaster = new Toaster();
-            toaster.FormClosed += delegate
+            toaster.FormClosed += (s, e) =>
             {
                 lock(sync)
                 {
+                    Toaster toasterToRemove = s as Toaster;
+                    activeToasters.Remove(toasterToRemove);
+
                     ToasterCounter--;
+
+                    int toasterCounter = 1;
+                    foreach(Toaster activeToaster in activeToasters)
+                    {
+                        activeToaster.MoveToLocation(Form, toasterCounter++);
+                    }
                 }
             };
 
