@@ -48,6 +48,7 @@
     <Compile Include="IConverter.cs" />
     <Compile Include="IFailure.cs" />
     <Compile Include="IProperty.cs" />
+    <Compile Include="IReadOnlyProperty.cs" />
     <Compile Include="NumericRepresentation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepresentationBytes.cs" />

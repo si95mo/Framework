@@ -12,7 +12,7 @@ namespace Core.Parameters
     /// </summary>
     /// <typeparam name="T">The type of the <see cref="Parameter{T}"/></typeparam>
     [Serializable]
-    public abstract class Parameter<T> : IParameter<T>
+    public abstract class Parameter<T> : IParameter<T>, IReadOnlyProperty<T>
     {
         private T value;
 

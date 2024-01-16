@@ -7,7 +7,7 @@ namespace Core.Parameters
     /// See also <see cref="Parameter{T}"/> and <see cref="IParameter{T}"/>
     /// </summary>
     [Serializable]
-    public class BoolParameter : Parameter<bool>
+    public class BoolParameter : Parameter<bool>, IReadOnlyProperty<bool>
     {
         /// <summary>
         /// Create a new instance of <see cref="BoolParameter"/>

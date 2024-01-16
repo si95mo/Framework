@@ -7,7 +7,7 @@ namespace Core.Parameters
     /// See also <see cref="Parameter{T}"/> and <see cref="IParameter{T}"/>
     /// </summary>
     [Serializable]
-    public class NumericParameter : Parameter<double>, INumericParameter
+    public class NumericParameter : Parameter<double>, INumericParameter, IReadOnlyProperty<double>
     {
         public int ValueAsInt => (int)Value;
 
