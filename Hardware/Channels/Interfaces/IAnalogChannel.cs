@@ -1,4 +1,6 @@
-﻿namespace Hardware
+﻿using Core;
+
+namespace Hardware
 {
     /// <summary>
     /// Define a basic interface for analog <see cref="IChannel{T}"/>

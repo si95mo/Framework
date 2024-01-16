@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core;
+using System;
 
 namespace Hardware
 {
@@ -6,7 +7,7 @@ namespace Hardware
     /// Implement a digital output channel.
     /// See also <see cref="Channel{T}"/> and <see cref="IChannel{T}"/>
     /// </summary>
-    public class DigitalOutput : Channel<bool>, IDigitalOutput
+    public class DigitalOutput : Channel<bool>, IDigitalOutput, IReadOnlyProperty<bool>
     {
         /// <summary>
         /// Create a new instance of <see cref="DigitalOutput"/>

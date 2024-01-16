@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core;
+using System;
 
 namespace Hardware
 {
@@ -6,7 +7,7 @@ namespace Hardware
     /// Implement an analog input channel.
     /// See also <see cref="Channel{T}"/> and <see cref="IChannel{T}"/>
     /// </summary>
-    public class AnalogOutput : Channel<double>, IAnalogOutput
+    public class AnalogOutput : Channel<double>, IAnalogOutput, IReadOnlyProperty<double>
     {
         /// <summary>
         /// Create a new instance of <see cref="AnalogOutput"/>

@@ -1,11 +1,12 @@
-﻿using System.Text;
+﻿using Core;
+using System.Text;
 
 namespace Hardware
 {
     /// <summary>
     /// Define an input <see cref="Stream"/>
     /// </summary>
-    public class StreamInput : Stream
+    public class StreamInput : Stream, IReadOnlyProperty<byte[]>
     {
         /// <summary>
         /// Create a new instance of <see cref="StreamInput"/>

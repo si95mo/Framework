@@ -13,8 +13,6 @@ namespace Hardware
     /// </summary>
     public class SystemInfoResource : Resource
     {
-        private Timer timer;
-
         public override bool IsOpen => Status.Value == ResourceStatus.Executing;
 
         /// <summary>
@@ -22,6 +20,7 @@ namespace Hardware
         /// </summary>
         public TimeSpan PollingTime { get; private set; }
 
+        private Timer timer;
         private Dictionary<IChannel, Func<object>> updaters;
 
         /// <summary>
@@ -54,7 +53,9 @@ namespace Hardware
                     DateTime time = DateTime.Now;
                     DayOfWeek day = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek(time);
                     if (day >= DayOfWeek.Monday && day <= DayOfWeek.Wednesday)
+                    {
                         time = time.AddDays(3d);
+                    }
 
                     double calendarWeek = CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
                     return calendarWeek;
@@ -132,7 +133,9 @@ namespace Hardware
         private void UpdateChannels()
         {
             foreach (KeyValuePair<IChannel, Func<object>> update in updaters)
+            {
                 update.Key.ValueAsObject = update.Value.Invoke();
+            }
         }
     }
 }

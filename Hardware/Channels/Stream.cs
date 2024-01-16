@@ -1,11 +1,12 @@
-﻿using System.Text;
+﻿using Core;
+using System.Text;
 
 namespace Hardware
 {
     /// <summary>
     /// Implement an <see cref="IStream"/>
     /// </summary>
-    public class Stream : Channel<byte[]>, IStream
+    public class Stream : Channel<byte[]>, IStream, IReadOnlyProperty<byte[]>
     {
         public Encoding Encoding { get; protected set; }
 

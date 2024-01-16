@@ -7,7 +7,7 @@ namespace Hardware
     /// <summary>
     /// Implement a multi sample analo input
     /// </summary>
-    public class MultiSampleAnalogInput : Channel<double[]>
+    public class MultiSampleAnalogInput : Channel<double[]>, IReadOnlyProperty<double[]>
     {
         private double[] value;
 
