@@ -87,12 +87,10 @@ namespace Hardware
         /// <summary>
         /// The object lock
         /// </summary>
-        private object objectLock = new object();
+        private object eventLock = new object();
 
-        /// <summary>
-        /// The value changed <see cref="EventHandler"/>
-        /// </summary>
-        private EventHandler<ValueChangedEventArgs> ValueChangedHandler;
+        public event EventHandler<ValueChangedEventArgs> ValueChanged;
+        public event EventHandler<ValueSetEventArgs> ValueSet;
 
         #region IChannel implementation
 
@@ -106,26 +104,37 @@ namespace Hardware
         /// </summary>
         public virtual T Value
         {
-            get => value;
+            get
+            {
+                lock (eventLock)
+                {
+                    return value;
+                }
+            }
             set
             {
-                if (WriteEnable != null)
+                lock (eventLock)
                 {
-                    if (WriteEnable.Value)
-                        UpdateValue(value);
+                    if (WriteEnable != null)
+                    {
+                        if (WriteEnable.Value)
+                        {
+                            UpdateValue(value);
+                        }
+                        else
+                        {
+                            Logger.Warn($"Attempting to write {Code} with write disabled");
+                        }
+                    }
                     else
-                        Logger.Warn($"Attempting to write {Code} with write disabled");
-                }
-                else
-                {
-                    UpdateValue(value);
-                }
+                    {
+                        UpdateValue(value);
+                    }
 
-                ValueSet?.Invoke(this, new ValueSetEventArgs(Value));
+                    OnValueSet(new ValueSetEventArgs(Value));
+                }
             }
         }
-
-        public event EventHandler<ValueSetEventArgs> ValueSet;
 
         /// <summary>
         /// Update the <see cref="Channel{T}"/> <see cref="Value"/>
@@ -138,6 +147,7 @@ namespace Hardware
             {
                 object oldValue = this.value;
                 this.value = value;
+
                 OnValueChanged(new ValueChangedEventArgs(oldValue, this.value));
             }
         }
@@ -231,35 +241,21 @@ namespace Hardware
         #endregion Constructors
 
         /// <summary>
-        /// The <see cref="ValueChanged"/> event handler
-        /// for the <see cref="Value"/> property
-        /// </summary>
-        public event EventHandler<ValueChangedEventArgs> ValueChanged
-        {
-            add
-            {
-                lock (objectLock)
-                {
-                    ValueChangedHandler += value;
-                }
-            }
-
-            remove
-            {
-                lock (objectLock)
-                {
-                    ValueChangedHandler -= value;
-                }
-            }
-        }
-
-        /// <summary>
         /// On value changed event
         /// </summary>
         /// <param name="e">The <see cref="ValueChangedEventArgs"/></param>
         protected virtual void OnValueChanged(ValueChangedEventArgs e)
         {
-            ValueChangedHandler?.Invoke(this, e);
+            ValueChanged?.Invoke(this, e);
+        }
+
+        /// <summary>
+        /// On value set event
+        /// </summary>
+        /// <param name="e">The <see cref="ValueSetEventArgs"/></param>
+        protected virtual void OnValueSet(ValueSetEventArgs e)
+        {
+            ValueSet?.Invoke(this, e);
         }
 
         /// <summary>

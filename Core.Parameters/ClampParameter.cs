@@ -19,8 +19,11 @@
                 {
                     object oldValue = this.value;
                     this.value = value;
+
                     OnValueChanged(new ValueChangedEventArgs(oldValue, this.value));
                 }
+
+                OnValueSet(new ValueSetEventArgs(Value));
             }
         }
 

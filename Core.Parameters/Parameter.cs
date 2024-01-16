@@ -1,6 +1,8 @@
-﻿using Core.Converters;
+﻿using Core;
+using Core.Converters;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Core.Parameters
 {
@@ -27,12 +29,9 @@ namespace Core.Parameters
         /// <summary>
         /// The object lock
         /// </summary>
-        private object eventLock = new object();
+        private readonly object eventLock = new object();
 
-        /// <summary>
-        /// The value changed event handler
-        /// </summary>
-        private EventHandler<ValueChangedEventArgs> ValueChangedHandler;
+        public event EventHandler<ValueChangedEventArgs> ValueChanged;
 
         public event EventHandler<ValueSetEventArgs> ValueSet;
 
@@ -65,19 +64,33 @@ namespace Core.Parameters
         /// <summary>
         /// The <see cref="Parameter{T}"/> value
         /// </summary>
+        /// <remarks>
+        /// When overriding remember to use <see cref="OnValueChanged(ValueChangedEventArgs)"/> and <see cref="OnValueSet(ValueSetEventArgs)"/>
+        /// to invoke the event handlers!
+        /// </remarks>
         public virtual T Value
         {
-            get => value;
+            get 
+            { 
+                lock (eventLock)
+                {
+                    return value;
+                }
+            }
             set
             {
-                if (!value.Equals(this.value))
+                lock (eventLock)
                 {
-                    object oldValue = this.value;
-                    this.value = value;
-                    OnValueChanged(new ValueChangedEventArgs(oldValue, this.value));
-                }
+                    if (!value.Equals(this.value))
+                    {
+                        object oldValue = this.value;
+                        this.value = value;
 
-                ValueSet?.Invoke(this, new ValueSetEventArgs(Value));
+                        OnValueChanged(new ValueChangedEventArgs(oldValue, this.value));
+                    }
+
+                    OnValueSet(new ValueSetEventArgs(Value));
+                }
             }
         }
 
@@ -108,25 +121,7 @@ namespace Core.Parameters
         /// <summary>
         /// The <see cref="Parameter{T}"/> code
         /// </summary>
-        public string Code { get; }
-
-        /// <summary>
-        /// The <see cref="ValueChanged"/> event handler
-        /// for the <see cref="Value"/> property
-        /// </summary>
-        public event EventHandler<ValueChangedEventArgs> ValueChanged
-        {
-            add
-            {
-                lock (eventLock)
-                    ValueChangedHandler += value;
-            }
-            remove
-            {
-                lock (eventLock)
-                    ValueChangedHandler -= value;
-            }
-        }
+        public string Code { get; } 
 
         /// <summary>
         /// On value changed event
@@ -134,7 +129,16 @@ namespace Core.Parameters
         /// <param name="e">The <see cref="ValueChangedEventArgs"/></param>
         protected virtual void OnValueChanged(ValueChangedEventArgs e)
         {
-            ValueChangedHandler?.Invoke(this, e);
+            ValueChanged?.Invoke(this, e);
+        }
+
+        /// <summary>
+        /// On value set event
+        /// </summary>
+        /// <param name="e">The <see cref="ValueSetEventArgs"/></param>
+        protected virtual void OnValueSet(ValueSetEventArgs e)
+        {
+            ValueSet?.Invoke(this, e);
         }
 
         /// <summary>

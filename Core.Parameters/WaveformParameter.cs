@@ -23,8 +23,11 @@ namespace Core.Parameters
                     double[] oldValue = this.value;
                     this.value = new double[value.Length];
                     Array.Copy(value, this.value, value.Length);
+
                     OnValueChanged(new ValueChangedEventArgs(oldValue, this.value));
                 }
+                
+                OnValueSet(new ValueSetEventArgs(Value));
             }
         }
 
