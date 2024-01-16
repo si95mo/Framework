@@ -118,8 +118,8 @@ namespace Core.Conditions
         {
             ICondition andCondition = new FlyweightCondition($"{source.Code}.And.{condition.Code}", source.Value & condition.Value);
 
-            source.ValueChanged += (sender, e) => UpdateAndCondition(source, andCondition);
-            condition.ValueChanged += (sender, e) => UpdateAndCondition(condition, andCondition);
+            source.ValueChanged += (sender, e) => andCondition.Value = UpdateAndCondition(source, condition);
+            condition.ValueChanged += (sender, e) => andCondition.Value = UpdateAndCondition(source, condition);
 
             return andCondition;
         }
@@ -127,10 +127,10 @@ namespace Core.Conditions
         /// <summary>
         /// Update a <see cref="FlyweightCondition"/> by applying an <see langword="and"/> operand between two <see langword="bool"/> values
         /// </summary>
-        /// <param name="changedCondition">The sender (the <see cref="ICondition"/> of which the value has changed)</param>
-        /// <param name="andCondition">The <see cref="FlyweightCondition"/> result of the <see cref="And(ICondition, ICondition)"/> method</param>
-        private static void UpdateAndCondition(ICondition changedCondition, ICondition andCondition)
-            => andCondition.Value &= changedCondition.Value;
+        /// <param name="firstCondition">The sender (the <see cref="ICondition"/> of which the value has changed)</param>
+        /// <param name="secondCondition">The <see cref="FlyweightCondition"/> result of the <see cref="And(ICondition, ICondition)"/> method</param>
+        private static bool  UpdateAndCondition(ICondition firstCondition, ICondition secondCondition)
+            => secondCondition.Value && firstCondition.Value;
 
         /// <summary>
         /// Ands all the <see cref="ICondition"/> contained in <paramref name="source"/>
@@ -179,8 +179,8 @@ namespace Core.Conditions
         {
             ICondition orCondition = new FlyweightCondition($"{source.Code}.And.{condition.Code}", source.Value | condition.Value);
 
-            source.ValueChanged += (sender, e) => UpdateOrCondition(source, orCondition);
-            condition.ValueChanged += (sender, e) => UpdateOrCondition(condition, orCondition);
+            source.ValueChanged += (sender, e) => orCondition.Value = UpdateOrCondition(source, condition);
+            condition.ValueChanged += (sender, e) => orCondition.Value = UpdateOrCondition(source, condition);
 
             return orCondition;
         }
@@ -188,10 +188,10 @@ namespace Core.Conditions
         /// <summary>
         /// Update a <see cref="FlyweightCondition"/> by applying an <see langword="or"/> operand between two <see langword="bool"/> values
         /// </summary>
-        /// <param name="changedCondition">The sender (the <see cref="ICondition"/> of which the value has changed)</param>
-        /// <param name="orCondition">The <see cref="FlyweightCondition"/> result of the <see cref="Or(ICondition, ICondition)"/> method</param>
-        private static void UpdateOrCondition(ICondition changedCondition, ICondition orCondition)
-            => orCondition.Value |= changedCondition.Value;
+        /// <param name="firstCondition">The sender (the <see cref="ICondition"/> of which the value has changed)</param>
+        /// <param name="secondCondition">The <see cref="FlyweightCondition"/> result of the <see cref="Or(ICondition, ICondition)"/> method</param>
+        private static bool UpdateOrCondition(ICondition firstCondition, ICondition secondCondition)
+            => secondCondition.Value || firstCondition.Value;
 
         /// <summary>
         /// Ors all the <see cref="ICondition"/> contained in <paramref name="source"/>
@@ -238,12 +238,12 @@ namespace Core.Conditions
         /// <returns>The concatenated <see cref="ICondition"/></returns>
         public static ICondition Xor(this ICondition source, ICondition condition)
         {
-            FlyweightCondition orCondition = new FlyweightCondition($"{source.Code}.Xor.{condition.Code}", source.Value | condition.Value);
+            FlyweightCondition xorCondition = new FlyweightCondition($"{source.Code}.Xor.{condition.Code}", source.Value | condition.Value);
 
-            source.ValueChanged += (sender, e) => UpdateXorCondition(source, orCondition);
-            condition.ValueChanged += (sender, e) => UpdateXorCondition(condition, orCondition);
+            source.ValueChanged += (sender, e) => xorCondition.Value = UpdateXorCondition(source, xorCondition);
+            condition.ValueChanged += (sender, e) => xorCondition.Value = UpdateXorCondition(condition, xorCondition);
 
-            return orCondition;
+            return xorCondition;
         }
 
         /// <summary>
@@ -281,10 +281,10 @@ namespace Core.Conditions
         /// <summary>
         /// Update a <see cref="FlyweightCondition"/> by applying an <see langword="xor"/> operand between two <see langword="bool"/> values
         /// </summary>
-        /// <param name="changedCondition">The sender (the <see cref="ICondition"/> of which the value has changed)</param>
-        /// <param name="orCondition">The <see cref="FlyweightCondition"/> result of the <see cref="Or(ICondition, ICondition)"/> method</param>
-        private static void UpdateXorCondition(ICondition changedCondition, FlyweightCondition orCondition)
-            => orCondition.Value ^= changedCondition.Value;
+        /// <param name="firstCondition">The sender (the <see cref="ICondition"/> of which the value has changed)</param>
+        /// <param name="secondCondition">The <see cref="FlyweightCondition"/> result of the <see cref="Or(ICondition, ICondition)"/> method</param>
+        private static bool UpdateXorCondition(ICondition firstCondition, FlyweightCondition secondCondition)
+            => secondCondition.Value ^ firstCondition.Value;
 
         #endregion Xor
 
