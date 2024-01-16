@@ -2,6 +2,7 @@
 using Core.Conditions;
 using Core.DataStructures;
 using System;
+using System.Text;
 
 namespace Diagnostic.Messages
 {
@@ -121,7 +122,32 @@ namespace Diagnostic.Messages
             FiringTime = DateTime.Now;
             OnFireAction?.Invoke();
 
-            Logger.Warn($"Warn fired. {Message}");
+            #region Log
+
+            bool isAnAlarm = GetType() == typeof(Alarm);
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append(isAnAlarm ? "Alarm fired" : "Warn fired");
+            if (!string.IsNullOrEmpty(Message))
+            {
+                sb.Append($"{Environment.NewLine}\t\t- Message: \"{Message}\"");
+            }
+            if (!string.IsNullOrEmpty(LongText))
+            {
+                sb.Append($"{Environment.NewLine}\t\t- Long text: \"{LongText}\"");
+            }
+
+            if (isAnAlarm)
+            {
+                Logger.Error(sb.ToString());
+            }
+            else
+            {
+                Logger.Warn(sb.ToString());
+            }
+
+            #endregion Log
+
             OnMessageFired(new FiredEventArgs(Code, FiringTime, Message, LongText, this));
         }
 
@@ -167,16 +193,26 @@ namespace Diagnostic.Messages
 
             // Add this element to the DiagnosticMessagesService, if possible
             if (ServiceBroker.CanProvide<DiagnosticMessagesService>())
+            {
                 ServiceBroker.GetService<DiagnosticMessagesService>().Add(this);
+            }
 
             if (FiringCondition != null)
+            {
                 FiringCondition.ValueChanged += FiringCondition_ValueChanged;
+            }
         }
 
         private void FiringCondition_ValueChanged(object sender, ValueChangedEventArgs e)
         {
             if (e.NewValueAsBool)
+            {
                 Fire();
+            }
+            else if (Active)
+            {
+                Reset();
+            }
         }
 
         #endregion Private methods
@@ -192,12 +228,16 @@ namespace Diagnostic.Messages
             add
             {
                 lock (eventLock)
+                {
                     FiredHandler += value;
+                }
             }
             remove
             {
                 lock (eventLock)
+                {
                     FiredHandler -= value;
+                }
             }
         }
 
