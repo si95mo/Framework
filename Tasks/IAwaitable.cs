@@ -31,6 +31,11 @@ namespace Tasks
         EnumParameter<TaskStatus> Status { get; }
 
         /// <summary>
+        /// The eventual <see cref="Exception"/> thrown in the <see cref="IAwaitable"/>
+        /// </summary>
+        Parameter<Exception> Exception { get; }
+
+        /// <summary>
         /// The <see cref="IAwaitable"/> task <see cref="CancellationTokenSource"/>
         /// </summary>
         CancellationTokenSource TokenSource { get; }

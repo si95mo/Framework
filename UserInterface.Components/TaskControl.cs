@@ -37,21 +37,37 @@ namespace UserInterface.Controls
             for (int i = 0; i < BufferSize; i++)
             {
                 if (i == 0)
+                {
                     waitStates[i] = lblWaitState1;
+                }
                 else if (i == 1)
+                {
                     waitStates[i] = lblWaitState2;
+                }
                 else if (i == 2)
+                {
                     waitStates[i] = lblWaitState3;
+                }
                 else if (i == 3)
+                {
                     waitStates[i] = lblWaitState4;
+                }
                 else if (i == 4)
+                {
                     waitStates[i] = lblWaitState5;
+                }
                 else if (i == 5)
+                {
                     waitStates[i] = lblWaitState6;
+                }
                 else if (i == 6)
+                {
                     waitStates[i] = lblWaitState7;
+                }
                 else if (i == 7)
+                {
                     waitStates[i] = lblWaitState8;
+                }
 
                 waitStates[i].Text = string.Empty;
             }
@@ -75,6 +91,8 @@ namespace UserInterface.Controls
                 {
                     btnStart.Enabled = true;
                     btnStop.Enabled = false;
+
+                    bufferIndex = 0;
                 }
                 else if (task.Status.Value == TaskStatus.WaitingToRun || task.Status.Value == TaskStatus.Running)
                 {
@@ -83,7 +101,9 @@ namespace UserInterface.Controls
                 }
             }
             else
+            {
                 BeginInvoke(new Action(() => TaskStatus_ValueChanged(sender, e)));
+            }
         }
 
         private void WaitState_ValueChanged(object sender, Core.ValueChangedEventArgs e)
@@ -103,15 +123,14 @@ namespace UserInterface.Controls
                     }
                 }
 
-                string waitStateWithInfos = $"({DateTime.Now:HH:mm:ss.fff}), {waitState}";
-                buffer[bufferIndex % BufferSize] = waitStateWithInfos;
-                waitStates[bufferIndex % BufferSize].Text = waitStateWithInfos; // Increment counter here
-
-                if (bufferIndex++ == BufferSize) // Reset index and clean the buffers
-                    bufferIndex = 0;
+                string waitStateWithInfo = $"{DateTime.Now:HH:mm:ss.fff} → {waitState}";
+                buffer[bufferIndex % BufferSize] = waitStateWithInfo;
+                waitStates[bufferIndex++ % BufferSize].Text = waitStateWithInfo; // Increment counter here
             }
             else
+            {
                 BeginInvoke(new Action(() => WaitState_ValueChanged(sender, e)));
+            }
         }
 
         private void BtnStart_Click(object sender, EventArgs e)
@@ -140,7 +159,9 @@ namespace UserInterface.Controls
                 }
             }
             else
+            {
                 BeginInvoke(new Action(() => PbxDetails_Click(sender, e)));
+            }
         }
     }
 }

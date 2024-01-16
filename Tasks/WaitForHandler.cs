@@ -3,7 +3,11 @@ using Core.Conditions;
 using Extensions;
 using Nito.AsyncEx;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace Tasks
 {
@@ -26,11 +30,24 @@ namespace Tasks
         public string Message { get; protected set; }
 
         /// <summary>
+        /// Check if the <see cref="WaitForHandler"/> has an execution timeout
+        /// </summary>
+        public bool HasTimeout => timeout != TimeSpan.Zero;
+
+        /// <summary>
+        /// Define the completed status (<see langword="true"/>) or faulted/timeout/error case
+        /// </summary>
+        public bool Completed { get; private set; }
+
+        private TimeSpan timeout;
+
+        /// <summary>
         /// Create a new instance of <see cref="WaitForHandler"/>
         /// </summary>
         public WaitForHandler()
         {
             Code = Guid.NewGuid().ToString(); // Just assign a unique code
+            timeout = TimeSpan.Zero;
         }
 
         /// <summary>
@@ -40,8 +57,12 @@ namespace Tasks
         /// <returns>The <see cref="WaitForHandler"/></returns>
         public WaitForHandler Await(TimeSpan timeToWait)
         {
+            ResetTimeout();
+
             AsyncContext.Run(async () => await this.WaitFor(timeToWait: timeToWait));
             Message = $"Waiting {timeToWait}";
+
+            Completed = true;
 
             return this;
         }
@@ -53,8 +74,10 @@ namespace Tasks
         /// <returns>The <see cref="WaitForHandler"/></returns>
         public WaitForHandler Await(Task task)
         {
-            AsyncContext.Run(async () => await this.WaitFor(task));
+            Completed = AsyncContext.Run(async () => await this.WaitFor(task, timeout));
             Message = "Waiting a .NET task";
+
+            ResetTimeout();
 
             return this;
         }
@@ -83,9 +106,22 @@ namespace Tasks
         public WaitForHandler Await<T>(Task<T> task, out T result)
         {
             T localResult = default;
-            AsyncContext.Run(async () => localResult = await this.WaitFor(task));
+
+            if (HasTimeout)
+            {
+                Task waitTask = Task.Delay(timeout);
+                Completed = AsyncContext.Run(async () => (await Task.WhenAny(new Task(async () => localResult = await this.WaitFor(task)), waitTask)) != waitTask);
+            }
+            else
+            {
+                localResult = AsyncContext.Run(async () => await this.WaitFor(task));
+                Completed = true;
+            }
 
             result = localResult;
+
+            ResetTimeout();
+
             return this;
         }
 
@@ -97,7 +133,19 @@ namespace Tasks
         public WaitForHandler Await(IAwaitable task)
         {
             task.WaitState.ValueChanged += WaitState_ValueChanged;
-            AsyncContext.Run(async () => await task);
+
+            if (timeout > TimeSpan.Zero)
+            {
+                Task waitTask = Task.Delay(timeout);
+                Completed = AsyncContext.Run(async () => await Task.WhenAny(new Task(async () => await task), waitTask) != waitTask);
+            }
+            else
+            {
+                AsyncContext.Run(async () => await task);
+                Completed = true;
+            }
+
+            ResetTimeout();
 
             task.WaitState.ValueChanged -= WaitState_ValueChanged;
 
@@ -122,10 +170,20 @@ namespace Tasks
         /// Await an <see cref="ICondition"/> to be <see langword="true"/>
         /// </summary>
         /// <param name="condition">The <see cref="ICondition"/> to wait</param>
-        /// <returns>The <see cref="WaitForHandler"/><returns>
+        /// <returns>The <see cref="WaitForHandler"/></returns>
         public WaitForHandler Await(ICondition condition)
         {
-            AsyncContext.Run(async () => await this.WaitFor(condition));
+            if (timeout > TimeSpan.Zero)
+            {
+                Completed = AsyncContext.Run(async () => await this.WaitFor(condition, (int)timeout.TotalMilliseconds));
+            }
+            else
+            {
+                AsyncContext.Run(async () => await this.WaitFor(condition));
+                Completed = true;
+            }
+
+            ResetTimeout();
             return this;
         }
 
@@ -150,6 +208,31 @@ namespace Tasks
         public WaitForHandler Await(ICondition condition, TimeSpan timeout)
             => Await(condition, (int)timeout.TotalMilliseconds);
 
+        /// <summary>
+        /// Await for a subroutine, as a collection of <see cref="string"/>
+        /// </summary>
+        /// <param name="subroutine">The subroutine to invoke and await</param>
+        /// <returns>The <see cref="WaitForHandler"/></returns>
+        public WaitForHandler Await(IEnumerable<string> subroutine)
+        {
+            Stopwatch timer = Stopwatch.StartNew();
+            foreach (string instruction in subroutine)
+            {
+                if (timeout > TimeSpan.Zero && timer.Elapsed <= timeout)
+                {
+                    Message = instruction;
+                }
+                else if (timeout > TimeSpan.Zero && timer.Elapsed > timeout)
+                {
+                    Completed = false;
+                    return this;
+                }
+            }
+
+            Completed = true;
+            return this;
+        }
+
         private void WaitState_ValueChanged(object sender, ValueChangedEventArgs e)
             => Message = e.NewValueAsString;
 
@@ -165,11 +248,48 @@ namespace Tasks
         }
 
         /// <summary>
+        /// Add a timeout to the <see cref="WaitForHandler"/> execution
+        /// </summary>
+        /// <param name="timeout">The timeout <see cref="TimeSpan"/></param>
+        /// <returns>The <see cref="WaitForHandler"/></returns>
+        public WaitForHandler WithTimeout(TimeSpan timeout)
+        {
+            this.timeout = timeout;
+            return this;
+        }
+
+        /// <summary>
+        /// Add a timeout to the <see cref="WaitForHandler"/> execution
+        /// </summary>
+        /// <param name="timeoutInSeconds">The timeout in seconds</param>
+        /// <returns>The <see cref="WaitForHandler"/></returns>
+        public WaitForHandler WithTimeout(double timeoutInSeconds)
+            => WithTimeout(TimeSpan.FromSeconds(timeoutInSeconds));
+
+        /// <summary>
+        /// Remove the timeout to the <see cref="WaitForHandler"/> execution
+        /// </summary>
+        /// <returns>The <see cref="WaitForHandler"/></returns>
+        public WaitForHandler WithoutTimeout()
+        {
+            timeout = TimeSpan.Zero;
+            return this;
+        }
+
+        /// <summary>
         /// Implicitly convert an <see cref="WaitForHandler"/> to <see cref="string"/>.
         /// </summary>
         /// <param name="waitForHandler">The <see cref="WaitForHandler"/></param>
         /// <returns>The conversion result</returns>
         public static implicit operator string(WaitForHandler waitForHandler)
             => waitForHandler.Message;
+
+        /// <summary>
+        /// Reset the internal timeout
+        /// </summary>
+        private void ResetTimeout()
+        {
+            timeout = TimeSpan.Zero;
+        }
     }
 }

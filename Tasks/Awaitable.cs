@@ -7,7 +7,10 @@ using Diagnostic.Messages;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Runtime.Remoting.Messaging;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -37,6 +40,7 @@ namespace Tasks
         public ICondition Running { get; private set; }
         public ICondition Completed { get; private set; }
         public EnumParameter<TaskStatus> Status { get; }
+        public Parameter<Exception> Exception { get; protected set; }
         public CancellationTokenSource TokenSource { get; protected set; }
         public StringParameter WaitState { get; }
 
@@ -68,6 +72,7 @@ namespace Tasks
             }
 
             Status = new EnumParameter<TaskStatus>($"{Code}.{nameof(Status)}", TaskStatus.Created);
+            Exception = new ExceptionParameter(nameof(Exception));
             TokenSource = new CancellationTokenSource();
             WaitState = new StringParameter($"{Code}.{nameof(WaitState)}", string.Empty);
 
@@ -110,7 +115,9 @@ namespace Tasks
                         {
                             // Exit loop if task has been canceled
                             if (TokenSource.Token.IsCancellationRequested)
+                            {
                                 break;
+                            }
 
                             WaitState.Value = state;
                         }
@@ -118,18 +125,25 @@ namespace Tasks
                         // And then through the termination task state (that should be canceled)
                         IEnumerable terminationState = Termination();
                         foreach (string state in terminationState)
+                        {
                             WaitState.Value = state;
+                        }
 
                         Status.Value = TaskStatus.RanToCompletion;
                     }
                     catch (Exception ex) // This may be caused by a stop request or an actual exception
                     {
                         Status.Value = TaskStatus.Faulted;
+                        Exception.Value = ex;
 
                         if (StopRequested)
+                        {
                             Logger.Error(ex);
+                        }
                         else
+                        {
                             Logger.Warn($"Task with code {Code} faulted because a stop has been requested");
+                        }
                     }
                 },
                 TokenSource.Token
@@ -206,6 +220,14 @@ namespace Tasks
             => waitForHandler.Await(task);
 
         /// <summary>
+        /// Awaits a collection of .NET <see cref="Task"/>
+        /// </summary>
+        /// <param name="tasks">The collection of <see cref="Task"/> to wait</param>
+        /// <returns>The corresponding <see cref="WaitForHandler"/></returns>
+        protected WaitForHandler WaitFor(Task[] tasks)
+            => waitForHandler.Await(tasks);
+
+        /// <summary>
         /// Awaits a .NET <see cref="Task"/>
         /// </summary>
         /// <param name="task">The <see cref="Task"/> to wait</param>
@@ -221,6 +243,48 @@ namespace Tasks
         /// <returns>The corresponding <see cref="WaitForHandler"/></returns>
         protected WaitForHandler WaitFor(IAwaitable task)
             => waitForHandler.Await(task);
+
+        /// <summary>
+        /// Awaits a collection of <see cref="IAwaitable"/> tasks
+        /// </summary>
+        /// <param name="tasks">The collection of <see cref="IAwaitable"/> to wait</param>
+        /// <returns>The corresponding <see cref="WaitForHandler"/></returns>
+        protected WaitForHandler WaitFor(IAwaitable[] tasks)
+            => waitForHandler.Await(tasks);
+
+        /// <summary>
+        /// Wait for an <see cref="ICondition"/> to be <see langword="true"/>
+        /// </summary>
+        /// <param name="condition">The condition to wait</param>
+        /// <returns>The corresponding <see cref="WaitForHandler"/></returns>
+        protected WaitForHandler WaitFor(ICondition condition)
+            => waitForHandler.Await(condition);
+
+        /// <summary>
+        /// Wait for an <see cref="ICondition"/> to be <see langword="true"/>, with a timeout
+        /// </summary>
+        /// <param name="condition">The condition to wait</param>
+        /// <param name="timeoutInMilliseconds">The timeout in milliseconds</param>
+        /// <returns>The corresponding <see cref="WaitForHandler"/></returns>
+        protected WaitForHandler WaitFor(ICondition condition, int timeoutInMilliseconds)
+            => waitForHandler.Await(condition, timeoutInMilliseconds);
+
+        /// <summary>
+        /// Wait for an <see cref="ICondition"/> to be <see langword="true"/>, with a timeout
+        /// </summary>
+        /// <param name="condition">The condition to wait</param>
+        /// <param name="timeout">The timeout <see cref="TimeSpan"/></param>
+        /// <returns>The corresponding <see cref="WaitForHandler"/></returns>
+        protected WaitForHandler WaitFor(ICondition condition, TimeSpan timeout)
+            => waitForHandler.Await(condition, timeout);
+
+        /// <summary>
+        /// Await for a subroutine, as a collection of <see cref="string"/>
+        /// </summary>
+        /// <param name="subroutine">The subroutine to invoke and await</param>
+        /// <returns>The corresponding <see cref="WaitForHandler"/></returns>
+        protected WaitForHandler WaitFor(IEnumerable<string> subRoutine)
+            => waitForHandler.Await(subRoutine);
 
         #endregion WaitForHandler
 
@@ -238,5 +302,26 @@ namespace Tasks
             => Fail("Alarm fired");
 
         #endregion Private methods
+    }
+
+    /// <summary>
+    /// Define an <see cref="Exception"/> <see cref="Parameter{T}"/>
+    /// </summary>
+    public class ExceptionParameter : Parameter<Exception>
+    {
+        /// <summary>
+        /// Create a new instance of <see cref="ExceptionParameter"/>
+        /// </summary>
+        /// <param name="code">The code</param>
+        public ExceptionParameter(string code) : base(code)
+        { }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder($"Exception message: {Value?.Message}{Environment.NewLine}");
+            sb.Append($"\t\tStack-trace: {Value?.StackTrace}{Environment.NewLine}");
+
+            return sb.ToString();
+        }
     }
 }

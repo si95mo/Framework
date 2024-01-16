@@ -3,6 +3,7 @@ using Core.Converters;
 using Core.Parameters;
 using System;
 using System.Diagnostics;
+using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
 
 namespace Extensions
@@ -122,7 +123,20 @@ namespace Extensions
         /// <see langword="false"/> if timeout occurred)
         /// </returns>
         public static async Task<bool> WaitFor(this IProperty _, Task t, TimeSpan timeout)
-            => await _.WaitFor(t, timeout.Milliseconds);
+        {
+            bool result = false;
+            if(timeout > TimeSpan.Zero)
+            {
+                result = await t.StartWithTimeout(timeout);
+            }
+            else
+            {
+                result = true;
+                await _.WaitFor(t);
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// Wait for a <see cref="Task{TResult}"/> to complete
