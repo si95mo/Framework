@@ -1,4 +1,5 @@
-﻿using LiveCharts;
+﻿using Core.Conditions;
+using LiveCharts;
 using LiveCharts.Wpf;
 using System;
 using System.Threading.Tasks;
@@ -17,14 +18,16 @@ namespace UserInterface.Controls
         private readonly Color yellow = Color.FromRgb(0xFE, 0xD0, 0x00);
         private readonly Color red = Color.FromRgb(0xD2, 0x04, 0x2D);
 
+
         private readonly IScheduler scheduler;
         private Series series;
 
         public SchedulerControl(IScheduler scheduler)
         {
             InitializeComponent();
+            AutoScaleMode = AutoScaleMode.Inherit;
 
-            lblCode.Text = scheduler.Code;
+            lblCode.Title = scheduler.Code;
 
             chart.DataTooltip = null;
             chart.Hoverable = false;
@@ -53,14 +56,24 @@ namespace UserInterface.Controls
             this.scheduler = scheduler;
             UpdateControl(scheduler.Load.Value);
 
+            lblCode.InitializeLed(
+                (scheduler.Load.IsLessThanOrEqualTo(33.333), Colors.Green),
+                (scheduler.Load.IsGreaterThan(33.333).And(scheduler.Load.IsLessThanOrEqualTo(66.666)), Colors.Yellow),
+                (scheduler.Load.IsGreaterThan(66.666), Colors.Red)
+            );
+
             Task t = new Task(async () =>
                 {
                     while (true)
                     {
                         if (!InvokeRequired)
+                        {
                             UpdateChart(scheduler.Load.Value);
+                        }
                         else
+                        {
                             BeginInvoke(new Action(() => UpdateChart(scheduler.Load.Value)));
+                        }
 
                         await Task.Delay(250);
                     }
@@ -74,7 +87,9 @@ namespace UserInterface.Controls
         private void UpdateChart(double load)
         {
             if (series.Values.Count > 0 && series.Values.Count == BufferSize)
+            {
                 series.Values.RemoveAt(0);
+            }
 
             series.Values.Add(load);
         }
@@ -107,9 +122,13 @@ namespace UserInterface.Controls
         private void Load_ValueChanged(object sender, Core.ValueChangedEventArgs e)
         {
             if (!InvokeRequired)
+            {
                 UpdateControl(e.NewValueAsDouble);
+            }
             else
+            {
                 BeginInvoke(new Action(() => Load_ValueChanged(sender, e)));
+            }
         }
     }
 }

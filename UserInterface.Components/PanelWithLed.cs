@@ -71,9 +71,13 @@ namespace UserInterface.Controls
         protected override void OnEnabledChanged(EventArgs e)
         {
             if (Enabled)
+            {
                 titleForeColor = Colors.TextColor;
+            }
             else
+            {
                 titleForeColor = Colors.TextColorLight;
+            }
 
             Invalidate();
             base.OnEnabledChanged(e);
