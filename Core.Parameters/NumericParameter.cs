@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Parameters.IReadOnly;
+using System;
 
 namespace Core.Parameters
 {
@@ -7,7 +8,7 @@ namespace Core.Parameters
     /// See also <see cref="Parameter{T}"/> and <see cref="IParameter{T}"/>
     /// </summary>
     [Serializable]
-    public class NumericParameter : Parameter<double>, INumericParameter, IReadOnlyProperty<double>
+    public class NumericParameter : Parameter<double>, INumericParameter, IReadOnlyNumericParameter
     {
         public int ValueAsInt => (int)Value;
 

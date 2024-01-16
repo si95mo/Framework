@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Parameters.IReadOnly;
+using System;
 using System.Threading.Tasks;
 
 namespace Core.Parameters
@@ -6,7 +7,7 @@ namespace Core.Parameters
     /// <summary>
     /// Implement a <see cref="Parameter{T}"/> that represent a trigger
     /// </summary>
-    public class TriggerParameter : Parameter<bool>
+    public class TriggerParameter : Parameter<bool>, IReadOnlyBoolParameter
     {
         private TimeSpan tOn;
         private TimeSpan preTriggerTime;

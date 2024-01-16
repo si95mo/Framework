@@ -1,8 +1,9 @@
-﻿using System.Text;
+﻿using Core.Parameters.IReadOnly;
+using System.Text;
 
 namespace Core.Parameters
 {
-    public class StreamParameter : Parameter<byte[]>, IStreamParameter
+    public class StreamParameter : Parameter<byte[]>, IStreamParameter, IReadOnlyStreamParameter
     {
         public Encoding Encoding { get; protected set; }
 

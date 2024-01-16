@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Parameters.IReadOnly;
+using System;
 using System.Linq;
 
 namespace Core.Parameters
@@ -6,7 +7,7 @@ namespace Core.Parameters
     /// <summary>
     /// Implement a waveform <see cref="Parameter{T}"/>
     /// </summary>
-    public class WaveformParameter : Parameter<double[]>
+    public class WaveformParameter : Parameter<double[]>, IReadOnlyWaveformParameter
     {
         private double[] value;
 

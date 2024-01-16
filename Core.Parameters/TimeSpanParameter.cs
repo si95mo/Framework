@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Parameters.IReadOnly;
+using System;
 
 namespace Core.Parameters
 {
@@ -7,7 +8,7 @@ namespace Core.Parameters
     /// See also <see cref="Parameter{T}"/> and <see cref="IParameter{T}"/>
     /// </summary>
     [Serializable]
-    public class TimeSpanParameter : Parameter<TimeSpan>
+    public class TimeSpanParameter : Parameter<TimeSpan>, IReadOnlyTimeSpanParameter
     {
         /// <summary>
         /// Represent the current <see cref="TimeSpan"/> stored in

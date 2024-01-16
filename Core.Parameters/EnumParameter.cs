@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Parameters.IReadOnly;
+using System;
 
 namespace Core.Parameters
 {
@@ -9,7 +10,7 @@ namespace Core.Parameters
     /// </summary>
     /// <typeparam name="T">The <see cref="Enum"/> type of the wrapped parameter</typeparam>
     [Serializable]
-    public class EnumParameter<T> : Parameter<T>, IEnumParameter<T> where T : Enum
+    public class EnumParameter<T> : Parameter<T>, IEnumParameter<T>, IReadOnlyEnumParameter<T> where T : Enum
     {
         /// <summary>
         /// The <see cref="EnumParameter{T}.Value"/> value as <see cref="int"/>

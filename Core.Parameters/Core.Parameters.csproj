@@ -44,26 +44,34 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoolParameter.cs" />
-    <Compile Include="ClampParameter.cs" />
+    <Compile Include="Derived\ClampParameter.cs" />
     <Compile Include="ContainerParameter.cs" />
-    <Compile Include="DifferenceParameter.cs" />
-    <Compile Include="DivisionParameter.cs" />
+    <Compile Include="Derived\DifferenceParameter.cs" />
+    <Compile Include="Derived\DivisionParameter.cs" />
     <Compile Include="EnumParameter.cs" />
-    <Compile Include="IContainerParameter.cs" />
-    <Compile Include="IEnumParameter.cs" />
-    <Compile Include="INumericParameter.cs" />
-    <Compile Include="IParameter.cs" />
-    <Compile Include="IStreamParameter.cs" />
-    <Compile Include="MultiplicationParameter.cs" />
+    <Compile Include="Interfaces\IContainerParameter.cs" />
+    <Compile Include="Interfaces\IEnumParameter.cs" />
+    <Compile Include="Interfaces\INumericParameter.cs" />
+    <Compile Include="Interfaces\IParameter.cs" />
+    <Compile Include="IReadOnly\IReadOnlyBoolParameter.cs" />
+    <Compile Include="IReadOnly\IReadOnlyEnumParameter.cs" />
+    <Compile Include="IReadOnly\IReadOnlyNumericParameter.cs" />
+    <Compile Include="IReadOnly\IReadOnlyParameter.cs" />
+    <Compile Include="IReadOnly\IReadOnlyWaveformParameter.cs" />
+    <Compile Include="IReadOnly\IReadOnlyStringParameter.cs" />
+    <Compile Include="IReadOnly\IReadOnlyStreamParameter.cs" />
+    <Compile Include="IReadOnly\IReadOnlyTimeSpanParameter.cs" />
+    <Compile Include="Interfaces\IStreamParameter.cs" />
+    <Compile Include="Derived\MultiplicationParameter.cs" />
     <Compile Include="NumericParameter.cs" />
     <Compile Include="Parameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RingBufferParameter.cs" />
+    <Compile Include="Derived\RingBufferParameter.cs" />
     <Compile Include="StreamParameter.cs" />
     <Compile Include="StringParameter.cs" />
-    <Compile Include="SumParameter.cs" />
+    <Compile Include="Derived\SumParameter.cs" />
     <Compile Include="TimeSpanParameter.cs" />
-    <Compile Include="TriggerParameter.cs" />
+    <Compile Include="Derived\TriggerParameter.cs" />
     <Compile Include="WaveformParameter.cs" />
   </ItemGroup>
   <ItemGroup>
