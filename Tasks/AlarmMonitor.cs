@@ -78,11 +78,11 @@ namespace Tasks
             // Get all the tasks that must be stopped (the ones not marked with the DontStopInAlarm attribute)
             IEnumerable<IAwaitable> tasksToStop = tasksService
                 .GetAll()
-                .Where((x) => !Attribute.IsDefined(x.GetType(), typeof(DontStopInAlarm)))
-                .Cast<IAwaitable>();
+                .OfType<IAwaitable>()
+                .Where((x) => !Attribute.IsDefined(x.GetType(), typeof(DontStopInAlarm)));
 
             // Then try to stop all the tasks in parallel, if possible
-            await tasksToStop.ParallelForeachAsync(async (x) => await Task.Run(() => x.Stop()));
+            await tasksToStop.ParallelForeachAsync(async (x) => await Task.Run(() => x.Fail($"Alarm \"{e.DiagnosticMessage.Code}\" fired")));
         }
     }
 }

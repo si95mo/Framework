@@ -127,7 +127,8 @@ namespace Diagnostic.Messages
             bool isAnAlarm = GetType() == typeof(Alarm);
 
             StringBuilder sb = new StringBuilder();
-            sb.Append(isAnAlarm ? "Alarm fired" : "Warn fired");
+            sb.Append(isAnAlarm ? "Alarm fired. " : "Warn fired. ");
+            sb.Append(Source != null && !string.IsNullOrEmpty(SourceCode) ? $"Source code associated with the diagnostic message is \"{SourceCode}\"" : "No source associated");
             if (!string.IsNullOrEmpty(Message))
             {
                 sb.Append($"{Environment.NewLine}\t\t- Message: \"{Message}\"");

@@ -33,7 +33,7 @@ namespace Tasks
         protected Warn Warn;
 
         protected Scheduler Scheduler;
-        protected bool StopRequested;
+        protected bool StopRequested, FailRequested;
 
         #region Public fields
 
@@ -97,6 +97,7 @@ namespace Tasks
         public virtual Task Start()
         {
             StopRequested = false;
+            FailRequested = false;
 
             TokenSource.Dispose();
             TokenSource = new CancellationTokenSource();
@@ -110,19 +111,30 @@ namespace Tasks
                     try
                     {
                         // Iterate through the Execution task state
+                        string oldWaitState = string.Empty;
                         IEnumerable<string> executionState = Execution();
                         foreach (string state in executionState)
                         {
                             // Exit loop if task has been canceled
                             if (TokenSource.Token.IsCancellationRequested)
                             {
+                                if (FailRequested)
+                                {
+                                    Logger.Warn($"Task with code \"{Code}\" stop requested from {nameof(AlarmMonitor)}. The last wait state enumerated is \"{oldWaitState}\"");
+                                }
+                                else if (StopRequested)
+                                {
+                                    Logger.Info($"Task with code \"{Code}\" stop requested from outside. The last wait state enumerated is \"{oldWaitState}\"");
+                                }
+
                                 break;
                             }
 
                             WaitState.Value = state;
+                            oldWaitState = state;
                         }
 
-                        // And then through the termination task state (that should be canceled)
+                        // And then through the termination task state (that shouldn't be canceled and will be executed)
                         IEnumerable terminationState = Termination();
                         foreach (string state in terminationState)
                         {
@@ -136,13 +148,18 @@ namespace Tasks
                         Status.Value = TaskStatus.Faulted;
                         Exception.Value = ex;
 
-                        if (StopRequested)
+                        if (!FailRequested && !StopRequested)
                         {
+                            Logger.Error($"Task with code \"{Code}\" faulted because of an internal exception. See below for more details");
                             Logger.Error(ex);
                         }
-                        else
+                        else if (StopRequested && !FailRequested)
                         {
-                            Logger.Warn($"Task with code {Code} faulted because a stop has been requested");
+                            Logger.Info($"Task with code \"{Code}\" faulted because a stop has been requested");
+                        }
+                        else if(FailRequested && !StopRequested)
+                        {
+                            Logger.Warn($"Task with code \"{Code}\" stop requested from {nameof(AlarmMonitor)}.");
                         }
                     }
                 },
@@ -155,8 +172,10 @@ namespace Tasks
 
         public string Fail(string reasonOfFailure)
         {
+            FailRequested = true;
+
             WaitState.Value = reasonOfFailure;
-            Logger.Error($"Task with code {Code} failed, requesting stop. {reasonOfFailure}");
+            Logger.Error($"Task with code \"{Code}\" failed, requesting stop. Reason of failure is \"{reasonOfFailure}\"");
 
             OnFail();
             Stop();
