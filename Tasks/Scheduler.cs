@@ -112,7 +112,9 @@ namespace Tasks
             finally
             {
                 if (lockTaken)
+                {
                     Monitor.Exit(tasks);
+                }
             }
         }
 

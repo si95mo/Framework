@@ -129,7 +129,7 @@ namespace Tasks
                             WaitState.Value = state;
                         }
 
-                        Status.Value = TaskStatus.RanToCompletion;
+                        Status.Value = TokenSource.Token.IsCancellationRequested ? TaskStatus.Canceled : TaskStatus.RanToCompletion;
                     }
                     catch (Exception ex) // This may be caused by a stop request or an actual exception
                     {
