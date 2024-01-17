@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using UserInterface.Controls;
 
@@ -18,6 +19,9 @@ namespace UserInterface.Forms
             // Adjust labels Z-value to avoid overlapping in the close label
             lblClose.BringToFront();
             lblMessage.SendToBack();
+            lblMessage.ForeColor = Colors.TextColor;
+
+            InitializeBlur();
         }
 
         #region Public methods
@@ -126,5 +130,96 @@ namespace UserInterface.Forms
         }
 
         #endregion Internal methods
+
+        #region Blur effect
+
+        // Import necessary WinAPI functions
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct AccentPolicy
+        {
+            public int nAccentState;
+            public int nFlags;
+            public int nColor;
+            public int nAnimationId;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct WindowCompositionAttributeData
+        {
+            public WindowCompositionAttribute Attribute;
+            public IntPtr Data;
+            public int SizeOfData;
+        }
+
+        private enum WindowCompositionAttribute
+        {
+            WCA_ACCENT_POLICY = 19
+        }
+
+        private const int ACCENT_ENABLE_BLURBEHIND = 3;
+        private const int GWL_EXSTYLE = -20;
+        private const int WS_EX_LAYERED = 0x80000;
+        private const int WS_EX_TRANSPARENT = 0x20;
+
+        /// <summary>
+        /// Initializes the blur effect for the form
+        /// </summary>
+        private void InitializeBlur()
+        {
+            // Set form styles to allow transparency and layered rendering
+            FormBorderStyle = FormBorderStyle.None;
+            BackColor = Color.Black;
+            TransparencyKey = Color.Black;
+
+            int initialStyle = GetWindowLong(this.Handle, GWL_EXSTYLE);
+            SetWindowLong(Handle, GWL_EXSTYLE, initialStyle | WS_EX_LAYERED | WS_EX_TRANSPARENT);
+            
+            EnableBlur(); // Enable blur effect
+        }
+
+        /// <summary>
+        /// Enables the blur effect for the form using Windows API
+        /// </summary>
+        private void EnableBlur()
+        {
+            var accent = new AccentPolicy
+            {
+                nAccentState = ACCENT_ENABLE_BLURBEHIND,
+                nFlags = 2,
+                nColor = Color.FromArgb(0x80, BackColor).ToArgb(), // Color for the blur effect (adjust alpha as needed)
+                nAnimationId = 0
+            };
+
+            var accentStructSize = Marshal.SizeOf(accent);
+            var accentPtr = Marshal.AllocHGlobal(accentStructSize);
+            Marshal.StructureToPtr(accent, accentPtr, false);
+
+            var data = new WindowCompositionAttributeData
+            {
+                Attribute = WindowCompositionAttribute.WCA_ACCENT_POLICY,
+                SizeOfData = accentStructSize,
+                Data = accentPtr
+            };
+
+            SetWindowCompositionAttribute(Handle, ref data);
+
+            Marshal.FreeHGlobal(accentPtr);
+        }
+
+        // Windows API functions
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+
+        [DllImport("user32.dll")]
+        private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
+        [DllImport("user32.dll")]
+        private static extern bool SetLayeredWindowAttributes(IntPtr hWnd, uint crKey, byte bAlpha, uint dwFlags);
+
+        #endregion Blur effect
     }
 }

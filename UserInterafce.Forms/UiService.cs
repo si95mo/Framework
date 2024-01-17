@@ -37,10 +37,8 @@ namespace UserInterface.Forms
         /// Create a new instance of <see cref="UiService"/>
         /// </summary>
         /// <param name="form">The parent <see cref="CustomForm"/></param>
-        public UiService(CustomForm form) : base()
-        {
-            Form = form;
-        }
+        public UiService(CustomForm form) : this(Guid.NewGuid().ToString(), form)
+        { }
 
         /// <summary>
         /// Create a new instance of <see cref="CustomForm"/>
@@ -69,22 +67,7 @@ namespace UserInterface.Forms
                 ToasterCounter++;
             }
 
-            toaster.FormClosed += (s, e) =>
-            {
-                lock(sync)
-                {
-                    Toaster toasterToRemove = s as Toaster;
-                    activeToasters.Remove(toasterToRemove);
-
-                    ToasterCounter--;
-
-                    int toasterCounter = 1;
-                    foreach(Toaster activeToaster in activeToasters)
-                    {
-                        activeToaster.MoveToLocation(Form, toasterCounter++);
-                    }
-                }
-            };
+            toaster.FormClosed += (s, e) => RemoveToaster(s as Toaster);
 
             Toaster.ShowToaster(toaster, message, toasterType, Form, displayDurationInMilliseconds);
         }
@@ -97,5 +80,25 @@ namespace UserInterface.Forms
         /// <param name="displayDuration">The <see cref="Toaster"/> display duration <see cref="TimeSpan"/></param>
         public void ShowToaster(string message, ToasterType toasterType, TimeSpan displayDuration)
             => ShowToaster(message, toasterType, (int)displayDuration.TotalMilliseconds);
+
+        /// <summary>
+        /// Remove a <see cref="Toaster"/> from the active ones
+        /// </summary>
+        /// <param name="toaster">The <see cref="Toaster"/> to remove</param>
+        private void RemoveToaster(Toaster toaster)
+        {
+            lock (sync)
+            {
+                activeToasters.Remove(toaster);
+
+                ToasterCounter--;
+
+                int toasterCounter = 1;
+                foreach (Toaster activeToaster in activeToasters)
+                {
+                    activeToaster.MoveToLocation(Form, toasterCounter++);
+                }
+            }
+        }
     }
 }

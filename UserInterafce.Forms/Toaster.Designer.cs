@@ -36,7 +36,8 @@
             // 
             // lblClose
             // 
-            this.lblClose.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
+            this.lblClose.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblClose.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblClose.Location = new System.Drawing.Point(380, 0);
             this.lblClose.Name = "lblClose";
             this.lblClose.Size = new System.Drawing.Size(20, 20);
@@ -53,8 +54,9 @@
             // 
             // lblMessage
             // 
-            this.lblMessage.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblMessage.Cursor = System.Windows.Forms.Cursors.Default;
             this.lblMessage.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
+            this.lblMessage.ForeColor = System.Drawing.SystemColors.WindowFrame;
             this.lblMessage.Location = new System.Drawing.Point(0, 0);
             this.lblMessage.Name = "lblMessage";
             this.lblMessage.Size = new System.Drawing.Size(400, 81);

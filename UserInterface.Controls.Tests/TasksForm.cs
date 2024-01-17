@@ -5,7 +5,6 @@ using Diagnostic.Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
 using Tasks;
 using UserInterface.Forms;
 
@@ -48,6 +47,8 @@ namespace UserInterface.Controls.Tests
                 new FunctionTask(Name + i);
             }
 
+            new FunctionTaskWithException(Name + ".WithException");
+
             for (int i = 0; i < 2; i++)
             {
                 new CyclicFunctionTaskThatWontStop($"{Name}.CyclicThatWontStop.{i}", TimeSpan.FromMilliseconds(1000d), cyclicScheduler);
@@ -81,17 +82,7 @@ namespace UserInterface.Controls.Tests
                 task.Start();
             }
 
-            uiService.ShowToaster($"{DateTime.Now:HH:mm:ss.fff} >> Toaster message test 1", ToasterType.Message, TimeSpan.FromSeconds(2d));
-            uiService.ShowToaster($"{DateTime.Now:HH:mm:ss.fff} >> Toaster warning test 2", ToasterType.Warning, TimeSpan.FromSeconds(4d));
-            uiService.ShowToaster($"{DateTime.Now:HH:mm:ss.fff} >> Toaster error test 3", ToasterType.Error, TimeSpan.FromSeconds(6d));
-            uiService.ShowToaster(
-                $"{DateTime.Now:HH:mm:ss.fff} >> Toaster long text {new string(Enumerable.Repeat('x', 128).ToArray())} test",
-                ToasterType.Message,
-                TimeSpan.FromSeconds(8d)
-            );
-
-            uiService.ShowToaster("Message 1", ToasterType.Message, TimeSpan.FromSeconds(5d));
-            uiService.ShowToaster("Message 2", ToasterType.Error, TimeSpan.FromSeconds(30d));
+            uiService.ShowToaster(new string(Enumerable.Repeat('x', 256).ToArray()), ToasterType.Message, TimeSpan.FromSeconds(10d));
         }
 
         private void BtnFireAlarm_Click(object sender, EventArgs e)
@@ -113,6 +104,48 @@ namespace UserInterface.Controls.Tests
                     task.Start();
                 }
             }
+        }
+
+        private void BtnShowToaster_Click(object sender, EventArgs e)
+        {
+            Random random = new Random(Guid.NewGuid().GetHashCode());
+            string text = GenerateRandomString(random.Next(2, 32));
+
+            ToasterType toasterType = GenerateRandomEnumValue<ToasterType>();
+            int displayTime = random.Next(1000, 10000);
+
+            text += $"{Environment.NewLine}For {displayTime}ms";
+
+            uiService.ShowToaster(text, toasterType, displayTime);
+        }
+
+        internal static string GenerateRandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            Random random = new Random(Guid.NewGuid().GetHashCode());
+
+            char[] randomArray = new char[length];
+            for (int i = 0; i < length; i++)
+            {
+                randomArray[i] = chars[random.Next(chars.Length)];
+            }
+
+            return new string(randomArray);
+        }
+
+        internal static T GenerateRandomEnumValue<T>() where T : Enum
+        {
+            // Get all values of the enum
+            T[] enumValues = (T[])Enum.GetValues(typeof(T));
+
+            // Use a Random object to generate a random index
+            Random random = new Random();
+            int randomIndex = random.Next(enumValues.Length);
+
+            // Retrieve the enum value at the random index
+            T randomEnumValue = enumValues[randomIndex];
+
+            return randomEnumValue;
         }
     }
 
@@ -174,6 +207,23 @@ namespace UserInterface.Controls.Tests
             counter++;
 
             yield return "Cycle done";
+        }
+    }
+
+    public class FunctionTaskWithException : Awaitable
+    {
+        private readonly TimeSpan timeToWait = TimeSpan.FromSeconds(1);
+
+        public FunctionTaskWithException(string code, Scheduler scheduler = null) : base(code, scheduler)
+        { }
+
+        public override IEnumerable<string> Execution()
+        {
+            yield return WaitFor(timeToWait)
+                .WithMessage($"Waiting for {timeToWait}");
+
+            yield return "Throwing a new System.Exception";
+            throw new Exception(TasksForm.GenerateRandomString(10));
         }
     }
 
