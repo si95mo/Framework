@@ -82,7 +82,7 @@ namespace Tasks
                 .Where((x) => !Attribute.IsDefined(x.GetType(), typeof(DontStopInAlarm)));
 
             // Then try to stop all the tasks in parallel, if possible
-            await tasksToStop.ParallelForeachAsync(async (x) => await Task.Run(() => x.Fail($"Alarm \"{e.DiagnosticMessage.Code}\" fired")));
+            await tasksToStop.ParallelForeachAsync(async (x) => await Task.Run(() => x.Fail($"Alarm '{e.DiagnosticMessage.Code}' fired")));
         }
     }
 }

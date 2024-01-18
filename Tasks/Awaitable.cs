@@ -120,11 +120,11 @@ namespace Tasks
                             {
                                 if (FailRequested)
                                 {
-                                    Logger.Warn($"Task with code \"{Code}\" stop requested from {nameof(AlarmMonitor)}. The last wait state enumerated is \"{oldWaitState}\"");
+                                    Logger.Debug($"Task with code \"{Code}\" stop requested from {nameof(AlarmMonitor)}. The last wait state enumerated is \"{oldWaitState}\"");
                                 }
                                 else if (StopRequested)
                                 {
-                                    Logger.Info($"Task with code \"{Code}\" stop requested from outside. The last wait state enumerated is \"{oldWaitState}\"");
+                                    Logger.Debug($"Task with code \"{Code}\" stop requested from outside. The last wait state enumerated is \"{oldWaitState}\"");
                                 }
 
                                 break;
@@ -155,11 +155,11 @@ namespace Tasks
                         }
                         else if (StopRequested && !FailRequested)
                         {
-                            Logger.Info($"Task with code \"{Code}\" faulted because a stop has been requested");
+                            Logger.Debug($"Task with code \"{Code}\" faulted because a stop has been requested");
                         }
                         else if(FailRequested && !StopRequested)
                         {
-                            Logger.Warn($"Task with code \"{Code}\" stop requested from {nameof(AlarmMonitor)}.");
+                            Logger.Debug($"Task with code \"{Code}\" stop requested from {nameof(AlarmMonitor)}.");
                         }
                     }
                 },
@@ -175,7 +175,7 @@ namespace Tasks
             FailRequested = true;
 
             WaitState.Value = reasonOfFailure;
-            Logger.Error($"Task with code \"{Code}\" failed, requesting stop. Reason of failure is \"{reasonOfFailure}\"");
+            Logger.Info($"Task with code \"{Code}\" failed, requesting stop. Reason of failure is \"{reasonOfFailure}\"");
 
             OnFail();
             Stop();
