@@ -51,7 +51,7 @@ namespace UserInterface.Controls.Tests
             //    ServiceBroker.Add<IResource>(resource);
             //}
 
-            resource = new SystemInfoResource("SystemInfoResource", 500);
+            resource = new SystemInfoResource("SystemInfoResource", 1000);
             resource.Start();
             ServiceBroker.Add<IResource>(resource);
 

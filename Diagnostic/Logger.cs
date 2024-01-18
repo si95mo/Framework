@@ -969,7 +969,7 @@ namespace Diagnostic
         /// <param name="e"></param>
         private static async void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            if (e.ExceptionObject is Exception ex)
+            if (e.ExceptionObject is Exception ex && !IsSameExceptionAsTheLast(ex))
             {
                 if (ex.TargetSite.DeclaringType.Assembly == Assembly.GetExecutingAssembly()) // Actual written code, no external sources. Always log theese exceptions
                 {

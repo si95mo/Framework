@@ -6,6 +6,16 @@
     public interface IPassword
     {
         /// <summary>
+        /// The <see cref="IPassword"/> <see cref="IEncryptor"/>
+        /// </summary>
+        IEncryptor Encryptor { get; }
+
+        /// <summary>
+        /// The encrypted password
+        /// </summary>
+        string EncryptedPassword { get; }
+
+        /// <summary>
         /// Encrypt a clear <paramref name="password"/>
         /// </summary>
         /// <param name="password">The password to encrypt</param>

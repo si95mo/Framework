@@ -79,7 +79,9 @@
     <Reference Include="ModernWpf.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c99d0cfbea7491ef, processorArchitecture=MSIL">
       <HintPath>..\packages\ModernWpf.Core.2.0.0-beta01\lib\net40-Client\ModernWpf.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -174,6 +176,10 @@
     <ProjectReference Include="..\Mathematics\Mathematics.csproj">
       <Project>{CFE7C7F0-3A06-42EC-905B-4B9DB2358BC1}</Project>
       <Name>Mathematics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Security\Security.csproj">
+      <Project>{CC60FCA3-319F-453A-A143-3C5B8282C642}</Project>
+      <Name>Security</Name>
     </ProjectReference>
     <ProjectReference Include="..\Signal.Processing\Signal.Processing.csproj">
       <Project>{55CB7D92-F9F3-43B8-8A82-D886FC194106}</Project>

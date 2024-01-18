@@ -2,6 +2,7 @@
 using Core.DataStructures;
 using Diagnostic;
 using Diagnostic.Messages;
+using Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,7 @@ namespace UserInterface.Controls.Tests
             ServiceBroker.Provide(new TasksService());
             ServiceBroker.Provide(new SchedulersService(maxDegreesOfParallelism: 4));
             ServiceBroker.Provide(new DiagnosticMessagesService());
+            ServiceBroker.Provide(new SecuritiesService());
 
             uiService = new UiService(this);
             ServiceBroker.Provide(uiService);

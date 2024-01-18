@@ -10,7 +10,7 @@ namespace Security.Passwords
         /// <summary>
         /// The <see cref="System.Text.Encoding"/> to use
         /// </summary>
-        internal Encoding Encoding { get; set; }
+        public Encoding Encoding { get; internal set; }
 
         /// <summary>
         /// Create a new instance of <see cref="DefaultEncryptor"/>

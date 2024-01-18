@@ -1,19 +1,19 @@
-﻿namespace Security.Passwords
+﻿using Newtonsoft.Json;
+
+namespace Security.Passwords
 {
     /// <summary>
     /// Define a password
     /// </summary>
     public class Password : IPassword
     {
-        /// <summary>
-        /// The <see cref="Password"/> <see cref="IEncryptor"/>
-        /// </summary>
-        protected IEncryptor Encryptor;
+        [JsonIgnore]
+        public IEncryptor Encryptor { get; private set; }
 
         /// <summary>
         /// The encrypted password
         /// </summary>
-        protected string EncryptedPassword {  get; set; }
+        public string EncryptedPassword { get; private set; }
 
         /// <summary>
         /// Create a new instance of <see cref="Password"/>
@@ -35,11 +35,21 @@
 
         public virtual void Encrypt(string password)
         {
+            if(Encryptor == null)
+            {
+                Encryptor = new DefaultEncryptor();
+            }
+
             EncryptedPassword = Encryptor.Encrypt(password);
         }
 
         public bool Match(string password)
         {
+            if (Encryptor == null)
+            {
+                Encryptor = new DefaultEncryptor();
+            }
+
             string encryptedPassword = Encryptor.Encrypt(password);
             bool match = EncryptedPassword == encryptedPassword;
 

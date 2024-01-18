@@ -1,4 +1,5 @@
-﻿using Security.Passwords;
+﻿using Newtonsoft.Json;
+using Security.Passwords;
 using System;
 
 namespace Security.Users
@@ -18,13 +19,22 @@ namespace Security.Users
 
         #region IProperty implementation
 
+        [JsonIgnore]
         public string Code => Name;
 
+        [JsonIgnore]
         public object ValueAsObject { get => Name; set => _ = value; }
 
+        [JsonIgnore]
         public Type Type => GetType();
 
         #endregion IProperty implementation
+
+        /// <summary>
+        /// Create a new instance of <see cref="User"/> with default <see cref="Name"/> and <see cref="Password"/>
+        /// </summary>
+        public User() : this("admin", "admin")
+        { }
 
         /// <summary>
         /// Create a new instance of <see cref="User"

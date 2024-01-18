@@ -37,5 +37,10 @@ namespace IO
         /// The application folder
         /// </summary>
         public static string Application => AppDomain.CurrentDomain.BaseDirectory;
+
+        /// <summary>
+        /// The users folder
+        /// </summary>
+        public static string Users => "users" + Path.DirectorySeparatorChar;
     }
 }
