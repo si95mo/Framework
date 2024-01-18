@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Diagnostic;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -141,6 +142,7 @@ namespace Core.DataStructures
             if (!CanProvide(code)) // The service has not been added yet
             {
                 services.Add(service);
+                Logger.Info($"Service of type \"{service.GetType().Name}\" provided");
             }
         }
 
