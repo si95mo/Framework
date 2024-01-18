@@ -66,7 +66,7 @@ namespace Core.DataStructures
 
         #region IDisposable implementation
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             // Remove all the connect event handlers for add, remove and cleared
             Subscribers.ClearEventInvocations(nameof(Subscribers.Added));

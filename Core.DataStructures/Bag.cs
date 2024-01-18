@@ -99,7 +99,7 @@ namespace Core.DataStructures
         /// <summary>
         /// The values of the items in the <see cref="Bag{IProperty}"/>
         /// </summary>
-        public List<IProperty> Values => bag.Values.ToList();
+        public List<T> Values => bag.Values.OfType<T>().ToList();
 
         #endregion Public properties
 
