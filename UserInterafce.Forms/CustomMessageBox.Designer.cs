@@ -63,7 +63,7 @@ namespace UserInterface.Forms
             // 
             // txbMessage
             // 
-            this.txbMessage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(52)))), ((int)(((byte)(52)))));
+            this.txbMessage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(52)))), ((int)(((byte)(52)))));
             this.txbMessage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txbMessage.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
             this.txbMessage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
@@ -81,7 +81,7 @@ namespace UserInterface.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(52)))), ((int)(((byte)(52)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.ClientSize = new System.Drawing.Size(753, 248);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.txbMessage);

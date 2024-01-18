@@ -84,7 +84,7 @@ namespace Security
             foreach (string directory in directories)
             {
                 string path = Path.Combine(directory, "User.json");
-                if(File.Exists(path))
+                if (File.Exists(path))
                 {
                     string json = File.ReadAllText(path);
 
@@ -130,7 +130,7 @@ namespace Security
             if (Subscribers.ContainsKey(name))
             {
                 IUser user = Subscribers.Get(name);
-                if (user.Match(password))
+                if (user.IsMatch(password))
                 {
                     ActualUser = user;
 
@@ -191,7 +191,7 @@ namespace Security
                 string json = JsonConvert.SerializeObject(user, Formatting.Indented, settings);
                 string path = Path.Combine(Paths.Users, user.Name);
 
-                if(!Directory.Exists(path))
+                if (!Directory.Exists(path))
                 {
                     Directory.CreateDirectory(path);
                 }
@@ -201,6 +201,25 @@ namespace Security
             }
 
             base.Dispose();
+        }
+
+        /// <summary>
+        /// Check if a combination of <paramref name="username"/> and <paramref name="password"/> matches with one of the stored <see cref="IUser"
+        /// </summary>
+        /// <param name="username">The username</param>
+        /// <param name="password">The password</param>
+        /// <returns><see langword="true"/> if the combination matches, <see langword="false"/> otherwise</returns>
+        public bool Match(string username, string password)
+        {
+            bool result = false;
+
+            if (Subscribers.ContainsKey(username))
+            {
+                IUser user = Subscribers.Get(username);
+                result = user.IsMatch(password);
+            }
+
+            return result;
         }
     }
 }

@@ -23,6 +23,6 @@ namespace Security.Users
         /// </summary>
         /// <param name="password">The password to check</param>
         /// <returns><see langword="true"/> if <paramref name="password"/> matches, <see langword="false"/> otherwise</returns>
-        bool Match(string password);
+        bool IsMatch(string password);
     }
 }

@@ -9,13 +9,13 @@ namespace Security.Users
     /// </summary>
     public class User : IUser
     {
-        #region IUser implementation
+        #region IUser properties implementation
 
         public string Name { get; protected set; }
 
         public IPassword Password { get; protected set; }
 
-        #endregion IUser implementation
+        #endregion IUser properties implementation
 
         #region IProperty implementation
 
@@ -61,7 +61,7 @@ namespace Security.Users
             Password = password;
         }
 
-        public bool Match(string password)
+        public bool IsMatch(string password)
             => Password.Match(password);
     }
 }

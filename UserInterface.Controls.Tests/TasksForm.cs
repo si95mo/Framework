@@ -6,6 +6,7 @@ using Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
 using Tasks;
 using UserInterface.Forms;
 
@@ -15,6 +16,7 @@ namespace UserInterface.Controls.Tests
     {
         private Alarm alarm;
         private readonly UiService uiService;
+        private readonly SecuritiesService securitiesService;
 
         public TasksForm()
         {
@@ -26,7 +28,9 @@ namespace UserInterface.Controls.Tests
             ServiceBroker.Provide(new TasksService());
             ServiceBroker.Provide(new SchedulersService(maxDegreesOfParallelism: 4));
             ServiceBroker.Provide(new DiagnosticMessagesService());
-            ServiceBroker.Provide(new SecuritiesService());
+
+            securitiesService = new SecuritiesService();
+            ServiceBroker.Provide(securitiesService);
 
             uiService = new UiService(this);
             ServiceBroker.Provide(uiService);
@@ -148,6 +152,29 @@ namespace UserInterface.Controls.Tests
             T randomEnumValue = enumValues[randomIndex];
 
             return randomEnumValue;
+        }
+
+        private void BtnLogIn_Click(object sender, EventArgs e)
+        {
+            if (SecuritiesService.ActualUser != null)
+            {
+                securitiesService.LogOut();
+            }
+
+            LoginForm form = new LoginForm();
+            form.FormClosed += delegate
+            {
+                if (form.DialogResult == DialogResult.OK)
+                {
+                    ShowAlert("Info", $"Login succeeded, actual logged in user is {SecuritiesService.ActualUser.Name}");
+                }
+                else
+                {
+                    ShowAlert("Info", "Login operation canceled");
+                }
+            };
+
+            form.ShowDialog();
         }
     }
 

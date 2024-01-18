@@ -35,6 +35,7 @@
             this.panelWithLed = new UserInterface.Controls.PanelWithLed();
             this.lblSchedulerLoad = new UserInterface.Controls.LabelControl();
             this.btnShowToaster = new UserInterface.Controls.ButtonControl();
+            this.btnLogIn = new UserInterface.Controls.ButtonControl();
             this.SuspendLayout();
             // 
             // LblFormName
@@ -141,11 +142,28 @@
             this.btnShowToaster.UseVisualStyleBackColor = false;
             this.btnShowToaster.Click += new System.EventHandler(this.BtnShowToaster_Click);
             // 
+            // btnLogin
+            // 
+            this.btnLogIn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.btnLogIn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.btnLogIn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(199)))), ((int)(((byte)(209)))), ((int)(((byte)(23)))));
+            this.btnLogIn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLogIn.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLogIn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
+            this.btnLogIn.Location = new System.Drawing.Point(1568, 216);
+            this.btnLogIn.Name = "btnLogin";
+            this.btnLogIn.Size = new System.Drawing.Size(150, 32);
+            this.btnLogIn.TabIndex = 15;
+            this.btnLogIn.Text = "Log in";
+            this.btnLogIn.UseVisualStyleBackColor = false;
+            this.btnLogIn.Click += new System.EventHandler(this.BtnLogIn_Click);
+            // 
             // TasksForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1940, 1100);
+            this.Controls.Add(this.btnLogIn);
             this.Controls.Add(this.lblSchedulerLoad);
             this.Controls.Add(this.btnResetAlarm);
             this.Controls.Add(this.panelWithLed);
@@ -167,6 +185,7 @@
             this.Controls.SetChildIndex(this.lblSchedulerLoad, 0);
             this.Controls.SetChildIndex(this.LblFormName, 0);
             this.Controls.SetChildIndex(this.ControlBox, 0);
+            this.Controls.SetChildIndex(this.btnLogIn, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -181,5 +200,6 @@
         private PanelWithLed panelWithLed;
         private LabelControl lblSchedulerLoad;
         private ButtonControl btnShowToaster;
+        private ButtonControl btnLogIn;
     }
 }
