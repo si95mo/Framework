@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Core.Extensions;
+using Diagnostic;
+using System;
 using System.Linq;
 
 namespace Core.DataStructures
@@ -61,5 +63,22 @@ namespace Core.DataStructures
         }
 
         #endregion IService implementation
+
+        #region IDisposable implementation
+
+        public void Dispose()
+        {
+            // Remove all the connect event handlers for add, remove and cleared
+            Subscribers.ClearEventInvocations(nameof(Subscribers.Added));
+            Subscribers.ClearEventInvocations(nameof(Subscribers.Removed));
+            Subscribers.ClearEventInvocations(nameof(Subscribers.Cleared));
+
+            // Then clear the bag without any other event attached
+            Subscribers.Clear();
+
+            Logger.Warn($"Service {GetType().Name} disposed");
+        }
+
+        #endregion IDisposable implementation
     }
 }

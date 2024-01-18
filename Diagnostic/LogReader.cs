@@ -1,5 +1,4 @@
-﻿using Core.Parameters;
-using System;
+﻿using System;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,16 +17,20 @@ namespace Diagnostic
         private static Task monitoringTask;
 
         /// <summary>
+        /// <see cref="EventHandler"/> that will fire when new lines are found on the monitored log file
+        /// </summary>
+        /// <remarks>The sender will be <see cref="LogText"/></remarks>
+        public static event EventHandler<EventArgs> NewTextFound;
+
+        /// <summary>
         /// The full log text with all the entries
         /// </summary>
-        public static StringParameter LogText { get; private set; }
-            = new StringParameter($"{nameof(LogReader)}.{nameof(LogText)}", string.Empty);
+        public static string LogText { get; private set; } = string.Empty;
 
         /// <summary>
         /// The last log entry
         /// </summary>
-        public static StringParameter LastLog { get; private set; }
-            = new StringParameter($"{nameof(LogReader)}.{nameof(LastLog)}", string.Empty);
+        public static string LastLog { get; private set; } = string.Empty;
 
         /// <summary>
         /// The log file path
@@ -104,13 +107,17 @@ namespace Diagnostic
                                         lastReadLength += bytesRead;
 
                                         if (bytesRead == 0)
+                                        {
                                             doLoop = false;
+                                        }
                                         else
                                         {
                                             string text = Encoding.ASCII.GetString(buffer, 0, bytesRead);
 
-                                            LogText.Value += text;
-                                            LastLog.Value = text;
+                                            LogText += text;
+                                            LastLog = text;
+
+                                            NewTextFound?.Invoke(LogText, new EventArgs());
                                         }
                                     }
                                 }

@@ -1,4 +1,5 @@
 ﻿using Core.DataStructures;
+using Core.DataStructures.Extensions;
 using Diagnostic;
 using FluentAssertions;
 using NUnit.Framework;

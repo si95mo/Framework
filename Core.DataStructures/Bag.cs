@@ -33,6 +33,31 @@ namespace Core.DataStructures
     }
 
     /// <summary>
+    /// Handle the <see cref="Bag{T}"/> collection is cleared
+    /// </summary>
+    /// <typeparam name="T">The type of the items in the <see cref="Bag{T}"/></typeparam>
+    public class BagClearedEventArgs<T> : EventArgs
+    {
+        /// <summary>
+        /// The <see cref="Bag{T}"/>
+        /// </summary>
+        public Bag<T> Bag
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Create a new instance of <see cref="BagClearedEventArgs{T}"/>
+        /// </summary>
+        /// <param name="bag">The <see cref="Bag{T}"/></param>
+        public BagClearedEventArgs(Bag<T> bag)
+        {
+            Bag = bag;
+        }
+    }
+
+    /// <summary>
     /// Class that represent a mathematical set of item,
     /// i.e. a collection of distinct items
     /// </summary>
@@ -51,6 +76,11 @@ namespace Core.DataStructures
         /// <see cref="EventHandler"/> invoked when an item is removed from the <see cref="Bag{T}"/>
         /// </summary>
         public event EventHandler<BagChangedEventArgs<IProperty>> Removed;
+
+        /// <summary>
+        /// <see cref="EventHandler"/> invoked when the <see cref="Bag{T}"/> is cleared (see <see cref="Clear"/>)
+        /// </summary>
+        public event EventHandler<BagClearedEventArgs<T>> Cleared;
 
         #endregion Event handlers
 
@@ -131,34 +161,25 @@ namespace Core.DataStructures
                 {
                     bag.Add(item.Code, item);
                     added = true;
-                }
 
-                OnItemAdded(new BagChangedEventArgs<IProperty>(item));
+                    OnItemAdded(new BagChangedEventArgs<IProperty>(item));
+                }
             }
 
             return added;
         }
 
         /// <summary>
-        /// Remove an item to the <see cref="Bag{T}"/>.
-        /// See <see cref="Remove(IProperty)"/> and also
-        /// <see cref="Dictionary{TKey, TValue}.Remove(TKey)"/>
+        /// Remove an item to the <see cref="Bag{T}"/>. See <see cref="Remove(IProperty)"/> and also <see cref="Dictionary{TKey, TValue}.Remove(TKey)"/>
         /// </summary>
         /// <param name="item">The item to be removed</param>
         /// <returns><see langword="true"/> if the item is removed,
         /// <see langword="false"/> otherwise</returns>
-        public bool Remove(IProperty item) => bag.Remove(item.Code);
+        public bool Remove(IProperty item) 
+            => Remove(item.Code);
 
         /// <summary>
-        /// Clear the <see cref="Bag{IProperty}"/>, thus
-        /// removing all of the stored items
-        /// </summary>
-        public void Clear() => bag.Clear();
-
-        /// <summary>
-        /// Remove an item to the <see cref="Bag{T}"/> given its code.
-        /// See <see cref="Remove(IProperty)"/> and also
-        /// <see cref="Dictionary{TKey, TValue}.Remove(TKey)"/>
+        /// Remove an item to the <see cref="Bag{T}"/> given its code. See <see cref="Remove(IProperty)"/> and also <see cref="Dictionary{TKey, TValue}.Remove(TKey)"/>
         /// </summary>
         /// <param name="code">The item code to be removed</param>
         /// <returns><see langword="true"/> if the item is removed,
@@ -168,14 +189,27 @@ namespace Core.DataStructures
             IProperty itemRemoved = null;
 
             if (bag.ContainsKey(code))
+            {
                 itemRemoved = bag[code];
+            }
 
             bool removed = bag.Remove(code);
 
             if (removed)
+            {
                 OnItemRemoved(new BagChangedEventArgs<IProperty>(itemRemoved));
+            }
 
             return removed;
+        }
+
+        /// <summary>
+        /// Clear the <see cref="Bag{IProperty}"/>, thus removing all of the stored items
+        /// </summary>
+        public void Clear()
+        {
+            Cleared?.Invoke(this, new BagClearedEventArgs<T>(this));
+            bag.Clear();
         }
 
         /// <summary>
@@ -186,7 +220,6 @@ namespace Core.DataStructures
         public T Get(string code)
         {
             T item = bag.ContainsKey(code) ? (T)bag[code] : default;
-
             return item;
         }
 

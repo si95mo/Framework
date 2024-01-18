@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Core.DataStructures
 {
@@ -57,7 +58,9 @@ namespace Core.DataStructures
             foreach (IProperty item in sublist)
             {
                 if (item is T)
+                {
                     returnCollection.Add(item);
+                }
             }
 
             return returnCollection;
@@ -76,7 +79,9 @@ namespace Core.DataStructures
                 foreach (IService tmp in services)
                 {
                     if (tmp.GetType().IsAssignableFrom(typeof(T)))
+                    {
                         service = (T)tmp;
+                    }
                 }
             }
 
@@ -114,7 +119,9 @@ namespace Core.DataStructures
                 foreach (IService service in services)
                 {
                     if (!flag) // If nothing has been yet found
+                    {
                         flag = typeof(T).IsAssignableFrom(service.GetType()); // Try condition and update flag
+                    }
                 }
 
                 canProvide = flag; // Flag should be true if the condition met once, or false otherwise
@@ -132,8 +139,17 @@ namespace Core.DataStructures
         {
             string code = service.Code;
             if (!CanProvide(code)) // The service has not been added yet
+            {
                 services.Add(service);
+            }
         }
+
+        /// <summary>
+        /// Get all the subscribed <see cref="IService"/>
+        /// </summary>
+        /// <returns>The <see cref="IEnumerable{T}"/> with the <see cref="IService"/></returns>
+        public static IEnumerable<IService> GetServices()
+            => services.ToList().OfType<IService>();
 
         /// <summary>
         /// Get the <see cref="IEnumerator{T}"/> used to iterate through the <see cref="ServiceBroker"/>

@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
 
-namespace Core.DataStructures
+namespace Core.DataStructures.Extensions
 {
     public static class DataStructuresExtensions
     {

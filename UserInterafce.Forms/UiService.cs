@@ -1,7 +1,9 @@
 ﻿using Core;
 using Core.DataStructures;
+using Diagnostic;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace UserInterface.Forms
 {
@@ -48,6 +50,8 @@ namespace UserInterface.Forms
         public UiService(string code, CustomForm form) : base(code)
         {
             Form = form;
+
+            Form.FormClosed += Form_FormClosed;
         }
 
         /// <summary>
@@ -99,6 +103,24 @@ namespace UserInterface.Forms
                     activeToaster.MoveToLocation(Form, toasterCounter++);
                 }
             }
+        }
+
+        private void Form_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
+        {
+            IEnumerable<IService> services = ServiceBroker.GetServices();
+            int count = services.Count();
+
+            int counter = 0;
+            foreach(IService service in services)
+            {
+                Logger.Warn($"Disposing service ({++counter}/{count}) of type \"{service.GetType().Name}\"");
+                service.Dispose();
+            }
+
+            Logger.Warn("All services disposed");
+            Logger.Warn("Main form is closed");
+
+            Form.FormClosed -= Form_FormClosed;
         }
     }
 }

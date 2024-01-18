@@ -1,9 +1,11 @@
-﻿namespace Core.DataStructures
+﻿using System;
+
+namespace Core.DataStructures
 {
     /// <summary>
     /// Define a generic service
     /// </summary>
-    public interface IService : IProperty
+    public interface IService : IProperty, IDisposable
     { }
 
     /// <summary>
