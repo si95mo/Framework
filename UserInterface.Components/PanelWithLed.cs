@@ -88,12 +88,12 @@ namespace UserInterface.Controls
             e.Graphics.FillRectangle(new SolidBrush(ControlPaint.LightLight(Colors.Grey)), 0, 0, Width, 30);
             e.Graphics.FillRectangle(new SolidBrush(indicatorColor), 0, 0, 10, Height);
 
-            Brush bTitle = new SolidBrush(ForeColor);
+            Brush titleBrush = new SolidBrush(ForeColor);
 
             e.Graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.Default;
             e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.Default;
 
-            e.Graphics.DrawString(Title, base.Font, bTitle, 16, 5);
+            e.Graphics.DrawString(Title, Font, titleBrush, 16, 4);
 
             base.OnPaint(e);
         }

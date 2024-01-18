@@ -46,11 +46,11 @@
             // 
             // lblLoad
             // 
-            this.lblLoad.BackColor = System.Drawing.Color.White;
+            this.lblLoad.BackColor = System.Drawing.Color.WhiteSmoke;
             this.lblLoad.Font = new System.Drawing.Font("Lucida Sans Unicode", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLoad.Location = new System.Drawing.Point(468, 170);
+            this.lblLoad.Location = new System.Drawing.Point(460, 170);
             this.lblLoad.Name = "lblLoad";
-            this.lblLoad.Size = new System.Drawing.Size(52, 29);
+            this.lblLoad.Size = new System.Drawing.Size(60, 29);
             this.lblLoad.TabIndex = 2;
             this.lblLoad.Text = "100.00%";
             this.lblLoad.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
