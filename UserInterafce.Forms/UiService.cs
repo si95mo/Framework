@@ -113,7 +113,7 @@ namespace UserInterface.Forms
             int counter = 0;
             foreach(IService service in services)
             {
-                Logger.Warn($"Disposing service ({++counter}/{count}) of type \"{service.GetType().Name}\"");
+                Logger.Info($"Disposing service ({++counter}/{count}) of type \"{service.GetType().Name}\"");
                 service.Dispose();
             }
 

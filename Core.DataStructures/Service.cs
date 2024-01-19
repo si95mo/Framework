@@ -76,7 +76,7 @@ namespace Core.DataStructures
             // Then clear the bag without any other event attached
             Subscribers.Clear();
 
-            Logger.Warn($"Service {GetType().Name} disposed");
+            Logger.Debug($"Service {GetType().Name} disposed");
         }
 
         #endregion IDisposable implementation
