@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace Core.Parameters
 {
@@ -15,5 +16,10 @@ namespace Core.Parameters
     /// <typeparam name="T">The <see cref="Enum"/> type</typeparam>
     public interface IEnumParameter<T> : IParameter<T>
     {
+        /// <summary>
+        /// The <see cref="IEnumParameter{T}"/> value as <see cref="int"/>
+        /// </summary>
+        [JsonIgnore]
+        int ValueAsInt { get; }
     }
 }

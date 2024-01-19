@@ -83,6 +83,7 @@ namespace Tasks
             OutputParameters = new Bag<IParameter>();
 
             ServiceBroker.GetService<TasksService>().Add(this);
+            Scheduler.Tasks.Add(this);
         }
 
         #region IAwaitable interface implementation

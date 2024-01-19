@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace Core
 {
@@ -329,6 +330,7 @@ namespace Core
         /// <summary>
         /// The <see cref="IProperty"/> value as <see cref="object"/>
         /// </summary>
+        [JsonIgnore]
         object ValueAsObject
         { get; set; }
 
@@ -336,6 +338,7 @@ namespace Core
         /// The <see cref="IProperty"/> wrapped
         /// value <see cref="System.Type"/>
         /// </summary>
+        [JsonIgnore]
         Type Type
         { get; }
     }

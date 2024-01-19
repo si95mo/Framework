@@ -1,4 +1,5 @@
 ﻿using Core.Parameters.IReadOnly;
+using Newtonsoft.Json;
 using System;
 
 namespace Core.Parameters
@@ -12,9 +13,6 @@ namespace Core.Parameters
     [Serializable]
     public class EnumParameter<T> : Parameter<T>, IEnumParameter<T>, IReadOnlyEnumParameter<T> where T : Enum
     {
-        /// <summary>
-        /// The <see cref="EnumParameter{T}.Value"/> value as <see cref="int"/>
-        /// </summary>
         public int ValueAsInt => Convert.ToInt32(Value);
 
         /// <summary>

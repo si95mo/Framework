@@ -1,4 +1,5 @@
 ﻿using Core.Converters;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
@@ -20,17 +21,11 @@ namespace Core.Parameters
         private List<IProperty> subscribers;
 
         /// <summary>
-        /// The converter
-        /// </summary>
-        private IConverter<T, T> converter;
-
-        /// <summary>
         /// The object lock
         /// </summary>
         private readonly object eventLock = new object();
 
         public event EventHandler<ValueChangedEventArgs> ValueChanged;
-
         public event EventHandler<ValueSetEventArgs> ValueSet;
 
         public string Description { get; set; }

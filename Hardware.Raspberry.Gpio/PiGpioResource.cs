@@ -34,7 +34,7 @@ namespace Hardware.Raspberry
             Channels.Added += Channels_ItemAdded;
         }
 
-        private void Channels_ItemAdded(object sender, BagChangedEventArgs<IProperty> e)
+        private void Channels_ItemAdded(object sender, BagChangedEventArgs<IChannel> e)
         {
             if (e.Item is IPiChannel)
             {

@@ -12,7 +12,7 @@ namespace Core.DataStructures.Extensions
         /// <typeparam name="T">The type of the items contained in the <see cref="IService{T}"/></typeparam>
         /// <param name="source">The source <see cref="IService{T}"/></param>
         /// <returns>The <see cref="List{T}"/> with all the subscribers</returns>
-        public static List<IProperty> ToList<T>(this IService<T> source) where T : IProperty
+        public static List<T> ToList<T>(this IService<T> source) where T : IProperty
             => source.GetAll().ToList();
     }
 }

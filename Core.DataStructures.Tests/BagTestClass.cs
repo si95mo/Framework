@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using Core.Parameters;
+using FluentAssertions;
 using Hardware;
 using NUnit.Framework;
 
@@ -6,12 +7,12 @@ namespace Core.DataStructures.Tests
 {
     public class BagTestClass
     {
-        private Bag<IChannel<double>> bag;
+        private Bag<IChannel> bag;
 
         [OneTimeSetUp]
         public void Init()
         {
-            bag = new Bag<IChannel<double>>();
+            bag = new Bag<IChannel>();
 
             bag.Added += Bag_ItemAdded;
             bag.Removed += Bag_ItemRemoved;
@@ -29,12 +30,12 @@ namespace Core.DataStructures.Tests
             bag.Count.Should().Be(4);
         }
 
-        private void Bag_ItemAdded(object sender, BagChangedEventArgs<IProperty> e)
+        private void Bag_ItemAdded(object sender, BagChangedEventArgs<IChannel> e)
         {
             bag.Count.Should().BeGreaterThan(0);
         }
 
-        private void Bag_ItemRemoved(object sender, BagChangedEventArgs<IProperty> e)
+        private void Bag_ItemRemoved(object sender, BagChangedEventArgs<IChannel> e)
         {
             bool removed = bag.Remove(e.Item.Code);
             removed.Should().BeFalse();
@@ -54,7 +55,7 @@ namespace Core.DataStructures.Tests
         [TestCase("AoSecond")]
         public void GetItem(string code)
         {
-            IChannel channel = bag.Get(code) as IChannel;
+            IChannel channel = bag.Get(code);
             channel.Code.Should().Be(code);
         }
 
@@ -72,10 +73,10 @@ namespace Core.DataStructures.Tests
             else
             {
                 channel = new AnalogInput(code);
-                bag.Add(channel);
+                bag.Add(channel as AnalogInput);
             }
 
-            bool removed = bag.Remove(channel);
+            bool removed = bag.Remove(channel.Code);
             removed.Should().BeTrue();
         }
 

@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.DataStructures;
 using Core.Parameters;
 
 namespace Tasks
@@ -19,5 +20,10 @@ namespace Tasks
         /// The actual <see cref="IScheduler"/> load
         /// </summary>
         NumericParameter Load { get; }
+
+        /// <summary>
+        /// The <see cref="Bag{T}"/> with all the <see cref="IScheduler"/> associated <see cref="IAwaitable"/> tasks
+        /// </summary>
+        Bag<IAwaitable> Tasks { get; }
     }
 }

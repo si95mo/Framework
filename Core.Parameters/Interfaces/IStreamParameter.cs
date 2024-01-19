@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Newtonsoft.Json;
+using System.Text;
 
 namespace Core.Parameters
 {
@@ -7,6 +8,7 @@ namespace Core.Parameters
         /// <summary>
         /// The <see cref="IStreamParameter"/> <see cref="System.Text.Encoding"/>
         /// </summary>
+        [JsonIgnore]
         Encoding Encoding { get; }
 
         /// <summary>

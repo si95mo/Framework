@@ -11,7 +11,7 @@ namespace Core.DataStructures
     /// Handle the <see cref="Bag{T}"/> collection change
     /// </summary>
     /// <typeparam name="T">The type of the items in the <see cref="Bag{T}"/></typeparam>
-    public class BagChangedEventArgs<T> : EventArgs
+    public class BagChangedEventArgs<T> : EventArgs where T : IProperty
     {
         /// <summary>
         /// The item
@@ -36,7 +36,7 @@ namespace Core.DataStructures
     /// Handle the <see cref="Bag{T}"/> collection is cleared
     /// </summary>
     /// <typeparam name="T">The type of the items in the <see cref="Bag{T}"/></typeparam>
-    public class BagClearedEventArgs<T> : EventArgs
+    public class BagClearedEventArgs<T> : EventArgs where T : IProperty
     {
         /// <summary>
         /// The <see cref="Bag{T}"/>
@@ -63,19 +63,19 @@ namespace Core.DataStructures
     /// </summary>
     /// <typeparam name="T">The type of elements in the <see cref="Bag{T}"/></typeparam>
     [Serializable]
-    public class Bag<T> : IEnumerable<IProperty>, ISerializable
+    public class Bag<T> : IEnumerable<T>, ISerializable where T : IProperty
     {
         #region Event handlers
 
         /// <summary>
         /// <see cref="EventHandler"/> invoked when an item is added to the <see cref="Bag{T}"/>
         /// </summary>
-        public event EventHandler<BagChangedEventArgs<IProperty>> Added;
+        public event EventHandler<BagChangedEventArgs<T>> Added;
 
         /// <summary>
         /// <see cref="EventHandler"/> invoked when an item is removed from the <see cref="Bag{T}"/>
         /// </summary>
-        public event EventHandler<BagChangedEventArgs<IProperty>> Removed;
+        public event EventHandler<BagChangedEventArgs<T>> Removed;
 
         /// <summary>
         /// <see cref="EventHandler"/> invoked when the <see cref="Bag{T}"/> is cleared (see <see cref="Clear"/>)
@@ -103,14 +103,14 @@ namespace Core.DataStructures
 
         #endregion Public properties
 
-        private readonly Dictionary<string, IProperty> bag;
+        private readonly Dictionary<string, T> bag;
 
         /// <summary>
-        /// Create a new instance of <see cref="Bag{IProperty}"/>
+        /// Create a new instance of <see cref="Bag{T}"/>
         /// </summary>
         public Bag()
         {
-            bag = new Dictionary<string, IProperty>();
+            bag = new Dictionary<string, T>();
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace Core.DataStructures
         /// <param name="context">The <see cref="StreamingContext"/></param>
         protected Bag(SerializationInfo info, StreamingContext context)
         {
-            bag = (Dictionary<string, IProperty>)info.GetValue(nameof(bag), typeof(Dictionary<string, IProperty>));
+            bag = (Dictionary<string, T>)info.GetValue(nameof(bag), typeof(Dictionary<string, T>));
         }
 
         #region Handlers
@@ -129,7 +129,7 @@ namespace Core.DataStructures
         /// On item added event
         /// </summary>
         /// <param name="e">The <see cref="BagChangedEventArgs{T}"/></param>
-        protected virtual void OnItemAdded(BagChangedEventArgs<IProperty> e)
+        protected virtual void OnItemAdded(BagChangedEventArgs<T> e)
         {
             Added?.Invoke(this, e);
         }
@@ -138,7 +138,7 @@ namespace Core.DataStructures
         /// On item removed event
         /// </summary>
         /// <param name="e">The <see cref="BagChangedEventArgs{T}"/></param>
-        protected virtual void OnItemRemoved(BagChangedEventArgs<IProperty> e)
+        protected virtual void OnItemRemoved(BagChangedEventArgs<T> e)
         {
             Removed?.Invoke(this, e);
         }
@@ -151,7 +151,7 @@ namespace Core.DataStructures
         /// <param name="item">The item to be added</param>
         /// <returns><see langword="true"/> if the item is added,
         /// <see langword="false"/> otherwise</returns>
-        public bool Add(IProperty item)
+        public bool Add(T item)
         {
             bool added = false;
 
@@ -162,7 +162,7 @@ namespace Core.DataStructures
                     bag.Add(item.Code, item);
                     added = true;
 
-                    OnItemAdded(new BagChangedEventArgs<IProperty>(item));
+                    OnItemAdded(new BagChangedEventArgs<T>(item));
                 }
             }
 
@@ -170,23 +170,23 @@ namespace Core.DataStructures
         }
 
         /// <summary>
-        /// Remove an item to the <see cref="Bag{T}"/>. See <see cref="Remove(IProperty)"/> and also <see cref="Dictionary{TKey, TValue}.Remove(TKey)"/>
+        /// Remove an item to the <see cref="Bag{T}"/>. See <see cref="Remove(T)"/> and also <see cref="Dictionary{TKey, TValue}.Remove(TKey)"/>
         /// </summary>
         /// <param name="item">The item to be removed</param>
         /// <returns><see langword="true"/> if the item is removed,
         /// <see langword="false"/> otherwise</returns>
-        public bool Remove(IProperty item) 
+        public bool Remove(T item)
             => Remove(item.Code);
 
         /// <summary>
-        /// Remove an item to the <see cref="Bag{T}"/> given its code. See <see cref="Remove(IProperty)"/> and also <see cref="Dictionary{TKey, TValue}.Remove(TKey)"/>
+        /// Remove an item to the <see cref="Bag{T}"/> given its code. See <see cref="Remove(T)"/> and also <see cref="Dictionary{TKey, TValue}.Remove(TKey)"/>
         /// </summary>
         /// <param name="code">The item code to be removed</param>
         /// <returns><see langword="true"/> if the item is removed,
         /// <see langword="false"/> otherwise</returns>
         public bool Remove(string code)
         {
-            IProperty itemRemoved = null;
+            T itemRemoved = default;
 
             if (bag.ContainsKey(code))
             {
@@ -197,14 +197,14 @@ namespace Core.DataStructures
 
             if (removed)
             {
-                OnItemRemoved(new BagChangedEventArgs<IProperty>(itemRemoved));
+                OnItemRemoved(new BagChangedEventArgs<T>(itemRemoved));
             }
 
             return removed;
         }
 
         /// <summary>
-        /// Clear the <see cref="Bag{IProperty}"/>, thus removing all of the stored items
+        /// Clear the <see cref="Bag{T}"/>, thus removing all of the stored items
         /// </summary>
         public void Clear()
         {
@@ -213,7 +213,7 @@ namespace Core.DataStructures
         }
 
         /// <summary>
-        /// Retrieve an item from the <see cref="Bag{IProperty}"/>
+        /// Retrieve an item from the <see cref="Bag{T}"/>
         /// </summary>
         /// <param name="code">The code</param>
         /// <returns>The object if the code is found in the <see cref="Bag{T}"/>, or <see langword="default"/> otherwise</returns>
@@ -225,10 +225,10 @@ namespace Core.DataStructures
 
         /// <summary>
         /// Convert the <see cref="Bag{T}"/>
-        /// into a <see cref="List{IProperty}"/>
+        /// into a <see cref="List{T}"/>
         /// </summary>
-        /// <returns>The converted <see cref="List{IProperty}"/></returns>
-        public List<IProperty> ToList()
+        /// <returns>The converted <see cref="List{T}"/></returns>
+        public List<T> ToList()
         {
             return bag.Values.ToList();
         }
@@ -254,7 +254,7 @@ namespace Core.DataStructures
         /// iterate through the <see cref="Bag{T}"/>
         /// </summary>
         /// <returns>The <see cref="IEnumerator{T}"/></returns>
-        public IEnumerator<IProperty> GetEnumerator()
+        public IEnumerator<T> GetEnumerator()
             => bag.Values.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator()

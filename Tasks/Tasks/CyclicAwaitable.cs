@@ -81,8 +81,10 @@ namespace Tasks
                             } while (stopRequest.Wait((int)Math.Max(0, CycleTime.TotalMilliseconds - timer.ElapsedMilliseconds)));
 
                             timer.Stop();
-                            if (timer.ElapsedMilliseconds > CycleTime.TotalMilliseconds + 10) // Plus 10ms of threshold
+                            if (timer.ElapsedMilliseconds > CycleTime.TotalMilliseconds + 50) // 50ms of threshold
+                            {
                                 Logger.Warn($"{Code} cycle time of {CycleTime.TotalMilliseconds} [ms] exceeded. Last cycle took {timer.ElapsedMilliseconds} [ms]");
+                            }
                         }
 
                         // And then through the termination task state (that should be canceled)

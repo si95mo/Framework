@@ -322,7 +322,7 @@ namespace Hardware.Can
                         }
                     }
 
-                    List<IProperty> list = Channels.ToList();
+                    List<IChannel> list = Channels.ToList();
                     bool channelFound = false;
                     for (int i = 0; i < list.Count && !channelFound; i++)
                     {

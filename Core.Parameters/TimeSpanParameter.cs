@@ -1,4 +1,5 @@
 ﻿using Core.Parameters.IReadOnly;
+using Newtonsoft.Json;
 using System;
 
 namespace Core.Parameters
@@ -14,6 +15,7 @@ namespace Core.Parameters
         /// Represent the current <see cref="TimeSpan"/> stored in
         /// <see cref="Parameter{T}.Value"/> as seconds
         /// </summary>
+        [JsonIgnore]
         public double ValueAsSeconds
         {
             get => Value.TotalSeconds;
@@ -24,6 +26,7 @@ namespace Core.Parameters
         /// Represent the current <see cref="TimeSpan"/> stored in
         /// <see cref="Parameter{T}.Value"/> as milliseconds
         /// </summary>
+        [JsonIgnore]
         public double ValueAsMilliseconds
         {
             get => Value.TotalMilliseconds;

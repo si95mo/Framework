@@ -41,6 +41,11 @@ namespace IO
         /// <summary>
         /// The users folder
         /// </summary>
-        public static string Users => "users" + Path.DirectorySeparatorChar;
+        public static string Users => "users" + Path.DirectorySeparatorChar; 
+
+        /// <summary>
+        /// The parameters folder
+        /// </summary>
+        public static string Parameters => "parameters" + Path.DirectorySeparatorChar;
     }
 }

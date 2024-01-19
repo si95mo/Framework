@@ -1,5 +1,6 @@
 ﻿using Core.Conditions;
 using Core.DataStructures;
+using Core.Parameters;
 using Diagnostic;
 using Diagnostic.Messages;
 using Security;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using Tasks;
+using Tasks.Configurations;
 using UserInterface.Forms;
 
 namespace UserInterface.Controls.Tests
@@ -53,6 +55,7 @@ namespace UserInterface.Controls.Tests
                 new FunctionTask(Name + i);
             }
 
+            new Configure(Name + ".Configure");
             new FunctionTaskWithException(Name + ".WithException");
 
             for (int i = 0; i < 2; i++)
@@ -77,6 +80,8 @@ namespace UserInterface.Controls.Tests
                 SchedulerControl schedulerControl = new SchedulerControl(scheduler);
                 schedulerFlowLayout.Controls.Add(schedulerControl);
             }
+
+            ServiceBroker.GetService<ConfigurationsService>().ConfigureAll();
 
             CenterToScreen();
         }
@@ -208,7 +213,7 @@ namespace UserInterface.Controls.Tests
 
         public override IEnumerable<string> Execution()
         {
-            yield return "Incrementing counter";
+            yield return $"Incrementing counter to {counter + 1}";
             counter++;
 
             yield return "Cycle done";
@@ -232,7 +237,7 @@ namespace UserInterface.Controls.Tests
 
         public override IEnumerable<string> Execution()
         {
-            yield return "Incrementing counter";
+            yield return $"Incrementing counter to {counter + 1}";
             counter++;
 
             yield return "Cycle done";
@@ -253,6 +258,21 @@ namespace UserInterface.Controls.Tests
 
             yield return "Throwing a new System.Exception";
             throw new Exception(TasksForm.GenerateRandomString(10));
+        }
+    }
+
+    public class Configure : ConfigurationTask
+    {
+        internal NumericParameter Value = new NumericParameter(nameof(Value), measureUnit: "V", format: "0.000");
+
+        public Configure(string code, Scheduler scheduler = null) : base(code, scheduler)
+        {
+            InputParameters.Add(Value);
+        }
+
+        public override IEnumerable<string> Execution()
+        {
+            yield return "Done";
         }
     }
 

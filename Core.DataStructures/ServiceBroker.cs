@@ -55,8 +55,8 @@ namespace Core.DataStructures
         {
             Bag<T> returnCollection = new Bag<T>();
 
-            List<IProperty> sublist = subscribers.ToList();
-            foreach (IProperty item in sublist)
+            List<T> sublist = subscribers.Cast<T>().ToList();
+            foreach (T item in sublist)
             {
                 if (item is T)
                 {

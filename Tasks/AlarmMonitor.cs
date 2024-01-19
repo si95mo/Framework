@@ -15,7 +15,7 @@ namespace Tasks
     /// </summary>
     public static class AlarmMonitor
     {
-        private static DiagnosticMessagesService alarmsService;
+        private static DiagnosticMessagesService messagesService;
         private static TasksService tasksService;
 
         /// <summary>
@@ -27,11 +27,11 @@ namespace Tasks
             // 1) Retrieve the diagnostic messages service
             if (ServiceBroker.CanProvide<DiagnosticMessagesService>())
             {
-                alarmsService = ServiceBroker.GetService<DiagnosticMessagesService>();
+                messagesService = ServiceBroker.GetService<DiagnosticMessagesService>();
             }
             else
             {
-                alarmsService = new DiagnosticMessagesService();
+                messagesService = new DiagnosticMessagesService();
                 Logger.Error($"{nameof(DiagnosticMessagesService)} not provided by the {nameof(ServiceBroker)}. {nameof(AlarmMonitor)} will use its own");
             }
 
@@ -47,16 +47,16 @@ namespace Tasks
             }
 
             // The bind all the possible alarms already present in the service
-            foreach (IDiagnosticMessage message in alarmsService.GetAll().Cast<IDiagnosticMessage>())
+            foreach (IDiagnosticMessage message in messagesService.GetAll().Cast<IDiagnosticMessage>())
             {
                 Bind(message);
             }
 
             // And prepare to bind the ones that will be added later
-            alarmsService.Subscribers.Added += DiagnosticMessage_Added;
+            messagesService.Subscribers.Added += DiagnosticMessage_Added;
         }
 
-        private static void DiagnosticMessage_Added(object sender, BagChangedEventArgs<Core.IProperty> e)
+        private static void DiagnosticMessage_Added(object sender, BagChangedEventArgs<IDiagnosticMessage> e)
         {
             Bind(e.Item as IDiagnosticMessage);
         }

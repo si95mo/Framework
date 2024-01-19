@@ -47,6 +47,7 @@ namespace Tasks
 
         public NumericParameter RunningTasks { get; protected set; }
         public NumericParameter Load { get; protected set; }
+        public Bag<IAwaitable> Tasks { get; protected set; }
 
         #endregion IScheduler implementation
 
@@ -71,6 +72,7 @@ namespace Tasks
 
             RunningTasks = new NumericParameter($"{Code}.{nameof(RunningTasks)}", measureUnit: string.Empty, format: "0", value: 0d);
             Load = new NumericParameter($"{Code}.{nameof(Load)}", measureUnit: "%", format: "0.00", value: 0d);
+            Tasks = new Bag<IAwaitable>();
 
             RunningTasks.ConnectTo(Load, new GenericConverter<double, double>(new Func<double, double>((x) => x / MaxDeegreesOfParallelism * 100d)));
 

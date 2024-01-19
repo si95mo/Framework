@@ -1,4 +1,5 @@
 ﻿using Core.Parameters.IReadOnly;
+using Newtonsoft.Json;
 using System;
 
 namespace Core.Parameters
@@ -14,6 +15,7 @@ namespace Core.Parameters
         /// The <see cref="Value"/> as <see cref="double"/>
         /// </summary>
         /// <remarks>If the conversion is not possible, then 0 is returned!</remarks>
+        [JsonIgnore]
         public double ValueAsDouble
         {
             get
@@ -27,6 +29,7 @@ namespace Core.Parameters
         /// The <see cref="Value"/> as <see cref="float"/>
         /// </summary>
         /// <remarks>If the conversion is not possible, then 0 is returned!</remarks>
+        [JsonIgnore]
         public float ValueAsFloat
         {
             get
@@ -40,6 +43,7 @@ namespace Core.Parameters
         /// The <see cref="Value"/> as <see cref="int"/>
         /// </summary>
         /// <remarks>If the conversion is not possible, then 0 is returned!</remarks>
+        [JsonIgnore]
         public int ValueAsInt
         {
             get
@@ -53,6 +57,7 @@ namespace Core.Parameters
         /// The <see cref="Value"/> as <see cref="bool"/>
         /// </summary>
         /// <remarks>If the conversion is not possible, then <see langword="false"/> is returned!</remarks>
+        [JsonIgnore]
         public bool ValueAsBool
         {
             get

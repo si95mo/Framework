@@ -1,4 +1,5 @@
 ﻿using Core.Parameters.IReadOnly;
+using Newtonsoft.Json;
 using System;
 using System.Linq;
 
@@ -35,6 +36,7 @@ namespace Core.Parameters
         /// <summary>
         /// The <see cref="Value"/> as <see cref="double"/> (i.e. the mean value of the array)
         /// </summary>
+        [JsonIgnore]
         public double ValueAsDouble => Value.Average();
 
         /// <summary>
