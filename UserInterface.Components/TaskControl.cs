@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Parameters;
+using System;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -71,6 +72,16 @@ namespace UserInterface.Controls
             }
 
             bufferIndex = 0;
+
+            foreach (IParameter input in task.InputParameters)
+            {
+                inputPanel.Controls.Add(new LabelControl() { Text = $"{input.Code}, {input}", Size = new Size(inputPanel.Width - 16, 32), TextAlign = ContentAlignment.MiddleCenter });
+            }
+
+            foreach (IParameter output in task.OutputParameters)
+            {
+                outputPanel.Controls.Add(new LabelControl() { Text = $"{output.Code}, {output}", Size = new Size(outputPanel.Width - 16, 32), TextAlign = ContentAlignment.MiddleCenter });
+            }
 
             task.Status.ValueChanged += TaskStatus_ValueChanged;
             task.WaitState.ValueChanged += WaitState_ValueChanged;
