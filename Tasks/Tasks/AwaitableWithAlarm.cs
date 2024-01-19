@@ -49,7 +49,7 @@ namespace Tasks
         /// Reset the <see cref="Alarm"/>
         /// </summary>
         protected void ResetAlarm()
-        => alarmCondition.Force(false);
+            => alarmCondition.Force(false);
 
         #endregion Alarm
 
