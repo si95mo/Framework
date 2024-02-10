@@ -54,6 +54,9 @@
     <Compile Include="CustomForm.Designer.cs">
       <DependentUpon>CustomForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="CustomFormUtils.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="CustomMessageBox.cs">
       <SubType>Form</SubType>
     </Compile>

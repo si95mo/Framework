@@ -40,23 +40,23 @@
             // 
             // LblFormName
             // 
-            this.LblFormName.Margin = new System.Windows.Forms.Padding(12, 0, 12, 0);
-            this.LblFormName.Size = new System.Drawing.Size(155, 25);
+            this.LblFormName.Margin = new System.Windows.Forms.Padding(17, 0, 17, 0);
+            this.LblFormName.Size = new System.Drawing.Size(227, 39);
             this.LblFormName.Text = "CustomForm";
             // 
             // ControlBox
             // 
-            this.ControlBox.Location = new System.Drawing.Point(492, 20);
-            this.ControlBox.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.ControlBox.Location = new System.Drawing.Point(689, 28);
+            this.ControlBox.Margin = new System.Windows.Forms.Padding(10, 8, 10, 8);
             // 
             // taskFlowLayout
             // 
             this.taskFlowLayout.AutoScroll = true;
             this.taskFlowLayout.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.taskFlowLayout.Location = new System.Drawing.Point(0, 56);
-            this.taskFlowLayout.Margin = new System.Windows.Forms.Padding(5);
+            this.taskFlowLayout.Location = new System.Drawing.Point(0, 78);
+            this.taskFlowLayout.Margin = new System.Windows.Forms.Padding(7, 7, 7, 7);
             this.taskFlowLayout.Name = "taskFlowLayout";
-            this.taskFlowLayout.Size = new System.Drawing.Size(1550, 520);
+            this.taskFlowLayout.Size = new System.Drawing.Size(2170, 728);
             this.taskFlowLayout.TabIndex = 1;
             this.taskFlowLayout.WrapContents = false;
             // 
@@ -64,10 +64,10 @@
             // 
             this.schedulerFlowLayout.AutoScroll = true;
             this.schedulerFlowLayout.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.schedulerFlowLayout.Location = new System.Drawing.Point(0, 580);
-            this.schedulerFlowLayout.Margin = new System.Windows.Forms.Padding(5);
+            this.schedulerFlowLayout.Location = new System.Drawing.Point(0, 812);
+            this.schedulerFlowLayout.Margin = new System.Windows.Forms.Padding(7, 7, 7, 7);
             this.schedulerFlowLayout.Name = "schedulerFlowLayout";
-            this.schedulerFlowLayout.Size = new System.Drawing.Size(1550, 520);
+            this.schedulerFlowLayout.Size = new System.Drawing.Size(2170, 728);
             this.schedulerFlowLayout.TabIndex = 2;
             this.schedulerFlowLayout.WrapContents = false;
             // 
@@ -79,9 +79,10 @@
             this.btnFireAlarm.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnFireAlarm.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnFireAlarm.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
-            this.btnFireAlarm.Location = new System.Drawing.Point(1568, 56);
+            this.btnFireAlarm.Location = new System.Drawing.Point(2195, 78);
+            this.btnFireAlarm.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnFireAlarm.Name = "btnFireAlarm";
-            this.btnFireAlarm.Size = new System.Drawing.Size(150, 32);
+            this.btnFireAlarm.Size = new System.Drawing.Size(210, 45);
             this.btnFireAlarm.TabIndex = 12;
             this.btnFireAlarm.Text = "Fire alarm";
             this.btnFireAlarm.UseVisualStyleBackColor = false;
@@ -95,9 +96,10 @@
             this.btnResetAlarm.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnResetAlarm.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnResetAlarm.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
-            this.btnResetAlarm.Location = new System.Drawing.Point(1568, 94);
+            this.btnResetAlarm.Location = new System.Drawing.Point(2195, 132);
+            this.btnResetAlarm.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnResetAlarm.Name = "btnResetAlarm";
-            this.btnResetAlarm.Size = new System.Drawing.Size(150, 32);
+            this.btnResetAlarm.Size = new System.Drawing.Size(210, 45);
             this.btnResetAlarm.TabIndex = 12;
             this.btnResetAlarm.Text = "Reset alarm";
             this.btnResetAlarm.UseVisualStyleBackColor = false;
@@ -107,11 +109,11 @@
             // 
             this.panelWithLed.BackColor = System.Drawing.Color.White;
             this.panelWithLed.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
-            this.panelWithLed.Location = new System.Drawing.Point(1726, 56);
-            this.panelWithLed.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
-            this.panelWithLed.MinimumSize = new System.Drawing.Size(200, 30);
+            this.panelWithLed.Location = new System.Drawing.Point(2416, 78);
+            this.panelWithLed.Margin = new System.Windows.Forms.Padding(7, 7, 7, 7);
+            this.panelWithLed.MinimumSize = new System.Drawing.Size(280, 42);
             this.panelWithLed.Name = "panelWithLed";
-            this.panelWithLed.Size = new System.Drawing.Size(200, 120);
+            this.panelWithLed.Size = new System.Drawing.Size(280, 168);
             this.panelWithLed.TabIndex = 13;
             this.panelWithLed.Title = "Scheduler load";
             // 
@@ -119,9 +121,10 @@
             // 
             this.lblSchedulerLoad.BackColor = System.Drawing.Color.White;
             this.lblSchedulerLoad.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F);
-            this.lblSchedulerLoad.Location = new System.Drawing.Point(1738, 90);
+            this.lblSchedulerLoad.Location = new System.Drawing.Point(2433, 126);
+            this.lblSchedulerLoad.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblSchedulerLoad.Name = "lblSchedulerLoad";
-            this.lblSchedulerLoad.Size = new System.Drawing.Size(188, 85);
+            this.lblSchedulerLoad.Size = new System.Drawing.Size(263, 119);
             this.lblSchedulerLoad.TabIndex = 14;
             this.lblSchedulerLoad.Text = "--";
             this.lblSchedulerLoad.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -134,15 +137,16 @@
             this.btnShowToaster.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnShowToaster.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnShowToaster.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
-            this.btnShowToaster.Location = new System.Drawing.Point(1568, 144);
+            this.btnShowToaster.Location = new System.Drawing.Point(2195, 202);
+            this.btnShowToaster.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnShowToaster.Name = "btnShowToaster";
-            this.btnShowToaster.Size = new System.Drawing.Size(150, 32);
+            this.btnShowToaster.Size = new System.Drawing.Size(210, 45);
             this.btnShowToaster.TabIndex = 12;
             this.btnShowToaster.Text = "Show toaster";
             this.btnShowToaster.UseVisualStyleBackColor = false;
             this.btnShowToaster.Click += new System.EventHandler(this.BtnShowToaster_Click);
             // 
-            // btnLogin
+            // btnLogIn
             // 
             this.btnLogIn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
             this.btnLogIn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
@@ -150,9 +154,10 @@
             this.btnLogIn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLogIn.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLogIn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
-            this.btnLogIn.Location = new System.Drawing.Point(1568, 216);
-            this.btnLogIn.Name = "btnLogin";
-            this.btnLogIn.Size = new System.Drawing.Size(150, 32);
+            this.btnLogIn.Location = new System.Drawing.Point(2195, 302);
+            this.btnLogIn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnLogIn.Name = "btnLogIn";
+            this.btnLogIn.Size = new System.Drawing.Size(210, 45);
             this.btnLogIn.TabIndex = 15;
             this.btnLogIn.Text = "Log in";
             this.btnLogIn.UseVisualStyleBackColor = false;
@@ -160,9 +165,9 @@
             // 
             // TasksForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 28F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1940, 1100);
+            this.ClientSize = new System.Drawing.Size(2716, 1540);
             this.Controls.Add(this.btnLogIn);
             this.Controls.Add(this.lblSchedulerLoad);
             this.Controls.Add(this.btnResetAlarm);
@@ -172,7 +177,7 @@
             this.Controls.Add(this.schedulerFlowLayout);
             this.Controls.Add(this.taskFlowLayout);
             this.Location = new System.Drawing.Point(0, 0);
-            this.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.Margin = new System.Windows.Forms.Padding(10, 8, 10, 8);
             this.Name = "TasksForm";
             this.Text = "TasksForm";
             this.Load += new System.EventHandler(this.TasksForm_Load);

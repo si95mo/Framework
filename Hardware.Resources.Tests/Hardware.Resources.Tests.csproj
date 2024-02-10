@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\NUnit.3.13.3\build\NUnit.props" Condition="Exists('..\packages\NUnit.3.13.3\build\NUnit.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -37,9 +37,6 @@
   <ItemGroup>
     <Reference Include="dsian.TwinCAT.Ads.Server.Mock, Version=0.7.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\dsian.TwinCAT.Ads.Server.Mock.0.7.1\lib\netstandard2.0\dsian.TwinCAT.Ads.Server.Mock.dll</HintPath>
-    </Reference>
-    <Reference Include="FluentAssertions, Version=6.11.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentAssertions.6.11.0\lib\net47\FluentAssertions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.Configuration, Version=7.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Configuration.7.0.0\lib\net462\Microsoft.Extensions.Configuration.dll</HintPath>
@@ -162,6 +159,9 @@
       <HintPath>..\packages\Beckhoff.TwinCAT.Ads.TcpRouter.6.0.235\lib\net461\TwinCAT.Ads.TcpRouter.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
+    <Reference Include="FluentAssertions">
+      <HintPath>..\packages\FluentAssertions.6.12.0\lib\net47\FluentAssertions.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LibnodaveResourceTestClass.cs" />

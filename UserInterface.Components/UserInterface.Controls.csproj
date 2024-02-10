@@ -478,5 +478,8 @@
   <ItemGroup>
     <None Include="Resources\META_logo_ORIZZONTALE_colori.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\action.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

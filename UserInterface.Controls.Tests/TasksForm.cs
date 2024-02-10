@@ -20,9 +20,10 @@ namespace UserInterface.Controls.Tests
         private readonly UiService uiService;
         private readonly SecuritiesService securitiesService;
 
-        public TasksForm()
+        public TasksForm() : base(false)
         {
             InitializeComponent();
+            AutoScaleMode = AutoScaleMode.Inherit;
 
             Logger.Initialize();
 
