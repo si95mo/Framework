@@ -29,12 +29,22 @@ namespace Framework
         /// <param name="maxDegreesOfParallelism">The maximum number of tasks that the scheduler car run in parallel</param>
         /// <param name="configFileName">The configuration file name</param>
         /// <returns>The (async) <see cref="Task{TResult}"/> with the read <see cref="Configuration"/></returns>
-        public static async Task<Configuration> InitializeAsync(string logsPath = null, int daysOfLogsToKeepSaved = -1, bool logExternalExceptions = false, 
+        public static async Task<Configuration> InitializeAsync(string logsPath = null, int daysOfLogsToKeepSaved = -1, bool logExternalExceptions = false,
             string scriptsPath = null, int maxDegreesOfParallelism = 100, string configFileName = "config.json")
         {
             await InitializeFrameworkAsync(logsPath, daysOfLogsToKeepSaved, logExternalExceptions);
             await InitializeServicesAsync(scriptsPath, maxDegreesOfParallelism);
             Configuration configuration = await ReadConfigurationAsync(configFileName);
+
+            bool retrieved = configuration.TryGetSection("Log", out dynamic logConfig);
+            if (retrieved)
+            {
+                bool succeeded = configuration.TryConvertToEnum<Severity>(logConfig.MinimumSeverity, out Severity severity);
+                if (succeeded)
+                {
+                    Logger.SetMinimumSeverityLevel(severity);
+                }
+            }
 
             return configuration;
         }
@@ -58,10 +68,14 @@ namespace Framework
         public static async Task<Configuration> InitializeAsync(CustomForm form, string logsPath = null, int daysOfLogsToKeepSaved = -1, bool logExternalExceptions = false,
             string scriptsPath = null, int maxDegreesOfParallelism = 100, string configFileName = "config.json")
         {
-            await InitializeFrameworkAsync(logsPath, daysOfLogsToKeepSaved, logExternalExceptions);
-            await InitializeServicesAsync(scriptsPath, maxDegreesOfParallelism);
-            Configuration configuration = await ReadConfigurationAsync(configFileName);
+            Configuration configuration = await InitializeAsync(logsPath, daysOfLogsToKeepSaved, logExternalExceptions, scriptsPath, maxDegreesOfParallelism, configFileName);
             await InitializeUiAsync(form);
+
+            bool retrieved = configuration.TryGetSection("UI", out dynamic uiConfig);
+            if (retrieved)
+            {
+                form.Text = uiConfig.Text;
+            }
 
             return configuration;
         }

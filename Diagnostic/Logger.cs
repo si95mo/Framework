@@ -354,7 +354,7 @@ namespace Diagnostic
         /// <param name="ex">The <see cref="Exception"/> occurred</param>
         /// <param name="callerName">The caller name (leave empty for actual caller method name)</param>
         public static void Error(Exception ex, [CallerMemberName] string callerName = "")
-            => Log(ex);
+            => Log(ex, callerName);
 
         /// <summary>
         /// Save the text specified as <see cref="Severity.Fatal"/>
@@ -447,7 +447,7 @@ namespace Diagnostic
         /// <param name="callerName">The caller name (leave empty for actual caller method name)</param>
         /// <returns>The async <see cref="Task"/></returns>
         public static async Task<string> DebugAsync(string text, [CallerMemberName] string callerName = "")
-            => await LogAsync(text, Severity.Debug);
+            => await LogAsync(text, Severity.Debug, callerName);
 
         /// <summary>
         /// Save asynchronously the text specified as <see cref="Severity.Info"/>

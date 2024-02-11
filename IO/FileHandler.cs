@@ -100,6 +100,7 @@ namespace IO
             {
                 try
                 {
+                    stream.WriteTimeout = 1000;
                     await stream.WriteAsync(encodedText, 0, encodedText.Length);
                 }
                 catch { }

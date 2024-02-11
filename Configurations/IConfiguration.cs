@@ -1,4 +1,5 @@
 ﻿using Core;
+using System;
 using System.Collections.Generic;
 
 namespace Configurations
@@ -16,5 +17,14 @@ namespace Configurations
         /// <param name="value">The retrieved section, if found</param>
         /// <returns><see langword="true"/> if the operation succeeded, <see langword="false"/> otherwise</returns>
         bool TryGetSection(string sectionName, out dynamic value);
+
+        /// <summary>
+        /// Try to convert an <paramref name="fieldName"/> as <see cref="string"/> into the relative <see langword="enum"/> value
+        /// </summary>
+        /// <typeparam name="T">The <see cre="Enum"/> type</typeparam>
+        /// <param name="fieldName">The <see cref="Enum"/> field name to convert</param>
+        /// <param name="result">The conversion result</param>
+        /// <returns><see langword="true"/> if the conversion succeeded, <see langword="false"/> otherwise</returns>
+        bool TryConvertToEnum<T>(string fieldName, out T result) where T : struct;
     }
 }

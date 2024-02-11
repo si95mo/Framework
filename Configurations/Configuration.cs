@@ -79,6 +79,12 @@ namespace Configurations
             return found;
         }
 
+        public bool TryConvertToEnum<T>(string enumField, out T result) where T : struct
+        {
+            bool succeeded = Enum.TryParse(enumField, out result);
+            return succeeded;
+        }
+
         public void ConnectTo(IProperty property)
         {
             Logger.Error($"Trying to connect a {nameof(Configuration)}, operation not allowed");
