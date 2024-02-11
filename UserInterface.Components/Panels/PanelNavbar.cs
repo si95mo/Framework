@@ -32,6 +32,11 @@ namespace UserInterface.Controls.Panels
         public Form ContainerForm { get; set; }
 
         /// <summary>
+        /// The <see cref="Panels.ActionPanel"/>
+        /// </summary>
+        public ActionPanel ActionPanel { get; set; }
+
+        /// <summary>
         /// The layout panel <see cref="Size"/>
         /// </summary>
         [Description("Layout panel size"), Category("Data")]
@@ -100,7 +105,7 @@ namespace UserInterface.Controls.Panels
                 Location = new Point(100, 100)
             };
 
-            AutoScaleMode = AutoScaleMode.Inherit;
+            ActionPanel = new ActionPanel();
         }
 
         /// <summary>
@@ -111,7 +116,9 @@ namespace UserInterface.Controls.Panels
         public void Add(string text, Control control)
         {
             if (UserControls.ContainsKey(text))
+            {
                 UserControls[text] = control;
+            }
             else
             {
                 UserControls.Add(text, control);
@@ -173,6 +180,27 @@ namespace UserInterface.Controls.Panels
             UpdateLabels(sender as LabelControl); // Bold style on the selected labels
         }
 
+        #region PbxAction
+
+        private void PbxAction_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void PbxAction_MouseDown(object sender, MouseEventArgs e)
+        {
+            SetColor(PbxAction, ControlPaint.Light(Colors.Grey)); // Change back color for the close control
+        }
+
+        private void PbxAction_MouseUp(object sender, MouseEventArgs e)
+        {
+            SetColor(PbxAction, Colors.Grey); // Reset back color for the close control
+        }
+
+        #endregion PbxAction
+
+        #region PbxClose
+
         private void PbxClose_Click(object sender, EventArgs e)
         {
             ContainerForm?.Close(); // Close the container form
@@ -180,13 +208,15 @@ namespace UserInterface.Controls.Panels
 
         private void PbxClose_MouseDown(object sender, MouseEventArgs e)
         {
-            PbxClose.BackColor = ControlPaint.Light(Colors.Grey); // Change back color for the close control
+            SetColor(PbxClose, ControlPaint.Light(Colors.Grey)); // Change back color for the close control
         }
 
         private void PbxClose_MouseUp(object sender, MouseEventArgs e)
         {
-            PbxClose.BackColor = Colors.Grey; // Reset back color for the close control
+            SetColor(PbxClose, Colors.Grey); // Reset back color for the close control
         }
+
+        #endregion PbxClose
 
         #endregion Event handlers
 
@@ -209,6 +239,11 @@ namespace UserInterface.Controls.Panels
             castedSender.BorderStyle = BorderStyle.FixedSingle;
 
             ActualUserControl = UserControls[castedSender.Text];
+        }
+
+        private void SetColor(PictureBox pictureBox, Color color)
+        {
+            pictureBox.BackColor = color;
         }
     }
 

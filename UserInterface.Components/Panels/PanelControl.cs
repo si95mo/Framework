@@ -7,7 +7,7 @@ namespace UserInterface.Controls.Panels
     /// <summary>
     /// Implement a panel control
     /// </summary>
-    public partial class PanelControl : BaseControl
+    public partial class PanelControl : UserControl
     {
         /// <summary>
         /// The code
