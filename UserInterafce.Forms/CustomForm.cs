@@ -32,6 +32,8 @@ namespace UserInterface.Forms
                 Rectangle workingArea = Screen.FromHandle(Handle).WorkingArea;
                 MaximizedBounds = new Rectangle(0, 0, workingArea.Width, workingArea.Height);
                 WindowState = FormWindowState.Maximized;
+
+                MinimumSize = new Size(workingArea.Width, workingArea.Height);
             }
 
             invokedFromThis = false;
