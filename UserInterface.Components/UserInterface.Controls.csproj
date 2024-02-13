@@ -183,6 +183,30 @@
     <Compile Include="LoadTestProgramPanel.Designer.cs">
       <DependentUpon>LoadTestProgramPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Panels\ActionPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Panels\ActionPanel.Designer.cs">
+      <DependentUpon>ActionPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Panels\Default\ContainerPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Panels\Default\ContainerPanel.Designer.cs">
+      <DependentUpon>ContainerPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Panels\Default\SchedulersPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Panels\Default\SchedulersPanel.Designer.cs">
+      <DependentUpon>SchedulersPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Panels\Default\TasksPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Panels\Default\TasksPanel.Designer.cs">
+      <DependentUpon>TasksPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Panels\MainPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -344,6 +368,15 @@
     <EmbeddedResource Include="LoadTestProgramPanel.resx">
       <DependentUpon>LoadTestProgramPanel.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Panels\ActionPanel.resx">
+      <DependentUpon>ActionPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\Default\ContainerPanel.resx">
+      <DependentUpon>ContainerPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\Default\TasksPanel.resx">
+      <DependentUpon>TasksPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Panels\MainPanel.resx">
       <DependentUpon>MainPanel.cs</DependentUpon>
     </EmbeddedResource>
@@ -477,6 +510,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\META_logo_ORIZZONTALE_colori.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\action.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

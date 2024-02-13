@@ -156,7 +156,6 @@ namespace UserInterface.Controls.Tests
             this.panelControl.Name = "panelControl";
             this.panelControl.Size = new System.Drawing.Size(719, 216);
             this.panelControl.TabIndex = 13;
-            this.panelControl.Value = null;
             this.panelControl.Visible = false;
             // 
             // TestForm

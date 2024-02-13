@@ -3,7 +3,9 @@ using Core.DataStructures;
 using Diagnostic;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
+using UserInterface.Controls.Panels;
 
 namespace UserInterface.Forms
 {
@@ -26,6 +28,11 @@ namespace UserInterface.Forms
         /// The actual number of <see cref="Toaster"/> shown
         /// </summary>
         internal static int ToasterCounter { get; private set; } = 0;
+
+        /// <summary>
+        /// Define if the main <see cref="PanelNavbar"/>
+        /// </summary>
+        internal static PanelNavbar Navbar { get; private set; } = null;
 
         private static readonly object sync = new object();
         private static readonly List<Toaster> activeToasters = new List<Toaster>();
@@ -50,9 +57,10 @@ namespace UserInterface.Forms
         public UiService(string code, CustomForm form) : base(code)
         {
             Form = form;
-
             Form.FormClosed += Form_FormClosed;
         }
+
+        #region Toasters
 
         /// <summary>
         /// Show a <see cref="Toaster"/> to screen
@@ -105,6 +113,49 @@ namespace UserInterface.Forms
             }
         }
 
+        #endregion Toasters
+
+        #region Panels
+
+        /// <summary>
+        /// Add the navbar to the main <see cref="Form"/>
+        /// </summary>
+        public void AddNavbar()
+        {
+            if(Navbar != null)
+            {
+                Navbar = new PanelNavbar();
+                Navbar.Location = new Point(0, Form.Height - Navbar.Height);
+
+                if(Form.Width >= Navbar.Width)
+                {
+                    Form.Controls.Add(Navbar);
+                }
+                else
+                {
+                    Logger.Info($"Unable to add the navbar to the main form, incompatible size detected. Main form size is ({Form.Height}, {Form.Width}) and its width must be >= {Navbar.Width}");
+                }
+            }
+            else
+            {
+                Logger.Info("Navbar alredy added to the main form, unable to add another one");
+            }
+        }
+
+        /// <summary>
+        /// Add a new <see cref="PanelControl"/> to the main <see cref="PanelNavbar"/>
+        /// </summary>
+        /// <param name="text">The text to display</param>
+        /// <param name="panel">The <see cref="PanelControl"/> to add</param>
+        public void AddPanel(string text, PanelControl panel)
+        {
+            Navbar.Add(text, panel);
+        }
+
+        #endregion Panels
+
+        #region Event handlers
+
         private void Form_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
         {
             IEnumerable<IService> services = ServiceBroker.GetServices();
@@ -122,5 +173,7 @@ namespace UserInterface.Forms
 
             Form.FormClosed -= Form_FormClosed;
         }
+
+        #endregion Event handlers
     }
 }

@@ -42,7 +42,7 @@ namespace UserInterface.Forms
             this.LblFormName.Location = new System.Drawing.Point(16, 14);
             this.LblFormName.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.LblFormName.Name = "LblFormName";
-            this.LblFormName.Size = new System.Drawing.Size(64, 25);
+            this.LblFormName.Size = new System.Drawing.Size(97, 39);
             this.LblFormName.TabIndex = 9;
             this.LblFormName.Text = "----";
             // 
@@ -54,12 +54,13 @@ namespace UserInterface.Forms
             this.ControlBox.CloseNormalForeColor = System.Drawing.Color.Gray;
             this.ControlBox.DisabledForeColor = System.Drawing.Color.DimGray;
             this.ControlBox.IsDerivedStyle = true;
-            this.ControlBox.Location = new System.Drawing.Point(286, 13);
+            this.ControlBox.Location = new System.Drawing.Point(286, 14);
             this.ControlBox.Margin = new System.Windows.Forms.Padding(4);
-            this.ControlBox.MaximizeBox = false;
+            this.ControlBox.MaximizeBox = true;
             this.ControlBox.MaximizeHoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
             this.ControlBox.MaximizeHoverForeColor = System.Drawing.Color.Gray;
             this.ControlBox.MaximizeNormalForeColor = System.Drawing.Color.Gray;
+            this.ControlBox.MaximumSize = new System.Drawing.Size(200, 200);
             this.ControlBox.MinimizeBox = true;
             this.ControlBox.MinimizeHoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
             this.ControlBox.MinimizeHoverForeColor = System.Drawing.Color.Gray;
@@ -84,7 +85,7 @@ namespace UserInterface.Forms
             // 
             // CustomForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 28F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(399, 261);
             this.Controls.Add(this.borderUpPanel);

@@ -34,6 +34,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,7 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Configurations\Configurations.csproj">
-      <Project>{EE43F7DF-EF10-4293-86A5-CD2069CBCFAF}</Project>
+      <Project>{ee43f7df-ef10-4293-86a5-cd2069cbcfaf}</Project>
       <Name>Configurations</Name>
     </ProjectReference>
     <ProjectReference Include="..\Core.Conditions\Core.Conditions.csproj">
@@ -90,6 +91,9 @@
       <Project>{C0995E8E-9811-4909-8D33-CECEC75E7646}</Project>
       <Name>UserInterafce.Forms</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
