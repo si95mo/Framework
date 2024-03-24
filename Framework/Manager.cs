@@ -5,8 +5,11 @@ using Core.Scripting;
 using Diagnostic;
 using Diagnostic.Messages;
 using Hardware;
+using System;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Tasks;
+using UserInterface.Controls.Panels.Default;
 using UserInterface.Forms;
 
 namespace Framework
@@ -17,6 +20,8 @@ namespace Framework
     public static class Manager
     {
         private const int NumberOfServices = 8;
+
+        private static Configuration configuration;
 
         /// <summary>
         /// Initialize the framework
@@ -34,7 +39,7 @@ namespace Framework
         {
             await InitializeFrameworkAsync(logsPath, daysOfLogsToKeepSaved, logExternalExceptions);
             await InitializeServicesAsync(scriptsPath, maxDegreesOfParallelism);
-            Configuration configuration = await ReadConfigurationAsync(configFileName);
+            configuration = await ReadConfigurationAsync(configFileName);
 
             bool retrieved = configuration.TryGetSection("Log", out dynamic logConfig);
             if (retrieved)
@@ -65,17 +70,12 @@ namespace Framework
         /// <param name="maxDegreesOfParallelism">The maximum number of tasks that the scheduler car run in parallel</param>
         /// <param name="configFileName">The configuration file name</param>
         /// <returns>The (async) <see cref="Task{TResult}"/> with the read <see cref="Configuration"/></returns>
+        [STAThread]
         public static async Task<Configuration> InitializeAsync(CustomForm form, string logsPath = null, int daysOfLogsToKeepSaved = -1, bool logExternalExceptions = false,
             string scriptsPath = null, int maxDegreesOfParallelism = 100, string configFileName = "config.json")
         {
-            Configuration configuration = await InitializeAsync(logsPath, daysOfLogsToKeepSaved, logExternalExceptions, scriptsPath, maxDegreesOfParallelism, configFileName);
+            configuration = await InitializeAsync(logsPath, daysOfLogsToKeepSaved, logExternalExceptions, scriptsPath, maxDegreesOfParallelism, configFileName);
             await InitializeUiAsync(form);
-
-            bool retrieved = configuration.TryGetSection("UI", out dynamic uiConfig);
-            if (retrieved)
-            {
-                form.Text = uiConfig.Text;
-            }
 
             return configuration;
         }
@@ -90,6 +90,30 @@ namespace Framework
             UiService ui = new UiService(form);
             ServiceBroker.Provide(ui);
             await Logger.InfoAsync($"{nameof(UiService)} created");
+        }
+
+        /// <summary>
+        /// Configure the user interface with the default elements (the navbar and the default panels)
+        /// </summary>
+        /// <remarks><see cref="InitializeAsync(CustomForm, string, int, bool, string, int, string)"/> must has alredy been called</remarks>
+        public static void ConfigureUserInterface()
+        {
+            if (configuration != null)
+            {
+                bool retrieved = configuration.TryGetSection("UI", out dynamic uiConfig);
+                if (retrieved)
+                {
+                    UiService uiService = ServiceBroker.GetService<UiService>();
+                    uiService.Form.Text = uiConfig.Text;
+
+                    if (uiConfig.AddDefaultPanels)
+                    {
+                        uiService.AddNavbar();
+                        uiService.AddPanel("Schedulers", new SchedulersPanel());
+                        uiService.AddPanel("Tasks", new TasksPanel());
+                    }
+                }
+            }
         }
 
         #region Helper methods

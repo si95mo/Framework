@@ -196,13 +196,13 @@
       <DependentUpon>ContainerPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Panels\Default\SchedulersPanel.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Panels\Default\SchedulersPanel.Designer.cs">
       <DependentUpon>SchedulersPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Panels\Default\TasksPanel.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Panels\Default\TasksPanel.Designer.cs">
       <DependentUpon>TasksPanel.cs</DependentUpon>

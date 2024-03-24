@@ -10,13 +10,14 @@ namespace Framework.Tests
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        private static async Task Main()
+        private static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
             MainForm form = new MainForm();
-            await Manager.InitializeAsync(form: form);
+            Manager.InitializeAsync(form: form).Wait();
+            Manager.ConfigureUserInterface();
 
             Application.Run(form);
         }

@@ -16,7 +16,7 @@ namespace UserInterface.Forms
         /// <param name="container">The <see cref="Form"/> container (i.e. the parent)</param>
         /// <param name="title">The title</param>
         /// <param name="message">The message</param>
-        public CustomQuestionBox(Form container, string title, string message) : base()
+        public CustomQuestionBox(Form container, string title, string message) : base(false)
         {
             InitializeComponent();
 

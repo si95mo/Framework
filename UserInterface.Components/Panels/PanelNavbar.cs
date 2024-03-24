@@ -94,7 +94,9 @@ namespace UserInterface.Controls.Panels
 
             VersionLabel.Text = Assembly.GetEntryAssembly().GetName().Version.ToString();
             if (!VersionLabel.Text.StartsWith("v"))
+            {
                 VersionLabel.Text = $"v{VersionLabel.Text}";
+            }
 
             UserControls = new Dictionary<string, Control>();
             Labels = new List<LabelControl>();

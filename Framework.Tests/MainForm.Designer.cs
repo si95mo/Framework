@@ -28,10 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // LblFormName
+            // 
+            this.LblFormName.Location = new System.Drawing.Point(14, 13);
+            this.LblFormName.Size = new System.Drawing.Size(155, 25);
+            this.LblFormName.Text = "CustomForm";
+            // 
+            // ControlBox
+            // 
+            this.ControlBox.Location = new System.Drawing.Point(2386, 10);
+            // 
+            // MainForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1920, 1030);
+            this.Location = new System.Drawing.Point(0, 0);
+            this.Name = "MainForm";
             this.Text = "Form1";
+            this.Controls.SetChildIndex(this.LblFormName, 0);
+            this.Controls.SetChildIndex(this.ControlBox, 0);
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion

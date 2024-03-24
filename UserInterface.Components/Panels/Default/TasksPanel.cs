@@ -13,7 +13,7 @@ namespace UserInterface.Controls.Panels.Default
     /// <summary>
     /// Define a <see cref="ContainerControl"/> for <see cref="IAwaitable"/>
     /// </summary>
-    public partial class TasksPanel : ContainerControl
+    public partial class TasksPanel : ContainerPanel
     {
         /// <summary>
         /// The <see cref="TasksService"/>
@@ -53,7 +53,7 @@ namespace UserInterface.Controls.Panels.Default
             if (!InvokeRequired)
             {
                 TaskControl control = new TaskControl(task);
-                Container.Add(control);
+                Container.Controls.Add(control);
             }
             else
             {

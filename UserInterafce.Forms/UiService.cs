@@ -122,9 +122,10 @@ namespace UserInterface.Forms
         /// </summary>
         public void AddNavbar()
         {
-            if(Navbar != null)
+            if(Navbar == null)
             {
                 Navbar = new PanelNavbar();
+                Navbar.ContainerForm = Form;
                 Navbar.Location = new Point(0, Form.Height - Navbar.Height);
 
                 if(Form.Width >= Navbar.Width)

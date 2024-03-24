@@ -21,22 +21,8 @@ namespace UserInterface.Forms
         /// </summary>
         public CustomForm()
         {
-<<<<<<< HEAD
             InitializeComponent();
-
-            if (FullSize)
-            {
-                Rectangle workingArea = Screen.FromHandle(Handle).WorkingArea;
-                MaximizedBounds = new Rectangle(0, 0, workingArea.Width, workingArea.Height);
-                WindowState = FormWindowState.Maximized;
-
-                MinimumSize = new Size(workingArea.Width, workingArea.Height);
-            }
-
-            invokedFromThis = false;
-=======
             Initialize(FullSize);
->>>>>>> cf8c82c727317a05b690a12153dbb913499f4d6f
         }
 
         /// <summary>
@@ -45,6 +31,7 @@ namespace UserInterface.Forms
         /// <param name="fullSize">The full size option</param>
         public CustomForm(bool fullSize)
         {
+            InitializeComponent();
             Initialize(fullSize);
         }
 
@@ -98,6 +85,11 @@ namespace UserInterface.Forms
                 Rectangle workingArea = Screen.FromHandle(Handle).WorkingArea;
                 MaximizedBounds = new Rectangle(0, 0, workingArea.Width, workingArea.Height);
                 WindowState = FormWindowState.Maximized;
+
+                Size fullSizeObject = new Size(workingArea.Width, workingArea.Height);
+                MinimumSize = fullSizeObject;
+                MaximumSize = fullSizeObject;
+                Size = fullSizeObject;
             }
 
             StartPosition = FormStartPosition.CenterScreen;

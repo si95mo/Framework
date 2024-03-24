@@ -10,7 +10,7 @@ namespace UserInterface.Controls.Panels.Default
     /// <summary>
     /// Define a <see cref="ContainerControl"/> for <see cref="IScheduler"/>
     /// </summary>
-    public partial class SchedulersPanel : ContainerControl
+    public partial class SchedulersPanel : ContainerPanel
     {
         /// <summary>
         /// The <see cref="SchedulersService"/>
@@ -24,7 +24,10 @@ namespace UserInterface.Controls.Panels.Default
             if (ServiceBroker.CanProvide<SchedulersService>())
             {
                 Service = ServiceBroker.GetService<SchedulersService>();
-                Parallel.ForEach(Service.GetAll(), (x) => AddScheduler(x));
+                foreach (IScheduler scheduler in Service.GetAll())
+                {
+                    AddScheduler(scheduler);
+                }
             }
             else
             {
@@ -36,12 +39,12 @@ namespace UserInterface.Controls.Panels.Default
         /// Add a new <see cref="IScheduler"/> to the controls
         /// </summary>
         /// <param name="scheduler">The <see cref="IScheduler"/> to add</param>
-        private void AddScheduler(IScheduler scheduler) 
+        private void AddScheduler(IScheduler scheduler)
         {
             if (!InvokeRequired)
             {
                 SchedulerControl control = new SchedulerControl(scheduler);
-                Container.Add(control);
+                Container.AddControl(control);
             }
             else
             {

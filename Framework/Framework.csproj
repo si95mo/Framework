@@ -91,6 +91,10 @@
       <Project>{C0995E8E-9811-4909-8D33-CECEC75E7646}</Project>
       <Name>UserInterafce.Forms</Name>
     </ProjectReference>
+    <ProjectReference Include="..\UserInterface.Components\UserInterface.Controls.csproj">
+      <Project>{4944754E-8566-44D6-933F-38F8DDC98F55}</Project>
+      <Name>UserInterface.Controls</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
