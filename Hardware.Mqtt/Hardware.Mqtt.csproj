@@ -48,8 +48,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IMqttChannel.cs" />
+    <Compile Include="MqttChannel.cs" />
     <Compile Include="MqttClientResource.cs" />
+    <Compile Include="MqttExtensionMethods.cs" />
     <Compile Include="MqttInputChannel.cs" />
+    <Compile Include="MqttOutputChannel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

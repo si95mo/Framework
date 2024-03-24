@@ -30,12 +30,6 @@ namespace Hardware.Mqtt
         /// Define the status of the subscription
         /// </summary>
         EnumParameter<SubscriptionStatus> Status { get; }
-
-        /// <summary>
-        /// Set the actual value of the channel from the payload received from the <see cref="MqttClientResource"/>"/>
-        /// </summary>
-        /// <param name="value">The value to set</param>
-        void SetValue(string value);
     }
 }
 
