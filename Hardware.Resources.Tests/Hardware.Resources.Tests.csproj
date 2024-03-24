@@ -53,6 +53,9 @@
     <Reference Include="Microsoft.Extensions.Primitives, Version=7.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Primitives.7.0.0\lib\net462\Microsoft.Extensions.Primitives.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=3.13.3.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.13.3\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
@@ -166,6 +169,7 @@
   <ItemGroup>
     <Compile Include="LibnodaveResourceTestClass.cs" />
     <Compile Include="ModbusResourceTestClass.cs" />
+    <Compile Include="MqttTestClass.cs" />
     <Compile Include="OpcUaResourceTestClass.cs" />
     <Compile Include="SerialResourceTestClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -210,6 +214,10 @@
     <ProjectReference Include="..\Hardware.Modbus\Hardware.Modbus.csproj">
       <Project>{FA1A2A2F-C31D-4588-AFDD-EFCBE654E93D}</Project>
       <Name>Hardware.Modbus</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Hardware.Mqtt\Hardware.Mqtt.csproj">
+      <Project>{96B24A55-07C9-4768-B200-7C202F543E2E}</Project>
+      <Name>Hardware.Mqtt</Name>
     </ProjectReference>
     <ProjectReference Include="..\Hardware.Opc.Ua\Hardware.Opc.Ua.csproj">
       <Project>{EB596D39-A488-4C33-9760-04C4AD3CD6D6}</Project>

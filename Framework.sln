@@ -214,6 +214,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Security", "Security\Securi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Framework.Tests", "Framework.Tests\Framework.Tests.csproj", "{51BE4CF0-01D8-474E-8511-AB9B02B94969}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hardware.Mqtt", "Hardware.Mqtt\Hardware.Mqtt.csproj", "{96B24A55-07C9-4768-B200-7C202F543E2E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -572,6 +574,10 @@ Global
 		{51BE4CF0-01D8-474E-8511-AB9B02B94969}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51BE4CF0-01D8-474E-8511-AB9B02B94969}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51BE4CF0-01D8-474E-8511-AB9B02B94969}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96B24A55-07C9-4768-B200-7C202F543E2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96B24A55-07C9-4768-B200-7C202F543E2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96B24A55-07C9-4768-B200-7C202F543E2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96B24A55-07C9-4768-B200-7C202F543E2E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -654,6 +660,7 @@ Global
 		{D8F2DD98-26B8-47E9-9B3B-51E3118CF439} = {FD407DD8-26D8-458B-A80F-234CD291E8DD}
 		{CA486245-77FA-4669-89A7-1D122A977D02} = {FD407DD8-26D8-458B-A80F-234CD291E8DD}
 		{CC60FCA3-319F-453A-A143-3C5B8282C642} = {72FA51F1-F201-480F-ABCF-F936C1529B0D}
+		{96B24A55-07C9-4768-B200-7C202F543E2E} = {6C1F336D-3B00-40B5-967F-F413B52CAC56}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {94CEDAC4-5E2B-4E25-938D-AA666821B1F0}
